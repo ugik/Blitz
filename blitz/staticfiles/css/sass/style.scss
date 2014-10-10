@@ -456,7 +456,9 @@ textarea,textarea:focus {
     @include mobile-only { color: #333;}
    }
  }
- .nav-item:active {background: rgba(255,255,255,0.1);}
+ .nav-item:active {
+  background: rgba(255,255,255,0.1);
+  }
 
 }
 
@@ -850,6 +852,10 @@ a.edit-workout-link {
   font-size: 12px;
   @include regularfont();
   color: white;
+}
+
+.feeds .exercise-matrix {
+  font-size: 0.65em;
 }
 
 .exercise-matrix {
