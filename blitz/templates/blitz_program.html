@@ -79,7 +79,7 @@
 
 {% if blitz.workout_plan %}
     {% for week in blitz.workout_plan.weeks %}
-        <div class="span12"><h3>Week {{ week.week }}:</h3></div>
+        <div class="span12"><h3>Week {{ week.week }}:</h3>
         {% for day in week.days %}
             <div class="span3">
                 <div class="overview-block workout-day-block">
@@ -103,60 +103,60 @@
     {% endfor %}
 {% endif %}
 
+
 <div class="span8">
-      {% if client %}
-          {% if not blitz.workout_plan %}
-          <div class="empty-placeholder">
-             <div class="title">Once your trainer completes setting up the program.</div>
-             <div class="subtitle">You'll be able to see details here.</div>
-          </div>
-          {% endif %}
-      {% else %}
+    {% if client %}
+        {% if not blitz.workout_plan %}
+           <div class="empty-placeholder">
+              <div class="title">Once your trainer completes setting up the program.</div>
+              <div class="subtitle">You'll be able to see details here.</div>
+           </div>
+        {% endif %}
+    {% else %}
+        <br>
+        <div class="span10">
+        <div class="alert alert-info">
+        <b>This is the link to your Blitz sales page:</b><a href="/{{ trainer.short_name }}/{{ blitz.url_slug }}" target="_blank"><u>
+        {% url 'home' %}{% url 'sales_blitz' %}/{{ trainer.short_name }}/{{ blitz.url_slug }}</a></u></div>
 
-         <div class="span10">
-            <div class="alert alert-info">
-           <b>This is the link to your Blitz sales page:</b><a href="/{{ trainer.short_name }}/{{ blitz.url_slug }}" target="_blank"><u>
-           {% url 'home' %}{% url 'sales_blitz' %}/{{ trainer.short_name }}/{{ blitz.url_slug }}</a></u></div>
-
-           <form method="post" target="_blank" name="sales-blitz" 
-            action="sales-blitz?slug={{ trainer.get_blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ trainer.get_blitz.sales_page_content.sales_page_key }}" class="formpage-block-form">
+        <form method="post" target="_blank" name="sales-blitz" 
+         action="sales-blitz?slug={{ trainer.get_blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ trainer.get_blitz.sales_page_content.sales_page_key }}" class="formpage-block-form">
            {% csrf_token %}
-              <div class="submit-container">
-                 <button class='obtn obtn-comment-grn' type='submit'>Work on $ales Page</button>
-              </div>
-           </form>
+           <div class="submit-container">
+              <button class='obtn obtn-comment-grn' type='submit'>Work on $ales Page</button>
+           </div>
+        </form>
 
-
-           {% if new_programs > 0 %}
+        {% if new_programs > 0 %}
            <div class="alert alert-info">
               <b>Dude: <i>{{ new_program_name }}</i> is ready for you to setup!</b>
            </div>
            <form action="blitz_setup" method="get" name="blitz_setup" class="formpage-block-form">
-              {% csrf_token %}
+           {% csrf_token %}
               <br>
               <div class="submit-container">
                  <button class='obtn obtn-comment-grn' type='submit'>Setup Blitz!</button>
               </div>
            </form>
 
-           {% else %}
-              {% if docs > 0 %}
-                 <div class="alert alert-info">
+        {% else %}
+            {% if docs > 0 %}
+                <div class="alert alert-info">
                     <b>(You've uploaded {{ docs }} documents that are pending...)</b>
-                 </div>
-              {% endif %}
+                </div>
+            {% endif %}
 
-              <form action="upload" method="get" name="upload" class="formpage-block-form">
-                 {% csrf_token %}
-                 <div class="submit-container">
-                    <button class='obtn obtn-comment-grn' type='submit'>Upload program stuff</button>
-                 </div>
-              </form>
-           {% endif %}
-       </div>
-     {% endif %}
-   </div>
-</div>
+            <form action="upload" method="get" name="upload" class="formpage-block-form">
+            {% csrf_token %}
+            <div class="submit-container">
+               <button class='obtn obtn-comment-grn' type='submit'>Upload program stuff</button>
+            </div>
+            </form>
+        {% endif %}
+     </div>
+    {% endif %}
+    </div>
+    </div>
 
 {% endblock %}
 

@@ -1,0 +1,40 @@
+{% extends "helper_base.html" %}
+
+{% block main %}
+<h4> Assign program</h4>
+<div class="span8">
+
+<div class="content">
+    <form enctype="multipart/form-data" action="assign_workoutplan?plan={{ workoutplan.pk }}" method="post" name="program_create" class="formpage-block-form">{% csrf_token %}
+
+        <select name="trainer_id" id="trainer_id">
+        {% for trainer in trainers %}
+            <option value="{{trainer.id}}"{% if trainer = workoutplan.trainer %}selected{% endif %}>
+            {{trainer.name}} 
+            </option>
+        {% endfor %}
+        </select>
+        WorkoutPlan name: {{ workoutplan.name }} <small>--></small>
+        Assign to blitz: <select name="blitz_id" id="blitz_id">
+        {% for blitz in blitzes %}
+            <option value="{{blitz.id}}">
+            {{blitz.title}}
+            </option>
+        {% endfor %}
+        </select>
+
+     <div class="submit-container">
+        <button class='obtn obtn-half' type='submit'>Assign</button>{% csrf_token %}
+     </div>
+</form>
+</div>
+
+<ul>
+{% for e in errors %}
+    <li>{{ e }}</li>
+{% endfor %}
+</ul>
+</div>
+
+<a href="{% url "helper_index" %}">Helper Home</a>
+{% endblock %}
