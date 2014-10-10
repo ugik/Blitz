@@ -9,5 +9,10 @@ venv
 celerybeat-schedule
 blitz/database.*
 blitz/collected_static/*
-blitz/usermedia/*
+blitz/usermedia/checkins/*
+blitz/usermedia/documents/*
+blitz/usermedia/feed/*
+blitz/usermedia/headshots/*
+blitz/usermedia/logos/*
+blitz/usermedia/programs/*
 
