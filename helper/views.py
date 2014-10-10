@@ -16,7 +16,7 @@ from django.views.static import serve
 from base.models import Client, Trainer, Blitz, SalesPageContent
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
-from helper.forms import TrainerIDForm, SalesPageForm
+from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 
 import os
 import xlrd
@@ -44,6 +44,32 @@ def helper_download(request):
 def helper_pending_trainers(request):
     pending_trainers = get_pending_trainers()
     return render(request, 'pending_trainers.html', {'pending' : pending_trainers})
+
+@login_required
+def helper_status_trainers(request):
+    trainers = Trainer.objects.all()
+    return render(request, 'trainer_status.html', {'trainers' : trainers })
+
+@login_required
+def assign_workoutplan(request):
+    trainers = Trainer.objects.all()
+    blitzes = Blitz.objects.all()
+    plan_id = request.GET.get('plan', None)
+    workoutplan = WorkoutPlan.objects.get(pk=plan_id)
+
+    if request.method == 'POST':
+        form = AssignPlanForm(request.POST)
+        if form.is_valid() and workoutplan:
+            blitz_id = form.cleaned_data['blitz_id']
+            blitz = Blitz.objects.get(pk=blitz_id)
+            blitz.workout_plan = workoutplan
+            blitz.save()
+            response = redirect('helper_status_trainers')
+            return response
+
+    form = AssignPlanForm()
+    return render(request, 'assign_workoutplan.html', 
+           {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitzes })
 
 @login_required
 def helper_blitz_sales_pages(request):
@@ -308,6 +334,9 @@ def get_pending_trainers():
         elif not plan and blitz:
             # trainer has blitz setup but no plan
             pending_trainers.append([trainer.id, trainer.name, 'Blitz with No WorkoutPlan', 0])
+        elif plan and blitz:
+            # trainer has blitz and plan
+            pending_trainers.append([trainer.id, trainer.name, 'Blitz with WorkoutPlan', -1])
 
     return pending_trainers
 

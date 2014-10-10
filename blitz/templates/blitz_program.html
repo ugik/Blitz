@@ -116,7 +116,12 @@
          <div class="span10">
             <div class="alert alert-info">
            <b>This is the link to your Blitz sales page:</b><a href="/{{ trainer.short_name }}/{{ blitz.url_slug }}" target="_blank"><u>
-           {% url 'home' %}{% url 'sales_blitz' %}/{{ trainer.short_name }}/{{ blitz.url_slug }}</a></u></div>
+           {% if trainer.short_name == blitz.url_slug %}
+               {% url 'home' %}{{ trainer.short_name }}
+           {% else %}
+               {% url 'home' %}{{ trainer.short_name }}/{{ blitz.url_slug }}
+           {% endif %}
+           </a></u></div>
 
            <form method="post" target="_blank" name="sales-blitz" 
             action="sales-blitz?slug={{ trainer.get_blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ trainer.get_blitz.sales_page_content.sales_page_key }}" class="formpage-block-form">
