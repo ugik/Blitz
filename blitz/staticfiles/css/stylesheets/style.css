@@ -165,12 +165,12 @@ textarea:focus {
   box-shadow: none !important;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  border: 1px solid #f15e9c;
+  border: 1px solid #eca368;
 }
 
 /* line 389, ../sass/style.scss */
 textarea:hover {
-  border: 1px solid #f15e9c;
+  border: 1px solid #eca368;
 }
 
 /* line 393, ../sass/style.scss */
@@ -764,10 +764,7 @@ h3 {
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   color: white;
-  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+  background: #7ab2ea;
   padding: 18px 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   font-size: 18px;
@@ -1234,7 +1231,7 @@ a.edit-workout-link {
 .lift-maxes-chart .content .max-block {
   float: left;
   width: 55px;
-  background: #f15e9c;
+  background: #eca368;
   height: 260px;
   margin: 0 10px;
   top: 20px;
@@ -1884,7 +1881,7 @@ a:focus {
 
 /* line 1701, ../sass/style.scss */
 .btn-primary:active, .btn-primary.active {
-  background-color: #f15e9c;
+  background-color: #eca368;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -1892,7 +1889,7 @@ a:focus {
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
   background-color: rba(255, 255, 255, 0.3);
   color: #fff;
-  background-color: #f15e9c;
+  background-color: #eca368;
   background-position: 0 -30px;
 }
 
@@ -2702,11 +2699,11 @@ hr {
 }
 /* line 2248, ../sass/style.scss */
 .formpage-block input:hover {
-  border: 1px solid #f15e9c;
+  border: 1px solid #eca368;
 }
 /* line 2251, ../sass/style.scss */
 .formpage-block input:focus {
-  border: 1px solid #f15e9c;
+  border: 1px solid #eca368;
   -webkit-box-shadow: 0px 0px 5px 1px #f15e38;
   -moz-box-shadow: 0px 0px 5px 1px #f15e38;
   box-shadow: 0px 0px 5px 1px #f15e38;
@@ -2762,7 +2759,7 @@ hr {
 .trainer-alert-box .header {
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
-  background: #f15e9c;
+  background: #eca368;
   color: white;
   padding: 10px 20px;
   font-size: 20px;
@@ -3395,13 +3392,13 @@ input::-webkit-inner-spin-button {
   0% {
     visibility: visible;
     width: 0%;
-    background-color: #f15e9c;
+    background-color: #eca368;
     color: white;
   }
   95% {
     visibility: visible;
     width: 100%;
-    background-color: #f15e9c;
+    background-color: #eca368;
     color: white;
   }
   100% {
@@ -3415,13 +3412,13 @@ input::-webkit-inner-spin-button {
   0% {
     visibility: visible;
     width: 0%;
-    background-color: #f15e9c;
+    background-color: #eca368;
     color: white;
   }
   95% {
     visibility: visible;
     width: 100%;
-    background-color: #f15e9c;
+    background-color: #eca368;
     color: white;
   }
   100% {
@@ -3435,13 +3432,13 @@ input::-webkit-inner-spin-button {
   0% {
     visibility: visible;
     width: 0%;
-    background-color: #f15e9c;
+    background-color: #eca368;
     color: white;
   }
   95% {
     visibility: visible;
     width: 100%;
-    background-color: #f15e9c;
+    background-color: #eca368;
     color: white;
   }
   100% {
