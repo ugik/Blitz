@@ -18,6 +18,15 @@ $orange: #eca368;
   font-family: 'proxima_novabold';
 }
 
+@mixin meta() {
+  font-family: 'metanormal_caps';
+}
+
+@mixin pnmacrosfont() {
+  font-family: 'proxima_nova_excn_ththin';
+}
+
+
 @mixin borderbox {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

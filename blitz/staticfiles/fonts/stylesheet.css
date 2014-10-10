@@ -43,3 +43,32 @@
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'metanormal_caps';
+    src: url('metanormal-caps-webfont.eot');
+    src: url('metanormal-caps-webfont.eot?#iefix') format('embedded-opentype'),
+         url('metanormal-caps-webfont.woff2') format('woff2'),
+         url('metanormal-caps-webfont.woff') format('woff'),
+         url('metanormal-caps-webfont.ttf') format('truetype'),
+         url('metanormal-caps-webfont.svg#metanormal_caps') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'proxima_nova_excn_ththin';
+    src: url('proximanovaexcn-thin-webfont.eot');
+    src: url('proximanovaexcn-thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('proximanovaexcn-thin-webfont.woff2') format('woff2'),
+         url('proximanovaexcn-thin-webfont.woff') format('woff'),
+         url('proximanovaexcn-thin-webfont.ttf') format('truetype'),
+         url('proximanovaexcn-thin-webfont.svg#proxima_nova_excn_ththin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
