@@ -454,11 +454,7 @@ textarea,textarea:focus {
       font-size: 16px;
       margin-top: 10px;
     }
-    -webkit-transition: background .5s ease;
-    -moz-transition: background .5s ease;
-    -ms-transition: background .5s ease;
-    -o-transition: background .5s ease;
-    transition: background .5s ease;
+    @include transition(0.5s, ease)
     }
   .nav-item:hover {
    background: rgba(255,255,255,.1);
@@ -1325,6 +1321,7 @@ a.edit-workout-link {
 
 
 .obtn {
+  @include transition(0.5s, ease);
   display: block;
   font-size: 24px;
   @include boldfont();
@@ -1366,53 +1363,46 @@ a.edit-workout-link {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  //-webkit-transition: height .75s linear;
-  //-moz-transition: height .75s linear;
-  //-ms-transition: height .75s linear;
-  //-o-transition: height .75s linear;
-  //transition: height .75s linear;
   text-decoration: none;
   -webkit-appearance: button-bevel !important;
   -moz-appearance: button-bevel !important;
   -ms-appearance: button-bevel !important;
   -o-appearance: default-button !important;
-  //@include transition(0.25s,ease);
-  -webkit-transition: all .25s ease;
-    -moz-transition: all .25s ease;
-    -ms-transition: all .25s ease;
-    -o-transition: all .25s ease;
-    transition: all .25s ease;
+}
+
+a.obtn {
+  @include transition(0.5s, ease);
 }
 
 a.obtn:active {
-outline: 0;
-text-decoration: none;
+  outline: 0;
+  text-decoration: none;
 }
 
 .obtn:active {
-background-image: -webkit-gradient(linear,0 0,0 100%,from(rgba(0,0,0,0.1)),to(rgba(0,0,0,0.1)));
-background-image: -moz-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
-background-image: -webkit-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
-background-image: -o-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
-background-image: linear-gradient(to bottom,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
-background-repeat: repeat-x;
-border-top: 1px solid rgba(0,0,0,0.2);
-border-bottom-width: 0;
-text-decoration: none;
-color: #fff;
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(rgba(0,0,0,0.1)),to(rgba(0,0,0,0.1)));
+  background-image: -moz-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
+  background-image: -webkit-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
+  background-image: -o-linear-gradient(top,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
+  background-image: linear-gradient(to bottom,rgba(0,0,0,0.1),rgba(0,0,0,0.1));
+  background-repeat: repeat-x;
+  border-top: 1px solid rgba(0,0,0,0.2);
+  border-bottom-width: 0;
+  text-decoration: none;
+  color: #fff;
 }
 
 
 .obtn:hover {
-background-image: -webkit-gradient(linear,0 0,0 100%,from(rgba(0,0,0,0.05)),to(rgba(0,0,0,0.05)));
-background-image: -moz-linear-gradient(top,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
-background-image: -webkit-linear-gradient(top,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
-background-image: -o-linear-gradient(top,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
-background-image: linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
-background-repeat: repeat-x;
-border-bottom: 1px solid rgba(0,0,0,0.2);
-text-decoration: none;
-color: #fff;
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(rgba(0,0,0,0.05)),to(rgba(0,0,0,0.05)));
+  background-image: -moz-linear-gradient(top,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
+  background-image: -webkit-linear-gradient(top,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
+  background-image: -o-linear-gradient(top,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
+  background-image: linear-gradient(to bottom,rgba(0,0,0,0.05),rgba(0,0,0,0.05));
+  background-repeat: repeat-x;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  text-decoration: none;
+  color: #fff;
 }
 
 
@@ -1459,13 +1449,12 @@ color: #fff;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  //-webkit-transition: all .1s ease;
-  //-moz-transition: all .1s ease;
-  //-ms-transition: all .1s ease;
-  //-o-transition: all .1s ease;
-  //transition: all .1s ease;
   text-decoration: none;
-  @include transition(0.25s, ease);
+  @include transition(0.5s, ease);
+}
+
+a.gbtn{
+  @include transition(0.5s, ease);
 }
 
 a.gbtn:active {
@@ -1500,7 +1489,9 @@ color: #fff;
 }
 
 
-
+a {
+  @include transition(0.5s, ease);
+}
 
 a:focus {
 outline: thin dotted;
