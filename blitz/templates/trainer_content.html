@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block header_content %}
+    <div class="row">
+        {% include "header_content.html" %}
+    </div>
+{% endblock %}
+
+{% block progress_header_content %}
+    <div class="row">
+        <div class="span12" id="progress-header">
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% block above_content %}{% endblock %}
+    <div id="main-content-container">
+        <div class="container">
+            <div class="row">
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "helper_base.html" %}
+
+{% block main %}
+<h4> Customize WorkoutSet </h4>
+{{ workoutset }} {% if workoutset.client %} for {{ workoutset.client }} {% endif %}
+<div class="span8">
+
+        <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+        <input type="text" name="num_reps" value="{{ workoutset.num_reps }}" />
+
+        <select name="lift" id="lift">
+        {% for l in lifts|dictsort:"name" %}
+            <option value="{{l.id}}"
+        {% if l.id == workoutset.lift_id %}selected{% endif %}>
+
+            {{l.name}}</option>
+        {% endfor %}
+        </select>
+
+        <select name="client" id="client">
+        {% for member in members %}
+            <option value="{{member.client.pk}}"
+        {% if member.client.pk == workoutset.client.pk %}selected{% endif %}>
+            {{member.client.name}}</option>
+        {% endfor %}
+        </select>
+        <br>
+        <div class="submit-container">
+            <button class='obtn obtn-half' type='submit'>Update</button>
+        </div>
+        </form>
+
+</div>
+
+{{ form.errors }} 
+
+<a href="{% url "helper_index" %}">Helper Home</a>
+{% endblock %}

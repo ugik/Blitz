@@ -1,0 +1,11 @@
+{% extends "helper_base.html" %}
+
+{% block main %}
+<h4> Program creation results</h4>
+<div class="span8">
+
+Program <b>{{ plan_name }}</b> created successfully for traider id #{{ trainer_id }}
+</div>
+<br>
+<a href="{% url "helper_index" %}">Helper Home</a>
+{% endblock %}

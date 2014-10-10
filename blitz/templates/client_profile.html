@@ -1,0 +1,120 @@
+{% extends "client_content.html" %}
+{% load units_tags %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/d3.v3.min.js'></script>
+{% endblock %}
+
+{% block above_content %}
+    <div class="profile-header">
+        <div class="profile-header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <img class="profile-headshot img-circle" src="{{ client.get_headshot_url }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile-header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <div class="content">
+                            <div class="name">{{ client }}</div>
+                            <div class="details">
+                               {% if client.age %}
+                                {{ client.age }} years old 
+                                &#9679; {% endif %}
+                               {% if client.height_feet %}
+                                {{ client|feet_conversion }} {{ client.units|height_label }} 
+                                &#9679; {% endif %}
+                               {% if client.weight_in_lbs %}
+                                {{ client.weight_in_lbs|lbs_conversion:client }} {{ client.units|weight_label }} {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-tabs">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="tab{% if section == "history" %} active{% endif %}">
+                        <i class="icon-calendar profile-tab-icon"></i>
+                        <a href="{% url "client_profile_history" client.pk %}">History</a>
+                    </div>
+                    <div class="tab{% if section == "progress" %} active{% endif %}">
+                        <i class="icon-bar-chart profile-tab-icon"></i>
+                        <a href="{% url "client_profile_progress" client.pk %}">Progress</a>
+                    </div>
+                    <div class="tab{% if section == "checkins" %} active{% endif %}">
+                        <i class="icon-calendar profile-tab-icon"></i>
+                        <a href="{% url "client_profile_checkins" client.pk %}">Check-ins</a>
+                    </div>
+
+                    {% if user.client == client %}
+                    <div class="tab{% if section == "settings" %} active{% endif %}">
+                        <i class="icon-cog profile-tab-icon"></i>
+                        <a href="{% url "client_settings" %}">Settings</a>
+                    </div>
+                    {% endif %}
+<!-- profile_notes doesn't exist, need to investigate
+                    {% if request.user.is_trainer %}
+                    <div class="tab{% if section == "notes" %} active{% endif %}">
+                        <i class="icon-columns profile-tab-icon"></i>
+                        <a href="{% url "client_profile_notes" client.pk %}">Notes</a>
+                    </div>
+                    {% endif %} -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="span8">
+
+        {% block profile_page_content %}
+
+            {% for lift, maxes in lift_history_maxes.items %}
+                {% include "lift_maxes_chart.html" with client=client %}
+            {% empty %}
+                {% if user.pk == client.user.pk %}
+                <div class="empty-placeholder">
+                    <div class="title">Once you start working out, we'll show your progress here in your profile.</div>
+                    <div class="subtitle">And we'll make pretty graphs. </div>
+                </div>
+                {% else %}
+                <div class="empty-placeholder">
+                    <div class="title">{{ client }} hasn't completed any workouts yet.</div>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+        {% endblock %}
+
+    </div>
+
+    <div class="span4">
+        {% if user.is_trainer %}
+            <div class="sidebar-box">
+                <div class="header">Trainer Actions</div>
+                <div class="sidebar-box-content">
+                    <a class="obtn obtn-comment" href="{% url "new_message_to_user" client.user.pk %}">Message Client</a>
+                    <div class="sidebar-box-separator"></div>
+                    <a class="obtn obtn-comment" href="{% url "set_client_macros" client.pk %}">Edit Diet Goals</a>
+                </div>
+            </div>
+        {% endif %}
+        {% block profile_page_sidebar %}
+        {% endblock %}
+    </div>
+
+{% endblock %}
+

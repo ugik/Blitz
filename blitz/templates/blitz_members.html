@@ -1,0 +1,51 @@
+{% extends "client_content.html" %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/d3.v3.min.js'></script>
+{% endblock %}
+
+{% block above_content %}
+
+    <div class="landscape-header coverphoto3">
+        <div class="landscape-header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="landscape-header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <div class="content">
+                            <div class="title">Program Members</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block main %}
+
+    {% for member in blitz.members %}
+        <div class="span6">
+            <div class="blitz-member-block-container">
+                {% with member.user as user %}
+                    {% include "blitz_member_block.html" %}
+                {% endwith %}
+            </div>
+        </div>
+    {% empty %}
+        <div class="empty-placeholder">
+            <div class="title">No clients have signed up yet.</div>
+            <div class="subtitle">As people start signing up, you'll be able to view them here.</div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+

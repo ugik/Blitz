@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block morehead %}
+
+ <link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/styles.css">
+  <link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/bigvideo.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.imagesloaded.min.js"></script>
+  <script type="text/javascript" src="http://vjs.zencdn.net/c/video.js"></script>
+   <script type="text/javascript" src="{{ STATIC_URL }}js/bigvideo.js"></script>
+
+    <script type="text/javascript">
+      var BV;
+      $(function() {
+        // initialize BigVideo
+        BV = new $.BigVideo();
+        BV.init();
+        BV.show('/static/images/fitblitzvid-jc.mp4', {ambient:false});
+        });
+    </script>
+
+
+{% endblock %}
+
+
+{% block body_extras %}class="login-page"{% endblock %}
+
+{% block outer_content %}
+
+<script type="text/javascript">
+    function showIt() {
+      document.getElementById("hid").style.display = "block";
+    }
+// 1000 = 1 sec | 60000 is 1 minute
+    </script>
+
+
+  <div id="hid" class="container" style="z-index: 999; height: 100%; display:none; background-image: url(/static/images/background3.jpg;">
+    <div class="row">
+      <div class="blitz-login span8 offset2" style ="margin-top: -2.5%;">
+
+          <a href="/">
+            <div style="width: 187px; height: 187px; display: none;" class="playbutton" /></div>
+          </a>
+
+
+
+          <img src="{{ STATIC_URL }}images/blitz.png" />
+            <h1 style="color: white; font-size: 5em; float: left; margin-top: 10px; margin-bottom 30px; width: 100%; line-height: 1.2;">
+              Set yourself on fire.
+            </h1>
+          <p style="color: white; margin-bottom: 10px; font-size: 2em; line-height: 1.2; font-family: 'proxima_novalight';">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.            
+          </p>
+          <br />
+          <a class="obtn" style="height: auto; width: 60%; font-size: 3em" href="/signup.html">Sign up →</a>
+
+          <a class="gbtn" style="height: auto; width: 30%; display: none;" href="/login2.html">Log in →</a>
+
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+$(document).ready(function() { $('/static/images/fitblitzvid-jc.mp4').bind("ended", function(){ $('.video-js-box').css('display','none'); $('.container').css('display','block'); }); });
+</script>
+
+{% endblock outer_content %}

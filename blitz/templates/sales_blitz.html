@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block body_extras %}class="sales-page"{% endblock %}
+
+{% block morehead %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/style.css' />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
+
+  </script>
+{% endblock %}
+
+{% block outer_content %}
+
+<div class="container">
+
+
+    {% if debug_mode %}
+    <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
+action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
+    {% else %}
+    <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
+    {% endif %}
+
+    {% csrf_token %}
+
+    <a class="brand" href="/" id="primary_logo">
+       <img src="{{ STATIC_URL }}images/logo-w.png" align="right" style="width:15%;"/></a>
+    {% if debug_mode %}
+       <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
+       <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
+       <label id="id_label" name="logo_picture"  for="id_logo_picture"/>
+       <img style="width:15%; margin:10px; border:6px solid rgba(125, 213, 135, 1);" src="{{ MEDIA_URL }}{{ sales_page.logo }}"" /> 
+       </label>
+    {% else %}
+       {% if sales_page.logo %}<img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" style="width:15%; margin:10px;" class="shadowimg"/></a>
+       {% endif %}
+    {% endif %}
+
+    <div class="blitz-sales">
+       <div class="sales-header">
+       {% if debug_mode %}
+          <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
+          <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+          <label id="id_label" name="picture"  for="id_picture"/>
+          <img class="profile-headshot img-circle" style="border: 6px solid rgba(125, 213, 135, 1);" src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"" />
+          </label>
+       {% else %}
+          <img class="profile-headshot img-circle"
+               src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"" />
+       {% endif %}
+
+       </div>
+    </div>
+{% if debug_mode %} <a style="color:lightgreen;">(Edit GREEN areas to create your sales page)</a>  
+{% endif %}
+
+    <div class="sales-header">
+       <b>Personal Fitness Coaching with {{ sales_page.trainer_name }}</b>
+       <div class="content">
+          {% if debug_mode %}
+             <textarea class="edit" name="intro" id="intro" style="width:80%; height: 80px;">{{ sales_page.program_introduction }}</textarea>
+          {% else %}
+             {{ sales_page.program_introduction }}
+          {% endif %}
+
+          <h3>
+          <a style="color:grey;">Begins</a>
+          {% if debug_mode %}
+             <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker"; size:10; maxlength:30;" value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}"> <small><i>(Blitzes start on Monday)</i></small>
+          {% else %}
+             {{ blitz.begin_date }}
+          {% endif %} <br> 
+          <a style="color:grey;">Price $<a> <a class="edit">{{ blitz.price_recurring_monthly }} </a>
+          {% if debug_mode %}
+              <input class="edit" type="text" name="price" id="price" style="size:5; maxlength:30;" value="{{ blitz.price }}">
+
+<select name="price_model" id="price_model" class="selectpicker show-tick">
+<option value="O"{% if "O" == blitz.price_model %} selected="selected"{% endif %}>One-time</option>
+             <option value="R"{% if "R" == blitz.price_model %} selected="selected"{% endif %}>Recurring</option>
+        </select>
+    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+          $(document).ready(function(e) {
+              $('.selectpicker').selectpicker({ size: "auto", width: "160px" });
+          });
+    </script>
+
+
+<!--          <select name="price_model" id="price_model" style="width:100px; background-color:lightgreen">
+             <option value="O"{% if "O" == blitz.price_model %} selected="selected"{% endif %}>One-time</option>
+             <option value="R"{% if "R" == blitz.price_model %} selected="selected"{% endif %}>Recurring</option>
+            </select> -->
+
+          {% else %}
+             {{ blitz.price }}
+             {% if blitz.price_model == "R" %}
+                Monthly Recurring
+             {% else %}
+                One-time
+             {% endif %}
+          {% endif %}</a>
+          </h3>
+
+          <div class="submit-container">
+             <button action="submit" class='obtn obtn-comment-half' type='submit'>
+          {% if debug_mode %}Save Page</button>{% else %}Sign Up</button>{% endif %}
+          </div>
+       </div>
+    </div>
+
+    <div class="well" style="margin-top: 35px;">
+       <div class="panel panel-default" style="color: black; padding-top: 15px;">
+          <div class="panel-heading"><b>Why work with me</b></div>
+             <div class="panel-body">
+                {% if debug_mode %}
+                   <textarea class="edit" name="why" id="why" style="width:90%; height: 70px;">{{ sales_page.program_why }}</textarea>
+                {% else %}
+                  {{ sales_page.program_why }}
+                {% endif %}
+             </div>
+          
+       </div>
+    </div>
+
+    <div class="well" style="margin-top: 15px;">
+       <div class="panel panel-default" style="color: black; padding-top: 0px;">
+          <div class="panel-heading"><b>Who can I help the most</b></div>
+          <div class="panel-body">
+             {% if debug_mode %}
+             <textarea class="edit" name="who" id="who" style="width:90%; height: 70px;">{{ sales_page.program_who }}</textarea>
+             {% else %}
+             {{ sales_page.program_who }}
+             {% endif %}
+          </div>
+       </div>
+    </div>
+
+    <div class="well" style="margin-top: 15px;">
+       <div class="panel panel-default" style="color: black; padding-top: 0px;">
+          <div class="panel-heading"><b>Some last words...</b></div>
+          <div class="panel-body">
+             {% if debug_mode %}
+             <textarea class="edit" name="last" id="last" style="width:90%; height: 70px;">{{ sales_page.program_last_words }}</textarea>
+             {% else %}
+             {{ sales_page.program_last_words }}
+             {% endif %}
+          </div>
+       </div>
+    </div>
+    <div class="submit-container">
+       <button class='obtn obtn-comment-half' type='submit'>
+       {% if debug_mode %}Save Page {% else %} Sign up {% endif %}</button>
+    </div>
+    <br>
+  </form>
+
+<script type="text/javascript">
+$('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });
+
+$(document).ready(function() {
+
+});
+
+</script>
+</div>
+
+{% endblock outer_content %}
+

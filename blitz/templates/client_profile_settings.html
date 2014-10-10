@@ -1,0 +1,92 @@
+{% extends "client_profile.html" %}
+
+{% load tz %}
+
+{% block morehead %}
+{% endblock %}
+
+{% block profile_page_content %}
+
+<div class="settings-block">
+    <div class="title">Profile Photo</div>
+    <div class="content">
+
+        <div class="profile-photo-settings">
+            <img id="profile-photo-demo" src="{{ client.get_headshot_url }}" />
+
+    <form name="pictureForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+
+        <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+        <label id="id_picture" name="picture" for="id_picture" class="obtn"/>Change Profile Photo</label>
+    </form>
+
+<script type="text/javascript">
+$('input[type=file]').change(function(e) { document.pictureForm.submit(); });
+
+$(document).ready(function() {
+
+$('#change-timezone').click(function() 
+{$.post('/set-timezone', {'timezone': $('#timezone-select').val()}, function  (data) { $('#timezone-success').show(); });
+});
+
+$('#change-units').click(function() {
+$.post('/set-units', {'units': $('#units-select').val()}, function  (data) { $('#units-success').show(); });
+});
+
+});
+
+</script>
+
+    </div>
+    </div>
+</div>
+
+<div class="settings-block">
+    <div class="title">Current Time Zone</div>
+    <div class="content">
+
+        <div id="timezone-success" class="alert alert-success" style="display:none; ">Timezone changed!</div>
+        <p>
+            Blitz is easy to use wherever you are. Set your timezone here and your workout calendar and diet goals will update accordingly.
+        </p>
+
+        <div class="timezone-form">
+            {% csrf_token %}
+            <div class="what-timezone">What time zone are you in?</div>
+            <select name="timezone" id="timezone-select">
+                {% for tz in timezones %}
+                <option value="{{ tz }}"{% if tz == client.timezone %} selected="selected"{% endif %}>{{ tz }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <a id="change-timezone" type="submit" class="obtn">Set Timezone</a>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="settings-block">
+    <div class="title">Units</div>
+    <div class="content">
+
+        <div id="units-success" class="alert alert-success" style="display:none; ">Units changed!</div>
+        <p>
+            Blitz digs that you may not be Imperial.
+        </p>
+
+        <div class="units-form">
+            {% csrf_token %}
+            <div class="what-units">What unit of measure do you prefer?</div>
+            <select name="units" id="units-select">
+                <option value="M"{% if "M" == client.units %} selected="selected"{% endif %}>Metric (eg.kg,cm,liters)</option>
+                <option value="I"{% if "M" != client.units %} selected="selected"{% endif %}>Imperial (eg.lbs,feet,inches)</option>
+            </select>
+            <br>
+            <a id="change-units" type="submit" class="obtn">Set Units</a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

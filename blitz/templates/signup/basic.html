@@ -1,0 +1,85 @@
+{% extends "formpage.html" %}
+
+{% block formpage_content %}
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+            <div class="header">Set up your profile</div>
+            <div class="content">
+                <form class="formpage-block-form" action="#" method="post" name="setupForm" id="setupForm">
+                    {% csrf_token %}
+                    <div class="gender-container">
+                        <div class="before-radio">Gender:</div>
+                        {% if form.gender.errors %}<div class="form-error">{{ form.gender.errors.0 }}</div>{% endif %}
+                        <label class="radio" style="margin-right: 5%;" >
+                            <input type="radio" name="gender" value="M" {% if form.gender.value == 'M' %}checked{% endif %} /> Male
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="gender" value="F" {% if form.gender.value == 'F' %}checked{% endif %} /> Female
+                        </label>
+                    </div>
+                    <div class="input-container">
+                        {% if form.age.errors %}<div class="form-error">{{ form.age.errors.0 }}</div>{% endif %}
+                        <input type="text" name="age" placeholder="age" {% if form.age.value %}value="{{ form.age.value }}"{% endif %} />
+                    </div>
+                    <div class="gender-container">
+                        <div class="before-radio">Units:</div>
+                        {% if form.units.errors %}<div class="form-error">{{ form.units.errors.0 }}</div>{% endif %}
+                        <label class="radio" style="margin-right: 5%;" >
+                            <input type="radio" name="units" value="I" checked/> lbs,ft
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="units" value="M"/> kg,cm
+                        </label>
+                    </div>
+                    <div class="input-container">
+                        {% if form.weight.errors %}<div class="form-error">{{ form.weight.errors.0 }}</div>{% endif %}
+                        <input type="text" name="weight" placeholder="weight (lbs)" {% if form.weight.value %}value="{{ form.weight.value }}"{% endif %} />
+                    </div>
+                    <div style="width: 100%;">
+                        <div style="width: 48%; float: left;">
+                            <div class="input-container">
+                                {% if form.height_feet.errors %}<div class="form-error">{{ form.height_feet.errors.0 }}</div>{% endif %}
+                                <input type="text" name="height_feet" placeholder="height (ft)" {% if form.height_feet.value %}value="{{ form.height_feet.value }}"{% endif %}/>
+                            </div>
+                        </div>
+                        <div style="width: 48%; float: left; margin-left: 4%; margin-bottom: 10px;">
+                            <div class="input-container">
+                                {% if form.height_inches.errors %}<div class="form-error">{{ form.height_inches.errors.0 }}</div>{% endif %}
+                                <input type="text" name="height_inches" placeholder="height (in)" {% if form.height_inches.value %}value="{{ form.height_inches.value }}"{% endif %}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submit-container">
+                        <button href="/set-up-profile" class="obtn obtn-comment">Continue →</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() { } );
+
+var rad = document.setupForm.units;
+var prev = null;
+for(var i = 0; i < rad.length; i++) {
+    rad[i].onclick = function() { 
+        if (this.value == "M") {
+            document.getElementsByName('height_feet')[0].placeholder='height (m)';
+            document.getElementsByName('height_inches')[0].placeholder='height (cm)';
+            document.getElementsByName('weight')[0].placeholder='weight (kg)';
+            }
+        else {
+            document.getElementsByName('height_feet')[0].placeholder='height (ft)';
+            document.getElementsByName('height_inches')[0].placeholder='height (in)';
+            document.getElementsByName('weight')[0].placeholder='weight (lbs)';
+        } 
+    };
+}
+</script>
+
+</script>
+{% endblock %}
+

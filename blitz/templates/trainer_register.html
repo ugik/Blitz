@@ -1,0 +1,60 @@
+{% extends "formpage.html" %}
+
+<script>
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+</script>
+
+{% load tz %}
+
+{% block formpage_content %}
+
+<div class="well span5 offset3"">
+
+    <form  action="#" method="post">
+        <h3>Registration</h3><p>Tell us a bit about yourself: </p>
+
+        {% csrf_token %}
+
+        <div class="fieldWrapper">{{ form.name }}
+        {{ form.name.errors.as_text }}</div>
+
+        <div class="fieldWrapper">{{ form.email }}
+        {{ form.email.errors.as_text }}</div>
+
+        <div class="fieldWrapper">
+        {{ form.password1 }}
+        {{ form.password1.errors.as_text }}</div>
+
+        <div class="fieldWrapper">
+        {{ form.password2 }}
+        {{ form.non_field_errors.as_text }}</div>
+
+        <select name="timezone" id="timezone" class="selectpicker show-tick">
+        {% for tz in timezones %}
+        {% if form.default_timezone %}
+        <option value="{{ tz }}"{% if tz == form.default_timezone.value %} selected="selected"{% endif %}>{{ tz }}</option>
+        {% else %}
+        <option value="{{ tz }}"{% if tz == default_timezone %} selected="selected"{% endif %}>{{ tz }}</option>
+        {% endif %}
+        {% endfor %}
+        </select></td>
+    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+          $(document).ready(function(e) {
+              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", width: "350px" });
+          });
+    </script>
+
+        <div class="fieldWrapper">
+<small>Short url for your sales page, eg. /Blitz.us/</small><b><u>ctfletcher</u></b><br>
+        {{ form.short_name }}<br>
+        {{ form.short_name.errors.as_text }}</div>
+
+        <button class="obtn btn btn-warning">Register</button>
+     </form>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+

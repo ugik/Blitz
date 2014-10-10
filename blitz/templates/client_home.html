@@ -1,0 +1,122 @@
+{% extends "client_content.html" %}
+{% load custom_exercise %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/underscore-min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/backbone-min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+
+    <script type="text/javascript">
+    var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
+    </script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/homepage.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
+{% endblock %}
+
+{% block main %}
+
+    <div class="span4 rightspan">
+
+        {% if next_workout %}
+        <div class="sidebar-box todays-workout">
+
+            {% if next_workout_today %}
+                <div class="header">Today's Workout: {{ next_workout.workout.display_name }}</div>
+            {% else %}
+                <div class="header">Next Workout: {{ next_workout_date }}</div>
+            {% endif %}
+
+            <div class="sidebar-box-content todays-workout-items">
+
+                {% for lift in next_workout.workout|custom_workout_lifts:client %}
+                    <div class="lift-desc">{{ lift }}</div>
+                {% endfor %}
+
+            </div>
+
+            {% if client.get_blitz.in_progress %}
+            {% if next_workout_today %}
+            <div class="log-workout-container">
+                <a href="{% url "log_workout" next_workout.get_week next_workout.day_of_week %}"
+                   class="log-workout-a obtn">Log Workout <i class="icon-arrow-right icon-white"></i></a>
+            </div>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        {% endif %}
+
+        {% if client.get_blitz.uses_macros %}
+            {% if client.macros_set %}
+                {% include "macro_block.html" %}
+            {% else  %}
+                {% include "macros_not_set_yet.html" %}
+            {% endif %}
+        {% endif %}
+
+        {% with client.other_blitz_members as members %}
+            {% include "members.html" %}
+        {% endwith %}
+
+    </div>
+
+    <div class="span8 rightspan">
+
+        {% if days_since_checkin > 14 %}
+                <div class="alert alert-info">
+                    It's been {{ days_since_checkin }} days since your last check-in.
+                    <a href="{% url "client_checkin"  %}">Check-in now.</a>
+                </div>
+        {% endif %}
+
+        {% if days_since_blitz > 14 %}
+                <div class="alert alert-info">
+                    Time for a check-in.
+                    <a href="{% url "client_checkin"  %}">Check-in now.</a>
+                </div>
+        {% endif %}
+
+
+        {% if missed_workouts %}
+            {% for day, workout_day in missed_workouts %}
+                <div class="alert alert-info">
+                    You didn't log a workout on {{ day }} for {{ workout_day.workout }}.
+                    <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Go log it now.</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+<!-- {% if video_chat_teaser %} -->
+            <div class="alert alert-info">
+                Weekly video chat with {{ blitz.trainer }} is coming up soon.
+                <a href="{% url blitz_video_chat blitz.pk %}">Go to chat</a>
+            </div>
+<!-- {% endif %} -->
+
+        <div id="add-comment-container">
+
+        <form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+            <table><tr><td width="97%">
+            <textarea id="add-comment" name="comment" class="expanding" placeholder="do you even lift?" rows="1" ></textarea> </td><td>
+
+            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
+            <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+            <label id="id_label" name="picture" class="gbtn" for="id_picture"/>Pic
+            </label></td></tr></table>
+        </form>
+
+        <a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>
+
+        </div>
+
+        {% include "main_feed.html" %}
+
+    </div>
+
+    <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
+    {% include "onboarding_content.html" %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block body_extras %}class="login-page"{% endblock %}
+
+{% block outer_content %}
+<div class="container">
+    <div class="row">
+        <div class="span4 offset4">
+            <div class="blitz-login">
+               <img src="{{ STATIC_URL }}images/blitz.png" />  
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6 offset3">
+            <div class="serverpage">
+                <h1>We lifted to (server) failure.</h1>
+                <p>
+                    If you come back to this site after a little while, it should be fixed.
+                    The team has been notified of the issue, but you can also feel free to contact us if you'd like.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% block formpage_content %}{% endblock %}
+</div>
+{% endblock outer_content %}

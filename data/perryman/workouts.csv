@@ -1,0 +1,27 @@
+upper-1	wide-grip-btn-press	5x3 + 1x10	3,3,3,3,3,10
+upper-1	bench-press	3x3 + 1x10	3,3,3,10
+upper-1	face-pull	3x8	8,8,8
+upper-1	dumbbell-preacher-curl	3x8	8,8,8
+upper-1	tricep-pushdown	3x8	8,8,8
+lower-1	squat	5x3 + 1x10	3,3,3,3,3,10
+lower-1	deadlift	3x10	10,10,10
+lower-1	step-up	3x8	8,8,8
+lower-1	leg-curl	3x8	8,8,8
+upper-2	wide-grip-btn-press	6x2 + 1x8	6,6,8
+upper-2	bench-press	4x2 + 1x10	4,4,10
+upper-2	face-pull	4x8	8,8,8,8
+upper-2	dumbbell-preacher-curl	4x8	8,8,8,8
+upper-2	tricep-pushdown	4x8	8,8,8,8
+lower-2	squat	6x2 + 1x8	6,6,8
+lower-2	deadlift	4x8	8,8,8,8
+lower-2	step-up	4x8	8,8,8,8
+lower-2	leg-curl	4x8	8,8,8,8
+upper-3	wide-grip-btn-press	8x1 + 1x6	8,6
+upper-3	bench-press	6x1 + 1x10	6,10
+upper-3	face-pull	5x8	8,8,8,8,8
+upper-3	dumbbell-preacher-curl	5x8	8,8,8,8,8
+upper-3	tricep-pushdown	5x8	8,8,8,8,8
+lower-3	squat	8x1 + 1x6	8,6
+lower-3	deadlift	5x6	6,6,6,6,6
+lower-3	step-up	5x8	8,8,8,8,8
+lower-3	leg-curl	5x8	8,8,8,8,8

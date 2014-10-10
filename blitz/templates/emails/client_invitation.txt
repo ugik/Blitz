@@ -1,0 +1,7 @@
+Hey,
+
+{{ trainer.name }} has invited you to join {{ blitz.title }} 
+
+Go get after it here: {{ invite_url }}
+
+--the FitFlame Team

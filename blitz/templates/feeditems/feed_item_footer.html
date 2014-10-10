@@ -1,0 +1,53 @@
+{% load blitz_tags %}
+
+<div class="feed-item-footer" data-object_pk="{{ parent.pk }}" data-content_type="{{ parent|content_type_name }}" >
+    <div class="feeditem-actions-container">
+        <div class="anchor-container">
+        {% if parent|liked_by_user:user %}
+            <a class="unlike-link"><i class="icon-thumbs-down"></i> Unlike</a>
+        {% else %}
+            <a class="like-link"><i class="icon-thumbs-up"></i> Like</a>
+        {% endif %}
+        </div>
+        <div class="anchor-container">
+            <a class="comment-link"><i class="icon-comment"></i> Comment</a>
+        </div>
+    </div>
+    {% if parent.has_likes %}
+        <div class="feed-item-likes">
+            <i class="icon-thumbs-up"></i>
+            {% for u in parent.users_that_like %}
+                <a href="#">{{ u.display_name }}</a>
+                {% if not forloop.last %}and{% endif %}
+            {% endfor %}
+            like{{ parent.users_that_like|pluralize:"s," }} this.
+        </div>
+    {% endif %}
+    {% for comment in parent.comments %}
+        <div class="child-comment comment{% if comment.user.is_trainer %} trainer-comment{% endif %}" data-object_pk="{{ comment.pk }}" >
+            <img class="img-circle headshot" src="{{ comment.user.headshot_url }}" />
+            <a href="{{ comment.user.get_profile_url }}" class="name">{{ comment.user.display_name }}</a> {{ comment.text|urlize|linebreaksbr }}
+            <div class="comment-date">
+                <i class="icon-time"></i> {{ comment.date_and_time|timesince }} ago
+                {% if comment.has_likes %}
+                <span class="num-likes"
+                      data-toggle="tooltip"
+                      title="{% for u in comment.users_that_like %}{{ u.display_name }}{% if not forloop.last %} and {% endif %}{% endfor %} like{{ comment.users_that_like|pluralize:"s," }} this."
+                    ><i class="icon-thumbs-up"></i> {{ comment.users_that_like|length }}</span>
+                {% endif %}
+                {% if comment|liked_by_user:user %}
+                <a class="unlike-link">Unlike</a>
+                {% else %}
+                <a class="like-link">Like</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    <div style="{% if hide_comment_box %} display:none;{% endif %}" class="add-child-comment-container"
+         data-object_pk="{{ parent.pk }}" data-content_type="{{ parent|content_type_name }}" >
+        <textarea rows="1" class="expanding add-child-comment-textarea" placeholder="Write a comment..." ></textarea>
+
+        <a class="obtn obtn-comment add-child-comment-submit" style="display:none;" >Post</a>
+
+    </div>
+</div>

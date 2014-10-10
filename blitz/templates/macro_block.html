@@ -1,0 +1,12 @@
+<div class="sidebar-box macros-sidebar-box">
+    <div class="header">Did you hit your macros?</div>
+    <div id="macro-block-container"></div>
+</div>
+{% include 'macro_templates.html' %}
+
+<script type='text/javascript'>
+    var CURRENT_WEEK = {{ client.current_blitz_week }};
+    var CURRENT_DAY = "{{ client.current_blitz_day }}";
+    var CURRENT_DAY_INDEX = {{ client.current_blitz_day_index }};
+</script>
+<script type='text/javascript' src='{{ STATIC_URL }}js/macros.js'></script>

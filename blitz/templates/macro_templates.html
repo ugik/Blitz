@@ -1,0 +1,114 @@
+<script type="text/template" id="tpl-macro-week-view" >
+    <div class="day-view-container"></div>
+    <div class="calendar-container"></div>
+</script>
+
+<script type="text/template" id="tpl-macro-day-view" >
+    <div class="day-header">
+        <a class="arrow-container"><i class="arrow goback icon-chevron-left"></i></a>
+        <div class="day-name"><%= macro.day_str %></div>
+        <a class="arrow-container"><i class="arrow goforward icon-chevron-right"></i></a>
+    </div>
+    <div class="day-content">
+        <% if (macro.has_entry) { %>
+            <div class="day-info">
+                <%= macro.second_person_description %> |
+                <a class="undo">Undo</a>
+            </div>
+        <% } else { %>
+            <div class="macro-form">
+
+                <div class="macro-form-row">
+                    <div class="goal-container">
+                        <div class="goal">
+                            <div class="title title-calories">Calories</div>
+                            <div class="content calories-numbers"><span><%= macro.targets.calories.min %> - <%= macro.targets.calories.max %></span></div>
+                        </div>
+                    </div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="calories" ><i class="icon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="calories"><i class="icon-ok choice-icon"></i></a></div>
+                </div>
+
+                <div class="macro-form-row">
+                    <div class="goal-container">
+                        <div class="goal">
+                            <div class="title title-carbs">Carbs</div>
+                            <div class="content"><span><%= macro.targets.carbs.min %> - <%= macro.targets.carbs.max %></span></div>
+                        </div>
+                    </div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="carbs" ><i class="icon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="carbs"><i class="icon-ok choice-icon"></i></a></div>
+                </div>
+
+                <div class="macro-form-row">
+                    <div class="goal-container">
+                    <div class="goal">
+                        <div class="title title-protein">Protein</div>
+                        <div class="content"><span><%= macro.targets.protein.min %> - <%= macro.targets.protein.max %></span></div>
+                    </div>
+                    </div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="protein" ><i class="icon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="protein" ><i class="icon-ok choice-icon"></i></a></div>
+                </div>
+
+                <div class="macro-form-row">
+                    <div class="goal-container">
+                    <div class="goal">
+                        <div class="title title-fat">Fat</div>
+                        <div class="content"><span><%= macro.targets.fat.min %> - <%= macro.targets.fat.max %></span></div>
+                    </div>
+                    </div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="fat" ><i class="icon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="fat" ><i class="icon-ok choice-icon"></i></a></div>
+                </div>
+
+            </div>
+        <% } %>
+    </div>
+</script>
+
+<script type="text/template" id="tpl-macro-calendar-view" >
+    <table>
+        <tr class="table-header">
+            <td class="table-header">M</td>
+            <td class="table-header">T</td>
+            <td class="table-header">W</td>
+            <td class="table-header">T</td>
+            <td class="table-header">F</td>
+            <td class="table-header">S</td>
+            <td class="table-header">S</td>
+        </tr>
+        <tr>
+            <% _.each(week_macros, function(m) { %>
+                <td>
+                    <% if (!m.has_entry) { %>
+                    <div class="macro-day-cell">
+                        <i class="icon-question-sign unknown"></i>
+                    </div>
+                    <% } %>
+                    <% if (m.has_entry && m.all_pass) { %>
+                    <div class="macro-day-cell">
+                        <i class="icon-ok-sign pass"></i>
+                    </div>
+                    <% } %>
+                    <% if (m.has_entry && m.all_fail) { %>
+                    <div class="macro-day-cell">
+                        <i class="icon-remove-sign fail"></i>
+                    </div>
+                    <% } %>
+                    <% if (m.has_entry && !m.all_pass && !m.all_fail) { %>
+                    <div class="macro-day-cell">
+                        <div class="macro-combo">
+                            <div class="letter <% if (m.calories) { %>calories-pass<% } else { %>letter-fail<% } %>"  title="Calories"></div>
+                            <div class="letter <% if (m.protein) { %>protein-pass<% } else { %>letter-fail<% } %>"  title="Protein"></div>
+                            <div class="letter <% if (m.carbs) { %>carbs-pass<% } else { %>letter-fail<% } %>"  title="Carbs"></div>
+                            <div class="letter <% if (m.fat) { %>fat-pass<% } else { %>letter-fail<% } %>"></div>
+                        </div>
+                    </div>
+                    <% } %>
+                </td>
+            <% }); %>
+        </tr>
+    </table>
+
+</script>

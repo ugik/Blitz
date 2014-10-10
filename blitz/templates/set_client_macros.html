@@ -1,0 +1,85 @@
+{% extends "client_profile.html" %}
+
+{% block profile_page_content %}
+
+<div class="settings-block">
+    <div class="title">{{ client }}'s Diet Goals</div>
+    <div class="content">
+
+        <div class="set-macro-targets">
+            {% if has_error %}<div class="alert alert-error">Changes to diet goals could not be saved. Please make sure the form is complete and all goals are valid numbers.</div>{% endif %}
+            {% if success %}<div class="alert alert-success">{{ client }}'s' diet goals were successfully updated.</div>{% endif %}
+            <form action="#" method="post">
+                {% csrf_token %}
+            <div class="section2">
+                <div class="which-day">Training Days</div>
+                <div class="macro-fields">
+                    <div class="macro">
+                        <div class="name">Calories </div>
+                            {{ form.training_calories_min }}
+                        <span class="helptext"> - </span>
+                            {{ form.training_calories }}
+                    </div>
+                    <div class="macro">
+                        <div class="name">Protein </div>
+                            {{ form.training_protein_min }}
+                        <span class="helptext"> - </span>
+                            {{ form.training_protein }}
+                    </div>
+                    <div class="macro">
+                        <div class="name">Fat </div>
+                            {{ form.training_fat_min }}
+                        <span class="helptext"> - </span>
+                            {{ form.training_fat }}
+                    </div>
+                    <div class="macro">
+                        <div class="name">Carbs </div>
+                            {{ form.training_carbs_min }}
+                        <span class="helptext"> - </span>
+                            {{ form.training_carbs }}
+                    </div>
+                </div>
+            </div>
+            <div class="section2">
+                <div class="which-day">Rest Days</div>
+                <div class="macro-fields">
+                    <div class="macro">
+                        <div class="name">Calories </div>
+                        {{ form.rest_calories_min }}
+                        <span class="helptext"> - </span>
+                        {{ form.rest_calories }}
+                    </div>
+                    <div class="macro">
+                        <div class="name">Protein </div>
+                        {{ form.rest_protein_min }}
+                        <span class="helptext"> - </span>
+                        {{ form.rest_protein }}
+                    </div>
+                    <div class="macro">
+                        <div class="name">Fat </div>
+                         {{ form.rest_fat_min }}
+                        <span class="helptext"> - </span>
+                         {{ form.rest_fat }}
+                    </div>
+                    <div class="macro">
+                        <div class="name">Carbs </div>
+                         {{ form.rest_carbs_min }}
+                        <span class="helptext"> - </span>
+                         {{ form.rest_carbs }}
+                    </div>
+                </div>
+            </div>
+            <div style="max-width:400px;">
+            <button class="obtn obtn-comment">Save Changes</button>
+            </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<style type="text/css">
+.sidebar-box {display:none;}
+</style>
+
+{% endblock %}

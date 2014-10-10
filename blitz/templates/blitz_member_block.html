@@ -1,0 +1,21 @@
+<a href="{{ user.get_profile_url }}" class="outer-link">
+    <div class="blitz-member-block">
+
+            <div class="headshot-container">
+                <img src="{{ user.headshot_url }}" class="img-circle" />
+            </div>
+            <div class="content-container">
+                <div class="content">
+                    <div class="name">{{ user.display_name }}</div>
+                    <ul class="details" style="display: none;">
+                        <li>No workouts this week</li>
+                        <li>No macros this week</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="go-profile-container">
+                <div class="go-profile"><i class="icon-chevron-right"></i></div>
+            </div>
+
+    </div>
+</a>

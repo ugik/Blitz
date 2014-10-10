@@ -1,0 +1,61 @@
+Apache WSGI cheat-sheet...
+
+############## apache misc.
+a2dissite 000-default
+tail -f /var/log/apache2/error.log
+/etc/init.d/apache2 restart
+tail -f /var/log/apache2/other_vhosts_access.log 
+
+############## grant access to usermedia dirs
+root@ip-172-31-17-232:~/fitFlame/fitflame# chmod o+wx usermedia/feed
+root@ip-172-31-17-232:~/fitFlame/fitflame# chmod o+wx usermedia/checkins
+root@ip-172-31-17-232:~/fitFlame/fitflame# chmod o+wx usermedia/documents
+root@ip-172-31-17-232:~/fitFlame/fitflame# chmod o+wx usermedia/headshots
+root@ip-172-31-17-232:~/fitFlame/fitflame# chmod o+wx usermedia/programs
+root@ip-172-31-17-232:~/fitFlame/fitflame# chmod o+wx usermedia/logos
+root@ip-172-31-17-232:~/fitFlame/fitflame# ls usermedia/ -l
+total 24
+drwxrwxrwx 2 ubuntu ubuntu 4096 Oct  2 16:44 checkins
+drwxrwxrwx 2 ubuntu ubuntu 4096 Oct  2 16:44 documents
+drwxrwxrwx 2 ubuntu ubuntu 4096 Oct  3 17:09 feed
+drwxrwxrwx 2 ubuntu ubuntu 4096 Oct  2 17:00 headshots
+drwxrwxrwx 2 ubuntu ubuntu 4096 Oct  2 16:44 logos
+drwxrwxrwx 2 ubuntu ubuntu 4096 Oct  2 16:44 programs
+root@ip-172-31-17-232:~/fitFlame/fitflame# 
+
+############## post-receive script
+#!/bin/sh
+DESTINATION=/home/ubuntu/fitFlame
+GIT_WORK_TREE=/home/ubuntu/fitFlame.com/
+export GIT_WORK_TREE
+git checkout -f
+rsync -a $GIT_WORK_TREE $DESTINATION --delete --exclude '/home/ubuntu/fitFlame.com/fitflame/usermedia'
+
+http://injustfiveminutes.com/2013/09/09/exclude-multiple-files-and-directories-with-rsync/
+
+############## static files
+
+./manage.py collectstatic
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
+STATIC_URL = '/static/'
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'staticfiles'),
+)
+
+# ./manage.py collectstatic destination
+STATIC_ROOT = (
+    os.path.join(os.path.abspath(os.path.dirname(__file__)), 'collected_static')
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+

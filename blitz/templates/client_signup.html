@@ -1,0 +1,14 @@
+{% extends "small_block_content.html" %}
+
+{% block small_block_content %}
+
+    <h4>Welcome, {{ invitation.name }}.</h4>
+    {{ form.errors }}
+    <p>Choose a password: </p>
+    <form class="form" action="#" method="post">
+        {% csrf_token %}
+        <input type="password" name="password1" placeholder="Password" />
+        <input type="password" name="password2" placeholder="Confirm" />
+        <button class="obtn btn btn-warning">Continue</button>
+    </form>
+{% endblock small_block_content %}

@@ -1,0 +1,16 @@
+{% extends "formpage.html" %}
+
+{% block formpage_content %}
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+            <div class="header">Your profile's all set up!</div>
+            <div class="content">
+                {% include 'client_basic_info_summary.html' %}
+                <div class="form-sep"></div>
+                <a href="/" style="margin-top: 10px;" class="obtn obtn-comment">Go to homepage →</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

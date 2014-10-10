@@ -1,0 +1,13 @@
+*.log
+*.pot
+*.pyc
+*.*~
+*~
+local_settings.py
+venv
+*.DS_Store
+celerybeat-schedule
+blitz/database.*
+blitz/collected_static/*
+blitz/usermedia/*
+

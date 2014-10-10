@@ -1,0 +1,4 @@
+        {% for key, value in errors.items %}
+             {% if param in key %} <b><font color="red">{{ value }}</font></b> {% endif %}
+        {% endfor %}
+

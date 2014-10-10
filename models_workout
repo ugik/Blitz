@@ -1,0 +1,96 @@
+overall model: a WorkoutPlan 
+                has WorkoutPlanWeek 
+                   has WorkoutPlanDay 
+                      has Workout 
+                         has Exercise 
+                            has Lift
+
+example:
+>>> c = Client.objects.get(pk=1)
+<Client: Carmelo Anthony>
+
+>>> fm = FlameMember.objects.get(client_id=c.pk)
+<FlameMember: Carmelo Anthony enrolled in Posting and Toasting>
+
+>>> f = Flame.objects.get(id=fm.flame_id)
+<Flame: Posting and Toasting>
+
+>>> wp = WorkoutPlan.objects.get(name=f.workout_plan)
+<WorkoutPlan: Mount Sexy>
+
+>>> wpw = WorkoutPlanWeek.objects.filter(workout_plan=wp.id)
+[<WorkoutPlanWeek: Week 1 of Mount Sexy>, <WorkoutPlanWeek: Week 2 of Mount Sexy>, <WorkoutPlanWeek: Week 3 of Mount Sexy>, <WorkoutPlanWeek: Week 4 of Mount Sexy>, <WorkoutPlanWeek: Week 5 of Mount Sexy>, <WorkoutPlanWeek: Week 6 of Mount Sexy>, <WorkoutPlanWeek: Week 7 of Mount Sexy>, <WorkoutPlanWeek: Week 8 of Mount Sexy>, <WorkoutPlanWeek: Week 9 of Mount Sexy>, <WorkoutPlanWeek: Week 10 of Mount Sexy>, <WorkoutPlanWeek: Week 11 of Mount Sexy>, <WorkoutPlanWeek: Week 12 of Mount Sexy>]
+
+>>> wpd = WorkoutPlanDay.objects.filter(workout_plan_week=wpw[0].id)
+[<WorkoutPlanDay: M of week Week 1 of Mount Sexy in plan Mount Sexy>, <WorkoutPlanDay: W of week Week 1 of Mount Sexy in plan Mount Sexy>, <WorkoutPlanDay: F of week Week 1 of Mount Sexy in plan Mount Sexy>]
+
+>>> wo = Workout.objects.get(id=wpd[0].workout_id)
+<Workout: Day A>
+
+>>> e = Exercise.objects.filter(workout_id=wpd[0].workout_id)
+>>> e.values()
+[{'custom_id': None, 'sets_display': u'3x6-8', 'workout_id': 1, u'id': 1, 'lift_id': 43, 'order': 0.0}, {'custom_id': None, 'sets_display': u'3x10', 'workout_id': 1, u'id': 2, 'lift_id': 179, 'order': 1.0}, {'custom_id': None, 'sets_display': u'3x10', 'workout_id': 1, u'id': 3, 'lift_id': 180, 'order': 2.0}, {'custom_id': None, 'sets_display': u'3x15', 'workout_id': 1, u'id': 4, 'lift_id': 181, 'order': 3.0}, {'custom_id': None, 'sets_display': u'2x20', 'workout_id': 1, u'id': 5, 'lift_id': 182, 'order': 4.0}]
+
+>>> custom = ExerciseCustom(client=c, exercise=e, lift=e_record.lift, sets_display='10x5')
+
+# traverse bottom to top of model:
+>>> flame = c_workoutset.workoutset.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.flame_set.all()[0]
+>>> flame.flamemember_set.all()[0].client.name
+
+WorkoutPlan
+    id
+    name
+    trainer_id
+
+WorkoutPlanWeek
+   *workout_plan    # this ties back [up] to WorkoutPlan (by id)
+    week
+    id
+
+WorkoutPlanDay
+    day_index
+   *workout_plan_week_id    # this ties back [up] to WorkoutPlanWeek (by id)
+    day_of_week
+   *workout_id              # this ties back [down] to Workout (by id)
+    id
+
+Workout
+    sets_groups (?)
+   *display_name  (eg. Day 1)
+    slug
+    id
+
+WorkoutSet
+    workout_id             # this ties back [up] to Workout (by id)
+    num_reps
+    exercise_id            # this ties back [down] to Exercise (by id)
+    lift_id                # this ties back [down] to Lift (by id)
+    order
+
+    WorkoutSetCustom
+        client_id
+        workoutset_id
+        lift_id
+        num_reps
+
+Exercise   
+    order
+    sets_display  (eg. 3x20)
+    lift_id         # this ties back [down] to Lift
+   *workout_id      # this ties back [up] to Workout (by id)
+    id
+
+    ExerciseCustom
+        client_id
+        exercise_id   # this ties back [up] to Exercise
+        sets_display
+        lift_id
+
+Lift              # this is a master table of lifts
+    name
+    weight_of_bod
+    slug
+    lift_type (R,I)
+    allow_weight
+    id
+

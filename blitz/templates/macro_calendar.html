@@ -1,0 +1,50 @@
+<div class="sidebar-box">
+<div class="header">Diet goal progress</div>
+<div class="macro-history">
+{% for week in macro_history %}
+    <div class="week">
+        <div class="week-name">Week {{ week.week_number }}</div>
+        <div class="days">
+            <table>
+                <tr>
+                {% for day in week.macro_days %}
+                    <td>
+                        {% if day.in_future and not day.has_entry %}
+                        <div class="macro-day-cell">
+                            <span class="day-of-month">{{ day.day_of_month }}</span>
+                        </div>
+                        {% endif %}
+                        {% if not day.in_future and not day.has_entry %}
+                        <div class="macro-day-cell">
+                            <i class="icon-question-sign unknown"></i>
+                        </div>
+                        {% endif %}
+                        {% if day.all_pass %}
+                        <div class="macro-day-cell">
+                            <i class="icon-ok-sign pass"></i>
+                        </div>
+                        {% endif %}
+                        {% if day.all_fail %}
+                        <div class="macro-day-cell">
+                            <i class="icon-remove-sign fail"></i>
+                        </div>
+                        {% endif %}
+                        {% if day.has_entry and not day.all_pass and not day.all_fail %}
+                        <div class="macro-day-cell">
+                            <div class="macro-combo">
+                                <div class="letter {% if day.calories %}calories-pass{% else %}letter-fail{% endif %}"  title="Calories"></div>
+                                <div class="letter {% if day.protein %}protein-pass{% else %}letter-fail{% endif %}"  title="Protein"></div>
+                                <div class="letter {% if day.carbs %}carbs-pass{% else %}letter-fail{% endif %}"  title="Carbs"></div>
+                                <div class="letter {% if day.fat %}fat-pass{% else %}letter-fail{% endif %}"  title="Fat"></div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endfor %}
+</div>
+</div>

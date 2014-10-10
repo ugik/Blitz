@@ -1,0 +1,39 @@
+{% load blitz_tags %}
+<div class="trainer-alert-box">
+    <div class="header">Alerts</div>
+    {% for alert in alerts %}
+        {% if alert.alert_type == "W" %}
+            <div class="trainer-alert">
+                <i class="dismiss-alert icon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
+                <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
+                <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> missed a workout
+                    (Week {{ alert.workout_plan_day.get_week }} {{ alert.workout_plan_day.get_day_name }}).
+                <div class="date">
+                    <i class="icon-time"></i> {{ alert.date_created|dayssince|capfirst }}
+                </div>
+            </div>
+        {% elif alert.alert_type == "X" %}
+            <div class="trainer-alert">
+                <i class="dismiss-alert icon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
+                <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
+                <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> {{ alert.text }}
+                <div class="date">
+                    <i class="icon-time"></i> {{ alert.date_created|dayssince|capfirst }}
+                </div>
+            </div>
+        {% endif %}
+
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.dismiss-alert').on('click', function() {
+        var that = this;
+        $.post('/trainer/dismiss-alert', {alert_pk: $(this).data('alert_pk')}, function(data) {
+            $(that).closest('.trainer-alert').remove();
+            // TODO: should remove alert box if 0 alerts
+        });
+    });
+});
+</script>

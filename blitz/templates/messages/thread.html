@@ -1,0 +1,35 @@
+{% extends 'messages/inbox.html' %}
+
+{% block topright_controls %}
+    <a href="/messages/new" class="obtn" >New Message</a>
+{% endblock topright_controls %}
+
+{% block message_content %}
+    <div id="messages">
+        {% for message in thread.messages reversed %}
+            <div class="message">
+                <div class="header">
+                    <div class="headshot"><img src="{{ message.sender.headshot_url }}" alt=""/></div>
+                    <div class="date">{{ message.date_sent }}</div>
+                    <div class="name">{{ message.sender.display_name }}</div>
+                </div>
+                <div class="content">
+                    {{ message.content }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <form class="reply-form" action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="to_user" value="{{ current_user_thread.other_user.pk }}" />
+        <textarea name="message_content" id="id_reply_content" cols="30" rows="3"></textarea>
+        <div class="submit-container">
+            <button class="obtn">Send Message</button>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#messages').scrollTop($('#messages').height())
+        });
+    </script>
+{% endblock %}

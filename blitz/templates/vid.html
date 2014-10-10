@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block morehead %}
+
+ <link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/styles.css">
+  <link rel="stylesheet" type="text/css" media="all" href="{{ STATIC_URL }}css/bigvideo.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.imagesloaded.min.js"></script>
+  <script type="text/javascript" src="http://vjs.zencdn.net/c/video.js"></script>
+   <script type="text/javascript" src="{{ STATIC_URL }}js/bigvideo.js"></script>
+
+    <script type="text/javascript">
+      var BV;
+      $(function() {
+        // initialize BigVideo
+        BV = new $.BigVideo();
+        BV.init();
+        BV.show('/static/images/lifting.mp4',{ambient:true});
+        });
+    </script>
+
+{% endblock %}
+{% block body_extras %}class="login-page"{% endblock %}
+
+{% block outer_content %}
+
+<div class="container" style="z-index: 999;" style="display: none;">
+<div class="row">
+<div class="blitz-login span4 offset4">
+
+    <img src="{{ STATIC_URL }}images/blitz.png" />
+
+    <form action="#" method="post">
+
+        {% csrf_token %}
+
+        {% if form.errors.user %}
+            <div class='bigFormError'>{{ form.errors.user }}</div>
+        {% endif %}
+
+        {% if form.errors.email %}
+            <div class='bigFormError'>{{ form.errors.email }}</div>
+        {% endif %}
+
+        <div class="input-container">
+            <div class="error" data-field="age" ></div>
+            <input type="text" id='id_email' name='email' value='{{ form.data.email }}' placeholder="Email" />
+        </div>
+
+        {% if form.errors.password %}
+            <div class='bigFormError'>{{ form.errors.password }}</div>
+        {% endif %}
+
+        <div class="input-container">
+            <div class="error" data-field="age" ></div>
+            <input type="password" id='id_password' name='password' value='{{ form.data.password }}' placeholder="Password" />
+        </div>
+
+        <button class='obtn' type='submit'>Sign In</button>
+
+    </form>
+</div>
+</div>
+</div>
+
+{% endblock outer_content %}

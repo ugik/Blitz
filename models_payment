@@ -1,0 +1,35 @@
+overall model: a Client
+                has PaymentSettings
+                  has Payment
+
+Client
+    ...
+    (X) balanced_account_uri [Move to ChargeSetting]
+
+Flame
+    ...
+    recurring (Boolean)
+    recurring_price = models.FloatField(null=True, blank=True)
+
+
+ChargeSetting
+    client_id (Client)
+    card_uri (Text)
+    card_4digits (Int)
+    card_create_date (Date)
+    recurring (Boolean)
+    recurring_date (Date)
+    recurring_amount (Int)
+
+Charge
+    chargesetting_id (PaymentSettings)
+    payment_date (Date)
+    transaction_number (Text)
+    status (Text)
+    failure_reason (Text)
+    synthetic (Boolean)
+    type ("D":Debit, "C":Credit)
+    amount (Int)
+
+
+

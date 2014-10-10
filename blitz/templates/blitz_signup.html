@@ -1,0 +1,248 @@
+{% extends "formpage.html" %}
+
+
+
+{% block formpage_content %}
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+            <div class="header">sign up</div>
+            <div class="content">
+                <form action="#" method="POST" id="blitz-signup-form" class="formpage-block-form">
+
+                    <div class="form-error error-user-name"></div>
+                    <div class="input-container">
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="name (first and last)"
+                               class="user-name">
+                    </div>
+
+                    <div class="form-error error-user-email"></div>
+                    <div class="input-container">
+                        <input type="text"
+                               placeholder="email"
+                               class="user-email">
+                    </div>
+
+                    <div class="form-error error-user-password"></div>
+                    <div class="input-container">
+                        <input type="password"
+                               autocomplete="off"
+                               placeholder="create password"
+                               class="user-password">
+                    </div>
+
+                    <div class="form-sep"></div>
+
+                    <div class="form-error error-card"></div>
+                    <div class="form-error error-card_number"></div>
+                        <div class="input-container">
+                            <input type="number"
+                                   autocomplete="off"
+                                   placeholder="credit card number"
+                                   class="cc-number"
+                                   >
+                        </div>
+
+                    <div class="input-row">
+
+                        <div class="input-container-3"><div class="input-container"><div class="inner">
+                        <div class="form-error hidden error-expiration_month"></div>
+                        <input type="number"
+                               autocomplete="off"
+                               placeholder="month (MM)"
+                               class="cc-em"
+                               >
+                        </div></div></div>
+
+                        <div class="input-container-3"><div class="input-container"><div class="inner">
+                        <div class="form-error hidden error-expiration_year"></div>
+                        <input type="number"
+                               autocomplete="off"
+                               placeholder="year (YYYY)"
+                               class="cc-ey"
+                               >
+                        </div></div></div>
+
+                        <div class="input-container-3"><div class="input-container"><div class="inner">
+                        <input type="number"
+                               autocomplete="off"
+                               placeholder="sec. code"
+                               class="cc-csc"
+                               >
+                        </div></div></div>
+
+                    </div>
+
+                    <div class="form-sep"></div>
+
+                    <div class="submit-container">
+                        <a id="blitz-signup-submit" class="obtn obtn-comment">join program →</a>
+                        <div id="signup-loading" style="display:none; text-align: center; padding: 5px; "><img src="/static/images/squareloader.gif" alt="Loading..."/></div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="formpage-block">
+            <div class="blitz-signup-info">
+                <img class="trainer-headshot img-circle" src="{{ MEDIA_URL }}{{ blitz.sales_page_content.trainer_headshot }}" />
+                <div class="blitz-title">{{ blitz }}</div>
+                <div class="info-block">
+                    <div class="title">Schedule</div>
+                    <div class="content">
+                        Starts: {{ blitz.begin_date }} <br>
+                        {% if blitz.begin_date != blitz.end_date %}
+                        Ends: {{ blitz.end_date }} {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="formpage-block-sep"></div>
+        <div class="formpage-block">
+            <div class="blitz-cost">
+                <div class="title">Total program cost</div>
+                <div class="cost">${{ blitz.price }}</div>
+                {% if blitz.price_per_workout > 0 %}
+                <div class="per-week">
+                    That's just <span>${{ blitz.price_per_workout|floatformat:0 }}</span> per workout for expert coaching and access to an awesome community.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+
+    var blitz_key = '{{ blitz.pk }}';
+    var $form = $('#blitz-signup-form');
+
+    var marketplaceUri = "{{ marketplace_uri }}";
+    balanced.init(marketplaceUri);
+
+    function disableForm() {
+        $form.find('input').attr('disabled', 'disabled');
+        $('#signup-loading').show();
+        $('#blitz-signup-submit').hide();
+    }
+
+    function enableForm() {
+        $form.find('input').removeAttr('disabled');
+        $('#signup-loading').hide();
+        $('#blitz-signup-submit').show();
+    }
+
+    function showFinished() {
+        window.location.href = "{{ next_url }}";
+    }
+
+    function resetErrors() {
+        $('.form-error').html("");
+        $('.form-error').hide();
+    }
+
+    function finishItOff(card_uri) {
+        $.post('/blitz/' + blitz_key + '/_/payment_hook', {'card_uri': card_uri} , function(data) {
+            if (data.has_error) {
+                $form.find('.error-card').html(data.error);
+                $form.find('.error-card').show();
+                enableForm();
+            } else {
+                showFinished();
+            }
+        });
+    }
+
+    function balancedCallback(response) {
+        switch (response.status) {
+            case 201:
+                finishItOff(response.data.uri);
+                break;
+
+            case 400:
+                if (response.error.card_number) {
+                    $form.find('.error-card_number').html(response.error.card_number);
+                    $form.find('.error-card_number').show();
+                }
+                if (response.error.expiration_month) {
+                    $form.find('.error-expiration_month').html(response.error.expiration_month);
+                    $form.find('.error-expiration_month').show();
+                }
+                if (response.error.expiration_year) {
+                    $form.find('.error-expiration_year').html(response.error.expiration_year);
+                    $form.find('.error-expiration_year').show();
+                }
+                if (response.error.expiration && !response.error.expiration_month && !response.error.expiration_year) {
+                    $form.find('.error-card').html("This expiration date is not valid. ");
+                    $form.find('.error-card').show();
+                }
+                enableForm();
+                break;
+            case 401:
+            case 402:
+            case 403:
+                $form.find('.error-card').html("This card does not appear to be valid; please check the card number again");
+                $form.find('.error-card').show();
+                enableForm();
+                break;
+            case 404:
+                // your marketplace URI is incorrect
+                enableForm();
+                break;
+            default:
+                // we did something unexpected - check response.error for details
+                enableForm();
+                break;
+        }
+    }
+
+    function offToBalanced() {
+        var creditCardData = {
+            card_number: $form.find('.cc-number').val(),
+            expiration_month: $form.find('.cc-em').val(),
+            expiration_year: $form.find('.cc-ey').val(),
+            security_code: $form.find('cc-csc').val()
+        };
+        balanced.card.create(creditCardData, balancedCallback);
+    }
+
+    function submitForm() {
+        disableForm();
+        var accountData = {
+            'name': $form.find('.user-name').val(),
+            'email': $form.find('.user-email').val(),
+            'password': $form.find('.user-password').val(),
+        }
+        $.post('/blitz/' + blitz_key + '/_/create_account', accountData, function(data) {
+            resetErrors();
+            if (data.has_error) {
+                if (data.errors.name) {
+                    $form.find('.error-user-name').html(data.errors.name[0]);
+                    $form.find('.error-user-name').show();
+                }
+                if (data.errors.email) {
+                    $form.find('.error-user-email').html(data.errors.email[0]);
+                    $form.find('.error-user-email').show();
+                }
+                if (data.errors.password) {
+                    $form.find('.error-user-password').html(data.errors.password[0]);
+                    $form.find('.error-user-password').show();
+                }
+                enableForm();
+            } else {
+                offToBalanced();
+            }
+        });
+    }
+
+    $('#blitz-signup-submit').on('click', submitForm);
+
+});
+</script>
+
+{% endblock %}

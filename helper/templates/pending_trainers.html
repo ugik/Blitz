@@ -1,0 +1,42 @@
+{% extends "helper_base.html" %}
+
+{% block main %}
+
+<h4>Here are the trainers <i>in pending status</i><br></h4>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+<p>Remember: Trainers have <b>WorkoutPlan</b>s (that define daily/weekly exercises) and <b>Blitz</b>s (that belong to an individual or group of <b>Client<b>(s)</p>
+
+<table>
+{% for trainer in pending %}
+<tr>
+    {% for element in trainer %}
+      {% if forloop.first %}
+        <td>Trainer id: {{ element }}</td>
+      {% elif forloop.last %}
+          {% if element > 0 %}
+              <td><a href="program_delete?plan={{ element }}">DELETE plan id:{{ element }}</a> <small>(click on link to delete plan)</small></td>
+          {% endif %}
+      {% else %}
+        <td>{{ element }}</td>
+      {% endif %}
+    {% endfor %}
+</tr>
+{% endfor %}
+</table>
+{% if errors %}
+    <ul>
+    {% for e in errors %}
+        <li>{{ e }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<br>
+<a href="{% url "helper_index" %}">Helper Home</a>
+
+{% endblock %}
+

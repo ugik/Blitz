@@ -1,0 +1,110 @@
+{% extends "trainer_content.html" %}
+
+{% block morehead %}
+
+    <script type='text/javascript' src='{{ STATIC_URL }}js/underscore-min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/backbone-min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+
+    <script type="text/template" id="tpl-comment" src="{{ STATIC_URL }}templates/comment.html"></script>
+
+    <script type="text/javascript">
+    var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
+    </script>
+
+    <script type='text/javascript' src='{{ STATIC_URL }}js/homepage.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+
+    <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
+
+{% endblock %}
+
+
+{% block main %}
+
+<div class="span8">
+
+{% if alerts %}
+    {% include "trainer_alerts.html" %}
+{% endif %}
+
+
+<div id="add-comment-container">
+
+<form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+    <table><tr><td width="97%">
+    <textarea id="add-comment" name="comment" class="expanding" placeholder="Post a comment..." rows="1" ></textarea> </td><td>
+
+    <input type="text" name="sample" id="id_sample" value="TEXT IS HERE" style="height:0; display:none;"/>
+
+    <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+    <label id="id_label" name="picture" class="gbtn" for="id_picture"/>Pic
+    </label></td></tr></table> 
+</form>
+
+<a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>
+
+</div>
+
+{% include "main_feed.html" %}
+
+
+</div>
+<div class="span4">
+
+    {% with user.blitz.members as members %}
+        {% include "members.html" %}
+    {% endwith %}
+
+<!-- TODO: need some IF clause that disables adding clients at some stage of the blitz  -->
+{% if "provisional" not in trainer.get_blitz.url_slug and not trainer.get_blitz.recurring %}
+    <div class="btn-group">
+      <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="width:300px">
+        Add Clients to Group Blitz <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup">Invite paid client</a></li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup?free">Invite free client</a></li>
+      </ul>
+    </div>
+{% endif %}
+</div>
+
+{% endblock %}
+
+{% block above_content %}
+{% if trainer.multiple_blitzes %}
+<div class="which-blitz">
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+                    <span class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Blitzes <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            {% for blitz in trainer.active_blitzes %}
+                                <li><a href="/trainer/go-to-blitz?new_blitz={{ blitz.pk }}">
+                            {{ blitz }} / {% if blitz.recurring %} (recurring) {% else %}
+                            {{ blitz.begin_date|date:"F jS" }}{% endif %}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </span>
+                This is the social feed for <span class="strong">{{ trainer.get_blitz }}</span> 
+                {% if trainer.get_blitz.recurring %} 
+                    (recurring since {{ trainer.get_blitz.begin_date|date:"F jS" }}) 
+                {% else %}
+                that began on <span class="strong">{{ trainer.get_blitz.begin_date|date:"F jS" }} 
+                {% endif %}
+                </span>.
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
+   {% include "onboarding_content_trainer.html" %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "formpage.html" %}
+
+{% block formpage_content %}
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+            <div class="header">Set your profile photo</div>
+            <div class="content">
+                <form class="formpage-block-form" name="pictureForm" action="" enctype="multipart/form-data" method="post" id="pictureForm" >{% csrf_token %}
+
+                    <div class="profile-photo-container" style="cursor: pointer;">
+                        <img src="{{ client.get_headshot_url }}" class="headshot-image" id="headshot-preview" />
+                    </div>
+
+                    <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+                    <label id="id_picture" name="picture" for="id_picture" class="obtn obtn-comment"/>Upload a photo</label>
+
+                    <a id="skip-headshot" >Nah, I'm a loser and I don't want to do this.</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$('input[type=file]').change(function(e) { document.pictureForm.submit(); });
+$('#skip-headshot').click(function() { document.pictureForm.submit(); });
+$(document).ready(function() { } );
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{
+"training_calories_min": 1200, "training_calories": 1800,
+ "training_protein_min": 75, "training_protein": 120,
+ "training_carbs_min": 50, "training_carbs": 80,
+ "training_fat_min": 25, "training_fat": 40,
+ "rest_calories_min": 900, "rest_calories": 1300,
+ "rest_protein_min": 60, "rest_protein": 120,
+ "rest_carbs_min": 40, "rest_carbs": 60,
+ "rest_fat_min": 20, "rest_fat": 30
+}

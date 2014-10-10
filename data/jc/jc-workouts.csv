@@ -1,0 +1,55 @@
+part1-a1	back-squat	4x8-10	8,8,8,8
+part1-a1	weighted-hyperextension	4x8-10	8,8,8,8
+part1-a1	db-lunge	3x5/side	5,5,5
+part1-a1	seated-calf-raise	3x12-15	12,12,12
+part1-a1	lying-leg-curl	3x15-20	15,15,15
+part1-a1	russian-twist	3x12-15	12,12,12
+part1-b1	pec-dec-activation	2x15-20	15,15
+part1-b1	low-incline-db-press	4x8-10	8,8,8,8
+part1-b1	lat-pulldown	4x8-10	8,8,8,8
+part1-b1	flat-db-flyes	3x12-15	12,12,12
+part1-b1	seated-cable-rows	3x12-15	12,12,12
+part1-b1	db-shrug	3x12-15	12,12,12
+part1-b1	ez-bar-curl	3x10-12	10,10,10
+part1-b1	tricep-pushdown	3x10-12	10,10,10
+part1-b1	band-pull-apart	3x12-15	12,12,12
+part1-a2	full-squat	3x10-12	10,10,10
+part1-a2	romanian-deadlift	4x8-10	8,8,8,8
+part1-a2	leg-extension	3x12-15	12,12,12
+part1-a2	leg-curl	3x12-15	12,12,12
+part1-a2	standing-calf-raise	30 reps	30
+part1-a2	hanging-leg-raise	3x12-15	12,12,12
+part1-b2	lat-pulldown-activation	2x15-20	15,15
+part1-b2	t-bar-row	4x8-10	8,8,8,8
+part1-b2	flat-bench-press	4x8-10	8,8,8,8
+part1-b2	lat-pulldown	4x12-15	12,12,12,12
+part1-b2	feet-elevated-pushup	4x12-15	12,12,12,12
+part1-b2	chest-supported-db-shrugs	3x8-10	8,8,8
+part1-b2	face-pull	3x12-15	12,12,12
+part2-a1	front-squat	4x10, 8, 6, 15	10,8,6,15
+part2-a1	walking-db-lunge	4x5/side	5,5,5,5
+part2-a1	leg-curl	3x12-15	12,12,12
+part2-a1	leg-extension	3x12-15	12,12,12
+part2-a1	standing-calves	5x10-12	10,10,10,10,10
+part2-a1	ab-wheel-rollouts	3x8-10	8,8,8
+part2-b1	cable-row	4x10, 8, 6, 15	10,8,6,15
+part2-b1	incline-db-press	3x8-10	8,8,8
+part2-b1	wide-grip-lat-pulldown	5x10-12	10,10,10,10,10
+part2-b1	single-arm-db-row	3x10-12	10,10,10
+part2-b1	ez-bar-curl	4x12-15	12,12,12,12
+part2-b1	tricep-pushdown	4x12-15	12,12,12,12
+part2-b1	standing-cable-shrugs	3x10-12	10,10,10
+part2-a2	rdl	4x10, 8, 6, 15	10,8,6,15
+part2-a2	hyperextensions	3x12-15	12,12,12
+part2-a2	leg-extension	3x12-15	12,12,12
+part2-a2	leg-curl	3x12-15	12,12,12
+part2-a2	bw-split-squat	3x8/side	8,8,8
+part2-a2	seated-calves	5x10-12	10,10,10,10,10
+part2-a2	russian-twist	3x8-10	8,8,8
+part2-b2	incline-db-press	4x10, 8, 6, 15	10,8,6,15
+part2-b2	seated-cable-rows	3x8-10	8,8,8
+part2-b2	machine-chest-flyes	4x10-12	10,10,10,10
+part2-b2	single-arm-db-row	4x10-12	10,10,10,10
+part2-b2	db-arnold-press	3x10-12	10,10,10
+part2-b2	db-lateral-raise	4x12-15	12,12,12,12
+part2-b2	tricep-pushdown	4x12-15	12,12,12,12

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block body_extras %}class="login-page"{% endblock %}
+
+{% block outer_content %}
+<div class="container">
+    <div class="row">
+        <div class="span4 offset4">
+            <div class="blitz-login">
+                <img src="{{ STATIC_URL }}images/blitz.png" /> 
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6 offset3">
+            <div class="serverpage">
+                <h1>We can't find that page.</h1>
+                <p>
+                    This could be the case of a broken, link, or the page you're trying to visit might have been removed.
+                </p>
+                <a href="/" class="obtn">Back to homepage</a>
+            </div>
+        </div>
+    </div>
+    {% block formpage_content %}{% endblock %}
+</div>
+{% endblock outer_content %}

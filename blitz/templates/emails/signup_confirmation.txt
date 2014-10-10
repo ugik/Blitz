@@ -1,0 +1,11 @@
+Hey, {{ douchebag }}, welcome to FitFlame!
+
+You're all signed up for {{ blitz }}, which begins on {{ blitz.begin_date }}.
+
+In the meantime, you can still check the site out and talk to your trainer and other program members in the newsfeed. Once your program starts, you'll be able to log your workouts and diet goals.
+
+If you ever run into any problems or just have ideas on how we can make your experience better, don't hesitate to reach out to us at support@blitz.us.
+
+Thanks for signing up!
+
+--the FitFlame Team

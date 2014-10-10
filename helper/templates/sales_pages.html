@@ -1,0 +1,23 @@
+{% extends "helper_base.html" %}
+
+{% block main %}
+<h4> Edit sales page content
+
+<div class="span8">
+
+        <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table><br>
+
+         <div class="submit-container">
+             <button class='obtn obtn-half' type='submit'>Update</button>
+         </div>
+        </form>
+
+</div>
+
+{{ form.errors }} 
+
+<a href="{% url "helper_index" %}">Helper Home</a>
+{% endblock %}

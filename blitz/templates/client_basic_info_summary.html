@@ -1,0 +1,15 @@
+{% load units_tags %}
+
+<div class="client-basic-info-summary">
+    <div class="headshot-container">
+        <img src="{{ client.get_headshot_url }}" alt=""/>
+    </div>
+    <div class="info-container">
+        <div class="title">{{ client }}</div>
+        <div class="content">
+            Age: {{ client.age }}<br>
+            Height: {{ client.height_feet }}'{{ client.height_inches }}"<br>
+            Weight: {{ client.weight_in_lbs }} {{ client.units|weight_label }}
+        </div>
+    </div>
+</div>

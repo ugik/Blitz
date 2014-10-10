@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<head>
+
+    <meta name="google-site-verification" content="N6Hr9dtfqhcP2hADv_PqAboSOhRHBsZmToI3MIFkGlo" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, user-scalable=0" />
+
+    <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}images/blitz.ico" />
+    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/bootstrap.min.css' />
+    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/bootstrap-responsive.min.css' />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome.min.css">
+    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}fonts/stylesheet.css' />
+    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/style.css' />
+    
+    <script type='text/javascript' src='{{ STATIC_URL }}js/jquery-1.9.1.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/sitewide.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/fastclick.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap-inputmask.js'></script>
+
+
+    {% block morehead %}
+    {% endblock %}
+
+
+
+    <script type="text/javascript">
+    // this is the fastclick.js code
+        $(document).ready(function() {
+            if ($('#footer-container').length) {
+                var diff = $(window).height() - $('#footer-container').position().top;
+                if (diff > 60) {
+                    $('#footer-container').height(diff);
+                }
+            }
+        });
+
+
+        window.addEventListener('load', function() {
+            FastClick.attach(document.body);
+        }, false);
+
+    </script>
+
+    <script>
+    // this is the @Blitz.us google analytics code
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42063215-1', 'blitz.us');
+  ga('send', 'pageview');
+
+</script>
+
+
+</head>
+
+<body {% block body_extras %}{% endblock %}>
+
+    {% block outer_content %}
+    
+    <div id="header-container">
+        <div class="container">
+            {% block header_content %}
+            <div class="row">
+                <div class="span12" id="header">
+                    <div class="navbar">
+                        <div class="navbar-inner">
+                            <div class="container">
+
+                                <a class="brand" href="/" id="logo"><img src="{{ STATIC_URL }}images/logo.png"/></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+    <div id="colorstripe"></div>
+
+    <div id="progress-header-container">
+        <div class="container">
+            {% block progress_header_content %}{% endblock %}
+        </div>
+    </div>
+
+    {% block content %}
+    {% endblock content %}
+
+    <div id="footer-container">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div id="footer-content">
+                        <div class="copyright"><a href="/termsofuse" style="color: white;">Terms of Use</a> | <a href="/privacypolicy"  style="color: white;">Privacy Policy</a> | &copy; Blitz MMXIV</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+
+<script type="text/javascript">
+
+function logError(details) {
+    data = {
+        context: navigator.userAgent,
+        details: details,
+    }
+    data.user = "{{ user }}";
+  $.post('/errorlog', data, function(d) {
+  });
+}
+
+window.onerror = function(message, file, line) {
+   logError(file + ':' + line + '\n\n' + message);
+};
+
+</script>
+
+</body>
+

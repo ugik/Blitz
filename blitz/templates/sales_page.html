@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="main-content-container">
+    <div class="container">
+        <div class="sales-hero container">
+            <div class="row">
+                <div class="span6">
+                	{{ sales_content.video_html|safe }}
+		</div>
+                <div class="span6">
+                    <h1>{{ sales_content.program_title }}</h1>
+                    {{ sales_content.program_introduction|linebreaks }}
+                    <a class="obtn signup-btn" style="height: auto; padding: 15px;" href="{% url 'blitz_signup' blitz.urlkey blitz.url_slug %}" >Sign up now→</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if sales_content.social_proof_header_html %}
+    <div class="press-row sales-row row">
+        {{ sales_content.social_proof_header_html }}
+    </div>
+    {% endif %}
+
+
+    <div class="grey-sales-row">
+        <div class="container">
+
+            <div class="row sales-row">
+                <div class="span3">
+                    <img class="trainer-pic" src="{{ MEDIA_URL }}{{ sales_content.trainer_headshot }}"/>
+                </div>
+                <div class="span7 trainer-note">
+                    <h2>A note from {{ sales_content.trainer_name }}</h2>
+                    {{ sales_content.trainer_note|linebreaks }}
+                    {% if sales_content.trainer_signature %}
+                    <img src="{{ MEDIA_URL }}{{ sales_content.trainer_signature }}" alt=""/>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row sales-row">
+            <h1 class="sales-h1">What You'll Get</h1>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+            <div class="sales-vps span4">
+                <image src="/static/images/vp1.png" style="width: 100%">
+                    <h3>A battle-tested program</h3>
+
+                    <p>{{ sales_content.short_name }}'s vast experience and science-based advice make it easy to get big and strong.
+                    </p>
+            </div>
+            <div class="sales-vps span4">
+                <image src="/static/images/vp2.png" style="width: 100%">
+                    <h3>Awesome workout buddies</h3>
+
+                    <p>Getting trained with a group means you save money and get friends to motivate you.
+                    </p>
+            </div>
+            <div class="sales-vps span4">
+                <image src="/static/images/vp3.png" style="width: 100%">
+                    <h3>Easy tracking, easy results</h3>
+
+                    <p>It takes seconds to log diet and minutes to log workouts from any phone or computer.
+                    </p>
+            </div>
+        </div>
+        <div class="row sales-row">
+            <div class="span6 offset3">
+                <a class="obtn sales-btn" href="{% url "blitz_signup" blitz.urlkey blitz.url_slug %}">Sign up now →</a>
+            </div>
+        </div>
+
+
+        <div class="row sales-row">
+            <h1 class="sales-h1">Real testimonials</h1>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+            <div class="row">
+
+                <div class="span1">
+                    <div style="">
+                        <div style="margin: 0 auto;">
+                            <div class="testimonial-headshot-icon pull-left">
+                                <i class="icon-quote-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial span3">
+                    {{ sales_content.testimonial_1_text }}
+                    <div class="testimonial-name">
+                        - {{ sales_content.testimonial_1_name }}
+                    </div>
+                </div>
+
+                <div class="span1">
+                    <div style="">
+                        <div style="margin: 0 auto;">
+                            <div class="testimonial-headshot-icon pull-left">
+                                <i class="icon-quote-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial span3">
+                    {{ sales_content.testimonial_2_text }}
+                    <div class="testimonial-name">
+                        - {{ sales_content.testimonial_2_name }}
+                    </div>
+                </div>
+
+                <div class="span1">
+                    <div style="">
+                        <div style="margin: 0 auto;">
+                            <div class="testimonial-headshot-icon pull-left">
+                                <i class="icon-quote-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial span3">
+                    {{ sales_content.testimonial_3_text }}
+                    <div class="testimonial-name">
+                        - {{ sales_content.testimonial_3_name }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="sales-black-box">
+        <div class="container">
+
+            <div class="row sales-row">
+                <div class="span12" style="padding-left: 20px;
+  padding-right: 20px;">
+                    <h1 class="sales-h1">Fitness is a tough journey. Don't go it alone.</h1>
+
+                    <div class="row sales-row">
+                        <div class="span6">
+                            {{ sales_content.last_ditch_1|linebreaks }}
+                        </div>
+                        <div class="span6 lighter-box">
+                            <div class="inner-lighter-box">
+                                <div class="inner-half-1">
+                                    <h3 class="price-label">Program Cost</h3>
+                                    <br/>
+
+                                    <h1 class="price">${{ blitz.price }}</h1>
+                                </div>
+                                <div class="inner-half-2">
+                                    <h3 class="price-label">Program Length</h3>
+                                    <br/>
+
+                                    <div class="inner-last">
+                                        <h1 class="price">12</h1>
+                                        Weeks
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="black-box-text">
+                        	{{ sales_content.last_ditch_2|linebreaks }}    
+			</div>
+                        </div>
+                    </div>
+                    <div class="row sales-row">
+                        <div class="span6 offset3">
+                            <a class="obtn sales-btn" href="{% url 'blitz_signup' blitz.urlkey blitz.url_slug %}">Sign
+                            up now→</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

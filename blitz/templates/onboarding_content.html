@@ -1,0 +1,28 @@
+<div id="onboarding-content">
+    <div class="header intro-modal-header">
+    	<image src="/static/images/checkmark.png" width="30px" height="30px" style="margin-right: 10px;">
+    	Awesome! Your profile is set up and your plan is good to go.</div>
+    <div class="content">
+		<h2 class="intro-h2">How to use Blitz:</h2>
+		<div style="width: 100%; margin-bottom: 30px;">
+			<div class="intro-modal-third" style="margin-right: 5%;">
+				<image src="/static/images/intro-modal-image-1.png" style="width: 100%;">
+				<p>Log your diet goals each day. They're personalized for your body type.</p>
+			</div>
+
+			<div class="intro-modal-third" style="margin-right: 5%;">
+				<image src="/static/images/intro-modal-image-2.png" style="width: 100%;">
+				<p>On lifting days, you'll see a  a preview for your session and button to log it.</p>
+			</div>
+
+			<div class="intro-modal-third" style="margin-bottom: 30px;">
+				<image src="/static/images/intro-modal-image-3.png" style="width: 100%;">
+				<p>Go to blitz.us on your phone to comment, report on diet, or log workouts.</p>
+			</div>
+		</div>
+
+		<br />
+        <p class="intro-blurb">The program doesn't officially start until {{ client.get_blitz.begin_date|date:"F jS" }}, but you can still comment and check things out between now and then. While you're here, go ahead and introduce yourself to everyone in the news feed!</p>
+        <a id="video-continue" class="obtn obtn-comment intro-modal-close">Let's go! →</a>
+    </div>
+</div>

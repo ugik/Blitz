@@ -1,0 +1,189 @@
+#SLUG	NAME	REPS_OR_INTERVAL	BODY_WEIGHT	ALLOW_ASSISTED_AND_WEIGHTED
+crunch	Crunch	R	1	1
+ab-wheel-rollouts	AB Wheel Rollouts	R	1	0
+back-extension	Back Extension	R	0	1
+back-squat	Back Squat	R	0	1
+band-pull-apart	Band Pull Aparts	R	1	0
+band-rotary-hold	Band Rotary Hold	I	1	0
+barbell-american-deadlift	Barbell American Deadlift	R	0	1
+barbell-bench-press	Barbell Bench Press	R	0	1
+barbell-box-squat	Barbell Box Squat	R	0	1
+barbell-hip-thrust	Barbell Hip Thrust	R	0	1
+barbell-hip-thrust-pause-rep	Barbell hip thrust (pause rep method)	R	0	1
+barbell-incline-press	Barbell Incline Press	R	0	1
+barbell-military-press	Barbell Military Press	R	0	1
+barbell-parallel-squat	Barbell Parallel Squat	R	0	1
+barbell-romanian-deadlift	Barbell Romanian Deadlift	R	0	1
+barbell-glute-bridge	Barbell Glute Bridge	R	0	1
+bench-press	Bench Press	R	0	1
+bodyweight-45-degree-back-ext	Bodyweight 45-Degree Back Extension	R	1	1
+bodyweight-back-extension	Bodyweight Back Extension	R	1	1
+bodyweight-bulgarian-split-squat	Bodyweight Bulgarian Split Squat	R	1	1
+bodyweight-glute-bridge	Bodyweight Glute Bridge	R	1	0
+bodyweight-hip-thrust	Bodyweight Hip Thrust	R	1	0
+bodyweight-hip-thrust-pause-rep	Bodyweight hip thrust (pause rep method)	R	1	0
+bodyweight-parallel-squat	Bodyweight Parallel Squat	R	1	0
+bodyweight-reverse-hyperextension	Bodyweight Reverse Hyperextension	R	1	0
+bodyweight-single-leg-glute-bridge	Bodyweight single-leg glute bridge	R	1	0
+bodyweight-single-leg-hip-thrust	Bodyweight single-leg Hip Thrust	R	1	0
+bodyweight-single-leg-rdl	Bodyweight single-leg RDL	R	1	1
+bodyweight-step-up	Bodyweight Step Up	R	1	0
+bodyweight-walking-lunge	Bodyweight Walking Lunge	R	1	1
+bw-split-squat	BW Split Squats	R	0	1
+cable-row	Cable Row	R	0	1
+chest-supported-db-shrugs	Chest supported DB shrugs (incline bench)	R	0	1
+chin-up-band-assisted	Chin-Up (Band Assisted)	R	1	1
+chinup	Chinup	R	1	1
+close-grip-barbell-bench-press	Close Grip Barbell Bench Press	R	0	1
+curl	Curl	R	0	1
+db-arnold-press	DB Arnold Press	R	0	1
+db-incline-bench-press	DB Incline Bench Press	R	0	1
+db-lateral-raise	DB Lateral Raise	R	0	1
+db-lunge	DB Lunge	R	0	1
+db-shrug	DB Shrugs	R	0	1
+deadlift	Deadlift	R	0	1
+dips	Dips	R	1	1
+dumbbell-bent-over-row	Dumbbell Bent Over Row	R	0	1
+dumbbell-chest-supported-row	Dumbbell chest supported row	R	0	1
+dumbbell-incline-press	Dumbbell Incline Press	R	0	1
+dumbbell-military-press	Dumbbell Military Press	R	0	1
+dumbbell-side-bend	Dumbbell Side Bend	R	0	1
+dumbbell-swiss-ball-crunch	Dumbbell Swiss Ball Crunch	R	0	1
+ez-bar-curl	EZ-Bar Curls	R	0	1
+face-pull	Face Pulls	R	0	1
+feet-elevated-plank	Feet Elevated Plank	I	1	0
+feet-elevated-pushup	Feet Elevated Pushup	R	1	0
+feet-elevated-pushups	Feet Elevated Pushups	R	1	0
+flat-bench-press	Flat Bench Press	R	0	1
+flat-db-flyes	Flat DB Flyes	R	0	1
+front-lat-pulldown	Front Lat Pulldown	R	0	1
+front-squat	Front Squat	R	0	1
+front-plank	Front Plank	I	1	0
+full-squat	Full Squat	R	0	1
+glute-march	Glute March	I	1	1
+goblet-squat	Goblet Squat	R	0	1
+good-morning	Good Morning	R	0	1
+half-kneeling-cable-anti-rotation-press	Half Kneeling Cable Anti Rotation Press	R	0	1
+hanging-leg-raise	Hanging Leg Raise	R	1	0
+high-pull	High Pull	R	0	1
+hyperextensions	Hyperextensions	R	0	1
+incline-bench-press	Incline Bench Press	R	0	1
+incline-db-press	Incline DB Press	R	0	1
+lat-pulldown	Lat Pulldown	R	0	1
+lat-pulldown-activation	Lat Pulldown (activation)	R	0	1
+leg-curl	Leg Curl	R	0	1
+leg-extension	Leg Extension	R	0	1
+low-incline-db-press	 Low Incline DB Press	R	0	1
+lying-leg-curl	Lying Leg Curl	R	0	1
+machine-chest-flyes	Machine Chest Flyes	R	0	1
+modified-inverted-row	Modified Inverted Row	R	1	1
+negative-chin-up	Negative Chin Up	R	1	0
+overhead-press	Overhead Press	R	0	1
+pendlay-row	Pendlay Row	R	0	1
+push-press	Push Press	R	0	1
+push-up	Push-Up	R	0	1
+rdl	RDL	R	0	1
+rkc-plank	RKC-Plank	I	1	0
+romanian-deadlift	Romanian Deadlift	R	0	1
+rope-horizontal-chop	Rope Horizontal Chop	R	0	1
+russian-kettlebell-swing	Russian Kettlebell Swing	R	0	1
+russian-twist	Russian Twist	R	0	1
+seated-cable-rows	Seated Cable Rows	R	0	1
+seated-calf-raise	Seated Calf Raise	R	0	1
+seated-calves	Seated Calves	R	0	1
+seated-db-shoulder-press	Seated DB Shoulder Press	R	0	1
+seated-row	Seated Row	R	0	1
+side-crunch	Side Crunch	R	1	1
+side-lying-abduction	Side Lying Abduction	R	1	0
+side-lying-clam	Side Lying Clam	R	1	0
+side-plank	Side Plank	I	1	0
+side-plank-from-knees	Side Plank From Knees	R	1	0
+single-arm-db-row	Single Arm DB Row	R	0	1
+standing-cable-shrugs	Standing Cable Shrugs with Straight Bar	R	0	1
+standing-calf-raise	Standing Calf Raise	R	0	1
+standing-calves	Standing Calves	R	0	1
+standing-single-arm-cable-row	Standing single-arm cable row	R	0	1
+straight-leg-situp	Straight Leg Sit-up	R	1	1
+swiss-ball-crunch	Swiss Ball Crunch	R	1	1
+swiss-ball-side-crunch	Swiss Ball Side Crunch	R	1	1
+t-bar-row	T-Bar Row	R	0	1
+tricep-extension	Tricep Extension	R	0	1
+tricep-pushdown	Tricep Pushdown	R	0	1
+walking-db-lunge	Walking DB Lunge	R	0	1
+weighted-hyperextension	Weighted Hyperextension	R	1	1
+wide-grip-lat-pulldown	Wide Grip Lat Pulldown	R	0	1
+x-band-walk	X-Band Walk	R	1	0
+x-band-walk-heavy-tension	X-band walk (heavy tension)	R	1	0
+one-arm-dumbbell-row	One Arm Dumbbell Row	R	0	1
+bodyweight-box-squat	Bodyweight Box Squat	R	1	0
+dumbbell-romanian-deadlift	Dumbbell Romanian Deadlift	R	0	1
+bodyweight-foot-elevated-single-leg-glute-bridge	Bodyweight foot elevated single-leg glute bridge	R	1	0
+barbell-hip-thrust-constant-tension-method	Barbell hip thrust (constant tension method)	R	0	1
+weighted-parallel-pull-up	Weighted parallel pull-up	R	1	1
+dumbbell-step-up-reverse-lunge-combo	Dumbbell step up/reverse lunge combo	R	0	1
+dumbbell-incline-bench-press	Dumbbell Incline Bench Press	R	0	1
+cable-standing-abduction	Cable Standing Abduction	R	0	1
+bodyweight-shoulder-elevated-single-leg-hip-thrust	Bodyweight Shoulder-Elevated Single Leg Hip Thrust	R	1	0
+chin-up	Chin-up	R	0	1
+dumbbell-high-step-up	Dumbbell High Step-up	R	0	1
+prisoner-single-leg-45-back-extension	Prisoner Single-Leg 45 Back Extension	R	1	1
+straight-leg-sit-up	Straight Leg Sit Up	R	1	1
+45-degree-side-bend	45 Degree Side Bend	R	1	1
+barbell-american-hip-thrust	Barbell American Hip Thrust	R	0	1
+goblet-full-squat	Goblet Full Squat	R	0	1
+single-arm-dumbbell-bench-press	Single Arm Dumbbell Bench Press	R	0	1
+cable-straight-leg-pull-through	Cable Straight Leg Pull Through	R	0	1
+side-lying-hip-raise	Side Lying Hip Raise	R	1	0
+turkish-get-up	Turkish Get Up	R	0	1
+barbell-full-squat	Barbell Full Squat	R	0	1
+barbell-good-morning	Barbell Good Morning	R	0	1
+band-standing-abduction	Band Standing Abduction	R	1	0
+ab-wheel-rollout-from-knees	AB-Wheel Rollout From Knees	R	1	0
+bodyweight-single-leg-hip-thrust-shoulder-and-foot-elevated	Bodyweight Single Leg Hip Thrust (Shoulder and Foot Elevated)	R	1	0
+bodyweight-neutral-grip-pull-up	Bodyweight Neutral Grip Pull-up	R	1	1
+dumbbell-walking-lunge	Dumbbell Walking Lunge	R	0	1
+barbell-push-press	Barbell Push Press	R	0	1
+dumbbell-back-extension	Dumbbell Back Extension	R	0	1
+banded-seat-abduction	Banded Seat Abduction	R	1	0
+landmine	Landmine	R	0	1
+barbell-hip-thrust-isohold	Barbell Hip Thrust Isohold	I	0	1
+d-handle-lat-pulldown	D-handle Lat PUlldown	R	0	1
+skater-squat	Skater Squat	R	0	1
+narrow-base-push-up	Narrow Base Push-up	R	0	1
+barbell-single-leg-rdl	Barbell Single Leg RDL	R	0	1
+barbell-hip-thrust-rest-pause	Barbell Hip Thrust (rest pause)	R	0	1
+bodyweight-inverted-row	Bodyweight Inverted Row	R	1	0
+barbell-zercher-squat	Barbell Zercher Squat	R	0	1
+feet-elevated-push-up	Feet Elevated Push-up	R	1	0
+barbell-sumo-deadlift	Barbell Sumo Deadlift	R	0	1
+dumbbell-bulgarian-split-squat	Dumbbell Bulgarian Split Squat	R	0	1
+gliding-leg-curls	Gliding Leg Curls	R	0	1
+banded-hip-rotation	Banded Hip Rotation	R	1	0
+body-saw	Body Saw	R	1	1
+american-hip-thrust	American Hip Thrust	R	0	1
+single-arm-dumbbell-military-press	Single Arm Dumbbell Military Press	R	0	1
+prisoner-single-leg-back-extension	Prisoner Single Leg Back Extension	R	1	1
+pec-dec-activation	Pec-Dec (Activation)	R	0	1
+wide-grip-btn-press	Wide-Grip BTN Press	R	0	1
+dumbbell-preacher-curl	Dumbbell Preacher Curl	R	0	1
+step-up	Step Up	R	0	1
+squat	Squat	R	0	1
+barbell-standing-shoulder-press	Barbell Standing Shoulder Press	R	0	1
+45-degree-back-extension	45 Degree Back Extension	R	0	1
+weighted-pullup	Weighted Pullup	R	0	1
+seated-dumbbell-front-raise	Seated Dumbbell Front Raise	R	0	1
+db-stiff-legged-deadlift	DB Stiff Legged Deadlift	R	0	1
+seated-dumbbell-shoulder-press	Seated Dumbbell Shoulder Press	R	0	1
+reverse-db-lunge	Reverse DB Lunge	R	0	1
+bw-reverse-lunges	BW Reverse Lunges	R	0	1
+pec-dec-flyes	Pec-dec Flyes	R	0	1
+dumbbell-flat-bench-press	Dumbbell Flat Bench Press	R	0	1
+1-arm-dumbbell-row	One Arm Dumbbell Row	R	0	1
+dumbbell-goblet-squat	Dumbbell Goblet Squat	R	0	1
+cable-tricep-pushdowns	Cable Tricep Pushdowns	R	0	1
+leg-press	Leg Press	R	0	1
+dumbbell-hammer-curls	Dumbbell Hammer Curls	R	0	1
+barbell-back-squat	Barbell Back Squat	R	0	1
+1-arm-dumbbell-floor-press	One Arm Dumbbell Floor Press	R	0	1
+dumbbell-reverse-lunge	Dumbbell Reverse Lunge	R	0	1
+pushups	Pushups	R	1	0

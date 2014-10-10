@@ -1,0 +1,57 @@
+#local setup notes:
+
+#http://roundhere.net/journal/virtualenv-ubuntu-12-10/
+#virtualenv wrapper:
+mkvirtualenv fitFlame
+deactivate
+workon fitFlame
+
+#pagekite
+pagekite.py 8000 fitflame.pagekite.me
+
+#setup and install PIL w/ZIP support:
+sudo apt-get build-dep python-imaging
+sudo apt-get install libjpeg62 libjpeg62-dev
+sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
+sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib
+sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
+sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
+pip install Pillow
+
+#BALANCED_API_KEY, confidure in settings.py commented out for now
+
+#fix Wednesday typo in workouts/models.py
+#fix base/view.py weight is required for logged lift
+
+#replace douche (client)
+grep -r --include=*.py "Douche" .
+rpl -R -x'.py' 'Douchebag' 'Client' .
+
+#replace douche filenames
+find . -name file.ext
+find . -name \*douche*
+rename -n s/"douchebag"/"client"/g  *
+
+#backup
+tar -czf backup.tar.gz --exclude=*.mp4 --exclude=*.jpg .
+
+#South
+./manage.py schemamigration <appname> --auto
+./manage.py migrate <appname>
+
+#celery
+http://www.marinamele.com/2014/02/how-to-install-celery-on-django-and.html
+sudo rabbitmq-server -detached
+python manage.py celeryd --verbosity=2 --loglevel=DEBUG
+python manage.py celerybeat --verbosity=2 --loglevel=DEBUG
+
+#flame signup w/text CC
+(John Doe, cc#4111111111111111 exp:12/2020 code:123)
+/flame/41502/jahed-daily/signup
+
+#pip freeze issue
+sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
+
+#apache wsgi
+http://www.webforefront.com/django/setupapachewebserverwsgi.html
+

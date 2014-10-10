@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block header_content %}
+<div class="row">
+    <div class="span12" id="header">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+
+                    <a class="brand" href="/" id="logo"><img src="{{ STATIC_URL }}images/logo.png" /></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+ 
+{% block content %}
+    {% block above_content %}{% endblock %}
+    <div id="main-content-container">
+        <div class="container" >
+            <div class="sales-hero container">
+                <div class="row" >
+                    <div class="span6">
+                        <iframe style="display: block;" width="100%" height="360px" src="http://player.vimeo.com/video/66048990" frameborder="0" allowfullscreen></iframe>
+                        <//img src="/static/images/jc-video-still.png">
+                    </div>
+                    <div class="span6">
+                        <h1>Join GAINZ - JC's 12-Week Muscle Building Blitz</h1>
+                        <p>Sick of messing around at the gym and not getting the results you want? 
+                        </p>
+                        <p>JC can help. For less than the cost of a few personal training sessions, you can get a proven plan and online coaching from JC. With JC's awesome workouts and personalized diet goals built-in, it's hard <b>not</b> to crush your fitness goals.
+                        </p>
+                        <a class="obtn signup-btn" style="height: auto; padding: 15px;" href="{% url "blitz_signup" blitz.urlkey blitz.url_slug %}" >Sign up now→</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="press-row sales-row row">
+            <img src="/static/images/jc-press.png" class="press-image">
+        </div>
+
+
+            <div class="grey-sales-row">
+                <div class="container">
+            
+            <div class="row sales-row">
+                <div class="span3">
+                    <image class="trainer-pic" src="/static/images/jc.png">
+                </div>
+                <div class="span7 trainer-note">
+                    <h2>A note from JC Deen</h2>
+                    <p>Building Muscle can be confusing, especially when you're hearing 10 different opinions on a regular basis. Some tell you to get strong, and the muscle will follow. Some say you have to annihilate each muscle just once per week, while others prescribe a different method. And other times, it's simply a lack of guidance. Regardless of your excuse, I'm here to help. In 12 weeks, I will take care of your muscle building concerns. Your physique becomes my problem to worry about.
+                    </p>
+                    <image src="/static/images/jc-signature.jpg">
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+            <div class="container">
+            <div class="row sales-row">
+                <h1 class="sales-h1">What You'll Get</h1>
+            </div> 
+            <div class="row" style="margin-top: 30px;">
+                <div class="sales-vps span4">
+                    <image src="/static/images/vp1.png" style="width: 100%">
+                    <h3>A battle-tested program</h3>
+                    <p>JC's vast experience and science-based advice make it easy to get big and strong.
+                    </p>
+                </div>
+                <div class="sales-vps span4">
+                    <image src="/static/images/vp2.png" style="width: 100%">
+                    <h3>Awesome workout buddies</h3>
+                    <p>Getting trained with a group means you save money and get friends to motivate you.
+                    </p>
+                </div>
+                <div class="sales-vps span4">
+                    <image src="/static/images/vp3.png" style="width: 100%">
+                    <h3>Easy tracking, easy results</h3>
+                    <p>It takes seconds to log diet and minutes to log workouts from any phone or computer.
+                    </p>
+                </div>
+            </div>
+            <div class="row sales-row">
+                <div class="span6 offset3">
+                <a class="obtn sales-btn" href="{% url "blitz_signup" blitz.urlkey blitz.url_slug %}">Sign up now →</a>
+                </div>
+            </div>
+
+
+             <div class="row sales-row">
+                <h1 class="sales-h1">Real testimonials</h1>
+            </div> 
+            <div class="row" style="margin-top: 30px;">
+                <div class="row">
+                    <div class="span1">
+                        <div style="">
+                            <div style="margin: 0 auto;">
+                                <i class="quotemark icon-quote-left icon-3x pull-left icon-border" style="display:none;"></i>
+                            <div class="testimonial-headshot pull-left" style="background: url('/static/images/jctest1.jpeg'); background-size: 100%;">                           
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial span3">
+                        "This experience has truly changed my life and I am grateful to JC for all his patience and guidance he has shown and given me over the last few months. I hope I can spread the word of his work to others and that his popularity grows rapidly, because people do not know what they have been missing." 
+                    </div>
+                    <div class="span1">
+                        <div style="">
+                            <div style="margin: 0 auto;">
+                            <div class="testimonial-headshot pull-left" style="background: url('/static/images/jctest2.jpeg'); background-size: 100%;">                           
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial span3">
+                        "I can't tell you how much time and effort I wasted on fad diets and ridiculous workouts. I found JCDFitness and I found salvation and an honest, NO-BS approach to achieving my fitness goals. I'll admit I was skeptical when I first found the site but after reading a few articles and then working with JC for a few months, he truly changed my life for the better!"
+                    </div>
+
+                
+                
+                    <div class="span1">
+                        <div style="">
+                            <div style="margin: 0 auto;">
+                            <div class="testimonial-headshot pull-left" style="background: url('/static/images/jctest3.jpeg'); background-size: 100%;">                           
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial span3">
+                        "Working with JC was a pleasure. The coaching helped me stick with the program and diet. The diet was very easy to adhere to and the gains came very quickly. JC definitely has a unique method for mass gain that is incredibly effective. Its been about two months since the program finished, and I'm still making awesome progress using the methods."
+                    </div>
+                    
+
+                </div>
+            </div>
+        </div>
+
+           <div class="sales-black-box">
+            <div class="container">
+
+            <div class="row sales-row">
+                <div class="span12" style="padding-left: 20px;
+  padding-right: 20px;">
+                    <h1 class="sales-h1">Fitness is a tough journey. Don't go it alone.</h1>
+                    <div class="row sales-row">
+                        <div class="span6">
+                        <p style="">
+                            Don't spend hours at the gym doing random workouts or switching between programs without getting anywhere.
+                        </p>
+                        <p>Take advantage of an awesome deal with an amazing trainer and get the results you deserve. With a proven plan and unlimited access to JC, it's never been easier to get the body you want.
+                        </p>
+                        </div>
+                        <div class="span6 lighter-box">
+                            <div class="inner-lighter-box">
+                                <div class="inner-half-1">
+                                    <h3 class="price-label">Program Cost</h3>
+                                    <br />
+                                    <h1 class="price">$300</h1>
+                                </div>
+                                 <div class="inner-half-2">
+                                    <h3 class="price-label">Program Length</h3>
+                                    <br />
+                                    <div class="inner-last">
+                                        <h1 class="price">12</h1>
+                                            Weeks
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="black-box-text">
+                                That's just $11 per workout for expert coaching and constant feedback on your lifting and diet progress from JC. In 12 weeks, you won't recognize yourself.
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row sales-row">
+                            <div class="span6 offset3">
+                                <a class="obtn sales-btn" href="{% url "blitz_signup" blitz.urlkey blitz.url_slug %}">Sign up now→</a>
+                            </div>
+                        </div>
+                    
+                </div>
+                  
+            </div>
+
+        </div>
+
+        </div>
+    </div>
+{% endblock %}

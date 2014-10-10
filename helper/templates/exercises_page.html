@@ -1,0 +1,61 @@
+{% extends "helper_base.html" %}
+
+{% block main %}
+
+<h4>Here are the workoutsets and exercises for workout: {{ workout.display_name }}</h4>
+<small>Note: that "sets" and "reps" pertain to workout logging reps while "exercises" pertain to all other workout displays.<br>Note: custom entries listed chronologically (last entry is the one used)</small>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+
+{% regroup workoutset by exercise.lift.name as lift_list %}
+{% for lift in lift_list %}
+<ul><li> {{ lift.grouper }}</li>
+    <table>
+    {% regroup lift.list by exercise.sets_display as set_list %}
+    {% for workoutset in set_list %}
+    <tr><td>{{ workoutset.grouper }}</td>
+        {% if workoutset.list.0.exercise.exercisecustom_set.all %}
+            {% for c in workoutset.list.0.exercise.exercisecustom_set.all %}
+            <tr><td>custom: {{ c.sets_display }}</td>
+            <td><small>custom:</small>{{ c.lift }}</td>
+            <td><a href="custom_exercise?custom_id={{ c.pk }}"><small>(for {{ c.client }} on {{ c.date_created }})</small></a></td></tr>
+            {% endfor %}
+        {% endif %}
+            <td><a href="custom_exercise?id={{ workoutset.list.0.exercise.id }}">create exercise</a></td>
+    </tr>
+        {% for w in workoutset.list %}
+        <tr><td><small>order:</small>{{ w.exercise.order }}</td>
+
+        <td><small>reps:</small>{{ w.num_reps }}</td>
+        {% if w.workoutsetcustom_set.all %}
+            {% for c in w.workoutsetcustom_set.all %}
+            <tr><td>
+            <td>reps:{{ c.num_reps }}</td>
+            <td><a href="custom_workoutset?custom_id={{ c.pk }}"><small>(for {{ c.client }} on {{ c.date_created }})</small></a></td>
+            {% endfor %}
+        {% endif %}
+        <td><a href="custom_workoutset?id={{ w.pk }}">create set</a></td>
+        </tr>
+        {% endfor %}
+
+    {% endfor %}
+    </table></ul>
+{% endfor %}
+
+
+{% if errors %}
+    <ul>
+    {% for e in errors %}
+        <li>{{ e }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<br>
+<a href="{% url "helper_index" %}">Helper Home</a>
+
+{% endblock %}
+

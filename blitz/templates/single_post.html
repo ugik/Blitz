@@ -1,0 +1,15 @@
+{% extends "client_content.html" %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+{% endblock %}
+
+{% block main %}
+
+    <div class="span8 offset1">
+        {{ feeditem_html }}
+    </div>
+
+{% endblock %}
+

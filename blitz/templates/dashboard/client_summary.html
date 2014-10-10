@@ -1,0 +1,170 @@
+<div class='bg'>
+	<div class="cover">
+		<div class="spacer20"></div>
+		<a href="{% url 'client_profile' 1 %}" target="_blank"><img src="{{ MEDIA_URL }}{{ client.headshot }}" class="client-picture img-circle center" /></a>
+		<div class="spacer20"></div>
+		<p class="client-name center">{{ client.name }}</p>
+		<p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>
+	</div>
+	<div class="sidebar-box">
+		<div class="header">
+			Diet Goals <a class="edit-diet-goal" href="{% url 'set_client_macros' client.pk %}" target="_blank"><span class="icon icon-pencil"></span></a>
+			{% if macro_goals %}
+				<button type="button" class="switch-training btn btn-small">Training day</button> <button type="button" class="switch-resting btn btn-small btn-link">Off day</button>
+			{% endif %}
+		</div>
+		<div class="goals-history">
+			{% if macro_goals %}
+			{% with macro_goals as macro %}
+			<div class="training">
+				<div class="box box-orange">
+					<div class="title">
+						calories
+					</div>
+					<div class="description info info-calories">
+						{% widthratio macro.training_calories_min 1000 1 %}k - {% widthratio macro.training_calories_min 1000 1 %}k
+					</div>
+				</div>
+			
+				<div class="box box-purple">
+					<div class="title">
+						protein
+					</div>
+					<div class="description info info-protein">
+						{% widthratio macro.training_protein_min 1000 1 %}k - {% widthratio macro.training_protein 1000 1 %}k
+					</div>
+				</div>
+
+				<div class="box box-green">
+					<div class="title">
+						carbs
+					</div>
+					<div class="description info info-carbs">
+						{% widthratio macro.training_carbs_min 1000 1 %}k - {% widthratio macro.training_carbs 1000 1 %}k
+					</div>
+				</div>
+
+				<div class="box box-blue">
+					<div class="title">
+						fat
+					</div>
+					<div class="description info info-fat">
+						{% widthratio macro.training_fat_min 1000 1 %}k - {% widthratio macro.training_fat 1000 1 %}k
+					</div>
+				</div>
+			</div> <!-- training -->
+			<div class="resting hidden">
+				<div class="box box-orange">
+					<div class="title">
+						calories
+					</div>
+					<div class="description info info-calories">
+						{% widthratio macro.rest_calories_min 1000 1 %}k - {% widthratio macro.rest_calories_min 1000 1 %}k
+					</div>
+				</div>
+			
+				<div class="box box-purple">
+					<div class="title">
+						protein
+					</div>
+					<div class="description info info-protein">
+						{% widthratio macro.rest_protein_min 1000 1 %}k - {% widthratio macro.rest_protein 1000 1 %}k
+					</div>
+				</div>
+
+				<div class="box box-green">
+					<div class="title">
+						carbs
+					</div>
+					<div class="description info info-carbs">
+						{% widthratio macro.rest_carbs_min 1000 1 %}k - {% widthratio macro.rest_carbs 1000 1 %}k
+					</div>
+				</div>
+
+				<div class="box box-blue">
+					<div class="title">
+						fat
+					</div>
+					<div class="description info info-fat">
+						{% widthratio macro.rest_fat_min 1000 1 %}k - {% widthratio macro.rest_fat 1000 1 %}k
+					</div>
+				</div>
+			</div> <!-- resting -->
+			{% endwith %}
+			{% endif %}
+			<div class="clearfix"></div>
+		</div>
+		<div class="spacer10"></div>
+	</div>
+
+	<div class="sidebar-box diet-progress">
+		<div class="header">
+			Diet Progress
+			<select>
+			{% for week in macro_history %}
+				<option value='{{ week.week_number }}'>Week {{ week.week_number }}</option>
+			{% endfor %}
+				<option value='this_week'>This Week</option>
+			</select>
+		</div>
+		<div class="macro-history">
+			{% for week in macro_history %}
+			<div class="week week-{{ week.week_number }} {% if not forloop.first %}hidden{% endif %}" data-week-number={{ week.week_number }}>
+				<div class="week-name">Week {{ week.week_number }}</div>
+				<div class="days">
+					<table>
+						<tr>
+							{% for day in week.macro_days %}
+							<td>
+								{% if day.in_future and not day.has_entry %}
+								<div class="macro-day-cell">
+									<span class="day-of-month">{{ day.day_of_month }}</span>
+								</div>
+								{% endif %}
+								{% if not day.in_future and not day.has_entry %}
+								<div class="macro-day-cell">
+									<i class="icon-question-sign unknown"></i>
+								</div>
+								{% endif %}
+								{% if day.all_pass %}
+								<div class="macro-day-cell">
+									<i class="icon-ok-sign pass"></i>
+								</div>
+								{% endif %}
+								{% if day.all_fail %}
+								<div class="macro-day-cell">
+									<i class="icon-remove-sign fail"></i>
+								</div>
+								{% endif %}
+								{% if day.has_entry and not day.all_pass and not day.all_fail %}
+								<div class="macro-day-cell">
+									<div class="macro-combo">
+										<div class="letter {% if day.calories %}calories-pass{% else %}letter-fail{% endif %}"  title="Calories"></div>
+										<div class="letter {% if day.protein %}protein-pass{% else %}letter-fail{% endif %}"  title="Protein"></div>
+										<div class="letter {% if day.carbs %}carbs-pass{% else %}letter-fail{% endif %}"  title="Carbs"></div>
+										<div class="letter {% if day.fat %}fat-pass{% else %}letter-fail{% endif %}"  title="Fat"></div>
+									</div>
+								</div>
+								{% endif %}
+							</td>
+							{% endfor %}
+						</tr>
+					</table>
+				</div>
+			</div>
+			{% endfor %}
+		</div> <!--/ macro-history -->
+		<div class="spacer10"></div>
+	</div>
+
+	<div class="sidebar-box">
+		<div class="header">
+			Workout Plan
+		</div>
+		<div>
+			<p><strong>JC's Gainz Plan for Beginners</strong></p>
+			<small>Editing workout programms coming soon</small>
+		</div>
+		<div class="spacer10"></div>
+	</div>
+</div>

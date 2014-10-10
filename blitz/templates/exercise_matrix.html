@@ -1,0 +1,49 @@
+{% load custom_exercise %}
+{% load display_str %}
+{% load units_tags %}
+
+<div class="workout-content exercise-matrix">
+
+    {% for exercise in exercises %}
+        <div class="exercise-container {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+            <div class="exercise">
+                <div class="exercise-name-container">
+
+<!-- we get lift name using template filter and client instance from various sources -->
+                    {% if client %}
+              <div class="exercise-name">{{ exercise.exercise|custom_lift:client }}</div>
+                    {% elif user.client %}
+              <div class="exercise-name">{{ exercise.exercise|custom_lift:user.client }}</div>
+                    {% elif gym_session.client %}
+              <div class="exercise-name">{{ exercise.exercise|custom_lift:gym_session.client }}</div>
+                    {% else %}
+                    <div class="exercise-name">{{ exercise.lift }}</div>
+                    {% endif %}
+                </div>
+                <div class="exercise-details-container">
+                    <div class="exercise-details">
+                        {% for s in exercise.sets %}
+                            {% if s.1 %}
+                            <div class="detail-container">
+                                <div class="detail">
+                                   {{ s.1|display_str:user }}
+
+                                    <!-- {{ s.1.display_str }} -->
+                                </div>
+                            </div>                                        
+                            {% endif %}
+
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% if gym_session.notes %}
+        <div class="workout-notes">
+            {{ gym_session.notes|linebreaks }}
+        </div>
+    {% endif %}
+
+</div>

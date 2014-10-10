@@ -1,0 +1,44 @@
+{% extends "client_profile.html" %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+{% endblock %}
+
+{% block profile_page_content %}
+    {% for session_list in session_list %}
+        <div class="profile-gym-session">
+            <div class="profile-gym-session-header">
+                {{ session_list.0.date_of_session }}
+                <a class="edit-workout-link" href="{% url "log_workout" session_list.0.workout_plan_day.workout_plan_week.week session_list.0.workout_plan_day.day_of_week %}"><i class="icon-edit"></i> edit</a>
+            </div>
+            {% with session_list.1 as exercises %}
+                <div class="profile-exercise-matrix-container">
+                    {% include "exercise_matrix.html" %}
+                </div>
+            {% endwith %}
+            {% with session_list.0 as parent %}
+                {% with True as hide_comment_box %}
+                    {% include "feeditems/feed_item_footer.html" %}
+                {% endwith %}
+            {% endwith %}
+        </div>
+        {% empty %}
+            {% if user == client.user %}
+            <div class="empty-placeholder">
+                <div class="title">Once you start working out, we'll show your history here.</div>
+                <div class="subtitle">You'll be able to look through your past workouts in more detail.</div>
+            </div>
+            {% else %}
+            <div class="empty-placeholder">
+                <div class="title">{{ client }} hasn't completed any workouts yet.</div>
+            </div>
+            {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block profile_page_sidebar %}
+    {% if client.get_blitz.uses_macros %}
+        {% include "macro_calendar.html" %}
+    {% endif %}
+{% endblock %}

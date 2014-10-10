@@ -1,0 +1,14 @@
+<div class="sidebar-box members-sidebar-box">
+    <div class="header">Members</div>
+
+    <div class="members-container">
+        {% for member in members %}
+            <div class="member-headshot-container">
+                <div class="member-headshot">
+                    <a href="{% url "client_profile" member.pk %}"><img src="{{ member.get_headshot_url }}" alt="{{ member }}"
+                         title="{{ member }}" class="basic-tooltip img-circle" /></a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

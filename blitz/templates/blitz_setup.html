@@ -1,0 +1,92 @@
+{% extends "client_content.html" %}
+
+{% block morehead %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/style.css' />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+  });
+  </script>
+{% endblock %}
+
+{% block above_content %}
+
+    <div class="landscape-header coverphoto2">
+        <div class="landscape-header-top" style="height:50%;">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="landscape-header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <div class="content">
+                            <div class="title">New Group Blitz</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block main %}
+
+    <form class="form" action="#" method="post">
+    {% csrf_token %}
+      <div class="well span4">
+        <div class="fieldWrapper">{{ form.title }}</div>
+        <div class="fieldWrapper">
+<small>Short url for your blitz, eg. /Blitz.us/</small><b><u>{{ trainer.short_name }}/Group1</u></b>
+        {{ form.url_slug }}<br><a style="color:red;">{{ form.url_slug.errors }}</a>
+        </div>
+
+        <table><tr>
+        <td>Program:</td> <td><select name="program" id="program" class="selectpicker show-tick">
+        {% for program in programs %}
+        <option value="{{ program }}">{{ program }}</option>
+        {% endfor %}
+        </select></td></tr><tr>
+        <td>Type:</td> <td><select name="blitz_type" id="blitz_type" class="selectpicker show-tick">
+        <option value="IND">Individual</option>
+        <option value="GRP">Group</option>
+        </select></td></tr>
+        </table>
+
+    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+          $(document).ready(function(e) {
+              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", width: "160px" });
+          });
+    </script>
+        <br>
+        <input type="text" class="datepicker" id="datepicker" name="start_day" placeholder="Start Date" style="width: 140px;" value="{{ form.start_day.value }}"></td></tr>
+
+        <div class="fieldWrapper">{{ form.charge }}
+        </div>
+     </form>
+  {% if errors %}
+     <div class="alert alert-warning" role="alert">
+        {% for e in errors %}
+           <li><small>{{ e }}</small></li>
+        {% endfor %}
+     </div>
+  {% endif %}
+     <button class="obtn btn btn-warning">Create Blitz</button>
+   </div>
+</div>
+</div>
+</div>
+
+{% endblock main %}

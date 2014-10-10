@@ -1,0 +1,180 @@
+{% extends "client_content.html" %}
+{% load custom_exercise %}
+{% load units_tags %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#workout-notes").expandingTextarea();
+
+        function finishExercise(slug) {
+            $('.exercise-group[data-exercise="' + slug + '"]').addClass('exercise-finished');
+            $('#collapse-' + slug).collapse('hide');
+        }
+
+        function unFinishExercise(slug) {
+            $('.exercise-group[data-exercise="' + slug + '"]').removeClass('exercise-finished');
+            $('#collapse-' + slug).collapse('show');
+        }
+
+        $('.save-sets').on('click', function() {
+
+            var lift_slug = $(this).data('lift');
+            var postdata = {};
+            var formdata = $('.log-workout-form').serializeArray();
+            for (var i=0; i<formdata.length; i++) {
+
+                // don't submit empty post values - not supported in api
+                if (formdata[i].value == '') continue;
+
+                postdata[formdata[i].name] = formdata[i].value;
+                postdata['sets'] = $(this).data('sets');
+                postdata['week_number'] = $(this).data('week_number');
+                postdata['day_char'] = $(this).data('day_char');
+            }
+
+            $.post('/api/save-sets', postdata, function(data) {
+                for (var pk in data.set_errors) {
+                    if (data.set_errors[pk] == "") {
+                        $('.set-error[data-set_pk="' + pk + '"]').hide();
+                    } else {
+                        $('.set-error[data-set_pk="' + pk + '"]').show();
+                        $('.set-error[data-set_pk="' + pk + '"]').html(data.set_errors[pk]);
+                    }
+                }
+                if (data.has_error) {
+                    unFinishExercise(lift_slug);
+                }
+                else {
+                    finishExercise(lift_slug);
+                }
+            });
+        });
+        $('.lift-toggle').on('click', function() {
+            var parent = $(this).closest('.exercise-group');
+            var lift = parent.data('exercise');
+            var settype = $(this).data('settype');
+            $('input[name="' + lift + '-settype"]').val(settype);
+            if (settype == 'B') {
+                parent.find('.workout-input-weight').hide();
+            } else {
+                parent.find('.workout-input-weight').show();
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block main %}
+
+<div class="span8 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd;">
+
+    <h2>Today's Workout: {{ workout.display_name }}</h2>
+
+    <p>
+        Log what you lifted today at the gym below.
+        Record only your working sets.
+        You can add notes for your trainer at the end too.
+    </p>
+
+    <form action="#" method="post" class="log-workout-form">
+        {% csrf_token %}
+
+        <div class="accordion">
+
+            {% for group in grouped_sets %}
+
+                <div class="accordion-group exercise-group" data-exercise="{{ group.lift.slug }}" data-weight_or_body="{% if group.lift.weight_or_body %}yes{% else %}no{% endif %}" >
+                    <div class="accordion-heading">
+                        <a class="accordion-toggle" data-toggle="collapse" href="#collapse-{{ group.lift.slug }}">
+                            {{ group.lift }}: <span class="small">{{ group.title }}</span>
+                        </a>
+                    </div>
+                    <div id="collapse-{{ group.lift.slug }}" class="accordion-body collapse in">
+                        <div class="accordion-inner">
+
+                            <div class="last-lift">
+                            {% if not group.lift_summary.has_completed %}
+                            &nbsp;
+                            {% else %}
+                                <p>Last time, you did
+                                    {% for a in group.lift_summary.last_session %}
+                                    {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}
+                                    {% endfor %}.
+                                </p>
+                            {% endif %}
+                            </div>
+
+                            {% if group.lift.weight_or_body and group.lift.allow_weight_or_body %}
+                            <div class="set-container">
+                                <div class="btn-group" data-toggle="buttons-radio">
+                                    <button id="{{ group.lift.slug }}-toggle-B" data-settype="B" type="button" class="btn btn-primary lift-toggle active">Body Wt</button>
+                                    <button id="{{ group.lift.slug }}-toggle-A" data-settype="A" type="button" class="btn btn-primary lift-toggle">Assisted</button>
+                                    <button id="{{ group.lift.slug }}-toggle-W" data-settype="W" type="button" class="btn btn-primary lift-toggle">Weighted</button>
+                                </div>
+                            </div>
+                                <input type="hidden" name="{{ group.lift.slug }}-settype" value="B" />
+                            {% endif %}
+
+                            {% for set_info in group.set_infos %}
+                                <div class="set-container">
+                                    <div class="set-error" style="display:none;" data-set_pk="{{ set_info.workout_set.pk }}">
+
+                                    </div>
+                                    <div class="workout-input workout-input-weight input-append" {% if group.lift.weight_or_body %}style="display:none;"{% endif %}>
+                                        <input type="number" step="any"
+                                               class="input-small"
+                                               name="set-{{ set_info.workout_set.pk }}-weight"
+                                               {% if set_info.completed_set %}value="{{ set_info.completed_set.weight_in_lbs|lbs_conversion:client }}"{% endif %}
+                                                />
+                                        <span class="add-on">{{ client.units|weight_label }}</span>
+                                    </div>
+                                    <div class="workout-input workout-input-reps input-append">
+                                        <input type="number" step="any"
+                                               class="input-small"
+                                               name="set-{{ set_info.workout_set.pk }}-reps"
+                                               {% if set_info.completed_set %}
+                                               value="{{ set_info.completed_set.num_reps_completed }}"
+                                               {% else %}
+                               value="{{ set_info.workout_set|custom_workoutset_num_reps:client }}"
+                                               {% endif %}
+                                                />
+                                        <span class="add-on">
+                                            {% if group.lift.lift_type == "I" %}secs{% else %}reps{% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        <div class="set-container">
+                            <a class="save-sets obtn"
+                                    data-sets="{% for set_info in group.set_infos %}{{ set_info.workout_set.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                                    data-week_number="{{ plan_day.get_week }}"
+                                    data-day_char="{{ plan_day.day_of_week }}"
+                                    data-lift="{{ group.lift.slug }}" >
+                                {% if group.exercise.num_sets > 1 %}Save These Sets{% else %}Save This Set{% endif %}
+                            </a>
+                        </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="notes-container">
+            <textarea id="workout-notes" name="notes" placeholder="Additional notes..." >{{ gym_session.notes }}</textarea>
+        </div>
+
+        <div class="submit-container">
+            <button type="submit" class="obtn log-workout-submit">
+                Log Workout <i class="icon-arrow-right icon-white"></i>
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

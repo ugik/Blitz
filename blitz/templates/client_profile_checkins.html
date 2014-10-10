@@ -1,0 +1,45 @@
+{% extends "client_profile.html" %}
+{% load units_tags %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+{% endblock %}
+
+{% block profile_page_content %}
+
+    {% if user == client.user %}
+      <a href="/client-checkin">
+         <button class='obtn obtn-comment'>Check-in</button>
+      </a>
+    {% endif %}
+
+    {% for checkin in checkins %}
+    <div class="settings-block">
+    <div class="title">Check-in {{ checkin.date_created }}</div>
+    <div class="content">
+    <table>
+        <td><h3>Weight: {{ checkin.weight|lbs_conversion:client }} {{ client.units|weight_label }}</h3></td></tr>
+        <tr>
+        <td><img src="/media/{{ checkin.front_image }}"/></td></tr>
+        <tr>
+        <td><img src="/media/{{ checkin.side_image }}" /></td></tr>
+    </table>
+    </div>
+    </div>
+
+    {% empty %}
+        {% if user == client.user %}
+            <div class="empty-placeholder">
+                <div class="title">Once you check-in, we'll show your history here.</div>
+                <div class="subtitle">You'll be able to look through your past check-ins.</div>
+            </div>
+        {% else %}
+            <div class="empty-placeholder">
+                <div class="title">{{ client }} hasn't completed any check-ins yet.</div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+

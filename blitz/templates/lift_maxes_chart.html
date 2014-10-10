@@ -1,0 +1,23 @@
+{% load units_tags %}
+
+<div class="lift-maxes-chart">
+    <div class="header">{{ lift }}</div>
+    <div class="content">
+        {% for gym_session, m in maxes %}
+            <div class="max-block basic-tooltip" data-container="body" data-placement="top" style="margin-top: {% widthratio m.reverse_ratio_of_pr 1 240 %}px;"
+                 data-title="{{ m.weight_in_lbs|lbs_conversion:client }} {{ client.units|weight_label }} for {{ m.num_reps_completed }} reps on {{ m.gym_session.date_of_session|date:"n/j/y" }} (Week {{ m.gym_session.workout_plan_day.workout_plan_week.week }})" >
+                <div class="info">
+                    <div class="weight">{{ m.weight_in_lbs|lbs_conversion:client }}</div>
+                    <div class="reps">x{{ m.num_reps_completed }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="xaxis">
+        {% for gym_session, m in maxes %}
+            <div class="week">
+                Wk {{ m.gym_session.workout_plan_day.workout_plan_week.week }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
