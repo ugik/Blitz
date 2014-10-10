@@ -392,11 +392,11 @@ textarea:focus {
   box-shadow:none !important;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  border: 1px solid $orange;
+  border: 1px solid $fadedblue;
 }
 
 textarea:hover {
-  border: 1px solid $orange;
+  border: 1px solid $fadedblue;
 }
 
 textarea,textarea:focus {
@@ -1176,7 +1176,7 @@ a.edit-workout-link {
     .max-block {
       float: left;
       width: 55px;
-      background: $orange;
+      background: $fadedblue;
       height: 260px;
       margin: 0 10px;
       top: 20px;
@@ -1715,14 +1715,14 @@ text-shadow: 0 -0px 0 rgba(0,0,0,0.0);
 
 
 .btn-primary:active, .btn-primary.active {
-background-color: $orange;
+background-color: $fadedblue;
 text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
 background-color: rba(255,255,255,0.3);
 color: #fff;
-background-color: $orange;
+background-color: $fadedblue;
 background-position: 0 -30px;
 }
 
@@ -2175,7 +2175,9 @@ hr { margin-top: 60px;}
   @include mobile-only {float: left;}; 
 }
 
-
+.full-width {
+  width: 100% !important;
+}
 
 .sales-btn {
   @include tablet-portrait-and-up { font-size: 2.5em; };
@@ -2196,7 +2198,7 @@ hr { margin-top: 60px;}
 }
 
 .formpage-block {
-  background: rgba(255,255,255,.1);
+  //background: rgba(255,255,255,.1);
   @include mobile-only {background: none;};
   padding: 20px;
   margin-bottom: 20px;
@@ -2262,14 +2264,14 @@ hr { margin-top: 60px;}
     transition: border .75s ease;
   }
   input:hover {
-    border: 1px solid $orange;
+    border: 1px solid $fadedblue;
   }
   input:focus {
-    border: 1px solid $orange;
+    border: 1px solid $fadedblue;
     //@mixin boxshadow(0px,0px,3px,3px,rgb(241, 94, 56));
-    -webkit-box-shadow: 0px 0px 5px 1px rgb(241, 94, 56);
-    -moz-box-shadow: 0px 0px 5px 1px rgb(241, 94, 56);
-    box-shadow: 0px 0px 5px 1px rgb(241, 94, 56);
+    -webkit-box-shadow: 0px 0px 5px 1px $fadedblue;
+    -moz-box-shadow: 0px 0px 5px 1px $fadedblue;
+    box-shadow: 0px 0px 5px 1px $fadedblue;
   }
 
   input[type="number"] {
@@ -2286,6 +2288,11 @@ hr { margin-top: 60px;}
     color: rgba(237, 42, 68, 1.0);
     @include boldfont();
     font-size: 11px;
+  }
+
+ a.error {
+    color: rgba(237, 42, 68, 1.0);;
+    :hover {text-decoration: none;};
   }
 
   .error-user-email, .error-user-password, .error-user-name {
@@ -2813,13 +2820,13 @@ input::-webkit-inner-spin-button {
     0% {
         visibility: visible;
         width: 0%;
-        background-color: $orange;
+        background-color: $fadedblue;
         color: white;
     }
     95% {
         visibility: visible;
         width: 100%;
-        background-color: $orange;
+        background-color: $fadedblue;
         color: white;
     }
     100% {
@@ -2833,13 +2840,13 @@ input::-webkit-inner-spin-button {
     0% {
         visibility: visible;
         width: 0%;
-        background-color: $orange;
+        background-color: $fadedblue;
         color: white;
     }
     95% {
         visibility: visible;
         width: 100%;
-        background-color: $orange;
+        background-color: $fadedblue;
         color: white;
     }
     100% {
@@ -2853,13 +2860,13 @@ input::-webkit-inner-spin-button {
     0% {
         visibility: visible;
         width: 0%;
-        background-color: $orange;
+        background-color: $fadedblue;
         color: white;
     }
     95% {
         visibility: visible;
         width: 100%;
-        background-color: $orange;
+        background-color: $fadedblue;
         color: white;
     }
     100% {
