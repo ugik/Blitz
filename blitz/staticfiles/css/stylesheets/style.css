@@ -724,7 +724,7 @@ h3 {
 
 /* line 795, ../sass/style.scss */
 .trainer-comment {
-  background: #e3eefc;
+  background: #f3f8fc;
 }
 
 /* line 799, ../sass/style.scss */
@@ -3542,7 +3542,7 @@ input::-webkit-inner-spin-button {
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 15px solid #e3eefc;
+  border-right: 15px solid #f3f8fc;
   float: left;
   margin-left: -13px;
   margin-top: 20px;
