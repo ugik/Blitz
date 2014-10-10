@@ -1,5 +1,5 @@
 
-$fadedblue: #30909C;
+$fadedblue: #7ab2ea;
 $border: 1px solid rgba(0,0,0,0.05);
 $imageborder: 3px solid white;
 $linkcolor: #7ab2ea;
@@ -7,10 +7,10 @@ $parentpadding: 18px 20px;
 $childpadding: 12px 16px 12px 32px;
 $mainfontcolor: #515352;
 $lightfontcolor: #4B4B4A;
-$trainercommentcolor: rgba(42, 144, 157, 0.1);
+$trainercommentcolor: #e3eefc;
 $commentbg: #FAFCFB;
 $commentactionsbg: #F0F2F3;
-$navbarblue: #179DAE;
+$navbarblue: #7ab2ea;
 $orange: rgb(241, 94, 156);
 
 
@@ -74,6 +74,17 @@ $orange: rgb(241, 94, 156);
   background: inherit;
   box-shadow: none;
   border: none;
+}
+
+@mixin blitz-gradient() {
+  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+  //background-image: -o-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
+  //background-image: -moz-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
+  //background-image: -ms-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
+  //background-image: linear-gradient(-179deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
 }
 
 /**
@@ -379,7 +390,9 @@ textarea,textarea:focus {
 #colorstripe {
   display: block;
   height: 2px;
-  background: url('/static/images/colorstripe.png') repeat-x;
+  //background: url('/static/images/colorstripe.png') repeat-x;
+  @include blitz-gradient();
+  
 }
 
 #altcolorstripe {
@@ -403,6 +416,7 @@ textarea,textarea:focus {
   float: left;
   position: relative;
   padding-right: 50px;
+  margin-top: 10px;
 }
 
 #top-level-navs {
@@ -798,7 +812,8 @@ h3 {@include lightfont();}
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
     color: white;
-    background: $fadedblue;
+    @include blitz-gradient();
+    //background: $fadedblue;
     padding: $parentpadding;
     border-bottom: $border;
     font-size: 18px;
@@ -830,7 +845,7 @@ a.edit-workout-link {
 
 .exercise-matrix {
   background-color: black;
-  @include tablet-portrait-and-up { background: url('/static/images/background3.jpg'); background-position: 0px;};
+  @include tablet-portrait-and-up { background: url('/static/images/background.png'); background-position: 0px;};
   color: white;
   overflow: auto;
   .exercise-container.even {
@@ -1336,7 +1351,12 @@ a.edit-workout-link {
   -moz-appearance: button-bevel !important;
   -ms-appearance: button-bevel !important;
   -o-appearance: default-button !important;
-  @include transition(0.25s,ease);
+  //@include transition(0.25s,ease);
+  -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -ms-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
 }
 
 a.obtn:active {
@@ -1385,7 +1405,7 @@ color: #fff;
   @include boldfont();
   padding: 10px;
   margin-right: 5px;
-  background-color: #30909C;
+  background-color: $navbarblue;
   color: #fff;
   display: inline-block;
   position: relative;
