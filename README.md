@@ -39,6 +39,6 @@ Start the development server, and log in with the following logins:
 
 ### Adding test data
 
-See base/management/commands/setup_new_stuff.py for loading additional test data, specifically new clients for trainers. A group of clients on a program for a trainer is called a 'Flame'.
+See base/management/commands/setup_new_stuff.py for loading additional test data, specifically new clients for trainers. A group of clients on a program for a trainer is called a 'Blitz'.
 
 
