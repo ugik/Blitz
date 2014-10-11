@@ -13,7 +13,7 @@ from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
 
-from base.models import Client, Trainer, Blitz, SalesPageContent
+from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
 from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
@@ -29,7 +29,10 @@ def helper_index(request):
 
 @login_required
 def helper_usage(request):
-    return render(request, 'usage.html')
+    trainers = Trainer.objects.all()
+    clients = Client.objects.all()
+    members = BlitzMember.objects.all()
+    return render(request, 'usage.html', {'trainers':trainers, 'clients':clients, 'members':members})
 
 @login_required
 def helper_delete(request):

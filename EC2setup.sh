@@ -32,6 +32,7 @@ sudo pip install Pillow
 
 #grab requirements
 sudo pip install -r requirements.txt
+sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 sudo pip install six --upgrade
 sudo pip install django-bootstrap-toolkit
 
@@ -77,6 +78,7 @@ sudo a2ensite $project.conf
 
 # static files
 sudo chown ubuntu:ubuntu /home/ubuntu/$project
+sudo chown ubuntu:ubuntu /home/ubuntu/$project_app
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
 sudo /etc/init.d/apache2 restart
