@@ -2,9 +2,8 @@
 
 {% block morehead %}
 
-<div class="video-overlay" style="right: 0; bottom: 0; min-width: 100%; min-height: 100%;
- width: auto; height: auto; z-index: -99; background-color: rgba(0,0,0,0.80);">
-  <video autoplay loop poster="http://dl.dropbox.com/s/q2offbp3dyl1fnw/blitz-mini-bg%402x.png?dl=0" id="bgvid" >
+<div id="video-overlay">
+  <video autoplay loop poster="/static/images/background.png" id="bgvid" >
       <source src="http://dl.dropbox.com/s/5cabtsa6v6xqvrh/deadliftbgvid.webmhd.webm?dl=0" type="video/webm">
       <source src="http://dl.dropbox.com/s/kygs018hu4ptzqk/deadliftbgvid.mp4?dl=0" type="video/mp4">
   </video>
@@ -17,50 +16,14 @@
             background: transparent; 
           }
 
-          video { 
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -100;
-            background: url('/bg.png') no-repeat;
-            background-size: cover;
-          }
-
-          #video-overlay { 
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -99;
-            background-color: rgba(0,0,0,0.80);}
-
-      #form-container {
-        margin-top: 1%;
-        width: 33%;
-        margin-left: 33%;
-      }
-
-      .hook {
-        margin-top: -5px;
-        font-size: 12px;
-        text-align: center;
-      }
-
-      @media only screen and (max-device-width: 750px) {
-        html { background: url('http://dl.dropbox.com/s/q2offbp3dyl1fnw/blitz-mini-bg%402x.png?dl=0') #000 no-repeat center center fixed; }
+      @media only screen and (max-width: 750px) {
+          #video-overlay { background-color: rgba(0,0,0,0); }
           #bgvid { display: none; }
-        #form-container {width: 80%; margin-left: 10%;}
-        #mc_embed_signup label {font-size: 48pximportant;}
-        .hook {font-size: 30px;}
-         #mc_embed_signup_scroll input {font-size: 48px;}
-        #mc_embed_signup input.button {font-size: 48px; padding: 20px 10px; height: auto!important;}
+          #form-container {width: 80%; margin-left: 10%;}
+          #mc_embed_signup label {font-size: 48pximportant;}
+          .hook {font-size: 30px;}
+           #mc_embed_signup_scroll input {font-size: 48px;}
+          #mc_embed_signup input.button {font-size: 48px; padding: 20px 10px; height: auto!important;}
         
       }
 
