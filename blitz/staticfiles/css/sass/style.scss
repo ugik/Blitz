@@ -27,7 +27,7 @@ $orange: #eca368;
 }
 
 
-@mixin borderbox {
+@mixin borderbox() {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1180,9 +1180,15 @@ a.edit-workout-link {
   background: $navbarblue;
   overflow: auto;
   text-decoration: none;
+  text-align: center;
   .tab {
     padding: 20px;
-    @include mobile-only {padding: 10px};
+    @include borderbox();
+    @include mobile-only {
+      padding: 10px;
+      width: 50%;
+      float: left;
+      };
     float: left;
     border: solid 1px rgba(0,0,0,0.1);
     a {
@@ -2924,7 +2930,7 @@ input::-webkit-inner-spin-button {
   padding: 20px;
   text-align: center;
   margin-right: 30px;
-  @include borderbox{};
+  @include borderbox();
   p {margin-top: -5px;};
 }
 
