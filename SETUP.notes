@@ -39,9 +39,16 @@ tar -czf backup.tar.gz --exclude=*.mp4 --exclude=*.jpg .
 ./manage.py schemamigration <appname> --auto
 ./manage.py migrate <appname>
 
-#celery
+#celery supervisord
 http://www.marinamele.com/2014/02/how-to-install-celery-on-django-and.html
+http://bixly.com/blog/supervisord-or-how-i-learned-to-stop-worrying-and-um-use-supervisord/
+blitz/__init__.py 
+if not settings.DEBUG or True:
+    from .celery import app as celery_app
+
 sudo rabbitmq-server -detached
+./manage.py celeryd -v 2 -B -E -l DEBUG
+# or celeryd and celerybeat separate:
 python manage.py celeryd --verbosity=2 --loglevel=DEBUG
 python manage.py celerybeat --verbosity=2 --loglevel=DEBUG
 

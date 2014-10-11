@@ -22,11 +22,11 @@ import datetime
 # celery periodic tasks http://celeryproject.org/docs/reference/celery.task.schedules.html#celery.task.schedules.crontab  
 
 @task()
-def email_bt(): 
-    send_mail('hi', 'test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
+def email_test(): 
+    send_mail('Celery test', 'Hourly test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
 
 
-@periodic_task(run_every=crontab(hour="*/1", minute="*", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="*/1", minute="1", day_of_week="*"))  
 def trainer_alerts():
     for client in Client.objects.all():
         blitz = client.get_blitz()
@@ -40,7 +40,7 @@ def trainer_alerts():
         yesterday = client.current_datetime().date() + datetime.timedelta(days=-1)
         create_alerts_for_day(client, yesterday)
 
-@periodic_task(run_every=crontab(hour="*/1", minute="*", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="*/1", minute="2", day_of_week="*"))  
 def client_morning_notifications():
     for client in Client.objects.all():
 
@@ -61,8 +61,9 @@ def client_morning_notifications():
             } )
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
-@periodic_task(run_every=crontab(hour="*/1", minute="*", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="*/10", minute="*", day_of_week="*"))  
 def process_payments():
+    email_test()
     pass
 # for each client with recurring chargesettings: process recurring charge, handle errors
 
