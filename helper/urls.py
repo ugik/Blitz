@@ -20,6 +20,9 @@ urlpatterns = patterns(
     url(r'^custom_exercise$', 'helper.views.helper_custom_exercise', name='helper_custom_exercise'),
 
     url(r'^pending_trainers$', 'helper.views.helper_pending_trainers', name='helper_pending_trainers'),
+    url(r'^status_trainers$', 'helper.views.helper_status_trainers', name='helper_status_trainers'),
+    url(r'^assign_workoutplan$', 'helper.views.assign_workoutplan', name='helper_assign_workoutplan'),
+
     url(r'^download$', 'helper.views.helper_download', name='helper_download'),
     url(r'^delete$', 'helper.views.helper_delete', name='helper_delete'),
     )
