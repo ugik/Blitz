@@ -700,8 +700,8 @@ def blitz_feed(request):
         feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
 
     elif feed_scope == 'client':
-        client = Client.objects.filter(pk=obj_id)
-        feed_items = FeedItem.objects.filter( Q(comments__user__client = client) | Q(gymsessions__client = client) ).order_by('-pub_date')[offset:offset+10]
+        # client = Client.objects.filter(pk=obj_id)
+        feed_items = []
 
     ret = {
         'feeditems': [],
@@ -1541,6 +1541,8 @@ def trainer_dashboard(request):
 
     blitzs = request.user.trainer.active_blitzs()
     clients = request.user.trainer.all_clients()
+
+    print '::request.user.user.flame.members: ', request.user.blitz.members
 
     if blitzs and clients:
         return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzs': blitzs, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})

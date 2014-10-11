@@ -24,7 +24,7 @@
 		<ul class='filters'>
 			<li class="active" data-scope='all'>
 				<div class="item">
-					<img class="img-circle headshot" src="{{ STATIC_URL }}images/flame.png"/> All Updates
+					<img class="img-circle headshot" src="{{ STATIC_URL }}images/blitz.png"/> All Updates
 				</div>
 			</li>
 			<li data-scope='inbox'>
@@ -32,10 +32,10 @@
 					<span class="img-circle headshot icon icon-envelope" style="color: white;"></span> Inbox
 				</div>
 			</li>
-			{% for flame in flames %}
-			<li class='flame' data-object-pk="{{ flame.pk }}" data-scope='flame'>
+			{% for blitz in blitzs %}
+			<li class='blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 				<div class="item">
-					<img class="img-circle headshot" src="{{ MEDIA_URL }}"/> {{ flame.title }}
+					<img class="img-circle headshot" src="{{ MEDIA_URL }}"/> {{ blitz.title }}
 				</div>			
 			</li>
 			{% endfor %}
@@ -67,7 +67,7 @@
 
 		<div class="content row-fluid">
 			<div class="feeds">
-				{% if user.flame and user.flame.members %}
+				{% if user.blitz and user.blitz.members %}
 		        	{% include "main_feed.html" %}
 		        {% else %}
 		        <b>Time to do something to get a program started...</b>
