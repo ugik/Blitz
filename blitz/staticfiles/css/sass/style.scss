@@ -338,11 +338,28 @@ Example @include keyframes
 
 .blitz-login {
   margin-top: 30%;
+  @include mobile-only { 
+    margin-top: 10%l
+    }
 }
 
 .blitz-login img {
   display: block;
   margin: 0 auto;
+}
+
+.blitz-signup-info {
+  background: rgba(255,255,255,0.15);
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  margin-top: 60px;
+  //@include iosblur();
+  .img-circle {
+    min-width: 75px;
+    margin-bottom: 20px;
+    margin-top: -50px;
+  }
 }
 
 .navbar {
@@ -428,9 +445,35 @@ body {
 
 body.login-page {
   background: url('/static/images/background.png') #1c1c1c;
-  background-size: 100%;
   @include mobile-only { background: url('/static/images/minibackground.jpg'); }
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
+
+video { 
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  background: url('/background.png') no-repeat;
+  background-size: cover;
+}
+
+#video-overlay { 
+  //position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -99;
+  background-color: rgba(0,0,0,0.80);
+  }
 
 textarea {
   -webkit-box-sizing: border-box;
