@@ -2451,6 +2451,10 @@ text-decoration: none;
 }
 
 .alert-info {
+  //background: rgba(236,163,104, .05);
+  background: white;
+  color: $orange;
+  border: 1px solid $orange;
   //display: none;
 }
 
