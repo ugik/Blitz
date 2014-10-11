@@ -3345,3 +3345,78 @@ a.feed-permalink-grey {
 #dashboard .sidebar-left ul.filters li {
   @include transition(0.5s, ease);
 }
+
+input#id_document {
+  min-width: 50%;
+  max-width: 750px;
+  background: white;
+  //border: 2px solid $fadedblue;
+  @include transition(0.5ms, ease);
+  @include borderradius(5px);
+  text-decoration: none !important;
+  color: $fadedblue;
+  text-align: center;
+  //margin: 0 auto;
+  //width: 30%;
+  @include meta();
+}
+
+label#id_document.upload {
+  background: white;
+  border: 2px solid $fadedblue;
+  @include transition(0.5s, ease);
+  @include borderradius(5px);
+  text-decoration: none !important;
+  color: $fadedblue;
+  text-align: center;
+  //margin: 0 auto;
+  //width: 30%;
+  @include meta();
+  font-size: 24px;
+  padding: 20px 10px;
+  min-width: 50%;
+  max-width: 750px;
+}
+
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  //font-size: 20px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.btn-outline {
+  background: white;
+  border: 2px solid $fadedblue;
+  @include transition(0.5s, linear);
+  @include borderradius(5px);
+  text-decoration: none !important;
+  color: $fadedblue;
+  text-align: center;
+  //margin: 0 auto;
+  //width: 30%;
+  @include meta();
+  font-size: 24px;
+  padding: 20px 10px;
+  :hover {
+    background: $fadedblue;
+    color: white;
+  }
+}
+
+.upload-btn {
+  max-width: 575px;
+  min-width: 50%;
+}

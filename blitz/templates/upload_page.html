@@ -3,39 +3,71 @@
 {% block morehead %}
 {% endblock %}
 
-{% block main %}
-<div class="span8">
+{% block above_content %}
 
-{% include "trainer_above_content.html" with title="Let's upload your training documents." %}
-
-{% if docs > 0 %}
-<div class="alert alert-info">
-<b>You've uploaded {{ docs }} document(s) that are pending...</b>
-</div>
-{% endif %}
-
-
-<form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
-
-    <input type="file" name="document" id="id_document" style="height:0;"/>
-    <label id="id_document" name="document" for="id_document" style="
-               text-align: center;
-               color: white;
-               background-color: green;
-               width: 100px;
-               border-radius: 3px;
-               font-weight: 800;
-               font-size: 12pt; "/>Select File</label>
-
-<!--    <img src="{{ STATIC_URL }}images/logo.png" width="9%" height="9%"/></label> -->
-
-<br>
-    <div class="submit-container">
-    <button class='obtn obtn-half' type='submit'>Upload</button>
+    <div class="landscape-header coverphoto2">
+        <div class="landscape-header-top" >
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="landscape-header-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <div class="content">
+                            <div class="title">Training programs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
 
-</div>
+{% endblock %}
+
+{% block main %}
+
+    {% if docs > 0 %}
+      <div class="alert alert-info">
+        <b>You've uploaded {{ docs }} document(s) that are pending...</b>
+      </div>
+    {% endif %}
+
+    <script>
+      //document.getElementById("file").onchange = function() {
+      //document.getElementById("form").submit();
+      //}; /*  was trying to get form to auto submit upon upload*/
+      function uploadFile_onChange(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            $('.prif_img').attr('src', e.target.result).width(120).height(150);
+
+
+              };
+
+              reader.readAsDataURL(input.files[0]);
+          }
+      }
+    </script>
+    <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+
+        <input type="file" name="document" id="file" style="height:0;"/>
+        <label id="file" name="document" for="file"/ class="btn-outline upload-btn" >Upload a File</label>
+
+    <!--    <img src="{{ STATIC_URL }}images/logo.png" width="9%" height="9%"/></label> -->
+
+    <br>
+        <div class="submit-container">
+        <button class='obtn' style="min-width: 50%;" type='submit'>Upload</button>
+        </div>
+    </form>
+
 
 {% endblock %}
 
