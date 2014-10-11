@@ -6,6 +6,10 @@ class TrainerIDForm(forms.Form):
     trainer_id = forms.CharField(max_length=5)
     program_name = forms.CharField(max_length=40)
 
+class AssignPlanForm(forms.Form):
+    trainer_id = forms.CharField(max_length=5)
+    blitz_id = forms.CharField(max_length=5)
+
 class SalesPageForm(ModelForm):
     class Meta:
         model = SalesPageContent

@@ -74,8 +74,7 @@ sudo a2dissite 000-default
 sudo a2ensite $project.conf
 
 # static files
-cd /home/ubuntu
-sudo chmod o+rwx -R $project_app/collected_static
+sudo chown ubuntu:ubuntu /home/ubuntu/$project_app
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
 sudo /etc/init.d/apache2 restart
