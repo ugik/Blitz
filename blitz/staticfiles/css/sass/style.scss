@@ -441,6 +441,9 @@ body {
   // this code may be questionable; trying to fix tablet layout
   width: 100%;
   padding: 0px;
+  a {
+    @include transition(0.5s, ease);
+  }
 }
 
 body.login-page {
@@ -1050,7 +1053,7 @@ a.edit-workout-link {
     margin-bottom: 20px;
   }
   .accordion-heading {
-    @include transition(0.25s, linear);
+    @include transition(0.25mems, linear);
     a {
       text-decoration: none;
       padding: 18px;
@@ -1328,13 +1331,13 @@ a.edit-workout-link {
   margin-bottom: 30px;
 }
 
-.flame-member-block-container {
+.blitz-member-block-container {
   border: $border;
   margin-bottom: 30px;
   background: #f0f0f0;
 }
 
-.flame-member-block {
+.blitz-member-block {
   padding: 20px;  
   overflow: auto;
   @include transition(0.25s,ease-in);
@@ -1372,11 +1375,11 @@ a.edit-workout-link {
 
 .img-circle {@include boxshadow(0px,0px,2px,1px,rgba(0,0,0,.1));}
 
-.flame-member-block:hover {
+.blitz-member-block:hover {
   background: rgba(0,0,0,0.025)  
 }
 
-.flame-member-block:focus {
+.blitz-member-block:focus {
   background: rgba(0,0,0,0.05)
   }
 
@@ -1390,7 +1393,7 @@ a.edit-workout-link {
   }
 }
 
-.flame-video {
+.blitz-video {
   width: 100%;
   background: #a9a9a9;
   overflow: auto;
@@ -1609,7 +1612,7 @@ a:focus {
   padding: 20px;
 }
 
-.flame-modal {
+.blitz-modal {
   @include borderradius(0px);
   border: 2px solid #444444;
   .header {
@@ -1631,7 +1634,7 @@ a:focus {
 }
 
 
-.flame-login {
+.blitz-login {
   padding-top: 10%;
   text-align: center;
   img {
@@ -2384,6 +2387,7 @@ hr { margin-top: 60px;}
     position: relative;
     left: -8px;
     font-size: 16px;
+    text-align: center;
     @include lightfont();
     @include borderradius(0);
   }
@@ -2601,7 +2605,7 @@ text-decoration: none;
 
 }
 
-.flame-signup-info {
+.blitz-signup-info {
   position: relative;
   font-size: 16px;
   img.trainer-headshot {
@@ -2611,7 +2615,7 @@ text-decoration: none;
     right: 10px;
     top: -55px;
   }
-  .flame-title {
+  .blitz-title {
     @include boldfont();
     padding: 15px 0;
   }
@@ -2625,7 +2629,7 @@ text-decoration: none;
   }
 }
 
-.flame-cost {
+.blitz-cost {
   text-align: center;
   .title {
     font-size: 20px;
@@ -3169,7 +3173,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.which-flame {
+.which-blitz {
   background: #fafcfb;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
@@ -3475,7 +3479,7 @@ label#id_document.upload {
   //width: 30%;
   @include meta();
   font-size: 24px;
-  padding: 20px 10px;
+  padding: 10px 20px;
   :hover {
     background: $fadedblue;
     color: white;
