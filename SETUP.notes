@@ -46,11 +46,10 @@ blitz/__init__.py
 if not settings.DEBUG or True:
     from .celery import app as celery_app
 
-sudo rabbitmq-server -detached
-./manage.py celeryd -v 2 -B -E -l DEBUG
-# or celeryd and celerybeat separate:
-python manage.py celeryd --verbosity=2 --loglevel=DEBUG
-python manage.py celerybeat --verbosity=2 --loglevel=DEBUG
+supervisord -c ./supervisord.conf
+supervisorctl stop all
+supervisord.conf -->./manage.py celeryd -v 2 -B -E -l DEBUG
+
 
 #flame signup w/text CC
 (John Doe, cc#4111111111111111 exp:12/2020 code:123)

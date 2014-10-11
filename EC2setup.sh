@@ -76,10 +76,12 @@ sudo a2dissite 000-default
 sudo a2ensite $project.conf
 
 # static files
-sudo chown ubuntu:ubuntu /home/ubuntu/$project_app
+sudo chown ubuntu:ubuntu /home/ubuntu/$project
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
 sudo /etc/init.d/apache2 restart
+echo "Supervisord started..."
+supervisord -c ./supervisord.conf
 
 # setup remote git repo and hooks
 cd /home/ubuntu

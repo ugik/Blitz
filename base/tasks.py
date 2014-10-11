@@ -23,7 +23,7 @@ import datetime
 
 @task()
 def email_test(): 
-    send_mail('Celery test', 'Hourly test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
+    send_mail('Celery email test', 'Daily test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
 
 
 @periodic_task(run_every=crontab(hour="*/1", minute="1", day_of_week="*"))  
@@ -61,7 +61,7 @@ def client_morning_notifications():
             } )
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
-@periodic_task(run_every=crontab(hour="*/10", minute="*", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="1", minute="1", day_of_week="*"))  
 def process_payments():
     email_test()
     pass

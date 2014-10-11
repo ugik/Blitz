@@ -28,6 +28,10 @@ def helper_index(request):
     return render(request, 'helper.html')
 
 @login_required
+def helper_usage(request):
+    return render(request, 'usage.html')
+
+@login_required
 def helper_delete(request):
     filename = settings.MEDIA_ROOT + '/documents/'+request.GET.get('file')
     os.renames(filename, filename+'.backup')

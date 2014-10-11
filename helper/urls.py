@@ -4,6 +4,7 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns(
     '',
     url(r'^index$', 'helper.views.helper_index', name='helper_index'),
+    url(r'^usage$', 'helper.views.helper_usage', name='helper_usage'),
     url(r'^uploads$', 'helper.views.helper_uploads', name='helper_uploads'),
     url(r'^program_upload$', 'helper.views.helper_program_upload', name='helper_program_upload'),
     url(r'^program_create$', 'helper.views.helper_program_create', name='helper_program_create'),

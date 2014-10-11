@@ -199,7 +199,7 @@ class Trainer(models.Model):
     headshot = models.ImageField(upload_to="headshots/", blank=True, null=True)
     external_headshot_url = models.CharField(max_length=1000, default="", blank=True)
     timezone = models.CharField(max_length=40, default='US/Pacific')
-    date_created = models.DateField(("Date"), default=datetime.date.today)
+    date_created = models.DateField(default=datetime.date.today)
 
     forgot_password_token = models.CharField(max_length=40, default="")
 
@@ -285,6 +285,7 @@ class Client(models.Model):
     forgot_password_token = models.CharField(max_length=40, default="")
 
     units = models.CharField(max_length=1, choices=UNIT_CHOICES, default="I", blank=True)
+    date_created = models.DateField(default=datetime.date.today)
 
     # payment
     balanced_account_uri = models.CharField(max_length=200, default="", blank=True)
@@ -621,6 +622,7 @@ class BlitzMember(models.Model):
 
     client = models.ForeignKey(Client)
     blitz = models.ForeignKey(Blitz)
+    date_created = models.DateField(default=datetime.date.today)
 
     def __unicode__(self):
         return "%s enrolled in %s" % (str(self.client), str(self.blitz))
@@ -735,7 +737,7 @@ class CheckIn(models.Model):
     weight = models.IntegerField(null=True, blank=True)
     front_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     side_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
-    date_created = models.DateField(("Date"), default=datetime.date.today)
+    date_created = models.DateField(default=datetime.date.today)
 
     def __unicode__(self):
         return "Check-in %s: \"%s\"" % (self.client.name, self.date_created)

@@ -1132,8 +1132,6 @@ def create_account_hook(request, pk):
     # TODO: there is a race condition if someone else (ie same user in another tab)
     # signs up with the same email address before card is processed. whatever.
 
-#    import pdb; pdb.set_trace()
-
     blitz = get_object_or_404(Blitz, pk=pk)
     form = CreateAccountForm(request.POST)
     if form.is_valid():
@@ -1164,7 +1162,8 @@ def payment_hook(request, pk):
 
         # process payment w/balanced 1.1 API
         import balanced
-        
+
+#        import pdb; pdb.set_trace()    
         marketplace = balanced.Marketplace.query.one()
         try:
             card = balanced.Card.fetch(form.cleaned_data['card_uri'])
