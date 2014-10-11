@@ -1050,16 +1050,29 @@ a.edit-workout-link {
     margin-bottom: 20px;
   }
   .accordion-heading {
+    @include transition(0.25s, linear);
     a {
+      text-decoration: none;
       padding: 18px;
       @include header2();
       span.small {
         @include header2small();
+        @include transition(0.25s, linear);
+      }
+      span.small:hover {
+        color: white;
       }
     }
+    .accordion-toggle:hover {
+    color: white;
+    }
   }
-  .accordion-heading:hover {
-    background-color: rgba(255, 117, 0, 0.05);
+  .accordion-heading:hover, {
+    background-color: $fadedblue;
+    color: white !important;
+  }
+  .accordion-heading:hover span {
+    color: white !important;
   }
 
   .notes-container {
@@ -1747,6 +1760,8 @@ a:focus {
   color: white;
   .accordion-heading a {
     color: white;
+    text-decoration: none;
+    :hover { text-decoration: none;};
   }
   .accordion-toggle {
     color: white;
