@@ -693,7 +693,6 @@ def blitz_feed(request):
         print e
         obj_id = None
 
-
     if feed_scope == 'all':
         feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+10]
 

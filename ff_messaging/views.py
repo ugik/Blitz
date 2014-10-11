@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.utils.timezone import now as timezone_now
+from base.utils import get_inboxfeed_html, JSONResponse
 
 import json
 
@@ -24,6 +25,22 @@ def inbox(request):
         'user_threads': user_threads,
         'new_message_to_user': new_message_to_user
     })
+
+# @login_required()
+def inbox_feed(request):
+    user_threads = UserThread.objects.filter(user=request.user).order_by('-thread__last_message_date')
+    possible_recipients = possible_recipients_for_user(request.user)
+    try:
+        new_message_to_user = request.session.pop('new_message_to_user')
+    except KeyError:
+        new_message_to_user = None
+
+    ret = {
+        # 'recipient_names_json': json.dumps([u.display_name for u in possible_recipients]),
+        # 'recipient_map_json': json.dumps({u.display_name: u.pk for u in possible_recipients}),
+        'html': get_inboxfeed_html(user_threads)
+    }
+    return JSONResponse(ret)
 
 @login_required()
 def new_message(request):

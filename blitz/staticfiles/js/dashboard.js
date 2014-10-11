@@ -72,18 +72,44 @@ $(document).ready(function() {
         FEED_SCOPE = $(this).data('scope') || FEED_SCOPE;
         OBJECT_ID = $(this).data('object-pk') || false;
 
+        // Hide and clear client summary
         $('#summary').addClass('hidden').html('');
+
+        // Clear feed container
+        if ( $('#main-feed').html() ) {
+            $('#main-feed').html('');
+        }
+        $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
+        
         if (FEED_SCOPE === 'all') {
             homepage_morefeed();
             OBJECT_ID = false;
         } else {
+            if (FEED_SCOPE === 'inbox') {
+                $.get('/api/inbox_feed', function(data) {
+                    var el = $(data.html);
+                    $('#main-feed-controls, .formpage-block-form').addClass('hidden');
+                    if ( $('.inbox-container').length == 0 ) {
+                        $('.feeds').append('<div class="inbox-container">Inserted</div>');
+                    }
+                    $('.inbox-container').html(el);
+                });
+            }
+
             if (FEED_SCOPE === 'client') {
                 if (OBJECT_ID) {
                     // var client = window.CLIENTS.filter(function(e){return e.id == OBJECT_ID;})[0];
                     $.get('/api/client_summary/' + OBJECT_ID, function(data) {
-                         var el = $(data.html);
-                         $('#summary').html(el);
-                         $('#summary').removeClass('hidden');
+                        var el = $(data.html);
+                        
+                        $('#summary').html(el);
+                        $('#summary').removeClass('hidden');
+
+                        var setWeek = function(weekNum) {
+                            var selectedWeek = $('.diet-progress .macro-history .week-' + weekNum);
+                            $('.diet-progress .macro-history .week').not(selectedWeek).addClass('hidden');
+                            selectedWeek.removeClass('hidden');
+                        };
 
                         // TODO: Join this two similar events in a single function
                         // Filter Diet Goals between Training Days or Resting Days
@@ -114,10 +140,11 @@ $(document).ready(function() {
                         // Switchs Week
                         $('.diet-progress select').on('change', function(e) {
                             var weekNum = $(this).val();
-                            var selectedWeek = $('.diet-progress .macro-history .week-' + weekNum);
-
-                            $('.diet-progress .macro-history .week').not(selectedWeek).addClass('hidden');
-                            selectedWeek.removeClass('hidden');
+                            if (weekNum == 'this_week') {
+                                var currentWeek = $('#summary .diet-progress .current').data('week-number');
+                                weekNum = currentWeek;
+                            }
+                            setWeek(weekNum);
                         });
                     });
                 }
@@ -126,14 +153,11 @@ $(document).ready(function() {
             }
             homepage_morefeed();
         }
-        if ( $('#main-feed').html() ){
-            $('#main-feed').html('');
-        }
+
+        // Sets 'active' class to clicked filter
         $('ul.filters li').removeClass('active');
         $(this).addClass('active');
     });
-
-
     // End Filters
 
     homepage_morefeed();

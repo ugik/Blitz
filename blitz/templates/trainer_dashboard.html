@@ -8,7 +8,7 @@
 <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
 {% endif %}
 
-<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 <style type="text/less"></style>
 
 <style type="text/css">
@@ -61,6 +61,22 @@ img.headshot {
 	border: 3px solid white;
 	margin-right: 10px;
 }
+
+.icon.headshot {
+	top: 12px;
+	left: -20px;
+	width: 25px;
+	border: 3px solid white;
+	margin-right: 15px;
+	padding: 5px;
+}
+
+.circle {
+	-webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+	-moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+	box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+}
+
 
 
 .comment-feed-item {
@@ -352,22 +368,20 @@ ul.filters li:hover {
 		<ul class='filters'>
 			<li class="active" data-scope='all'>
 				<div class="item">
-					<img class="img-circle headshot" src="{{ STATIC_URL }}images/blitz.png"/>All Updates
+					<img class="img-circle headshot" src="{{ STATIC_URL }}images/flame.png"/> All Updates
 				</div>
 			</li>
 			<li data-scope='inbox'>
 				<div class="item">
-					<span class="icon icon-envelope img-circle headshot" style="color: white;"></span>Inbox					
+					<span class="img-circle headshot icon icon-envelope" style="color: white;"></span> Inbox
 				</div>
 			</li>
-			{% for blitz in blitzes %}
-                        {% if not blitz.provisional and not "individual:" in blitz.title %}
-			<li class='blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
+			{% for flame in flames %}
+			<li class='flame' data-object-pk="{{ flame.pk }}" data-scope='flame'>
 				<div class="item">
-					<img class="img-circle headshot" src="{{ MEDIA_URL }}"/> {{ blitz.title }}
+					<img class="img-circle headshot" src="{{ MEDIA_URL }}"/> {{ flame.title }}
 				</div>			
 			</li>
-                        {% endif %}
 			{% endfor %}
 			{% for client in clients %}
 			<li class='solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
@@ -397,7 +411,7 @@ ul.filters li:hover {
 
 		<div class="content row-fluid">
 			<div class="feeds">
-			{% if user.blitz and user.blitz.members %}
+				{% if user.flame and user.flame.members %}
 		        	{% include "main_feed.html" %}
 		        {% else %}
 		        <b>Time to do something to get a program started...</b>

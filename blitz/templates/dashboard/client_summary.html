@@ -22,7 +22,7 @@
 						calories
 					</div>
 					<div class="description info info-calories">
-						{% widthratio macro.training_calories_min 1000 1 %}k - {% widthratio macro.training_calories_min 1000 1 %}k
+						{{ macro.training_calories_min }}k - {{ macro.training_calories_min }}k
 					</div>
 				</div>
 			
@@ -31,7 +31,7 @@
 						protein
 					</div>
 					<div class="description info info-protein">
-						{% widthratio macro.training_protein_min 1000 1 %}k - {% widthratio macro.training_protein 1000 1 %}k
+						{{ macro.training_protein_min }}k - {{ macro.training_protein }}k
 					</div>
 				</div>
 
@@ -40,7 +40,7 @@
 						carbs
 					</div>
 					<div class="description info info-carbs">
-						{% widthratio macro.training_carbs_min 1000 1 %}k - {% widthratio macro.training_carbs 1000 1 %}k
+						{{ macro.training_carbs_min }}k - {{ macro.training_carbs }}k
 					</div>
 				</div>
 
@@ -49,7 +49,7 @@
 						fat
 					</div>
 					<div class="description info info-fat">
-						{% widthratio macro.training_fat_min 1000 1 %}k - {% widthratio macro.training_fat 1000 1 %}k
+						{{ macro.training_fat_min }}k - {{ macro.training_fat }}k
 					</div>
 				</div>
 			</div> <!-- training -->
@@ -59,7 +59,7 @@
 						calories
 					</div>
 					<div class="description info info-calories">
-						{% widthratio macro.rest_calories_min 1000 1 %}k - {% widthratio macro.rest_calories_min 1000 1 %}k
+						{{ macro.rest_calories_min }}k - {{ macro.rest_calories_min }}k
 					</div>
 				</div>
 			
@@ -68,7 +68,7 @@
 						protein
 					</div>
 					<div class="description info info-protein">
-						{% widthratio macro.rest_protein_min 1000 1 %}k - {% widthratio macro.rest_protein 1000 1 %}k
+						{{ macro.rest_protein_min }}k - {{ macro.rest_protein }}k
 					</div>
 				</div>
 
@@ -77,7 +77,7 @@
 						carbs
 					</div>
 					<div class="description info info-carbs">
-						{% widthratio macro.rest_carbs_min 1000 1 %}k - {% widthratio macro.rest_carbs 1000 1 %}k
+						{{ macro.rest_carbs_min }}k - {{ macro.rest_carbs }}k
 					</div>
 				</div>
 
@@ -86,7 +86,7 @@
 						fat
 					</div>
 					<div class="description info info-fat">
-						{% widthratio macro.rest_fat_min 1000 1 %}k - {% widthratio macro.rest_fat 1000 1 %}k
+						{{ macro.rest_fat_min }}k - {{ macro.rest_fat }}k
 					</div>
 				</div>
 			</div> <!-- resting -->
@@ -101,21 +101,22 @@
 		<div class="header">
 			Diet Progress
 			<select>
+				<option value='this_week'>This Week</option>
 			{% for week in macro_history %}
 				<option value='{{ week.week_number }}'>Week {{ week.week_number }}</option>
 			{% endfor %}
-				<option value='this_week'>This Week</option>
+				
 			</select>
 		</div>
 		<div class="macro-history">
 			{% for week in macro_history %}
-			<div class="week week-{{ week.week_number }} {% if not forloop.first %}hidden{% endif %}" data-week-number={{ week.week_number }}>
+			<div class="week week-{{ week.week_number }} {% if not week.is_current %}hidden{%else%}current{% endif %}" data-week-number={{ week.week_number }}>
 				<div class="week-name">Week {{ week.week_number }}</div>
 				<div class="days">
 					<table>
 						<tr>
 							{% for day in week.macro_days %}
-							<td>
+							<td data-future="{{ day.in_future }}">
 								{% if day.in_future and not day.has_entry %}
 								<div class="macro-day-cell">
 									<span class="day-of-month">{{ day.day_of_month }}</span>
