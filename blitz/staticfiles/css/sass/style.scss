@@ -1436,7 +1436,6 @@ a.edit-workout-link {
   -moz-appearance: button-bevel !important;
   -ms-appearance: button-bevel !important;
   -o-appearance: default-button !important;
-  @include animation('btnpulsate .75s infinite');
 }
 
 
@@ -1460,6 +1459,7 @@ a.edit-workout-link {
   background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
   background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
   background: #94c1ee;
+  @include animation('btnpulsate .75s infinite');
   //background-repeat: repeat-x;
   //border-bottom: 1px solid rgba(0,0,0,0.2);
 }
@@ -3269,7 +3269,8 @@ span.num-unread-threads {
   font-size: 14px;
   @include boldfont();
   color: white;
-  background: rgba(255, 117, 0, 1.0);
+  @include blitz-gradient();
+  background: $fadedblue;
   @include borderradius(20px);
   padding: 2px 6px;
 }

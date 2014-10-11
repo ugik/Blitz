@@ -1543,13 +1543,9 @@ a.edit-workout-link {
   -moz-appearance: button-bevel !important;
   -ms-appearance: button-bevel !important;
   -o-appearance: default-button !important;
-  -webkit-animation: btnpulsate .75s infinite;
-  -moz-animation: btnpulsate .75s infinite;
-  -o-animation: btnpulsate .75s infinite;
-  animation: btnpulsate .75s infinite;
 }
 
-/* line 1443, ../sass/style.scss */
+/* line 1442, ../sass/style.scss */
 .obtn:active {
   background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
   background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
@@ -1562,13 +1558,17 @@ a.edit-workout-link {
   text-decoration: none;
 }
 
-/* line 1457, ../sass/style.scss */
+/* line 1456, ../sass/style.scss */
 .obtn:hover {
   background-image: -o-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
   background-image: -moz-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
   background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
   background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
   background: #94c1ee;
+  -webkit-animation: btnpulsate .75s infinite;
+  -moz-animation: btnpulsate .75s infinite;
+  -o-animation: btnpulsate .75s infinite;
+  animation: btnpulsate .75s infinite;
 }
 
 /* line 1469, ../sass/style.scss */
@@ -3949,42 +3949,46 @@ span.num-unread-threads {
   font-size: 14px;
   font-family: 'proxima_novabold';
   color: white;
-  background: #ff7500;
+  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+  background: #7ab2ea;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
   padding: 2px 6px;
 }
 
-/* line 3277, ../sass/style.scss */
+/* line 3278, ../sass/style.scss */
 .unread-icon {
   color: #ff7500;
 }
 
-/* line 3281, ../sass/style.scss */
+/* line 3282, ../sass/style.scss */
 a.feed-permalink {
   float: right;
   padding: 4px;
   color: white;
 }
 
-/* line 3287, ../sass/style.scss */
+/* line 3288, ../sass/style.scss */
 a.feed-permalink-grey {
   color: #d3d3d3;
 }
 
-/* line 3291, ../sass/style.scss */
+/* line 3292, ../sass/style.scss */
 .solo-client, .solo-client .item, ul.filters .item {
   font-family: 'metanormal_caps';
   font-size: 18px;
 }
 
-/* line 3296, ../sass/style.scss */
+/* line 3297, ../sass/style.scss */
 .sidebar-left .actions button {
   font-size: 21px;
 }
 
-/* line 3300, ../sass/style.scss */
+/* line 3301, ../sass/style.scss */
 #dashboard .sidebar-left ul.filters li {
   transition: all 0.5s ease;
   -webkit-transition: all 0.5s ease;
