@@ -1719,14 +1719,14 @@ a:focus {
 // this is the body weight workout button stuff
 
 .btn-group {
-position: relative;
-display: inline-block;
-font-size: 0;
-white-space: nowrap;
-vertical-align: middle;
-margin-bottom: 10px;
-width: 92%;
-@include mobile-only {width: 100%;};
+  position: relative;
+  display: inline-block;
+  font-size: 0;
+  white-space: nowrap;
+  vertical-align: middle;
+  margin-bottom: 10px;
+  width: 92%;
+  @include mobile-only {width: 100%;};
 }
 
 .btn-group>.btn {
@@ -1734,6 +1734,10 @@ width: 92%;
   @include borderbox {};
   @include tablet-portrait-and-up {};
   @include mobile-only {font-size: 12px;};
+}
+
+.btn-group-dropdown {
+
 }
 
 .btn-primary {
@@ -2260,6 +2264,36 @@ hr { margin-top: 60px;}
       text-align: center;
     }
   }
+  /* 
+  .bootstrap-select {
+    width: 100% !important;
+    background: white;
+    border: 2px solid $fadedblue;
+    @include transition(0.5ms, ease);
+    @include borderradius(5px);
+    text-decoration: none !important;
+    color: $fadedblue;
+    text-align: center;
+    margin: 0 auto;
+  }
+  .btn-group {
+    text-align: center;
+    width: 100% !important;
+    background: white;
+    color: $fadedblue;
+    text-shadow: none;
+  }
+  .btn {
+    text-align: center;
+    width: 100%;
+    background: white;
+    color: $fadedblue;
+    text-shadow: none;
+  }
+  .btn-group.bootstrap-select.show-tick.open span.caret {
+    color: $fadedblue;
+  }
+  */
   .formpage-block-form {
     margin: 0;
     .submit-container {
