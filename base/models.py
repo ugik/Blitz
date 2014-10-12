@@ -371,6 +371,23 @@ class Client(models.Model):
         """
         return self.gymsession_set.all().order_by('date_of_session')
 
+    def get_feeditems(self):
+        """
+        Feed items in chronological order
+        """
+       
+        feeditems = FeedItem.objects.get_empty_query_set()
+       
+        # Adds client related Gym Sessions to the feeditems query set
+        for q in self.gymsession_set.all().order_by('date_of_session'):
+            feeditems |= q.feeditems.all()
+
+        # Adds client related Comments to the feeditems query set
+        for q in Comment.objects.filter(user=self.user).all().order_by('date_and_time'):
+            feeditems |= q.feeditems.all()
+
+        return feeditems
+
     def get_gym_sessions_reverse(self):
         """
         Gym sessions, most recent first
@@ -756,7 +773,7 @@ class Comment(models.Model):
     date_and_time = models.DateTimeField()
     parent_comment = models.ForeignKey('self', null=True, blank=True)
     gym_session = models.ForeignKey(GymSession, null=True, blank=True, related_name='gymsessioncomments')
-    feeditems = generic.GenericRelation(FeedItem, related_name='comments')
+    feeditems = generic.GenericRelation(FeedItem)
 
     def __unicode__(self):
         return "%s: \"%s\"" % (self.user.display_name, self.text)

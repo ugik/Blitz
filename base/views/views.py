@@ -681,8 +681,8 @@ def save_sets(request):
     })
 
 
-@login_required
-@csrf_exempt
+# @login_required
+# @csrf_exempt
 def blitz_feed(request):
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
@@ -700,8 +700,8 @@ def blitz_feed(request):
         feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
 
     elif feed_scope == 'client':
-        # client = Client.objects.filter(pk=obj_id)
-        feed_items = []
+        client = Client.objects.get(pk=obj_id)
+        feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+10]
 
     ret = {
         'feeditems': [],
