@@ -1168,6 +1168,7 @@ a.edit-workout-link {
     }
   }
   .profile-headshot {
+    height: 160px;
     width: 160px;
     position: absolute;
     border: 6px solid white;
@@ -2478,6 +2479,7 @@ hr { margin-top: 60px;}
       top: 12px;
       left: 10px;
       width: 35px;
+      height: 35px;
       border: $imageborder;
     }
     a.name {
