@@ -681,8 +681,8 @@ def save_sets(request):
     })
 
 
-# @login_required
-# @csrf_exempt
+@login_required
+@csrf_exempt
 def blitz_feed(request):
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
