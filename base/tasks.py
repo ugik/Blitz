@@ -13,8 +13,10 @@ from django.core.mail import send_mail
 from django.utils.timezone import now as timezone_now
 from django.conf import settings
 
-from base.models import Client, Trainer, TrainerAlert
+from django.contrib.auth.models import User
+from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from base.alerts import create_alerts_for_day
+from datetime import date, timedelta
 
 import datetime
 
@@ -60,6 +62,42 @@ def client_morning_notifications():
                 'blitz': blitz,
             } )
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
+
+@periodic_task(run_every=crontab(hour="*/23", minute="3", day_of_week="*"))  
+def usage_digest():
+    from django.core.mail import EmailMultiAlternatives
+    from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
+    from pytz import timezone
+
+    days = 0
+    timezone = current_tz()
+    startdate = date.today() - timedelta(days = days)
+
+    enddate = date.today() - timedelta(days=0)
+    trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
+    members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
+
+
+    users = User.objects.all()
+    login_users = []
+    for user in users:
+        if timezone.normalize(user.last_login).date() >= startdate:
+            login_users.append(user)
+
+    template_html = 'usage_email.html'
+    template_text = 'usage_email.txt'
+
+    to = 'georgek@gmail.com'
+    from_email = settings.DEFAULT_FROM_EMAIL           
+    subject = "Usage Digest"
+
+    text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
+    html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+
 
 @periodic_task(run_every=crontab(hour="1", minute="1", day_of_week="*"))  
 def process_payments():

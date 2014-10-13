@@ -1161,29 +1161,29 @@ def payment_hook(request, pk):
     if form.is_valid():
 
         # process payment w/balanced 1.1 API
-        import balanced
+#        import balanced
 
 #        import pdb; pdb.set_trace()    
-        marketplace = balanced.Marketplace.query.one()
-        if True:
-            card = balanced.Card.fetch(form.cleaned_data['card_uri'])
-            # charge card
-            debit_amount_str = "%d00" % blitz.price
-            card.debit(appears_on_statement_as = 'Blitz.us payment',
-                       amount = debit_amount_str,
-                       description='Blitz.us payment')
+#        marketplace = balanced.Marketplace.query.one()
+#       try:
+#            card = balanced.Card.fetch(form.cleaned_data['card_uri'])
+#            debit_amount_str = "%d00" % blitz.price
+#            card.debit(appears_on_statement_as = 'Blitz.us payment',
+#                       amount = debit_amount_str,
+#                       description='Blitz.us payment')
 #        except:
 #            has_error = True
 #            error = "Card could not be charged. Please try another card. "
 #            # Update ChargeSetting, Payment records
 
-        if not error:
+        if not has_error:
             client = utils.get_or_create_client(
                 request.session['name'],
                 request.session['email'].lower(),
                 request.session['password']
             )
-            client.balanced_account_uri = card.href
+#            client.balanced_account_uri = card.href
+            client.balanced_account_uri = 'card.href goes here'
             client.save()
 
             # Update ChargeSetting, Payment records

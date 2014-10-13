@@ -2,8 +2,11 @@
 
 {% block main %}
 
-<h4>Usage digest {{ days }} days</h4>
+<h4>Usage digest past {{ days }} days</h4>
 
+<h3>MRR ${{ MRR }}</h3>
+
+{% if trainers %}
 <h3>New Trainers:</h3>
 {% regroup trainers by date_created as trainer_list %}
 {% for trainer in trainer_list %}
@@ -15,7 +18,9 @@
     </ul>
 {% endfor %}
 </ul>
+{% endif %}
 
+{% if members %}
 <h3>New Clients:</h3>
 {% regroup members by date_created as member_list %}
 {% for member in member_list %}
@@ -27,13 +32,16 @@
     </ul>
 {% endfor %}
 </ul>
+{% endif %}
 
+{% if login_users %}
 <h3>Last login</h3>
 <ul>
 {% for login in login_users|dictsort:"last_login" %}
     <li> {{ login.email }} {{ login.last_login }}</li>
 {% endfor %}
 </ul>
+{% endif %}
 
 {% endblock %}
 

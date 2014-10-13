@@ -12,9 +12,6 @@ from django.utils.timezone import now as timezone_now
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
-from django.core.mail import EmailMultiAlternatives
-from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
-from pytz import timezone
 
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
@@ -33,6 +30,23 @@ def helper_index(request):
 
 @login_required
 def helper_usage(request):
+    from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
+    from pytz import timezone
+    from base.tasks import usage_digest
+    from django.db.models import Q
+
+    # get clients with CC on file
+    paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
+    MRR = 0
+    for payer in paying_clients:
+        if payer.blitzmember_set:
+            # recurring monthly charge
+            if payer.blitzmember_set.all()[0].blitz.recurring:
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
+            # monthly charge for non-recurring blitz
+            else: 
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+
     timezone = current_tz()
     if 'days' in request.GET:
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
@@ -52,22 +66,10 @@ def helper_usage(request):
             login_users.append(user)
 
     if 'email' in request.GET:
-        template_html = 'usage_email.html'
-        template_text = 'usage_email.txt'
-
-        to = 'georgek@gmail.com'
-        from_email = settings.DEFAULT_FROM_EMAIL           
-        subject = "Usage Digest"
-
-        text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
-        html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
-
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        usage_digest()
 
     return render(request, 'usage.html', 
-                  {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
+          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
 
 @login_required
 def helper_delete(request):
