@@ -1542,15 +1542,8 @@ def trainer_dashboard(request):
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
-<<<<<<< HEAD
-    print '::request.user.user.flame.members: ', request.user.blitz.members
-
-    if blitzs and clients:
-        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzs': blitzs, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})
-=======
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})
->>>>>>> master
     else:
         return redirect('home')
 
