@@ -12,6 +12,7 @@ from django.utils.timezone import now as timezone_now
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
+from django.core.mail import EmailMultiAlternatives
 
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
@@ -43,12 +44,15 @@ def helper_usage(request):
     members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
 
     if 'email' in request.GET:
+        template_html = 'usage.html'
+        template_text = 'usage.txt'
+
         to = 'georgek@gmail.com'
         from_email = settings.DEFAULT_FROM_EMAIL           
         subject = "Usage Digest"
 
-        text_content = render_to_string(template_text, {"title": n.title,"text": n.text, 'date': n.date, 'email': to})
-        html_content = render_to_string(template_html, {"title": n.title,"text": n.text, 'date': n.date, 'email': to})
+        text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'clients':clients, 'members':members})
+        html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'clients':clients, 'members':members})
 
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
