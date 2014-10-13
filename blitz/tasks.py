@@ -58,6 +58,6 @@ def client_morning_notifications():
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 @task()
-def email_bt(): 
+def email_test(): 
     send_mail('hi', 'test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
 

@@ -13,7 +13,7 @@ from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
 
-from base.models import Client, Trainer, Blitz, SalesPageContent
+from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
 from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
@@ -21,11 +21,41 @@ from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 import os
 import xlrd
 import datetime
+from datetime import date, timedelta
 #    import pdb; pdb.set_trace()
 
 @login_required
 def helper_index(request):
     return render(request, 'helper.html')
+
+@login_required
+def helper_usage(request):
+    if 'days' in request.GET:
+        startdate = date.today() - timedelta(days = int(request.GET.get('days')))
+        days = request.GET.get('days')
+    else:
+        days = 1
+        startdate = date.today() - timedelta(days = days)
+
+    enddate = date.today() - timedelta(days=0)
+    trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
+    clients = Client.objects.filter(date_created__range=[startdate, enddate])
+    members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
+
+    if 'email' in request.GET:
+        to = 'georgek@gmail.com'
+        from_email = settings.DEFAULT_FROM_EMAIL           
+        subject = "Usage Digest"
+
+        text_content = render_to_string(template_text, {"title": n.title,"text": n.text, 'date': n.date, 'email': to})
+        html_content = render_to_string(template_html, {"title": n.title,"text": n.text, 'date': n.date, 'email': to})
+
+        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+    return render(request, 'usage.html', 
+                  {'days':days, 'trainers':trainers, 'clients':clients, 'members':members})
 
 @login_required
 def helper_delete(request):
