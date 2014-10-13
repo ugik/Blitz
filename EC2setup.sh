@@ -82,8 +82,14 @@ sudo chown ubuntu:ubuntu /home/ubuntu/$project_app
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
 sudo /etc/init.d/apache2 restart
-echo "Supervisord started..."
-supervisord -c ./supervisord.conf
+
+# supervisord
+cd /home/ubuntu/$project
+mkdir logs
+rpl '*EMAIL_PASSWORD*' $EMAIL_PASSWORD supervisord.conf
+rpl '*SECRET_KEY*' $SECRET_KEY supervisord.conf
+supervisord
+sudo ps -ef | grep supervisord
 
 # setup remote git repo and hooks
 cd /home/ubuntu
