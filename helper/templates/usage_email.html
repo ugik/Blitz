@@ -1,6 +1,3 @@
-{% extends "helper_base.html" %}
-
-{% block main %}
 
 <h4>Usage digest {{ days }} days</h4>
 
@@ -28,12 +25,8 @@
 {% endfor %}
 </ul>
 
-<h3>Last login</h3>
-<ul>
-{% for login in login_users|dictsort:"last_login" %}
-    <li> {{ login.email }} {{ login.last_login }}</li>
+{% for user in login_users %}
+{{ user.email }}
 {% endfor %}
-</ul>
 
-{% endblock %}
 

@@ -13,6 +13,8 @@ from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
 from django.core.mail import EmailMultiAlternatives
+from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
+from pytz import timezone
 
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
@@ -31,35 +33,41 @@ def helper_index(request):
 
 @login_required
 def helper_usage(request):
+    timezone = current_tz()
     if 'days' in request.GET:
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
         days = request.GET.get('days')
     else:
-        days = 1
+        days = 0
         startdate = date.today() - timedelta(days = days)
 
     enddate = date.today() - timedelta(days=0)
     trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
-    clients = Client.objects.filter(date_created__range=[startdate, enddate])
     members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
 
+    users = User.objects.all()
+    login_users = []
+    for user in users:
+        if timezone.normalize(user.last_login).date() >= startdate:
+            login_users.append(user)
+
     if 'email' in request.GET:
-        template_html = 'usage.html'
-        template_text = 'usage.txt'
+        template_html = 'usage_email.html'
+        template_text = 'usage_email.txt'
 
         to = 'georgek@gmail.com'
         from_email = settings.DEFAULT_FROM_EMAIL           
         subject = "Usage Digest"
 
-        text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'clients':clients, 'members':members})
-        html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'clients':clients, 'members':members})
+        text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
+        html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
 
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
 
     return render(request, 'usage.html', 
-                  {'days':days, 'trainers':trainers, 'clients':clients, 'members':members})
+                  {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
 
 @login_required
 def helper_delete(request):
@@ -218,7 +226,6 @@ def helper_custom_set(request):
     if request.method == 'POST':
 #        import pdb; pdb.set_trace()
         client = Client.objects.get(pk=request.POST['client'])
-
         if workoutset_custom_id:    # update workoutset custom record
             set = WorkoutSetCustom.objects.get(pk=workoutset_custom_id)
         else:                       # create new workoutset custom record
