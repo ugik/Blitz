@@ -77,6 +77,17 @@ def usage_digest():
     trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
     members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
 
+    # get clients with CC on file
+    paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
+    MRR = 0
+    for payer in paying_clients:
+        if payer.blitzmember_set:
+            # recurring monthly charge
+            if payer.blitzmember_set.all()[0].blitz.recurring:
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
+            # monthly charge for non-recurring blitz
+            else: 
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
 
     users = User.objects.all()
     login_users = []
@@ -91,8 +102,8 @@ def usage_digest():
     from_email = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
 
-    text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
-    html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members})
+    text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
+    html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
 
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
