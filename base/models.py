@@ -213,7 +213,7 @@ class Trainer(models.Model):
         if self.currently_viewing_blitz:
             return self.currently_viewing_blitz
         else:
-            return self.active_blitzs()[0]
+            return self.active_blitzes()[0]
 
     def get_headshot_url(self):
         if self.headshot:
@@ -246,7 +246,7 @@ class Trainer(models.Model):
         return [a for a in alerts]
 #        return [a for a in alerts if a.is_still_relevant()]
 
-    def active_blitzs(self):
+    def active_blitzes(self):
 #        return self.blitz_set.all().exclude(provisional=True)
         return self.blitz_set.all()
 
@@ -255,14 +255,14 @@ class Trainer(models.Model):
         self.save()
     
     def all_clients(self):
-        members = [f.members() for f in self.active_blitzs()]
+        members = [f.members() for f in self.active_blitzes()]
         return list(itertools.chain(*members))
 
     def feed_items(self):
-        blitzs = self.blitz_set.all()
-        return len(blitzs[0].feeditem_set.all())
+        blitzes = self.blitz_set.all()
+        return len(blitzes[0].feeditem_set.all())
 
-    def multiple_blitzs(self):
+    def multiple_blitzes(self):
 #        return self.blitz_set.all().exclude(provisional=True).count() > 1
         return self.blitz_set.all().count() > 1
 
@@ -446,7 +446,7 @@ class Blitz(models.Model):
 
     url_slug = models.SlugField(max_length=25, default="")
     trainer = models.ForeignKey(Trainer)
-    recurring = models.BooleanField(default=False) # Recurring blitzs repeat over time
+    recurring = models.BooleanField(default=False) # Recurring blitzes repeat over time
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 

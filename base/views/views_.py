@@ -1165,17 +1165,17 @@ def payment_hook(request, pk):
 
 #        import pdb; pdb.set_trace()    
         marketplace = balanced.Marketplace.query.one()
-        try:
+        if True:
             card = balanced.Card.fetch(form.cleaned_data['card_uri'])
             # charge card
             debit_amount_str = "%d00" % blitz.price
             card.debit(appears_on_statement_as = 'Blitz.us payment',
                        amount = debit_amount_str,
                        description='Blitz.us payment')
-        except:
-            has_error = True
-            error = "Card could not be charged. Please try another card. "
-            # Update ChargeSetting, Payment records
+#        except:
+#            has_error = True
+#            error = "Card could not be charged. Please try another card. "
+#            # Update ChargeSetting, Payment records
 
         if not error:
             client = utils.get_or_create_client(
