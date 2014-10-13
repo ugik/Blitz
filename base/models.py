@@ -199,7 +199,7 @@ class Trainer(models.Model):
     headshot = models.ImageField(upload_to="headshots/", blank=True, null=True)
     external_headshot_url = models.CharField(max_length=1000, default="", blank=True)
     timezone = models.CharField(max_length=40, default='US/Pacific')
-    date_created = models.DateField(("Date"), default=datetime.date.today)
+    date_created = models.DateField(default=datetime.date.today)
 
     forgot_password_token = models.CharField(max_length=40, default="")
 
@@ -213,7 +213,7 @@ class Trainer(models.Model):
         if self.currently_viewing_blitz:
             return self.currently_viewing_blitz
         else:
-            return self.active_blitzs()[0]
+            return self.active_blitzes()[0]
 
     def get_headshot_url(self):
         if self.headshot:
@@ -246,7 +246,7 @@ class Trainer(models.Model):
         return [a for a in alerts]
 #        return [a for a in alerts if a.is_still_relevant()]
 
-    def active_blitzs(self):
+    def active_blitzes(self):
 #        return self.blitz_set.all().exclude(provisional=True)
         return self.blitz_set.all()
 
@@ -255,14 +255,14 @@ class Trainer(models.Model):
         self.save()
     
     def all_clients(self):
-        members = [f.members() for f in self.active_blitzs()]
+        members = [f.members() for f in self.active_blitzes()]
         return list(itertools.chain(*members))
 
     def feed_items(self):
-        blitzs = self.blitz_set.all()
-        return len(blitzs[0].feeditem_set.all())
+        blitzes = self.blitz_set.all()
+        return len(blitzes[0].feeditem_set.all())
 
-    def multiple_blitzs(self):
+    def multiple_blitzes(self):
 #        return self.blitz_set.all().exclude(provisional=True).count() > 1
         return self.blitz_set.all().count() > 1
 
@@ -285,6 +285,7 @@ class Client(models.Model):
     forgot_password_token = models.CharField(max_length=40, default="")
 
     units = models.CharField(max_length=1, choices=UNIT_CHOICES, default="I", blank=True)
+    date_created = models.DateField(default=datetime.date.today)
 
     # payment
     balanced_account_uri = models.CharField(max_length=200, default="", blank=True)
@@ -462,7 +463,7 @@ class Blitz(models.Model):
 
     url_slug = models.SlugField(max_length=25, default="")
     trainer = models.ForeignKey(Trainer)
-    recurring = models.BooleanField(default=False) # Recurring blitzs repeat over time
+    recurring = models.BooleanField(default=False) # Recurring blitzes repeat over time
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
@@ -638,6 +639,7 @@ class BlitzMember(models.Model):
 
     client = models.ForeignKey(Client)
     blitz = models.ForeignKey(Blitz)
+    date_created = models.DateField(default=datetime.date.today)
 
     def __unicode__(self):
         return "%s enrolled in %s" % (str(self.client), str(self.blitz))
@@ -752,7 +754,7 @@ class CheckIn(models.Model):
     weight = models.IntegerField(null=True, blank=True)
     front_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     side_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
-    date_created = models.DateField(("Date"), default=datetime.date.today)
+    date_created = models.DateField(default=datetime.date.today)
 
     def __unicode__(self):
         return "Check-in %s: \"%s\"" % (self.client.name, self.date_created)

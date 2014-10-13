@@ -1132,8 +1132,6 @@ def create_account_hook(request, pk):
     # TODO: there is a race condition if someone else (ie same user in another tab)
     # signs up with the same email address before card is processed. whatever.
 
-#    import pdb; pdb.set_trace()
-
     blitz = get_object_or_404(Blitz, pk=pk)
     form = CreateAccountForm(request.POST)
     if form.is_valid():
@@ -1164,7 +1162,8 @@ def payment_hook(request, pk):
 
         # process payment w/balanced 1.1 API
         import balanced
-        
+
+#        import pdb; pdb.set_trace()    
         marketplace = balanced.Marketplace.query.one()
         try:
             card = balanced.Card.fetch(form.cleaned_data['card_uri'])
@@ -1540,13 +1539,18 @@ def trainer_dashboard(request):
 #    import pdb; pdb.set_trace()
     user_id = request.user.pk
 
-    blitzs = request.user.trainer.active_blitzs()
+    blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
+<<<<<<< HEAD
     print '::request.user.user.flame.members: ', request.user.blitz.members
 
     if blitzs and clients:
         return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzs': blitzs, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})
+=======
+    if blitzes and clients:
+        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})
+>>>>>>> master
     else:
         return redirect('home')
 

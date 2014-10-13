@@ -73,9 +73,10 @@ class Command(BaseCommand):
             settings.DATA_DIR + '/joy-beginner/joy-beginner-plan.csv',
             joy,
         )
-
+        content = create_salespagecontent("Booty-ful Beginnings", joy)
         joy_beginner_blitz = Blitz.objects.create(trainer=joy, workout_plan=joy_beginner_plan,
             title="Booty-ful Beginnings", begin_date=datetime.date(2013, 5, 20))
+        joy_beginner_blitz.sales_page_content = content
         joy_beginner_blitz.url_slug = "joy-victoria-bootyful-beginnings"
         joy_beginner_blitz.uses_macros = True
         joy_beginner_blitz.macro_strategy = 'M'
@@ -90,9 +91,10 @@ class Command(BaseCommand):
             settings.DATA_DIR + '/joy-advanced/joy-advanced-plan.csv',
             joy,
         )
-
+        content = create_salespagecontent("Gluteal Goddess Advanced", joy)
         joy_advanced_blitz = Blitz.objects.create(trainer=joy, workout_plan=joy_advanced_plan,
             title="Gluteal Goddess Advanced", begin_date=datetime.date(2013, 5, 20))
+        joy_advanced_blitz.sales_page_content = content
         joy_advanced_blitz.url_slug = "joy-victoria-gluteal-goddess"
         joy_advanced_blitz.uses_macros = True
         joy_advanced_blitz.macro_strategy = 'M'
@@ -124,9 +126,10 @@ class Command(BaseCommand):
             settings.DATA_DIR + '/perryman/plan.csv',
             perryman,
         )
-
+        content = create_salespagecontent("Advanced Lifting", perryman)
         perryman_blitz = Blitz.objects.create(trainer=perryman, workout_plan=perryman_plan,
                                              title="Advanced Lifting", begin_date=datetime.date(2013,6,3))
+        perryman_blitz.sales_page_content = content
         perryman_blitz.url_slug = "perryman-advanced"
         perryman_blitz.uses_macros = True
         perryman_blitz.macro_strategy = 'M'
@@ -142,7 +145,7 @@ class Command(BaseCommand):
         ct.headshot_from_image(settings.TEST_MEDIA_DIR + '/ct.png')
 
         # sales page for CT
-        content = create_salespagecontent("IYMFS!", ct)
+        content = create_salespagecontent("Posting and Toasting", ct)
 
         blitz = Blitz.objects.create(trainer=ct, workout_plan=roglaw_plan,
             title="Posting and Toasting", begin_date=blitz_start_date, url_slug="CT")
@@ -173,11 +176,13 @@ class Command(BaseCommand):
         novak.headshot_from_image(settings.TEST_MEDIA_DIR + '/novak.jpeg')
         add_client_to_blitz(blitz, novak)
 
-        blitz2 = Blitz.objects.create(trainer=ct, workout_plan=ct_plan, url_slug="CT",
+        content = create_salespagecontent("Posting and Toasting 2", ct)
+        blitz2 = Blitz.objects.create(trainer=ct, workout_plan=ct_plan, url_slug="CT2",
             title="Posting and Toasting 2", begin_date=blitz_start_date + datetime.timedelta(weeks=1))
+        blitz2.sales_page_content = content
         blitz2.uses_macros = True
         blitz2.macro_strategy = 'M'
-        blitz2.price = 200
+        blitz2.price = 199
         blitz2.save()
 
         aaron = create_client("Aaron Hernandez", "aaron@example.com", "asdf", 29, 230, 6, 8, 'M')

@@ -13,19 +13,63 @@ from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
 
-from base.models import Client, Trainer, Blitz, SalesPageContent
+from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
-from helper.forms import TrainerIDForm, SalesPageForm
+from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 
 import os
 import xlrd
 import datetime
+from datetime import date, timedelta
 #    import pdb; pdb.set_trace()
 
 @login_required
 def helper_index(request):
     return render(request, 'helper.html')
+
+@login_required
+def helper_usage(request):
+    from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
+    from pytz import timezone
+    from base.tasks import usage_digest
+    from django.db.models import Q
+
+    # get clients with CC on file
+    paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
+    MRR = 0
+    for payer in paying_clients:
+        if payer.blitzmember_set:
+            # recurring monthly charge
+            if payer.blitzmember_set.all()[0].blitz.recurring:
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
+            # monthly charge for non-recurring blitz
+            else: 
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+
+    timezone = current_tz()
+    if 'days' in request.GET:
+        startdate = date.today() - timedelta(days = int(request.GET.get('days')))
+        days = request.GET.get('days')
+    else:
+        days = 0
+        startdate = date.today() - timedelta(days = days)
+
+    enddate = date.today() - timedelta(days=0)
+    trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
+    members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
+
+    users = User.objects.all()
+    login_users = []
+    for user in users:
+        if timezone.normalize(user.last_login).date() >= startdate:
+            login_users.append(user)
+
+    if 'email' in request.GET:
+        usage_digest()
+
+    return render(request, 'usage.html', 
+          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
 
 @login_required
 def helper_delete(request):
@@ -44,6 +88,32 @@ def helper_download(request):
 def helper_pending_trainers(request):
     pending_trainers = get_pending_trainers()
     return render(request, 'pending_trainers.html', {'pending' : pending_trainers})
+
+@login_required
+def helper_status_trainers(request):
+    trainers = Trainer.objects.all()
+    return render(request, 'trainer_status.html', {'trainers' : trainers })
+
+@login_required
+def assign_workoutplan(request):
+    trainers = Trainer.objects.all()
+    blitzes = Blitz.objects.all()
+    plan_id = request.GET.get('plan', None)
+    workoutplan = WorkoutPlan.objects.get(pk=plan_id)
+
+    if request.method == 'POST':
+        form = AssignPlanForm(request.POST)
+        if form.is_valid() and workoutplan:
+            blitz_id = form.cleaned_data['blitz_id']
+            blitz = Blitz.objects.get(pk=blitz_id)
+            blitz.workout_plan = workoutplan
+            blitz.save()
+            response = redirect('helper_status_trainers')
+            return response
+
+    form = AssignPlanForm()
+    return render(request, 'assign_workoutplan.html', 
+           {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitzes })
 
 @login_required
 def helper_blitz_sales_pages(request):
@@ -158,7 +228,6 @@ def helper_custom_set(request):
     if request.method == 'POST':
 #        import pdb; pdb.set_trace()
         client = Client.objects.get(pk=request.POST['client'])
-
         if workoutset_custom_id:    # update workoutset custom record
             set = WorkoutSetCustom.objects.get(pk=workoutset_custom_id)
         else:                       # create new workoutset custom record
@@ -308,6 +377,9 @@ def get_pending_trainers():
         elif not plan and blitz:
             # trainer has blitz setup but no plan
             pending_trainers.append([trainer.id, trainer.name, 'Blitz with No WorkoutPlan', 0])
+        elif plan and blitz:
+            # trainer has blitz and plan
+            pending_trainers.append([trainer.id, trainer.name, 'Blitz with WorkoutPlan', -1])
 
     return pending_trainers
 

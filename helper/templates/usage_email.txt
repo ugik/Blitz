@@ -1,0 +1,20 @@
+Usage digest {{ days }} days
+
+New Trainers:
+{% regroup trainers by date_created as trainer_list %}
+{% for trainer in trainer_list %}
+{{ trainer.grouper }}
+    {% for c in trainer.list %}
+    {{ c.name }}
+    {% endfor %}
+{% endfor %}
+
+New Members:
+{% regroup members by date_created as member_list %}
+{% for member in member_list %}
+{{ member.grouper }}
+    {% for c in member.list %}
+    {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for ${{ c.blitz.price }}
+    {% endfor %}
+{% endfor %}
+
