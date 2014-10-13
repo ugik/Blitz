@@ -188,7 +188,6 @@ body a {
 /* line 449, ../sass/style.scss */
 body.login-page {
   background: url("/static/images/background.png") #1c1c1c;
-  background-size: 100%;
   background-repeat: no-repeat;
 }
 @media (max-width: 480px) {

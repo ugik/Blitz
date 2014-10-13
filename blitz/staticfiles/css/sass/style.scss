@@ -449,7 +449,7 @@ body {
 body.login-page {
   background: url('/static/images/background.png') #1c1c1c;
   @include mobile-only { background: url('/static/images/minibackground.jpg'); }
-  background-size: 100%;
+  //background-size: 100%;
   background-repeat: no-repeat;
 }
 
