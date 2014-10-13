@@ -686,7 +686,8 @@ def save_sets(request):
 def blitz_feed(request):
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
-
+    feed_items = []
+    
     try:
         obj_id = int( request.GET.get('object_id') )
     except Exception as e:

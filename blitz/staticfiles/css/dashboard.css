@@ -267,6 +267,9 @@ ul.filters li:hover {
 	margin-right: 25px; 
 }
 
+.inbox-container {
+	padding: 0px 20px;
+}
 
 /**
  * Right sidebar

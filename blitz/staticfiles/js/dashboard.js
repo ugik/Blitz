@@ -29,26 +29,37 @@ function homepage_morefeed() {
 
 
 $(document).ready(function() {
+    /**
+     * Caching DOM Elements
+     */
+    var $summary = $('#summary'),
+        $summarySwitchResting = $('#summary .switch-resting'),
+        $mainFeed = $('#main-feed'),
+        $feeds = $('.feeds'),
+        $inboxContainer = $('.inbox-container'),
+        $addCommentSubmit = $('#add-comment-submit'),
+        $addComment = $('#add-comment');
+
 
     // add comment button show/hide
-    $('#add-comment').on('focus', function() {
-        $('#add-comment-submit').show(300);
+    $addComment.on('focus', function() {
+        $addCommentSubmit.show(300);
     });
-    $('#add-comment').on('blur', function() {
+    $addComment.on('blur', function() {
         if ($(this).val() === "") {
-            $('#add-comment-submit').hide(300);
+            $addCommentSubmit.hide(300);
         }
     });
 
     // add comment submit
-    $('#add-comment-submit').on('click', function(e) {
+    $addCommentSubmit.on('click', function(e) {
         e.preventDefault();
-        var comment_text = $('#add-comment').val();
+        var comment_text = $addComment.val();
         if (comment_text === "") {
             alert("Why would you post nothing?");
             return;
         }
-        $('#add-comment-submit').hide(300);
+        $addCommentSubmit.hide(300);
         $.post('/api/new-comment', {
             'comment_text': comment_text,
         }, function(data) {
@@ -56,8 +67,8 @@ $(document).ready(function() {
 
             } else {
                 var el = $(data.comment_html);
-                $('#main-feed').prepend(el);
-                $('#add-comment').val('');
+                $mainFeed.prepend(el);
+                $addComment.val('');
             }
         });
     });
@@ -66,19 +77,38 @@ $(document).ready(function() {
         homepage_morefeed();
     });
 
+    // Search
+    var $clientGroupFilters = $('.filters li.solo-client, li.blitz');
+    $('.search-input input').on('input', function(e) {
+        var searchText = $(this).val();
+        $.each($clientGroupFilters, function(index, value) {
+            if ( $(this).text().trim().toLowerCase().indexOf(searchText.toLowerCase()) === -1 ) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    });
+
     // Filters
     $('.filters').on('click', 'li', function(event) {
         FEEDITEM_OFFSET = 0;
         FEED_SCOPE = $(this).data('scope') || FEED_SCOPE;
         OBJECT_ID = $(this).data('object-pk') || false;
 
+        
         // Hide and clear client summary
-        $('#summary').addClass('hidden').html('');
+        $summary.addClass('hidden').html('');
 
         // Clear feed container
-        if ( $('#main-feed').html() ) {
-            $('#main-feed').html('');
+        if ( $mainFeed.html() ) {
+            $mainFeed.html('');
         }
+
+        if ( $inboxContainer.html() ) {
+            $inboxContainer.html('');
+        }
+
         $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
         
         if (FEED_SCOPE === 'all') {
@@ -89,21 +119,21 @@ $(document).ready(function() {
                 $.get('/api/inbox_feed', function(data) {
                     var el = $(data.html);
                     $('#main-feed-controls, .formpage-block-form').addClass('hidden');
-                    if ( $('.inbox-container').length == 0 ) {
-                        $('.feeds').append('<div class="inbox-container">Inserted</div>');
-                    }
-                    $('.inbox-container').html(el);
+                    $inboxContainer.html(el);
+                    $inboxContainer.removeClass('hidden');
                 });
+            }
+            else {
+                $inboxContainer.addClass('hidden');
             }
 
             if (FEED_SCOPE === 'client') {
                 if (OBJECT_ID) {
-                    // var client = window.CLIENTS.filter(function(e){return e.id == OBJECT_ID;})[0];
                     $.get('/api/client_summary/' + OBJECT_ID, function(data) {
                         var el = $(data.html);
                         
-                        $('#summary').html(el);
-                        $('#summary').removeClass('hidden');
+                        $summary.html(el)
+                            .removeClass('hidden');
 
                         var setWeek = function(weekNum) {
                             var selectedWeek = $('.diet-progress .macro-history .week-' + weekNum);
@@ -149,7 +179,7 @@ $(document).ready(function() {
                     });
                 }
             } else {
-                $('#summary').addClass('hidden');
+                $summary.addClass('hidden');
             }
             homepage_morefeed();
         }
