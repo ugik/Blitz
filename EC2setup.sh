@@ -103,11 +103,10 @@ cd hooks
 sudo touch post-receive
 sudo chmod o+wrx post-receive
 sudo echo '#!/bin/sh' >> post-receive
-sudo echo "DESTINATION=/home/ubuntu/"$project >> post-receive
 sudo echo "GIT_WORK_TREE=/home/ubuntu/"$project".com/" >> post-receive
 sudo echo "export GIT_WORK_TREE" >> post-receive
 sudo echo "git checkout -f" >> post-receive
-sudo echo "rsync -az $GIT_WORK_TREE $DESTINATION --exclude 'usermedia' --delete" >> post-receive
+sudo echo "rsync -az /home/ubuntu/"$project".com/ /home/ubuntu/"$project" --exclude 'usermedia' --delete" >> post-receive
 cd ~
 
 sudo ps -ef | grep supervisord
