@@ -12,7 +12,10 @@ $commentbg: #FAFCFB;
 $commentactionsbg: #F0F2F3;
 $navbarblue: #7ab2ea;
 $orange: #eca368;
-
+$blitz-red: #e8748e;
+$blitz-orange: #eea463;
+$blitz-green: #57c6b9;
+$blitz-purple: #9b8ddb;
 
 @mixin boldfont() {
   font-family: 'proxima_novabold';
@@ -27,7 +30,7 @@ $orange: #eca368;
 }
 
 
-@mixin borderbox {
+@mixin borderbox() {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -338,11 +341,28 @@ Example @include keyframes
 
 .blitz-login {
   margin-top: 30%;
+  @include mobile-only { 
+    margin-top: 10%l
+    }
 }
 
 .blitz-login img {
   display: block;
   margin: 0 auto;
+}
+
+.blitz-signup-info {
+  background: rgba(255,255,255,0.15);
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  margin-top: 60px;
+  //@include iosblur();
+  .img-circle {
+    min-width: 75px;
+    margin-bottom: 20px;
+    margin-top: -50px;
+  }
 }
 
 .navbar {
@@ -424,13 +444,42 @@ body {
   // this code may be questionable; trying to fix tablet layout
   width: 100%;
   padding: 0px;
+  a {
+    @include transition(0.5s, ease);
+  }
 }
 
 body.login-page {
   background: url('/static/images/background.png') #1c1c1c;
-  background-size: 100%;
   @include mobile-only { background: url('/static/images/minibackground.jpg'); }
+  //background-size: 100%;
+  background-repeat: no-repeat;
 }
+
+video { 
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  background: url('/background.png') no-repeat;
+  background-size: cover;
+}
+
+#video-overlay { 
+  //position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -99;
+  background-color: rgba(0,0,0,0.80);
+  }
 
 textarea {
   -webkit-box-sizing: border-box;
@@ -1007,16 +1056,29 @@ a.edit-workout-link {
     margin-bottom: 20px;
   }
   .accordion-heading {
+    @include transition(0.25mems, linear);
     a {
+      text-decoration: none;
       padding: 18px;
       @include header2();
       span.small {
         @include header2small();
+        @include transition(0.25s, linear);
+      }
+      span.small:hover {
+        color: white;
       }
     }
+    .accordion-toggle:hover {
+    color: white;
+    }
   }
-  .accordion-heading:hover {
-    background-color: rgba(255, 117, 0, 0.05);
+  .accordion-heading:hover, {
+    background-color: $fadedblue;
+    color: white !important;
+  }
+  .accordion-heading:hover span {
+    color: white !important;
   }
 
   .notes-container {
@@ -1109,6 +1171,7 @@ a.edit-workout-link {
     }
   }
   .profile-headshot {
+    height: 160px;
     width: 160px;
     position: absolute;
     border: 6px solid white;
@@ -1121,9 +1184,15 @@ a.edit-workout-link {
   background: $navbarblue;
   overflow: auto;
   text-decoration: none;
+  text-align: center;
   .tab {
     padding: 20px;
-    @include mobile-only {padding: 10px};
+    @include borderbox();
+    @include mobile-only {
+      padding: 10px;
+      width: 50%;
+      float: left;
+      };
     float: left;
     border: solid 1px rgba(0,0,0,0.1);
     a {
@@ -1272,13 +1341,13 @@ a.edit-workout-link {
   margin-bottom: 30px;
 }
 
-.flame-member-block-container {
+.blitz-member-block-container {
   border: $border;
   margin-bottom: 30px;
   background: #f0f0f0;
 }
 
-.flame-member-block {
+.blitz-member-block {
   padding: 20px;  
   overflow: auto;
   @include transition(0.25s,ease-in);
@@ -1316,11 +1385,11 @@ a.edit-workout-link {
 
 .img-circle {@include boxshadow(0px,0px,2px,1px,rgba(0,0,0,.1));}
 
-.flame-member-block:hover {
+.blitz-member-block:hover {
   background: rgba(0,0,0,0.025)  
 }
 
-.flame-member-block:focus {
+.blitz-member-block:focus {
   background: rgba(0,0,0,0.05)
   }
 
@@ -1334,7 +1403,7 @@ a.edit-workout-link {
   }
 }
 
-.flame-video {
+.blitz-video {
   width: 100%;
   background: #a9a9a9;
   overflow: auto;
@@ -1553,7 +1622,7 @@ a:focus {
   padding: 20px;
 }
 
-.flame-modal {
+.blitz-modal {
   @include borderradius(0px);
   border: 2px solid #444444;
   .header {
@@ -1575,11 +1644,14 @@ a:focus {
 }
 
 
-.flame-login {
+.blitz-login {
   padding-top: 10%;
   text-align: center;
   img {
     margin-top: 10%;
+  }
+  @include mobile-only {
+    margin-top: 0% !important;
   }
   button {
     margin: 0px;
@@ -1704,6 +1776,8 @@ a:focus {
   color: white;
   .accordion-heading a {
     color: white;
+    text-decoration: none;
+    :hover { text-decoration: none;};
   }
   .accordion-toggle {
     color: white;
@@ -1828,7 +1902,7 @@ background-position: 0 -30px;
     background: rgba(0,0,0,.7);
     color: white;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px;
     @include lightfont();
     a {
       cursor: pointer;
@@ -1867,10 +1941,10 @@ background-position: 0 -30px;
 
 .macro-combo {
   .letter { font-size: 0.7em; height: 24px; width: 17%; overflow: hidden; float: left; margin: -23% 4%; @include tablet-only {margin: -11% 4%;};};
-  .carbs-pass {color: rgba(218, 85, 134, 1.0); background-color: rgba(218, 85, 134, 1.0); }
-  .protein-pass {color: rgba(117, 185, 108, 1.0); background-color: rgba(117, 185, 108, 1.0); }
-  .fat-pass {color: rgba(72, 153, 216, 1.0); background-color: rgba(72, 153, 216, 1.0); }
-  .calories-pass {color: rgba(255, 117, 0, 1.0); background-color: rgba(255, 117, 0, 1.0); }
+  .carbs-pass {color: $blitz-green; background-color: $blitz-green; }
+  .protein-pass {color: $blitz-red; background-color: $blitz-red; }
+  .fat-pass {color: $blitz-orange; background-color: $blitz-orange; }
+  .calories-pass {color: $blitz-purple; background-color: $blitz-purple; }
   .letter-fail {color: #ccc; background-color: #ccc;}
 }
 
@@ -1880,10 +1954,10 @@ background-position: 0 -30px;
     font-size: 20px;
   }
   i.pass {
-    color: rgba(47, 144, 156, .7);
+    color: $blitz-green;
   }
   i.fail {
-    color: rgba(241, 94, 56, .7);
+    color: $blitz-red;
   }
   i.unknown {
     color: #ccc;
@@ -1923,10 +1997,10 @@ background-position: 0 -30px;
       border-top-left-radius: 4px;
       @include tablet-portrait-only {font-size: 0.85em;};
     }
-    .title-carbs { background: rgba(218, 85, 134, 1.0); border: 1px solid rgba(0,0,0,0.1);}
-    .title-protein { background: rgba(117, 185, 108, 1.0); border: 1px solid rgba(0,0,0,0.1);}
-    .title-fat { background: rgba(72, 153, 216, 1.0); border: 1px solid rgba(0,0,0,0.1);}
-    .title-calories { background: rgba(255, 117, 0, 1.0); border: 1px solid rgba(0,0,0,0.1);}
+    .title-carbs { background: $blitz-green; border: 1px solid rgba(0,0,0,0.1);}
+    .title-protein { background: $blitz-red; border: 1px solid rgba(0,0,0,0.1);}
+    .title-fat { background: $blitz-orange; border: 1px solid rgba(0,0,0,0.1);}
+    .title-calories { background: $blitz-purple; border: 1px solid rgba(0,0,0,0.1);}
     .content {
       height: 30px;
       padding: 5px;
@@ -1959,29 +2033,29 @@ background-position: 0 -30px;
     -o-transition: all .25s ease;
     transition: all .25s ease;
   }
-  .choice-no { background: rgba(241, 94, 56, .5); cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
-  .choice-no:hover { background: rgba(241, 94, 56, .8); 
+  .choice-no { opacity: 0.3; background: $blitz-red; cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
+  .choice-no:hover { opacity: 0.8; 
     //-webkit-box-shadow: 0px 0px 1px 1px rgb(241, 94, 56);
     //-moz-box-shadow: 0px 0px 1px 1px rgb(241, 94, 56);
     //box-shadow: 0px 0px 1px 1px rgb(241, 94, 56);
   }
-  .choice-no:active { background: rgba(241, 94, 56, 1.0); }
+  .choice-no:active { background: $blitz-red; opacity: 1; }
 
-  .choice-yes { background:  rgba(47, 144, 156, .5); cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
-  .choice-yes:hover { background: rgba(47, 144, 156, .8); 
+  .choice-yes { opacity: 0.3; background: $blitz-green; cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
+  .choice-yes:hover { opacity: 0.8; 
     //-webkit-box-shadow: 0px 0px 1px 1px $navbarblue;
     //-moz-box-shadow: 0px 0px 1px 1px $navbarblue;
     //box-shadow: 0px 0px 1px 1px $navbarblue;
     }
-  .choice-yes:active { background: rgba(47, 144, 156, 1.0); }
+  .choice-yes:active { background: $blitz-green; opacity: 1;}
 
   // these are same as active state for now
   .choice-no.selected {
-    background: rgba(241, 94, 56, 1.0) ;
+     background: $blitz-red; opacity: 1;
   }
 
   .choice-yes.selected {
-    background: rgba(47, 144, 156, 1.0);
+    background: $blitz-green; opacity: 1;
   }
   a {
     text-decoration: none;
@@ -2326,6 +2400,7 @@ hr { margin-top: 60px;}
     position: relative;
     left: -8px;
     font-size: 16px;
+    text-align: center;
     @include lightfont();
     @include borderradius(0);
   }
@@ -2410,6 +2485,7 @@ hr { margin-top: 60px;}
       top: 12px;
       left: 10px;
       width: 35px;
+      height: 35px;
       border: $imageborder;
     }
     a.name {
@@ -2526,29 +2602,35 @@ text-decoration: none;
 #intro-modal {
   width: 60%;
   margin-left: -30%;
-  @include mobile-only {width: 90%; margin-left: 0%; max-height: 95%;
-overflow: scroll;};
-  
+  @include mobile-only {width: 90%; margin-left: 0%; max-height: 95%; overflow: scroll;};
+  .content {
+    padding:20px
+  }
+
 }
 
 .intro-modal-header {
   color: white !important; 
-  background-color: #30909C; 
+  background-color: $fadedblue;
+  padding: 20px; 
   font-size: 1.2em;
   @include mobile-only {font-size: 1.0em;};
+  display: none;
+
 }
 
-.flame-signup-info {
+.blitz-signup-info {
   position: relative;
   font-size: 16px;
   img.trainer-headshot {
     width: 60px;
     border: 4px solid white;
     position: absolute;
-    right: 10px;
-    top: -55px;
+    top: -20px;
+    left: 33%;
+    @include mobile-only {left: 40%;};
   }
-  .flame-title {
+  .blitz-title {
     @include boldfont();
     padding: 15px 0;
   }
@@ -2562,7 +2644,7 @@ overflow: scroll;};
   }
 }
 
-.flame-cost {
+.blitz-cost {
   text-align: center;
   .title {
     font-size: 20px;
@@ -2598,13 +2680,45 @@ width: 100%;
 
 label.radio {
   display: block;
-margin-bottom: 5px;
-border: 1px solid rgba(255,255,255,0.3);
-border-radius: 5px;
-width: 20%;
-padding-top: 5px;
-padding-left: 22%;
-padding-bottom: 5px;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 5px;
+  width: 20%;
+  padding-top: 5px;
+  padding-left: 22%;
+  padding-bottom: 5px;
+}
+
+.formpage-block label.radio {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  width: 49%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+
+.formpage-block label, .formpage-block label.radio, label.radio {
+  @include transition(0.5s, linear);
+  }
+
+.formpage-block input[type="radio"]:checked+label {
+    @include blitz-gradient();
+  }
+
+.formpage-block label.radio:hover {
+    background: rgba(255,255,255,0.15);
+  }
+
+
+
+
+.formpage-block input[type="radio"] {
+  display: none;
 }
 
 .before-radio {
@@ -2613,8 +2727,9 @@ padding-bottom: 5px;
 
 .intro-h2 {
   text-align: center; 
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   @include mobile-only {font-size: 24px;};
+  @include lightfont();
 }
 
 .intro-modal-third {
@@ -2632,6 +2747,8 @@ padding-bottom: 5px;
 .intro-modal-third p {
   padding: 10px;
   margin: 0px !important;
+  text-align: center;
+  
 }
 
 .intro-blurb {
@@ -2854,7 +2971,7 @@ input::-webkit-inner-spin-button {
   padding: 20px;
   text-align: center;
   margin-right: 30px;
-  @include borderbox{};
+  @include borderbox();
   p {margin-top: -5px;};
 }
 
@@ -3103,7 +3220,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
-.which-flame {
+.which-blitz {
   background: #fafcfb;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
@@ -3346,6 +3463,42 @@ a.feed-permalink-grey {
   @include transition(0.5s, ease);
 }
 
+#dashboard .feeds .feed-item 
+  .parent-headshot img {
+    width: 50px;
+  }
+
+#dashboard .feeds .feed-item .feed-item-content {
+  border-radius: 4px;
+  background: #fdfdfd;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-left: 70px;
+  }
+
+#dashboard #summary .client-name {
+  @include meta();
+  font-size: 27px;
+}
+
+#dashboard #summary .sidebar-box .header {
+  @include meta();
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+#dashboard #summary .sidebar-box .macro-history .week-name {
+  @include meta();
+  font-size: 16px;
+}
+
+#dashboard .sidebar-left {
+  a.brand img {
+  margin: 0 auto;
+  max-width: 100px;
+  padding-top: 10px;
+  }
+}
+
 input#id_document {
   min-width: 50%;
   max-width: 750px;
@@ -3409,7 +3562,7 @@ label#id_document.upload {
   //width: 30%;
   @include meta();
   font-size: 24px;
-  padding: 20px 10px;
+  padding: 10px 20px;
   :hover {
     background: $fadedblue;
     color: white;

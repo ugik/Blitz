@@ -1,12 +1,18 @@
 {% extends "formpage.html" %}
 
-
-
 {% block formpage_content %}
+
+<style type="text/css">
+    .blitz-login {padding-top: 0% !important;};
+</style>
+
 <div class="row">
     <div class="span4 offset4">
         <div class="formpage-block">
-            <div class="header">sign up</div>
+            <div class="header">Sign up</div>
+            <p class="info-text">
+               You're seconds away from taking your fitness to the next level with {{ trainer.short_name }}.
+            </p>
             <div class="content">
                 <form action="#" method="POST" id="blitz-signup-form" class="formpage-block-form">
 
@@ -91,6 +97,7 @@
             <div class="blitz-signup-info">
                 <img class="trainer-headshot img-circle" src="{{ MEDIA_URL }}{{ blitz.sales_page_content.trainer_headshot }}" />
                 <div class="blitz-title">{{ blitz }}</div>
+                <br />
                 <div class="info-block">
                     <div class="title">Schedule</div>
                     <div class="content">
@@ -99,20 +106,18 @@
                         Ends: {{ blitz.end_date }} {% endif %}
                     </div>
                 </div>
+                <br />
+                <div class="blitz-cost">
+                 <div class="title">Cost</div>
+                    <div class="cost">${{ blitz.price }}</div>
+                        {% if blitz.price_per_workout > 0 %}
+                            <div class="per-week">
+                                That's just <span>${{ blitz.price_per_workout|floatformat:0 }}</span> per workout for expert coaching and access to an awesome community.
+                            </div>
+                        {% endif %}
+                 </div>
             </div>
-        </div>
-        <div class="formpage-block-sep"></div>
-        <div class="formpage-block">
-            <div class="blitz-cost">
-                <div class="title">Total program cost</div>
-                <div class="cost">${{ blitz.price }}</div>
-                {% if blitz.price_per_workout > 0 %}
-                <div class="per-week">
-                    That's just <span>${{ blitz.price_per_workout|floatformat:0 }}</span> per workout for expert coaching and access to an awesome community.
-                </div>
-                {% endif %}
-            </div>
-        </div>
+        </div> 
     </div>
 </div>
 <script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
