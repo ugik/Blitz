@@ -244,7 +244,7 @@ class Trainer(models.Model):
     def get_alerts(self):
         alerts = self.traineralert_set.filter(trainer_dismissed=False).order_by('-date_created')
         return [a for a in alerts]
-#        return [a for a in alerts if a.is_still_relevant()]
+        # return [a for a in alerts if a.is_still_relevant()]
 
     def active_blitzes(self):
 #        return self.blitz_set.all().exclude(provisional=True)
@@ -257,6 +257,14 @@ class Trainer(models.Model):
     def all_clients(self):
         members = [f.members() for f in self.active_blitzes()]
         return list(itertools.chain(*members))
+
+    def _all_clients(self):
+        clients = Client.objects.get_empty_query_set()
+
+        for b in self.active_blitzs():
+            clients |= b._members()
+
+        return clients
 
     def feed_items(self):
         blitzes = self.blitz_set.all()
@@ -371,6 +379,23 @@ class Client(models.Model):
         Gym sessions in chronological order
         """
         return self.gymsession_set.all().order_by('date_of_session')
+
+    def get_feeditems(self):
+        """
+        Feed items in chronological order
+        """
+
+        feeditems = FeedItem.objects.get_empty_query_set()
+       
+        # Adds client related Gym Sessions to the feeditems query set
+        for q in self.gymsession_set.all():
+            feeditems |= q.feeditems.all()
+
+        # Adds client related Comments to the feeditems query set
+        for q in Comment.objects.filter(user=self.user).all():
+            feeditems |= q.feeditems.all()
+
+        return feeditems
 
     def get_gym_sessions_reverse(self):
         """
@@ -544,6 +569,13 @@ class Blitz(models.Model):
     def members(self):
         return [f.client for f in self.blitzmember_set.all()]
 
+    def _members(self):
+        members = Client.objects.get_empty_query_set()
+        for b in self.blitzmember_set.all():
+            members |= Client.objects.filter(pk=b.client.pk)
+
+        return members
+
     def end_date(self): # the date of last workout
         if self.custom_end_date:
             return self.custom_end_date
@@ -593,7 +625,6 @@ class Blitz(models.Model):
     def days_since_begin(self, timezone=None):
         if timezone is None:
             timezone = current_tz()
-        today = timezone.normalize(timezone_now()).date()
         delta = today - self.begin_date
         return delta.days
 
@@ -758,7 +789,7 @@ class Comment(models.Model):
     date_and_time = models.DateTimeField()
     parent_comment = models.ForeignKey('self', null=True, blank=True)
     gym_session = models.ForeignKey(GymSession, null=True, blank=True, related_name='gymsessioncomments')
-    feeditems = generic.GenericRelation(FeedItem, related_name='comments')
+    feeditems = generic.GenericRelation(FeedItem)
 
     def __unicode__(self):
         return "%s: \"%s\"" % (self.user.display_name, self.text)

@@ -65,6 +65,7 @@ urlpatterns += patterns(
 
     url(r'^api/new-comment', 'base.views.new_comment', name='new_comment'),
     url(r'^api/blitz_feed$', 'base.views.blitz_feed', name='blitz_feed'),
+    url(r'^api/inbox_feed', 'ff_messaging.views.inbox_feed', name='inbox_feed'),
     url(r'^api/comment_like', 'base.views.comment_like', name='comment_like'),
     url(r'^api/comment_unlike', 'base.views.comment_unlike', name='comment_unlike'),
     url(r'^api/gym_session_like', 'base.views.gym_session_like', name='gym_session_like'),

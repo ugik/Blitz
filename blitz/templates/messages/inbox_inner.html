@@ -1,0 +1,48 @@
+<div class="topright-controls">
+    {% block topright_controls %}
+    {% endblock topright_controls %}
+</div>
+<h2>Inbox</h2>
+<div class="inbox-view">
+    <div class="thread-list">
+        {% include 'messages/inbox_threads.html' %}
+    </div>
+    <div class="message-content">
+        {% block message_content %}
+            <form action="/messages/new" class="new-message-form" method="POST">
+                {% csrf_token %}
+                <div class="to-container">
+                    <label for="id_to_user">To: </label>
+                    <input type="text"
+                           id="to-autocomplete"
+                           placeholder="Start typing someone's name..."
+                           autocomplete="off"
+                           {% if new_message_to_user %}
+                           value="{{ new_message_to_user.display_name }}"
+                           {% endif %}
+                    />
+                    <input type="hidden" name="to_user" id="id_to_user" {% if new_message_to_user %}value="{{ new_message_to_user.pk }}"{% endif %} />
+                </div>
+                <div class="content-container">
+                    <textarea name="message_content" id="id_message_content" cols="30" rows="10" placeholder="Type your message here..."></textarea>
+                </div>
+                <div class="send-container">
+                    <button class="obtn">Send Message</button>
+                </div>
+            </form>
+            <script type="text/javascript">
+                var RECIPIENT_NAMES = {{ recipient_names_json|safe }};
+                var RECIPIENT_MAP = {{ recipient_map_json|safe }};
+                $(document).ready(function() {
+                    $('#to-autocomplete').typeahead({
+                        source: RECIPIENT_NAMES,
+                        updater: function(item) {
+                            $('#id_to_user').attr('value', RECIPIENT_MAP[item]);
+                            return item;
+                        },
+                    });
+                });
+            </script>
+        {% endblock %}
+    </div>
+</div>

@@ -17,6 +17,8 @@ import itertools
 import random
 import string
 
+MEDIA_URL = getattr(settings, 'MEDIA_URL')
+
 def test_mail():
     msg = EmailMessage('Hi','Test email', to=['georgek@gmail.com'])
     msg.send()
@@ -141,11 +143,16 @@ def get_feeditem_html(feed_item, user):
         })
 
 def get_client_summary_html(client, macro_goals, macro_history):
+    macro_goals_formatted = { k: '{:.2f}'.format(macro_goals[k]/1000.00) for k in macro_goals }
     return render_to_string('dashboard/client_summary.html', {
         'client': client,
-        'macro_goals': macro_goals,
-        'macro_history': macro_history
+        'macro_goals': macro_goals_formatted,
+        'macro_history': macro_history,
+        'MEDIA_URL': MEDIA_URL
     })
+
+def get_inboxfeed_html(user_threads):
+    return render_to_string('messages/inbox_inner.html', {'user_threads': user_threads})
 
 def new_gym_session_from_file(client, file_path, week, day):
     """

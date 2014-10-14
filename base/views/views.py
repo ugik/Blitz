@@ -686,6 +686,9 @@ def save_sets(request):
 def blitz_feed(request):
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
+    search_text = request.GET.get('search_text')
+    feed_items = []
+    print '::search_text: ', search_text
 
     try:
         obj_id = int( request.GET.get('object_id') )
@@ -693,16 +696,31 @@ def blitz_feed(request):
         print e
         obj_id = None
 
+    if search_text and len(search_text) > 0:
+        clients = request.user.trainer._all_clients().filter(name__icontains=search_text)
+        # blitzs = request.user.trainer.active_blitzs().filter(title__icontains=search_text)
 
-    if feed_scope == 'all':
-        feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+10]
+        feed_items = FeedItem.objects.get_empty_query_set()
 
-    elif feed_scope == 'blitz':
-        feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
+        # Adds client related feeds
+        for client in clients:
+            feed_items |= client.get_feeditems()
 
-    elif feed_scope == 'client':
-        client = Client.objects.filter(pk=obj_id)
-        feed_items = FeedItem.objects.filter( Q(comments__user__client = client) | Q(gymsessions__client = client) ).order_by('-pub_date')[offset:offset+10]
+        # Adds client related feeds
+        # for blitz in blitzs:
+        #     feed_items |= blitz.get_feeditems()
+
+        feed_items = feed_items.order_by('-pub_date')[offset:offset+10]
+    else:
+        if feed_scope == 'all':
+            feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+10]
+
+        elif feed_scope == 'blitz':
+            feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
+
+        elif feed_scope == 'client':
+            client = Client.objects.get(pk=obj_id)
+            feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+10]
 
     ret = {
         'feeditems': [],
@@ -716,6 +734,9 @@ def blitz_feed(request):
         })
 
     return JSONResponse(ret)
+
+def search_client_blitz(request, keyword):
+    pass
 
 
 def client_summary(request, pk):
@@ -1536,7 +1557,6 @@ def single_post_comment(request, pk):
 
 @login_required
 def trainer_dashboard(request):
-#    import pdb; pdb.set_trace()
     user_id = request.user.pk
 
     blitzes = request.user.trainer.active_blitzes()
@@ -1546,4 +1566,3 @@ def trainer_dashboard(request):
         return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})
     else:
         return redirect('home')
-
