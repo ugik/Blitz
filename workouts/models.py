@@ -120,7 +120,7 @@ class WorkoutSetCustom(models.Model):
 
 class WorkoutPlan(models.Model):
     """
-    A full workout plan
+    A full workout plan (program)
     """
 
     name = models.CharField(max_length=100, default="")

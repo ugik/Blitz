@@ -452,6 +452,17 @@ def client_profile_notes(request, pk):
         })
 
 @login_required
+def my_programs(request):
+    request_blitz = request.user.blitz
+    blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
+    if request.user.is_trainer:
+        return render(request, 'trainer_programs.html', {'trainer': request.user.trainer })
+    else:
+        return render(request, 'blitz_program.html', {
+            'blitz': blitz, 'client': request.user.client })
+
+
+@login_required
 def my_blitz_program(request):
     blitz = request.user.blitz
     return blitz_program(request, blitz.pk)

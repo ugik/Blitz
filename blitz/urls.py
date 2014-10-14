@@ -53,11 +53,13 @@ urlpatterns += patterns(
 
     url(r'^upload$', 'base.views.upload_page', name='upload_page'),
 
-    url(r'^program$', 'base.views.my_blitz_program', name='my_blitz_program'),
-    url(r'^program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
+    url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
 
-    url(r'^program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
-    url(r'^program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
+# old programs urls
+    url(r'^old_program$', 'base.views.my_blitz_program', name='my_blitz_program'),
+    url(r'^old_program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
+    url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
+    url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
 
     url(r'^dashboard$', 'base.views.trainer_dashboard', name='trainer_dashboard'),
 

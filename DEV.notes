@@ -67,5 +67,10 @@ week of 10.6
 week of 10.13
 - supervisord config in EC2setup.sh
 - usage digest with last login
+- rework EC2update to use rsync instead of .git push
+
+
+
+
 
 
