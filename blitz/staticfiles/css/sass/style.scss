@@ -677,7 +677,7 @@ textarea,textarea:focus {
     }
 
     .nav-item .active {
-      color: $fadedblue;
+      color: white;
     }
 
 }
@@ -1806,6 +1806,7 @@ a:focus {
 .workout-day-block {
   min-height: 220px;
   padding: 10px;
+  margin-bottom: 20px;
   ul { margin-top: 20px; }
   li {
     line-height: 1.3;
