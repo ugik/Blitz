@@ -6,7 +6,7 @@ from base import emails
 def possible_recipients_for_user(user):
     if user.is_trainer:
         users = set()
-        for blitz in user.trainer.active_blitzs():
+        for blitz in user.trainer.active_blitzes():
             users = users | set(blitz.active_users())
         return list(users)
     else:

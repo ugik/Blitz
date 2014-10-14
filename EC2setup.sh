@@ -16,11 +16,13 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y install python-pip
 sudo apt-get -y install git-core
+sudo apt-get -y install rabbitmq-server
+sudo apt-get -y install supervisor
 
 #setup and install PIL w/ZIP support:
-sudo apt-get build-dep python-imaging
-sudo apt-get install libjpeg62 libjpeg62-dev
-sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
+sudo apt-get -y build-dep python-imaging
+sudo apt-get -y install libjpeg62 libjpeg62-dev
+sudo apt-get -y install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
 sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib
 sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
 sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
@@ -30,6 +32,7 @@ sudo pip install Pillow
 
 #grab requirements
 sudo pip install -r requirements.txt
+sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 sudo pip install six --upgrade
 sudo pip install django-bootstrap-toolkit
 
@@ -74,11 +77,19 @@ sudo a2dissite 000-default
 sudo a2ensite $project.conf
 
 # static files
-cd /home/ubuntu
-sudo chmod o+rwx -R $project_app/collected_static
+sudo chown ubuntu:ubuntu /home/ubuntu/$project
+sudo chown ubuntu:ubuntu /home/ubuntu/$project_app
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
 sudo /etc/init.d/apache2 restart
+
+# supervisord
+cd /home/ubuntu/$project
+mkdir logs
+rpl '*EMAIL_PASSWORD*' $EMAIL_PASSWORD supervisord.conf
+rpl '*SECRET_KEY*' $SECRET_KEY supervisord.conf
+supervisord
+sudo ps -ef | grep supervisord
 
 # setup remote git repo and hooks
 cd /home/ubuntu
@@ -103,5 +114,7 @@ cd ~
 # references:
 # Ubuntu 14.x remote LAMP setup: http://nickpolet.com/blog/1/
 # locale LAMP setup: http://www.lleess.com/2013/05/install-django-on-apache-server-with.html#.UwavkDddV38
+# http://www.webforefront.com/django/setupapachewebserverwsgi.html
 # http://cuppster.com/2011/01/30/using-git-to-remotely-install-website-updates/
+# http://bixly.com/blog/supervisord-or-how-i-learned-to-stop-worrying-and-um-use-supervisord/
 

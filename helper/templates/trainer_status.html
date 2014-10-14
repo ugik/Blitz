@@ -1,0 +1,58 @@
+{% extends "helper_base.html" %}
+
+{% block main %}
+
+<h4>Here are the trainers <i>and their Blitz & WorkoutPlan status</i><br></h4>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+<p>Remember: Trainers have <b>WorkoutPlan</b>s (that define daily/weekly exercises) and <b>Blitz</b>(es) (that belong to an individual or group of <b>Client</b>(s)</p>
+<p>A 'provisional' blitz is a 1:1 Blitz that clients will signup for, upon signup a <i>copy</i> of this provisional blitz is applied</p>
+
+{% for trainer in trainers|dictsort:"name" %}
+{{ trainer.name }}
+<ul>
+   <li>Blitzes:<ul>
+   {% if not trainer.blitz_set.all %}
+       <li>(no Blitzes)
+   {% endif %}
+   {% for blitz in trainer.blitz_set.all %}
+       <li>{{ blitz.url_slug }}
+           {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
+           {% if blitz.recurring %}<small>(Recurring)</small>{% endif %}
+           {% if not blitz.recurring %}<small>(Group)</small>{% endif %}
+
+           {% if blitz.workout_plan.id %}
+               <small><u>has workoutplan:{{ blitz.workout_plan.name }}</u></small>
+           {% else %}
+               <small><b>(no WorkoutPlan assigned)</b></small>
+           {% endif %}
+
+   {% endfor %}</ul>
+
+   <li>WorkoutPlans:<ul>
+   {% if not trainer.workoutplan_set.all %}
+       <li>(no WorkoutPlans)
+   {% endif %}
+   {% for workoutplan in trainer.workoutplan_set.all %}
+      <li>{{ workoutplan.name }}
+      <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Blitz</small></a>
+   {% endfor %}</ul>
+</ul>
+{% endfor %}
+
+{% if errors %}
+    <ul>
+    {% for e in errors %}
+        <li>{{ e }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+<br>
+<a href="{% url "helper_index" %}">Helper Home</a>
+
+{% endblock %}
+
