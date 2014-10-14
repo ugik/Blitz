@@ -633,6 +633,10 @@ textarea,textarea:focus {
       };
     }
 
+    .nav-item .active {
+      color: $fadedblue;
+    }
+
 }
 
 #top-level-navs .nav-item .active {
@@ -1404,13 +1408,14 @@ a.edit-workout-link {
 .blitz-member-block-container {
   border: $border;
   margin-bottom: 30px;
-  background: #f0f0f0;
+  
 }
 
 .blitz-member-block {
   padding: 20px;  
   overflow: auto;
   @include transition(0.25s,ease-in);
+  background: rgba(255,255,255,1);
   .outer-link {
     color: inherit;
     text-decoration: inherit;
@@ -1446,11 +1451,11 @@ a.edit-workout-link {
 .img-circle {@include boxshadow(0px,0px,2px,1px,rgba(0,0,0,.1));}
 
 .blitz-member-block:hover {
-  background: rgba(0,0,0,0.025)  
+  background: $trainercommentcolor;
 }
 
 .blitz-member-block:focus {
-  background: rgba(0,0,0,0.05)
+  background: $trainercommentcolor;
   }
 
 .go-profile-container {
