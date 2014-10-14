@@ -553,29 +553,45 @@ textarea,textarea:focus {
   float: left;
   //top: 4px;
   position: relative;
+  @include mobile-only {margin-top: 20px;};
 
   .nav-item {
     float: left;
     padding: 10px 15px;
-    @include mobile-only { width: 90%; float: inherit; background: #1c1c1c; z-index: 10; }
+    @include transition(0.5s, ease);
+    @include mobile-only { 
+      width: 90%; 
+      float: inherit; 
+      //background: #1c1c1c; 
+      z-index: 10; 
+      };
     a {
-      color: white;
+      @include transition(0.5s, ease);
       @include meta();
       font-size: 16px;
       margin-top: 10px;
+      background: rgba(0,0,0,0) !important;
+      };
     }
-    @include transition(0.5s, ease)
-    }
+
   .nav-item:hover {
    background: rgba(255,255,255,.1);
-   a {
-    @include mobile-only { color: #333;}
-   }
- }
+   a { color: white; }
+    @include mobile-only { 
+
+      };
+    }
+
  .nav-item:active {
-  background: rgba(255,255,255,0.1);
+  //background: rgba(255,255,255,0.2);
+  @include blitz-gradient();
   }
 
+}
+
+#top-level-navs .nav-item .active {
+  //@include blitz-gradient();
+  //color: white;
 }
 
 #account-block {
