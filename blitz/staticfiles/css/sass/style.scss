@@ -582,11 +582,6 @@ textarea,textarea:focus {
       };
     }
 
- .nav-item:active {
-  //background: rgba(255,255,255,0.2);
-  @include blitz-gradient();
-  }
-
 }
 
 #top-level-navs .nav-item .active {
