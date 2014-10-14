@@ -1,14 +1,22 @@
 {% extends "formpage.html" %}
 
 {% block formpage_content %}
+
+<style type="text/css">
+    body.login-page {margin-top: -5%;}
+</style>
+
 <div class="row">
     <div class="span4 offset4">
         <div class="formpage-block">
             <div class="header">Your profile's all set up!</div>
+                <div class="info-text" style="margin-bottom: 20px;">
+                    You're ready to rock and roll. Let's go.
+                </div> 
             <div class="content">
                 {% include 'client_basic_info_summary.html' %}
                 <div class="form-sep"></div>
-                <a href="/" style="margin-top: 10px;" class="obtn obtn-comment">Go to homepage →</a>
+                <a href="/" style="margin-top: 10px;" class="obtn obtn-comment">Finish Signup →</a>
             </div>
         </div>
     </div>

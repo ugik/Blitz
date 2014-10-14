@@ -12,7 +12,10 @@ $commentbg: #FAFCFB;
 $commentactionsbg: #F0F2F3;
 $navbarblue: #7ab2ea;
 $orange: #eca368;
-
+$blitz-red: #e8748e;
+$blitz-orange: #eea463;
+$blitz-green: #57c6b9;
+$blitz-purple: #9b8ddb;
 
 @mixin boldfont() {
   font-family: 'proxima_novabold';
@@ -1896,7 +1899,7 @@ background-position: 0 -30px;
     background: rgba(0,0,0,.7);
     color: white;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px;
     @include lightfont();
     a {
       cursor: pointer;
@@ -1935,10 +1938,10 @@ background-position: 0 -30px;
 
 .macro-combo {
   .letter { font-size: 0.7em; height: 24px; width: 17%; overflow: hidden; float: left; margin: -23% 4%; @include tablet-only {margin: -11% 4%;};};
-  .carbs-pass {color: rgba(218, 85, 134, 1.0); background-color: rgba(218, 85, 134, 1.0); }
-  .protein-pass {color: rgba(117, 185, 108, 1.0); background-color: rgba(117, 185, 108, 1.0); }
-  .fat-pass {color: rgba(72, 153, 216, 1.0); background-color: rgba(72, 153, 216, 1.0); }
-  .calories-pass {color: rgba(255, 117, 0, 1.0); background-color: rgba(255, 117, 0, 1.0); }
+  .carbs-pass {color: $blitz-green; background-color: $blitz-green; }
+  .protein-pass {color: $blitz-red; background-color: $blitz-red; }
+  .fat-pass {color: $blitz-orange; background-color: $blitz-orange; }
+  .calories-pass {color: $blitz-purple; background-color: $blitz-purple; }
   .letter-fail {color: #ccc; background-color: #ccc;}
 }
 
@@ -1948,10 +1951,10 @@ background-position: 0 -30px;
     font-size: 20px;
   }
   i.pass {
-    color: rgba(47, 144, 156, .7);
+    color: $blitz-green;
   }
   i.fail {
-    color: rgba(241, 94, 56, .7);
+    color: $blitz-red;
   }
   i.unknown {
     color: #ccc;
@@ -1991,10 +1994,10 @@ background-position: 0 -30px;
       border-top-left-radius: 4px;
       @include tablet-portrait-only {font-size: 0.85em;};
     }
-    .title-carbs { background: rgba(218, 85, 134, 1.0); border: 1px solid rgba(0,0,0,0.1);}
-    .title-protein { background: rgba(117, 185, 108, 1.0); border: 1px solid rgba(0,0,0,0.1);}
-    .title-fat { background: rgba(72, 153, 216, 1.0); border: 1px solid rgba(0,0,0,0.1);}
-    .title-calories { background: rgba(255, 117, 0, 1.0); border: 1px solid rgba(0,0,0,0.1);}
+    .title-carbs { background: $blitz-green; border: 1px solid rgba(0,0,0,0.1);}
+    .title-protein { background: $blitz-red; border: 1px solid rgba(0,0,0,0.1);}
+    .title-fat { background: $blitz-orange; border: 1px solid rgba(0,0,0,0.1);}
+    .title-calories { background: $blitz-purple; border: 1px solid rgba(0,0,0,0.1);}
     .content {
       height: 30px;
       padding: 5px;
@@ -2027,29 +2030,29 @@ background-position: 0 -30px;
     -o-transition: all .25s ease;
     transition: all .25s ease;
   }
-  .choice-no { background: rgba(241, 94, 56, .5); cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
-  .choice-no:hover { background: rgba(241, 94, 56, .8); 
+  .choice-no { opacity: 0.3; background: $blitz-red; cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
+  .choice-no:hover { opacity: 0.8; 
     //-webkit-box-shadow: 0px 0px 1px 1px rgb(241, 94, 56);
     //-moz-box-shadow: 0px 0px 1px 1px rgb(241, 94, 56);
     //box-shadow: 0px 0px 1px 1px rgb(241, 94, 56);
   }
-  .choice-no:active { background: rgba(241, 94, 56, 1.0); }
+  .choice-no:active { background: $blitz-red; opacity: 1; }
 
-  .choice-yes { background:  rgba(47, 144, 156, .5); cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
-  .choice-yes:hover { background: rgba(47, 144, 156, .8); 
+  .choice-yes { opacity: 0.3; background: $blitz-green; cursor: pointer; box-sizing: border-box; border: 1px solid rgba(0,0,0,0.1);}
+  .choice-yes:hover { opacity: 0.8; 
     //-webkit-box-shadow: 0px 0px 1px 1px $navbarblue;
     //-moz-box-shadow: 0px 0px 1px 1px $navbarblue;
     //box-shadow: 0px 0px 1px 1px $navbarblue;
     }
-  .choice-yes:active { background: rgba(47, 144, 156, 1.0); }
+  .choice-yes:active { background: $blitz-green; opacity: 1;}
 
   // these are same as active state for now
   .choice-no.selected {
-    background: rgba(241, 94, 56, 1.0) ;
+     background: $blitz-red; opacity: 1;
   }
 
   .choice-yes.selected {
-    background: rgba(47, 144, 156, 1.0);
+    background: $blitz-green; opacity: 1;
   }
   a {
     text-decoration: none;
@@ -2674,13 +2677,45 @@ width: 100%;
 
 label.radio {
   display: block;
-margin-bottom: 5px;
-border: 1px solid rgba(255,255,255,0.3);
-border-radius: 5px;
-width: 20%;
-padding-top: 5px;
-padding-left: 22%;
-padding-bottom: 5px;
+  margin-bottom: 5px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 5px;
+  width: 20%;
+  padding-top: 5px;
+  padding-left: 22%;
+  padding-bottom: 5px;
+}
+
+.formpage-block label.radio {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  width: 49%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+
+.formpage-block label, .formpage-block label.radio, label.radio {
+  @include transition(0.5s, linear);
+  }
+
+.formpage-block input[type="radio"]:checked+label {
+    @include blitz-gradient();
+  }
+
+.formpage-block label.radio:hover {
+    background: rgba(255,255,255,0.15);
+  }
+
+
+
+
+.formpage-block input[type="radio"] {
+  display: none;
 }
 
 .before-radio {
@@ -2689,7 +2724,7 @@ padding-bottom: 5px;
 
 .intro-h2 {
   text-align: center; 
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   @include mobile-only {font-size: 24px;};
   @include lightfont();
 }
