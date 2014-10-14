@@ -625,6 +625,7 @@ class Blitz(models.Model):
     def days_since_begin(self, timezone=None):
         if timezone is None:
             timezone = current_tz()
+        today = timezone.normalize(timezone_now()).date()
         delta = today - self.begin_date
         return delta.days
 
