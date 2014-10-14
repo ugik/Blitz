@@ -246,13 +246,8 @@ class Trainer(models.Model):
         return [a for a in alerts]
         # return [a for a in alerts if a.is_still_relevant()]
 
-<<<<<<< HEAD
-    def active_blitzs(self):
-        # return self.blitz_set.all().exclude(provisional=True)
-=======
     def active_blitzes(self):
 #        return self.blitz_set.all().exclude(provisional=True)
->>>>>>> 34b3097aae896ddf40b81bcf9ceda81a577c3568
         return self.blitz_set.all()
 
     def set_currently_viewing_blitz(self, blitz):
@@ -630,7 +625,6 @@ class Blitz(models.Model):
     def days_since_begin(self, timezone=None):
         if timezone is None:
             timezone = current_tz()
-        today = timezone.normalize(timezone_now()).date()
         delta = today - self.begin_date
         return delta.days
 
