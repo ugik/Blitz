@@ -1,5 +1,8 @@
 #!/bin/bash
-echo "setup EC2 instance..."
+if [ -d "/home/gk" ]; then
+  echo "Local setup, exiting..."
+  exit
+fi
 
 # setup vars
 github_password='GITHUB PASSWORD'
@@ -78,8 +81,7 @@ sudo a2dissite 000-default
 sudo a2ensite $project.conf
 
 # static files
-sudo chown ubuntu:ubuntu /home/ubuntu/$project
-sudo chown ubuntu:ubuntu /home/ubuntu/$project_app
+sudo chown ubuntu:ubuntu -R /home/ubuntu/$project
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
 sudo /etc/init.d/apache2 restart
