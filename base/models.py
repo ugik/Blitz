@@ -246,13 +246,8 @@ class Trainer(models.Model):
         return [a for a in alerts]
         # return [a for a in alerts if a.is_still_relevant()]
 
-<<<<<<< HEAD
-    def active_blitzs(self):
-        # return self.blitz_set.all().exclude(provisional=True)
-=======
     def active_blitzes(self):
 #        return self.blitz_set.all().exclude(provisional=True)
->>>>>>> 34b3097aae896ddf40b81bcf9ceda81a577c3568
         return self.blitz_set.all()
 
     def set_currently_viewing_blitz(self, blitz):
