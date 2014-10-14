@@ -1,5 +1,5 @@
 {% load blitz_tags %}
-<div class="trainer-alert-box">
+<div id="trainer-alert-box">
     <div class="header">Alerts</div>
     {% for alert in alerts %}
         {% if alert.alert_type == "W" %}
@@ -31,9 +31,12 @@ $(document).ready(function() {
     $('.dismiss-alert').on('click', function() {
         var that = this;
         $.post('/trainer/dismiss-alert', {alert_pk: $(this).data('alert_pk')}, function(data) {
+            //$(that).closest('.trainer-alert').classList.add('fadeout');         
             $(that).closest('.trainer-alert').remove();
+            
             // TODO: should remove alert box if 0 alerts
         });
     });
 });
+
 </script>

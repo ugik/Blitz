@@ -390,6 +390,49 @@ Example @include keyframes
           to   { opacity: 1; }
       }
 
+
+.fadeout {
+      -webkit-animation: fadeout 0.25s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadeout 0.25s; /* Firefox < 16 */
+        -ms-animation: fadeout 0.25s; /* Internet Explorer */
+         -o-animation: fadeout 0.25s; /* Opera < 12.1 */
+            animation: fadeout 0.25s;
+      //background: black;
+}
+
+
+
+      @keyframes fadeout {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+      }
+
+      /* Firefox < 16 */
+      @-moz-keyframes fadeout {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+      }
+
+      /* Safari, Chrome and Opera > 12.1 */
+      @-webkit-keyframes fadeout {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+      }
+
+      /* Internet Explorer */
+      @-ms-keyframes fadeout {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+      }
+
+      /* Opera < 12.1 */
+      @-o-keyframes fadeout {
+          from { opacity: 1; }
+          to   { opacity: 0; }
+      }
+
+
+
 .blitz-login {
   margin-top: 30%;
   @include mobile-only { 
@@ -2523,9 +2566,10 @@ hr { margin-top: 60px;}
 
 .form-sep { height: 10px; }
 
-.trainer-alert-box {
+#trainer-alert-box {
   border-radius: 4px;
   @include ffboxshadow();
+  @include transition(0.5s, linear);
   background: $commentbg;
   border: $border;
   margin-bottom: 30px;
@@ -2545,6 +2589,7 @@ hr { margin-top: 60px;}
     font-size: 16px;
     border-top: $border;
     position: relative;
+    @include transition(0.5s, linear);
     img.headshot {
       position: absolute;
       top: 12px;
@@ -2569,6 +2614,7 @@ hr { margin-top: 60px;}
   font-size: 28px;
   float: right;
   cursor: pointer;
+  @include transition(0.5s, linear);
 }
 .dismiss-alert:hover {
   color: rgba(0,0,0,.5);
@@ -3421,11 +3467,13 @@ p.no-messages {
   overflow: scroll;
   border-bottom: $border;
   height: 440px;
+  //background: $trainercommentcolor;
 }
 
 .message {
   padding: 20px;
   border-bottom: $border;
+  background: white;
   .header {
     padding-bottom: 20px;
     .headshot {
@@ -3469,7 +3517,6 @@ p.no-messages {
   padding-left: 20px;
   padding-top: 20px;
   //margin-bottom: 20px;
-  background-color: #fffbfc;
   textarea {
     @include regularfont();
     border: $border;
