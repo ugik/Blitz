@@ -55,6 +55,8 @@ nohup supervisord -n > logs/supervisord.out 2> logs/supervisord.err < /dev/null 
 sudo ps -ef | grep supervisord
 sudo kill -s SIGTERM ####
 
+#mysql
+mysql -uroot -pmysql
 
 #flame signup w/text CC
 (John Doe, cc#4111111111111111 exp:12/2020 code:123)
