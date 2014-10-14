@@ -87,8 +87,8 @@ sudo /etc/init.d/apache2 restart
 # supervisord
 cd /home/ubuntu/$project
 mkdir logs
-sudo rpl '*EMAIL_PASSWORD*' $EMAIL_PASSWORD supervisord.conf
-sudo rpl '*SECRET_KEY*' $SECRET_KEY supervisord.conf
+sudo rpl '*EMAIL_PASSWORD*' $email_password supervisord.conf
+sudo rpl '*SECRET_KEY*' $secret_key supervisord.conf
 supervisord
 
 # setup remote git repo and hooks
