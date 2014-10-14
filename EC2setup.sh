@@ -18,6 +18,7 @@ sudo apt-get -y install python-pip
 sudo apt-get -y install git-core
 sudo apt-get -y install rabbitmq-server
 sudo apt-get -y install supervisor
+sudo apt-get -y install rpl
 
 #setup and install PIL w/ZIP support:
 sudo apt-get -y build-dep python-imaging
@@ -86,10 +87,9 @@ sudo /etc/init.d/apache2 restart
 # supervisord
 cd /home/ubuntu/$project
 mkdir logs
-rpl '*EMAIL_PASSWORD*' $EMAIL_PASSWORD supervisord.conf
-rpl '*SECRET_KEY*' $SECRET_KEY supervisord.conf
+sudo rpl '*EMAIL_PASSWORD*' $EMAIL_PASSWORD supervisord.conf
+sudo rpl '*SECRET_KEY*' $SECRET_KEY supervisord.conf
 supervisord
-sudo ps -ef | grep supervisord
 
 # setup remote git repo and hooks
 cd /home/ubuntu
@@ -110,6 +110,7 @@ sudo echo "git checkout -f" >> post-receive
 sudo echo "rsync -az $GIT_WORK_TREE $DESTINATION --exclude 'usermedia' --delete" >> post-receive
 cd ~
 
+sudo ps -ef | grep supervisord
 
 # references:
 # Ubuntu 14.x remote LAMP setup: http://nickpolet.com/blog/1/
