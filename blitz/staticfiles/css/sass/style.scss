@@ -520,14 +520,12 @@ textarea,textarea:focus {
 #colorstripe, .colorstripe {
   display: block;
   height: 2px;
-  //background: url('/static/images/colorstripe.png') repeat-x;
   @include blitz-gradient();
   
 }
 
 #altcolorstripe {
-  height: 3px;
-  //background: url('/static/images/altcolorstripe.jpg') repeat;
+  height: 2px;
   @include blitz-gradient();
 }
 

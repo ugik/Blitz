@@ -370,12 +370,12 @@ textarea,textarea:focus {
 #colorstripe {
   display: block;
   height: 2px;
-  background: url('/static/images/colorstripe.png') repeat-x;
+  @include blitz-gradient();
 }
 
 #altcolorstripe {
   height: 3px;
-  background: url('/static/images/altcolorstripe.jpg') repeat;
+  @include blitz-gradient();
 }
 
 #header-container {
