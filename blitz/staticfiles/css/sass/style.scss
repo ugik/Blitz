@@ -1650,6 +1650,9 @@ a:focus {
   img {
     margin-top: 10%;
   }
+  @include mobile-only {
+    margin-top: 0% !important;
+  }
   button {
     margin: 0px;
     width: 216px;
