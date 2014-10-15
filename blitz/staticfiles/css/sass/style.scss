@@ -97,6 +97,23 @@ $blitz-purple: #9b8ddb;
   //background-image: -moz-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
   //background-image: -ms-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
   //background-image: linear-gradient(-179deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
+  
+}
+
+@mixin blitz-gradient-hover() {
+  background-image: -o-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
+  background-image: -moz-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
+  background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
+  background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
+  background: #94c1ee;
+}
+
+@mixin blitz-gradient-active() {
+  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+  background: #69a1d9;
 }
 
 @mixin iosblur() {
@@ -662,7 +679,7 @@ textarea,textarea:focus {
     float: left;
     padding: 10px 15px;
     @include transition(0.5s, ease);
-    @include mobile-only { 
+    @include mobile-landscape-and-below { 
       width: 90%; 
       float: inherit; 
       //background: #1c1c1c; 
@@ -680,7 +697,7 @@ textarea,textarea:focus {
   .nav-item:hover {
    background: rgba(255,255,255,.1);
    a { color: white; }
-    @include mobile-only { 
+    @include mobile-landscape-and-below { 
 
       };
     }
@@ -1583,14 +1600,7 @@ a.edit-workout-link {
   padding: 0 20px;
   margin-right: 5px;
   border-radius: 5px;
-  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: -o-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
-  background-image: -moz-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
-  background-image: -ms-linear-gradient(-89deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
-  background-image: linear-gradient(-179deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.00) 100%);
+  @include blitz-gradient();
   background: #7ab2ea;
   color: #fff !important;
   display: inline-block;
@@ -1627,12 +1637,8 @@ a.edit-workout-link {
 
 
 .obtn:active {
-  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
-  background: #69a1d9;
   //background-repeat: repeat-x;
+  @include blitz-gradient-active();
   border-top: 1px solid rgba(0,0,0,0.2);
   margin-top: 2px;
   border-bottom-width: 0;
@@ -1641,11 +1647,7 @@ a.edit-workout-link {
 
 
 .obtn:hover {
-  background-image: -o-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-  background-image: -moz-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-  background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-  background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
-  background: #94c1ee;
+  @include blitz-gradient-hover();
   @include animation('btnpulsate .75s infinite');
   //background-repeat: repeat-x;
   //border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -1719,6 +1721,7 @@ a.edit-workout-link {
   background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
   background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
   background: #94c1ee;
+  @include animation('btnpulsate .75s infinite');
   //background-repeat: repeat-x;
   //border-bottom: 1px solid rgba(0,0,0,0.2);
 }
@@ -1890,8 +1893,43 @@ a:focus {
 }
 
 .alert a {
-  @include boldfont();
-}
+  @include meta();
+  @include blitz-gradient();
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 20px;
+  text-decoration: none;
+  text-shadow: none;
+  @include tablet-landscape-and-below {
+    //width: 100%;
+    display: block;
+    margin-left: 0px;
+    text-align: center;
+    margin-top: 10px;
+  };
+  }
+  .alert a:hover {
+    background-image: -o-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
+    background-image: -moz-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
+    background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
+    background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
+    background: #94c1ee;
+    @include animation('btnpulsate .75s infinite');
+  }
+  .alert a:active {
+    background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+    background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+    background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+    background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+    background: #69a1d9;
+    //background-repeat: repeat-x;
+    border-top: 1px solid rgba(0,0,0,0.2);
+    margin-top: 2px;
+    border-bottom-width: 0;
+    text-decoration: none;
+  }
+
 
 .exercise-finished {
   background: $fadedblue;
@@ -2061,6 +2099,11 @@ background-position: 0 -30px;
     }
   }
 } 
+
+.macros-not-set {
+  text-align: center;
+  padding-top: 10px;
+}
 
 .macro-combo {
   .letter { font-size: 0.7em; height: 24px; width: 17%; overflow: hidden; float: left; margin: -23% 4%; @include tablet-only {margin: -11% 4%;};};
@@ -2689,11 +2732,11 @@ text-decoration: none;
 .alert-info {
   //background: rgba(236,163,104, .05);
   background: white;
-  color: $orange;
-  border: 1px solid $orange;
+  color: #515352;
+  border: 1px solid $fadedblue;
+  text-shadow: none;
   //display: none;
-  color: #eca368;
-  border: 1px solid #eca368;
+  border: 1px solid $fadedblue;
   font-size: 1.3em;
   padding: 20px 20px;
   line-height: 1.5;
@@ -3699,4 +3742,10 @@ label#id_document.upload {
 .upload-btn {
   max-width: 575px;
   min-width: 50%;
+}
+
+#pictureForm > table, #done_action {
+  @include mobile-landscape-and-below {
+    width: 100%;
+  };
 }
