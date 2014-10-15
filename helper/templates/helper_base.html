@@ -1,6 +1,32 @@
-<img src="{{ STATIC_URL }}images/logo.png" /></a><br>
-<style>body { font-family: Ubuntu, sans-serif; }</style>
+{% extends "base.html" %}
 
-{% block main %}
+{% block body_extras %}class="login-page"{% endblock %}
 
-{% endblock %}
+{% block outer_content %}
+
+<style type="text/css">
+	.container {
+		text-align: center !important;
+		color: white !important;
+	}
+	.container a {
+		color: cornflower-blue !important;
+	}
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="span4 offset4">
+            <div class="blitz-login style="color: white;>
+                <img src="{{ STATIC_URL }}images/logo-w.png" />
+            </div>
+                            {% block main %}
+				{% endblock %}
+        </div>
+    </div>
+    
+</div>
+{% endblock outer_content %}
+
+
+

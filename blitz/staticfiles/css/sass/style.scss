@@ -569,6 +569,16 @@ body {
   }
 }
 
+a {
+  color: $fadedblue;
+  text-decoration: none;
+  }
+  a:hover, a:focus {
+    text-decoration: underline;
+    color: #94c1ee !important;
+    }
+
+
 body.login-page {
   background: url('/static/images/background.png') #1c1c1c;
   @include mobile-only { background: url('/static/images/minibackground.jpg'); }
@@ -1315,6 +1325,7 @@ a.edit-workout-link {
 }
 
 .profile-tabs {
+
   background: $navbarblue;
   overflow: auto;
   text-decoration: none;
@@ -1331,7 +1342,8 @@ a.edit-workout-link {
     border: solid 1px rgba(0,0,0,0.1);
     a {
       color: white;
-      @include lightfont();
+      @include meta();
+      //@include lightfont();
       font-size: 24px;
       @include mobile-only {font-size: 16px;};
       text-decoration: none;
@@ -1629,10 +1641,10 @@ a.edit-workout-link {
   -moz-border-radius: 3px;
   border-radius: 3px;
   text-decoration: none !important;
-  -webkit-appearance: button-bevel !important;
-  -moz-appearance: button-bevel !important;
-  -ms-appearance: button-bevel !important;
-  -o-appearance: default-button !important;
+  //-webkit-appearance: button-bevel !important;
+  //-moz-appearance: button-bevel !important;
+  //-ms-appearance: button-bevel !important;
+  //-o-appearance: default-button !important;
 }
 
 
@@ -2647,7 +2659,7 @@ hr { margin-top: 60px;}
     font-size: 16px;
     border-top: $border;
     position: relative;
-    @include transition(0.5s, linear);
+    @include transition(1s, linear);
     img.headshot {
       position: absolute;
       top: 12px;
@@ -3720,7 +3732,17 @@ label#id_document.upload {
   filter: alpha(opacity=0);
 }
 
-.btn-outline {
+.btn-group, .dropdown-toggle, .btn-group>.btn:first-child, div.btn-group > button {
+  @include transition(0.5s, linear);
+  text-shadow: none;
+  span.caret {
+    color: $fadedblue;
+  }
+
+}
+
+.btn-outline, .btn-info {
+  text-shadow: none;
   background: white;
   border: 2px solid $fadedblue;
   @include transition(0.5s, linear);
@@ -3733,11 +3755,16 @@ label#id_document.upload {
   @include meta();
   font-size: 24px;
   padding: 10px 20px;
-  :hover {
+  :active {
+    background-color: rgba(255,255,255,0.2);
+  }
+}
+  
+  .btn-outline:hover, .btn-outline:active, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled], .btn-group.open .btn-info.dropdown-toggle  {
     background: $fadedblue;
     color: white;
   }
-}
+
 
 .upload-btn {
   max-width: 575px;
@@ -3749,3 +3776,5 @@ label#id_document.upload {
     width: 100%;
   };
 }
+
+
