@@ -14,6 +14,9 @@
     <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
     <link href="href='{{ STATIC_URL }}css/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" />
     <link href="{{ STATIC_URL }}css/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
+    <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/addtohomescreen.css">
+
       <!--[if IE]>
           <link href="{{ STATIC_URL }}css/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
       <![endif]-->
@@ -23,6 +26,10 @@
     <script type='text/javascript' src='{{ STATIC_URL }}js/sitewide.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/fastclick.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap-inputmask.js'></script>
+    <script src='{{ STATIC_URL }}js/addtohomescreen.js'></script>
+    <script>
+    addToHomescreen();
+    </script>
 
 
     {% block morehead %}
