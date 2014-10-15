@@ -1323,10 +1323,10 @@ a.edit-workout-link {
   //-o-transition: height .75s linear;
   //transition: height .75s linear;
   text-decoration: none;
-  -webkit-appearance: button-bevel !important;
-  -moz-appearance: button-bevel !important;
-  -ms-appearance: button-bevel !important;
-  -o-appearance: default-button !important;
+  //-webkit-appearance: button-bevel !important;
+  //-moz-appearance: button-bevel !important;
+  //-ms-appearance: button-bevel !important;
+  //-o-appearance: default-button !important;
   @include transition(0.25s,ease);
 }
 
