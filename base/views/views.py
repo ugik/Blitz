@@ -993,31 +993,6 @@ def set_intro_1(request):
 
 @login_required
 @csrf_exempt
-def set_profile_url(request):
-
-    client = request.user.client
-
-    form = ProfileURLForm(request.POST)
-    if form.is_valid():
-        client.external_headshot_url = form.cleaned_data['external_headshot_url']
-        thumb = requests.get(form.cleaned_data['external_headshot_url'] + '/convert', params={"w": 300, "h": 300, "fit": "crop"})
-        thumb_file = ContentFile(thumb.content)
-        client.headshot.save(client.user.username, thumb_file)
-        client.has_completed_intro = True
-        client.save()
-        ret = {
-            'is_error': False,
-            }
-    else:
-        ret = {
-            'is_error': True,
-            'errors': form.errors,
-            }
-
-    return JSONResponse(ret)
-
-@login_required
-@csrf_exempt
 def new_child_comment(request):
 
     # todo: authx - user in a diff blitz could add a comment
@@ -1311,6 +1286,7 @@ def set_up_profile_basic(request):
             
             client.headshot = form.cleaned_data['picture']
             client.save()
+            client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
 
 @login_required
@@ -1323,6 +1299,8 @@ def set_up_profile_photo(request):
         if form.is_valid() and form.is_multipart():
             client.headshot = form.cleaned_data['picture']
             client.save()
+            client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
+
             client.has_completed_intro = True
             client.save()
 
@@ -1414,9 +1392,9 @@ def client_settings(request):
         form = ClientSettingsForm(request.POST, request.FILES)
 
         if form.is_valid() and form.is_multipart():
-            
             client.headshot = form.cleaned_data['picture']
             client.save()
+            client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
         else:
             return render(request, 'client_profile_settings.html', {
@@ -1431,31 +1409,6 @@ def client_settings(request):
         'section': 'settings',
         'timezones': pytz.common_timezones,})
 
-
-@csrf_exempt
-@login_required
-def set_profile_photo(request):
-    # TODO: everything here
-    client = request.user.client
-
-    a = urllib2.urlopen(request.POST['external_headshot_url'])
-    b = StringIO(a.read())
-    c = Image.open(b)
-    original_width = c.size[0]
-    original_height = c.size[1]
-
-    real_x = int(request.POST['x']) * original_width / int(request.POST['display_width'])
-    real_y = int(request.POST['y']) * original_height / int(request.POST['display_height'])
-    real_w = int(request.POST['w']) * original_width / int(request.POST['display_width'])
-    real_h = int(request.POST['h']) * original_height / int(request.POST['display_height'])
-    crop_str = "%d,%d,%d,%d" % (real_x, real_y, real_w, real_h)
-
-    client.external_headshot_url = request.POST['external_headshot_url']
-    thumb = requests.get(request.POST['external_headshot_url'] + '/convert', params={"crop": crop_str})
-    thumb_file = ContentFile(thumb.content)
-    client.headshot.save(client.user.username, thumb_file)
-    client.save()
-    return JSONResponse({'is_error': False})
 
 def staff_login(request):
 

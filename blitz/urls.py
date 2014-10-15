@@ -86,7 +86,6 @@ urlpatterns += patterns(
 
     # todo: intro views namespaced as intro/[slug]
     url(r'^intro-data-1$', 'base.views.set_intro_1', name='set_intro_1'),
-    url(r'^set-profile-url$', 'base.views.set_profile_url', name='set_profile_url'),
 
     (r'^api/', include(v1_api.urls)),
 
@@ -98,7 +97,6 @@ urlpatterns += patterns(
     url(r'^privacypolicy$', 'base.views.privacy_policy', name='privacy_policy'),
 
     url(r'^profile/settings$', 'base.views.client_settings', name='client_settings'),
-    url(r'^set-profile-photo$', 'base.views.set_profile_photo', name='set_profile_photo'),
     url(r'^404$', 'base.views.page404', name="page404"),
     url(r'^500$', 'base.views.page500', name="page500"),
 

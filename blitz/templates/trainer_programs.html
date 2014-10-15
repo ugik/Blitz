@@ -27,8 +27,8 @@
         <div class="span8" style="float: none; margin: 0 auto;">
          Praesent vel efficitur elit. Sed ac pulvinar massa. Duis rutrum eget dolor a cursus. Phasellus neque ligula, cursus vitae ligula vel, faucibus fermentum velit. Maecenas fringilla sem ante, id eleifend massa tincidunt at. Fusce malesuada massa suscipit, fermentum libero vitae, viverra urna. <br><br>
         {% if workoutplans %}
-           <div class="well">
-              {% for plan in workoutplans %}
+           {% for plan in workoutplans %}
+              <div class="well">
                  <b>{{ plan.name }}</b><br>
                  {{ plan.num_weeks }} weeks long &nbsp;&#149;&nbsp;  
                  {% for lift in plan.all_lifts %}
@@ -53,10 +53,8 @@
                      </div>
                      </form></tr>
                  </tr></table>
-              {% endfor %}
-
-           </div>
-
+              </div>
+           {% endfor %}
         {% endif %}
         </div>
     </div>

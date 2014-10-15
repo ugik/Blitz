@@ -26,6 +26,9 @@ from datetime import date, timedelta
 
 @login_required
 def helper_index(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     return render(request, 'helper.html')
 
 @login_required
@@ -34,6 +37,9 @@ def helper_usage(request):
     from pytz import timezone
     from base.tasks import usage_digest
     from django.db.models import Q
+
+    if not request.user.is_staff:
+        return redirect('home')
 
     # get clients with CC on file
     paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
@@ -73,12 +79,18 @@ def helper_usage(request):
 
 @login_required
 def helper_delete(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     filename = settings.MEDIA_ROOT + '/documents/'+request.GET.get('file')
     os.renames(filename, filename+'.backup')
     return redirect('helper_uploads')
 
 @login_required
 def helper_download(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     filename = request.GET.get('file')
     directory = request.GET.get('dir')
     path = settings.MEDIA_ROOT + directory + filename
@@ -86,16 +98,25 @@ def helper_download(request):
 
 @login_required
 def helper_pending_trainers(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     pending_trainers = get_pending_trainers()
     return render(request, 'pending_trainers.html', {'pending' : pending_trainers})
 
 @login_required
 def helper_status_trainers(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     trainers = Trainer.objects.all()
     return render(request, 'trainer_status.html', {'trainers' : trainers })
 
 @login_required
 def assign_workoutplan(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     trainers = Trainer.objects.all()
     blitzes = Blitz.objects.all()
     plan_id = request.GET.get('plan', None)
@@ -117,11 +138,17 @@ def assign_workoutplan(request):
 
 @login_required
 def helper_blitz_sales_pages(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     pending_sales_pages = get_pending_sales_pages()        
     return render(request, 'pending_sales_pages.html', {'pending' : pending_sales_pages})
 
 @login_required
 def helper_uploads(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     path = settings.MEDIA_ROOT + '/documents'
     doclist = [f for f in os.listdir(path) if not f.endswith('.backup')]
     numdocs = 0
@@ -150,6 +177,9 @@ def helper_uploads(request):
 
 @login_required
 def helper_program_upload(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     path = settings.MEDIA_ROOT + '/programs'
 
     trainers = Trainer.objects.all()
@@ -184,6 +214,8 @@ def helper_program_upload(request):
 
 @login_required
 def helper_program_create(request):
+    if not request.user.is_staff:
+        return redirect('home')
 
     if request.method == 'POST':
         form = TrainerIDForm(request.POST)
@@ -205,6 +237,9 @@ def helper_program_create(request):
 
 @login_required
 def helper_workouts(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     workouts = Workout.objects.all()
     return render_to_response('workouts_page.html', 
                               {'workouts' : workouts},
@@ -212,6 +247,9 @@ def helper_workouts(request):
 
 @login_required
 def helper_exercise(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     workout_slug = request.GET.get('workout', None)
     workout = Workout.objects.get(slug=workout_slug)
     workoutset = WorkoutSet.objects.filter(workout_id=workout.id)
@@ -221,6 +259,8 @@ def helper_exercise(request):
 
 @login_required
 def helper_custom_set(request):
+    if not request.user.is_staff:
+        return redirect('home')
 
     workoutset_id = request.GET.get('id', None)
     workoutset_custom_id = request.GET.get('custom_id', None)
@@ -260,6 +300,8 @@ def helper_custom_set(request):
 
 @login_required
 def helper_custom_exercise(request):
+    if not request.user.is_staff:
+        return redirect('home')
 
     exercise_id = request.GET.get('id', None)
     exercise_custom_id = request.GET.get('custom_id', None)
@@ -299,6 +341,9 @@ def helper_custom_exercise(request):
 
 @login_required
 def helper_sales_pages(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     plan_id = request.GET.get('plan', None)
 
     if request.method == 'POST':
@@ -321,6 +366,9 @@ def helper_sales_pages(request):
 
 @login_required
 def helper_program_delete(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     plan_id = request.GET.get('plan', None)
     errors = delete_plan(plan_id)
     pending_trainers = get_pending_trainers()
@@ -334,6 +382,9 @@ def helper_program_delete(request):
 
 
 def delete_plan(plan_id):
+    if not request.user.is_staff:
+        return redirect('home')
+
     errors = []
     plan = WorkoutPlan.objects.filter(id=plan_id)
     if plan:
@@ -355,6 +406,9 @@ def delete_plan(plan_id):
 
 
 def get_pending_sales_pages():
+    if not request.user.is_staff:
+        return redirect('home')
+
     pending_sales_pages = []
     contents = SalesPageContent.objects.all()
     for content in contents:
@@ -363,6 +417,9 @@ def get_pending_sales_pages():
 
 
 def get_pending_trainers():
+    if not request.user.is_staff:
+        return redirect('home')
+
     pending_trainers = []
     trainers = Trainer.objects.all()
     for trainer in trainers:
@@ -385,6 +442,9 @@ def get_pending_trainers():
 
 
 def save_file(file, pk_value=0, name='', path='/documents/'):
+    if not request.user.is_staff:
+        return redirect('home')
+
 #    filename = file._get_name()
     now = datetime.datetime.now()
     if name == '':
@@ -401,6 +461,9 @@ def save_file(file, pk_value=0, name='', path='/documents/'):
 
 
 def test_program(file):
+    if not request.user.is_staff:
+        return redirect('home')
+
     errors = []
     log = []
     ready = False
@@ -488,6 +551,9 @@ def test_program(file):
 
 
 def load_program(file, trainer_id, plan_name):
+    if not request.user.is_staff:
+        return redirect('home')
+
     workbook = xlrd.open_workbook(file)
     worksheet = workbook.sheet_by_name('Meta')
     # workout meta
