@@ -8,16 +8,30 @@
 	.container {
 		text-align: center !important;
 		color: white !important;
+		list-style: none;
+		margin-top: 10%;
 	}
 	.container a {
 		color: cornflower-blue !important;
+
 	}
+
+	.blitz-login, img {
+		/*  */padding: 0 important!;
+		margin-bottom: 30px;
+	}
+
+	.header ul {
+		
+		margin-top: 20px;
+	}
+
 </style>
 
 <div class="container">
     <div class="row">
-        <div class="span4 offset4">
-            <div class="blitz-login style="color: white;>
+        <div class="span8 offset2">
+            <div class="xblitz-login" style="margin-top: 20% important!;">
                 <img src="{{ STATIC_URL }}images/logo-w.png" />
             </div>
                             {% block main %}
