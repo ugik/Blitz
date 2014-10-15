@@ -21,6 +21,7 @@ from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 import os
 import xlrd
 import datetime
+import requests
 from datetime import date, timedelta
 #    import pdb; pdb.set_trace()
 
@@ -157,8 +158,8 @@ def helper_uploads(request):
     for doc in doclist:
         user_pk = doc[0:2].strip('_')
         datetime = doc[2:].strip('_').strip('.doc')
-        print datetime
-        if Trainer.objects.filter(pk=user_pk).exists():
+
+        if user_pk.isdigit() and Trainer.objects.filter(pk=user_pk).exists():
             entry = {}
             entry['doc'] = doc
             t = Trainer.objects.get(pk=user_pk)
@@ -382,8 +383,6 @@ def helper_program_delete(request):
 
 
 def delete_plan(plan_id):
-    if not request.user.is_staff:
-        return redirect('home')
 
     errors = []
     plan = WorkoutPlan.objects.filter(id=plan_id)
@@ -406,8 +405,6 @@ def delete_plan(plan_id):
 
 
 def get_pending_sales_pages():
-    if not request.user.is_staff:
-        return redirect('home')
 
     pending_sales_pages = []
     contents = SalesPageContent.objects.all()
@@ -417,8 +414,6 @@ def get_pending_sales_pages():
 
 
 def get_pending_trainers():
-    if not request.user.is_staff:
-        return redirect('home')
 
     pending_trainers = []
     trainers = Trainer.objects.all()
@@ -442,8 +437,6 @@ def get_pending_trainers():
 
 
 def save_file(file, pk_value=0, name='', path='/documents/'):
-    if not request.user.is_staff:
-        return redirect('home')
 
 #    filename = file._get_name()
     now = datetime.datetime.now()
@@ -461,8 +454,6 @@ def save_file(file, pk_value=0, name='', path='/documents/'):
 
 
 def test_program(file):
-    if not request.user.is_staff:
-        return redirect('home')
 
     errors = []
     log = []
@@ -551,8 +542,6 @@ def test_program(file):
 
 
 def load_program(file, trainer_id, plan_name):
-    if not request.user.is_staff:
-        return redirect('home')
 
     workbook = xlrd.open_workbook(file)
     worksheet = workbook.sheet_by_name('Meta')
