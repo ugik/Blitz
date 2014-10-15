@@ -108,6 +108,15 @@ $blitz-purple: #9b8ddb;
     opacity: 0.4;
 }
 
+@mixin fadein() {
+      -webkit-animation: fadein 0.25s; /* Safari, Chrome and Opera > 12.1 */
+     -moz-animation: fadein 0.25s; /* Firefox < 16 */
+      -ms-animation: fadein 0.25s; /* Internet Explorer */
+       -o-animation: fadein 0.25s; /* Opera < 12.1 */
+          animation: fadein 0.25s;
+    }
+
+
 @mixin animation($animate...) {
     $max: length($animate);
     $animations: '';
@@ -356,7 +365,7 @@ Example @include keyframes
         -ms-animation: fadein 0.25s; /* Internet Explorer */
          -o-animation: fadein 0.25s; /* Opera < 12.1 */
             animation: fadein 0.25s;
-      background: black;
+      //background-color: black !important;
 }
 
 
@@ -1249,6 +1258,7 @@ a.edit-workout-link {
 
 // todo: pull this out as an addition to landscape-header
 .profile-header {
+  //@include fadein();
   background: url('/static/images/coverphoto1.jpg') no-repeat;
   @include mobile-only {background: url('/static/images/coverphoto1-mini.jpg') no-repeat;};
   .profile-header-top {
@@ -1832,21 +1842,25 @@ a:focus {
 .coverphoto1 {
   background: url('/static/images/coverphoto1.jpg') no-repeat;
   @include mobile-only {background: url('/static/images/coverphoto1-mini.jpg') no-repeat;};
+  //@include fadein();
 }
 
 .coverphoto2 {
   background: url('/static/images/coverphoto2.jpg') no-repeat;
   @include mobile-only {background: url('/static/images/coverphoto2-mini.jpg') no-repeat;};
+  //@include fadein();
 }
 
 .coverphoto3 {
   background: url('/static/images/coverphoto3.jpg') no-repeat;
   @include mobile-only {background: url('/static/images/coverphoto3-mini.jpg') no-repeat;};
+  //@include fadein();
 }
 
 .coverphoto4 {
   background: url('/static/images/coverphoto4.jpg') no-repeat;
   @include mobile-only {background: url('/static/images/coverphoto4-mini.jpg') no-repeat;};
+  //@include fadein();
 }
 
 .set-container {
