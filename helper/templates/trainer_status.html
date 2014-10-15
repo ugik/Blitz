@@ -25,10 +25,10 @@
          <li>Blitzes:
           <ul style="margin-top: 10px;">
          {% if not trainer.blitz_set.all %}
-             <li>(no Blitzes)
+             <li style="padding-left: 20px;">(no Blitzes)
          {% endif %}
          {% for blitz in trainer.blitz_set.all %}
-             <li>{{ blitz.url_slug }}
+             <li style="padding-left: 20px;">{{ blitz.url_slug }}
                  {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
                  {% if blitz.recurring %}<small>(Recurring)</small>{% endif %}
                  {% if not blitz.recurring %}<small>(Group)</small>{% endif %}
@@ -41,12 +41,12 @@
 
          {% endfor %}</ul>
 
-         <li>WorkoutPlans:<ul style="margin-top: 10px;">
+         <li style="margin-top: 20px;">WorkoutPlans:<ul style="margin-top: 10px;">
          {% if not trainer.workoutplan_set.all %}
-             <li>(no WorkoutPlans)
+             <li style="padding-left: 20px;">(no WorkoutPlans)
          {% endif %}
          {% for workoutplan in trainer.workoutplan_set.all %}
-            <li>{{ workoutplan.name }}
+            <li style="padding-left: 20px;">{{ workoutplan.name }}
             <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Blitz</small></a>
          {% endfor %}</ul>
       </ul>
