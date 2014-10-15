@@ -1,0 +1,40 @@
+{% extends "client_content.html" %}
+
+{% load blitz_tags %}
+{% load custom_exercise %}
+
+{% block morehead %}
+{% endblock %}
+
+{% block above_content %}
+{% endblock %}
+
+{% block main %}
+
+    {% for week in workout_plan.weeks %}
+        <div class="span12"><h3>Week {{ week.week }}:</h3>
+        {% for day in week.days %}
+            <div class="span2">
+                <div class="overview-block workout-day-block">
+                    <div class="title">{{ day.day_of_week|day_name }}</div>
+                    <div class="content">
+                        <ul>
+                            {% for exercise in day.workout.get_exercises %}
+                                {% if user.is_trainer %}
+                                    <li>{{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                {% else %}
+                                    <li>{{ exercise|custom_lift:client }}: 
+                                        {{ exercise|custom_sets_display:client }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+

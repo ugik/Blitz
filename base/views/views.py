@@ -456,11 +456,18 @@ def my_programs(request):
     request_blitz = request.user.blitz
     blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
     if request.user.is_trainer:
-        return render(request, 'trainer_programs.html', {'trainer': request.user.trainer })
+        workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
+        return render(request, 'trainer_programs.html', 
+           {'trainer': request.user.trainer, 'workoutplans' : workoutplans })
     else:
         return render(request, 'blitz_program.html', {
             'blitz': blitz, 'client': request.user.client })
 
+@login_required
+def view_program(request, pk):
+    workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
+    return render(request, 'trainer_view_program.html', 
+       {'workout_plan': workoutplan })
 
 @login_required
 def my_blitz_program(request):
@@ -1087,7 +1094,7 @@ def sales_blitz(request):
                 pass
 
 #        import pdb; pdb.set_trace()
-         
+        
         if 'price' in request.POST:
             if request.POST.get('price').isdigit():
                 blitz.price = request.POST.get('price')

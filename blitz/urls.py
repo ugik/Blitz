@@ -54,6 +54,7 @@ urlpatterns += patterns(
     url(r'^upload$', 'base.views.upload_page', name='upload_page'),
 
     url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
+    url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
 # old programs urls
     url(r'^old_program$', 'base.views.my_blitz_program', name='my_blitz_program'),

@@ -142,7 +142,7 @@ class WorkoutPlan(models.Model):
                 yield workout_plan_day
 
     def all_lifts(self):
-        return list(set([d.workout.lift for d in self.iterate_days()]))
+        return list(set([d.workout.get_lifts()[0] for d in self.iterate_days()]))
 
     def weeks(self):
         return self.workoutplanweek_set.all().order_by('week')
