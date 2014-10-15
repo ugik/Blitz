@@ -57,7 +57,7 @@ urlpatterns += patterns(
     url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
 # old programs urls
-    url(r'^old_program$', 'base.views.my_blitz_program', name='my_blitz_program'),
+#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_blitz_program'),
     url(r'^old_program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
     url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
     url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
@@ -121,6 +121,8 @@ urlpatterns += patterns(
     url(r'^blitz/(?P<pk>\d+)/([\w|-]+)/payment_hook', 'base.views.payment_hook', name='payment_hook'),
 
     url(r'^blitz-setup$', 'base.views.blitz_setup', name='blitz_setup'),
+
+    url(r'^spotter_program_edit/(?P<pk>\d+)$', 'base.views.spotter_program_edit', name='spotter_program_edit'),
 
     url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)/signup$', 'base.views.blitz_signup', name="blitz_signup"),
 

@@ -79,6 +79,9 @@ class NewTrainerForm(forms.Form):
             raise forms.ValidationError("Password does not match ")
         return self.cleaned_data
 
+class SpotterProgramEditForm(forms.Form):
+    edit_request = forms.CharField(widget=forms.Textarea())
+
 
 class NewClientForm(forms.Form):
 

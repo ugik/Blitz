@@ -16,11 +16,11 @@ from django.db.models import Q
 from django.core.urlresolvers import resolve
 from helper.urls import *
 
-from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm
+from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent
 from base import utils
-from base.emails import client_invite
+from base.emails import client_invite, email_spotter_program_edit
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
 from workouts.models import WorkoutPlan
@@ -263,6 +263,35 @@ def client_setup(request):
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
                                 'signup_key' : signup_key, 'invite_url' : invite_url,
                                 'errors' : form.errors}, 
+                              RequestContext(request))
+
+
+@login_required
+def spotter_program_edit(request, pk):
+
+    trainer = request.user.trainer
+    workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
+    if len(trainer.blitz_set.all()) == 1 or not trainer.currently_viewing_blitz:
+        blitz = trainer.blitz_set.all()[0]
+    else:                                   
+        blitz = trainer.currently_viewing_blitz
+
+    if request.method == 'POST':
+        form = SpotterProgramEditForm(request.POST)
+
+        if form.is_valid():
+            email_spotter_program_edit(pk, form.cleaned_data['edit_request'])
+
+            return redirect('my_blitz_program')
+        else:
+            return render_to_response('spotter_program_edit.html', 
+                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
+                              RequestContext(request))
+    else:
+        form = SpotterProgramEditForm()
+
+        return render_to_response('spotter_program_edit.html', 
+                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
                               RequestContext(request))
 
 

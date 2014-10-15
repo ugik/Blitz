@@ -4,4 +4,4 @@ Hey,
 
 Go get after it here: {{ invite_url }}
 
---the FitFlame Team
+--the Blitz.us Team

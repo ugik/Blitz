@@ -2,7 +2,10 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
 
+from base.models import WorkoutPlan, Trainer
+
 SOURCE_EMAIL = 'robot@blitz.us'
+SPOTTER_EMAIL = 'spotter@blitz.us'
 
 def new_child_comment(user, commenter):
 
@@ -67,3 +70,18 @@ def message_received(user, message):
         'message': message,
     })
     send_mail(subject, text_content, from_email, [to], fail_silently=True)
+
+def email_spotter_program_edit(pk, message):
+    workoutplan = WorkoutPlan.objects.filter(pk=int(pk))
+    if workoutplan:
+    
+        from_email, to = SOURCE_EMAIL, SPOTTER_EMAIL
+        subject = "Program Edit ask from %s" % workoutplan[0].trainer.name
+
+        text_content = render_to_string('emails/program_edit.txt', {
+           'workoutplan': workoutplan[0],
+            'message': message,
+        })
+        send_mail(subject, text_content, from_email, [to], fail_silently=True)
+
+
