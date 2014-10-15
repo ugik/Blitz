@@ -23,7 +23,6 @@ class Command(BaseCommand):
         most_recent_monday = now.date() - datetime.timedelta(days=now.weekday())
         blitz_start_date = most_recent_monday - datetime.timedelta(days=14)
 
-
 #        import pdb; pdb.set_trace()
 
         mikerashid = Trainer

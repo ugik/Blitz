@@ -961,7 +961,15 @@ class SalesPageContent(models.Model):
         return self.program_title
 
 class Heading(models.Model):
-    heading_id = models.CharField(max_length=100, default="")
-    short_name = models.CharField(max_length=100, blank=True, null=True, default="")
+    location = models.CharField(max_length=100, default="")
+    saying = models.CharField(max_length=150, blank=True, null=True, default="")
+    author = models.CharField(max_length=50, blank=True, null=True, default="")
 
+    def random(self):
+        count = self.objects.all().count()
+        random_index = randint(0, count - 1)
+        return self.all()[random_index]
+
+    def __unicode__(self):
+        return "%s - %s" % (self.saying, self.author)
 

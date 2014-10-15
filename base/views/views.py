@@ -22,7 +22,7 @@ from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse,
 from base import utils
 from base.emails import client_invite
 
-from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn
+from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
 from workouts.models import WorkoutPlan
 
 from base.templatetags import units_tags
@@ -1533,7 +1533,12 @@ def trainer_dashboard(request):
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
+    heading = Heading.objects.all().order_by('?')[:1].get()
+    header = "%s - %s" % (heading.saying, heading.author)
+
     if blitzes and clients:
-        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})
+        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0]), 'header': header})
     else:
         return redirect('home')
+
+
