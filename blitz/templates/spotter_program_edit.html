@@ -19,8 +19,7 @@
            <div class="formpage-block">
               <form method="post" name="spotter_program_edit"> {% csrf_token %}
 
-                 <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">
-                 {{ edit }}</textarea>
+                 <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">{{ edit }}</textarea>
                  <br>
                  <input type="hidden" name="workoutplan_pk" value="{{ workoutplan }}">
                  <button class="obtn btn btn-warning" type='submit'>Send Edit Instructions</button>
