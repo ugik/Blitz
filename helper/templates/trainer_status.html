@@ -8,50 +8,62 @@
       background-color:#D8F1D7;
     }
 </style>
-<p>Remember: Trainers have <b>WorkoutPlan</b>s (that define daily/weekly exercises) and <b>Blitz</b>(es) (that belong to an individual or group of <b>Client</b>(s)</p>
-<p>A 'provisional' blitz is a 1:1 Blitz that clients will signup for, upon signup a <i>copy</i> of this provisional blitz is applied</p>
 
-{% for trainer in trainers|dictsort:"name" %}
-{{ trainer.name }}
-<ul>
-   <li>Blitzes:<ul>
-   {% if not trainer.blitz_set.all %}
-       <li>(no Blitzes)
-   {% endif %}
-   {% for blitz in trainer.blitz_set.all %}
-       <li>{{ blitz.url_slug }}
-           {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
-           {% if blitz.recurring %}<small>(Recurring)</small>{% endif %}
-           {% if not blitz.recurring %}<small>(Group)</small>{% endif %}
+  <p>
+    Remember: Trainers have <b>WorkoutPlan</b>s (that define daily/weekly exercises) and <b>Blitz</b>(es) (that belong to an individual or group of <b>Client</b>(s)
+  </p>
+  <p>
+    A 'provisional' blitz is a 1:1 Blitz that clients will signup for, upon signup a <i>copy</i> of this provisional blitz is applied
+  </p>
 
-           {% if blitz.workout_plan.id %}
-               <small><u>has workoutplan:{{ blitz.workout_plan.name }}</u></small>
-           {% else %}
-               <small><b>(no WorkoutPlan assigned)</b></small>
-           {% endif %}
+    <div class="span8 offset2" style="margin-bottom: 50px; margin-top: 50px;">
+      {% for trainer in trainers|dictsort:"name" %}
+      <div style="text-align: left;" class="helperheader">
+        {{ trainer.name }}
+      </div>
+      <ul style="text-align: left; margin: 10px 0px 50px 0px;">
+         <li>Blitzes:
+          <ul style="margin-top: 10px;">
+         {% if not trainer.blitz_set.all %}
+             <li>(no Blitzes)
+         {% endif %}
+         {% for blitz in trainer.blitz_set.all %}
+             <li>{{ blitz.url_slug }}
+                 {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
+                 {% if blitz.recurring %}<small>(Recurring)</small>{% endif %}
+                 {% if not blitz.recurring %}<small>(Group)</small>{% endif %}
 
-   {% endfor %}</ul>
+                 {% if blitz.workout_plan.id %}
+                     <small><u>has workoutplan:{{ blitz.workout_plan.name }}</u></small>
+                 {% else %}
+                     <small><b>(no WorkoutPlan assigned)</b></small>
+                 {% endif %}
 
-   <li>WorkoutPlans:<ul>
-   {% if not trainer.workoutplan_set.all %}
-       <li>(no WorkoutPlans)
-   {% endif %}
-   {% for workoutplan in trainer.workoutplan_set.all %}
-      <li>{{ workoutplan.name }}
-      <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Blitz</small></a>
-   {% endfor %}</ul>
-</ul>
-{% endfor %}
+         {% endfor %}</ul>
 
-{% if errors %}
-    <ul>
-    {% for e in errors %}
-        <li>{{ e }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+         <li>WorkoutPlans:<ul style="margin-top: 10px;">
+         {% if not trainer.workoutplan_set.all %}
+             <li>(no WorkoutPlans)
+         {% endif %}
+         {% for workoutplan in trainer.workoutplan_set.all %}
+            <li>{{ workoutplan.name }}
+            <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Blitz</small></a>
+         {% endfor %}</ul>
+      </ul>
+      {% endfor %}
 
-<br>
+      {% if errors %}
+        <ul>
+        {% for e in errors %}
+            <li>{{ e }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+
+
+    </div>
+
+
 
 
 {% endblock %}

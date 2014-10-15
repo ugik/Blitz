@@ -3,6 +3,7 @@ $fadedblue: #7ab2ea;
 $border: 1px solid rgba(0,0,0,0.05);
 $imageborder: 3px solid white;
 $linkcolor: #7ab2ea;
+$linkcolorhover: #94c1ee;
 $parentpadding: 18px 20px;
 $childpadding: 12px 16px 12px 32px;
 $mainfontcolor: #515352;
@@ -572,10 +573,11 @@ body {
 a {
   color: $fadedblue;
   text-decoration: none;
+  @include transition(0.5s, linear);
   }
   a:hover, a:focus {
     text-decoration: underline;
-    color: #94c1ee !important;
+    color: $linkcolorhover;
     }
 
 
@@ -3790,4 +3792,9 @@ ul.helpernav li {
   color: #ffcc00;
   float: left;
   margin-right: 20px;
+}
+
+.helperheader {
+  @include meta();
+  font-size: 24px;
 }
