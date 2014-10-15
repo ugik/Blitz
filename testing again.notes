@@ -1,0 +1,68 @@
+Dev work
+
+week of 9.8
+- reconstitute working localhost
+- setup Pagekite
+- rebuild Balanced payments round-trip (v1.1 api)
+- new browser icon w/transparent background
+- trainer registration path
+    - new trainer registers
+    - trainer uploads workout documents, sees pending documents
+    - trainer get notification of new program created
+- helper App
+    - see and download uploaded documents
+    - upload program xls
+    - test new program xls
+    - create new program for trainer
+    - see trainers with pending programs
+
+week of 9.15
+- create new flame
+- trainer invite client path
+    - trainer enters prospective client name, email
+    - trainer sees email invite
+- client registration from invite
+- client registration alert to trainer
+- sales page helper
+- feed images
+- custom exercises
+
+week of 9.22
+- finish custom exercises helper
+    - revamp exercises/sets regrouping for helper
+- support metric units
+- upgrade Balanced API
+- client checkin's core functionality
+- client on-ramp photo selector
+- client on-ramp units selector
+- client checkin alerts
+- Celery/djcelery/RabbitMQ setup
+- Nav-bar highlight current item
+- clean up Forms and SELECTs to use Bootstrap
+
+week of 9.29
+- add recurring price-model to flame and flame setup
+- finish sales page functionality
+- wire-up client on-ramp from sales page
+- fix client sign-up profile path
+- rework program page for provisional blitzes
+- free/paid client invites
+- fix units from viewer perspective
+- checkin history
+- teaser email page
+- deploy ec2 LAMP setup
+
+week of 10.6
+- merge Dashboard
+- enable recurring Flames in model and flame_program.html
+- clean up Trainer/Flames/Client workflow
+- clean up sales page and flame urls
+- clean up deploy scripts
+- finish deploy git push
+- test on-ramp paths
+- domain deploy
+- testing server w/HMomand
+- Flame / Blitz rename
+
+
+
