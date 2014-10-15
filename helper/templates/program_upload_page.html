@@ -4,7 +4,7 @@
 <header> Upload a program.xls with 3 sheets as in this 
 <a href="{% url "helper_download" %}?file=sample_program.xls&dir=/programs/">example</a>
 </header>
-<div class="span8">
+<div class="">
 
         <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
             <table>
@@ -20,5 +20,5 @@
 
 {{ results }} 
 
-<a href="{% url "helper_index" %}">Helper Home</a>
+
 {% endblock %}
