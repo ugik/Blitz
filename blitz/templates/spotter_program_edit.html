@@ -16,14 +16,18 @@
 
            <h3>Tell a spotter how you would like this program <br> (<i>{{ workoutplan.name }}</i>) edited: </h3>
 
-           <form class="form" method="post" name="spotter_program_edit"> {% csrf_token %}
+           <div class="formpage-block">
+              <form method="post" name="spotter_program_edit"> {% csrf_token %}
 
-              <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">
-              {{ edit }}</textarea>
-              <br>
-              <input type="hidden" name="workoutplan_pk" value="{{ workoutplan }}">
-              <button class="obtn btn btn-warning" type='submit'>Send Edit Instructions</button>
-           </form>
+                 <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">
+                 {{ edit }}</textarea>
+                 <br>
+                 <input type="hidden" name="workoutplan_pk" value="{{ workoutplan }}">
+                 <button class="obtn btn btn-warning" type='submit'>Send Edit Instructions</button>
+              </form>
+              <button onclick="window.location='/program'; return false;" class="obtn btn btn-warning" type='submit'>Return</button>
+
+           </div>
 
         </div>
     </div>
