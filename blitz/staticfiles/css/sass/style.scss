@@ -2972,7 +2972,7 @@ input::-webkit-inner-spin-button {
     padding: 20px 20px;
     background: $navbarblue;
     color: white;
-    @include boldfont();
+    @include meta();
     font-size: 24px;
   }
   .content {
@@ -3041,6 +3041,17 @@ input::-webkit-inner-spin-button {
   text-align: center;
   margin: 20px;
   .what-timezone {
+    @include boldfont();
+    font-size: 20px;
+  }
+  select {
+    margin: 20px;
+  }
+}
+
+.units-form {
+  margin: 20px;
+  .what-units {
     @include boldfont();
     font-size: 20px;
   }
