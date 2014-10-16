@@ -459,19 +459,6 @@ Example @include keyframes
       }
 
 
-
-.blitz-login {
-  margin-top: 30%;
-  @include mobile-only { 
-    margin-top: 10%l
-    }
-}
-
-.blitz-login img {
-  display: block;
-  margin: 0 auto;
-}
-
 .blitz-signup-info {
   background: rgba(255,255,255,0.15);
   margin: 0 auto;
@@ -1780,13 +1767,16 @@ a:focus {
 
 
 .blitz-login {
-  padding-top: 10%;
+  padding-top: 20%;
   text-align: center;
   img {
     margin-top: 10%;
+    display: block;
+    margin: 0 auto;
   }
   @include mobile-only {
     margin-top: 0% !important;
+    padding-top: 10%;
   }
   button {
     margin: 0px;
@@ -1794,6 +1784,8 @@ a:focus {
     display: inline;
   }
 }
+
+
 
 #progress-header-container {
   display: none;
