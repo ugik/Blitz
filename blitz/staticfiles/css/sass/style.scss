@@ -1772,7 +1772,8 @@ a:focus {
   img {
     margin-top: 10%;
     display: block;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
   }
   @include mobile-only {
     margin-top: 0% !important;
