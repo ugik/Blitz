@@ -1,11 +1,37 @@
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from email.MIMEImage import MIMEImage
 
 from base.models import WorkoutPlan, Trainer
 
+import os
+
 SOURCE_EMAIL = 'robot@blitz.us'
 SPOTTER_EMAIL = 'spotter@blitz.us'
+
+# email wrapper, note parameters: to_mail[] images[] context{}
+def send_email(from_mail, to_mail, subject, txt_template, html_template, context, images, dirs ):  
+
+    html_content = render_to_string(html_template, context)
+    text_content = render_to_string(txt_template, context)
+    msg = EmailMultiAlternatives(subject, text_content, from_mail, to_mail)
+
+    msg.attach_alternative(html_content, "text/html")
+    msg.mixed_subtype = 'related'
+
+    for index, f in enumerate(images):
+        import pdb; pdb.set_trace()
+        fp = open(os.path.join(dirs[index], f), 'rb')
+        msg_img = MIMEImage(fp.read())
+        fp.close()
+        msg_img.add_header('Content-ID', '<{}>'.format(f))
+        msg.attach(msg_img)
+
+    msg.send()
+
 
 def new_child_comment(user, commenter):
 
