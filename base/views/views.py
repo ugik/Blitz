@@ -1415,6 +1415,7 @@ def client_checkin(request):
 
 @login_required
 def client_settings(request):
+
     client = request.user.client
 
     if request.method == 'POST':
@@ -1488,11 +1489,36 @@ def set_client_macros(request, pk):
         'success': success,
     })
 
+# ERROR handling
 def page404(request):
     return render(request, '404.html')
 
 def page500(request):
     return render(request, '500.html')
+
+def not_found_error(request, template_name='404.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
+
+def server_error(request, template_name='500.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
+
+def permission_denied_error(request, template_name='500.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
+
+def bad_request_error(request, template_name='500.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
 
 @login_required
 @csrf_exempt

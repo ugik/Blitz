@@ -1,10 +1,16 @@
 from django.conf.urls import patterns, include, url
+from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
 from base.api import UserResource, FeedItemResource
 from tastypie.api import Api
+
+handler500 = 'base.views.server_error'
+handler404 = 'base.views.not_found_error'
+handler403 = 'base.views.permission_denied_error'
+handler400 = 'base.views.bad_request_error'
 
 v1_api = Api(api_name='v1')
 v1_api.register(UserResource())
