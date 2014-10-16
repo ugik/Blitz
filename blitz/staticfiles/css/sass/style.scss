@@ -3798,3 +3798,10 @@ ul.helpernav li {
   @include meta();
   font-size: 24px;
 }
+
+.digest {
+  padding: 10px 0px 30px 5px;
+  border-radius: 5px;
+  border: 1px solid white;
+  margin-bottom: 20px;
+}

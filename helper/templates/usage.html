@@ -2,13 +2,28 @@
 
 {% block main %}
 
-<header>Usage digest {{ days }} days</header>
+<style type="text/css">
 
-<div class="span4" style="margin-right: -65px; margin-left: 0px;">
+    ul, ol {
+        margin: 0px 0px 0px 0px;
+    }
+
+    li {
+        
+        list-style-type: none !important;
+    }
+
+
+</style>
+
+
+<header style="margin-bottom: 30px;">Usage digest {{ days }} days</header>
+
+<div class="span3 digest">
     <h3>Clients:</h3>
     {% regroup clients by date_created as client_list %}
     {% for client in client_list %}
-    <ul><b>{{ client.grouper }}<b></ul>
+    <ul>{{ client.grouper }}</ul>
         <ul><ul>
         {% for c in client.list %}
         <li> {{ c.name }}</li>
@@ -18,11 +33,11 @@
     </ul>
 </div>
 
-<div class="span4" style="margin-right: -65px; margin-left: 0px;">
+<div class="span3 digest">
     <h3>Trainers:</h3>
     {% regroup trainers by date_created as trainer_list %}
     {% for trainer in trainer_list %}
-    <ul><b>{{ trainer.grouper }}<b></ul>
+    <ul>{{ trainer.grouper }}</ul>
         <ul><ul>
         {% for c in trainer.list %}
         <li> {{ c.name }}</li>
@@ -32,11 +47,11 @@
     </ul>
 </div>
 
-<div class="span4" style="margin-right: -65px; margin-left: 0px;">
+<div class="span3 digest">
     <h3>Members:</h3>
     {% regroup members by date_created as member_list %}
     {% for member in member_list %}
-    <ul><b>{{ member.grouper }}<b></ul>
+    <ul>{{ member.grouper }}</ul>
         <ul><ul>
         {% for c in member.list %}
         <li> {{ c.client.name }} in {{ c.blitz.name }} for ${{ c.blitz.price }}</li>
