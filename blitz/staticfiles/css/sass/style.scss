@@ -569,10 +569,13 @@ a {
 
 
 body.login-page {
-  background: url('/static/images/background.png') #1c1c1c;
+    background: url('/static/images/background.png') #000000 no-repeat top center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;;
   @include mobile-only { background: url('/static/images/minibackground.jpg'); }
-  //background-size: 100%;
-  background-repeat: no-repeat;
 }
 
 video { 
