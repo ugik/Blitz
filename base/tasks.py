@@ -66,12 +66,11 @@ def client_morning_notifications():
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 @periodic_task(run_every=crontab(hour="*/23", minute="3", day_of_week="*"))  
-def usage_digest():
+def usage_digest(days=0):
     from django.core.mail import EmailMultiAlternatives
     from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
     from pytz import timezone
 
-    days = 0
     timezone = current_tz()
     startdate = date.today() - timedelta(days = days)
 
@@ -103,8 +102,9 @@ def usage_digest():
     to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
-    images = ['logo-bp2.png']
-    dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
+    images = ['logo-bp2.png','footer.png']
+    dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/'),
+            os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
     send_email(from_mail, to_mail, subject, template_text, template_html, context, images, dirs )
 
 

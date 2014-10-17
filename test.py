@@ -1,4 +1,4 @@
 from base.tasks import *
 from base.emails import *
-usage_digest()
+usage_digest(days=7)
 

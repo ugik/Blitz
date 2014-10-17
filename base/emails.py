@@ -23,7 +23,7 @@ def send_email(from_mail, to_mail, subject, txt_template, html_template, context
     msg.mixed_subtype = 'related'
 
     for index, f in enumerate(images):
-        import pdb; pdb.set_trace()
+#        import pdb; pdb.set_trace()
         fp = open(os.path.join(dirs[index], f), 'rb')
         msg_img = MIMEImage(fp.read())
         fp.close()
