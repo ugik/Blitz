@@ -319,7 +319,7 @@ a {
 /* line 576, ../sass/style.scss */
 a:hover, a:focus {
   text-decoration: underline;
-  color: #94c1ee !important;
+  /* color: #94c1ee !important; */
 }
 
 /* line 582, ../sass/style.scss */
