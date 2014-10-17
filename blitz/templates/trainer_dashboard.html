@@ -16,61 +16,70 @@
 {% block content %}
 <div id="dashboard">
 	<div class="sidebar-left">
-		<a class="brand center" href="/" id="logo"><img src="{{ STATIC_URL }}images/logo.png" /></a>
-		<div class="colorstripe"></div>
+		<div class="header">
+			<a class="brand center" href="/" id="logo"><img src="{{ STATIC_URL }}images/logo.png"/></a>
+		</div>
+		
 		<div class="search-input">
 			<input type='text' class="search-text" placeholder="Search for a client or program...">
 		</div>
 		<ul class='filters'>
-			<li class="active" data-scope='all'>
-				<div class="item">
-					<img class="img-circle headshot" src="{{ STATIC_URL }}images/blitz.png"/> All Updates
+			<li class='item' data-scope='alerts'>
+				<div class="item-inner">
+					Alerts
 				</div>
 			</li>
-			<li data-scope='inbox'>
-				<div class="item">
-					<span class="img-circle headshot icon icon-envelope" style="color: white;"></span> Inbox
+			<li class="item active" data-scope='all'>
+				<div class="item-inner">
+					All Updates
 				</div>
-			</li>
-			{% for blitz in blitzes %}
-			<li class='blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
-				<div class="item">
-					<img class="img-circle headshot" src="{{ MEDIA_URL }}"/> {{ blitz.title }}
-				</div>			
-			</li>
-			{% endfor %}
+			</li>			
+			<div class="separator">
+			</div>
+			
+			{% if blitzes %}
+				{% for blitz in blitzes %}
+				<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
+					<div class="item-inner">
+						{{ blitz.title }}
+					</div>
+				</li>
+				{% endfor %}
+
+				<div class="separator">
+				</div>
+
+			{% endif %}
+
 			{% for client in clients %}
-			<li class='solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
-				<div class="item">
-					<img class="img-circle headshot" src="{{ MEDIA_URL }}{{ client.headshot }}"/> {{ client.name }}
+			<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
+				<div class="item-inner">
+					{{ client.name }}
 				</div>			
 			</li>
 			{% endfor %}
 		</ul>
 		<div class="actions">
-			<button type='button' class='obtn fullwidth'>+ Add new client or group</button>
+			<button type='button' class='obtn fullwidth'>+ Add Client/Group</button>
 		</div>
 	</div> <!--/ sidebar-left -->
 
 	<div class="content-wrapper">
-		<div class="x">
-			<div class="x">
-				<div id="header">
-					<h1>Let's get these goons in shape.</h1>
-					<p>"I saw a woman wearing a sweatshirt with 'Guess' on it. I said, 'Thyroid problem?' "<br/>
-						- Arnold Schwarzenegger
-					</p>
-				</div>
-				<div class="colorstripe"></div>
-			</div>
+		<div id="header">
+			{% comment %}
+			{% block header_content %}{{super}}
+			    {% include "header_content.html" %}
+			{% endblock %}
+			{% endcomment %}
 		</div>
+		<div class="colorstripe"></div>
 
 		<div class="content row-fluid">
 			<div class="inbox-container"></div>
 			<div class="feeds">
 				{% if user.blitz and user.blitz.members %}
 		        	{% include "main_feed.html" %}
-		        {% else %}
+		        {% else %}n
 		        <b>Time to do something to get a program started...</b>
 
 		        <form action="upload" method="get" name="upload" class="formpage-block-form">
