@@ -1597,6 +1597,10 @@ a.edit-workout-link {
 
 
 .obtn {
+  border: none;
+  appearance:button;
+  -moz-appearance:button; /* Firefox */
+  -webkit-appearance:button;
   @include transition(0.5s, ease);
   display: block;
   font-size: 24px;
@@ -1667,6 +1671,10 @@ a.edit-workout-link {
 
 
 .gbtn {
+  border: none;
+  appearance:button;
+  -moz-appearance:button; /* Firefox */
+  -webkit-appearance:button;
   @include transition(0.5s, ease);
   display: block;
   font-size: 24px;
