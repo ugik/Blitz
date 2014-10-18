@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from base.models import Client, Trainer, Blitz, BlitzMember, BlitzInvitation, MacroDay, TrainerAlert
 from workouts.models import Lift, Workout, WorkoutSet, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay
-from base.utils import create_trainer, create_client, add_client_to_blitz
+from base.utils import create_trainer, create_client, add_client_to_blitz, create_salespagecontent
 from base.new_content import create_new_parent_comment, add_child_to_comment, add_like_to_comment
 from base import new_content
 from base.simulations import knicks_profile, simulate_blitz_through_date

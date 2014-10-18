@@ -481,6 +481,16 @@ def client_profile_notes(request, pk):
         })
 
 @login_required
+def my_salespages(request):
+    if request.user.is_trainer:
+        trainer = request.user.trainer
+        salespages = SalesPageContent.objects.filter(trainer=trainer)
+        blitzes = Blitz.objects.filter(trainer=trainer)
+        return render(request, 'trainer_salespages.html', {
+            'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+            'SITE_URL' : settings.SITE_URL })
+
+@login_required
 def my_programs(request):
     request_blitz = request.user.blitz
     blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
