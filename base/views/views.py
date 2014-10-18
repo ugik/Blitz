@@ -188,6 +188,7 @@ def blitz_setup(request):
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.recurring = False if form.data['blitz_type'] == "GRP" else True
+            blitz.provisional = True if blitz.recurring else False
             blitz.save()
 
             return render_to_response('blitz_setup_done.html', 
@@ -485,7 +486,8 @@ def my_salespages(request):
     if request.user.is_trainer:
         trainer = request.user.trainer
         salespages = SalesPageContent.objects.filter(trainer=trainer)
-        blitzes = Blitz.objects.filter(trainer=trainer)
+        # sales pages for trainer's Blitzes that are either provisional or not recurring
+        blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
         return render(request, 'trainer_salespages.html', {
             'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
             'SITE_URL' : settings.SITE_URL })

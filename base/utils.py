@@ -91,10 +91,11 @@ def add_client_to_blitz(blitz, client):
     """
     Assuming we'll want to attach more info to plan joining
     """
-    # for a 1:1 (recurring) blitz, add client to a copy of the provisional instance
+    # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
         blitz.pk = None
         blitz.provisional = False
+        blitz.recurring = True
         blitz.title = "individual: %s" % client.name
         blitz.url_slug = str(client.pk)
         blitz.save()

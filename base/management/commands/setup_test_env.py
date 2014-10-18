@@ -150,6 +150,7 @@ class Command(BaseCommand):
         blitz = Blitz.objects.create(trainer=ct, workout_plan=roglaw_plan,
             title="Posting and Toasting", begin_date=blitz_start_date, url_slug="CT")
         blitz.sales_page_content = content
+        blitz.provisional = True
         blitz.uses_macros = True
         blitz.macro_strategy = 'M'
         blitz.price = 200
