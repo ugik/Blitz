@@ -1,7 +1,7 @@
 {% extends "helper_base.html" %}
 
 {% block main %}
-<h4> Assign program</h4>
+<header> Assign program</header>
 <div class="span8">
 
 <div class="content">
@@ -24,7 +24,7 @@
         </select>
 
      <div class="submit-container">
-        <button class='obtn obtn-half' type='submit'>Assign</button>{% csrf_token %}
+        <button class='obtn full-width' type='submit'>Assign</button>{% csrf_token %}
      </div>
 </form>
 </div>
@@ -36,5 +36,5 @@
 </ul>
 </div>
 
-<a href="{% url "helper_index" %}">Helper Home</a>
+
 {% endblock %}

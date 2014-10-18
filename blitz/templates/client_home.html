@@ -67,14 +67,14 @@
         {% if days_since_checkin > 14 %}
                 <div class="alert alert-info">
                     It's been {{ days_since_checkin }} days since your last check-in.
-                    <a href="{% url "client_checkin"  %}">Check-in now.</a>
+                    <a href="{% url "client_checkin"  %}">Check-in now</a>
                 </div>
         {% endif %}
 
         {% if days_since_blitz > 14 %}
                 <div class="alert alert-info">
                     Time for a check-in.
-                    <a href="{% url "client_checkin"  %}">Check-in now.</a>
+                    <a href="{% url "client_checkin"  %}">Check-in now</a>
                 </div>
         {% endif %}
 
@@ -83,7 +83,7 @@
             {% for day, workout_day in missed_workouts %}
                 <div class="alert alert-info">
                     You didn't log a workout on {{ day }} for {{ workout_day.workout }}.
-                    <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Go log it now.</a>
+                    <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Go log it now</a>
                 </div>
             {% endfor %}
         {% endif %}
@@ -99,11 +99,12 @@
 
         <form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
             <table><tr><td width="97%">
-            <textarea id="add-comment" name="comment" class="expanding" placeholder="do you even lift?" rows="1" ></textarea> </td><td>
+            <textarea id="add-comment" name="comment" class="expanding" placeholder="Do you even lift?" rows="1" ></textarea> </td><td>
 
             <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
             <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
-            <label id="id_label" name="picture" class="gbtn" for="id_picture"/>Pic
+            <label id="id_label" name="picture" class="gbtn" for="id_picture"/>
+                <i class="icon-camera"></i>
             </label></td></tr></table>
         </form>
 

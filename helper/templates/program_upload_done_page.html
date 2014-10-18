@@ -1,7 +1,7 @@
 {% extends "helper_base.html" %}
 
 {% block main %}
-<h4> Program upload results</h4>
+<header> Program upload results</header>
 <div class="span8">
 
 {% if ready %}
@@ -22,7 +22,7 @@ Program <b>{{ filename }}</b> loaded and tested successfully.
         </select>
         Program name: {{ form.program_name }} <br><br>
     <div class="submit-container">
-        <button class='obtn obtn-half' type='submit'>Create Program</button>{% csrf_token %}
+        <button class='obtn full-width' type='submit'>Create Program</button>{% csrf_token %}
     </div>
 </form>
 </div>
@@ -37,5 +37,5 @@ Program loaded with errors
 {% endif %}
 </div>
 
-<a href="{% url "helper_index" %}">Helper Home</a>
+
 {% endblock %}
