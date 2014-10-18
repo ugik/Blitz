@@ -396,16 +396,25 @@ textarea,textarea:focus {
   padding-right: 50px;
 }
 
+#top-level-navs > li.nav-item a:hover {
+      color: white !important;
+    }
+
+
 #top-level-navs {
   overflow: auto;
   float: left;
   //top: 4px;
   position: relative;
-
   .nav-item {
     float: left;
     padding: 10px 15px;
-    @include mobile-only { width: 90%; float: inherit; background: #1c1c1c; z-index: 10; }
+    @include mobile-only { 
+      width: 100%; 
+      float: inherit; 
+      //background: #1c1c1c; 
+      z-index: 10; 
+      }
     a {
       color: white;
       @include lightfont();
@@ -421,7 +430,8 @@ textarea,textarea:focus {
   .nav-item:hover {
    background: rgba(255,255,255,.1);
    a {
-    @include mobile-only { color: #333;}
+    color: white !important;
+    //@include mobile-only { color: #333;}
    }
  }
  .nav-item:active {background: rgba(255,255,255,0.1);}

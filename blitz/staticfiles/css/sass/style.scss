@@ -1597,6 +1597,8 @@ a.edit-workout-link {
 
 
 .obtn {
+  border: none;
+
   @include transition(0.5s, ease);
   display: block;
   font-size: 24px;
@@ -1667,6 +1669,7 @@ a.edit-workout-link {
 
 
 .gbtn {
+  border: none;
   @include transition(0.5s, ease);
   display: block;
   font-size: 24px;
@@ -3811,4 +3814,55 @@ ul.spotternav li {
   border-radius: 5px;
   border: 1px solid white;
   margin-bottom: 20px;
+}
+
+.wellheadline {
+  font-size: 36px;
+  line-height: 1.4;
+  @include boldfont();
+
+  @include mobile-only {
+    font-size: 30px;
+  }
+  i {
+    margin-left: 30px;
+    @include mobile-only {
+      margin-left: 0px;
+      margin-top: -20px;
+      margin-bottom: 20px;
+    }
+    font-size: 20px;
+    color: #9b999c;
+  }
+}
+
+.caltext {
+    display: inline-block;
+    font-size: 20px;
+    color: #9b999c;
+    @include lightfont();
+  }
+
+
+.linktag {
+  @include boldfont();
+  margin-top: 10px;
+  //float: left;
+  width: auto;
+}
+
+.contentwell {
+  font-size: 20px;
+  line-height: 1.4;
+  p {
+    margin-top: 10px;
+  }
+  table {
+    margin-top: 30px;
+    margin-bottom: -10px;
+  }
+}
+
+.meta {
+  @include meta();
 }
