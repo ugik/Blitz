@@ -14,7 +14,7 @@ from django.template import RequestContext
 from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
-from helper.urls import *
+from spotter.urls import *
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
@@ -84,10 +84,10 @@ def home(request):
         except ObjectDoesNotExist:
             pass
 
-        # handle helper type users, see helper app for details
-        if request.user._wrapped.username == 'helper':
-#             return helper_index(request)
-            return redirect('helper_index')
+        # handle spotter type users, see spotter app for details
+        if request.user._wrapped.username == 'spotter':
+#             return spotter_index(request)
+            return redirect('spotter_index')
 
         raise Exception("Invalid user")
 
@@ -481,6 +481,16 @@ def client_profile_notes(request, pk):
         })
 
 @login_required
+def my_salespages(request):
+    if request.user.is_trainer:
+        trainer = request.user.trainer
+        salespages = SalesPageContent.objects.filter(trainer=trainer)
+        blitzes = Blitz.objects.filter(trainer=trainer)
+        return render(request, 'trainer_salespages.html', {
+            'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+            'SITE_URL' : settings.SITE_URL })
+
+@login_required
 def my_programs(request):
     request_blitz = request.user.blitz
     blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
@@ -506,12 +516,13 @@ def my_blitz_program(request):
 @login_required
 def blitz_program(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
+
     if request.user.is_trainer:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'trainer': request.user.trainer })
+            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : settings.SITE_URL })
     else:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'client': request.user.client })
+            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
 
 @login_required
 def my_blitz_members(request):

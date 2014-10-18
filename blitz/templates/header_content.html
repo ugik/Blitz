@@ -40,8 +40,12 @@
                             {{ user|numunreadthreads }}</span> {% endif %}Inbox</a>
                             </li>
                             <li class="nav-item">
+                                <a class="{% ifequal request.path "/salespage" %}active{% endifequal %}"
+                                   href="/salespage">Pages</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="{% ifequal request.path "/program" %}active{% endifequal %}"
-                                   href="/program">Program</a>
+                                   href="/program">Programs</a>
                             </li>
                             {% if user.trainer.all_clients %}
                             <li class="nav-item">

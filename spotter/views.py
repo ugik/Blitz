@@ -16,7 +16,7 @@ from django.views.static import serve
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
-from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
+from spotter.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 
 import os
 import xlrd
@@ -26,14 +26,14 @@ from datetime import date, timedelta
 #    import pdb; pdb.set_trace()
 
 @login_required
-def helper_index(request):
+def spotter_index(request):
     if not request.user.is_staff:
         return redirect('home')
 
-    return render(request, 'helper.html')
+    return render(request, 'spotter.html')
 
 @login_required
-def helper_usage(request):
+def spotter_usage(request):
     from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
     from pytz import timezone
     from base.tasks import usage_digest
@@ -59,7 +59,7 @@ def helper_usage(request):
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
         days = request.GET.get('days')
     else:
-        days = 0
+        days = 3
         startdate = date.today() - timedelta(days = days)
 
     enddate = date.today() - timedelta(days=0)
@@ -79,16 +79,16 @@ def helper_usage(request):
           {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
 
 @login_required
-def helper_delete(request):
+def spotter_delete(request):
     if not request.user.is_staff:
         return redirect('home')
 
     filename = settings.MEDIA_ROOT + '/documents/'+request.GET.get('file')
     os.renames(filename, filename+'.backup')
-    return redirect('helper_uploads')
+    return redirect('spotter_uploads')
 
 @login_required
-def helper_download(request):
+def spotter_download(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -98,7 +98,7 @@ def helper_download(request):
     return serve(request, os.path.basename(path), os.path.dirname(path))
 
 @login_required
-def helper_pending_trainers(request):
+def spotter_pending_trainers(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -106,7 +106,7 @@ def helper_pending_trainers(request):
     return render(request, 'pending_trainers.html', {'pending' : pending_trainers})
 
 @login_required
-def helper_status_trainers(request):
+def spotter_status_trainers(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -130,7 +130,7 @@ def assign_workoutplan(request):
             blitz = Blitz.objects.get(pk=blitz_id)
             blitz.workout_plan = workoutplan
             blitz.save()
-            response = redirect('helper_status_trainers')
+            response = redirect('spotter_status_trainers')
             return response
 
     form = AssignPlanForm()
@@ -138,7 +138,7 @@ def assign_workoutplan(request):
            {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitzes })
 
 @login_required
-def helper_blitz_sales_pages(request):
+def spotter_blitz_sales_pages(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -146,7 +146,7 @@ def helper_blitz_sales_pages(request):
     return render(request, 'pending_sales_pages.html', {'pending' : pending_sales_pages})
 
 @login_required
-def helper_uploads(request):
+def spotter_uploads(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -177,7 +177,7 @@ def helper_uploads(request):
     return render(request, 'docs.html', {'docs' : documents, 'numdocs' : numdocs})
 
 @login_required
-def helper_program_upload(request):
+def spotter_program_upload(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -214,7 +214,7 @@ def helper_program_upload(request):
                               RequestContext(request))
 
 @login_required
-def helper_program_create(request):
+def spotter_program_create(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -237,7 +237,7 @@ def helper_program_create(request):
                               RequestContext(request))
 
 @login_required
-def helper_workouts(request):
+def spotter_workouts(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -247,7 +247,7 @@ def helper_workouts(request):
                               RequestContext(request))
 
 @login_required
-def helper_exercise(request):
+def spotter_exercise(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -259,7 +259,7 @@ def helper_exercise(request):
                               RequestContext(request))
 
 @login_required
-def helper_custom_set(request):
+def spotter_custom_set(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -281,7 +281,7 @@ def helper_custom_set(request):
         set.client = client
         set.save()
 
-        response = redirect('/helper/exercise_page')
+        response = redirect('/spotter/exercise_page')
         response['Location'] += '?workout=%s' % set.workoutset.workout.slug
         return response
 
@@ -300,7 +300,7 @@ def helper_custom_set(request):
                    RequestContext(request))
 
 @login_required
-def helper_custom_exercise(request):
+def spotter_custom_exercise(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -321,7 +321,7 @@ def helper_custom_exercise(request):
         exe.client = client
         exe.save()
 
-        response = redirect('/helper/exercise_page')
+        response = redirect('/spotter/exercise_page')
         response['Location'] += '?workout=%s' % exe.exercise.workout.slug
         return response
 
@@ -341,7 +341,7 @@ def helper_custom_exercise(request):
 
 
 @login_required
-def helper_sales_pages(request):
+def spotter_sales_pages(request):
     if not request.user.is_staff:
         return redirect('home')
 
@@ -366,7 +366,7 @@ def helper_sales_pages(request):
 
 
 @login_required
-def helper_program_delete(request):
+def spotter_program_delete(request):
     if not request.user.is_staff:
         return redirect('home')
 

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from base.models import Client, Trainer, Blitz, BlitzMember, BlitzInvitation, MacroDay, TrainerAlert
 from workouts.models import Lift, Workout, WorkoutSet, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay
-from base.utils import create_trainer, create_client, add_client_to_blitz
+from base.utils import create_trainer, create_client, add_client_to_blitz, create_salespagecontent
 from base.new_content import create_new_parent_comment, add_child_to_comment, add_like_to_comment
 from base import new_content
 from base.simulations import knicks_profile, simulate_blitz_through_date
@@ -47,11 +47,12 @@ class Command(BaseCommand):
 
         blitz = Blitz
         try:
-            blitz = Blitz.objects.get(url_slug='heavy')
+            blitz = Blitz.objects.get(url_slug='mike')
         except Blitz.DoesNotExist:
+            content = create_salespagecontent("Heavy", mikerashid)
             blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
-                title="Make it HEAVY", begin_date=blitz_start_date, url_slug="heavy")
-
+                title="Make it HEAVY", begin_date=blitz_start_date, url_slug="mike")
+            blitz.sales_page_content = content
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.price = 1

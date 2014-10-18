@@ -17,7 +17,7 @@ v1_api.register(UserResource())
 v1_api.register(FeedItemResource())
 
 urlpatterns = patterns('',
-    (r'^helper/', include('helper.urls')),
+    (r'^spotter/', include('spotter.urls')),
 )
 urlpatterns += patterns(
     '',
@@ -59,11 +59,13 @@ urlpatterns += patterns(
 
     url(r'^upload$', 'base.views.upload_page', name='upload_page'),
 
+    url(r'^salespage$', 'base.views.my_salespages', name='my_salespages'),
+
     url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
     url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
 # old programs urls
-#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_blitz_program'),
+#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_old_blitz_program'),
     url(r'^old_program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
     url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
     url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),

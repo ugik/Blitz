@@ -37,6 +37,7 @@ TIME_ZONE = 'US/Pacific'
 LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
+SITE_URL = 'Blitz.us'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -129,7 +130,7 @@ INSTALLED_APPS = (
     'base',
     'workouts',
     'ff_messaging',
-    'helper',
+    'spotter',
 
 )
 
@@ -181,16 +182,9 @@ else:
 
 EMAIL_HOST = 'smtp.blitz.us'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'gk@blitz.us'
-EMAIL_HOST_PASSWORD = 'Blitz14'
-DEFAULT_FROM_EMAIL = 'gk@blitz.us'
-
-#EMAIL_USE_TLS = True
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
-#EMAIL_HOST_USER = 'ugikma@gmail.com'
-#DEFAULT_FROM_EMAIL = 'ugikma@gmail.com'
-SERVER_EMAIL = 'ugikma@gmail.com'
+EMAIL_HOST_USER = 'team@blitz.us'
+DEFAULT_FROM_EMAIL = 'team@blitz.us'
+SERVER_EMAIL = 'team@blitz.us'
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'

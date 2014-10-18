@@ -68,3 +68,6 @@ sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 #apache wsgi
 http://www.webforefront.com/django/setupapachewebserverwsgi.html
 
+#enom email
+http://mail-29.name-services.com/Login.aspx
+

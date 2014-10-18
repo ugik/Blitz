@@ -1,0 +1,72 @@
+{% extends "spotter_base.html" %}
+
+{% block main %}
+
+<header>Here are the trainers <i>and their Blitz & WorkoutPlan status</i><br></header>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+
+  <p>
+    Remember: Trainers have <b>WorkoutPlan</b>s (that define daily/weekly exercises) and <b>Blitz</b>(es) (that belong to an individual or group of <b>Client</b>(s)
+  </p>
+  <p>
+    A 'provisional' blitz is a 1:1 Blitz that clients will signup for, upon signup a <i>copy</i> of this provisional blitz is applied
+  </p>
+
+    <div class="span4 offset3" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+      {% for trainer in trainers|dictsort:"name" %}
+      <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
+        <div style="text-align: left;" class="spotterheader">
+          {{ trainer.name }}
+        </div>
+        <ul style="text-align: left; margin: 10px 0px 50px 0px;">
+           <li>Blitzes:
+            <ul style="margin-top: 10px;">
+           {% if not trainer.blitz_set.all %}
+               <li style="padding-left: 20px;">(no Blitzes)
+           {% endif %}
+           {% for blitz in trainer.blitz_set.all %}
+               <li style="padding-left: 20px;">{{ blitz.url_slug }}
+                   {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
+                   {% if blitz.recurring %}<small>(Recurring)</small>{% endif %}
+                   {% if not blitz.recurring %}<small>(Group)</small>{% endif %}
+
+                   {% if blitz.workout_plan.id %}
+                       <small><u>has workoutplan:{{ blitz.workout_plan.name }}</u></small>
+                   {% else %}
+                       <small><b>(no WorkoutPlan assigned)</b></small>
+                   {% endif %}
+
+           {% endfor %}</ul>
+
+           <li style="margin-top: 20px;">WorkoutPlans:<ul style="margin-top: 10px;">
+           {% if not trainer.workoutplan_set.all %}
+               <li style="padding-left: 20px;">(no WorkoutPlans)
+           {% endif %}
+           {% for workoutplan in trainer.workoutplan_set.all %}
+              <li style="padding-left: 20px;">{{ workoutplan.name }}
+              <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Blitz</small></a>
+           {% endfor %}</ul>
+        </ul>
+      </div>
+      {% endfor %}
+
+      {% if errors %}
+        <ul>
+        {% for e in errors %}
+            <li>{{ e }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+
+
+    </div>
+
+
+
+
+{% endblock %}
+
