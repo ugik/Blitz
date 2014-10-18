@@ -3812,3 +3812,54 @@ ul.spotternav li {
   border: 1px solid white;
   margin-bottom: 20px;
 }
+
+.wellheadline {
+  font-size: 36px;
+  line-height: 1.4;
+  @include boldfont();
+
+  @include mobile-only {
+    font-size: 30px;
+  }
+  i {
+    margin-left: 30px;
+    @include mobile-only {
+      margin-left: 0px;
+      margin-top: -20px;
+      margin-bottom: 20px;
+    }
+    font-size: 20px;
+    color: #9b999c;
+  }
+}
+
+.caltext {
+    display: inline-block;
+    font-size: 20px;
+    color: #9b999c;
+    @include lightfont();
+  }
+
+
+.linktag {
+  @include boldfont();
+  margin-top: 10px;
+  //float: left;
+  width: auto;
+}
+
+.contentwell {
+  font-size: 20px;
+  line-height: 1.4;
+  p {
+    margin-top: 20px;
+  }
+  table {
+    margin-top: 30px;
+    margin-bottom: -10px;
+  }
+}
+
+.meta {
+  @include meta();
+}
