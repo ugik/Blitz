@@ -1,3 +1,7 @@
+{% extends "emails/base_email.html" %}
+
+{% block email_content %}
+
 {{ commenter.display_name }} replied to your comment:
 
 "{{ comment.plain_text|safe }}"
@@ -5,4 +9,6 @@
 Go check it out at https://www.blitz.us{{ comment.parent_absolute_url }}
 
 --the Blitz.us Team
+
+{% endblock %}
 

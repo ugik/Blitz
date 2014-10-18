@@ -1,8 +1,11 @@
-{% extends "helper_base.html" %}
+{% extends "spotter_base.html" %}
 
 {% block main %}
 
+<<<<<<< HEAD:helper/templates/usage.html
 
+=======
+>>>>>>> dev:spotter/templates/usage.html
 <style type="text/css">
 
     ul, ol {
@@ -19,6 +22,17 @@
 
 
 <header style="margin-bottom: 30px;">Usage digest {{ days }} days</header>
+
+<h3>MRR ${{ MRR }}</h3>
+{% if login_users %}
+<h3>Last login</h3>
+<ul>
+{% for login in login_users|dictsort:"last_login" %}
+    <li> {{ login.email }} {{ login.last_login }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<br>
 
 <div class="span3 digest">
     <h3>Clients:</h3>

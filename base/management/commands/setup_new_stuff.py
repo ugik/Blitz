@@ -23,7 +23,6 @@ class Command(BaseCommand):
         most_recent_monday = now.date() - datetime.timedelta(days=now.weekday())
         blitz_start_date = most_recent_monday - datetime.timedelta(days=14)
 
-
 #        import pdb; pdb.set_trace()
 
         mikerashid = Trainer
@@ -48,11 +47,12 @@ class Command(BaseCommand):
 
         blitz = Blitz
         try:
-            blitz = Blitz.objects.get(url_slug='heavy')
+            blitz = Blitz.objects.get(url_slug='mike')
         except Blitz.DoesNotExist:
+            content = create_salespagecontent("Heavy", mikerashid)
             blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
-                title="Make it HEAVY", begin_date=blitz_start_date, url_slug="heavy")
-
+                title="Make it HEAVY", begin_date=blitz_start_date, url_slug="mike")
+            blitz.sales_page_content = content
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.price = 1

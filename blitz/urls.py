@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.conf.urls.defaults import *
 from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
@@ -6,12 +7,17 @@ admin.autodiscover()
 from base.api import UserResource, FeedItemResource
 from tastypie.api import Api
 
+handler500 = 'base.views.server_error'
+handler404 = 'base.views.not_found_error'
+handler403 = 'base.views.permission_denied_error'
+handler400 = 'base.views.bad_request_error'
+
 v1_api = Api(api_name='v1')
 v1_api.register(UserResource())
 v1_api.register(FeedItemResource())
 
 urlpatterns = patterns('',
-    (r'^helper/', include('helper.urls')),
+    (r'^spotter/', include('spotter.urls')),
 )
 urlpatterns += patterns(
     '',
@@ -53,11 +59,14 @@ urlpatterns += patterns(
 
     url(r'^upload$', 'base.views.upload_page', name='upload_page'),
 
-    url(r'^program$', 'base.views.my_blitz_program', name='my_blitz_program'),
-    url(r'^program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
+    url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
+    url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
-    url(r'^program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
-    url(r'^program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
+# old programs urls
+#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_old_blitz_program'),
+    url(r'^old_program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
+    url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
+    url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
 
     url(r'^dashboard$', 'base.views.trainer_dashboard', name='trainer_dashboard'),
 
@@ -83,7 +92,6 @@ urlpatterns += patterns(
 
     # todo: intro views namespaced as intro/[slug]
     url(r'^intro-data-1$', 'base.views.set_intro_1', name='set_intro_1'),
-    url(r'^set-profile-url$', 'base.views.set_profile_url', name='set_profile_url'),
 
     (r'^api/', include(v1_api.urls)),
 
@@ -95,7 +103,6 @@ urlpatterns += patterns(
     url(r'^privacypolicy$', 'base.views.privacy_policy', name='privacy_policy'),
 
     url(r'^profile/settings$', 'base.views.client_settings', name='client_settings'),
-    url(r'^set-profile-photo$', 'base.views.set_profile_photo', name='set_profile_photo'),
     url(r'^404$', 'base.views.page404', name="page404"),
     url(r'^500$', 'base.views.page500', name="page500"),
 
@@ -120,6 +127,8 @@ urlpatterns += patterns(
     url(r'^blitz/(?P<pk>\d+)/([\w|-]+)/payment_hook', 'base.views.payment_hook', name='payment_hook'),
 
     url(r'^blitz-setup$', 'base.views.blitz_setup', name='blitz_setup'),
+
+    url(r'^spotter_program_edit/(?P<pk>\d+)$', 'base.views.spotter_program_edit', name='spotter_program_edit'),
 
     url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)/signup$', 'base.views.blitz_signup', name="blitz_signup"),
 

@@ -3787,7 +3787,7 @@ label#id_document.upload {
 }
 
 
-ul.helpernav  {
+ul.spotternav  {
   float: left;
   width: 100%;
   text-align: center;
@@ -3795,13 +3795,13 @@ ul.helpernav  {
   padding-bottom: 20px;
 }
 
-ul.helpernav li {
+ul.spotternav li {
   color: #ffcc00;
   float: left;
   margin-right: 20px;
 }
 
-.helperheader {
+.spotterheader {
   @include meta();
   font-size: 24px;
 }

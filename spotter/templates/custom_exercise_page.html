@@ -1,18 +1,17 @@
-{% extends "helper_base.html" %}
+{% extends "spotter_base.html" %}
 
 {% block main %}
-<header> Customize WorkoutSet </header>
-{{ workoutset }} {% if workoutset.client %} for {{ workoutset.client }} {% endif %}
+<header> Customize Exercise </header>
+{{ exercise }} {% if workoutset.client %} for {{ workoutset.client }} {% endif %}
 <div class="span8">
 
         <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
-        <input type="text" name="num_reps" value="{{ workoutset.num_reps }}" />
+        <input type="text" name="sets_display" value="{{ exercise.sets_display }}" />
 
         <select name="lift" id="lift">
         {% for l in lifts|dictsort:"name" %}
             <option value="{{l.id}}"
-        {% if l.id == workoutset.lift_id %}selected{% endif %}>
-
+        {% if l.id == exercise.lift_id %}selected{% endif %}>
             {{l.name}}</option>
         {% endfor %}
         </select>

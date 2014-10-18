@@ -1,15 +1,21 @@
-Usage digest {{ days }} days
+Daily usage digest past {{ days }} days
 
+MRR ${{ MRR }}
+
+{% if trainers %}
 New Trainers:
 {% regroup trainers by date_created as trainer_list %}
 {% for trainer in trainer_list %}
 {{ trainer.grouper }}
+    
     {% for c in trainer.list %}
-    {{ c.name }}
+       {{ c.name }}
     {% endfor %}
 {% endfor %}
+{% endif %}
 
-New Members:
+{% if members %}
+New Clients:
 {% regroup members by date_created as member_list %}
 {% for member in member_list %}
 {{ member.grouper }}
@@ -17,4 +23,13 @@ New Members:
     {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for ${{ c.blitz.price }}
     {% endfor %}
 {% endfor %}
+{% endif %}
+
+{% if login_users %}
+Last login
+
+{% for login in login_users|dictsort:"last_login" %}
+    {{ login.email }} {{ login.last_login }}
+{% endfor %}
+{% endif %}
 

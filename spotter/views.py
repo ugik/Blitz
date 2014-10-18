@@ -16,24 +16,31 @@ from django.views.static import serve
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
-from helper.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
+from spotter.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 
 import os
 import xlrd
 import datetime
+import requests
 from datetime import date, timedelta
 #    import pdb; pdb.set_trace()
 
 @login_required
-def helper_index(request):
-    return render(request, 'helper.html')
+def spotter_index(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    return render(request, 'spotter.html')
 
 @login_required
-def helper_usage(request):
+def spotter_usage(request):
     from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
     from pytz import timezone
     from base.tasks import usage_digest
     from django.db.models import Q
+
+    if not request.user.is_staff:
+        return redirect('home')
 
     # get clients with CC on file
     paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
@@ -52,7 +59,7 @@ def helper_usage(request):
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
         days = request.GET.get('days')
     else:
-        days = 0
+        days = 3
         startdate = date.today() - timedelta(days = days)
 
     enddate = date.today() - timedelta(days=0)
@@ -72,30 +79,45 @@ def helper_usage(request):
           {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
 
 @login_required
-def helper_delete(request):
+def spotter_delete(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     filename = settings.MEDIA_ROOT + '/documents/'+request.GET.get('file')
     os.renames(filename, filename+'.backup')
-    return redirect('helper_uploads')
+    return redirect('spotter_uploads')
 
 @login_required
-def helper_download(request):
+def spotter_download(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     filename = request.GET.get('file')
     directory = request.GET.get('dir')
     path = settings.MEDIA_ROOT + directory + filename
     return serve(request, os.path.basename(path), os.path.dirname(path))
 
 @login_required
-def helper_pending_trainers(request):
+def spotter_pending_trainers(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     pending_trainers = get_pending_trainers()
     return render(request, 'pending_trainers.html', {'pending' : pending_trainers})
 
 @login_required
-def helper_status_trainers(request):
+def spotter_status_trainers(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     trainers = Trainer.objects.all()
     return render(request, 'trainer_status.html', {'trainers' : trainers })
 
 @login_required
 def assign_workoutplan(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     trainers = Trainer.objects.all()
     blitzes = Blitz.objects.all()
     plan_id = request.GET.get('plan', None)
@@ -108,7 +130,7 @@ def assign_workoutplan(request):
             blitz = Blitz.objects.get(pk=blitz_id)
             blitz.workout_plan = workoutplan
             blitz.save()
-            response = redirect('helper_status_trainers')
+            response = redirect('spotter_status_trainers')
             return response
 
     form = AssignPlanForm()
@@ -116,12 +138,18 @@ def assign_workoutplan(request):
            {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitzes })
 
 @login_required
-def helper_blitz_sales_pages(request):
+def spotter_blitz_sales_pages(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     pending_sales_pages = get_pending_sales_pages()        
     return render(request, 'pending_sales_pages.html', {'pending' : pending_sales_pages})
 
 @login_required
-def helper_uploads(request):
+def spotter_uploads(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     path = settings.MEDIA_ROOT + '/documents'
     doclist = [f for f in os.listdir(path) if not f.endswith('.backup')]
     numdocs = 0
@@ -130,8 +158,8 @@ def helper_uploads(request):
     for doc in doclist:
         user_pk = doc[0:2].strip('_')
         datetime = doc[2:].strip('_').strip('.doc')
-        print datetime
-        if Trainer.objects.filter(pk=user_pk).exists():
+
+        if user_pk.isdigit() and Trainer.objects.filter(pk=user_pk).exists():
             entry = {}
             entry['doc'] = doc
             t = Trainer.objects.get(pk=user_pk)
@@ -149,7 +177,10 @@ def helper_uploads(request):
     return render(request, 'docs.html', {'docs' : documents, 'numdocs' : numdocs})
 
 @login_required
-def helper_program_upload(request):
+def spotter_program_upload(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     path = settings.MEDIA_ROOT + '/programs'
 
     trainers = Trainer.objects.all()
@@ -183,7 +214,9 @@ def helper_program_upload(request):
                               RequestContext(request))
 
 @login_required
-def helper_program_create(request):
+def spotter_program_create(request):
+    if not request.user.is_staff:
+        return redirect('home')
 
     if request.method == 'POST':
         form = TrainerIDForm(request.POST)
@@ -204,14 +237,20 @@ def helper_program_create(request):
                               RequestContext(request))
 
 @login_required
-def helper_workouts(request):
+def spotter_workouts(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     workouts = Workout.objects.all()
     return render_to_response('workouts_page.html', 
                               {'workouts' : workouts},
                               RequestContext(request))
 
 @login_required
-def helper_exercise(request):
+def spotter_exercise(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     workout_slug = request.GET.get('workout', None)
     workout = Workout.objects.get(slug=workout_slug)
     workoutset = WorkoutSet.objects.filter(workout_id=workout.id)
@@ -220,7 +259,9 @@ def helper_exercise(request):
                               RequestContext(request))
 
 @login_required
-def helper_custom_set(request):
+def spotter_custom_set(request):
+    if not request.user.is_staff:
+        return redirect('home')
 
     workoutset_id = request.GET.get('id', None)
     workoutset_custom_id = request.GET.get('custom_id', None)
@@ -240,7 +281,7 @@ def helper_custom_set(request):
         set.client = client
         set.save()
 
-        response = redirect('/helper/exercise_page')
+        response = redirect('/spotter/exercise_page')
         response['Location'] += '?workout=%s' % set.workoutset.workout.slug
         return response
 
@@ -259,7 +300,9 @@ def helper_custom_set(request):
                    RequestContext(request))
 
 @login_required
-def helper_custom_exercise(request):
+def spotter_custom_exercise(request):
+    if not request.user.is_staff:
+        return redirect('home')
 
     exercise_id = request.GET.get('id', None)
     exercise_custom_id = request.GET.get('custom_id', None)
@@ -278,7 +321,7 @@ def helper_custom_exercise(request):
         exe.client = client
         exe.save()
 
-        response = redirect('/helper/exercise_page')
+        response = redirect('/spotter/exercise_page')
         response['Location'] += '?workout=%s' % exe.exercise.workout.slug
         return response
 
@@ -298,7 +341,10 @@ def helper_custom_exercise(request):
 
 
 @login_required
-def helper_sales_pages(request):
+def spotter_sales_pages(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     plan_id = request.GET.get('plan', None)
 
     if request.method == 'POST':
@@ -320,7 +366,10 @@ def helper_sales_pages(request):
 
 
 @login_required
-def helper_program_delete(request):
+def spotter_program_delete(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
     plan_id = request.GET.get('plan', None)
     errors = delete_plan(plan_id)
     pending_trainers = get_pending_trainers()
@@ -334,6 +383,7 @@ def helper_program_delete(request):
 
 
 def delete_plan(plan_id):
+
     errors = []
     plan = WorkoutPlan.objects.filter(id=plan_id)
     if plan:
@@ -355,6 +405,7 @@ def delete_plan(plan_id):
 
 
 def get_pending_sales_pages():
+
     pending_sales_pages = []
     contents = SalesPageContent.objects.all()
     for content in contents:
@@ -363,6 +414,7 @@ def get_pending_sales_pages():
 
 
 def get_pending_trainers():
+
     pending_trainers = []
     trainers = Trainer.objects.all()
     for trainer in trainers:
@@ -385,6 +437,7 @@ def get_pending_trainers():
 
 
 def save_file(file, pk_value=0, name='', path='/documents/'):
+
 #    filename = file._get_name()
     now = datetime.datetime.now()
     if name == '':
@@ -401,6 +454,7 @@ def save_file(file, pk_value=0, name='', path='/documents/'):
 
 
 def test_program(file):
+
     errors = []
     log = []
     ready = False
@@ -488,6 +542,7 @@ def test_program(file):
 
 
 def load_program(file, trainer_id, plan_name):
+
     workbook = xlrd.open_workbook(file)
     worksheet = workbook.sheet_by_name('Meta')
     # workout meta

@@ -4579,7 +4579,7 @@ label#id_document.upload {
 }
 
 /* line 3790, ../sass/style.scss */
-ul.helpernav {
+ul.spotternav {
   float: left;
   width: 100%;
   text-align: center;
@@ -4588,14 +4588,14 @@ ul.helpernav {
 }
 
 /* line 3798, ../sass/style.scss */
-ul.helpernav li {
+ul.spotternav li {
   color: #ffcc00;
   float: left;
   margin-right: 20px;
 }
 
 /* line 3804, ../sass/style.scss */
-.helperheader {
+.spotterheader {
   font-family: 'metanormal_caps';
   font-size: 24px;
 }

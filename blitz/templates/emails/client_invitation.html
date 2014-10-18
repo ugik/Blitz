@@ -1,3 +1,7 @@
+{% extends "emails/base_email.html" %}
+
+{% block email_content %}
+
 Hey,
 
 {{ trainer.name }} has invited you to join {{ blitz.title }} 
@@ -5,3 +9,5 @@ Hey,
 Go get after it here: {{ invite_url }}
 
 --the Blitz.us Team
+
+{% endblock %}

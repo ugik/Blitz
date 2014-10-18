@@ -1,0 +1,5 @@
+You received a new message from {{ workoutplan.trainer.name|safe }} about program: {{ workoutplan.name }}:
+
+"{{ message|safe }}"
+
+

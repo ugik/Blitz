@@ -14,15 +14,15 @@ from django.template import RequestContext
 from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
-from helper.urls import *
+from spotter.urls import *
 
-from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm
+from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent
 from base import utils
-from base.emails import client_invite
+from base.emails import client_invite, email_spotter_program_edit
 
-from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn
+from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
 from workouts.models import WorkoutPlan
 
 from base.templatetags import units_tags
@@ -84,10 +84,10 @@ def home(request):
         except ObjectDoesNotExist:
             pass
 
-        # handle helper type users, see helper app for details
-        if request.user._wrapped.username == 'helper':
-#             return helper_index(request)
-            return redirect('helper_index')
+        # handle spotter type users, see spotter app for details
+        if request.user._wrapped.username == 'spotter':
+#             return spotter_index(request)
+            return redirect('spotter_index')
 
         raise Exception("Invalid user")
 
@@ -263,6 +263,35 @@ def client_setup(request):
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
                                 'signup_key' : signup_key, 'invite_url' : invite_url,
                                 'errors' : form.errors}, 
+                              RequestContext(request))
+
+
+@login_required
+def spotter_program_edit(request, pk):
+
+    trainer = request.user.trainer
+    workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
+    if len(trainer.blitz_set.all()) == 1 or not trainer.currently_viewing_blitz:
+        blitz = trainer.blitz_set.all()[0]
+    else:                                   
+        blitz = trainer.currently_viewing_blitz
+
+    if request.method == 'POST':
+        form = SpotterProgramEditForm(request.POST)
+
+        if form.is_valid():
+            email_spotter_program_edit(pk, form.cleaned_data['edit_request'])
+
+            return redirect('my_blitz_program')
+        else:
+            return render_to_response('spotter_program_edit.html', 
+                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
+                              RequestContext(request))
+    else:
+        form = SpotterProgramEditForm()
+
+        return render_to_response('spotter_program_edit.html', 
+                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
                               RequestContext(request))
 
 
@@ -452,6 +481,24 @@ def client_profile_notes(request, pk):
         })
 
 @login_required
+def my_programs(request):
+    request_blitz = request.user.blitz
+    blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
+    if request.user.is_trainer:
+        workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
+        return render(request, 'trainer_programs.html', 
+           {'trainer': request.user.trainer, 'workoutplans' : workoutplans })
+    else:
+        return render(request, 'blitz_program.html', {
+            'blitz': blitz, 'client': request.user.client })
+
+@login_required
+def view_program(request, pk):
+    workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
+    return render(request, 'trainer_view_program.html', 
+       {'workout_plan': workoutplan })
+
+@login_required
 def my_blitz_program(request):
     blitz = request.user.blitz
     return blitz_program(request, blitz.pk)
@@ -459,12 +506,13 @@ def my_blitz_program(request):
 @login_required
 def blitz_program(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
+
     if request.user.is_trainer:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'trainer': request.user.trainer })
+            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : settings.SITE_URL })
     else:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'client': request.user.client })
+            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
 
 @login_required
 def my_blitz_members(request):
@@ -975,31 +1023,6 @@ def set_intro_1(request):
 
 @login_required
 @csrf_exempt
-def set_profile_url(request):
-
-    client = request.user.client
-
-    form = ProfileURLForm(request.POST)
-    if form.is_valid():
-        client.external_headshot_url = form.cleaned_data['external_headshot_url']
-        thumb = requests.get(form.cleaned_data['external_headshot_url'] + '/convert', params={"w": 300, "h": 300, "fit": "crop"})
-        thumb_file = ContentFile(thumb.content)
-        client.headshot.save(client.user.username, thumb_file)
-        client.has_completed_intro = True
-        client.save()
-        ret = {
-            'is_error': False,
-            }
-    else:
-        ret = {
-            'is_error': True,
-            'errors': form.errors,
-            }
-
-    return JSONResponse(ret)
-
-@login_required
-@csrf_exempt
 def new_child_comment(request):
 
     # todo: authx - user in a diff blitz could add a comment
@@ -1076,7 +1099,7 @@ def sales_blitz(request):
                 pass
 
 #        import pdb; pdb.set_trace()
-         
+        
         if 'price' in request.POST:
             if request.POST.get('price').isdigit():
                 blitz.price = request.POST.get('price')
@@ -1293,6 +1316,7 @@ def set_up_profile_basic(request):
             
             client.headshot = form.cleaned_data['picture']
             client.save()
+            client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
 
 @login_required
@@ -1305,6 +1329,8 @@ def set_up_profile_photo(request):
         if form.is_valid() and form.is_multipart():
             client.headshot = form.cleaned_data['picture']
             client.save()
+            client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
+
             client.has_completed_intro = True
             client.save()
 
@@ -1390,15 +1416,16 @@ def client_checkin(request):
 
 @login_required
 def client_settings(request):
+
     client = request.user.client
 
     if request.method == 'POST':
         form = ClientSettingsForm(request.POST, request.FILES)
 
         if form.is_valid() and form.is_multipart():
-            
             client.headshot = form.cleaned_data['picture']
             client.save()
+            client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
         else:
             return render(request, 'client_profile_settings.html', {
@@ -1413,31 +1440,6 @@ def client_settings(request):
         'section': 'settings',
         'timezones': pytz.common_timezones,})
 
-
-@csrf_exempt
-@login_required
-def set_profile_photo(request):
-    # TODO: everything here
-    client = request.user.client
-
-    a = urllib2.urlopen(request.POST['external_headshot_url'])
-    b = StringIO(a.read())
-    c = Image.open(b)
-    original_width = c.size[0]
-    original_height = c.size[1]
-
-    real_x = int(request.POST['x']) * original_width / int(request.POST['display_width'])
-    real_y = int(request.POST['y']) * original_height / int(request.POST['display_height'])
-    real_w = int(request.POST['w']) * original_width / int(request.POST['display_width'])
-    real_h = int(request.POST['h']) * original_height / int(request.POST['display_height'])
-    crop_str = "%d,%d,%d,%d" % (real_x, real_y, real_w, real_h)
-
-    client.external_headshot_url = request.POST['external_headshot_url']
-    thumb = requests.get(request.POST['external_headshot_url'] + '/convert', params={"crop": crop_str})
-    thumb_file = ContentFile(thumb.content)
-    client.headshot.save(client.user.username, thumb_file)
-    client.save()
-    return JSONResponse({'is_error': False})
 
 def staff_login(request):
 
@@ -1488,11 +1490,36 @@ def set_client_macros(request, pk):
         'success': success,
     })
 
+# ERROR handling
 def page404(request):
     return render(request, '404.html')
 
 def page500(request):
     return render(request, '500.html')
+
+def not_found_error(request, template_name='404.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
+
+def server_error(request, template_name='500.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
+
+def permission_denied_error(request, template_name='500.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
+
+def bad_request_error(request, template_name='500.html'):
+
+    return render_to_response(template_name,
+        context_instance = RequestContext(request)
+    )
 
 @login_required
 @csrf_exempt
@@ -1562,7 +1589,12 @@ def trainer_dashboard(request):
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
+    heading = Heading.objects.all().order_by('?')[:1].get()
+    header = "%s - %s" % (heading.saying, heading.author)
+
     if blitzes and clients:
-        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0])})
+        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0]), 'header': header})
     else:
         return redirect('home')
+
+

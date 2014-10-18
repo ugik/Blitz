@@ -1,0 +1,66 @@
+{% extends "client_content.html" %}
+
+{% block morehead %}
+<style>
+.well{
+    background:rgba(255,255,255, 0.9);
+}
+</style>
+{% endblock %}
+
+
+{% block main %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="span6" style="float: none; margin: 0 auto;">
+           <h3> Programs </h3>
+        <form method="post" name="sales-blitz" 
+         action="upload" class="formpage-block-form">
+           {% csrf_token %}
+           <div class="submit-container">
+              <button class='obtn obtn-comment-grn' type='submit'>+ Upload New Program</button>
+           </div>
+        </form>
+
+        </div>
+        <div class="span8" style="float: none; margin: 0 auto;">
+         Praesent vel efficitur elit. Sed ac pulvinar massa. Duis rutrum eget dolor a cursus. Phasellus neque ligula, cursus vitae ligula vel, faucibus fermentum velit. Maecenas fringilla sem ante, id eleifend massa tincidunt at. Fusce malesuada massa suscipit, fermentum libero vitae, viverra urna. <br><br>
+        {% if workoutplans %}
+           {% for plan in workoutplans %}
+              <div class="well">
+                 <b>{{ plan.name }}</b><br>
+                 {{ plan.num_weeks }} weeks long &nbsp;&#149;&nbsp;  
+                 {% for lift in plan.all_lifts %}
+                     {% if forloop.last %} {{ lift.name }} {% else %} {{ lift.name }}, {% endif %}
+                 {% endfor %}
+
+                 <br><br>
+                 <table>
+                 <tr>
+                 <td><form method="post" 
+                        action="/view_program/{{ plan.pk }}" class="formpage-block-form">
+                     {% csrf_token %}
+                     <div class="submit-container">
+                        <button class='obtn obtn-comment-grn' type='submit'>View Program</button>
+                     </div>
+                     </form></td>
+
+                 <td><form method="get" 
+                        action="/spotter_program_edit/{{ plan.pk }}" class="formpage-block-form">
+                     {% csrf_token %}
+                     <div class="submit-container">
+                         <button class='obtn obtn-comment-grn' type='submit'>Edit Program</button>
+                     </div>
+                     </form></tr>
+                 </tr></table>
+              </div>
+           {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+

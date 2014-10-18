@@ -88,13 +88,6 @@
             {% endfor %}
         {% endif %}
 
-<!-- {% if video_chat_teaser %} -->
-            <div class="alert alert-info">
-                Weekly video chat with {{ blitz.trainer }} is coming up soon.
-                <a href="{% url blitz_video_chat blitz.pk %}">Go to chat</a>
-            </div>
-<!-- {% endif %} -->
-
         <div id="add-comment-container">
 
         <form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}

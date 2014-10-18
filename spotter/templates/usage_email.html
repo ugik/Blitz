@@ -1,4 +1,8 @@
-<h4>Usage digest past {{ days }} days</h4>
+{% extends "emails/base_email.html" %}
+
+{% block email_content %}
+
+<h4>Daily usage digest past {{ days }} days</h4>
 
 <h3>MRR ${{ MRR }}</h3>
 
@@ -7,13 +11,13 @@
 {% regroup trainers by date_created as trainer_list %}
 {% for trainer in trainer_list %}
 <ul><b>{{ trainer.grouper }}<b></ul>
-    <ul><ul>
+    <ul>
     {% for c in trainer.list %}
     <li> {{ c.name }}</li>
     {% endfor %}
     </ul>
 {% endfor %}
-</ul>
+<br>
 {% endif %}
 
 {% if members %}
@@ -21,13 +25,13 @@
 {% regroup members by date_created as member_list %}
 {% for member in member_list %}
 <ul><b>{{ member.grouper }}<b></ul>
-    <ul><ul>
+    <ul>
     {% for c in member.list %}
     <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for ${{ c.blitz.price }}</li>
     {% endfor %}
     </ul>
 {% endfor %}
-</ul>
+<br>
 {% endif %}
 
 {% if login_users %}
@@ -38,4 +42,6 @@
 {% endfor %}
 </ul>
 {% endif %}
+
+{% endblock %}
 
