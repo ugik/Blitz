@@ -506,12 +506,13 @@ def my_blitz_program(request):
 @login_required
 def blitz_program(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
+
     if request.user.is_trainer:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'trainer': request.user.trainer })
+            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : settings.SITE_URL })
     else:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'client': request.user.client })
+            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
 
 @login_required
 def my_blitz_members(request):

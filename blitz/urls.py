@@ -63,7 +63,7 @@ urlpatterns += patterns(
     url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
 # old programs urls
-#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_blitz_program'),
+#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_old_blitz_program'),
     url(r'^old_program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
     url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
     url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
