@@ -37,6 +37,7 @@ TIME_ZONE = 'US/Pacific'
 LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
+SITE_URL = 'Blitz.us'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.

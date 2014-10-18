@@ -1,6 +1,6 @@
-<html>
-<body>
-<img src="cid:logo-bp2.png" width="150"/>
+{% extends "emails/base_email.html" %}
+
+{% block email_content %}
 
 <h4>Daily usage digest past {{ days }} days</h4>
 
@@ -42,8 +42,6 @@
 {% endfor %}
 </ul>
 {% endif %}
-<br>
-<img src="cid:footer.png"/>
-</body>
-</html>
+
+{% endblock %}
 
