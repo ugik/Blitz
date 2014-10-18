@@ -4,4 +4,4 @@ Hey,
 
 Go get after it here: {{ invite_url }}
 
---the Blitz.us Team
+--Team Blitz

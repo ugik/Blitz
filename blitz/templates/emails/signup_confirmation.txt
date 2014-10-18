@@ -1,4 +1,4 @@
-Hey, {{ client }}, welcome to FitFlame!
+Hey, {{ client }}, welcome to Blitz!
 
 You're all signed up for {{ blitz }}, which begins on {{ blitz.begin_date }}.
 
@@ -8,7 +8,7 @@ If you ever run into any problems or just have ideas on how we can make your exp
 
 Thanks for signing up!
 
---the Blitz.us Team
+--Team Blitz
 
 
 
