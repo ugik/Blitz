@@ -17,7 +17,7 @@ v1_api.register(UserResource())
 v1_api.register(FeedItemResource())
 
 urlpatterns = patterns('',
-    (r'^helper/', include('helper.urls')),
+    (r'^spotter/', include('spotter.urls')),
 )
 urlpatterns += patterns(
     '',

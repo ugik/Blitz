@@ -9,8 +9,8 @@ from base.models import WorkoutPlan, Trainer
 
 import os
 
-SOURCE_EMAIL = 'robot@blitz.us'
-SPOTTER_EMAIL = 'spotter@blitz.us'
+SOURCE_EMAIL = 'team@blitz.us'
+SPOTTER_EMAIL = 'spotters@blitz.us'
 
 # email wrapper, note parameters: to_mail[] images[] context{}
 def send_email(from_mail, to_mail, subject, txt_template, html_template, context, images, dirs ):  

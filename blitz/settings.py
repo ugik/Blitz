@@ -129,7 +129,7 @@ INSTALLED_APPS = (
     'base',
     'workouts',
     'ff_messaging',
-    'helper',
+    'spotter',
 
 )
 

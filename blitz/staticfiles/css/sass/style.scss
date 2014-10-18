@@ -3,6 +3,7 @@ $fadedblue: #7ab2ea;
 $border: 1px solid rgba(0,0,0,0.05);
 $imageborder: 3px solid white;
 $linkcolor: #7ab2ea;
+$linkcolorhover: #94c1ee;
 $parentpadding: 18px 20px;
 $childpadding: 12px 16px 12px 32px;
 $mainfontcolor: #515352;
@@ -458,19 +459,6 @@ Example @include keyframes
       }
 
 
-
-.blitz-login {
-  margin-top: 30%;
-  @include mobile-only { 
-    margin-top: 10%l
-    }
-}
-
-.blitz-login img {
-  display: block;
-  margin: 0 auto;
-}
-
 .blitz-signup-info {
   background: rgba(255,255,255,0.15);
   margin: 0 auto;
@@ -572,18 +560,22 @@ body {
 a {
   color: $fadedblue;
   text-decoration: none;
+  @include transition(0.5s, linear);
   }
   a:hover, a:focus {
     text-decoration: underline;
-    color: #94c1ee !important;
+    color: $linkcolorhover;
     }
 
 
 body.login-page {
-  background: url('/static/images/background.png') #1c1c1c;
+    background: url('/static/images/background.png') #000000 no-repeat top center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;;
   @include mobile-only { background: url('/static/images/minibackground.jpg'); }
-  //background-size: 100%;
-  background-repeat: no-repeat;
 }
 
 video { 
@@ -1778,13 +1770,17 @@ a:focus {
 
 
 .blitz-login {
-  padding-top: 10%;
+  padding-top: 20%;
   text-align: center;
   img {
     margin-top: 10%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
   @include mobile-only {
     margin-top: 0% !important;
+    padding-top: 10%;
   }
   button {
     margin: 0px;
@@ -1792,6 +1788,8 @@ a:focus {
     display: inline;
   }
 }
+
+
 
 #progress-header-container {
   display: none;
@@ -2977,7 +2975,7 @@ input::-webkit-inner-spin-button {
     padding: 20px 20px;
     background: $navbarblue;
     color: white;
-    @include boldfont();
+    @include meta();
     font-size: 24px;
   }
   .content {
@@ -3046,6 +3044,17 @@ input::-webkit-inner-spin-button {
   text-align: center;
   margin: 20px;
   .what-timezone {
+    @include boldfont();
+    font-size: 20px;
+  }
+  select {
+    margin: 20px;
+  }
+}
+
+.units-form {
+  margin: 20px;
+  .what-units {
     @include boldfont();
     font-size: 20px;
   }
@@ -3790,4 +3799,16 @@ ul.helpernav li {
   color: #ffcc00;
   float: left;
   margin-right: 20px;
+}
+
+.helperheader {
+  @include meta();
+  font-size: 24px;
+}
+
+.digest {
+  padding: 10px 0px 30px 5px;
+  border-radius: 5px;
+  border: 1px solid white;
+  margin-bottom: 20px;
 }

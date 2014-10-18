@@ -14,7 +14,7 @@ from django.template import RequestContext
 from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
-from helper.urls import *
+from spotter.urls import *
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
@@ -84,10 +84,10 @@ def home(request):
         except ObjectDoesNotExist:
             pass
 
-        # handle helper type users, see helper app for details
-        if request.user._wrapped.username == 'helper':
-#             return helper_index(request)
-            return redirect('helper_index')
+        # handle spotter type users, see spotter app for details
+        if request.user._wrapped.username == 'spotter':
+#             return spotter_index(request)
+            return redirect('spotter_index')
 
         raise Exception("Invalid user")
 
