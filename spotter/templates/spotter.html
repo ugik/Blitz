@@ -1,0 +1,20 @@
+{% extends "spotter_base.html" %}
+
+{% block main %}
+
+<header>These are Blitz spotter functions.
+<ul style="display: none;">
+<li><a href="{% url "spotter_index" %}">Home</a></li>
+<li><a href="{% url "spotter_usage" %}">Daily usage digest</a></li>
+<li><a href="{% url "spotter_uploads" %}">Stuff Trainers have Uploaded</a></li>
+<li><a href="{% url "spotter_program_upload" %}">Upload new Trainer program</a></li>
+<li><a href="{% url "spotter_pending_trainers" %}">Show pending Trainers and Plans</a></li>
+<li><a href="{% url "spotter_status_trainers" %}">Trainers, Blitzes and WorkoutPlans</a></li>
+<li><a href="{% url "spotter_blitz_sales_pages" %}">Sales pages for blitzes</a></li>
+<li><a href="{% url "spotter_workouts" %}">Exercises and workout-sets</a></li>
+
+</ul>
+</header>
+
+{% endblock %}
+

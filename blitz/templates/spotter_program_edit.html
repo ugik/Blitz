@@ -1,0 +1,35 @@
+{% extends "client_content.html" %}
+
+{% block morehead %}
+<style>
+.well{
+    background:rgba(255,255,255, 0.9);
+}
+</style>
+{% endblock %}
+
+{% block main %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="span6" style="float: none; margin: 0 auto;">
+
+           <h3>Tell a spotter how you would like this program <br> (<i>{{ workoutplan.name }}</i>) edited: </h3>
+
+           <div class="formpage-block">
+              <form method="post" name="spotter_program_edit"> {% csrf_token %}
+
+                 <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">{{ edit }}</textarea>
+                 <br>
+                 <input type="hidden" name="workoutplan_pk" value="{{ workoutplan }}">
+                 <button class="obtn btn btn-warning" type='submit'>Send Edit Instructions</button>
+              </form>
+              <button onclick="window.location='/program'; return false;" class="obtn btn btn-warning" type='submit'>Return</button>
+
+           </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

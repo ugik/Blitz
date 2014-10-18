@@ -4579,7 +4579,7 @@ label#id_document.upload {
 }
 
 /* line 3790, ../sass/style.scss */
-ul.helpernav {
+ul.spotternav {
   float: left;
   width: 100%;
   text-align: center;
@@ -4588,14 +4588,14 @@ ul.helpernav {
 }
 
 /* line 3798, ../sass/style.scss */
-ul.helpernav li {
+ul.spotternav li {
   color: #ffcc00;
   float: left;
   margin-right: 20px;
 }
 
 /* line 3804, ../sass/style.scss */
-.helperheader {
+.spotterheader {
   font-family: 'metanormal_caps';
   font-size: 24px;
 }
@@ -4606,4 +4606,66 @@ ul.helpernav li {
   border-radius: 5px;
   border: 1px solid white;
   margin-bottom: 20px;
+}
+
+/* line 3816, ../sass/style.scss */
+.wellheadline {
+  font-size: 36px;
+  line-height: 1.4;
+  font-family: 'proxima_novabold';
+}
+@media (max-width: 480px) {
+  /* line 3816, ../sass/style.scss */
+  .wellheadline {
+    font-size: 30px;
+  }
+}
+/* line 3824, ../sass/style.scss */
+.wellheadline i {
+  margin-left: 30px;
+  font-size: 20px;
+  color: #9b999c;
+}
+@media (max-width: 480px) {
+  /* line 3824, ../sass/style.scss */
+  .wellheadline i {
+    margin-left: 0px;
+    margin-top: -20px;
+    margin-bottom: 20px;
+  }
+}
+
+/* line 3836, ../sass/style.scss */
+.caltext {
+  display: inline-block;
+  font-size: 20px;
+  color: #9b999c;
+  font-family: 'proxima_novalight';
+}
+
+/* line 3844, ../sass/style.scss */
+.linktag {
+  font-family: 'proxima_novabold';
+  margin-top: 10px;
+  width: auto;
+}
+
+/* line 3851, ../sass/style.scss */
+.contentwell {
+  font-size: 20px;
+  line-height: 1.4;
+}
+/* line 3854, ../sass/style.scss */
+.contentwell p {
+  margin-top: 10px;
+}
+/* line 3857, ../sass/style.scss */
+.contentwell table {
+  margin-top: 30px;
+  margin-bottom: -10px;
+}
+
+/* line 3863, ../sass/style.scss */
+.meta {
+  font-family: 'metanormal_caps';
 }

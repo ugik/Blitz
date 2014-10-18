@@ -41,11 +41,15 @@ def display_str(completedset, viewer):
 
     else:
 #        weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, completedset.gym_session.client))
-        weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
-        ds = "%d x %.1f" % (completedset.num_reps_completed, weight)
-        # get rid of trailing zeros
-        if '.' in ds and ds.endswith('0'):
-            ds = ds.rstrip('0').rstrip('.')
+        if completedset.weight_in_lbs:
+            weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            ds = "%d x %.1f" % (completedset.num_reps_completed, weight)
+            # get rid of trailing zeros
+            if '.' in ds and ds.endswith('0'):
+                ds = ds.rstrip('0').rstrip('.')
 #        return ds + ' ' + units_tags.weight_label(completedset.gym_session.client.units)
-        return ds + ' ' + units_tags.weight_label(client.units)
+            return ds + ' ' + units_tags.weight_label(client.units)
+        else:
+            return ''
+
 

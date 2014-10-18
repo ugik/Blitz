@@ -1,0 +1,71 @@
+{% extends "client_content.html" %}
+
+{% block morehead %}
+<style>
+.well{
+    background:rgba(255,255,255, 0.9);
+}
+</style>
+{% endblock %}
+
+
+{% block main %}
+
+<div class="container-fluid">
+    <div class="row">
+            <div class="span4">
+              &nbsp;
+            </div>
+            <div class="span4" style="margin: 0 auto; text-align: center;">
+              <h1 class="meta"> Programs </h1>
+            </div>
+            <div class="span4" style="margin: 0 auto; text-align: center;">
+                <form method="post" name="sales-blitz" 
+                 action="upload" class="formpage-block-form">
+                   {% csrf_token %}
+                   <div class="submit-container">
+                      <button class='obtn obtn-comment-grn' type='submit'>+ Upload New Program</button>
+                   </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="span8" style="float: none; margin: 0 auto;">
+         Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.<br><br>
+        {% if workoutplans %}
+           {% for plan in workoutplans %}
+              <div class="well contentwell">
+                 <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="icon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} weeks long </div></div>
+                 
+                 {% for lift in plan.all_lifts %}
+                     {% if forloop.last %} {{ lift.name }} {% else %} {{ lift.name }}, {% endif %}
+                 {% endfor %}
+
+                 <table>
+                 <tr>
+                 <td><form method="post" 
+                        action="/view_program/{{ plan.pk }}" class="formpage-block-form">
+                     {% csrf_token %}
+                     <div class="submit-container">
+                        <button class='obtn obtn-comment-grn' type='submit'>View Program</button>
+                     </div>
+                     </form></td>
+
+                 <td><form method="get" 
+                        action="/spotter_program_edit/{{ plan.pk }}" class="formpage-block-form">
+                     {% csrf_token %}
+                     <div class="submit-container">
+                         <button class='obtn obtn-comment-grn' type='submit'>Edit Program</button>
+                     </div>
+                     </form></tr>
+                 </tr></table>
+              </div>
+           {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+

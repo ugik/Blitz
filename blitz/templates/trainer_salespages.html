@@ -1,0 +1,78 @@
+{% extends "client_content.html" %}
+
+{% block morehead %}
+<style>
+.well{
+    background:rgba(255,255,255, 0.9);
+}
+</style>
+{% endblock %}
+
+{% block main %}
+
+<div class="container-fluid">
+    <div class="row">
+            <div class="span4">
+              &nbsp;
+            </div>
+            <div class="span4" style="margin: 0 auto; text-align: center;">
+              <h1 class="meta"> Sales Pages </h1>
+            </div> 
+            <div class="span4" style="margin: 0 auto; text-align: center;">                
+              <form method="post" name="sales-blitz" 
+               action="upload" class="formpage-block-form">
+                 {% csrf_token %}
+                 <div class="submit-container">
+                    <button class='obtn obtn-comment-grn' type='submit'>+ Create New Page</button>
+                 </div>
+              </form>
+            </div>
+        </div>
+    <div class="row">
+        <div class="span8" style="float: none; margin: 0 auto; text-align: center;">
+         Below is a list of signup pages for your different programs, in case you want to update them. You can also send clients the 'quick signup' link, and they'll just go straight to the payment/credit card page.<br><br>
+        {% if blitzes %}
+           {% for blitz in blitzes %}
+              <div class="contentwell well" style="text-align: left; padding: 30px;">
+                 <div class="wellheadline">{{ blitz.sales_page_content.program_title }}</div>
+
+                 <p style="linktag">Page link:<a href="http://{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}">
+                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }} </a></p>
+                 <p style="linktag">Quick signup link:<a href="http://{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup">
+                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup </a></p>
+
+                 <table>
+                 <tr>
+                 <td><form method="post" 
+                        action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form">
+                     {% csrf_token %}
+                     <div class="submit-container">
+                        <button class='obtn obtn-comment-grn' type='submit'>Edit Page</button>
+                     </div>
+                     </form></td>
+
+                 <td>
+                 <div class="btn-group">
+                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="width:210px; margin-bottom: 10px;">
+                  Invite Clients<span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup">Invite paid client</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup?free">Invite free client</a></li>
+                  </ul>
+                 </div></td>
+
+                 </tr>
+                 </table>
+              </div>
+           {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+

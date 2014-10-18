@@ -19,7 +19,7 @@ Before the (Bi, Bg) begins the T assigns a WP to it
 After a Bg ends, its data will be deleted, some of its artifacts may be lifted onto its Sg
 
 WorkoutPlans:
-Each T develops (1-n) Workout Plans (WP) (created with helpers)
+Each T develops (1-n) Workout Plans (WP) (created with spotters)
 A WP defines weekly/daily exercises for all C's on the B
 Each B has exactly one WP
 
@@ -27,7 +27,7 @@ Clients:
 A Client (C) signs up via S, sign-up can be before a program is associated with a (Bi, Bg)
 Once a C signs up, the T is notified
 T can swap WP for a Bi and its individual C
-T can customize a WP for a C on a B (via helpers)
+T can customize a WP for a C on a B (via spotters)
 _________
 
 Client signup scenario (a): individual client (most typical)
@@ -961,7 +961,15 @@ class SalesPageContent(models.Model):
         return self.program_title
 
 class Heading(models.Model):
-    heading_id = models.CharField(max_length=100, default="")
-    short_name = models.CharField(max_length=100, blank=True, null=True, default="")
+    location = models.CharField(max_length=100, default="")
+    saying = models.CharField(max_length=150, blank=True, null=True, default="")
+    author = models.CharField(max_length=50, blank=True, null=True, default="")
 
+    def random(self):
+        count = self.objects.all().count()
+        random_index = randint(0, count - 1)
+        return self.all()[random_index]
+
+    def __unicode__(self):
+        return "%s - %s" % (self.saying, self.author)
 

@@ -120,7 +120,7 @@ class WorkoutSetCustom(models.Model):
 
 class WorkoutPlan(models.Model):
     """
-    A full workout plan
+    A full workout plan (program)
     """
 
     name = models.CharField(max_length=100, default="")
@@ -142,7 +142,7 @@ class WorkoutPlan(models.Model):
                 yield workout_plan_day
 
     def all_lifts(self):
-        return list(set([d.workout.lift for d in self.iterate_days()]))
+        return list(set([d.workout.get_lifts()[0] for d in self.iterate_days()]))
 
     def weeks(self):
         return self.workoutplanweek_set.all().order_by('week')

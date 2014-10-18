@@ -1,4 +1,4 @@
-{% extends "helper_base.html" %}
+{% extends "spotter_base.html" %}
 
 {% block main %}
 
@@ -19,7 +19,7 @@
     <div class="span4 offset3" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
       {% for trainer in trainers|dictsort:"name" %}
       <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
-        <div style="text-align: left;" class="helperheader">
+        <div style="text-align: left;" class="spotterheader">
           {{ trainer.name }}
         </div>
         <ul style="text-align: left; margin: 10px 0px 50px 0px;">

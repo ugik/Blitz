@@ -31,8 +31,9 @@ $(document).ready(function() {
     $('.dismiss-alert').on('click', function() {
         var that = this;
         $.post('/trainer/dismiss-alert', {alert_pk: $(this).data('alert_pk')}, function(data) {
+            $(that).className = "fadeout";
+            $(that).show;
             $(that).closest('.trainer-alert').remove();
-            
             // TODO: should remove alert box if 0 alerts
         });
     });
