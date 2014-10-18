@@ -1,5 +1,8 @@
 #!/bin/bash
-echo "setup EC2 instance..."
+if [ -d "/home/gk" ]; then
+  echo "Local setup, exiting..."
+  exit
+fi
 
 # setup vars
 github_password='GITHUB PASSWORD'
@@ -18,6 +21,7 @@ sudo apt-get -y install python-pip
 sudo apt-get -y install git-core
 sudo apt-get -y install rabbitmq-server
 sudo apt-get -y install supervisor
+sudo apt-get -y install rpl
 
 #setup and install PIL w/ZIP support:
 sudo apt-get -y build-dep python-imaging
@@ -50,7 +54,7 @@ mysql -u root -pmysql -e "create database data; GRANT ALL PRIVILEGES ON data.* T
 cd /home/ubuntu
 sudo git clone https://$repo:$github_password@github.com/$repo/$project.git
 
-# set privs
+# set privs for usermedia dirs
 cd /home/ubuntu/$project_app
 sudo chmod o+wx -R usermedia
 
@@ -77,38 +81,25 @@ sudo a2dissite 000-default
 sudo a2ensite $project.conf
 
 # static files
-sudo chown ubuntu:ubuntu /home/ubuntu/$project
-sudo chown ubuntu:ubuntu /home/ubuntu/$project_app
+sudo chown ubuntu:ubuntu -R /home/ubuntu/$project
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
 sudo /etc/init.d/apache2 restart
-echo "Supervisord started..."
-supervisord -c ./supervisord.conf
 
-# setup remote git repo and hooks
-cd /home/ubuntu
-sudo mkdir $project.com
-cd $project.com
-sudo git init --bare
-sudo chown ubuntu:ubuntu -R objects
-sudo chown ubuntu:ubuntu -R refs
-cd hooks
+# supervisord
+cd /home/ubuntu/$project
+mkdir logs
+sudo rpl '*EMAIL_PASSWORD*' $email_password supervisord.conf
+sudo rpl '*SECRET_KEY*' $secret_key supervisord.conf
+supervisord
 
-sudo touch post-receive
-sudo chmod o+wrx post-receive
-sudo echo '#!/bin/sh' >> post-receive
-sudo echo "DESTINATION=/home/ubuntu/"$project >> post-receive
-sudo echo "GIT_WORK_TREE=/home/ubuntu/"$project".com/" >> post-receive
-sudo echo "export GIT_WORK_TREE" >> post-receive
-sudo echo "git checkout -f" >> post-receive
-sudo echo "rsync -az $GIT_WORK_TREE $DESTINATION --exclude 'usermedia' --delete" >> post-receive
 cd ~
 
+sudo ps -ef | grep supervisord
 
 # references:
 # Ubuntu 14.x remote LAMP setup: http://nickpolet.com/blog/1/
 # locale LAMP setup: http://www.lleess.com/2013/05/install-django-on-apache-server-with.html#.UwavkDddV38
 # http://www.webforefront.com/django/setupapachewebserverwsgi.html
-# http://cuppster.com/2011/01/30/using-git-to-remotely-install-website-updates/
 # http://bixly.com/blog/supervisord-or-how-i-learned-to-stop-worrying-and-um-use-supervisord/
 

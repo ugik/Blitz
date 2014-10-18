@@ -51,12 +51,21 @@ def get_macros_for_blitz_week(client, week):
 def get_full_macro_history(client):
     blitz = client.get_blitz()
     weeks = []
-    for i in range(1, blitz.num_weeks()+1):
+    currentWeek = False
+    for i in range(1, blitz.num_weeks() + 1):
         one_week = {
             'week_number': i,
-            'macro_days': []
+            'macro_days': [],
+            'is_current': False
         }
         for j in range(7):
-            one_week['macro_days'].append(get_macro_meta_for_day(client, i, j))
+            day = get_macro_meta_for_day(client, i, j)
+            one_week['macro_days'].append(day)
+
+            # Checks if this is the current week
+            if currentWeek == False and day.get('in_future') == True: #TODO: Check comparing date instead of
+                one_week['is_current'] = True
+                currentWeek = True
+
         weeks.append(one_week)
     return weeks

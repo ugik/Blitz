@@ -30,32 +30,46 @@ def helper_index(request):
 
 @login_required
 def helper_usage(request):
+    from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
+    from pytz import timezone
+    from base.tasks import usage_digest
+    from django.db.models import Q
+
+    # get clients with CC on file
+    paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
+    MRR = 0
+    for payer in paying_clients:
+        if payer.blitzmember_set:
+            # recurring monthly charge
+            if payer.blitzmember_set.all()[0].blitz.recurring:
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
+            # monthly charge for non-recurring blitz
+            else: 
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+
+    timezone = current_tz()
     if 'days' in request.GET:
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
         days = request.GET.get('days')
     else:
-        days = 1
+        days = 0
         startdate = date.today() - timedelta(days = days)
 
     enddate = date.today() - timedelta(days=0)
     trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
-    clients = Client.objects.filter(date_created__range=[startdate, enddate])
     members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
 
+    users = User.objects.all()
+    login_users = []
+    for user in users:
+        if timezone.normalize(user.last_login).date() >= startdate:
+            login_users.append(user)
+
     if 'email' in request.GET:
-        to = 'georgek@gmail.com'
-        from_email = settings.DEFAULT_FROM_EMAIL           
-        subject = "Usage Digest"
-
-        text_content = render_to_string(template_text, {"title": n.title,"text": n.text, 'date': n.date, 'email': to})
-        html_content = render_to_string(template_html, {"title": n.title,"text": n.text, 'date': n.date, 'email': to})
-
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        usage_digest()
 
     return render(request, 'usage.html', 
-                  {'days':days, 'trainers':trainers, 'clients':clients, 'members':members})
+          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
 
 @login_required
 def helper_delete(request):
@@ -214,7 +228,6 @@ def helper_custom_set(request):
     if request.method == 'POST':
 #        import pdb; pdb.set_trace()
         client = Client.objects.get(pk=request.POST['client'])
-
         if workoutset_custom_id:    # update workoutset custom record
             set = WorkoutSetCustom.objects.get(pk=workoutset_custom_id)
         else:                       # create new workoutset custom record
