@@ -46,21 +46,18 @@
                      </div>
                      </form></td>
 
-                 <td><form method="get" 
-                        action="/spotter_program_edit/{{ plan.pk }}" class="formpage-block-form">
-                     {% csrf_token %}
-                     <div class="submit-container">
-                         <button class='obtn obtn-comment-grn' type='submit'>Send Invites</button>
-                     </div>
-                     </form>
+                 <td>
+                 <div class="btn-group">
+                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="width:210px; margin-bottom: 10px;">
+                  Invite Clients<span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup">Invite paid client</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup?free">Invite free client</a></li>
+                  </ul>
+                 </div></td>
 
-                 <td><form method="get" 
-                        action="/spotter_program_edit/{{ plan.pk }}" class="formpage-block-form">
-                     {% csrf_token %}
-                     <div class="submit-container">
-                         <button class='obtn obtn-comment-grn' type='submit'>Copy Link</button>
-                     </div>
-                     </form></tr>
                  </tr>
                  </table>
               </div>
