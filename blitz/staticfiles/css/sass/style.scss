@@ -3892,7 +3892,7 @@ ul.spotternav li {
   }
   position: fixed;
   z-index: 1050;
-  background-color: rgba(0,0,0,0.25);
+  background-color: rgba(0,0,0,0.4);
   outline: 0;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
@@ -3933,6 +3933,11 @@ ul.spotternav li {
   color: white;
 }
 
+.modal-body {
+  height: 100%;
+  max-height: none;
+}
+
 .modal-body .row {
   max-height: none;
   overflow-y: auto;
@@ -3955,9 +3960,12 @@ ul.spotternav li {
 .modal-block {
   margin-bottom: 0px;
   padding: 0px;
+  @include mobile-only {
+    padding: 30px;
+  }
 }
 
-body.modal.fade.in {
+body.modal-open {
     overflow: hidden;
     -webkit-filter: blur(20px);
 }

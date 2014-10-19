@@ -4695,7 +4695,7 @@ ul.spotternav li {
   height: 100%;
   position: fixed;
   z-index: 1050;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.4);
   outline: 0;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
@@ -4756,6 +4756,12 @@ ul.spotternav li {
 }
 
 /* line 3936, ../sass/style.scss */
+.modal-body {
+  height: 100%;
+  max-height: none;
+}
+
+/* line 3941, ../sass/style.scss */
 .modal-body .row {
   max-height: none;
   overflow-y: auto;
@@ -4763,14 +4769,14 @@ ul.spotternav li {
   width: 100%;
 }
 @media only screen and (min-width: 481px) {
-  /* line 3941, ../sass/style.scss */
+  /* line 3946, ../sass/style.scss */
   .modal-body .row .span8 {
     width: 60%;
     margin-left: 20%;
   }
 }
 @media (max-width: 480px) {
-  /* line 3941, ../sass/style.scss */
+  /* line 3946, ../sass/style.scss */
   .modal-body .row .span8 {
     width: 100%;
     margin-top: 40px;
@@ -4779,14 +4785,20 @@ ul.spotternav li {
   }
 }
 
-/* line 3955, ../sass/style.scss */
+/* line 3960, ../sass/style.scss */
 .modal-block {
   margin-bottom: 0px;
   padding: 0px;
 }
+@media (max-width: 480px) {
+  /* line 3960, ../sass/style.scss */
+  .modal-block {
+    padding: 30px;
+  }
+}
 
-/* line 3960, ../sass/style.scss */
-body.modal.fade.in {
+/* line 3968, ../sass/style.scss */
+body.modal-open {
   overflow: hidden;
   -webkit-filter: blur(20px);
 }
