@@ -4,7 +4,7 @@ Should probably move to either/or
 """
 
 from base.models import Comment, FeedItem, CommentLike, GymSessionLike
-from base import notifications
+from base.emails import new_child_comment, gym_session_comment
 
 from django.db.models.signals import post_save
 
@@ -29,7 +29,7 @@ def add_child_to_comment(parent, user, comment_text, pub_date):
     authors = { c.user for c in [parent] + other_children }
     authors.remove(user)
     for author in authors:
-        notifications.new_child_comment(author, commenter=user, comment=comment)
+        new_child_comment(author, commenter=user, comment=comment)
 
     return comment
 
@@ -39,7 +39,7 @@ def add_comment_to_gym_session(gym_session, user, comment_text, pub_date):
 
     # alert to gym session user
     if user != gym_session.client.user:
-        notifications.gym_session_comment(gym_session.client.user, commenter=user, comment=comment)
+        gym_session_comment(gym_session.client.user, commenter=user, comment=comment)
 
     # alerts to other comments
     other_children = list(gym_session.gymsessioncomments.all())

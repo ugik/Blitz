@@ -4,6 +4,6 @@ Today is the day. Your program, {{ blitz }}, starts now.
 
 Go get after it at http://www.blitz.us.
 
---the Blitz.us Team
+--Team Blitz
 
 

@@ -4,6 +4,6 @@ You received a new message from {{ message.sender.display_name|safe }}:
 
 Go check it out at https://www.blitz.us{% url "user_thread" urlkey=message.thread.urlkey %}
 
---the Blitz.us Team
+--Team Blitz
 
 

@@ -13,14 +13,19 @@ SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
 
 # email wrapper, note parameters: images[] context{}
-def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[] ):  
+def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=True):  
 
-    images += ['logo-bp2.png','footer.png']
-    dirs += [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/'),
-            os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
+    if len(images) == 0:
+        images = ['emailheader.png']
+        dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
+    else:
+        images += ['emailheader.png']
+        dirs += [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
 
     html_content = render_to_string(html_template, context)
     text_content = render_to_string(text_template, context)
+    if override:  # OVERRIDE EMAIL_TO
+        to_email = 'georgek@gmail.com'
     if isinstance(to_email, list):
         msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
     else:
@@ -39,26 +44,26 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     msg.send()
 
 
-def new_child_comment(user, commenter):
+def new_child_comment(user, commenter, comment):
 
     from_email, to_email = SOURCE_EMAIL, user.email
     subject = "%s replied to your comment on Blitz.us" % commenter.display_name
 
     text_template = 'emails/new_child_comment.txt'
     html_template = 'emails/new_child_comment.html'
-    context = { 'commenter': commenter }
+    context = { 'commenter': commenter, 'comment': comment  }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 #    text_content = render_to_string('emails/new_child_comment.txt', { 'commenter': commenter } )
 #    send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
-def gym_session_comment(user, commenter):
+def gym_session_comment(user, commenter, comment):
 
     from_email, to_email = SOURCE_EMAIL, user.email
     subject = "%s commented on your lift on Blitz.us" % commenter.display_name
 
     text_template = 'emails/gym_session_comment.txt'
     html_template = 'emails/gym_session_comment.html'
-    context = { 'commenter': commenter }
+    context = { 'commenter': commenter, 'comment': comment  }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 #    text_content = render_to_string('emails/gym_session_comment.txt', { 'commenter': commenter } )
 #    send_mail(subject, text_content, from_email, [to], fail_silently=True)
@@ -147,18 +152,19 @@ def email_spotter_program_edit(pk, message):
 #        send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 def email_tests():
-    from base.models import User, Client, Trainer
+    from base.models import User, Client, Trainer, Comment
     from ff_messaging.models import Message
     user = User.objects.get(pk=1)
     client = Client.objects.get(pk=1)
     trainer = Trainer.objects.get(pk=1)
     message = Message.objects.get(pk=1)
+    comment = Comment.objects.get(pk=1)
     email_spotter_program_edit(1, 'spotter email test')
     message_received(user, message)
     forgot_password(user)
     client_invite(trainer, 'gk@blitz.us', 'program')
     signup_confirmation(client)
-    gym_session_comment(user, user)
-    new_child_comment(user, user)
+    gym_session_comment(user, user, comment)
+    new_child_comment(user, user, comment)
 
 

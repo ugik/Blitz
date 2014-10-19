@@ -6,8 +6,22 @@ You received a new message from {{ message.sender.display_name|safe }}:
 
 "{{ message.content|safe }}"
 
-Go check it out at https://www.blitz.us{% url "user_thread" urlkey=message.thread.urlkey %}
-
---the Blitz.us Team
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+    <tbody>
+        <tr>
+            <td style="padding-top:0;padding-right:18px;padding-bottom:18px;padding-left:18px" valign="top" align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:separate!important;border:2px none #707070;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;background-color:#7ab2ea">
+                    <tbody>
+                        <tr>
+                            <td align="center" valign="middle" style="font-family:Arial;font-size:24px;padding:20px">
+                                <a title="View conversation" href="https://www.blitz.us{% url "user_thread" urlkey=message.thread.urlkey %}" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;word-wrap:break-word" target="_blank">View conversation →</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 {% endblock %}

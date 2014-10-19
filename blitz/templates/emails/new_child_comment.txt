@@ -4,5 +4,5 @@
 
 Go check it out at https://www.blitz.us{{ comment.parent_absolute_url }}
 
---the Blitz.us Team
+--Team Blitz
 
