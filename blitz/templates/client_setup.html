@@ -4,7 +4,10 @@
 {% block small_block_content %}
 
 <div class="well"><div class="panel panel-default">
-  <div class="panel-heading"><b>Blitz invite.</b></div><br>
+  <div class="panel-heading"><b>Invite
+  {% if blitz.recurring %} for <img src="{{ STATIC_URL }}images/SalesPage1on1.png" width="45px"/>Blitz 
+  {% else %} for <img src="{{ STATIC_URL }}images/SalesPageGroup.png" width="45px"/>Blitz {% endif %}
+  </b></div><br>
   <div class="panel-body">
 
     {% if mode = "free" %}
@@ -13,9 +16,9 @@
     <p>Here is the email to your invited client: </p>
     {% endif %}
     {% if mode = "free" %}
-    <form class="form" action="client-setup?free" method="post" name="client-setup">
+    <form class="form" action="/client-setup/{{ blitz.pk }}?free" method="post" name="client-setup">
     {% else %}
-    <form class="form" action="client-setup" method="post" name="client-setup">
+    <form class="form" action="/client-setup/{{ blitz.pk }}" method="post" name="client-setup">
     {% endif %}
         {% csrf_token %}
 
@@ -28,9 +31,16 @@
         <input type="text" name="price" placeholder="Price #"/>
         {% include "error_field.html" with param='price' %}
         <br>
-        <input type="text" name="workoutplan_id" placeholder="WorkoutPlan"/>
-        {% include "error_field.html" with param='workoutplan_id' %}
-        <br>
+        {% if blitz.recurring %}
+            <select name="workoutplan_id" id="workoutplan_id">
+            {% for wp in workoutplans %}
+                <option value="{{wp.id}}"{% if wp = blitz.workoutplan %}selected{% endif %}>
+                {{wp.name}} 
+                </option>
+            {% endfor %}
+            </select>
+            <br>
+        {% endif %}
         <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
         </textarea></td>
         {% include "error_field.html" with param='invite' %}

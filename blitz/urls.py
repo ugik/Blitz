@@ -49,7 +49,7 @@ urlpatterns += patterns(
     url(r'^profile/c/(?P<pk>\d+)/set-macros', 'base.views.set_client_macros', name='set_client_macros'),
 
     url(r'^client-signup$', 'base.views.client_signup', name='client_signup'),
-    url(r'^client-setup$', 'base.views.client_setup', name='client_setup'),
+    url(r'^client-setup/(?P<pk>\d+)$', 'base.views.client_setup', name='client_setup'),
     url(r'^client-checkin$', 'base.views.client_checkin', name='client_checkin'),
 
     url(r'^set-up-profile$', 'base.views.set_up_profile', name='set_up_profile'),

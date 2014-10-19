@@ -19,7 +19,8 @@
                         <input type="text"
                                autocomplete="off"
                                placeholder="Name (first and last)"
-                               class="user-name">
+                               class="user-name"
+                               value="{{ invitation.name }}">
                     </div>
 
                     <div class="form-error error-user-email"></div>
@@ -107,7 +108,10 @@
                 <br />
                 <div class="blitz-cost">
                  <div class="title">Cost</div>
-                    <div class="cost">${{ blitz.price }}</div>
+                    <div class="cost">
+                    {% if invitation and invitation.price > 0 %}${{ invitation.price }}
+                    {% else %}${{ blitz.price }}{% endif %}
+                    </div>
                         {% if blitz.price_per_workout > 0 %}
                             <div class="per-week">
                                 That's just <span>${{ blitz.price_per_workout|floatformat:0 }}</span> per workout for expert coaching and access to an awesome community.

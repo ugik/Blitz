@@ -217,14 +217,13 @@ def blitz_setup(request):
 
 
 @login_required
-def client_setup(request):
+def client_setup(request, pk):
     trainer = request.user.trainer
-    if len(trainer.blitz_set.all()) == 1 or not trainer.currently_viewing_blitz:
-        blitz = trainer.blitz_set.all()[0]
-    else:                                   
-        blitz = trainer.currently_viewing_blitz
+
+    blitz = get_object_or_404(Blitz, pk=int(pk) )
 
     mode = "free" if 'free' in request.GET else None
+    workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
     if request.method == 'POST':
         form = NewClientForm(request.POST)
@@ -232,31 +231,33 @@ def client_setup(request):
         signup_key = request.POST.get('signup_key')
         invite_url = request.POST.get('invite_url')
 
+#        import pdb; pdb.set_trace()
+
         if form.is_valid():
 
-            import pdb; pdb.set_trace()
-
-#            invitation = BlitzInvitation.objects.create(
-#                blitz_id =  blitz.id, email = form.cleaned_data['email'], 
-#                name = form.cleaned_data['name'], signup_key = signup_key)
+            invitation = BlitzInvitation.objects.create(
+                blitz_id =  blitz.id, email = form.cleaned_data['email'], 
+                name = form.cleaned_data['name'], signup_key = signup_key)
 
             invitation.free = True if mode == "free" else False
 
             # override Blitz price and workoutplan if invitation specifies either
-            if 'price' in form.cleaned_data:
+            if 'price' in form.cleaned_data and form.cleaned_data['price']:
                 invitation.price = form.cleaned_data['price']
-            if 'workoutplan_id' in form.cleaned_data:
-                invitation.workoutplan_id = form.cleaned_data['workoutplan_id']
-#            invitation.save()
+                invitation.save()
 
+            if 'workoutplan_id' in form.cleaned_data and form.cleaned_data['workoutplan_id']:
+                workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
+                invitation.workout_plan = workoutplan
+                invitation.save()
+    
             client_invite(trainer, form.cleaned_data['email'], invite_url)
-#                emails.signup_confirmation(client)
 
             return redirect('home')
         else:
             return render_to_response('client_setup.html', 
-                              {'invite' : invite, 'form': form, 'trainer' : trainer, 
-                               'mode' : mode, 'signup_key' : signup_key, 
+                              {'invite' : invite, 'form': form, 'trainer' : trainer, 'blitz' : blitz,
+                               'mode' : mode, 'signup_key' : signup_key, 'workoutplans' : workoutplans,
                                'invite_url' : invite_url, 'errors' : form.errors}, 
                               RequestContext(request))
     else:
@@ -274,8 +275,8 @@ def client_setup(request):
 
         return render_to_response('client_setup.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
-                                'signup_key' : signup_key, 'invite_url' : invite_url,
-                                'errors' : form.errors}, 
+                                'signup_key' : signup_key, 'invite_url' : invite_url, 'blitz' : blitz,
+                                'errors' : form.errors, 'workoutplans' : workoutplans}, 
                               RequestContext(request))
 
 
@@ -760,12 +761,11 @@ def blitz_feed(request):
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
     search_text = request.GET.get('search_text')
     feed_items = []
-    print '::search_text: ', search_text
 
     try:
         obj_id = int( request.GET.get('object_id') )
     except Exception as e:
-        print e
+#        print e
         obj_id = None
 
     if search_text and len(search_text) > 0:
@@ -994,6 +994,10 @@ def client_signup(request):
 
     invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
 
+    if not invitation.free:
+        blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
+        return redirect("/%s/%s/signup?signup_key=%s" % (blitz.trainer.short_name, blitz.url_slug, request.GET.get('signup_key')))
+
     if request.method == "POST":
         form = SetPasswordForm(request.POST)
         if form.is_valid():
@@ -1174,14 +1178,18 @@ def default_blitz_signup(request, short_name):
     return blitz_signup(request, short_name, short_name)
 
 def blitz_signup(request, short_name, url_slug):
+
+    if 'signup_key' in request.GET:
+        invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
+    else:
+        invitation = None
+
     trainer = get_object_or_404(Trainer, short_name=short_name)
     blitz = get_object_or_404(Blitz, trainer=trainer, url_slug=url_slug)
-#    next_url = request.get_full_path().replace('signup','signup-complete')
-#    import pdb; pdb.set_trace()
     next_url = '/signup-complete?pk='+str(blitz.pk)
 
     return render(request, 'blitz_signup.html', {
-        'blitz': blitz, 'trainer': trainer,
+        'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
         'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
         'next_url': next_url,
     })
