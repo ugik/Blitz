@@ -181,6 +181,7 @@ def email_tests():
     client_invite(trainer, 'gk@blitz.us', 'program')
     signup_confirmation(client)
 <<<<<<< HEAD
+<<<<<<< HEAD
     gym_session_comment(user, user)
     new_child_comment(user, user)
 =======
@@ -194,6 +195,10 @@ def email_tests():
         })
         send_mail(subject, text_content, from_email, [to], fail_silently=True)
 >>>>>>> Stashed changes
+=======
+    gym_session_comment(user, user, comment)
+    new_child_comment(user, user, comment)
+>>>>>>> FETCH_HEAD
 =======
     gym_session_comment(user, user, comment)
     new_child_comment(user, user, comment)
