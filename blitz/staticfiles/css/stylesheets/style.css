@@ -4664,31 +4664,35 @@ ul.spotternav li {
 }
 /* line 3861, ../sass/style.scss */
 .contentwell table {
-  margin-top: 30px;
+  margin-top: 0px;
   margin-bottom: -10px;
 }
+/* line 3864, ../sass/style.scss */
+.contentwell table img {
+  margin-right: 30px;
+}
 
-/* line 3867, ../sass/style.scss */
+/* line 3870, ../sass/style.scss */
 .meta {
   font-family: 'metanormal_caps';
 }
 
-/* line 3871, ../sass/style.scss */
+/* line 3874, ../sass/style.scss */
 .dropdown-menu > li > a:hover {
   cursor: pointer;
 }
 
-/* line 3875, ../sass/style.scss */
+/* line 3878, ../sass/style.scss */
 .modal.fade {
   display: none;
 }
 
-/* line 3879, ../sass/style.scss */
+/* line 3882, ../sass/style.scss */
 .modal.fade.in {
   top: 0%;
 }
 
-/* line 3886, ../sass/style.scss */
+/* line 3889, ../sass/style.scss */
 .modal-full.fade.in {
   top: 0;
   left: 0;
@@ -4705,7 +4709,7 @@ ul.spotternav li {
   overflow: hidden;
 }
 
-/* line 3906, ../sass/style.scss */
+/* line 3909, ../sass/style.scss */
 .modal-dialog-full {
   width: 100%;
   height: 100%;
@@ -4713,23 +4717,23 @@ ul.spotternav li {
   margin: 0;
 }
 
-/* line 3913, ../sass/style.scss */
+/* line 3916, ../sass/style.scss */
 .modal-content-full {
   height: 100%;
   border-radius: 0;
   color: white;
   overflow: hidden;
 }
-/* line 3918, ../sass/style.scss */
+/* line 3921, ../sass/style.scss */
 .modal-content-full .modal-body {
   width: 100%;
   margin: 0 auto;
 }
-/* line 3922, ../sass/style.scss */
+/* line 3925, ../sass/style.scss */
 .modal-content-full textarea {
   width: 100%;
 }
-/* line 3925, ../sass/style.scss */
+/* line 3928, ../sass/style.scss */
 .modal-content-full .close {
   color: white;
   text-shadow: none;
@@ -4740,12 +4744,12 @@ ul.spotternav li {
   -o-transition: all 0.5s linear;
   opacity: 1;
 }
-/* line 3930, ../sass/style.scss */
+/* line 3933, ../sass/style.scss */
 .modal-content-full .close :hover {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
-/* line 3934, ../sass/style.scss */
+/* line 3937, ../sass/style.scss */
 .modal-content-full .close span {
   transition: all 0.5s linear;
   -webkit-transition: all 0.5s linear;
@@ -4754,25 +4758,25 @@ ul.spotternav li {
   -o-transition: all 0.5s linear;
   opacity: .5;
 }
-/* line 3938, ../sass/style.scss */
+/* line 3941, ../sass/style.scss */
 .modal-content-full .close span:hover {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
 
-/* line 3945, ../sass/style.scss */
+/* line 3948, ../sass/style.scss */
 .modal-header {
   border: none;
   color: white;
 }
 
-/* line 3950, ../sass/style.scss */
+/* line 3953, ../sass/style.scss */
 .modal-body {
   height: 100%;
   max-height: none;
 }
 
-/* line 3955, ../sass/style.scss */
+/* line 3958, ../sass/style.scss */
 .modal-body .row {
   max-height: none;
   overflow-y: auto;
@@ -4780,14 +4784,14 @@ ul.spotternav li {
   width: 100%;
 }
 @media only screen and (min-width: 481px) {
-  /* line 3960, ../sass/style.scss */
+  /* line 3963, ../sass/style.scss */
   .modal-body .row .span6 {
     width: 40%;
     margin-left: 30%;
   }
 }
 @media (max-width: 480px) {
-  /* line 3960, ../sass/style.scss */
+  /* line 3963, ../sass/style.scss */
   .modal-body .row .span6 {
     width: 100%;
     margin-top: 40px;
@@ -4796,25 +4800,25 @@ ul.spotternav li {
   }
 }
 
-/* line 3974, ../sass/style.scss */
+/* line 3977, ../sass/style.scss */
 .modal-block {
   margin-bottom: 0px;
   padding: 0px;
 }
 @media (max-width: 480px) {
-  /* line 3974, ../sass/style.scss */
+  /* line 3977, ../sass/style.scss */
   .modal-block {
     padding: 30px;
   }
 }
 
-/* line 3982, ../sass/style.scss */
+/* line 3985, ../sass/style.scss */
 body.modal-open {
   overflow: hidden;
   -webkit-filter: blur(20px);
 }
 
-/* line 3987, ../sass/style.scss */
+/* line 3990, ../sass/style.scss */
 .errorlist {
   padding: 0px 0px 0px 0px;
   background: none;
@@ -4829,7 +4833,7 @@ body.modal-open {
   width: 103%;
   margin-left: -1.5%;
 }
-/* line 4000, ../sass/style.scss */
+/* line 4003, ../sass/style.scss */
 .errorlist ul {
   list-style-type: none;
   margin: 0px;
