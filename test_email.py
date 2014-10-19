@@ -5,7 +5,7 @@ import os
 template_html = 'emails/sample_email.html'
 template_text = 'emails/sample_email.txt'
 context = {'something' : 'foo'}
-to_mail = ['chris@therealchrisyork.com']
+to_mail = ['georgek@gmail.com']
 from_mail = 'team@blitz.us'          
 subject = "Usage Digest"
 images = ['logo-bp2.png','footer.png']

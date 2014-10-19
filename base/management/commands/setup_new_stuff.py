@@ -49,9 +49,10 @@ class Command(BaseCommand):
         try:
             blitz = Blitz.objects.get(url_slug='mike')
         except Blitz.DoesNotExist:
-            content = create_salespagecontent("Heavy", mikerashid)
+            content = create_salespagecontent("Heavy 1:1", mikerashid)
             blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
-                title="Make it HEAVY", begin_date=blitz_start_date, url_slug="mike")
+                title="Make it HEAVY 1:1 Training", begin_date=blitz_start_date, url_slug="mike")
+            blitz.provisional = True
             blitz.sales_page_content = content
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
