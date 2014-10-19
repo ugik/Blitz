@@ -2,12 +2,14 @@
 
 {% block email_content %}
 
-Hey {{ client }}, welcome to Blitz!
+<p>Hey {{ client }}, welcome to Blitz!</p>
 
-You're all signed up for {{ blitz }}, which begins on {{ blitz.begin_date }}.
+<p>You're all signed up for {{ blitz }}, which begins on {{ blitz.begin_date }}.</p>
 
-In the meantime, you can still check the site out and leave some comments. Once your program starts, you'll be able to log your workouts and diet goals.
+<p>In the meantime, you can still check the site out and leave some comments. Once your program starts, you'll be able to log your workouts and diet goals.</p>
 
+<br />
+<br />
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
         <tr>
@@ -16,7 +18,7 @@ In the meantime, you can still check the site out and leave some comments. Once 
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" style="font-family:Arial;font-size:24px;padding:20px">
-                                <a title="Check it out" href="http://www.blitz.us" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;word-wrap:break-word" target="_blank">Check it out →</a>
+                                <a title="Check it out" href="http://www.blitz.us" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;word-wrap:break-word" target="_blank">Check it out</a>
                             </td>
                         </tr>
                     </tbody>
@@ -26,11 +28,11 @@ In the meantime, you can still check the site out and leave some comments. Once 
     </tbody>
 </table>
 
-If you ever run into any problems--or just have ideas on how we can make your experience better--don't hesitate to reach out to us at support@blitz.us.
+<p style="color: #9c999b; font-size: 16px;">If you ever run into any problems--or just have ideas on how we can make your experience better--don't hesitate to reach out to us at support@blitz.us.</p>
 
-Thanks for signing up!
+<p style="color: #9c999b; font-size: 16px;">Thanks for signing up!</p>
 
---Team Blitz
+<p style="color: #9c999b; font-size: 16px;">--Team Blitz</p>
 
 {% endblock %}
 
