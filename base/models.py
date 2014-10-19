@@ -475,7 +475,7 @@ class Blitz(models.Model):
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
-    # workout_plan is optional, a Blitz without one is provisional
+    # workout_plan can be pending, spotter will load and assign workout plan
     workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
 
     # this is monday of week 1, model.save() will adjust as necessary
@@ -646,6 +646,14 @@ class BlitzInvitation(models.Model):
     email = models.EmailField()
     name = models.CharField(max_length=100)
     signup_key = models.CharField(max_length=30, default="")
+
+    free = models.BooleanField(default=False) # free or paid invitation
+
+    # (optional for 1:1 Blitz) price transfers to Blitz if set specific to invitation  
+    price = models.IntegerField(default=0)
+
+    # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
+    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
 
     def __unicode__(self):
         return "Invitation for %s; key: %s" % (self.name, self.signup_key)

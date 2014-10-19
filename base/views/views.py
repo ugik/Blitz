@@ -233,13 +233,21 @@ def client_setup(request):
         invite_url = request.POST.get('invite_url')
 
         if form.is_valid():
-            if mode != "free":
-                client_invite(trainer, form.cleaned_data['email'], invite_url)
-                return redirect('home')
 
-            invitation = BlitzInvitation.objects.create(
-                blitz_id =  blitz.id, email = form.cleaned_data['email'], 
-                name = form.cleaned_data['name'], signup_key = signup_key)
+            import pdb; pdb.set_trace()
+
+#            invitation = BlitzInvitation.objects.create(
+#                blitz_id =  blitz.id, email = form.cleaned_data['email'], 
+#                name = form.cleaned_data['name'], signup_key = signup_key)
+
+            invitation.free = True if mode == "free" else False
+
+            # override Blitz price and workoutplan if invitation specifies either
+            if 'price' in form.cleaned_data:
+                invitation.price = form.cleaned_data['price']
+            if 'workoutplan_id' in form.cleaned_data:
+                invitation.workoutplan_id = form.cleaned_data['workoutplan_id']
+#            invitation.save()
 
             client_invite(trainer, form.cleaned_data['email'], invite_url)
 #                emails.signup_confirmation(client)
@@ -258,10 +266,10 @@ def client_setup(request):
         uri = domain(request)
 
         if mode == 'free':
-            invite = "Hey,\n\nI've setup your program and we're ready to start on %s. This is a one-time *FREE* pass just for you! \n Just click on the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
+            invite = "Hey,\n\nI've setup your program and we're ready to start on %s. This is a one-time *FREE* pass just for you! \n Just go to the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
             invite_url = uri+'/client-signup?signup_key='+signup_key
         else:
-            invite = "Hey,\n\nI've setup your program and we're ready to start on %s. Just click on the following link to sign up: %s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/'+trainer.short_name+'/'+blitz.url_slug, trainer.name)
+            invite = "Hey,\n\nI've setup your program and we're ready to start on %s. Just go to the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
             invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
         return render_to_response('client_setup.html', 

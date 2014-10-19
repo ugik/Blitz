@@ -19,15 +19,19 @@
     {% endif %}
         {% csrf_token %}
 
-        {% if mode = "free" %}
-           <input type="text" name="name" placeholder="Name" />
-           {% include "error_field.html" with param='name' %}
+        <input type="text" name="name" placeholder="Name" />
+        {% include "error_field.html" with param='name' %}
 
-           <input type="text" name="email" placeholder="Email" />
-           {% include "error_field.html" with param='email' %}
-        {% endif %}
+        <input type="text" name="email" placeholder="Email" />
+        {% include "error_field.html" with param='email' %}
         <br>
-        <textarea name="invite" class="input-xlarge" rows="9">{{ invite }}
+        <input type="text" name="price" placeholder="Price #"/>
+        {% include "error_field.html" with param='price' %}
+        <br>
+        <input type="text" name="workoutplan_id" placeholder="WorkoutPlan"/>
+        {% include "error_field.html" with param='workoutplan_id' %}
+        <br>
+        <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
         </textarea></td>
         {% include "error_field.html" with param='invite' %}
         <br>
