@@ -4,6 +4,10 @@ Today is the day. Your program, {{ blitz }}, starts now.
 
 Go get after it at http://www.blitz.us.
 
+<<<<<<< Updated upstream
 --Team Blitz
 
 
+=======
+--the Blitz.us Team
+>>>>>>> Stashed changes

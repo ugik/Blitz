@@ -59,13 +59,20 @@ urlpatterns += patterns(
 
     url(r'^upload$', 'base.views.upload_page', name='upload_page'),
 
+<<<<<<< Updated upstream
     url(r'^salespage$', 'base.views.my_salespages', name='my_salespages'),
 
+=======
+>>>>>>> Stashed changes
     url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
     url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
 # old programs urls
+<<<<<<< Updated upstream
 #    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_old_blitz_program'),
+=======
+#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_blitz_program'),
+>>>>>>> Stashed changes
     url(r'^old_program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
     url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
     url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),

@@ -38,6 +38,13 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
 
     msg.send()
 
+<<<<<<< Updated upstream
+=======
+from base.models import WorkoutPlan, Trainer
+
+SOURCE_EMAIL = 'robot@blitz.us'
+SPOTTER_EMAIL = 'spotter@blitz.us'
+>>>>>>> Stashed changes
 
 def new_child_comment(user, commenter):
 
@@ -118,6 +125,7 @@ def message_received(user, message):
     from_email, to_email = SOURCE_EMAIL, user.email
     subject = "New Message on Blitz.us"
 
+<<<<<<< Updated upstream
     text_template = 'emails/message_received.txt'
     html_template = 'emails/message_received.html'
     context = { 'user': user, 'message': message }
@@ -128,10 +136,18 @@ def message_received(user, message):
 #        'message': message,
 #    })
 #    send_mail(subject, text_content, from_email, [to], fail_silently=True)
+=======
+    text_content = render_to_string('emails/message_received.txt', {
+        'user': user,
+        'message': message,
+    })
+    send_mail(subject, text_content, from_email, [to], fail_silently=True)
+>>>>>>> Stashed changes
 
 def email_spotter_program_edit(pk, message):
     workoutplan = WorkoutPlan.objects.filter(pk=int(pk))
     if workoutplan:
+<<<<<<< Updated upstream
         from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL
         subject = "Program Edit ask from %s" % workoutplan[0].trainer.name
 
@@ -160,5 +176,16 @@ def email_tests():
     signup_confirmation(client)
     gym_session_comment(user, user)
     new_child_comment(user, user)
+=======
+    
+        from_email, to = SOURCE_EMAIL, SPOTTER_EMAIL
+        subject = "Program Edit ask from %s" % workoutplan[0].trainer.name
+
+        text_content = render_to_string('emails/program_edit.txt', {
+           'workoutplan': workoutplan[0],
+            'message': message,
+        })
+        send_mail(subject, text_content, from_email, [to], fail_silently=True)
+>>>>>>> Stashed changes
 
 

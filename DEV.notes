@@ -65,12 +65,20 @@ week of 10.6
 - Flame / Blitz rename
 
 week of 10.13
+<<<<<<< Updated upstream
 - celeryd+supervisord config in EC2setup.sh
 - usage digest with last login
 - rework EC2update to use rsync instead of .git push
 - helper authorization
 - trainer programs page
 - rework 404, 500 page rendering
+=======
+- supervisord config in EC2setup.sh
+- usage digest with last login
+- rework EC2update to use rsync instead of .git push
+- helper authorization
+- trainer program page
+>>>>>>> Stashed changes
 
 
 

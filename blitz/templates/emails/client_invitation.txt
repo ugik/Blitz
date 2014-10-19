@@ -4,4 +4,8 @@ Hey,
 
 Go get after it here: {{ invite_url }}
 
+<<<<<<< Updated upstream
 --Team Blitz
+=======
+--the Blitz.us Team
+>>>>>>> Stashed changes

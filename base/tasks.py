@@ -14,10 +14,15 @@ from django.utils.timezone import now as timezone_now
 from django.conf import settings
 
 from django.contrib.auth.models import User
+<<<<<<< Updated upstream
 from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from base.alerts import create_alerts_for_day
 from base.emails import send_email
+=======
+from base.models import Client, Trainer, TrainerAlert, BlitzMember
+from base.alerts import create_alerts_for_day
+>>>>>>> Stashed changes
 from datetime import date, timedelta
 
 import datetime
@@ -66,11 +71,19 @@ def client_morning_notifications():
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 @periodic_task(run_every=crontab(hour="*/23", minute="3", day_of_week="*"))  
+<<<<<<< Updated upstream
 def usage_digest(days=0):
+=======
+def usage_digest():
+>>>>>>> Stashed changes
     from django.core.mail import EmailMultiAlternatives
     from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
     from pytz import timezone
 
+<<<<<<< Updated upstream
+=======
+    days = 0
+>>>>>>> Stashed changes
     timezone = current_tz()
     startdate = date.today() - timedelta(days = days)
 
@@ -98,6 +111,7 @@ def usage_digest(days=0):
 
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
+<<<<<<< Updated upstream
     context = {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR}
     to_mail = ['georgek@gmail.com', 'chris@therealchrisyork.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
@@ -106,6 +120,19 @@ def usage_digest(days=0):
     dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/'),
             os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
     send_email(from_mail, to_mail, subject, template_text, template_html, context, images, dirs )
+=======
+
+    to = 'georgek@gmail.com'
+    from_email = settings.DEFAULT_FROM_EMAIL           
+    subject = "Usage Digest"
+
+    text_content = render_to_string(template_text, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
+    html_content = render_to_string(template_html, {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
+
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
+>>>>>>> Stashed changes
 
 
 @periodic_task(run_every=crontab(hour="1", minute="1", day_of_week="*"))  

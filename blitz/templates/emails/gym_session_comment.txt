@@ -4,4 +4,8 @@
 
 Go check it out at https://www.blitz.us{{ comment.parent_absolute_url }}
 
+<<<<<<< Updated upstream
 --Team Blitz
+=======
+--the Blitz.us Team
+>>>>>>> Stashed changes

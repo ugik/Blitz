@@ -26,6 +26,7 @@ from datetime import date, timedelta
 #    import pdb; pdb.set_trace()
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_index(request):
     if not request.user.is_staff:
         return redirect('home')
@@ -34,6 +35,16 @@ def spotter_index(request):
 
 @login_required
 def spotter_usage(request):
+=======
+def helper_index(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    return render(request, 'helper.html')
+
+@login_required
+def helper_usage(request):
+>>>>>>> Stashed changes:helper/views.py
     from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
     from pytz import timezone
     from base.tasks import usage_digest
@@ -59,7 +70,11 @@ def spotter_usage(request):
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
         days = request.GET.get('days')
     else:
+<<<<<<< Updated upstream:spotter/views.py
         days = 3
+=======
+        days = 0
+>>>>>>> Stashed changes:helper/views.py
         startdate = date.today() - timedelta(days = days)
 
     enddate = date.today() - timedelta(days=0)
@@ -79,7 +94,11 @@ def spotter_usage(request):
           {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_delete(request):
+=======
+def helper_delete(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -88,7 +107,11 @@ def spotter_delete(request):
     return redirect('spotter_uploads')
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_download(request):
+=======
+def helper_download(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -98,7 +121,11 @@ def spotter_download(request):
     return serve(request, os.path.basename(path), os.path.dirname(path))
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_pending_trainers(request):
+=======
+def helper_pending_trainers(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -106,7 +133,11 @@ def spotter_pending_trainers(request):
     return render(request, 'pending_trainers.html', {'pending' : pending_trainers})
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_status_trainers(request):
+=======
+def helper_status_trainers(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -138,7 +169,11 @@ def assign_workoutplan(request):
            {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitzes })
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_blitz_sales_pages(request):
+=======
+def helper_blitz_sales_pages(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -146,7 +181,11 @@ def spotter_blitz_sales_pages(request):
     return render(request, 'pending_sales_pages.html', {'pending' : pending_sales_pages})
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_uploads(request):
+=======
+def helper_uploads(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -177,7 +216,11 @@ def spotter_uploads(request):
     return render(request, 'docs.html', {'docs' : documents, 'numdocs' : numdocs})
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_program_upload(request):
+=======
+def helper_program_upload(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -214,7 +257,11 @@ def spotter_program_upload(request):
                               RequestContext(request))
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_program_create(request):
+=======
+def helper_program_create(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -237,7 +284,11 @@ def spotter_program_create(request):
                               RequestContext(request))
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_workouts(request):
+=======
+def helper_workouts(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -247,7 +298,11 @@ def spotter_workouts(request):
                               RequestContext(request))
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_exercise(request):
+=======
+def helper_exercise(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -259,7 +314,11 @@ def spotter_exercise(request):
                               RequestContext(request))
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_custom_set(request):
+=======
+def helper_custom_set(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -300,7 +359,11 @@ def spotter_custom_set(request):
                    RequestContext(request))
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_custom_exercise(request):
+=======
+def helper_custom_exercise(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -341,7 +404,11 @@ def spotter_custom_exercise(request):
 
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_sales_pages(request):
+=======
+def helper_sales_pages(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
@@ -366,7 +433,11 @@ def spotter_sales_pages(request):
 
 
 @login_required
+<<<<<<< Updated upstream:spotter/views.py
 def spotter_program_delete(request):
+=======
+def helper_program_delete(request):
+>>>>>>> Stashed changes:helper/views.py
     if not request.user.is_staff:
         return redirect('home')
 
