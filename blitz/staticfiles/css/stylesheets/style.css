@@ -4781,14 +4781,14 @@ ul.spotternav li {
 }
 @media only screen and (min-width: 481px) {
   /* line 3960, ../sass/style.scss */
-  .modal-body .row .span8 {
-    width: 60%;
-    margin-left: 20%;
+  .modal-body .row .span6 {
+    width: 40%;
+    margin-left: 30%;
   }
 }
 @media (max-width: 480px) {
   /* line 3960, ../sass/style.scss */
-  .modal-body .row .span8 {
+  .modal-body .row .span6 {
     width: 100%;
     margin-top: 40px;
     margin-left: -25px;
@@ -4812,4 +4812,28 @@ ul.spotternav li {
 body.modal-open {
   overflow: hidden;
   -webkit-filter: blur(20px);
+}
+
+/* line 3987, ../sass/style.scss */
+.errorlist {
+  padding: 0px 0px 0px 0px;
+  background: none;
+  text-shadow: none;
+  list-style-type: none !important;
+  color: #ed2a44;
+  margin-top: -10px;
+  margin-left: -8px;
+  border-top: 3px solid #ed2a44;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  width: 103%;
+  margin-left: -1.5%;
+}
+/* line 4000, ../sass/style.scss */
+.errorlist ul {
+  list-style-type: none;
+  margin: 0px;
+  border-bottom: 3px solid #ed2a44;
+  padding-bottom: 5px;
+  margin-bottom: -3px;
 }

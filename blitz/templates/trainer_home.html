@@ -93,7 +93,7 @@
                 </div>
                 <div class="modal-body">
                         <div class="row">
-                            <div class="span8">
+                            <div class="span6">
                                 <div class="formpage-block modal-block">
                                     <div class="header">
                                         Invite a client
@@ -103,9 +103,8 @@
                                     </div> 
                                     <div class="content">
                                         {% if mode = "free" %}
-                                        <p>Tell us a bit about the client you want invited, note this will be <b>FREE of charge</b>: </p>
+                                        <p>Tell us who you want to invite for coaching at <b>no charge</b>.</p>
                                         {% else %}
-                                        <p>Here is the email to your invited client: </p>
                                         {% endif %}
                                         {% if mode = "free" %}
                                         <form class="form" action="client-setup?free" method="post" name="client-setup">
@@ -114,13 +113,13 @@
                                         {% endif %}
                                             {% csrf_token %}
 
-                                            {% if mode = "free" %}
+                                            
                                                <input type="text" name="name" placeholder="Name" />
                                                {% include "error_field.html" with param='name' %}
 
                                                <input type="text" name="email" placeholder="Email" />
                                                {% include "error_field.html" with param='email' %}
-                                            {% endif %}
+                                            
                                             <br>
                                             <textarea name="invite" class="input-xlarge" rows="9">{{ invite }}
                                             </textarea></td>

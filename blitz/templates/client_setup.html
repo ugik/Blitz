@@ -1,49 +1,53 @@
-{% extends "small_block_content.html" %}
+{% extends "formpage.html" %}
 
 
-{% block small_block_content %}
+{% block formpage_content %}
 
-<div class="well"><div class="panel panel-default">
-  <div class="panel-heading"><b>Blitz invite.</b></div><br>
-  <div class="panel-body">
+<div class="row">
+  <div class="span6 offset3">
+    <div class="formpage-block">
+      <div class="header">
+          Invite a client
+      </div>
+      <div class="info-text" style="margin-bottom: 20px;">
+          Send an email to a client so you can train them on Blitz.
+      </div> 
+      <div class="content">
+          {% if mode = "free" %}
+          <p>Tell us who you want to invite for coaching at <b>no charge</b>.</p>
+          {% else %}
+          {% endif %}
+          {% if mode = "free" %}
+          <form class="form" action="client-setup?free" method="post" name="client-setup">
+          {% else %}
+          <form class="form" action="client-setup" method="post" name="client-setup">
+          {% endif %}
+          {% if errors %}
+            <div class="alert alert-warning" role="alert" style="display: none;">
+               {% for e in errors %}
+                   <li><small>{{ e }}</small></li>
+               {% endfor %}
+            </div>
+          {% endif %}
+              {% csrf_token %}
 
-    {% if mode = "free" %}
-    <p>Tell us a bit about the client you want invited, note this will be <b>FREE of charge</b>: </p>
-    {% else %}
-    <p>Here is the email to your invited client: </p>
-    {% endif %}
-    {% if mode = "free" %}
-    <form class="form" action="client-setup?free" method="post" name="client-setup">
-    {% else %}
-    <form class="form" action="client-setup" method="post" name="client-setup">
-    {% endif %}
-        {% csrf_token %}
+              
+                 <input type="text" name="name" placeholder="Name" />
+                 {% include "error_field.html" with param='name' %}
 
-        {% if mode = "free" %}
-           <input type="text" name="name" placeholder="Name" />
-           {% include "error_field.html" with param='name' %}
-
-           <input type="text" name="email" placeholder="Email" />
-           {% include "error_field.html" with param='email' %}
-        {% endif %}
-        <br>
-        <textarea name="invite" class="input-xlarge" rows="9">{{ invite }}
-        </textarea></td>
-        {% include "error_field.html" with param='invite' %}
-        <br>
-        <input type="hidden" name="signup_key" value="{{ signup_key }}">
-        <input type="hidden" name="invite_url" value="{{ invite_url }}">
-        <button class="obtn btn btn-warning">Invite</button>
-  {% if errors %}
-  <div class="alert alert-warning" role="alert">
-     {% for e in errors %}
-         <li><small>{{ e }}</small></li>
-     {% endfor %}
+                 <input type="text" name="email" placeholder="Email" />
+                 {% include "error_field.html" with param='email' %}
+              
+              <br>
+              <textarea name="invite" class="full-width" rows="9">{{ invite }}
+              </textarea></td>
+              {% include "error_field.html" with param='invite' %}
+              <br>
+              <input type="hidden" name="signup_key" value="{{ signup_key }}">
+              <input type="hidden" name="invite_url" value="{{ invite_url }}">
+              <button class="obtn full-width btn-warning">Invite</button>
+      </div>
   </div>
-  {% endif %}
-
-</div>
-</div>
 </div>
 
-{% endblock small_block_content %}
+{% endblock formpage_content %}
