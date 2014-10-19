@@ -4845,3 +4845,8 @@ body.modal-open {
   padding-bottom: 5px;
   margin-bottom: -3px;
 }
+
+/* line 4015, ../sass/style.scss */
+.formpage-block input .datepicker {
+  width: 100%;
+}
