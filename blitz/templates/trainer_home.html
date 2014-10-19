@@ -73,28 +73,27 @@
       </button>
       <ul class="dropdown-menu" role="menu">
         <li role="presentation">
-            <a role="menuitem" tabindex="-1" data-toggle="modal" data-target="#modal1">Invite paid client</a></li>
+            <a role="menuitem" tabindex="-1" data-toggle="modal" href="/client-setup" data-target="#modal1">Invite paid client</a></li>
         <li role="presentation" class="divider">
         </li>
         <li role="presentation">
-            <a role="menuitem" tabindex="-1" data-toggle="modal" data-target="#modal1" href="#free">Invite free client</a>
+            <a role="menuitem" tabindex="-1" data-toggle="modal" data-target="#modal1">Invite free client</a>
         </li>
       </ul>
     </div>
 
     <!-- Modal -->
-    <div class="modal modal-full fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal-full fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog-full">
             <div class="modal-content-full">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
-                        <span class="">Close</span>
+                        <span aria-hidden="true">× Close</span>
                     </button>
                 </div>
                 <div class="modal-body">
                         <div class="row">
-                            <div class="span8">
+                            <div class="span6">
                                 <div class="formpage-block modal-block">
                                     <div class="header">
                                         Invite a client
@@ -104,9 +103,8 @@
                                     </div> 
                                     <div class="content">
                                         {% if mode = "free" %}
-                                        <p>Tell us a bit about the client you want invited, note this will be <b>FREE of charge</b>: </p>
+                                        <p>Tell us who you want to invite for coaching at <b>no charge</b>.</p>
                                         {% else %}
-                                        <p>Here is the email to your invited client: </p>
                                         {% endif %}
                                         {% if mode = "free" %}
                                         <form class="form" action="client-setup?free" method="post" name="client-setup">
@@ -115,13 +113,13 @@
                                         {% endif %}
                                             {% csrf_token %}
 
-                                            {% if mode = "free" %}
+                                            
                                                <input type="text" name="name" placeholder="Name" />
                                                {% include "error_field.html" with param='name' %}
 
                                                <input type="text" name="email" placeholder="Email" />
                                                {% include "error_field.html" with param='email' %}
-                                            {% endif %}
+                                            
                                             <br>
                                             <textarea name="invite" class="input-xlarge" rows="9">{{ invite }}
                                             </textarea></td>
@@ -143,7 +141,7 @@
                         </div>
 
 
-                </div>
+                </div> 
             </div>
         </div>
     </div>

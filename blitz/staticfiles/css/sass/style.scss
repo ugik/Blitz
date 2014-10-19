@@ -2784,6 +2784,7 @@ text-decoration: none;
 #intro-modal {
   width: 60%;
   margin-left: -30%;
+  top: 10%;
   @include mobile-only {width: 90%; margin-left: 0%; max-height: 95%; overflow: scroll;};
   .content {
     padding:20px
@@ -3127,14 +3128,14 @@ input::-webkit-inner-spin-button {
   text-shadow: none;
   list-style-type: none !important;
   color: rgba(237, 42, 68, 1.0);
-  ul {list-style-type: none; 
+  ul {
+    list-style-type: none; 
     margin: 0px;
     border-bottom: 3px solid rgba(237, 42, 68, 1.0);
-  padding-bottom: 5px;
-  margin-bottom: -3px;
-  };
-  
-  }
+    padding-bottom: 5px;
+    margin-bottom: -3px;
+  };  
+}
 
 .bigFormError {
   margin-bottom: 0px;
@@ -3858,8 +3859,11 @@ ul.spotternav li {
     margin-top: 10px;
   }
   table {
-    margin-top: 30px;
+    margin-top: 0px;
     margin-bottom: -10px;
+    img {
+      margin-right: 30px;
+    }
   }
 }
 
@@ -3882,14 +3886,15 @@ ul.spotternav li {
 .modal-backdrop {
 }
 
-.modal-full {
-  top: 0%;
-  margin: 0 auto;
+.modal-full.fade.in {
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  @include tablet-portrait-and-up {
-    margin-left: -720px;
-  }
+  margin: 0 auto;
+  //@include tablet-portrait-and-up {
+  //  margin-left: -720px;
+  //} /
   position: fixed;
   z-index: 1050;
   background-color: rgba(0,0,0,0.4);
@@ -3897,9 +3902,9 @@ ul.spotternav li {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
-  @include transition(0.5s, linear);
+  //@include transition(0.25s, ease-in);
   overflow: hidden;
-  } 
+  }
 
 .modal-dialog-full {
   width: 100%;
@@ -3924,7 +3929,19 @@ ul.spotternav li {
     color: white;
     text-shadow: none;
     @include transition(0.5s, linear);
-    
+    opacity: 1;
+    :hover {
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+      opacity: 1;
+    }
+    span {
+      @include transition(0.5s, linear);
+      opacity: .5;
+    }
+    span:hover {
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+      opacity: 1;
+    }
   }
 }
 
@@ -3943,10 +3960,10 @@ ul.spotternav li {
   overflow-y: auto;
   margin: 0 auto;
   width: 100%;
-  .span8 {
+  .span6 {
     @include tablet-portrait-and-up {
-      width: 60%;
-      margin-left: 20%;
+      width: 40%;
+      margin-left: 30%;
     }
     @include mobile-only {
       width: 100%;
@@ -3968,4 +3985,26 @@ ul.spotternav li {
 body.modal-open {
     overflow: hidden;
     -webkit-filter: blur(20px);
+}
+
+.errorlist { 
+  padding: 0px 0px 0px 0px;
+  background: none;
+  text-shadow: none;
+  list-style-type: none !important;
+  color: #ed2a44;
+  margin-top: -10px;
+  margin-left: -8px;
+  border-top: 3px solid #ed2a44;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  width: 103%; 
+  margin-left: -1.5%; 
+  ul {
+    list-style-type: none; 
+    margin: 0px;
+    border-bottom: 3px solid rgba(237, 42, 68, 1.0);
+    padding-bottom: 5px;
+    margin-bottom: -3px;
+  }
 }
