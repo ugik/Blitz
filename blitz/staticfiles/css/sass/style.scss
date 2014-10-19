@@ -3926,7 +3926,19 @@ ul.spotternav li {
     color: white;
     text-shadow: none;
     @include transition(0.5s, linear);
-    
+    opacity: 1;
+    :hover {
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+      opacity: 1;
+    }
+    span {
+      @include transition(0.5s, linear);
+      opacity: .5;
+    }
+    span:hover {
+      text-shadow: 0 0 5px rgba(255,255,255,0.5);
+      opacity: 1;
+    }
   }
 }
 
