@@ -1,4 +1,4 @@
-{% extends "small_block_content.html" %}
+{% extends "formpage.html" %}
 
 {% block morehead %}
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
@@ -28,7 +28,7 @@
   </script>
 {% endblock %}
 
-{% block small_block_content %}
+{% block formpage_content %}
 
     <h3>Setup new <b>Group</b> Blitz</h3>
     <form class="form" action="#" method="post">
@@ -84,7 +84,7 @@
         <td><input type="text" name="charge2" placeholder="$" style="width: 140px;"></td></tr>
         <tr>
         <tr><td>Socialize</td>
-        <td><select name="social_choices2" id="social_choices2" class="selectpicker show-tick>
+        <td><select name="social_choices2" id="social_choices2" class="selectpicker show-tick">
             <option value="ALL">with everyone</option>
             <option value="OIG" selected="selected">with your group</option>
         </select></td></tr>
@@ -103,4 +103,4 @@
 </div>
 </div>
 
-{% endblock small_block_content %}
+{% endblock formpage_content %}

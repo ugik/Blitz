@@ -76,7 +76,7 @@ class NewTrainerForm(forms.Form):
 
     def clean(self):
         if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data and self.cleaned_data['password1'] != self.cleaned_data['password2']:
-            raise forms.ValidationError("The passwords don't match. Try again, chief.")
+            raise forms.ValidationError("These passwords don't match. Try again, chief.")
         return self.cleaned_data
 
 class SpotterProgramEditForm(forms.Form):
@@ -98,10 +98,10 @@ class NewClientForm(forms.Form):
 
 class BlitzSetupForm(forms.Form):
 
-    title = forms.CharField(max_length=30,widget=forms.TextInput(attrs={'placeholder': 'Name'})) 
+    title = forms.CharField(max_length=30,widget=forms.TextInput(attrs={'placeholder': 'Program Name'})) 
     url_slug = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'placeholder': 'url'}))
     start_day = forms.DateField(initial=datetime.date.today)
-    charge = forms.DecimalField(max_digits=6, decimal_places=0, widget=forms.TextInput(attrs={'placeholder': 'Charge $'}))
+    charge = forms.DecimalField(max_digits=6, decimal_places=0, widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'How much do you want to charge?'}))
     blitz_type = forms.CharField(max_length=10,widget=forms.TextInput())
 
     trainer = Trainer()

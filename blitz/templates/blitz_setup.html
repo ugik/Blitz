@@ -32,7 +32,7 @@
         </div>
 
         <table><tr>
-        <td>Program:</td> <td><select name="program" id="program" class="selectpicker show-tick">
+        <td>Workout plan:</td> <td><select name="program" id="program" class="selectpicker show-tick">
         {% for program in programs %}
         <option value="{{ program }}">{{ program }}</option>
         {% endfor %}
@@ -52,7 +52,13 @@
         <br>
         <input type="text" class="datepicker" id="datepicker" name="start_day" placeholder="Start Date" style="" value="{{ form.start_day.value }}"></td></tr>
 
-        <div class="fieldWrapper">{{ form.charge }}
+        <div class="fieldWrapper">
+                <div style="width: 10%; float: left; display: inline; margin-top: 8px; font-size: 1.5em;">
+                  $
+                </div>
+                <div style="width: 90%; float: left; display: inline;">
+                {{ form.charge }}
+              </div>
         </div>
      </form>
   {% if errors %}
@@ -62,7 +68,7 @@
         {% endfor %}
      </div>
   {% endif %}
-     <button class="obtn btn btn-warning">Create Blitz</button>
+     <button class="obtn full-width btn-warning">Create Blitz</button>
    </div>
 </div>
 </div>
