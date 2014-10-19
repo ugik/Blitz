@@ -45,6 +45,12 @@ import urllib2
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 
+def domain(request):
+    uri = request.build_absolute_uri()   # get full uri
+    uri = uri[uri.index('//')+2:]        # remove the http://
+    uri = uri[0:uri.index('/')]          # get domain
+    return uri
+    
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
     return render(request, 'legal_page.html', {'legal_content': content})
@@ -249,16 +255,14 @@ def client_setup(request):
         form = NewClientForm()
         signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
 
-        uri = request.build_absolute_uri()   # get full uri
-        uri = uri[uri.index('//')+2:]        # remove the http://
-        uri = uri[0:uri.index('/')]          # get domain
+        uri = domain(request)
 
         if mode == 'free':
             invite = "Hey,\n\nI've setup your program and we're ready to start on %s. This is a one-time *FREE* pass just for you! \n Just click on the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
             invite_url = uri+'/client-signup?signup_key='+signup_key
         else:
             invite = "Hey,\n\nI've setup your program and we're ready to start on %s. Just click on the following link to sign up: %s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/'+trainer.short_name+'/'+blitz.url_slug, trainer.name)
-            invite_url = uri+'/sales-blitz?slug='+blitz.url_slug
+            invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
         return render_to_response('client_setup.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
@@ -490,7 +494,7 @@ def my_salespages(request):
         blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
         return render(request, 'trainer_salespages.html', {
             'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-            'SITE_URL' : settings.SITE_URL })
+            'SITE_URL' : domain(request) })
 
 @login_required
 def my_programs(request):
@@ -521,10 +525,10 @@ def blitz_program(request, pk):
 
     if request.user.is_trainer:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : settings.SITE_URL })
+            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : domain(request) })
     else:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
+            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : domain(request) })
 
 @login_required
 def my_blitz_members(request):
