@@ -2,9 +2,11 @@
 
 {% block email_content %}
 
-Hey,
+<p>Hey,</p>
 
-{{ trainer.name }} has invited you to join {{ blitz.title }}!
+<p>{{ trainer.name }} has invited you to join {{ blitz.title }}!</p>
+
+<br />
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
     <tbody>
@@ -14,7 +16,7 @@ Hey,
                     <tbody>
                         <tr>
                             <td align="center" valign="middle" style="font-family:Arial;font-size:24px;padding:20px">
-                                <a title="Get started" href="{{ invite_url }}" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;word-wrap:break-word" target="_blank">Join {{ blitz.title }} →</a>
+                                <a title="Get started" href="{{ invite_url }}" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;word-wrap:break-word" target="_blank">Join {{ blitz.title }}</a>
                             </td>
                         </tr>
                     </tbody>
@@ -23,7 +25,5 @@ Hey,
         </tr>
     </tbody>
 </table>
-
---Team Blitz
 
 {% endblock %}
