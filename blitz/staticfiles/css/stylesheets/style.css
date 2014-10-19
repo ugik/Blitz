@@ -4671,3 +4671,134 @@ ul.spotternav li {
 .meta {
   font-family: 'metanormal_caps';
 }
+
+/* line 3870, ../sass/style.scss */
+.dropdown-menu > li > a:hover {
+  cursor: pointer;
+}
+
+/* line 3874, ../sass/style.scss */
+.modal.fade {
+  display: none;
+}
+
+/* line 3878, ../sass/style.scss */
+.modal.fade.in {
+  top: 0%;
+}
+
+/* line 3885, ../sass/style.scss */
+.modal-full {
+  top: 0%;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1050;
+  background-color: rgba(0, 0, 0, 0.4);
+  outline: 0;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  transition: all 0.5s linear;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  overflow: hidden;
+}
+@media only screen and (min-width: 481px) {
+  /* line 3885, ../sass/style.scss */
+  .modal-full {
+    margin-left: -720px;
+  }
+}
+
+/* line 3904, ../sass/style.scss */
+.modal-dialog-full {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 3911, ../sass/style.scss */
+.modal-content-full {
+  height: 100%;
+  border-radius: 0;
+  color: white;
+  overflow: hidden;
+}
+/* line 3916, ../sass/style.scss */
+.modal-content-full .modal-body {
+  width: 100%;
+  margin: 0 auto;
+}
+/* line 3920, ../sass/style.scss */
+.modal-content-full textarea {
+  width: 100%;
+}
+/* line 3923, ../sass/style.scss */
+.modal-content-full .close {
+  color: white;
+  text-shadow: none;
+  transition: all 0.5s linear;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+}
+
+/* line 3931, ../sass/style.scss */
+.modal-header {
+  border: none;
+  color: white;
+}
+
+/* line 3936, ../sass/style.scss */
+.modal-body {
+  height: 100%;
+  max-height: none;
+}
+
+/* line 3941, ../sass/style.scss */
+.modal-body .row {
+  max-height: none;
+  overflow-y: auto;
+  margin: 0 auto;
+  width: 100%;
+}
+@media only screen and (min-width: 481px) {
+  /* line 3946, ../sass/style.scss */
+  .modal-body .row .span8 {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+@media (max-width: 480px) {
+  /* line 3946, ../sass/style.scss */
+  .modal-body .row .span8 {
+    width: 100%;
+    margin-top: 40px;
+    margin-left: -25px;
+    height: 100%;
+  }
+}
+
+/* line 3960, ../sass/style.scss */
+.modal-block {
+  margin-bottom: 0px;
+  padding: 0px;
+}
+@media (max-width: 480px) {
+  /* line 3960, ../sass/style.scss */
+  .modal-block {
+    padding: 30px;
+  }
+}
+
+/* line 3968, ../sass/style.scss */
+body.modal-open {
+  overflow: hidden;
+  -webkit-filter: blur(20px);
+}

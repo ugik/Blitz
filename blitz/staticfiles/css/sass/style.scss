@@ -3866,3 +3866,106 @@ ul.spotternav li {
 .meta {
   @include meta();
 }
+
+.dropdown-menu>li>a:hover {
+  cursor: pointer;
+}
+
+.modal.fade {
+  display: none;
+}
+
+.modal.fade.in {
+  top: 0%;
+}
+
+.modal-backdrop {
+}
+
+.modal-full {
+  top: 0%;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  @include tablet-portrait-and-up {
+    margin-left: -720px;
+  }
+  position: fixed;
+  z-index: 1050;
+  background-color: rgba(0,0,0,0.4);
+  outline: 0;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
+  @include transition(0.5s, linear);
+  overflow: hidden;
+  } 
+
+.modal-dialog-full {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin:0;
+}
+
+.modal-content-full {   
+  height: 100%;
+  border-radius: 0;
+  color:white;
+  overflow: hidden;
+  .modal-body {
+    width: 100%;
+    margin: 0 auto;
+  }
+  textarea {
+    width: 100%;
+  }
+  .close {
+    color: white;
+    text-shadow: none;
+    @include transition(0.5s, linear);
+    
+  }
+}
+
+.modal-header {
+  border: none;
+  color: white;
+}
+
+.modal-body {
+  height: 100%;
+  max-height: none;
+}
+
+.modal-body .row {
+  max-height: none;
+  overflow-y: auto;
+  margin: 0 auto;
+  width: 100%;
+  .span8 {
+    @include tablet-portrait-and-up {
+      width: 60%;
+      margin-left: 20%;
+    }
+    @include mobile-only {
+      width: 100%;
+      margin-top: 40px;
+      margin-left: -25px;
+      height: 100%;
+    }
+  }
+}
+
+.modal-block {
+  margin-bottom: 0px;
+  padding: 0px;
+  @include mobile-only {
+    padding: 30px;
+  }
+}
+
+body.modal-open {
+    overflow: hidden;
+    -webkit-filter: blur(20px);
+}
