@@ -2,9 +2,9 @@
 
 {% block email_content %}
 
-You received a new message from {{ workoutplan.trainer.name|safe }} about program: {{ workoutplan.name }}:
+<p>You received a new message from {{ workoutplan.trainer.name|safe }} about program: {{ workoutplan.name }}:</p>
 
-"{{ message|safe }}"
+<p>"{{ message|safe }}"</p>
 
 {% endblock %}
 
