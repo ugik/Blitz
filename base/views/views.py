@@ -1235,12 +1235,12 @@ def payment_hook(request, pk):
         # process payment w/balanced 1.1 API
         import balanced
 
+#        import pdb; pdb.set_trace()    
+
         if 'invitation' in request.GET:
-            invitation = get_object_or_404(Invitation, pk=request.GET.get('pk'))
+            invitation = get_object_or_404(BlitzInvitation, pk=request.GET.get('invitation'))
         else:
             invitation = None
-
-#        import pdb; pdb.set_trace()    
         
         marketplace = balanced.Marketplace.query.one()
         try:

@@ -96,10 +96,10 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=None):
         blitz.pk = None
         blitz.provisional = False
         blitz.recurring = True
-        blitz.title = "individual: %s" % client.name
+        blitz.title = "individual:%s blitz:%s" % (client.name, blitz.url_slug)
         blitz.workout_plan = workoutplan
         blitz.price = price
-        blitz.url_slug = str(client.pk)
+        blitz.url_slug = ''
         blitz.save()
 
     membership = BlitzMember.objects.create(blitz=blitz, client=client)
