@@ -57,6 +57,7 @@ sudo git clone https://$repo:$github_password@github.com/$repo/$project.git
 # set privs for usermedia dirs
 cd /home/ubuntu/$project_app
 sudo chmod o+wx -R usermedia
+cp /home/ubuntu/$project/sample_blitz_program.xls /home/ubuntu/$project_app/usermedia/programs/.
 
 # add host to /etc/hosts
 sudo sed -i -e '1i'$ip_address' '$project'\' /etc/hosts
@@ -72,10 +73,6 @@ sudo echo "export EMAIL_PASSWORD='$email_password'" >> ~/.bashrc
 sudo echo "export SECRET_KEY='$secret_key'" >> ~/.bashrc
 source ~/.bashrc
 
-# sample data
-cd /home/ubuntu/$project
-bash rebuild.sh
-
 # apache2 available sites
 sudo a2dissite 000-default
 sudo a2ensite $project.conf
@@ -84,7 +81,10 @@ sudo a2ensite $project.conf
 sudo chown ubuntu:ubuntu -R /home/ubuntu/$project
 cd /home/ubuntu/$project
 python manage.py collectstatic --noinput
-sudo /etc/init.d/apache2 restart
+
+# sample data
+cd /home/ubuntu/$project
+bash rebuild.sh
 
 # supervisord
 cd /home/ubuntu/$project
@@ -95,6 +95,7 @@ supervisord
 
 cd ~
 
+sudo /etc/init.d/apache2 restart
 sudo ps -ef | grep supervisord
 
 # references:
