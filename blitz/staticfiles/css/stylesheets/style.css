@@ -3080,7 +3080,7 @@ hr {
   box-sizing: border-box;
 }
 /* line 2576, ../sass/style.scss */
-.formpage-block input[type="text"], .formpage-block input[type="password"] {
+.formpage-block input[type="text"], .formpage-block input[type="password"], .formpage-block input[type="email"] {
   width: 100%;
   padding: 8px 7px;
   position: relative;
