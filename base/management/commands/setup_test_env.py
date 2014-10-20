@@ -19,6 +19,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        # superuser for using admin
+        admin = User.objects.create_user('admin', 'admin@example.com', 'admin')
+        admin.is_superuser = True
+        admin.is_staff = True
+        admin.save()
+
         now = timezone_now()
         most_recent_monday = now.date() - datetime.timedelta(days=now.weekday())
         blitz_start_date = most_recent_monday - datetime.timedelta(days=14)
@@ -227,12 +233,6 @@ class Command(BaseCommand):
             lift = Lift.objects.get(slug=l)
             lift.weight_or_body = True
             lift.save()
-
-        # superuser for using admin
-        admin = User.objects.create_user('admin', 'admin@example.com', 'admin')
-        admin.is_superuser = True
-        admin.is_staff = True
-        admin.save()
 
         #
         # Macros

@@ -13,7 +13,7 @@ SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
 
 # email wrapper, note parameters: images[] context{}
-def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, silent=False):  
+def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, silent=True):  
 
     if len(images) == 0:
         images = ['emailheader.png']
