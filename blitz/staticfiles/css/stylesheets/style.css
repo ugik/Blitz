@@ -3080,7 +3080,7 @@ hr {
   box-sizing: border-box;
 }
 /* line 2576, ../sass/style.scss */
-.formpage-block input[type="text"], .formpage-block input[type="password"] {
+.formpage-block input[type="text"], .formpage-block input[type="password"], .formpage-block input[type="email"] {
   width: 100%;
   padding: 8px 7px;
   position: relative;
@@ -4716,24 +4716,28 @@ ul.spotternav li {
   padding: 0;
   margin: 0;
 }
+/* line 3914, ../sass/style.scss */
+.modal-dialog-full .blitz-login {
+  display: none;
+}
 
-/* line 3916, ../sass/style.scss */
+/* line 3919, ../sass/style.scss */
 .modal-content-full {
   height: 100%;
   border-radius: 0;
   color: white;
   overflow: hidden;
 }
-/* line 3921, ../sass/style.scss */
+/* line 3924, ../sass/style.scss */
 .modal-content-full .modal-body {
   width: 100%;
   margin: 0 auto;
 }
-/* line 3925, ../sass/style.scss */
+/* line 3928, ../sass/style.scss */
 .modal-content-full textarea {
   width: 100%;
 }
-/* line 3928, ../sass/style.scss */
+/* line 3931, ../sass/style.scss */
 .modal-content-full .close {
   color: white;
   text-shadow: none;
@@ -4744,12 +4748,12 @@ ul.spotternav li {
   -o-transition: all 0.5s linear;
   opacity: 1;
 }
-/* line 3933, ../sass/style.scss */
+/* line 3936, ../sass/style.scss */
 .modal-content-full .close :hover {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
-/* line 3937, ../sass/style.scss */
+/* line 3940, ../sass/style.scss */
 .modal-content-full .close span {
   transition: all 0.5s linear;
   -webkit-transition: all 0.5s linear;
@@ -4758,25 +4762,25 @@ ul.spotternav li {
   -o-transition: all 0.5s linear;
   opacity: .5;
 }
-/* line 3941, ../sass/style.scss */
+/* line 3944, ../sass/style.scss */
 .modal-content-full .close span:hover {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
 
-/* line 3948, ../sass/style.scss */
+/* line 3951, ../sass/style.scss */
 .modal-header {
   border: none;
   color: white;
 }
 
-/* line 3953, ../sass/style.scss */
+/* line 3956, ../sass/style.scss */
 .modal-body {
   height: 100%;
   max-height: none;
 }
 
-/* line 3958, ../sass/style.scss */
+/* line 3961, ../sass/style.scss */
 .modal-body .row {
   max-height: none;
   overflow-y: auto;
@@ -4784,14 +4788,14 @@ ul.spotternav li {
   width: 100%;
 }
 @media only screen and (min-width: 481px) {
-  /* line 3963, ../sass/style.scss */
+  /* line 3966, ../sass/style.scss */
   .modal-body .row .span6 {
     width: 40%;
     margin-left: 30%;
   }
 }
 @media (max-width: 480px) {
-  /* line 3963, ../sass/style.scss */
+  /* line 3966, ../sass/style.scss */
   .modal-body .row .span6 {
     width: 100%;
     margin-top: 40px;
@@ -4800,25 +4804,25 @@ ul.spotternav li {
   }
 }
 
-/* line 3977, ../sass/style.scss */
+/* line 3980, ../sass/style.scss */
 .modal-block {
   margin-bottom: 0px;
   padding: 0px;
 }
 @media (max-width: 480px) {
-  /* line 3977, ../sass/style.scss */
+  /* line 3980, ../sass/style.scss */
   .modal-block {
     padding: 30px;
   }
 }
 
-/* line 3985, ../sass/style.scss */
+/* line 3988, ../sass/style.scss */
 body.modal-open {
   overflow: hidden;
   -webkit-filter: blur(20px);
 }
 
-/* line 3990, ../sass/style.scss */
+/* line 3993, ../sass/style.scss */
 .errorlist {
   padding: 0px 0px 0px 0px;
   background: none;
@@ -4833,11 +4837,16 @@ body.modal-open {
   width: 103%;
   margin-left: -1.5%;
 }
-/* line 4003, ../sass/style.scss */
+/* line 4006, ../sass/style.scss */
 .errorlist ul {
   list-style-type: none;
   margin: 0px;
   border-bottom: 3px solid #ed2a44;
   padding-bottom: 5px;
   margin-bottom: -3px;
+}
+
+/* line 4015, ../sass/style.scss */
+.formpage-block input .datepicker {
+  width: 100%;
 }

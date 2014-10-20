@@ -2573,7 +2573,7 @@ hr { margin-top: 60px;}
     float: left;
     @include borderbox();
   }
-  input[type="text"], input[type="password"] {
+  input[type="text"], input[type="password"], input[type="email"] {
     width: 100%;
     padding: 8px 7px;
     position: relative;
@@ -3911,6 +3911,9 @@ ul.spotternav li {
   height: 100%;
   padding: 0;
   margin:0;
+  .blitz-login {
+    display: none;
+  }
 }
 
 .modal-content-full {   
@@ -4007,4 +4010,8 @@ body.modal-open {
     padding-bottom: 5px;
     margin-bottom: -3px;
   }
+}
+
+.formpage-block input .datepicker {
+  width: 100%;
 }

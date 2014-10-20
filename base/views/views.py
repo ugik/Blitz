@@ -45,12 +45,6 @@ import urllib2
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 
-def domain(request):
-    uri = request.build_absolute_uri()   # get full uri
-    uri = uri[uri.index('//')+2:]        # remove the http://
-    uri = uri[0:uri.index('/')]          # get domain
-    return uri
-    
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
     return render(request, 'legal_page.html', {'legal_content': content})
@@ -264,7 +258,9 @@ def client_setup(request, pk):
         form = NewClientForm()
         signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
 
-        uri = domain(request)
+        uri = request.build_absolute_uri()   # get full uri
+        uri = uri[uri.index('//')+2:]        # remove the http://
+        uri = uri[0:uri.index('/')]          # get domain
 
         if mode == 'free':
             invite = "Hey,\n\nI've setup your program and we're ready to start on %s. This is a one-time *FREE* pass just for you! \n Just go to the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
@@ -503,7 +499,7 @@ def my_salespages(request):
         blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
         return render(request, 'trainer_salespages.html', {
             'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-            'SITE_URL' : domain(request) })
+            'SITE_URL' : settings.SITE_URL })
 
 @login_required
 def my_programs(request):
@@ -534,10 +530,10 @@ def blitz_program(request, pk):
 
     if request.user.is_trainer:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : domain(request) })
+            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : settings.SITE_URL })
     else:
         return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : domain(request) })
+            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
 
 @login_required
 def my_blitz_members(request):

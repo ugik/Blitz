@@ -1,4 +1,4 @@
-{% extends "client_content.html" %}
+{% extends "formpage.html" %}
 
 {% block morehead %}
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
@@ -15,37 +15,16 @@
   </script>
 {% endblock %}
 
-{% block above_content %}
+{% block formpage_content %}
 
-    <div class="landscape-header coverphoto2">
-        <div class="landscape-header-top" style="height:50%;">
-            <div class="container">
-                <div class="row">
-                    <div class="span12">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="landscape-header-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="span12">
-                        <div class="content">
-                            <div class="title">New Blitz</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
 
-{% endblock %}
-
-{% block main %}
 
     <form class="form" action="#" method="post">
     {% csrf_token %}
-      <div class="well span4">
+
         <div class="fieldWrapper">{{ form.title }}</div>
         <div class="fieldWrapper">
 <small>Short url for your blitz, eg. /Blitz.us/</small><b><u>{{ trainer.short_name }}/Group1</u></b>
@@ -53,7 +32,7 @@
         </div>
 
         <table><tr>
-        <td>Program:</td> <td><select name="program" id="program" class="selectpicker show-tick">
+        <td>Workout plan:</td> <td><select name="program" id="program" class="selectpicker show-tick">
         {% for program in programs %}
         <option value="{{ program }}">{{ program }}</option>
         {% endfor %}
@@ -67,13 +46,19 @@
     <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
     <script type="text/javascript">
           $(document).ready(function(e) {
-              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", width: "160px" });
+              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
           });
     </script>
         <br>
-        <input type="text" class="datepicker" id="datepicker" name="start_day" placeholder="Start Date" style="width: 140px;" value="{{ form.start_day.value }}"></td></tr>
+        <input type="text" class="datepicker" id="datepicker" name="start_day" placeholder="Start Date" style="" value="{{ form.start_day.value }}"></td></tr>
 
-        <div class="fieldWrapper">{{ form.charge }}
+        <div class="fieldWrapper">
+                <div style="width: 10%; float: left; display: inline; margin-top: 8px; font-size: 1.5em;">
+                  $
+                </div>
+                <div style="width: 90%; float: left; display: inline;">
+                {{ form.charge }}
+              </div>
         </div>
      </form>
   {% if errors %}
@@ -83,10 +68,13 @@
         {% endfor %}
      </div>
   {% endif %}
-     <button class="obtn btn btn-warning">Create Blitz</button>
+     <button class="obtn full-width btn-warning">Create Blitz</button>
    </div>
+</div>
+</div>
+
 </div>
 </div>
 </div>
 
-{% endblock main %}
+{% endblock formpage_content %}

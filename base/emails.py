@@ -25,7 +25,7 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     html_content = render_to_string(html_template, context)
     text_content = render_to_string(text_template, context)
     if override:  # OVERRIDE EMAIL_TO
-        to_email = 'georgek@gmail.com'
+        to_email = 'chris@therealchrisyork.com'
     if isinstance(to_email, list):
         msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
     else:
