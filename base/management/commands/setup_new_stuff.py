@@ -46,17 +46,33 @@ class Command(BaseCommand):
                 settings.DATA_DIR + '/mikerashid/plan.csv',)
 
         blitz = Blitz
+
         try:
-            blitz = Blitz.objects.get(url_slug='mike')
+            blitz = Blitz.objects.get(url_slug='3weeks')
         except Blitz.DoesNotExist:
-            content = create_salespagecontent("Heavy 1:1", mikerashid)
+            content = create_salespagecontent("3 Week Rashid Plan", mikerashid)
             blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
-                title="Make it HEAVY 1:1 Training", begin_date=blitz_start_date, url_slug="mike")
+                title="3 Week 1:1 Rashid Plan", begin_date=blitz_start_date, url_slug="3weeks")
             blitz.provisional = True
+            blitz.recurring = True
             blitz.sales_page_content = content
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
-            blitz.price = 1
+            blitz.price = 50
+            blitz.save()
+
+        try:
+            blitz = Blitz.objects.get(url_slug='mike')
+        except Blitz.DoesNotExist:
+            content = create_salespagecontent("Heavy", mikerashid)
+            blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
+                title="Make it HEAVY Training", begin_date=blitz_start_date, url_slug="mike")
+            blitz.provisional = False
+            blitz.recurring = False
+            blitz.sales_page_content = content
+            blitz.uses_macros = True
+            blitz.macro_strategy = 'M'
+            blitz.price = 100
             blitz.save()
 
         luke = Client

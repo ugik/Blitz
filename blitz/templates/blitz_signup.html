@@ -110,7 +110,7 @@
                 </div>
                 <br />
                 <div class="blitz-cost">
-                 <div class="title">Cost</div>
+                 <div class="title">Cost {% if blitz.recurring %}/Month{% endif %}</div>
                     <div class="cost">
                     {% if invitation and invitation.price > 0 %}${{ invitation.price }}
                     {% else %}${{ blitz.price }}{% endif %}
