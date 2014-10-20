@@ -27,8 +27,10 @@
         <input type="text" name="email" placeholder="Email" />
         {% include "error_field.html" with param='email' %}
         <br>
-        <input type="text" name="price" placeholder="Price #"/>
+        {% if mode != "free" %}
+        $<input type="text" name="price" placeholder="Price #" value="{{ blitz.price }}"/>
         {% include "error_field.html" with param='price' %}
+        {% endif %}
         <br>
         {% if blitz.recurring %}
             <select name="workoutplan_id" id="workoutplan_id">

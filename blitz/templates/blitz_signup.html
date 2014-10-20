@@ -27,7 +27,8 @@
                     <div class="input-container">
                         <input type="text"
                                placeholder="Email"
-                               class="user-email">
+                               class="user-email"
+                               value="{{ invitation.email }}">
                     </div>
 
                     <div class="form-error error-user-password"></div>
@@ -127,6 +128,7 @@
 $(document).ready(function() {
 
     var blitz_key = '{{ blitz.pk }}';
+    var invitation_key = '{{ invitation.pk }}';
     var $form = $('#blitz-signup-form');
 
     var marketplaceUri = "{{ marketplace_uri }}";
@@ -154,15 +156,28 @@ $(document).ready(function() {
     }
 
     function finishItOff(card_uri) {
-        $.post('/blitz/' + blitz_key + '/_/payment_hook', {'card_uri': card_uri} , function(data) {
-            if (data.has_error) {
-                $form.find('.error-card').html(data.error);
-                $form.find('.error-card').show();
-                enableForm();
-            } else {
-                showFinished();
-            }
-        });
+        if (invitation_key == '') {   // no invitation
+           $.post('/blitz/' + blitz_key + '/_/payment_hook', {'card_uri': card_uri} , function(data) {
+               if (data.has_error) {
+                   $form.find('.error-card').html(data.error);
+                   $form.find('.error-card').show();
+                   enableForm();
+               } else {
+                   showFinished();
+               }
+           });  
+        }
+        else {   // handle invitation, pass pk in url
+           $.post('/blitz/' + blitz_key + '/_/payment_hook?invitation='+invitation_key, {'card_uri': card_uri} , function(data) {
+               if (data.has_error) {
+                   $form.find('.error-card').html(data.error);
+                   $form.find('.error-card').show();
+                   enableForm();
+               } else {
+                   showFinished();
+               }
+           });
+        }
     }
 
     function balancedCallback(response) {

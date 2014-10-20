@@ -1006,7 +1006,7 @@ def client_signup(request):
                 invitation.email,
                 form.cleaned_data['password1']
             )
-            utils.add_client_to_blitz(invitation.blitz, client)
+            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
             alert = TrainerAlert.objects.create(
                        trainer=invitation.blitz.trainer, text="New client registration.",
                        client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
@@ -1239,12 +1239,22 @@ def payment_hook(request, pk):
         # process payment w/balanced 1.1 API
         import balanced
 
+        if 'invitation' in request.GET:
+            invitation = get_object_or_404(Invitation, pk=request.GET.get('pk'))
+        else:
+            invitation = None
+
 #        import pdb; pdb.set_trace()    
+        
         marketplace = balanced.Marketplace.query.one()
         try:
             card = balanced.Card.fetch(form.cleaned_data['card_uri'])
             # charge card
-            debit_amount_str = "%d00" % blitz.price
+            if invitation:
+                debit_amount_str = "%d00" % invitation.price
+            else:
+                debit_amount_str = "%d00" % blitz.price
+
             card.debit(appears_on_statement_as = 'Blitz.us payment',
                        amount = debit_amount_str,
                        description='Blitz.us payment')
@@ -1264,7 +1274,11 @@ def payment_hook(request, pk):
 
             # Update ChargeSetting, Payment records
 
-            utils.add_client_to_blitz(blitz, client)
+            if invitation:
+                utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price)
+            else:
+                utils.add_client_to_blitz(blitz, client)
+
             emails.signup_confirmation(client)
 
             mail_admins('we got a signup bitches!', '%s signed up for %s' % (str(client), str(blitz)))
