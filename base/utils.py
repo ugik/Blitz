@@ -87,7 +87,7 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     content.save()
     return content
 
-def add_client_to_blitz(blitz, client, workoutplan=None, price=None):
+def add_client_to_blitz(blitz, client, workoutplan=None, price=0):
     """
     Assuming we'll want to attach more info to plan joining
     """

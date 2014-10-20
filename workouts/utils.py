@@ -12,7 +12,7 @@ def load_workout_plan_from_fileset(plan_name, workout_meta_file, workouts_file, 
 
     workouts_file = open(workouts_file, 'rU')
     for row in csv.reader(workouts_file):
-        lift = Lift.objects.get(slug=row[1])
+        lift = Lift.objects.get(slug=row[1].lower())
         workout, _ = Workout.objects.get_or_create(slug=row[0])
         workout_set = WorkoutSet.objects.create(lift=lift, workout=workout, num_reps=row[2])
 
@@ -91,7 +91,7 @@ def load_workout_plan_from_fileset_2(plan_name, workout_meta_file, workouts_file
         fields = line.strip('\n').split('\t')
 
         workout, _ = Workout.objects.get_or_create(slug=fields[0])
-        lift = Lift.objects.get(slug=fields[1])
+        lift = Lift.objects.get(slug=fields[1].lower())
 
         exercise = Exercise.objects.create(lift=lift, workout=workout, sets_display=fields[2], order=i)
         for reps_str in fields[3].split(','):

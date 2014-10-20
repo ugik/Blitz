@@ -20,7 +20,7 @@ from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, C
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent
 from base import utils
-from base.emails import client_invite, email_spotter_program_edit
+from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
 from workouts.models import WorkoutPlan
@@ -234,7 +234,6 @@ def client_setup(request, pk):
 #        import pdb; pdb.set_trace()
 
         if form.is_valid():
-
             invitation = BlitzInvitation.objects.create(
                 blitz_id =  blitz.id, email = form.cleaned_data['email'], 
                 name = form.cleaned_data['name'], signup_key = signup_key)
@@ -250,8 +249,8 @@ def client_setup(request, pk):
                 workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
                 invitation.workout_plan = workoutplan
                 invitation.save()
-    
-            client_invite(trainer, form.cleaned_data['email'], invite_url)
+
+            client_invite(trainer, [form.cleaned_data['email']], invite_url)
 
             return redirect('home')
         else:

@@ -150,7 +150,6 @@ class Command(BaseCommand):
         blitz = Blitz.objects.create(trainer=ct, workout_plan=roglaw_plan,
             title="Posting and Toasting", begin_date=blitz_start_date, url_slug="CT")
         blitz.sales_page_content = content
-        blitz.provisional = True
         blitz.uses_macros = True
         blitz.macro_strategy = 'M'
         blitz.price = 200
@@ -183,7 +182,9 @@ class Command(BaseCommand):
         blitz2.sales_page_content = content
         blitz2.uses_macros = True
         blitz2.macro_strategy = 'M'
-        blitz2.price = 199
+        blitz2.price = 49.99
+        blitz2.provisional = True
+        blitz2.recurring = True
         blitz2.save()
 
         aaron = create_client("Aaron Hernandez", "aaron@example.com", "asdf", 29, 230, 6, 8, 'M')

@@ -506,7 +506,7 @@ def test_program(file):
                 except:
                     errors.append("BAD DATA: Workout reps must be comma-separated numbers")
                 try:
-                    lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1))
+                    lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1).lower())
                 except:
                     errors.append("BAD DATA: lift %s not found in Lifts table" % worksheet.cell_value(curr_row, 1))
 
@@ -563,7 +563,7 @@ def load_program(file, trainer_id, plan_name):
 
         workout, _ = Workout.objects.get_or_create(
                       slug="%s_%s" % (str(trainer_id), worksheet.cell_value(curr_row, 0)))
-        lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1))
+        lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1).lower())
 
         exercise = Exercise.objects.create(lift=lift, 
                                            workout=workout, 
