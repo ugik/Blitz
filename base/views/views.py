@@ -49,7 +49,7 @@ def domain(request):
     uri = request.build_absolute_uri()   # get full uri
     uri = uri[uri.index('//')+2:]        # remove the http://
     uri = uri[0:uri.index('/')]          # get domain
-    return uri
+    return 'http://%s' % uri
 
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
@@ -231,7 +231,7 @@ def client_setup(request, pk):
         signup_key = request.POST.get('signup_key')
         invite_url = request.POST.get('invite_url')
 
-#        import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
 
         if form.is_valid():
             invitation = BlitzInvitation.objects.create(

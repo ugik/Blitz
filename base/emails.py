@@ -27,9 +27,11 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     if override:  # OVERRIDE EMAIL_TO
         to_email = override
     if isinstance(to_email, list):
-        msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+        msg = EmailMultiAlternatives(subject, text_content, 
+                                     from_email, to_email, bcc=[from_email])
     else:
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+        msg = EmailMultiAlternatives(subject, text_content, 
+                                     from_email, [to_email], bcc=[from_email])
 
     msg.attach_alternative(html_content, "text/html")
     msg.mixed_subtype = 'related'
