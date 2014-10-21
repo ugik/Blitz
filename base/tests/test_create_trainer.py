@@ -30,6 +30,14 @@ class TestCreateTrainer(unittest.TestCase):
         driver.find_element_by_id("id_short_name").clear()
         driver.find_element_by_id("id_short_name").send_keys("troy")
         driver.find_element_by_xpath("//button").click()
+        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
+        driver.find_element_by_link_text("Inbox").click()
+        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
+        driver.find_element_by_link_text("Pages").click()
+        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
+        driver.find_element_by_link_text("Programs").click()
+        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
+        driver.get(self.base_url + "")
     
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
