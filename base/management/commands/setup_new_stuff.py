@@ -85,9 +85,9 @@ class Command(BaseCommand):
 
         tay = Client
         try:
-            tay = Client.objects.get(name='Tayshawn Prince')
+            tay = Client.objects.get(name='Tayshaun Prince')
         except Client.DoesNotExist:
-            tay = create_client("Tayshawn Prince", "tay@example.com", "asdf", 35, 200, 6, 9, 'M')
+            tay = create_client("Tayshaun Prince", "tay@example.com", "asdf", 35, 200, 6, 9, 'M')
             tay.headshot_from_image(settings.TEST_MEDIA_DIR + '/tayshaun_prince.png')
             add_client_to_blitz(blitz, tay)
 
