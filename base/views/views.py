@@ -231,7 +231,7 @@ def client_setup(request, pk):
         signup_key = request.POST.get('signup_key')
         invite_url = request.POST.get('invite_url')
 
-        import pdb; pdb.set_trace()
+#        import pdb; pdb.set_trace()
 
         if form.is_valid():
             invitation = BlitzInvitation.objects.create(

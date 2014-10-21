@@ -68,6 +68,9 @@ sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 #apache wsgi
 http://www.webforefront.com/django/setupapachewebserverwsgi.html
 
+#test harness
+python manage.py dumpdata base --indent=4 > base/fixtures/base_testdata.json
+
 #enom email
 http://mail-29.name-services.com/Login.aspx
 

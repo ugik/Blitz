@@ -14,11 +14,8 @@ rsync -avC -e "ssh -i ../ec2.pem" /home/gk/Blitz/ ubuntu@"$1":/home/ubuntu/Blitz
              ssh -i ../ec2.pem ubuntu@$1 $project/manage.py migrate base
              ssh -i ../ec2.pem ubuntu@$1 $project/manage.py schemamigration workouts --auto
              ssh -i ../ec2.pem ubuntu@$1 $project/manage.py migrate workouts
-             ssh -i ../ec2.pem ubuntu@$1 sudo service apache2 restart
 
     fi
-
+    ssh -i ../ec2.pem ubuntu@$1 sudo service apache2 restart
 fi
-
-# bash EC2update.sh ec2-54-213-239-72.us-west-2.compute.amazonaws.com
 
