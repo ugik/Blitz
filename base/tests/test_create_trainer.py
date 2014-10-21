@@ -10,16 +10,26 @@ import unittest, time, re
 class TestCreateTrainer(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
-        self.driver.set_window_size(350, 600)
         self.driver.implicitly_wait(30)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_basic(self):
+    def test_create_trainer(self):
         driver = self.driver
-        driver.get(self.base_url + "/login?standard")
-
+        driver.get(self.base_url + "/register-trainer")
+        driver.find_element_by_id("id_name").clear()
+        driver.find_element_by_id("id_name").send_keys("Troy Polamalu")
+        driver.find_element_by_id("id_email").clear()
+        driver.find_element_by_id("id_email").send_keys("troy@example.com")
+        driver.find_element_by_id("id_password1").clear()
+        driver.find_element_by_id("id_password1").send_keys("asdf")
+        driver.find_element_by_id("id_password2").clear()
+        driver.find_element_by_id("id_password2").send_keys("asdf")
+        Select(driver.find_element_by_id("timezone-select")).select_by_visible_text("US/Hawaii")
+        driver.find_element_by_id("id_short_name").clear()
+        driver.find_element_by_id("id_short_name").send_keys("troy")
+        driver.find_element_by_xpath("//button").click()
     
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
