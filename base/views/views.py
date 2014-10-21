@@ -506,13 +506,13 @@ def my_salespages(request):
 
 @login_required
 def my_programs(request):
-    request_blitz = request.user.blitz
-    blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
     if request.user.is_trainer:
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
         return render(request, 'trainer_programs.html', 
            {'trainer': request.user.trainer, 'workoutplans' : workoutplans })
     else:
+        request_blitz = request.user.blitz
+        blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
         return render(request, 'blitz_program.html', {
             'blitz': blitz, 'client': request.user.client })
 
@@ -960,7 +960,7 @@ def trainer_signup(request):
             else:
                 name = trainer.name+"'"
 
-            content = create_salespagecontent("%s Page" % name, trainer)
+            content = create_salespagecontent("%s" % name, trainer)
 
             # create initial 1:1 (recurring, provisional) Blitz for the new Trainer
             blitz = Blitz.objects.create(trainer = trainer,
@@ -1146,6 +1146,10 @@ def sales_blitz(request):
                 blitz.sales_page_content.logo = form.cleaned_data['logo_picture']
             if form.cleaned_data['picture']:
                 blitz.sales_page_content.trainer_headshot = form.cleaned_data['picture']
+
+                if not trainer.headshot:
+                    trainer.headshot = form.cleaned_data['picture']
+                    trainer.save()
 
         blitz.sales_page_content.save()
         blitz.save()

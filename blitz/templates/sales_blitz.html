@@ -52,7 +52,7 @@ action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }
           <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
           <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
           <label id="id_label" name="picture"  for="id_picture"/>
-          <img class="profile-headshot img-circle" style="border: 6px solid rgba(125, 213, 135, 1);" src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"" />
+          <img class="profile-headshot img-circle" style="width:15%; border: 6px solid rgba(125, 213, 135, 1);" src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"" />
           </label>
        {% else %}
           <img class="profile-headshot img-circle"

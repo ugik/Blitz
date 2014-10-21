@@ -212,8 +212,10 @@ class Trainer(models.Model):
     def get_blitz(self):
         if self.currently_viewing_blitz:
             return self.currently_viewing_blitz
-        else:
+        elif self.active_blitzes():
             return self.active_blitzes()[0]
+        else:
+            return None
 
     def get_headshot_url(self):
         if self.headshot:
