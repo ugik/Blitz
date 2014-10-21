@@ -96,16 +96,19 @@ def usage_digest(days=0):
         if timezone.normalize(user.last_login).date() >= startdate:
             login_users.append(user)
 
+    f = open('/etc/hosts')  # grab host and ip address
+    lines = [line.strip() for line in f]
+    f.close()
+
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
-    context = {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR}
+    context = {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members,     
+               'MRR':MRR, 'hosts':lines[0]}
     to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
-    images = ['logo-bp2.png','footer.png']
-    dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/'),
-            os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
-    send_email(from_mail, to_mail, subject, template_text, template_html, context, images, dirs )
+
+    send_email(from_mail, to_mail, subject, template_text, template_html, context)
 
 
 @periodic_task(run_every=crontab(hour="1", minute="1", day_of_week="*"))  
