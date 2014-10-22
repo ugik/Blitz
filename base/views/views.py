@@ -238,7 +238,7 @@ def client_setup(request, pk):
                 blitz_id =  blitz.id, email = form.cleaned_data['email'], 
                 name = form.cleaned_data['name'], signup_key = signup_key)
 
-            import pdb; pdb.set_trace()
+#            import pdb; pdb.set_trace()
             invitation.free = True if mode == "free" else False
 
             # override Blitz price and workoutplan if invitation specifies either
@@ -1242,23 +1242,28 @@ def payment_hook(request, pk):
         # process payment w/balanced 1.1 API
         import balanced
 
-#        import pdb; pdb.set_trace()    
-
         if 'invitation' in request.GET:
             invitation = get_object_or_404(BlitzInvitation, pk=request.GET.get('invitation'))
         else:
             invitation = None
         
         marketplace = balanced.Marketplace.query.one()
+
         try:
             card = balanced.Card.fetch(form.cleaned_data['card_uri'])
-            # charge card
-            if invitation:
-                debit_amount_str = "%d00" % invitation.price
-            else:
-                debit_amount_str = "%d00" % blitz.price
+#            import pdb; pdb.set_trace()
 
-            card.debit(appears_on_statement_as = 'Blitz.us payment',
+            if card.cvv_match in ['no','unsupported']:
+                has_error = True
+                error = "Invalid CVV code. Please try another card. "
+            else:
+                # charge card
+                if invitation:
+                    debit_amount_str = "%d00" % invitation.price
+                else:
+                    debit_amount_str = "%d00" % blitz.price
+
+                card.debit(appears_on_statement_as = 'Blitz.us payment',
                        amount = debit_amount_str,
                        description='Blitz.us payment')
         except:
