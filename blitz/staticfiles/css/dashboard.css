@@ -63,7 +63,8 @@ img.headshot {
 }
 
 .sidebar-box {
-    padding: 0 10px
+    padding: 0 10px;
+    box-shadow: none !important;
 }
 
 .sidebar-box .header {
@@ -77,25 +78,33 @@ img.headshot {
  */
 .box {
     float: left;
-    margin-right: 15px;
-    border: 1px solid #d6d6d6;
-    background: #fff
+    /*margin-right: 10px;*/
+    border-left: 1px solid #eaeaea;
+    /*background: #fff;*/
+    /*border-radius: 7px !important*/
+}
+
+
+.box .title {
+    border-radius: 6px 6px 0px 0px;
+    color: #9b999c !important;
+    margin-bottom: 0px !important;
 }
 
 .box.box-orange .title {
-    background: #fa763c
+    background: #e8a060
 }
 
 .box.box-purple .title {
-    background: #da5586
+    background: #663440
 }
 
 .box.box-green .title {
-    background: #75b96c
+    background: #57c6b9
 }
 
 .box.box-blue .title {
-    background: #4899d8
+    background: #9b8ddb
 }
 
 .box .title {
@@ -107,7 +116,7 @@ img.headshot {
 }
 
 .box .description {
-    padding: 0 5px
+    padding: 0 0px 0px 10px
 }
 
 /**
@@ -245,7 +254,7 @@ ul.filters li.item:hover {
 .feeds {
     border-right: 2px solid #c1c0c3;
     padding-right: 28px !important;
-    width: 677px;
+    width: 616px;
     float: left;
     color: #333;
     font-size: 18pt;
@@ -261,17 +270,61 @@ ul.filters li.item:hover {
  * Right sidebar
  */
 #summary {
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
+    background: #fafafb;
     height: 100% !important;
     border-left: 1px solid #adadad;
     width: 330px;
     float: right
 }
 
+#summary .section {
+    border-top: 1px solid #c1c0c3;
+}
+
+#summary .diet-goals {
+    color: #9b999c;
+}
+
+#summary .diet-goals .header {
+    margin-bottom: 0px;
+}
+
+#summary .diet-goals .btn-edit {
+    float: right;
+    border: 2px solid #7ab2ea;
+    background: #fff;
+    color: #7ab2ea;
+}
+
+#summary .diet-goals .btn-group {
+    width: 100%;
+    border: 2px solid #7ab2ea;
+    background: #fff;
+    border-radius: 7px;
+    margin-top: 10px;
+}
+
+#summary .diet-goals .btn-group button {
+    width: 50%;
+    background: #fff;
+    height: 25px;
+    padding: 0px;
+}
+
+#summary .diet-goals .btn-group button.active {
+    background: #7ab2ea;
+    color: #fff;
+}
+
 #summary .cover {
-    height: 180px;
-    background: #383838;
-    color: #fff
+    height: 280px;
+    color: #757476
+}
+
+#summary .cover img.client-picture {
+    height: 150px;
+    border: 5px solid #75abf5;
 }
 
 #summary .client-name {
@@ -281,11 +334,13 @@ ul.filters li.item:hover {
 }
 
 #summary .sidebar-box .header {
-    padding: 13px 0 !important
+    padding: 13px 0 !important;
+    border-bottom: none !important;
 }
 
 #summary .sidebar-box .goals-history .box {
-    margin-bottom: 20px
+    margin-bottom: 10px;
+    padding: 0px 7px;
 }
 
 #summary .sidebar-box .goals-history .box .title {
@@ -293,8 +348,8 @@ ul.filters li.item:hover {
 }
 
 #summary .sidebar-box .goals-history .box .info {
-    font-size: 10px;
-    margin: 0 5px
+    font-size: 11px;
+    /*margin: 0px 5px 0px 5px*/
 }
 
 .edit-diet-goal {
