@@ -61,6 +61,9 @@ class Command(BaseCommand):
             blitz.price = 50
             blitz.save()
 
+        invite = BlitzInvitation.objects.create(blitz=blitz, email='vince@example.com', 
+                     name='Vince Wilfork', signup_key='TEST1', price=99)
+
         try:
             blitz = Blitz.objects.get(url_slug='mike')
         except Blitz.DoesNotExist:
@@ -74,6 +77,9 @@ class Command(BaseCommand):
             blitz.macro_strategy = 'M'
             blitz.price = 100
             blitz.save()
+
+        invite = BlitzInvitation.objects.create(blitz=blitz, email='jimmy@example.com', 
+                     name='Jimmy McGee', signup_key='TEST2', free=True)
 
         luke = Client
         try:
@@ -90,7 +96,6 @@ class Command(BaseCommand):
             tay = create_client("Tayshaun Prince", "tay@example.com", "asdf", 35, 200, 6, 9, 'M')
             tay.headshot_from_image(settings.TEST_MEDIA_DIR + '/tayshaun_prince.png')
             add_client_to_blitz(blitz, tay)
-
 
         clients = [luke, tay]
 

@@ -238,18 +238,18 @@ def client_setup(request, pk):
                 blitz_id =  blitz.id, email = form.cleaned_data['email'], 
                 name = form.cleaned_data['name'], signup_key = signup_key)
 
+            import pdb; pdb.set_trace()
             invitation.free = True if mode == "free" else False
 
             # override Blitz price and workoutplan if invitation specifies either
             if 'price' in form.cleaned_data and form.cleaned_data['price']:
                 invitation.price = form.cleaned_data['price']
-                invitation.save()
 
             if 'workoutplan_id' in form.cleaned_data and form.cleaned_data['workoutplan_id']:
                 workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
                 invitation.workout_plan = workoutplan
-                invitation.save()
 
+            invitation.save()
             client_invite(trainer, [form.cleaned_data['email']], invite_url)
 
             return redirect('home')

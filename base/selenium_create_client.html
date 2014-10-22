@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://127.0.0.1:8000" />
+<title>selenium_create_client</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">selenium_create_client</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/Mike/3weeks/signup?signup_key=TEST1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.user-password</td>
+	<td>asdfasdf</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.cc-number</td>
+	<td>4111111111111111</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.cc-em</td>
+	<td>12</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.cc-ey</td>
+	<td>2020</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=input.cc-csc</td>
+	<td>123</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=blitz-signup-submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>You're all signed up!</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Set up your profile →</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=label.radio</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=age</td>
+	<td>30</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=weight</td>
+	<td>200</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=height_feet</td>
+	<td>6</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=height_inches</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.obtn.full-width</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=skip-headshot</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Finish Signup →</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=video-continue</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Your profile's all set up!</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.icon-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>set up your macro targets</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=a.btn.btn-navbar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=People</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/program</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Program Overview</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//div[@id='header']/div/div/div/a[2]/span[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Inbox</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=to-autocomplete</td>
+	<td>Mike Rashid</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_message_content</td>
+	<td>Hi Mike, what's up?</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.obtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Hi Mike, what's up? </td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
