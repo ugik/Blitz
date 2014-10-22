@@ -212,9 +212,14 @@ def blitz_setup(request):
                               {'form': form, 'trainer' : trainer, 'programs' : programs}, 
                               RequestContext(request))
 
-
+# client setup for a Blitz, ?free option
+# url: /client-setup/(?P<pk>\d+)
 @login_required
 def client_setup(request, pk):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
+
     trainer = request.user.trainer
 
     blitz = get_object_or_404(Blitz, pk=int(pk) )
@@ -233,7 +238,6 @@ def client_setup(request, pk):
                 blitz_id =  blitz.id, email = form.cleaned_data['email'], 
                 name = form.cleaned_data['name'], signup_key = signup_key)
 
-#            import pdb; pdb.set_trace()
             invitation.free = True if mode == "free" else False
 
             # override Blitz price and workoutplan if invitation specifies either
@@ -247,7 +251,10 @@ def client_setup(request, pk):
             invitation.save()
             client_invite(trainer, [form.cleaned_data['email']], invite_url)
 
-            return redirect('home')
+            return render_to_response('client_setup_done.html', 
+                              {'form': form, 'trainer' : trainer}, 
+                              RequestContext(request))
+
         else:
             return render_to_response('client_setup.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'blitz' : blitz,

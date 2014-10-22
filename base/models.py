@@ -652,7 +652,7 @@ class BlitzInvitation(models.Model):
     free = models.BooleanField(default=False) # free or paid invitation
 
     # (optional for 1:1 Blitz) price transfers to Blitz if set specific to invitation  
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
 
     # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
     workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)

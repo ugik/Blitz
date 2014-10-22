@@ -90,7 +90,7 @@ class NewClientForm(forms.Form):
     invite = forms.CharField(widget=forms.Textarea())
     signup_key = forms.CharField(max_length=10)
 
-    price = forms.DecimalField(max_digits=6, decimal_places=0, widget=forms.TextInput(attrs={'placeholder': 'Charge $'}), required=False)
+    price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Charge $'}), required=False)
     workoutplan_id = forms.CharField(max_length=5, required=False)
 
     def clean_email(self):
