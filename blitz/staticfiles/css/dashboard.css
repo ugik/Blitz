@@ -78,10 +78,7 @@ img.headshot {
  */
 .box {
     float: left;
-    /*margin-right: 10px;*/
     border-left: 1px solid #eaeaea;
-    /*background: #fff;*/
-    /*border-radius: 7px !important*/
 }
 
 
@@ -252,7 +249,6 @@ ul.filters li.item:hover {
 }
 
 .feeds {
-    border-right: 2px solid #c1c0c3;
     padding-right: 28px !important;
     width: 616px;
     float: left;
