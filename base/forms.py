@@ -103,8 +103,9 @@ class BlitzSetupForm(forms.Form):
 
     title = forms.CharField(max_length=30,widget=forms.TextInput(attrs={'placeholder': 'Program Name'})) 
     url_slug = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'placeholder': 'url'}))
-    start_day = forms.DateField(initial=datetime.date.today)
-    charge = forms.DecimalField(max_digits=6, decimal_places=0, widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'How much do you want to charge?'}))
+    start_day = forms.DateField(initial=datetime.date.today,
+                                widget=forms.DateInput(attrs= {'class': 'datepicker', 'id':'datepicker', 'placeholder':'Start Date'} ))
+    charge = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'How much do you want to charge?'}))
     blitz_type = forms.CharField(max_length=10,widget=forms.TextInput())
 
     trainer = Trainer()
@@ -172,6 +173,7 @@ class SalesBlitzForm(forms.Form):
 class ClientSettingsForm(forms.Form): 
     picture = forms.ImageField()
 
+# Feed comment
 class CommentForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea(), required=False)
     picture = forms.ImageField()

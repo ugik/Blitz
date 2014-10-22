@@ -496,7 +496,7 @@ class Blitz(models.Model):
     macro_strategy = models.CharField(max_length=1, default="", choices=MACRO_STRATEGIES)
 
     # payment
-    price = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     price_model = models.CharField(max_length=1, choices=FEE_CHOICES, default="R", blank=True)
 
     def save(self, *args, **kwargs):
@@ -652,7 +652,7 @@ class BlitzInvitation(models.Model):
     free = models.BooleanField(default=False) # free or paid invitation
 
     # (optional for 1:1 Blitz) price transfers to Blitz if set specific to invitation  
-    price = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
     # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
     workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)

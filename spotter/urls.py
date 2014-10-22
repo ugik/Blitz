@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 
-
 urlpatterns = patterns(
     '',
     url(r'^index$', 'spotter.views.spotter_index', name='spotter_index'),

@@ -18,7 +18,7 @@ from spotter.urls import *
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent
+from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -45,12 +45,6 @@ import urllib2
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 
-def domain(request):
-    uri = request.build_absolute_uri()   # get full uri
-    uri = uri[uri.index('//')+2:]        # remove the http://
-    uri = uri[0:uri.index('/')]          # get domain
-    return 'http://%s' % uri
-
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
     return render(request, 'legal_page.html', {'legal_content': content})
@@ -59,6 +53,16 @@ def terms_of_use(request):
     content = render_to_string('termsofuse.html')
     return render(request, 'legal_page.html', {'legal_content': content})
 
+# return domain of request to avoid using settings.SITE_URL
+def domain(request):
+    uri = request.build_absolute_uri()   # get full uri
+    uri = uri[uri.index('//')+2:]        # remove the http://
+    uri = uri[0:uri.index('/')]          # get domain
+    return 'http://%s' % uri
+
+# lists all clients for staff or trainer
+# url: /allclients
+@login_required
 def all_clients(request):
     if request.user.is_staff:
         clients = Client.objects.all()
@@ -71,40 +75,24 @@ def all_clients(request):
 
     return render(request, 'all_clients.html', {'clients': clients})
 
-def register(request):
-    return render(request, 'register.html')
-
+# url: /
 def home(request):
-
     if request.user.is_authenticated():
-
-        try:
-            trainer = request.user.trainer
-            return trainer_home(request)
-        except ObjectDoesNotExist:
-            pass
-
-        try:
-            client = request.user.client
-            return client_home(request)
-        except ObjectDoesNotExist:
-            pass
-
         # handle spotter type users, see spotter app for details
         if request.user._wrapped.username == 'spotter':
-#             return spotter_index(request)
             return redirect('spotter_index')
 
+        if request.user.is_trainer:
+            return trainer_home(request)
+        else:
+            return client_home(request)
+
+    else:
         raise Exception("Invalid user")
 
     return redirect('login_view')
-    #return landing(request)
 
-def landing(request):
-    return render(request, 'landing.html', {
-    })
-
-
+# get trainer pending documents given a path from usermedia
 def get_pending_documents(path, trainer_pk):
     path = settings.MEDIA_ROOT + path
     doclist = os.listdir(path)
@@ -114,20 +102,26 @@ def get_pending_documents(path, trainer_pk):
             numdocs += 1
     return numdocs
 
+# trainer home
 @login_required
 def trainer_home(request):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
-# deal with new trainer with pending documents
+    # deal with new trainer with pending documents
     trainer = request.user.trainer
     numdocs = get_pending_documents('/documents', trainer.pk)
 
-# deal with new trainer without blitz but with new program setup
+    # deal with new trainer without blitz but with new program setup
     new_programs = WorkoutPlan.objects.filter(trainer=trainer.pk)
-    new_program_name = None
     if new_programs:
         new_program_name = new_programs[0].name
+    else:
+        new_program_name = None
 
     if request.method == 'POST':
+        # post of feed comment and/or picture
         form = CommentForm(request.POST, request.FILES)
 
         if form.is_valid() and form.is_multipart():
@@ -135,8 +129,6 @@ def trainer_home(request):
                       form.cleaned_data['comment'], 
                       timezone_now(),
                       form.cleaned_data['picture'])
-        else:
-            form = CommentForm()
 
     return render(request, 'trainer_home.html', {
         'trainer' : trainer,
@@ -147,8 +139,12 @@ def trainer_home(request):
     })
 
 
+# url: /blitz-setup
 @login_required
 def blitz_setup(request):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
     trainer = request.user.trainer
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
@@ -156,6 +152,7 @@ def blitz_setup(request):
         form = BlitzSetupForm(request.POST, trainer=trainer)
         errors = []
 
+        # resolve title
         if 'title' in form.data:
             title = form.data['title']
             if len(title)<5:
@@ -164,16 +161,16 @@ def blitz_setup(request):
             errors.append("No title")
 
         charge = form.data['charge']
+
         start = form.data['start_day']
-
         try:
-            datetime.datetime.strptime(start, '%Y-%m-%d')
+            datetime.datetime.strptime(start, 'mm/dd/yy')
         except ValueError:
-            errors.append("Incorrect DATE format, should be YYYY-MM-DD")
-        if not charge.isdigit():
-            errors.append("CHARGE $ must be number")
+            errors.append("Incorrect DATE format, should be mm/dd/yy format")
 
-#        import pdb; pdb.set_trace()
+        if not try_float(charge):
+            errors.append("CHARGE $ must be a value")
+
         if not errors and form.is_valid():
             if 'program' in form.data:
                 program = form.data['program']
@@ -187,6 +184,7 @@ def blitz_setup(request):
                 blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%Y-%m-%d'))
             else:  # blitz w/workoutplan selected
                 blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%Y-%m-%d'), workout_plan = plan[0])
+
             blitz.title = form.data['title']
             blitz.sales_page_content = content
             blitz.url_slug = form.data['url_slug']
@@ -230,8 +228,6 @@ def client_setup(request, pk):
         invite = request.POST.get('invite')
         signup_key = request.POST.get('signup_key')
         invite_url = request.POST.get('invite_url')
-
-#        import pdb; pdb.set_trace()
 
         if form.is_valid():
             invitation = BlitzInvitation.objects.create(

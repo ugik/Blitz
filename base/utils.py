@@ -24,6 +24,12 @@ def test_mail():
     msg.send()
     return True
 
+def try_float(string, fail=None):
+    try:
+        return float(string)
+    except Exception:
+        return fail;
+
 def get_character_for_user(user):
     """
     Return a (user_type, obj) tuple for a user
