@@ -164,7 +164,7 @@ def blitz_setup(request):
 
         start = form.data['start_day']
         try:
-            datetime.datetime.strptime(start, 'mm/dd/yy')
+            datetime.datetime.strptime(start, '%m/%d/%Y')
         except ValueError:
             errors.append("Incorrect DATE format, should be mm/dd/yy format")
 
@@ -181,9 +181,9 @@ def blitz_setup(request):
             content = create_salespagecontent(form.data['title'], trainer, key=None, title=None)
 
             if not plan: # blitz w/workoutplan pending
-                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%Y-%m-%d'))
+                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'))
             else:  # blitz w/workoutplan selected
-                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%Y-%m-%d'), workout_plan = plan[0])
+                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'), workout_plan = plan[0])
 
             blitz.title = form.data['title']
             blitz.sales_page_content = content
@@ -200,7 +200,6 @@ def blitz_setup(request):
                               RequestContext(request))
         else:
 
-# TODO make sure start_day value shows up in form
             return render_to_response('blitz_setup.html', 
                               {'form': form, 'trainer' : trainer, 'errors' : errors,
                                'programs' : programs}, 
