@@ -247,9 +247,9 @@ def client_setup(request, pk):
     
             client_invite(trainer, form.cleaned_data['email'], invite_url)
 
-            return redirect('home')
+            return redirect('my_salespages')
         else:
-            return render_to_response('client_setup.html', 
+            return render_to_response('client_setup_modal.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'blitz' : blitz,
                                'mode' : mode, 'signup_key' : signup_key, 'workoutplans' : workoutplans,
                                'invite_url' : invite_url, 'errors' : form.errors}, 
@@ -270,7 +270,7 @@ def client_setup(request, pk):
             invite_url = uri+'/sales-blitz?slug='+blitz.url_slug
 
 
-        return render_to_response('client_setup.html', 
+        return render_to_response('client_setup_modal.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
                                 'signup_key' : signup_key, 'invite_url' : invite_url, 'blitz' : blitz,
                                 'errors' : form.errors, 'workoutplans' : workoutplans}, 
