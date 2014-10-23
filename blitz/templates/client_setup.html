@@ -19,6 +19,7 @@
     {% else %}
     <form class="form" action="/client-setup/{{ blitz.pk }}" method="post" name="client-setup">
     {% endif %}
+
         {% csrf_token %}
 
         <input type="text" name="name" placeholder="Name" />
@@ -48,15 +49,10 @@
         <br>
         <input type="hidden" name="signup_key" value="{{ signup_key }}">
         <input type="hidden" name="invite_url" value="{{ invite_url }}">
-        <button class="obtn btn btn-warning">Invite</button>
-  {% if errors %}
-  <div class="alert alert-warning" role="alert">
-     {% for e in errors %}
-         <li><small>{{ e }}</small></li>
-     {% endfor %}
-  </div>
-  {% endif %}
+
+        <button class="obtn full-width btn-warning">Invite client</button>
 </div>
 
 {% endblock small_block_content %}
+
 

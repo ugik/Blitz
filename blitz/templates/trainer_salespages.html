@@ -57,11 +57,13 @@
                      </div>
                      </form></td>
                  <td>
+
                  <div class="btn-group">
                  <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="width:210px; margin-bottom: 10px;">
                   Invite Clients<span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
+
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}">Invite paid client</a></li>
                   <li role="presentation" class="divider"></li>
                   <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?free">Invite free client</a></li>
@@ -71,12 +73,15 @@
                  </tr>
                  </table>
               </div>
+
            {% endfor %}
         {% endif %}
         </div>
     </div>
   </div>
 </div>
+
+
 
 {% endblock %}
 

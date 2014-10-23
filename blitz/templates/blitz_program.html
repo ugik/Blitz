@@ -52,7 +52,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Blitzes <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             {% for blitz in trainer.active_blitzes %}
-                                <li><a href="/trainer/go-to-blitz-program?new_blitz={{ blitz.pk }}">{{ blitz }} / {{ blitz.begin_date|date:"F jS" }}</a></li>
+                                <li><a href="/trainer/go-to-blitz?new_blitz={{ blitz.pk }}">{{ blitz }} / {{ blitz.begin_date|date:"F jS" }}</a></li>
                             {% endfor %}
                         </ul>
                     </span>

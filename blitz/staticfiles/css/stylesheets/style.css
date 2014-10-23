@@ -4850,3 +4850,8 @@ body.modal-open {
 .formpage-block input .datepicker {
   width: 100%;
 }
+
+/* line 4019, ../sass/style.scss */
+.formpage-block .content textarea {
+  width: 100%;
+}
