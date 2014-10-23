@@ -96,7 +96,7 @@ def usage_digest(days=0):
         if timezone.normalize(user.last_login).date() >= startdate:
             login_users.append(user)
 
-    f = open('/etc/hosts')  # grab host and ip address
+    f = open('/etc/hosts', 'r')  # grab host and ip address
     lines = [line.strip() for line in f]
     f.close()
 

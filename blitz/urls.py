@@ -43,8 +43,6 @@ urlpatterns += patterns(
     url(r'^profile/c/(?P<pk>\d+)/progress$', 'base.views.client_profile_progress', name='client_profile_progress'),
     url(r'^profile/c/(?P<pk>\d+)/history$', 'base.views.client_profile_history', name='client_profile_history'),
     url(r'^profile/c/(?P<pk>\d+)/checkins$', 'base.views.client_profile_checkins', name='client_profile_checkins'),
-    url(r'^profile/c/(?P<pk>\d+)/notes$', 'base.views.client_profile_notes', name='client_profile_notes'),
-    url(r'^profile/t/(?P<pk>\d+)$', 'base.views.trainer_profile', name='trainer_profile'),
 
     url(r'^profile/c/(?P<pk>\d+)/set-macros', 'base.views.set_client_macros', name='set_client_macros'),
 
@@ -63,11 +61,11 @@ urlpatterns += patterns(
     url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
     url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
-# old programs urls
 #    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_old_blitz_program'),
-    url(r'^old_program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
-    url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
-    url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
+#    url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
+#    url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
+
+    url(r'^program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
 
     url(r'^dashboard$', 'base.views.trainer_dashboard', name='trainer_dashboard'),
 

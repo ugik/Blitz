@@ -8,13 +8,14 @@ Each T defines a unique top-level URL, eg. Blitz.us/jc-deen
 Sales Pages:
 Each S is either for 1:1 "individual" Client (C) or Group of Clients, we'll refer to these as Si and Sg
 Each Si has exactly one individual Blitz (Bi), it is copied onto each new C upon signup
+An individual Bi instance that is copied is called the 'provisional' Blitz
 Each Sg has (1-n) Group Blitz(es) (Bg), each Bg is shared by C's in the group
 Each S defines a trainer-unique 2nd-level URL, eg. Blitz.us/jc-deen/ripped
 
 Blitzes:
 Bi's are recurring monthly billing, continuously loop through their program weeks
 Bg's are one-time billing, start-end period, C's can only join prior to start date
-From Programs tab a T can create a new Bg, associated with a new or existing Sg
+From Pages tab a T can create a new (Bi, Bg)
 Before the (Bi, Bg) begins the T assigns a WP to it
 After a Bg ends, its data will be deleted, some of its artifacts may be lifted onto its Sg
 
@@ -22,6 +23,7 @@ WorkoutPlans:
 Each T develops (1-n) Workout Plans (WP) (created with spotters)
 A WP defines weekly/daily exercises for all C's on the B
 Each B has exactly one WP
+The WP for a Bi can be swapped so the [individual] client can change plan
 
 Clients:
 A Client (C) signs up via S, sign-up can be before a program is associated with a (Bi, Bg)

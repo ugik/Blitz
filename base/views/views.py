@@ -280,12 +280,19 @@ def client_setup(request, pk):
                                 'errors' : form.errors, 'workoutplans' : workoutplans}, 
                               RequestContext(request))
 
-
+# trainer's way of asking spotter to edit a program
+# url: /spotter_program_edit/(?P<pk>\d+)
 @login_required
 def spotter_program_edit(request, pk):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
     trainer = request.user.trainer
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
+
+    # if trainer has exactly 1 Blitz or trainer.currently_viewing_blitz is None then pick first Blitz
+    # this handles both cases where .currently_viewing_blitz is inoperable
     if len(trainer.blitz_set.all()) == 1 or not trainer.currently_viewing_blitz:
         blitz = trainer.blitz_set.all()[0]
     else:                                   
@@ -309,12 +316,16 @@ def spotter_program_edit(request, pk):
                               {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
                               RequestContext(request))
 
-
+# handle trainer uploading documents
+# url: /upload
 @login_required
 def upload_page(request):
-    trainer = request.user.trainer
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
-# deal with new trainer with pending documents
+    trainer = request.user.trainer
+    # deal with new trainer with pending documents
     numdocs = get_pending_documents('/documents', trainer.pk)
 
     if request.method == 'POST':
@@ -322,10 +333,6 @@ def upload_page(request):
         if form.is_valid() and form.is_multipart():
             save_file(request.FILES['document'], trainer.pk)
             return render_to_response('upload_done_page.html', 
-                              {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
-                              RequestContext(request))
-        else:
-            return render_to_response('upload_page.html', 
                               {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
                               RequestContext(request))
     else:
@@ -336,6 +343,7 @@ def upload_page(request):
                               RequestContext(request))
 
 
+# utility method for upload_page
 def save_file(file, pk_value=0, path='/documents/'):
     filename = file._get_name()
 
@@ -347,21 +355,17 @@ def save_file(file, pk_value=0, path='/documents/'):
     fd.close()
 
 
-@login_required
-def trainer_alerts_page(request):
-    trainer = request.user.trainer
-    return render(request, 'trainer_alert_page.html', {
-        'trainer': trainer,
-        'alerts': trainer.get_alerts(),
-    })
-
+# called by home(request)
 @login_required
 def client_home(request, **kwargs):
+    # check for incongruency
+    if request.user.is_trainer:
+        return redirect('home')
 
     client = request.user.client
 
     next_workout_date = next_workout = next_workout_today = None
-    if client.get_blitz().workout_plan:   # handle client on a provisional blitz (no workout_plan)
+    if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
         next_workout_date, next_workout = client.get_next_workout() 
         next_workout_today = next_workout_date == client.current_datetime().date()
 
@@ -369,16 +373,13 @@ def client_home(request, **kwargs):
     if request.session.get('show_intro') is True:
         request.session.pop('show_intro')
         show_intro = True
-#    if kwargs.get('show_intro') is True:
-#        show_intro = True
-#    if not client.has_completed_intro:
-#        show_intro = True
     if request.session.get('shown_intro') is True:
         request.session.pop('shown_intro')
 
     if request.method == 'POST':
         form = CommentForm(request.POST, request.FILES)
 
+        # save comment
         if form.is_valid() and form.is_multipart():
             new_content.create_new_parent_comment(request.user, 
                       form.cleaned_data['comment'], 
@@ -387,11 +388,12 @@ def client_home(request, **kwargs):
         else:
             form = CommentForm()
 
-# figure out if check-in time
+    # figure out if check-in time
     days_since_checkin = 0
     days_since_blitz = 0
+    # find our how many days since most recent checkin or (if no checkins) how old Blitz is
     if client.checkin_set.all():
-        days_since_checkin = client.checkin_set.all()[0].days_since_checkin()
+        days_since_checkin = client.checkin_set.all().order_by('-date_created')[0].days_since_checkin()
     elif client.get_blitz().workout_plan:
         days_since_blitz = client.get_blitz().days_since_begin()
 
@@ -407,29 +409,22 @@ def client_home(request, **kwargs):
         'missed_workouts': client.get_missed_workouts(),
         }, context_instance=RequestContext(request))
 
-@login_required
-def first_take(request):
-
-    return client_home(request, show_intro=True)
-
+# client profile
+# url: /profile
 @login_required()
 def my_profile(request):
     if request.user.is_trainer:
         pass
     else:
-        return my_client_profile(request)
+        client = request.user.client
+        return client_profile_history(request, client.pk)
 
-@login_required
-def my_client_profile(request):
-
-    client = request.user.client
-    return client_profile_history(request, client.pk)
-
-
+# url: /profile/c/(?P<pk>\d+)
 @login_required
 def client_profile(request, pk):
     return client_profile_history(request, pk)
 
+# url: /profile/c/(?P<pk>\d+)/progress
 @login_required()
 def client_profile_progress(request, pk):
 
@@ -446,6 +441,7 @@ def client_profile_progress(request, pk):
 
     return render(request, 'client_profile.html', context)
 
+# url: /profile/c/(?P<pk>\d+)/checkins
 @login_required()
 def client_profile_checkins(request, pk):
 
@@ -459,15 +455,17 @@ def client_profile_checkins(request, pk):
 
     return render(request, 'client_profile_checkins.html', context)
 
+# url: /profile/c/(?P<pk>\d+)/history
 @login_required()
 def client_profile_history(request, pk):
 
     client = get_object_or_404(Client, pk=int(pk) )
 
     if request.user.is_trainer:
-        client.units = "I" # assume Imperial units for trainers (until they have unit settings)
+        # assume Imperial units for trainers (until they have unit settings)
+        client.units = "I" 
     else:
-        client.units = request.user.client.units  # override units with viewer units
+        client.units = request.user.client.units
 
     gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
     session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions if gym_session.is_logged ]
@@ -483,31 +481,27 @@ def client_profile_history(request, pk):
 
     return render( request, 'client_profile_history.html', context )
 
-@login_required()
-def client_profile_notes(request, pk):
-
-    client = get_object_or_404(Client, pk=int(pk) )
-    gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
-    session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions ]
-
-    return render(request, 'client_profile_notes.html', {
-        'client': client,
-        'session_list': session_list,
-        })
-
+# trainer salespages
+# url: /salespage
 @login_required
 def my_salespages(request):
-    if request.user.is_trainer:
-        trainer = request.user.trainer
-        salespages = SalesPageContent.objects.filter(trainer=trainer)
-        # sales pages for trainer's Blitzes that are either provisional or not recurring
-        blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
-        return render(request, 'trainer_salespages.html', {
-            'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-            'SITE_URL' : domain(request) })
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
+    trainer = request.user.trainer
+    salespages = SalesPageContent.objects.filter(trainer=trainer)
+    # sales pages for trainer's Blitzes that are either provisional or not recurring
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    return render(request, 'trainer_salespages.html', {
+        'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+        'SITE_URL' : domain(request) })
+
+# trainer programs
+# url: /program
 @login_required
 def my_programs(request):
+
     if request.user.is_trainer:
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
         return render(request, 'trainer_programs.html', 
@@ -518,17 +512,21 @@ def my_programs(request):
         return render(request, 'blitz_program.html', {
             'blitz': blitz, 'client': request.user.client })
 
+# view a specific program
+# url: /view_program/(?P<pk>\d+)
 @login_required
 def view_program(request, pk):
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
     return render(request, 'trainer_view_program.html', 
        {'workout_plan': workoutplan })
 
+# utility function for switching Blitzes
 @login_required
 def my_blitz_program(request):
     blitz = request.user.blitz
     return blitz_program(request, blitz.pk)
 
+'''
 @login_required
 def blitz_program(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
@@ -539,24 +537,18 @@ def blitz_program(request, pk):
     else:
         return render(request, 'blitz_program.html', {
             'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
+'''
 
+# lists Blitz members
+# url: /program/members
 @login_required
 def my_blitz_members(request):
     blitz = request.user.blitz
-    return blitz_members(request, blitz.pk)
-
-@login_required
-def blitz_members(request, pk):
-    blitz = get_object_or_404(Blitz, pk=int(pk) )
     return render(request, 'blitz_members.html', {
         'blitz': blitz,
     })
 
-@login_required()
-def trainer_profile(request, pk):
-
-    pass
-
+# utility method
 def validate_set_from_post(postdata, workout_set):
     """
     Make sure POST can create a valid workout_set
@@ -614,9 +606,7 @@ def validate_set_from_post(postdata, workout_set):
     return False, item
 
 def save_set_to_session(gym_session, workout_set, item):
-    """
 
-    """
     if item['has_data'] is False:
         CompletedSet.objects.filter(gym_session=gym_session,
         workout_set=workout_set).delete()
@@ -942,6 +932,8 @@ def gym_session_unlike(request):
     }
     return JSONResponse(ret)
 
+# trainer registration
+# url: /register-trainer
 def trainer_signup(request):
 
     if request.method == "POST":
