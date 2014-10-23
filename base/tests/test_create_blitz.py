@@ -26,6 +26,7 @@ class TestCreateBlitz(unittest.TestCase):
         driver.find_element_by_css_selector("button.obtn.obtn-comment").click()
         driver.find_element_by_css_selector("img").click()
         driver.get(self.base_url + "/blitz-setup")
+        time.sleep(2)
         driver.find_element_by_id("id_title").clear()
         driver.find_element_by_id("id_title").send_keys("Mind & Body")
         driver.find_element_by_id("id_url_slug").clear()
@@ -47,6 +48,7 @@ class TestCreateBlitz(unittest.TestCase):
         driver.find_element_by_xpath("//button[@type='submit']").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        time.sleep(1)
         driver.find_element_by_link_text(u"Invite clients →").click()
         driver.find_element_by_xpath("//div[@id='header']/div/div/div/a[3]/span[2]").click()
         driver.find_element_by_link_text("Pages").click()
@@ -54,6 +56,7 @@ class TestCreateBlitz(unittest.TestCase):
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_link_text("http://127.0.0.1:8000/Mike/new").click()
         driver.back()
+        time.sleep(1)
         driver.find_element_by_link_text("http://127.0.0.1:8000/Mike/new/signup").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
@@ -71,6 +74,7 @@ class TestCreateBlitz(unittest.TestCase):
         driver.find_element_by_name("email").send_keys("jimmy@example.com")
         # ERROR: Caught exception [Error: Dom locators are not implemented yet!]
         driver.find_element_by_link_text(u"Continue →").click()
+        time.sleep(1)
         driver.find_element_by_link_text("Invite paid client").click()
         driver.find_element_by_name("name").clear()
         driver.find_element_by_name("name").send_keys("Jimmy McGee")
@@ -93,6 +97,7 @@ class TestCreateBlitz(unittest.TestCase):
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_link_text(u"Continue →").click()
+        time.sleep(1)
         driver.get(self.base_url + "/logout")
     
     def is_element_present(self, how, what):

@@ -18,6 +18,7 @@ class TestBasic(unittest.TestCase):
     def test_basic(self):
         driver = self.driver
         driver.get(self.base_url + "/login?standard")
+        time.sleep(2)
         driver.find_element_by_id("id_email").clear()
         driver.find_element_by_id("id_email").send_keys("mr@example.com")
         driver.find_element_by_id("id_password").clear()
@@ -31,6 +32,7 @@ class TestBasic(unittest.TestCase):
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_css_selector("img").click()
+        time.sleep(2)
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_css_selector("b.caret").click()
@@ -39,6 +41,7 @@ class TestBasic(unittest.TestCase):
         driver.find_element_by_link_text("Inbox").click()
         driver.find_element_by_css_selector("a.btn.btn-navbar").click()
         driver.find_element_by_link_text("Pages").click()
+        time.sleep(2)
         driver.find_element_by_css_selector("button.obtn.obtn-comment-grn").click()
         driver.back()
         driver.find_element_by_link_text("http://127.0.0.1:8000/Mike/3weeks").click()
@@ -47,6 +50,7 @@ class TestBasic(unittest.TestCase):
         driver.back()
         driver.find_element_by_link_text("http://127.0.0.1:8000/Mike/3weeks/signup").click()
         driver.back()
+        time.sleep(2)
         driver.find_element_by_css_selector("button.obtn.full-width").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
@@ -62,6 +66,7 @@ class TestBasic(unittest.TestCase):
         driver.back()
         driver.find_element_by_css_selector("a.btn.btn-navbar").click()
         driver.find_element_by_link_text("Programs").click()
+        time.sleep(2)
         driver.find_element_by_css_selector("button.obtn.obtn-comment-grn").click()
         driver.back()
         driver.find_element_by_css_selector("a.btn.btn-navbar").click()
@@ -74,6 +79,7 @@ class TestBasic(unittest.TestCase):
         driver.find_element_by_link_text("Check-ins").click()
         driver.find_element_by_link_text("History").click()
         driver.find_element_by_css_selector("img").click()
+        time.sleep(2)
         driver.find_element_by_xpath("//img[@alt='Tayshawn Prince']").click()
         driver.find_element_by_css_selector("img").click()
         driver.find_element_by_css_selector("a.btn.btn-navbar").click()
