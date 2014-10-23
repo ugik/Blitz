@@ -177,13 +177,98 @@
 	<td>Jimmy McGee</td>
 </tr>
 <tr>
+	<td>clickAndWait</td>
+	<td>document.forms['client-setup'].elements[8]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>This field is required</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=name</td>
+	<td>Jimmy McGee</td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>name=email</td>
 	<td>jimmy@example.com</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//button</td>
+	<td>document.forms['client-setup'].elements[8]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Continue →</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Invite paid client</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=name</td>
+	<td>Jimmy McGee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=email</td>
+	<td>jimmy@example.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=price</td>
+	<td>29.95</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>document.forms['client-setup'].elements[7]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>This email address is already invited.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=name</td>
+	<td>Vince Wilfork</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=email</td>
+	<td>vince@example.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=price</td>
+	<td>99.99</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=invite</td>
+	<td>Hey Vince,<br /><br />I've setup your program and we're ready to start on October 06, 2014. Just go to the following link to sign up: http://127.0.0.1:8000/client-signup?signup_key=TQLH5X<br /><br />Looking forward to tracking your progress and helping you get awesome results!<br /><br />Mike Rashid<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//div[@id='modal1']/div/div/div[2]/div/div/div/div[3]/form/button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>Awesome</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Continue →</td>
 	<td></td>
 </tr>
 <tr>

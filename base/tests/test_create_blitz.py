@@ -10,6 +10,7 @@ import unittest, time, re
 class TestCreateBlitz(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
+        self.driver.set_window_size(800, 1000)
         self.driver.implicitly_wait(30)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
@@ -61,9 +62,37 @@ class TestCreateBlitz(unittest.TestCase):
         driver.find_element_by_xpath("(//a[contains(text(),'Invite free client')])[3]").click()
         driver.find_element_by_name("name").clear()
         driver.find_element_by_name("name").send_keys("Jimmy McGee")
+        # ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_name("name").clear()
+        driver.find_element_by_name("name").send_keys("Jimmy McGee")
         driver.find_element_by_name("email").clear()
         driver.find_element_by_name("email").send_keys("jimmy@example.com")
-        driver.find_element_by_xpath("//button").click()
+        # ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+        driver.find_element_by_link_text(u"Continue →").click()
+        driver.find_element_by_link_text("Invite paid client").click()
+        driver.find_element_by_name("name").clear()
+        driver.find_element_by_name("name").send_keys("Jimmy McGee")
+        driver.find_element_by_name("email").clear()
+        driver.find_element_by_name("email").send_keys("jimmy@example.com")
+        driver.find_element_by_name("price").clear()
+        driver.find_element_by_name("price").send_keys("29.95")
+        # ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_name("name").clear()
+        driver.find_element_by_name("name").send_keys("Vince Wilfork")
+        driver.find_element_by_name("email").clear()
+        driver.find_element_by_name("email").send_keys("vince@example.com")
+        driver.find_element_by_name("price").clear()
+        driver.find_element_by_name("price").send_keys("99.99")
+        driver.find_element_by_name("invite").clear()
+        driver.find_element_by_name("invite").send_keys("Hey Vince,\n\nI've setup your program and we're ready to start on October 06, 2014. Just go to the following link to sign up: http://127.0.0.1:8000/client-signup?signup_key=TQLH5X\n\nLooking forward to tracking your progress and helping you get awesome results!\n\nMike Rashid")
+        driver.find_element_by_xpath("//div[@id='modal1']/div/div/div[2]/div/div/div/div[3]/form/button").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_link_text(u"Continue →").click()
         driver.get(self.base_url + "/logout")
     
     def is_element_present(self, how, what):

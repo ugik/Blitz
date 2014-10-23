@@ -2,10 +2,10 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.exceptions import ObjectDoesNotExist
-from base.models import Trainer, Blitz
 import datetime
 import re
 
+from base.models import Trainer, Blitz, BlitzInvitation
 from workouts.models import WorkoutPlan
 
 class LoginForm(forms.Form):
@@ -97,6 +97,8 @@ class NewClientForm(forms.Form):
         data = self.cleaned_data['email']
         if User.objects.filter(email=data).exists():
             raise forms.ValidationError("This email address is already registered.")
+        if BlitzInvitation.objects.filter(email=data).exists():
+            raise forms.ValidationError("This email address is already invited.")
         return data
 
 class BlitzSetupForm(forms.Form):

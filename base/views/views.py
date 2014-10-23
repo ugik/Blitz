@@ -225,6 +225,12 @@ def client_setup(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
 
     mode = "free" if 'free' in request.GET else None
+
+    # handle where modal returns to
+    url_return = None
+    if 'url_return' in request.GET:
+        url_return = request.GET.get('url_return')
+
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
     if request.method == 'POST':
@@ -232,8 +238,6 @@ def client_setup(request, pk):
         invite = request.POST.get('invite')
         signup_key = request.POST.get('signup_key')
         invite_url = request.POST.get('invite_url')
-
-#        import pdb; pdb.set_trace()
 
         if form.is_valid():
             invitation = BlitzInvitation.objects.create(
@@ -260,7 +264,8 @@ def client_setup(request, pk):
             return render_to_response('client_setup_modal.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'blitz' : blitz,
                                'mode' : mode, 'signup_key' : signup_key, 'workoutplans' : workoutplans,
-                               'invite_url' : invite_url, 'errors' : form.errors}, 
+                               'invite_url' : invite_url, 'url_return' : url_return, 
+                               'errors' : form.errors}, 
                               RequestContext(request))
     else:
         form = NewClientForm()
@@ -279,7 +284,8 @@ def client_setup(request, pk):
         return render_to_response('client_setup_modal.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
                                 'signup_key' : signup_key, 'invite_url' : invite_url, 'blitz' : blitz,
-                                'errors' : form.errors, 'workoutplans' : workoutplans}, 
+                                'errors' : form.errors, 'workoutplans' : workoutplans,
+                                'url_return' : url_return}, 
                               RequestContext(request))
 
 # trainer's way of asking spotter to edit a program
