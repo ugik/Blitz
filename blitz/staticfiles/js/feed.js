@@ -1,6 +1,5 @@
 
 $(document).ready(function() {
-
     // expanding textareas
     $(document).on('DOMSubtreeModified', function() {
         $('.add-child-comment-container textarea').expandingTextarea();

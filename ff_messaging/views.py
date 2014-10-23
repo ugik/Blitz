@@ -52,7 +52,7 @@ def new_message(request):
         message = create_new_message(thread, request.user, form.cleaned_data['message_content'])
         return redirect('user_thread', urlkey=thread.urlkey)
     else:
-        raise Exception("Error 1913384")
+        return redirect('/inbox')
 
 @login_required()
 def user_thread(request, urlkey):

@@ -55,18 +55,19 @@
 
 </div>
 
-{% include "main_feed.html" %}
-
+{% if user.blitz %}{% include "main_feed.html" %}{% endif %}
 
 </div>
 <div class="span4">
 
+  {% if user.blitz %}
     {% with user.blitz.members as members %}
         {% include "members.html" %}
     {% endwith %}
+  {% endif %}
 
 <!-- TODO: need some IF clause that disables adding clients at some stage of the blitz  -->
-{% if "provisional" not in trainer.get_blitz.url_slug and not trainer.get_blitz.recurring %}
+{% if trainer.get_blitz and not trainer.get_blitz.provisional and not trainer.get_blitz.recurring %}
     <div class="btn-group">
       <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="width:300px">
         Add Clients to Group Blitz <span class="caret"></span>

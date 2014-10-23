@@ -99,16 +99,20 @@
                 <div class="blitz-title">{{ blitz }}</div>
                 <br />
                 <div class="info-block">
+                    {% if not blitz.recurring %}
                     <div class="title">Schedule</div>
                     <div class="content">
                         Starts: {{ blitz.begin_date }} <br>
                         {% if blitz.begin_date != blitz.end_date %}
                         Ends: {{ blitz.end_date }} {% endif %}
                     </div>
+                    {% endif %}
                 </div>
                 <br />
                 <div class="blitz-cost">
-                 <div class="title">Cost</div>
+
+                 <div class="title">Cost {% if blitz.recurring %}/Month{% endif %}</div>
+
                     <div class="cost">
                     {% if invitation and invitation.price > 0 %}${{ invitation.price }}
                     {% else %}${{ blitz.price }}{% endif %}

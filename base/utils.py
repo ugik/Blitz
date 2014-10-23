@@ -24,6 +24,12 @@ def test_mail():
     msg.send()
     return True
 
+def try_float(string, fail=None):
+    try:
+        return float(string)
+    except Exception:
+        return fail;
+
 def get_character_for_user(user):
     """
     Return a (user_type, obj) tuple for a user
@@ -87,7 +93,7 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     content.save()
     return content
 
-def add_client_to_blitz(blitz, client, workoutplan=None, price=None):
+def add_client_to_blitz(blitz, client, workoutplan=None, price=0):
     """
     Assuming we'll want to attach more info to plan joining
     """
@@ -96,10 +102,10 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=None):
         blitz.pk = None
         blitz.provisional = False
         blitz.recurring = True
-        blitz.title = "individual: %s" % client.name
+        blitz.title = "individual:%s blitz:%s" % (client.name, blitz.url_slug)
         blitz.workout_plan = workoutplan
         blitz.price = price
-        blitz.url_slug = str(client.pk)
+        blitz.url_slug = ''
         blitz.save()
 
     membership = BlitzMember.objects.create(blitz=blitz, client=client)

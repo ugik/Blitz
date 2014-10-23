@@ -13,7 +13,7 @@ SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
 
 # email wrapper, note parameters: images[] context{}
-def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=True):  
+def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, silent=True):  
 
     if len(images) == 0:
         images = ['emailheader.png']
@@ -25,11 +25,13 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     html_content = render_to_string(html_template, context)
     text_content = render_to_string(text_template, context)
     if override:  # OVERRIDE EMAIL_TO
-        to_email = 'chris@therealchrisyork.com'
+        to_email = override
     if isinstance(to_email, list):
-        msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+        msg = EmailMultiAlternatives(subject, text_content, 
+                                     from_email, to_email, bcc=[from_email])
     else:
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+        msg = EmailMultiAlternatives(subject, text_content, 
+                                     from_email, [to_email], bcc=[from_email])
 
     msg.attach_alternative(html_content, "text/html")
     msg.mixed_subtype = 'related'
@@ -41,7 +43,7 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
         msg_img.add_header('Content-ID', '<{}>'.format(f))
         msg.attach(msg_img)
 
-    msg.send()
+    msg.send(fail_silently=silent)
 
 
 def new_child_comment(user, commenter, comment):
@@ -159,12 +161,12 @@ def email_tests():
     trainer = Trainer.objects.get(pk=1)
     message = Message.objects.get(pk=1)
     comment = Comment.objects.get(pk=1)
-    email_spotter_program_edit(1, 'spotter email test')
+    client_invite(trainer, 'georgek@gmail.com', 'program')
+    signup_confirmation(client)
     message_received(user, message)
     forgot_password(user)
-    client_invite(trainer, 'gk@blitz.us', 'program')
-    signup_confirmation(client)
     gym_session_comment(user, user, comment)
     new_child_comment(user, user, comment)
+    email_spotter_program_edit(1, 'spotter email test')
 
 

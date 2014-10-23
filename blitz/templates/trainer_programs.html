@@ -31,8 +31,9 @@
 
         </div>
         <div class="span8" style="float: none; margin: 0 auto;">
-         Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.<br><br>
         {% if workoutplans %}
+
+         Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.<br><br>
            {% for plan in workoutplans %}
               <div class="well contentwell">
                  <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="icon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} weeks long </div></div>
@@ -61,6 +62,8 @@
                  </tr></table>
               </div>
            {% endfor %}
+        {% else %}
+         Once you'll uploaded and setup some programs, we'll show them here.<br><br>
         {% endif %}
         </div>
     </div>

@@ -65,7 +65,7 @@ def client_morning_notifications():
             } )
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
-@periodic_task(run_every=crontab(hour="*/23", minute="3", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="1", minute="3", day_of_week="*"))  
 def usage_digest(days=0):
     from django.core.mail import EmailMultiAlternatives
     from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
@@ -96,21 +96,23 @@ def usage_digest(days=0):
         if timezone.normalize(user.last_login).date() >= startdate:
             login_users.append(user)
 
+    f = open('/etc/hosts', 'r')  # grab host and ip address
+    lines = [line.strip() for line in f]
+    f.close()
+
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
-    context = {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR}
-    to_mail = ['georgek@gmail.com', 'chris@therealchrisyork.com']
+    context = {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members,     
+               'MRR':MRR, 'hosts':lines[0]}
+    to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
-    images = ['logo-bp2.png','footer.png']
-    dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/'),
-            os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
-    send_email(from_mail, to_mail, subject, template_text, template_html, context, images, dirs )
+
+    send_email(from_mail, to_mail, subject, template_text, template_html, context)
 
 
 @periodic_task(run_every=crontab(hour="1", minute="1", day_of_week="*"))  
 def process_payments():
-    email_test()
     pass
 # for each client with recurring chargesettings: process recurring charge, handle errors
 

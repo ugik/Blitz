@@ -71,9 +71,17 @@ week of 10.13
 - helper authorization
 - trainer programs page
 - rework 404, 500 page rendering
+- trainer programs page
+- HTML emails
+- trainer salespages page
+- new client invite path w/price+workoutplan options
+- EC2update refinements
 
-
-
+week of 10.20
+- eat dogfood setup
+- selenium unittests
+- fix new trainer path (no active blitz)
+- views.py code-review and bug-fixing
 
 
 

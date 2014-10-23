@@ -64,3 +64,4 @@ def create_new_message(thread, sender, message_content):
     thread.save()
     for user in thread.users.exclude(pk=sender.pk):
         emails.message_received(user, message)
+

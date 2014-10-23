@@ -46,18 +46,40 @@ class Command(BaseCommand):
                 settings.DATA_DIR + '/mikerashid/plan.csv',)
 
         blitz = Blitz
+
         try:
-            blitz = Blitz.objects.get(url_slug='mike')
+            blitz = Blitz.objects.get(url_slug='3weeks')
         except Blitz.DoesNotExist:
-            content = create_salespagecontent("Heavy 1:1", mikerashid)
+            content = create_salespagecontent("3 Week Rashid Plan", mikerashid)
             blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
-                title="Make it HEAVY 1:1 Training", begin_date=blitz_start_date, url_slug="mike")
+                title="3 Week 1:1 Rashid Plan", begin_date=blitz_start_date, url_slug="3weeks")
             blitz.provisional = True
+            blitz.recurring = True
             blitz.sales_page_content = content
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
-            blitz.price = 1
+            blitz.price = 50
             blitz.save()
+
+        invite = BlitzInvitation.objects.create(blitz=blitz, email='vince@example.com', 
+                     name='Vince Wilfork', signup_key='TEST1', price=99)
+
+        try:
+            blitz = Blitz.objects.get(url_slug='mike')
+        except Blitz.DoesNotExist:
+            content = create_salespagecontent("Heavy", mikerashid)
+            blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
+                title="Make it HEAVY Training", begin_date=blitz_start_date, url_slug="mike")
+            blitz.provisional = False
+            blitz.recurring = False
+            blitz.sales_page_content = content
+            blitz.uses_macros = True
+            blitz.macro_strategy = 'M'
+            blitz.price = 100
+            blitz.save()
+
+        invite = BlitzInvitation.objects.create(blitz=blitz, email='jimmy@example.com', 
+                     name='Jimmy McGee', signup_key='TEST2', free=True)
 
         luke = Client
         try:
@@ -69,12 +91,11 @@ class Command(BaseCommand):
 
         tay = Client
         try:
-            tay = Client.objects.get(name='Tayshawn Prince')
+            tay = Client.objects.get(name='Tayshaun Prince')
         except Client.DoesNotExist:
-            tay = create_client("Tayshawn Prince", "tay@example.com", "asdf", 35, 200, 6, 9, 'M')
+            tay = create_client("Tayshaun Prince", "tay@example.com", "asdf", 35, 200, 6, 9, 'M')
             tay.headshot_from_image(settings.TEST_MEDIA_DIR + '/tayshaun_prince.png')
             add_client_to_blitz(blitz, tay)
-
 
         clients = [luke, tay]
 

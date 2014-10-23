@@ -18,9 +18,9 @@ from spotter.urls import *
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent
+from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
-from base.emails import client_invite, email_spotter_program_edit
+from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
 from workouts.models import WorkoutPlan
@@ -53,6 +53,16 @@ def terms_of_use(request):
     content = render_to_string('termsofuse.html')
     return render(request, 'legal_page.html', {'legal_content': content})
 
+# return domain of request to avoid using settings.SITE_URL
+def domain(request):
+    uri = request.build_absolute_uri()   # get full uri
+    uri = uri[uri.index('//')+2:]        # remove the http://
+    uri = uri[0:uri.index('/')]          # get domain
+    return 'http://%s' % uri
+
+# lists all clients for staff or trainer
+# url: /allclients
+@login_required
 def all_clients(request):
     if request.user.is_staff:
         clients = Client.objects.all()
@@ -65,40 +75,24 @@ def all_clients(request):
 
     return render(request, 'all_clients.html', {'clients': clients})
 
-def register(request):
-    return render(request, 'register.html')
-
+# url: /
 def home(request):
-
     if request.user.is_authenticated():
-
-        try:
-            trainer = request.user.trainer
-            return trainer_home(request)
-        except ObjectDoesNotExist:
-            pass
-
-        try:
-            client = request.user.client
-            return client_home(request)
-        except ObjectDoesNotExist:
-            pass
-
         # handle spotter type users, see spotter app for details
         if request.user._wrapped.username == 'spotter':
-#             return spotter_index(request)
             return redirect('spotter_index')
 
+        if request.user.is_trainer:
+            return trainer_home(request)
+        else:
+            return client_home(request)
+
+    else:
         raise Exception("Invalid user")
 
     return redirect('login_view')
-    #return landing(request)
 
-def landing(request):
-    return render(request, 'landing.html', {
-    })
-
-
+# get trainer pending documents given a path from usermedia
 def get_pending_documents(path, trainer_pk):
     path = settings.MEDIA_ROOT + path
     doclist = os.listdir(path)
@@ -108,20 +102,26 @@ def get_pending_documents(path, trainer_pk):
             numdocs += 1
     return numdocs
 
+# trainer home
 @login_required
 def trainer_home(request):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
-# deal with new trainer with pending documents
+    # deal with new trainer with pending documents
     trainer = request.user.trainer
     numdocs = get_pending_documents('/documents', trainer.pk)
 
-# deal with new trainer without blitz but with new program setup
+    # deal with new trainer without blitz but with new program setup
     new_programs = WorkoutPlan.objects.filter(trainer=trainer.pk)
-    new_program_name = None
     if new_programs:
         new_program_name = new_programs[0].name
+    else:
+        new_program_name = None
 
     if request.method == 'POST':
+        # post of feed comment and/or picture
         form = CommentForm(request.POST, request.FILES)
 
         if form.is_valid() and form.is_multipart():
@@ -129,8 +129,6 @@ def trainer_home(request):
                       form.cleaned_data['comment'], 
                       timezone_now(),
                       form.cleaned_data['picture'])
-        else:
-            form = CommentForm()
 
     return render(request, 'trainer_home.html', {
         'trainer' : trainer,
@@ -141,8 +139,12 @@ def trainer_home(request):
     })
 
 
+# url: /blitz-setup
 @login_required
 def blitz_setup(request):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
     trainer = request.user.trainer
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
@@ -150,6 +152,7 @@ def blitz_setup(request):
         form = BlitzSetupForm(request.POST, trainer=trainer)
         errors = []
 
+        # resolve title
         if 'title' in form.data:
             title = form.data['title']
             if len(title)<5:
@@ -158,16 +161,16 @@ def blitz_setup(request):
             errors.append("No title")
 
         charge = form.data['charge']
+
         start = form.data['start_day']
-
         try:
-            datetime.datetime.strptime(start, '%Y-%m-%d')
+            datetime.datetime.strptime(start, '%m/%d/%Y')
         except ValueError:
-            errors.append("Incorrect DATE format, should be YYYY-MM-DD")
-        if not charge.isdigit():
-            errors.append("CHARGE $ must be number")
+            errors.append("Incorrect DATE format, should be mm/dd/yy format")
 
-#        import pdb; pdb.set_trace()
+        if not try_float(charge):
+            errors.append("CHARGE $ must be a value")
+
         if not errors and form.is_valid():
             if 'program' in form.data:
                 program = form.data['program']
@@ -178,9 +181,10 @@ def blitz_setup(request):
             content = create_salespagecontent(form.data['title'], trainer, key=None, title=None)
 
             if not plan: # blitz w/workoutplan pending
-                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%Y-%m-%d'))
+                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'))
             else:  # blitz w/workoutplan selected
-                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%Y-%m-%d'), workout_plan = plan[0])
+                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'), workout_plan = plan[0])
+
             blitz.title = form.data['title']
             blitz.sales_page_content = content
             blitz.url_slug = form.data['url_slug']
@@ -196,7 +200,6 @@ def blitz_setup(request):
                               RequestContext(request))
         else:
 
-# TODO make sure start_day value shows up in form
             return render_to_response('blitz_setup.html', 
                               {'form': form, 'trainer' : trainer, 'errors' : errors,
                                'programs' : programs}, 
@@ -209,9 +212,14 @@ def blitz_setup(request):
                               {'form': form, 'trainer' : trainer, 'programs' : programs}, 
                               RequestContext(request))
 
-
+# client setup for a Blitz, ?free option
+# url: /client-setup/(?P<pk>\d+)
 @login_required
 def client_setup(request, pk):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
+
     trainer = request.user.trainer
 
     blitz = get_object_or_404(Blitz, pk=int(pk) )
@@ -228,7 +236,6 @@ def client_setup(request, pk):
 #        import pdb; pdb.set_trace()
 
         if form.is_valid():
-
             invitation = BlitzInvitation.objects.create(
                 blitz_id =  blitz.id, email = form.cleaned_data['email'], 
                 name = form.cleaned_data['name'], signup_key = signup_key)
@@ -238,18 +245,19 @@ def client_setup(request, pk):
             # override Blitz price and workoutplan if invitation specifies either
             if 'price' in form.cleaned_data and form.cleaned_data['price']:
                 invitation.price = form.cleaned_data['price']
-                invitation.save()
-
             if 'workoutplan_id' in form.cleaned_data and form.cleaned_data['workoutplan_id']:
                 workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
                 invitation.workout_plan = workoutplan
-                invitation.save()
-    
-            client_invite(trainer, form.cleaned_data['email'], invite_url)
 
-            return redirect('my_salespages')
+            invitation.save()
+            client_invite(trainer, [form.cleaned_data['email']], invite_url)
+
+            return render_to_response('client_setup_done.html', 
+                              {'form': form, 'trainer' : trainer}, 
+                              RequestContext(request))
+
         else:
-            return render_to_response('client_setup_modal.html', 
+            return render_to_response('client_setup.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'blitz' : blitz,
                                'mode' : mode, 'signup_key' : signup_key, 'workoutplans' : workoutplans,
                                'invite_url' : invite_url, 'errors' : form.errors}, 
@@ -258,16 +266,14 @@ def client_setup(request, pk):
         form = NewClientForm()
         signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
 
-        uri = request.build_absolute_uri()   # get full uri
-        uri = uri[uri.index('//')+2:]        # remove the http://
-        uri = uri[0:uri.index('/')]          # get domain
+        uri = domain(request)
 
         if mode == 'free':
             invite = "Hey,\n\nI've setup your program and we're ready to start on %s. This is a one-time *FREE* pass just for you! \n Just go to the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
             invite_url = uri+'/client-signup?signup_key='+signup_key
         else:
-            invite = "Hey,\n\nI've setup your program and we're ready to start on %s. Just click on the following link to sign up: %s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/'+trainer.short_name+'/'+blitz.url_slug, trainer.name)
-            invite_url = uri+'/sales-blitz?slug='+blitz.url_slug
+            invite = "Hey,\n\nI've setup your program and we're ready to start on %s. Just go to the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
+            invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
 
         return render_to_response('client_setup_modal.html', 
@@ -276,12 +282,19 @@ def client_setup(request, pk):
                                 'errors' : form.errors, 'workoutplans' : workoutplans}, 
                               RequestContext(request))
 
-
+# trainer's way of asking spotter to edit a program
+# url: /spotter_program_edit/(?P<pk>\d+)
 @login_required
 def spotter_program_edit(request, pk):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
     trainer = request.user.trainer
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
+
+    # if trainer has exactly 1 Blitz or trainer.currently_viewing_blitz is None then pick first Blitz
+    # this handles both cases where .currently_viewing_blitz is inoperable
     if len(trainer.blitz_set.all()) == 1 or not trainer.currently_viewing_blitz:
         blitz = trainer.blitz_set.all()[0]
     else:                                   
@@ -305,12 +318,16 @@ def spotter_program_edit(request, pk):
                               {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
                               RequestContext(request))
 
-
+# handle trainer uploading documents
+# url: /upload
 @login_required
 def upload_page(request):
-    trainer = request.user.trainer
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
-# deal with new trainer with pending documents
+    trainer = request.user.trainer
+    # deal with new trainer with pending documents
     numdocs = get_pending_documents('/documents', trainer.pk)
 
     if request.method == 'POST':
@@ -318,10 +335,6 @@ def upload_page(request):
         if form.is_valid() and form.is_multipart():
             save_file(request.FILES['document'], trainer.pk)
             return render_to_response('upload_done_page.html', 
-                              {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
-                              RequestContext(request))
-        else:
-            return render_to_response('upload_page.html', 
                               {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
                               RequestContext(request))
     else:
@@ -332,6 +345,7 @@ def upload_page(request):
                               RequestContext(request))
 
 
+# utility method for upload_page
 def save_file(file, pk_value=0, path='/documents/'):
     filename = file._get_name()
 
@@ -343,21 +357,17 @@ def save_file(file, pk_value=0, path='/documents/'):
     fd.close()
 
 
-@login_required
-def trainer_alerts_page(request):
-    trainer = request.user.trainer
-    return render(request, 'trainer_alert_page.html', {
-        'trainer': trainer,
-        'alerts': trainer.get_alerts(),
-    })
-
+# called by home(request)
 @login_required
 def client_home(request, **kwargs):
+    # check for incongruency
+    if request.user.is_trainer:
+        return redirect('home')
 
     client = request.user.client
 
     next_workout_date = next_workout = next_workout_today = None
-    if client.get_blitz().workout_plan:   # handle client on a provisional blitz (no workout_plan)
+    if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
         next_workout_date, next_workout = client.get_next_workout() 
         next_workout_today = next_workout_date == client.current_datetime().date()
 
@@ -365,16 +375,13 @@ def client_home(request, **kwargs):
     if request.session.get('show_intro') is True:
         request.session.pop('show_intro')
         show_intro = True
-#    if kwargs.get('show_intro') is True:
-#        show_intro = True
-#    if not client.has_completed_intro:
-#        show_intro = True
     if request.session.get('shown_intro') is True:
         request.session.pop('shown_intro')
 
     if request.method == 'POST':
         form = CommentForm(request.POST, request.FILES)
 
+        # save comment
         if form.is_valid() and form.is_multipart():
             new_content.create_new_parent_comment(request.user, 
                       form.cleaned_data['comment'], 
@@ -383,11 +390,12 @@ def client_home(request, **kwargs):
         else:
             form = CommentForm()
 
-# figure out if check-in time
+    # figure out if check-in time
     days_since_checkin = 0
     days_since_blitz = 0
+    # find our how many days since most recent checkin or (if no checkins) how old Blitz is
     if client.checkin_set.all():
-        days_since_checkin = client.checkin_set.all()[0].days_since_checkin()
+        days_since_checkin = client.checkin_set.all().order_by('-date_created')[0].days_since_checkin()
     elif client.get_blitz().workout_plan:
         days_since_blitz = client.get_blitz().days_since_begin()
 
@@ -403,29 +411,22 @@ def client_home(request, **kwargs):
         'missed_workouts': client.get_missed_workouts(),
         }, context_instance=RequestContext(request))
 
-@login_required
-def first_take(request):
-
-    return client_home(request, show_intro=True)
-
+# client profile
+# url: /profile
 @login_required()
 def my_profile(request):
     if request.user.is_trainer:
         pass
     else:
-        return my_client_profile(request)
+        client = request.user.client
+        return client_profile_history(request, client.pk)
 
-@login_required
-def my_client_profile(request):
-
-    client = request.user.client
-    return client_profile_history(request, client.pk)
-
-
+# url: /profile/c/(?P<pk>\d+)
 @login_required
 def client_profile(request, pk):
     return client_profile_history(request, pk)
 
+# url: /profile/c/(?P<pk>\d+)/progress
 @login_required()
 def client_profile_progress(request, pk):
 
@@ -442,6 +443,7 @@ def client_profile_progress(request, pk):
 
     return render(request, 'client_profile.html', context)
 
+# url: /profile/c/(?P<pk>\d+)/checkins
 @login_required()
 def client_profile_checkins(request, pk):
 
@@ -455,15 +457,17 @@ def client_profile_checkins(request, pk):
 
     return render(request, 'client_profile_checkins.html', context)
 
+# url: /profile/c/(?P<pk>\d+)/history
 @login_required()
 def client_profile_history(request, pk):
 
     client = get_object_or_404(Client, pk=int(pk) )
 
     if request.user.is_trainer:
-        client.units = "I" # assume Imperial units for trainers (until they have unit settings)
+        # assume Imperial units for trainers (until they have unit settings)
+        client.units = "I" 
     else:
-        client.units = request.user.client.units  # override units with viewer units
+        client.units = request.user.client.units
 
     gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
     session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions if gym_session.is_logged ]
@@ -479,52 +483,52 @@ def client_profile_history(request, pk):
 
     return render( request, 'client_profile_history.html', context )
 
-@login_required()
-def client_profile_notes(request, pk):
-
-    client = get_object_or_404(Client, pk=int(pk) )
-    gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
-    session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions ]
-
-    return render(request, 'client_profile_notes.html', {
-        'client': client,
-        'session_list': session_list,
-        })
-
+# trainer salespages
+# url: /salespage
 @login_required
 def my_salespages(request):
-    if request.user.is_trainer:
-        trainer = request.user.trainer
-        salespages = SalesPageContent.objects.filter(trainer=trainer)
-        # sales pages for trainer's Blitzes that are either provisional or not recurring
-        blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
-        return render(request, 'trainer_salespages.html', {
-            'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-            'SITE_URL' : settings.SITE_URL })
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
+    trainer = request.user.trainer
+    salespages = SalesPageContent.objects.filter(trainer=trainer)
+    # sales pages for trainer's Blitzes that are either provisional or not recurring
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    return render(request, 'trainer_salespages.html', {
+        'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+        'SITE_URL' : domain(request) })
+
+# trainer programs
+# url: /program
 @login_required
 def my_programs(request):
-    request_blitz = request.user.blitz
-    blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
+
     if request.user.is_trainer:
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
         return render(request, 'trainer_programs.html', 
            {'trainer': request.user.trainer, 'workoutplans' : workoutplans })
     else:
+        request_blitz = request.user.blitz
+        blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
         return render(request, 'blitz_program.html', {
             'blitz': blitz, 'client': request.user.client })
 
+# view a specific program
+# url: /view_program/(?P<pk>\d+)
 @login_required
 def view_program(request, pk):
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
     return render(request, 'trainer_view_program.html', 
        {'workout_plan': workoutplan })
 
+# utility function for switching Blitzes
 @login_required
 def my_blitz_program(request):
     blitz = request.user.blitz
     return blitz_program(request, blitz.pk)
 
+'''
 @login_required
 def blitz_program(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
@@ -535,24 +539,18 @@ def blitz_program(request, pk):
     else:
         return render(request, 'blitz_program.html', {
             'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
+'''
 
+# lists Blitz members
+# url: /program/members
 @login_required
 def my_blitz_members(request):
     blitz = request.user.blitz
-    return blitz_members(request, blitz.pk)
-
-@login_required
-def blitz_members(request, pk):
-    blitz = get_object_or_404(Blitz, pk=int(pk) )
     return render(request, 'blitz_members.html', {
         'blitz': blitz,
     })
 
-@login_required()
-def trainer_profile(request, pk):
-
-    pass
-
+# utility method
 def validate_set_from_post(postdata, workout_set):
     """
     Make sure POST can create a valid workout_set
@@ -610,9 +608,7 @@ def validate_set_from_post(postdata, workout_set):
     return False, item
 
 def save_set_to_session(gym_session, workout_set, item):
-    """
 
-    """
     if item['has_data'] is False:
         CompletedSet.objects.filter(gym_session=gym_session,
         workout_set=workout_set).delete()
@@ -938,10 +934,11 @@ def gym_session_unlike(request):
     }
     return JSONResponse(ret)
 
+# trainer registration
+# url: /register-trainer
 def trainer_signup(request):
 
     if request.method == "POST":
-
         form = NewTrainerForm(request.POST)
         if form.is_valid():
             # utils.create_trainer creates Trainer and corresponding User
@@ -953,12 +950,9 @@ def trainer_signup(request):
                 form.cleaned_data['short_name']
             )
             # create initial SalesPageContent for initial Blitz
-            if trainer.name[-1] != 's':
-                name = trainer.name+"'s"
-            else:
-                name = trainer.name+"'"
+            name = trainer.name+"'s" if trainer.name[-1] != 's' else trainer.name+"'"
 
-            content = create_salespagecontent("%s Page" % name, trainer)
+            content = create_salespagecontent("%s" % name, trainer)
 
             # create initial 1:1 (recurring, provisional) Blitz for the new Trainer
             blitz = Blitz.objects.create(trainer = trainer,
@@ -968,7 +962,6 @@ def trainer_signup(request):
             blitz.url_slug = trainer.short_name
             blitz.price = 0
             blitz.save()
-
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
@@ -986,11 +979,13 @@ def trainer_signup(request):
 
     return render(request, 'trainer_register.html', args)
 
-
+# client signup
+# url: /client-signup ?signup_key
 def client_signup(request):
 
     invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
 
+    # if invitation is not free redirect to pay-wall signup page
     if not invitation.free:
         blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
         return redirect("/%s/%s/signup?signup_key=%s" % (blitz.trainer.short_name, blitz.url_slug, request.GET.get('signup_key')))
@@ -1004,10 +999,14 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
+            # add new client to Blitz
+            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
+            # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
                        trainer=invitation.blitz.trainer, text="New client registration.",
                        client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
+            # login client
             u = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
@@ -1021,6 +1020,8 @@ def client_signup(request):
         'form': form,
     })
 
+# gather data from new client
+# url: /intro-data-1
 @login_required
 @csrf_exempt
 def set_intro_1(request):
@@ -1072,10 +1073,12 @@ def new_child_comment(request):
     return JSONResponse(ret)
 
 # No login required for sales pages
-# /{slug} sales page (initial blitz url_slug is same as trainer short_name)
+# url: /(?P<short_name>[a-zA-Z0-9_.-]+)
+# (initial blitz url_slug is same as trainer short_name)
 def default_blitz_page(request, short_name):
     return blitz_page(request, short_name, short_name)
 
+# url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
     trainer = Trainer.objects.filter(short_name__iexact=short_name)
@@ -1095,6 +1098,8 @@ def blitz_page(request, short_name, url_slug):
         return redirect('home')
 
 # No login required for sales pages
+# this is the edit mode for a sales page, debug turns on editing, key prevents others from editing
+# url: /sales-blitz ?slug= &debug= & key=
 def sales_blitz(request):
 
     debug_mode = False
@@ -1145,6 +1150,10 @@ def sales_blitz(request):
             if form.cleaned_data['picture']:
                 blitz.sales_page_content.trainer_headshot = form.cleaned_data['picture']
 
+                if not trainer.headshot:
+                    trainer.headshot = form.cleaned_data['picture']
+                    trainer.save()
+
         blitz.sales_page_content.save()
         blitz.save()
 
@@ -1152,6 +1161,7 @@ def sales_blitz(request):
         'blitz' : blitz, 'trainer' : blitz.trainer, 'sales_page': sales_page, 'debug_mode' : debug_mode
     })
 
+# old sales page views
 def sales_page(request, plan_slug):
 
     blitz = get_object_or_404(Blitz, url_slug=plan_slug)
@@ -1171,11 +1181,15 @@ def sales_page_2(request, urlkey):
         'sales_content': blitz.sales_page_content,
     })
 
+# Blitz signup page
+# url: /(?P<short_name>[a-zA-Z0-9_.-]+)/signup
 def default_blitz_signup(request, short_name):
     return blitz_signup(request, short_name, short_name)
 
+# url: /(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)/signup
 def blitz_signup(request, short_name, url_slug):
 
+    # signup_key points to invitation record, if applicable
     if 'signup_key' in request.GET:
         invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
     else:
@@ -1191,6 +1205,7 @@ def blitz_signup(request, short_name, url_slug):
         'next_url': next_url,
     })
 
+# completion of Blitz signup
 def blitz_signup_done(request):
 
     blitz = get_object_or_404(Blitz, pk=request.GET.get('pk'))
@@ -1199,6 +1214,7 @@ def blitz_signup_done(request):
         'blitz': blitz,
     })
 
+# utility method for creation of account
 @csrf_exempt
 def create_account_hook(request, pk):
 
@@ -1224,6 +1240,7 @@ def create_account_hook(request, pk):
 
     return JSONResponse(ret)
 
+# utility method for creation of payment
 @csrf_exempt
 def payment_hook(request, pk):
 
@@ -1236,23 +1253,31 @@ def payment_hook(request, pk):
         # process payment w/balanced 1.1 API
         import balanced
 
+        # find invitation record if applicable
         if 'invitation' in request.GET:
-            invitation = get_object_or_404(Invitation, pk=request.GET.get('pk'))
+            invitation = get_object_or_404(BlitzInvitation, pk=request.GET.get('invitation'))
         else:
             invitation = None
-
-#        import pdb; pdb.set_trace()    
         
         marketplace = balanced.Marketplace.query.one()
-        try:
-            card = balanced.Card.fetch(form.cleaned_data['card_uri'])
-            # charge card
-            if invitation:
-                debit_amount_str = "%d00" % invitation.price
-            else:
-                debit_amount_str = "%d00" % blitz.price
 
-            card.debit(appears_on_statement_as = 'Blitz.us payment',
+        try:
+            # fetch the card on file
+            card = balanced.Card.fetch(form.cleaned_data['card_uri'])
+
+            # validate CVV
+            if card.cvv_match in ['no','unsupported']:
+                has_error = True
+                error = "Invalid CVV code. Please try another card. "
+            else:
+                # charge card
+                # invitation may have a custom price
+                if invitation:
+                    debit_amount_str = "%d00" % invitation.price
+                else:
+                    debit_amount_str = "%d00" % blitz.price
+
+                card.debit(appears_on_statement_as = 'Blitz.us payment',
                        amount = debit_amount_str,
                        description='Blitz.us payment')
         except:
@@ -1271,6 +1296,7 @@ def payment_hook(request, pk):
 
             # Update ChargeSetting, Payment records
 
+            # invitation may have custom workoutplan and price
             if invitation:
                 utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price)
             else:
@@ -1278,7 +1304,7 @@ def payment_hook(request, pk):
 
             emails.signup_confirmation(client)
 
-            mail_admins('we got a signup bitches!', '%s signed up for %s' % (str(client), str(blitz)))
+            mail_admins('We got a signup bitches!', '%s signed up for %s' % (str(client), str(blitz)))
 
             user = authenticate(username=client.user.username, password=request.session['password'])
             login(request, user)
@@ -1316,7 +1342,6 @@ def trainer_dismiss_alert(request):
 @login_required
 def set_up_profile_basic(request):
     client = request.user.client
-
 
     if request.method == 'POST':
         form = Intro1Form(request.POST)
@@ -1411,7 +1436,8 @@ def set_up_profile(request):
     elif intro_stage == 'summary':
         return set_up_profile_summary(request)
 
-
+# client check-in
+# url: /client-checkin
 @login_required
 def client_checkin(request):
     client = request.user.client
@@ -1426,8 +1452,6 @@ def client_checkin(request):
 
     if request.method == 'POST':
         form = ClientCheckinForm(request.POST, request.FILES)
-
-#        import pdb; pdb.set_trace()
 
         if form.is_valid() and form.is_multipart():
 
@@ -1447,16 +1471,18 @@ def client_checkin(request):
 
             if form.data['done'] == '1':
                 return redirect('home')
+
         else:
             if form.data['done'] == '1':
                 return redirect('home')
-            else:
-                return render(request, 'checkin.html', { 'client': client, 'checkin' : checkin })
+
     else:
         form = ClientCheckinForm()
 
     return render(request, 'checkin.html', { 'client': client, 'checkin' : checkin })
 
+# profile settings
+# url: /profile/settings
 @login_required
 def client_settings(request):
 
@@ -1470,11 +1496,6 @@ def client_settings(request):
             client.save()
             client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
-        else:
-            return render(request, 'client_profile_settings.html', {
-                'client': client,
-                'section': 'settings',
-                'timezones': pytz.common_timezones,})
     else:
         form = ClientSettingsForm()
 
@@ -1483,27 +1504,8 @@ def client_settings(request):
         'section': 'settings',
         'timezones': pytz.common_timezones,})
 
-
-def staff_login(request):
-
-    if not request.user.is_superuser:
-        return HttpResponse("Invalid")
-
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        user = User.objects.get(email=email)
-        user.backend='django.contrib.auth.backends.ModelBackend'
-        login(request, user)
-        return redirect('home')
-    else:
-        form = LoginForm()
-
-    #displays the error but preserves the e-mail address entered
-    return render(request, "login.html", {
-        'form': form,
-    })
-
-
+# set client macros
+# url: /profile/c/(?P<pk>\d+)/set-macros
 def set_client_macros(request, pk):
 
     trainer = request.user.trainer
@@ -1582,11 +1584,9 @@ def set_units(request):
     client.save()
     return JSONResponse({'is_error': False})
 
-
 @csrf_exempt
 def errorlog(request):
 
-    # Adding a single user hack because one of our idiot clients generates a JS error on every page
     if request.POST.get('details') and '_TPIHelper' in request.POST['details'][0]:
         pass
     else:
@@ -1594,23 +1594,18 @@ def errorlog(request):
         logger.error('JS error', extra={'request': request})
     return HttpResponse(json.dumps({'success': True}))
 
-
+# trainer switch Blitz
+# url: /trainer/go-to-blitz-program ?new_blitz
 @login_required
 def trainer_switch_blitz(request):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
     blitz_pk = request.GET.get('new_blitz')
     blitz = Blitz.objects.get(pk=blitz_pk)
     request.user.trainer.set_currently_viewing_blitz(blitz)
     return redirect('home')
-
-
-@login_required
-def trainer_switch_blitz_program(request):
-
-    blitz_pk = request.GET.get('new_blitz')
-    blitz = Blitz.objects.get(pk=blitz_pk)
-    request.user.trainer.set_currently_viewing_blitz(blitz)
-    return redirect('my_blitz_program')
 
 # open permalink
 def single_post_gym(request, pk):
@@ -1625,6 +1620,8 @@ def single_post_comment(request, pk):
     feeditem_html = get_feeditem_html(feeditem, request.user)
     return render(request, 'single_post.html', {'feeditem': feeditem, 'feeditem_html': feeditem_html})
 
+# trainer dashboard
+# url: /dashboard
 @login_required
 def trainer_dashboard(request):
     user_id = request.user.pk

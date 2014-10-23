@@ -10,7 +10,7 @@
                 <img src="{{ STATIC_URL }}images/logo.png" style="width: 120px;" /></a>
                 {% if user.is_trainer %}
                 <a class="branding" href="/" id="logo2" style="float: left;">
-                {% if user.trainer.get_blitz.sales_page_content.logo %}
+                {% if user.trainer.get_blitz and user.trainer.get_blitz.sales_page_content.logo %}
                 <img src="{{ MEDIA_URL }}{{ user.trainer.get_blitz.sales_page_content.logo }}" style="height: 60px;" /></a> {% endif %}
                 {% else %}
                 {% if user.client.get_blitz.sales_page_content.logo %}

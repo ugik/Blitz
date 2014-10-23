@@ -19,6 +19,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        # superuser for using admin
+        admin = User.objects.create_user('admin', 'admin@example.com', 'admin')
+        admin.is_superuser = True
+        admin.is_staff = True
+        admin.save()
+
         now = timezone_now()
         most_recent_monday = now.date() - datetime.timedelta(days=now.weekday())
         blitz_start_date = most_recent_monday - datetime.timedelta(days=14)
@@ -150,7 +156,6 @@ class Command(BaseCommand):
         blitz = Blitz.objects.create(trainer=ct, workout_plan=roglaw_plan,
             title="Posting and Toasting", begin_date=blitz_start_date, url_slug="CT")
         blitz.sales_page_content = content
-        blitz.provisional = True
         blitz.uses_macros = True
         blitz.macro_strategy = 'M'
         blitz.price = 200
@@ -183,7 +188,9 @@ class Command(BaseCommand):
         blitz2.sales_page_content = content
         blitz2.uses_macros = True
         blitz2.macro_strategy = 'M'
-        blitz2.price = 199
+        blitz2.price = 49.99
+        blitz2.provisional = True
+        blitz2.recurring = True
         blitz2.save()
 
         aaron = create_client("Aaron Hernandez", "aaron@example.com", "asdf", 29, 230, 6, 8, 'M')
@@ -226,12 +233,6 @@ class Command(BaseCommand):
             lift = Lift.objects.get(slug=l)
             lift.weight_or_body = True
             lift.save()
-
-        # superuser for using admin
-        admin = User.objects.create_user('admin', 'admin@example.com', 'admin')
-        admin.is_superuser = True
-        admin.is_staff = True
-        admin.save()
 
         #
         # Macros

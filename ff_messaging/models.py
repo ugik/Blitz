@@ -35,7 +35,10 @@ class UserThread(models.Model):
         return self.thread.users.exclude(pk=self.user.pk)
 
     def other_user(self):
-        return self.thread.users.exclude(pk=self.user.pk)[0]
+        if len(self.thread.users.exclude(pk=self.user.pk)) > 0:
+            return self.thread.users.exclude(pk=self.user.pk)[0]
+        else:
+            return None
 
     def is_unread(self):
         if self.last_read_date is None:

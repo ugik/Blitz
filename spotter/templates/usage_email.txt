@@ -1,5 +1,6 @@
 Daily usage digest past {{ days }} days
 
+from: {{ hosts }}
 MRR ${{ MRR }}
 
 {% if trainers %}

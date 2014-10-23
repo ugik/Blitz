@@ -10,7 +10,7 @@
   <script>
   $(function() {
     $( "#datepicker" ).datepicker();
-    $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
   });
   </script>
 {% endblock %}
@@ -50,8 +50,15 @@
           });
     </script>
         <br>
-        <input type="text" class="datepicker" id="datepicker" name="start_day" placeholder="Start Date" style="" value="{{ form.start_day.value }}"></td></tr>
 
+        <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}"></td></tr>
+
+<!--
+        <div class="fieldWrapper">
+                {{ form.start_day }}
+        </div> -->
+
+        </td></tr>
         <div class="fieldWrapper">
                 <div style="width: 10%; float: left; display: inline; margin-top: 8px; font-size: 1.5em;">
                   $
@@ -60,6 +67,8 @@
                 {{ form.charge }}
               </div>
         </div>
+     <button type="submit" class="obtn full-width btn-warning">Create Blitz</button>
+
      </form>
   {% if errors %}
      <div class="alert alert-warning" role="alert">
@@ -68,7 +77,6 @@
         {% endfor %}
      </div>
   {% endif %}
-     <button class="obtn full-width btn-warning">Create Blitz</button>
    </div>
 </div>
 </div>
