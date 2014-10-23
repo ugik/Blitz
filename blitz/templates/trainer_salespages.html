@@ -62,15 +62,37 @@
                   Invite Clients<span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}">Invite paid client</a></li>
+                  <li role="presentation">
+                    <a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}" data-toggle="modal" data-target="#modal1">Invite paid client</a>
+                  </li>
                   <li role="presentation" class="divider"></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?free">Invite free client</a></li>
+                  <li role="presentation">
+                      <a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?free">Invite free client</a>
+                    </li>
                   </ul>
                  </div></td>
 
                  </tr>
                  </table>
               </div>
+
+
+    <!-- Modal -->
+    <div class="modal-full fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog-full">
+            <div class="modal-content-full">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">× Close</span>
+                    </button>
+                </div>
+            <div class="modal-body">
+            </div>
+            </div>
+        </div>
+    </div>
+
+
            {% endfor %}
         {% endif %}
         </div>
