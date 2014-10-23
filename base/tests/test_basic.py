@@ -10,6 +10,7 @@ import unittest, time, re
 class TestBasic(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
+        self.driver.set_window_size(800, 1000)
         self.driver.implicitly_wait(30)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
