@@ -62,13 +62,22 @@
             {% include "error_field.html" with param='price' %}
           {% endif %}
           {% if blitz.recurring %}
-             <td><select name="workoutplan_id" id="workoutplan_id" class="selectpicker show-tick" style="width: 200px; margin-left: 25px;">
+             <td><div style="margin-left: 25px;"><select name="workoutplan_id" id="workoutplan_id" class="selectpicker">
              {% for wp in workoutplans %}
                  <option value="{{wp.id}}"{% if wp = blitz.workoutplan %}selected{% endif %}>
                     {{wp.name}} 
                  </option>
              {% endfor %}
-             </select></td></tr>
+             </select></div></td>
+          </tr>
+
+    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+    <script type="text/javascript">
+          $(document).ready(function(e) {
+              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+          });
+    </script>
+
           {% endif %}
           </table>
           <textarea name="invite" class="full-width" rows="10" style="width:400px;">{{ invite|safe }}
