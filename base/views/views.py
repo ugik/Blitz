@@ -257,7 +257,7 @@ def client_setup(request, pk):
                               RequestContext(request))
 
         else:
-            return render_to_response('client_setup.html', 
+            return render_to_response('client_setup_modal.html', 
                               {'invite' : invite, 'form': form, 'trainer' : trainer, 'blitz' : blitz,
                                'mode' : mode, 'signup_key' : signup_key, 'workoutplans' : workoutplans,
                                'invite_url' : invite_url, 'errors' : form.errors}, 
