@@ -95,7 +95,13 @@
     <div class="span3">
         <div class="formpage-block">
             <div class="blitz-signup-info">
-                <img class="trainer-headshot img-circle" src="{{ MEDIA_URL }}{{ blitz.sales_page_content.trainer_headshot }}" />
+                <img class="trainer-headshot img-circle" 
+          {% if blitz.sales_page_content.trainer_headshot %}
+               src="{{ MEDIA_URL }}{{ blitz.sales_page_content.trainer_headshot }}"
+          {% else %}
+               src="{{ MEDIA_URL }}{{ blitz.trainer.headshot }}"
+          {% endif %}/>
+
                 <div class="blitz-title">{{ blitz }}</div>
                 <br />
                 <div class="info-block">
