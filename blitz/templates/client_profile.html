@@ -62,13 +62,6 @@
                         <a href="{% url "client_settings" %}">Settings</a>
                     </div>
                     {% endif %}
-<!-- profile_notes doesn't exist, need to investigate
-                    {% if request.user.is_trainer %}
-                    <div class="tab{% if section == "notes" %} active{% endif %}">
-                        <i class="icon-columns profile-tab-icon"></i>
-                        <a href="{% url "client_profile_notes" client.pk %}">Notes</a>
-                    </div>
-                    {% endif %} -->
                 </div>
             </div>
         </div>

@@ -937,7 +937,6 @@ def gym_session_unlike(request):
 def trainer_signup(request):
 
     if request.method == "POST":
-
         form = NewTrainerForm(request.POST)
         if form.is_valid():
             # utils.create_trainer creates Trainer and corresponding User
@@ -949,10 +948,7 @@ def trainer_signup(request):
                 form.cleaned_data['short_name']
             )
             # create initial SalesPageContent for initial Blitz
-            if trainer.name[-1] != 's':
-                name = trainer.name+"'s"
-            else:
-                name = trainer.name+"'"
+            name = trainer.name+"'s" if trainer.name[-1] != 's' else trainer.name+"'"
 
             content = create_salespagecontent("%s" % name, trainer)
 
@@ -964,7 +960,6 @@ def trainer_signup(request):
             blitz.url_slug = trainer.short_name
             blitz.price = 0
             blitz.save()
-
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
@@ -982,11 +977,13 @@ def trainer_signup(request):
 
     return render(request, 'trainer_register.html', args)
 
-
+# client signup
+# url: /client-signup ?signup_key
 def client_signup(request):
 
     invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
 
+    # if invitation is not free redirect to pay-wall signup page
     if not invitation.free:
         blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
         return redirect("/%s/%s/signup?signup_key=%s" % (blitz.trainer.short_name, blitz.url_slug, request.GET.get('signup_key')))
@@ -999,11 +996,14 @@ def client_signup(request):
                 invitation.email,
                 form.cleaned_data['password1']
             )
+            # add new client to Blitz
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
+            # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
                        trainer=invitation.blitz.trainer, text="New client registration.",
                        client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
+            # login client
             u = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
@@ -1017,6 +1017,8 @@ def client_signup(request):
         'form': form,
     })
 
+# gather data from new client
+# url: /intro-data-1
 @login_required
 @csrf_exempt
 def set_intro_1(request):
@@ -1068,10 +1070,12 @@ def new_child_comment(request):
     return JSONResponse(ret)
 
 # No login required for sales pages
-# /{slug} sales page (initial blitz url_slug is same as trainer short_name)
+# url: /(?P<short_name>[a-zA-Z0-9_.-]+)
+# (initial blitz url_slug is same as trainer short_name)
 def default_blitz_page(request, short_name):
     return blitz_page(request, short_name, short_name)
 
+# url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
     trainer = Trainer.objects.filter(short_name__iexact=short_name)
@@ -1091,6 +1095,8 @@ def blitz_page(request, short_name, url_slug):
         return redirect('home')
 
 # No login required for sales pages
+# this is the edit mode for a sales page, debug turns on editing, key prevents others from editing
+# url: /sales-blitz ?slug= &debug= & key=
 def sales_blitz(request):
 
     debug_mode = False
@@ -1152,6 +1158,7 @@ def sales_blitz(request):
         'blitz' : blitz, 'trainer' : blitz.trainer, 'sales_page': sales_page, 'debug_mode' : debug_mode
     })
 
+# old sales page views
 def sales_page(request, plan_slug):
 
     blitz = get_object_or_404(Blitz, url_slug=plan_slug)
@@ -1171,11 +1178,15 @@ def sales_page_2(request, urlkey):
         'sales_content': blitz.sales_page_content,
     })
 
+# Blitz signup page
+# url: /(?P<short_name>[a-zA-Z0-9_.-]+)/signup
 def default_blitz_signup(request, short_name):
     return blitz_signup(request, short_name, short_name)
 
+# url: /(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)/signup
 def blitz_signup(request, short_name, url_slug):
 
+    # signup_key points to invitation record, if applicable
     if 'signup_key' in request.GET:
         invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
     else:
@@ -1191,6 +1202,7 @@ def blitz_signup(request, short_name, url_slug):
         'next_url': next_url,
     })
 
+# completion of Blitz signup
 def blitz_signup_done(request):
 
     blitz = get_object_or_404(Blitz, pk=request.GET.get('pk'))
@@ -1199,6 +1211,7 @@ def blitz_signup_done(request):
         'blitz': blitz,
     })
 
+# utility method for creation of account
 @csrf_exempt
 def create_account_hook(request, pk):
 
@@ -1224,6 +1237,7 @@ def create_account_hook(request, pk):
 
     return JSONResponse(ret)
 
+# utility method for creation of payment
 @csrf_exempt
 def payment_hook(request, pk):
 
@@ -1236,6 +1250,7 @@ def payment_hook(request, pk):
         # process payment w/balanced 1.1 API
         import balanced
 
+        # find invitation record if applicable
         if 'invitation' in request.GET:
             invitation = get_object_or_404(BlitzInvitation, pk=request.GET.get('invitation'))
         else:
@@ -1244,14 +1259,16 @@ def payment_hook(request, pk):
         marketplace = balanced.Marketplace.query.one()
 
         try:
+            # fetch the card on file
             card = balanced.Card.fetch(form.cleaned_data['card_uri'])
-#            import pdb; pdb.set_trace()
 
+            # validate CVV
             if card.cvv_match in ['no','unsupported']:
                 has_error = True
                 error = "Invalid CVV code. Please try another card. "
             else:
                 # charge card
+                # invitation may have a custom price
                 if invitation:
                     debit_amount_str = "%d00" % invitation.price
                 else:
@@ -1276,6 +1293,7 @@ def payment_hook(request, pk):
 
             # Update ChargeSetting, Payment records
 
+            # invitation may have custom workoutplan and price
             if invitation:
                 utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price)
             else:
@@ -1283,7 +1301,7 @@ def payment_hook(request, pk):
 
             emails.signup_confirmation(client)
 
-            mail_admins('we got a signup bitches!', '%s signed up for %s' % (str(client), str(blitz)))
+            mail_admins('We got a signup bitches!', '%s signed up for %s' % (str(client), str(blitz)))
 
             user = authenticate(username=client.user.username, password=request.session['password'])
             login(request, user)
@@ -1321,7 +1339,6 @@ def trainer_dismiss_alert(request):
 @login_required
 def set_up_profile_basic(request):
     client = request.user.client
-
 
     if request.method == 'POST':
         form = Intro1Form(request.POST)
@@ -1416,7 +1433,8 @@ def set_up_profile(request):
     elif intro_stage == 'summary':
         return set_up_profile_summary(request)
 
-
+# client check-in
+# url: /client-checkin
 @login_required
 def client_checkin(request):
     client = request.user.client
@@ -1431,8 +1449,6 @@ def client_checkin(request):
 
     if request.method == 'POST':
         form = ClientCheckinForm(request.POST, request.FILES)
-
-#        import pdb; pdb.set_trace()
 
         if form.is_valid() and form.is_multipart():
 
@@ -1452,16 +1468,18 @@ def client_checkin(request):
 
             if form.data['done'] == '1':
                 return redirect('home')
+
         else:
             if form.data['done'] == '1':
                 return redirect('home')
-            else:
-                return render(request, 'checkin.html', { 'client': client, 'checkin' : checkin })
+
     else:
         form = ClientCheckinForm()
 
     return render(request, 'checkin.html', { 'client': client, 'checkin' : checkin })
 
+# profile settings
+# url: /profile/settings
 @login_required
 def client_settings(request):
 
@@ -1475,11 +1493,6 @@ def client_settings(request):
             client.save()
             client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
-        else:
-            return render(request, 'client_profile_settings.html', {
-                'client': client,
-                'section': 'settings',
-                'timezones': pytz.common_timezones,})
     else:
         form = ClientSettingsForm()
 
@@ -1488,27 +1501,8 @@ def client_settings(request):
         'section': 'settings',
         'timezones': pytz.common_timezones,})
 
-
-def staff_login(request):
-
-    if not request.user.is_superuser:
-        return HttpResponse("Invalid")
-
-    if request.method == 'POST':
-        email = request.POST.get('email')
-        user = User.objects.get(email=email)
-        user.backend='django.contrib.auth.backends.ModelBackend'
-        login(request, user)
-        return redirect('home')
-    else:
-        form = LoginForm()
-
-    #displays the error but preserves the e-mail address entered
-    return render(request, "login.html", {
-        'form': form,
-    })
-
-
+# set client macros
+# url: /profile/c/(?P<pk>\d+)/set-macros
 def set_client_macros(request, pk):
 
     trainer = request.user.trainer
@@ -1587,11 +1581,9 @@ def set_units(request):
     client.save()
     return JSONResponse({'is_error': False})
 
-
 @csrf_exempt
 def errorlog(request):
 
-    # Adding a single user hack because one of our idiot clients generates a JS error on every page
     if request.POST.get('details') and '_TPIHelper' in request.POST['details'][0]:
         pass
     else:
@@ -1599,23 +1591,18 @@ def errorlog(request):
         logger.error('JS error', extra={'request': request})
     return HttpResponse(json.dumps({'success': True}))
 
-
+# trainer switch Blitz
+# url: /trainer/go-to-blitz-program ?new_blitz
 @login_required
 def trainer_switch_blitz(request):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
 
     blitz_pk = request.GET.get('new_blitz')
     blitz = Blitz.objects.get(pk=blitz_pk)
     request.user.trainer.set_currently_viewing_blitz(blitz)
     return redirect('home')
-
-
-@login_required
-def trainer_switch_blitz_program(request):
-
-    blitz_pk = request.GET.get('new_blitz')
-    blitz = Blitz.objects.get(pk=blitz_pk)
-    request.user.trainer.set_currently_viewing_blitz(blitz)
-    return redirect('my_blitz_program')
 
 # open permalink
 def single_post_gym(request, pk):
@@ -1630,6 +1617,8 @@ def single_post_comment(request, pk):
     feeditem_html = get_feeditem_html(feeditem, request.user)
     return render(request, 'single_post.html', {'feeditem': feeditem, 'feeditem_html': feeditem_html})
 
+# trainer dashboard
+# url: /dashboard
 @login_required
 def trainer_dashboard(request):
     user_id = request.user.pk

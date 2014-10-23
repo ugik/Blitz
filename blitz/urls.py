@@ -61,10 +61,6 @@ urlpatterns += patterns(
     url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
     url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
 
-#    url(r'^old_program$', 'base.views.my_old_blitz_program', name='my_old_blitz_program'),
-#    url(r'^old_program/(?P<pk>\d+)$', 'base.views.blitz_program', name='blitz_program'),
-#    url(r'^old_program/(?P<pk>\d+)/members$', 'base.views.blitz_members', name='blitz_members'),
-
     url(r'^program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
 
     url(r'^dashboard$', 'base.views.trainer_dashboard', name='trainer_dashboard'),
@@ -108,7 +104,6 @@ urlpatterns += patterns(
     url(r'^set-timezone$', 'base.views.set_timezone', name='set_timezone'),
     url(r'^set-units$', 'base.views.set_units', name='set_units'),
 
-    url(r'^trainer/go-to-blitz-program', 'base.views.trainer_switch_blitz_program', name='trainer_switch_blitz_program'),
     url(r'^trainer/go-to-blitz', 'base.views.trainer_switch_blitz', name='trainer_switch_blitz'),
 
     url(r'^inbox$', 'ff_messaging.views.inbox', name='inbox'),
