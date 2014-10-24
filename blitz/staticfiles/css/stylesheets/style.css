@@ -4855,3 +4855,146 @@ body.modal-open {
 .formpage-block .content textarea {
   width: 100%;
 }
+
+/* line 4023, ../sass/style.scss */
+.sales-page {
+  background: url("/static/images/background.png");
+}
+/* line 4025, ../sass/style.scss */
+.sales-page .row {
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+/* line 4032, ../sass/style.scss */
+.sales-header {
+  color: white;
+}
+/* line 4034, ../sass/style.scss */
+.sales-header .content {
+  font-size: 24px;
+  font-family: 'proxima_novalight';
+  line-height: 1.4;
+}
+/* line 4039, ../sass/style.scss */
+.sales-header .submit-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+/* line 4043, ../sass/style.scss */
+.sales-header img {
+  width: 150px;
+  border: 6px solid white;
+  margin-bottom: 10px;
+}
+
+/* line 4050, ../sass/style.scss */
+.sales-page-section-2 {
+  line-height: 1.4;
+  background-color: #F3F3F3;
+}
+@media only screen and (min-width: 769px) {
+  /* line 4053, ../sass/style.scss */
+  .sales-page-section-2 .offset2 {
+    margin-left: 180px;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  /* line 4053, ../sass/style.scss */
+  .sales-page-section-2 .offset2 {
+    margin-left: 10%;
+    width: 80%;
+  }
+}
+
+/* line 4064, ../sass/style.scss */
+.sales-note {
+  background: white;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 20px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* line 4074, ../sass/style.scss */
+.sns-heading {
+  font-size: 24px;
+  font-family: 'proxima_novabold';
+  margin-bottom: 10px;
+}
+
+/* line 4080, ../sass/style.scss */
+.sns-body {
+  font-size: 18px;
+  font-family: 'proxima_novalight';
+  margin-bottom: 30px;
+}
+
+/* line 4087, ../sass/style.scss */
+.sales-page-section-3 {
+  background: white;
+}
+/* line 4089, ../sass/style.scss */
+.sales-page-section-3 h3 {
+  font-family: 'proxima_novabold';
+  margin-bottom: 0px;
+}
+/* line 4093, ../sass/style.scss */
+.sales-page-section-3 img {
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+}
+/* line 4096, ../sass/style.scss */
+.sales-page-section-3 .desc {
+  margin-bottom: 30px;
+}
+
+/* line 4101, ../sass/style.scss */
+.sales-page-section-4 {
+  margin: 50px 0px;
+  background: url("/static/images/background.png");
+  color: white;
+  line-height: 1.4;
+}
+/* line 4106, ../sass/style.scss */
+.sales-page-section-4 .row {
+  text-align: center;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+@media only screen and (min-width: 769px) {
+  /* line 4111, ../sass/style.scss */
+  .sales-page-section-4 .offset2 {
+    margin-left: 180px;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  /* line 4111, ../sass/style.scss */
+  .sales-page-section-4 .offset2 {
+    margin-left: 10%;
+    width: 80%;
+  }
+}
+/* line 4120, ../sass/style.scss */
+.sales-page-section-4 .desc {
+  font-size: 27px;
+  font-family: 'proxima_novalight';
+  margin-bottom: 30px;
+}
+
+/* line 4127, ../sass/style.scss */
+.sales-footer {
+  width: 100%;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: right;
+  background: black;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0px -20px;
+  padding: 10px;
+}
