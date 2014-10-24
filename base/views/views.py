@@ -77,20 +77,17 @@ def all_clients(request):
 
 # url: /
 def home(request):
-    try:
-        if request.user.is_authenticated():
-            # handle spotter type users, see spotter app for details
-            if request.user._wrapped.username == 'spotter':
-                return redirect('spotter_index')
+    if request.user.is_authenticated():
+        # handle spotter type users, see spotter app for details
+        if request.user._wrapped.username == 'spotter':
+            return redirect('spotter_index')
 
-            if request.user.is_trainer:
-                return trainer_home(request)
-            else:
-                return client_home(request)
-
+        if request.user.is_trainer:
+            return trainer_home(request)
         else:
-            raise Exception("Invalid user")
-    except:
+            return client_home(request)
+
+    else:
         return redirect('login_view')
 
 # get trainer pending documents given a path from usermedia

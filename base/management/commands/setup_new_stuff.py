@@ -67,15 +67,16 @@ class Command(BaseCommand):
         try:
             blitz = Blitz.objects.get(url_slug='mike')
         except Blitz.DoesNotExist:
-            content = create_salespagecontent("Heavy", mikerashid)
+            content = create_salespagecontent("Mind & Body", mikerashid)
             blitz = Blitz.objects.create(trainer=mikerashid, workout_plan=mikerashid_plan,
-                title="Make it HEAVY Training", begin_date=blitz_start_date, url_slug="mike")
+                title="Mind & Body Training", begin_date=blitz_start_date, url_slug="mike")
             blitz.provisional = False
             blitz.recurring = False
             blitz.sales_page_content = content
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.price = 100
+            blitz.video_html = "<iframe width="480" height="270" src="//www.youtube.com/embed/uzYoxGY1BmE?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>"
             blitz.save()
 
         invite = BlitzInvitation.objects.create(blitz=blitz, email='jimmy@example.com', 
