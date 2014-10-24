@@ -4019,3 +4019,118 @@ body.modal-open {
 .formpage-block .content textarea {
   width: 100%;
 }
+
+.sales-page {
+  background: url('/static/images/background.png');
+  .row {
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 30px;
+  }
+}
+
+.sales-header {
+  color: white;
+  .content {
+    font-size: 24px;
+    @include lightfont();
+    line-height: 1.4;
+  }
+  .submit-container {
+    margin-top: 30px;
+    margin-bottom: 30px
+  }
+  img {
+    width: 150px; 
+    border: 6px solid white;
+    margin-bottom: 10px;
+  }
+}
+
+.sales-page-section-2 {
+  line-height: 1.4;
+  background-color: #F3F3F3;
+  .offset2 {
+    @include tablet-landscape-and-up {
+      margin-left: 180px;
+    };
+    @media only screen and (min-width: 769px) and (max-width: 1024px) {
+    margin-left: 10%;
+    width: 80%;
+    }
+  }
+}
+
+.sales-note {
+  background: white;
+  @include ffboxshadow();
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 20px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.sns-heading {
+  font-size: 24px;
+  @include boldfont();
+  margin-bottom: 10px;
+}
+
+.sns-body {
+  font-size: 18px;
+  @include lightfont();
+  margin-bottom: 30px;
+  //border-bottom: 1px solid #fdfdfd;
+}
+
+.sales-page-section-3 {
+  background: white;
+  h3 {
+    @include boldfont();
+    margin-bottom: 0px;
+  }
+  img {
+    @include ffboxshadow();
+  }
+  .desc {
+    margin-bottom: 30px;
+  }
+}
+
+.sales-page-section-4 {
+  margin: 50px 0px;
+  background: url('/static/images/background.png');
+  color: white;
+  line-height: 1.4;
+  .row {
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 30px;
+  }
+  .offset2 {
+  @include tablet-landscape-and-up {
+    margin-left: 180px;
+  };
+  @media only screen and (min-width: 769px) and (max-width: 1024px) {
+  margin-left: 10%;
+  width: 80%;
+  }
+  }
+  .desc {
+    font-size: 27px;
+    @include lightfont();
+    margin-bottom: 30px;
+  }
+}
+
+.sales-footer {
+  //padding: 20px 30px;
+  width: 100%;
+  color: rgba(255,255,255,0.9);
+  text-align: right;
+  background: black;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 0px -20px;
+  padding: 10px;
+}
