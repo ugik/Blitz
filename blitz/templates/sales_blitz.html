@@ -48,6 +48,9 @@ class="sales-page"
               <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" style="width:10%; padding: 20px;" class="shadowimg"/>
             </a>
            {% endif %}
+           {% if sales_page.video_html %}
+              {% autoescape off %}{{ sales_page.video_html }}{% endautoescape %}
+           {% endif %}
         {% endif %}
       </div>
 
@@ -85,12 +88,7 @@ class="sales-page"
 
          <div class="content">
             {% if debug_mode %}
-               <textarea class="edit" name="intro" id="intro">
-                {{ sales_page.program_introduction }}
-              </textarea>
-            {% else %}
-               {{ sales_page.program_introduction }}
-            {% endif %}
+               <textarea class="edit" name="intro" id="intro">{{ sales_page.program_introduction }}</textarea>{% else %}{{ sales_page.program_introduction }}{% endif %}
             Begins
             {% if debug_mode %}
                <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}"> 
@@ -156,9 +154,7 @@ class="sales-page"
                 </div>
                  <div class="sns-body">
                     {% if debug_mode %}
-                       <textarea class="edit" name="why" id="why">
-                        {{ sales_page.program_why }}
-                      </textarea>
+                       <textarea class="edit" name="why" id="why">{{ sales_page.program_why }}</textarea>
                     {% else %}
                       {{ sales_page.program_why }}
                     {% endif %}
@@ -171,9 +167,7 @@ class="sales-page"
                 </div>
                 <div class="sns-body">
                    {% if debug_mode %}
-                   <textarea class="edit" name="who" id="who">
-                      {{ sales_page.program_who }}
-                    </textarea>
+                      <textarea class="edit" name="who" id="who">{{ sales_page.program_who }}</textarea>
                    {% else %}
                    {{ sales_page.program_who }}
                    {% endif %}
@@ -186,9 +180,7 @@ class="sales-page"
                 </div>
                 <div class="sns-body">
                    {% if debug_mode %}
-                   <textarea class="edit" name="last" id="last">
-                      {{ sales_page.program_last_words }}
-                    </textarea>
+                      <textarea class="edit" name="last" id="last">{{ sales_page.program_last_words }}</textarea>
                    {% else %}
                    {{ sales_page.program_last_words }}
                    {% endif %}
