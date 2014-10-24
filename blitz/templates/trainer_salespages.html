@@ -1,14 +1,24 @@
 {% extends "client_content.html" %}
 
 {% block morehead %}
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 <style>
 .well{
     background:rgba(255,255,255, 0.9);
 }
 </style>
+<script type="text/javascript">
+    $(window).load(function(){
+        var modal = '{{ modal }}';
+        if (modal == 'True') {
+            $('#modal1').modal('show'); }
+    });
+</script>
+
 {% endblock %}
 
 {% block main %}
+
 
 <div class="container-fluid">
     <div class="row">
@@ -28,6 +38,8 @@
               </form>
             </div>
         </div>
+
+
     <div class="row">
         <div class="span8" style="float: none; margin: 0 auto; text-align: center;">
          Below is a list of signup pages for your different programs, in case you want to update them. You can also send clients the 'quick signup' link, and they'll just go straight to the payment/credit card page.<br><br>
@@ -64,9 +76,9 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
 
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}">Invite paid client</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modal">Invite paid client</a></li>
                   <li role="presentation" class="divider"></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?free">Invite free client</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modal&free">Invite free client</a></li>
                   </ul>
                  </div></td>
 
@@ -81,7 +93,9 @@
   </div>
 </div>
 
-
+{% if modal %}
+{% include "client_setup_modal.html" with invite=invite form=form trainer=trainer blitz=blitz mode=mode signup_key=signup_key workoutplans=workoutplans invite_url=invite_url url_return=url_return error=form.errors %}
+{% endif %}
 
 {% endblock %}
 

@@ -23,7 +23,6 @@ import xlrd
 import datetime
 import requests
 from datetime import date, timedelta
-#    import pdb; pdb.set_trace()
 
 @login_required
 def spotter_index(request):

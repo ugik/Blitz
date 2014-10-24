@@ -223,6 +223,7 @@ def client_setup(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
 
     mode = "free" if 'free' in request.GET else None
+    modal = True if 'modal' in request.GET else False
 
     # handle where modal returns to
     url_return = None
@@ -230,6 +231,10 @@ def client_setup(request, pk):
         url_return = request.GET.get('url_return')
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
+
+    # load salespages template data
+    salespages = SalesPageContent.objects.filter(trainer=trainer)
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
 
     if request.method == 'POST':
         form = NewClientForm(request.POST)
@@ -255,16 +260,24 @@ def client_setup(request, pk):
             client_invite(trainer, [form.cleaned_data['email']], invite_url)
 
             return render_to_response('client_setup_done.html', 
-                              {'form': form, 'trainer' : trainer}, 
-                              RequestContext(request))
+                          {'form': form, 'trainer' : trainer}, RequestContext(request))
 
         else:
-            return render_to_response('client_setup_modal.html', 
-                              {'invite' : invite, 'form': form, 'trainer' : trainer, 'blitz' : blitz,
-                               'mode' : mode, 'signup_key' : signup_key, 'workoutplans' : workoutplans,
-                               'invite_url' : invite_url, 'url_return' : url_return, 
-                               'errors' : form.errors}, 
-                              RequestContext(request))
+            return render(request, 'trainer_salespages.html', {
+                          'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                          'SITE_URL' : domain(request), 'modal': True,
+                          'invite' : invite, 'form': form, 'trainer' : trainer, 
+                          'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
+                          'workoutplans' : workoutplans, 'invite_url' :invite_url, 
+                          'url_return' : url_return, 'errors' : form.errors} )
+                              
+
+#            return render_to_response('client_setup_modal.html', 
+#                              {'invite' : invite, 'form': form, 'trainer' : trainer, 
+#                               'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
+#                               'workoutplans' : workoutplans, 'invite_url' :invite_url, 
+#                               'url_return' : url_return, 'errors' : form.errors}, 
+#                              RequestContext(request))
     else:
         form = NewClientForm()
         signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
@@ -279,12 +292,20 @@ def client_setup(request, pk):
             invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
 
-        return render_to_response('client_setup_modal.html', 
-                              {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
-                                'signup_key' : signup_key, 'invite_url' : invite_url, 'blitz' : blitz,
-                                'errors' : form.errors, 'workoutplans' : workoutplans,
-                                'url_return' : url_return}, 
-                              RequestContext(request))
+        return render(request, 'trainer_salespages.html', {
+                      'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                      'SITE_URL' : domain(request), 'modal': modal,
+                      'invite' : invite, 'form': form, 'trainer' : trainer, 
+                      'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
+                      'workoutplans' : workoutplans, 'invite_url' :invite_url, 
+                      'url_return' : url_return, 'errors' : form.errors} )
+
+#        return render_to_response('client_setup_modal2.html', 
+#                          {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
+#                           'signup_key' : signup_key, 'invite_url' : invite_url, 'blitz' : blitz,
+#                           'errors' : form.errors, 'workoutplans' : workoutplans,
+#                           'url_return' : url_return}, 
+#                           RequestContext(request))
 
 # trainer's way of asking spotter to edit a program
 # url: /spotter_program_edit/(?P<pk>\d+)

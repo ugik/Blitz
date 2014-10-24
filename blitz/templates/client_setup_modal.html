@@ -1,102 +1,80 @@
-{% extends "modalpage.html" %}
-
-{% block morehead %}
-  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
-
-<script type="text/javascript">
-    $(window).load(function(){
-        $('#modal1').modal('show');
-    });
-</script>
-
-{% endblock %}
-
-{% block formpage_content %}
-
 <div class="modal-full fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog-full">
-            <div class="modal-content-full">
-                <div class="modal-header">
-                    <button type="button" onclick="window.location={% if url_return %} '/{{ url_return }}'{% else %}'/salespage'{% endif %}; return false;" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">× Close</span>
-                    </button>
-                </div>
-            <div class="modal-body">
+   <div class="modal-dialog-full">
+      <div class="modal-content-full">
+         <div class="modal-header">
+            <button type="button" onclick="window.location={% if url_return %} '/{{ url_return }}'{% else %}'/salespage'{% endif %}; return false;" class="close" data-dismiss="modal">
+               <span aria-hidden="true">× Close</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div class="row">
+               <div class="span6 offset3">
+                  <div class="formpage-block">
+                     <div class="header">
+                        Invite for {{ blitz.title }}
+                     </div>
+                     <div class="info-text" style="margin-bottom: 20px;">
+                        Send an email to a client so you can train them on Blitz.
+                     </div>
+                     <div class="content">
+                        {% if mode = "free" %}
+                           <p>Tell us who you want to invite for coaching at <b>no charge</b>.</p>
+                        {% endif %}
+       
+                        {% if mode = "free" %}
+                           <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modal&free" method="post" name="client-setup">
+                        {% else %}
+                           <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modal" method="post" name="client-setup">
+                        {% endif %}
+ 
+                        {% csrf_token %}
 
-<div class="row">
-  <div class="span6 offset3">
-    <div class="formpage-block">
-      <div class="header">
-          Invite for {{ blitz.title }}
-      </div>
-      <div class="info-text" style="margin-bottom: 20px;">
-          Send an email to a client so you can train them on Blitz.
-      </div> 
-      <div class="content">
-          {% if mode = "free" %}
-          <p>Tell us who you want to invite for coaching at <b>no charge</b>.</p>
-          {% else %}
-          {% endif %}
-        
-          {% if mode = "free" %}
-          <form class="form" action="/client-setup/{{ blitz.pk }}?free" method="post" name="client-setup">
-          {% else %}
-          <form class="form" action="/client-setup/{{ blitz.pk }}" method="post" name="client-setup">
-          {% endif %}
+                        <input type="text" name="name" placeholder="Name" />
+                        {% include "error_field.html" with param='name' %}
+                        <input type="text" name="email" placeholder="Email" />
+                        {% include "error_field.html" with param='email' %}
 
-          {% csrf_token %}
+                        <table><tr>
+                        {% if mode != "free" %}
+                           <td>
+                           <div style="width: 25px; margin-top: 8px; font-size: 1.5em; display: inline-block;">$</div>
+                           <div style="width: 75px; display: inline-block;">
+                               <input type="text" name="price" placeholder="Price" value="{{ blitz.price }}"/>
+                           </div>
+                           </td>
+                           {% include "error_field.html" with param='price' %}
+                        {% endif %}
+                        {% if blitz.recurring %}
+                           <td><div style="margin-left: 25px;"><select name="workoutplan_id" id="workoutplan_id" class="selectpicker">
+                           {% for wp in workoutplans %}
+                              <option value="{{wp.id}}"{% if wp = blitz.workoutplan %}selected{% endif %}>
+                              {{wp.name}} 
+                              </option>
+                           {% endfor %}
+                           </select></div></td></tr>
 
-          <input type="text" name="name" placeholder="Name" />
-          {% include "error_field.html" with param='name' %}
-          <input type="text" name="email" placeholder="Email" />
-          {% include "error_field.html" with param='email' %}
+                           <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+                           <script type="text/javascript">
+                              $(document).ready(function(e) {
+                              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                              });
+                           </script>
 
-          <table><tr>
-          {% if mode != "free" %}
-            <td>
-               <div style="width: 25px; margin-top: 8px; font-size: 1.5em; display: inline-block;">$</div>
-               <div style="width: 75px; display: inline-block;">
-                   <input type="text" name="price" placeholder="Price" value="{{ blitz.price }}"/>
+                        {% endif %}
+                        </table>
+                        <textarea name="invite" class="full-width" rows="8" style="width:450px;">{{ invite|safe }}</textarea></td>
+                        {% include "error_field.html" with param='invite' %}
+                        <br>
+                        <input type="hidden" name="signup_key" value="{{ signup_key }}">
+                        <input type="hidden" name="invite_url" value="{{ invite_url }}">
+                        <button class="obtn full-width btn-warning">Invite client</button>
+                     </div>
+                  </div>
                </div>
-            </td>
-            {% include "error_field.html" with param='price' %}
-          {% endif %}
-          {% if blitz.recurring %}
-             <td><div style="margin-left: 25px;"><select name="workoutplan_id" id="workoutplan_id" class="selectpicker">
-             {% for wp in workoutplans %}
-                 <option value="{{wp.id}}"{% if wp = blitz.workoutplan %}selected{% endif %}>
-                    {{wp.name}} 
-                 </option>
-             {% endfor %}
-             </select></div></td>
-          </tr>
-
-    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
-    <script type="text/javascript">
-          $(document).ready(function(e) {
-              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
-          });
-    </script>
-
-          {% endif %}
-          </table>
-          <textarea name="invite" class="full-width" rows="10" style="width:400px;">{{ invite|safe }}
-          </textarea></td>
-          {% include "error_field.html" with param='invite' %}
-          <br>
-          <input type="hidden" name="signup_key" value="{{ signup_key }}">
-          <input type="hidden" name="invite_url" value="{{ invite_url }}">
-
-          <button class="obtn full-width btn-warning">Invite client</button>
-      </div>
-    </div>
-  </div>
+            </div>
+         </div>
+       </div>
+   </div>
 </div>
 
-</div>
-</div>
-</div>
-
-
-{% endblock formpage_content %}
 
