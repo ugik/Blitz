@@ -4086,8 +4086,11 @@ body.modal-open {
 
 .sales-page-section-3 {
   background: white;
-  h3 {
+  h1 {
     @include boldfont();
+  }
+  h3 {
+    @include lightfont();
     margin-bottom: 0px;
   }
   img {
@@ -4095,6 +4098,7 @@ body.modal-open {
   }
   .desc {
     margin-bottom: 30px;
+    @include lightfont();
   }
 }
 
@@ -4103,6 +4107,9 @@ body.modal-open {
   //background: url('/static/images/background.png');
   color: white;
   line-height: 1.4;
+  h1 {
+    @include boldfont();
+  }
   .row {
     text-align: center;
     margin: 0 auto;

@@ -4940,54 +4940,63 @@ body.modal-open {
   background: white;
 }
 /* line 4089, ../sass/style.scss */
-.sales-page-section-3 h3 {
+.sales-page-section-3 h1 {
   font-family: 'proxima_novabold';
+}
+/* line 4092, ../sass/style.scss */
+.sales-page-section-3 h3 {
+  font-family: 'proxima_novalight';
   margin-bottom: 0px;
 }
-/* line 4093, ../sass/style.scss */
+/* line 4096, ../sass/style.scss */
 .sales-page-section-3 img {
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
-/* line 4096, ../sass/style.scss */
+/* line 4099, ../sass/style.scss */
 .sales-page-section-3 .desc {
   margin-bottom: 30px;
+  font-family: 'proxima_novalight';
 }
 
-/* line 4101, ../sass/style.scss */
+/* line 4105, ../sass/style.scss */
 .sales-page-section-4 {
   margin: 50px 0px;
   color: white;
   line-height: 1.4;
 }
-/* line 4106, ../sass/style.scss */
+/* line 4110, ../sass/style.scss */
+.sales-page-section-4 h1 {
+  font-family: 'proxima_novabold';
+}
+/* line 4113, ../sass/style.scss */
 .sales-page-section-4 .row {
   text-align: center;
   margin: 0 auto;
   padding-bottom: 30px;
 }
 @media only screen and (min-width: 769px) {
-  /* line 4111, ../sass/style.scss */
+  /* line 4118, ../sass/style.scss */
   .sales-page-section-4 .offset2 {
     margin-left: 180px;
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
-  /* line 4111, ../sass/style.scss */
+  /* line 4118, ../sass/style.scss */
   .sales-page-section-4 .offset2 {
     margin-left: 10%;
     width: 80%;
   }
 }
-/* line 4120, ../sass/style.scss */
+/* line 4127, ../sass/style.scss */
 .sales-page-section-4 .desc {
   font-size: 27px;
   font-family: 'proxima_novalight';
   margin-bottom: 30px;
 }
 
-/* line 4127, ../sass/style.scss */
+/* line 4134, ../sass/style.scss */
 .sales-footer {
   width: 100%;
   color: rgba(255, 255, 255, 0.9);
