@@ -22,30 +22,27 @@ class="sales-page"
 {% block outer_content %}
 
   <div class="container">
-      <div class="row">
+    <div class="row">
+      <div class="span2" style="margin-left: -30px;">
         {% if debug_mode %}
-              <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
+          <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
           action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
-              {% else %}
-              <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
+        {% else %}
+          <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
         {% endif %}
 
         {% csrf_token %}
-
-        <a class="brand" href="/" id="primary_logo">
-           <img src="{{ STATIC_URL }}images/logo-w.png" align="right" style="width:10%; padding: 20px;"/>
-         </a>
 
         {% if debug_mode %}
            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
            <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
            <label id="id_label" name="logo_picture"  for="id_logo_picture"/>
-           <img style="200px; margin:10px; border:6px solid rgba(125, 213, 135, 1);" src="{{ MEDIA_URL }}{{ sales_page.logo }}" /> 
+           <img id="trainerlogo" src="{{ MEDIA_URL }}{{ sales_page.logo }}" /> 
            </label>
         {% else %}
            {% if sales_page.logo %}
            <a class="brand" href="/" id="secondary_logo">
-              <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" style="width:10%; padding: 20px;" class="shadowimg"/>
+              <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
             </a>
            {% endif %}
            {% if sales_page.video_html %}
@@ -53,34 +50,43 @@ class="sales-page"
            {% endif %}
         {% endif %}
       </div>
+      <div class="span8">
+        &nbsp;
+      </div>
+      <div class="span2">
+        <a class="brand" href="/" id="primary_logo">
+          <img src="{{ STATIC_URL }}images/logo-w.png" align="right" />
+        </a>
+      </div>
+    </div>
 
-      <div class="row">
-        <div class="blitz-sales">
-         <div class="sales-header">
-           {% if debug_mode %}
-              <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
-              <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
-              <label id="id_label" name="picture"  for="id_picture"/>
-              <img class="profile-headshot img-circle" 
-                {% if sales_page.trainer_headshot %}
-                     src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
-                {% else %}
-                     src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
-                {% endif %}/>
-              </label>
-           {% else %}
-              <img class="img-circle"
+    <div class="row">
+      <div class="blitz-sales">
+       <div class="sales-header">
+         {% if debug_mode %}
+            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
+            <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+            <label id="id_label" name="picture"  for="id_picture"/>
+            <img class="profile-headshot img-circle" 
               {% if sales_page.trainer_headshot %}
                    src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
               {% else %}
                    src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
               {% endif %}/>
-           {% endif %}   
-         </div>
-      </div>
+            </label>
+         {% else %}
+            <img class="img-circle"
+            {% if sales_page.trainer_headshot %}
+                 src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
+            {% else %}
+                 src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
+            {% endif %}/>
+         {% endif %}   
+       </div>
+    </div>
 
   {% if debug_mode %} 
-    <a style="color:lightgreen;">(Edit GREEN areas to create your sales page)</a>  
+    <a style="display: none; color:lightgreen;">(Edit GREEN areas to create your sales page)</a>  
   {% endif %}
 
       <div class="sales-header">
@@ -88,11 +94,16 @@ class="sales-page"
 
          <div class="content">
             {% if debug_mode %}
-               <textarea class="edit" name="intro" id="intro">{{ sales_page.program_introduction }}</textarea>{% else %}{{ sales_page.program_introduction }}{% endif %}
-            Begins
+               <textarea class="edit" name="intro" id="intro">
+                  {{ sales_page.program_introduction }}
+               </textarea>
+            {% else %}
+              {{ sales_page.program_introduction }}
+            {% endif %}
+            <br />Begins
             {% if debug_mode %}
                <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}"> 
-                <small><i>(Blitzes start on Monday)</i></small>
+                <small><i>(Programs always start on Monday)</i></small>
             {% else %}
                {{ blitz.begin_date }}
             {% endif %} <br> 
@@ -262,6 +273,17 @@ class="sales-page"
   <div class="sales-footer">
       ©Blitz MMXIV
   </div>
+
+{% if debug_mode %} 
+  <div id="savebar">
+    This is a preview of how your page will look to potential clients (minus the sign-up buttons). 
+    <button action="submit" class='obtn' type='submit'>
+      Save Page
+    </button>
+  </div>
+{% else %} 
+  &nbsp;
+{% endif %}
 
   <script type="text/javascript">
     $('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });

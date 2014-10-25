@@ -4027,6 +4027,11 @@ body.modal-open {
     margin: 0 auto;
     padding-bottom: 30px;
   }
+  .container .row .span2 {
+    @include mobile-only {
+      margin-left: 0px !important;
+    }
+  }
 }
 
 .sales-header {
@@ -4035,6 +4040,9 @@ body.modal-open {
     font-size: 24px;
     @include lightfont();
     line-height: 1.4;
+    small {
+      font-size: 0.7em;
+    }
   }
   .submit-container {
     margin-top: 30px;
@@ -4045,6 +4053,38 @@ body.modal-open {
     border: 6px solid white;
     margin-bottom: 10px;
   }
+  input {
+    text-align: center;
+  }
+  textarea {
+    text-align: center;
+    width: 80%;
+    background: rgba(0,0,0,0.25);
+    color: white;
+    @include lightfont();
+    font-size: 24px;
+    @include mobile-only {
+      font-size: 18px;
+      padding: 10px;
+    }
+    padding: 20px;
+    border: 1px dashed white;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+}
+
+
+
+a#primary_logo.brand img, #trainerlogo {
+  padding: 20px;
+  max-height: 50px;
+}
+
+a#primary_logo.brand img {
+  @include mobile-only {
+    display: none;
+    }
 }
 
 .sales-page-section-2 {
@@ -4082,6 +4122,20 @@ body.modal-open {
   @include lightfont();
   margin-bottom: 30px;
   //border-bottom: 1px solid #fdfdfd;
+  textarea {
+    width: 80%;
+    text-align: center;
+    width: 100%;
+    @include lightfont();
+    font-size: 21px;
+    padding: 20px;
+    //margin-bottom: 20px;
+    line-height: 1.4;
+    @include mobile-only {
+      font-size: 18px;
+      padding: 10px;
+    }
+  }
 }
 
 .sales-page-section-3 {
@@ -4140,4 +4194,14 @@ body.modal-open {
   border: 1px solid rgba(255,255,255,0.1);
   margin: 0px -20px;
   padding: 10px;
+}
+
+#savebar {
+  height: 10%;
+  margin-top: 90%;
+  position: fixed;
+  display: block;
+  background: rgba(255,255,255,0.3);
+  color: white;
+  text-align: right;
 }
