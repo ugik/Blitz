@@ -666,8 +666,22 @@ textarea,textarea:focus {
 #logo {
   float: left;
   position: relative;
-  padding-right: 50px;
-  margin-top: 10px;
+  margin-right: 50px;
+  padding-top: 10px;
+  img {
+    max-height: 50px;
+  }
+}
+
+#logo2 {
+  float: left;
+  position: relative;
+  margin-right: 50px;
+  padding-top: 20px;
+  max-width: 170px;
+  img {
+    max-height: 50px;
+  }  
 }
 
 #top-level-navs {
@@ -3853,7 +3867,14 @@ ul.spotternav li {
 }
 
 .contentwell {
+  padding: 30px;
+  text-align: left;
   font-size: 20px;
+  text-overflow: ellipsis;
+  @include mobile-only {
+    font-size: 18px;
+    padding: 20px;
+  }
   line-height: 1.4;
   p {
     margin-top: 10px;
@@ -3863,7 +3884,14 @@ ul.spotternav li {
     margin-bottom: -10px;
     img {
       margin-right: 30px;
+      @include mobile-only {
+        display: none;
+      }
     }
+  }
+  .btn-group, .dropdown-toggle, .btn-group > .btn:first-child, div.btn-group > button {
+    font-size: 21px;
+    padding: 11px;
   }
 }
 
@@ -4267,3 +4295,4 @@ a#primary_logo.brand img {
     }
   }
 }
+
