@@ -141,11 +141,12 @@ class="sales-page"
             {% endif %}</a>
 
             <div class="submit-container">
-               <button action="submit" class='obtn obtn-comment-half' type='submit'>
             {% if debug_mode %}
-                Save Page
+              <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button">
+                Sign up for {{ blitz.name }}
               </button>
             {% else %}
+              <button action="submit" class="obtn obtn-comment-half" type='submit'>
                 Sign up for {{ blitz.name }}
               </button>
             {% endif %}
@@ -204,6 +205,11 @@ class="sales-page"
 
 
   <div class="sales-page-section-3">
+    {% if debug_mode %}
+    <div class="sales-section-overlay">
+      <i class="icon-lightbulb"></i> This section just explains what training on Blitz is like (for now, you can't edit or remove it).
+    {% else %}
+    {% endif %}
     <div class="container" style="padding: 20px;">
       <div class="row">
         <h1>How We'll Take Your Fitness to the Next Level</h1>
@@ -240,6 +246,10 @@ class="sales-page"
         </div>
       </div>
     </div>
+    {% if debug_mode %}
+    </div>
+    {% else %}
+    {% endif %}
   </div>
 
 
@@ -255,13 +265,15 @@ class="sales-page"
           </div>
 
           <div class="submit-container">
-            <button class='obtn full-width' type='submit'>
-              {% if debug_mode %} 
-                Save Page 
-              {% else %} 
-                Sign up 
-              {% endif %}
+          {% if debug_mode %}
+            <button class="obtn full-width" style="opacity: 0.5;" class="disabled-button">
+              Sign up for {{ blitz.name }}
             </button>
+          {% else %}
+            <button action="submit" class="obtn full-width" type='submit'>
+              Sign up for {{ blitz.name }}
+            </button>
+          {% endif %}
           </div>
         </form>
 
@@ -276,10 +288,12 @@ class="sales-page"
 
 {% if debug_mode %} 
   <div id="savebar">
-    This is a preview of how your page will look to potential clients (minus the sign-up buttons). 
-    <button action="submit" class='obtn' type='submit'>
-      Save Page
-    </button>
+    <div class="content">
+      This is a preview of how your page will look to potential clients (minus the sign-up buttons).
+      <button action="submit" class='btn-outline' type='submit'>
+        <div class="savetext">Save</div>
+      </button>
+    </div>
   </div>
 {% else %} 
   &nbsp;

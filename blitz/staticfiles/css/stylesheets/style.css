@@ -5061,6 +5061,15 @@ a#primary_logo.brand img, #trainerlogo {
 }
 
 /* line 4188, ../sass/style.scss */
+.disabled-button {
+  cursor: none;
+  -webkit-animation: btnpulsate .0s none;
+  -moz-animation: btnpulsate .0s none;
+  -o-animation: btnpulsate .0s none;
+  animation: btnpulsate .0s none;
+}
+
+/* line 4193, ../sass/style.scss */
 .sales-footer {
   width: 100%;
   color: rgba(255, 255, 255, 0.9);
@@ -5071,13 +5080,60 @@ a#primary_logo.brand img, #trainerlogo {
   padding: 10px;
 }
 
-/* line 4199, ../sass/style.scss */
+/* line 4204, ../sass/style.scss */
+.sales-section-overlay {
+  text-align: center;
+  padding-top: 30px;
+  font-size: 18px;
+  color: #666;
+  font-family: 'proxima_novalight';
+  /*background: rgba(0,0,0,0.8);
+  color: white;
+  font-size: 21px;
+  text-align: center;
+  //padding: 100px;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;*/
+}
+
+/* line 4221, ../sass/style.scss */
 #savebar {
-  height: 10%;
-  margin-top: 90%;
+  /*
   position: fixed;
   display: block;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(139, 184, 229, 0.5);
   color: white;
-  text-align: right;
+  text-align: center;
+  padding: 10px;
+  bottom: 0;
+  margin-bottom: 2px;
+  //left: 0;
+  //height: 3.5em;
+  width: 100%; */
+  position: fixed;
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  bottom: 0;
+  width: 100%;
+  font-size: 20px;
+}
+@media (max-width: 480px) {
+  /* line 4258, ../sass/style.scss */
+  #savebar .obtn {
+    height: 30px;
+    font-size: 0.9em;
+    width: 10%;
+  }
+}
+@media (max-width: 480px) {
+  /* line 4265, ../sass/style.scss */
+  #savebar button {
+    margin-top: 10px;
+  }
 }

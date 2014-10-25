@@ -4185,6 +4185,11 @@ a#primary_logo.brand img {
   }
 }
 
+.disabled-button {
+  cursor: none;
+  @include animation('btnpulsate .0s none');
+}
+
 .sales-footer {
   //padding: 20px 30px;
   width: 100%;
@@ -4196,12 +4201,69 @@ a#primary_logo.brand img {
   padding: 10px;
 }
 
+ .sales-section-overlay {
+  text-align: center;
+  padding-top: 30px;
+  font-size: 18px;
+  color: #666;
+  @include lightfont();
+  /*background: rgba(0,0,0,0.8);
+  color: white;
+  font-size: 21px;
+  text-align: center;
+  //padding: 100px;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;*/
+} 
+
 #savebar {
-  height: 10%;
-  margin-top: 90%;
+  /*
   position: fixed;
   display: block;
-  background: rgba(255,255,255,0.3);
+  background: rgba(139, 184, 229, 0.5);
   color: white;
-  text-align: right;
+  text-align: center;
+  padding: 10px;
+  bottom: 0;
+  margin-bottom: 2px;
+  //left: 0;
+  //height: 3.5em;
+  width: 100%; */
+  position: fixed;
+  display: block;
+  border: 1px solid rgba(255,255,255,0.3);
+  //background: rgba(139, 184, 229, 0.8);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  bottom: 0;
+  //margin-bottom: 2px;
+  width: 100%;
+  font-size: 20px;
+  .content {
+    @include mobile-only {
+    //padding: 10px;
+    }
+  }
+  .savetext {
+    //margin-top: -5px;
+    @include mobile-only { 
+      //margin-bottom: 30px; 
+    }
+  }
+  @include mobile-only {
+    .obtn {
+      height: 30px;
+      font-size: 0.9em;
+      width: 10%;
+    }
+  }
+  @include mobile-only {
+    button {
+      margin-top: 10px;
+    }
+  }
 }
