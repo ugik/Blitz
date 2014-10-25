@@ -1679,7 +1679,12 @@ def trainer_dashboard(request):
     header = "%s - %s" % (heading.saying, heading.author)
 
     if blitzes and clients:
-        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0]), 'header': header})
+        return render(request, 'trainer_dashboard.html', {
+            'clients': clients,
+            'blitzes': blitzes,
+            'user_id': user_id,
+            'macro_history':  macro_utils.get_full_macro_history(clients[0])
+        })
     else:
         return redirect('home')
 

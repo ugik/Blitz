@@ -152,7 +152,7 @@ def get_feeditem_html(feed_item, user):
         })
 
 def get_client_summary_html(client, macro_goals, macro_history):
-    macro_goals_formatted = { k: '{:.2f}'.format(macro_goals[k]/1000.00) for k in macro_goals }
+    macro_goals_formatted = { k: '{:.1f}'.format(macro_goals[k]/1000.00) for k in macro_goals }
     return render_to_string('dashboard/client_summary.html', {
         'client': client,
         'macro_goals': macro_goals_formatted,

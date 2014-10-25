@@ -65,24 +65,16 @@ function renderSummary(html) {
 
     // TODO: Join this two similar events in a single function
     // Filter Diet Goals between Training Days or Resting Days
-    $('#summary .switch-training').on('click', function(e) {
-        $(this).addClass('btn-default');
-        $(this).removeClass('btn-link');
-
-        $('#summary .switch-resting').removeClass('btn-default');
-        $('#summary .switch-resting').addClass('btn-link');
-
+    $('#summary .switch-training').on('click', function(e) {        
+        $(this).addClass('active');
+        $('#summary .switch-resting').removeClass('active');
         $('.goals-history .resting').addClass('hidden');
         $('.goals-history .training').removeClass('hidden');
     });
 
     $('#summary .switch-resting').on('click', function(e) {
-        $(this).addClass('btn-default');
-        $(this).removeClass('btn-link');
-
-        $('#summary .switch-training').removeClass('btn-default');
-        $('#summary .switch-training').addClass('btn-link');
-
+        $(this).addClass('active');
+        $('#summary .switch-training').removeClass('active');
         $('.goals-history .resting').removeClass('hidden');
         $('.goals-history .training').addClass('hidden');
     });
@@ -90,7 +82,8 @@ function renderSummary(html) {
     // END TODO
 
     // Switchs Week
-    $('.diet-progress select').on('change', function(e) {
+    var $weekSelect = $('.diet-progress select');
+    $weekSelect.on('change', function(e) {
         var weekNum = $(this).val();
         if (weekNum == 'this_week') {
             var currentWeek = $('#summary .diet-progress .current').data('week-number');
@@ -98,6 +91,9 @@ function renderSummary(html) {
         }
         setWeek(weekNum);
     });
+
+    // Switch Week / Widget
+    // $weekSelect.hide(); TODO: Finish Widget 
 }
 
 
@@ -265,6 +261,7 @@ $(document).ready(function() {
         $(this).addClass('active');
     });
     // End Filters
+
 
     homepage_morefeed();
 });
