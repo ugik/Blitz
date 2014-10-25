@@ -81,7 +81,7 @@ function renderSummary(html) {
     // END Filter Diet Goals
     // END TODO
 
-    // Switchs Week
+    // Switchs Weeks
     var $weekSelect = $('.diet-progress select');
     $weekSelect.on('change', function(e) {
         var weekNum = $(this).val();
@@ -93,7 +93,31 @@ function renderSummary(html) {
     });
 
     // Switch Week / Widget
-    // $weekSelect.hide(); TODO: Finish Widget 
+    $weekSelect.hide();
+    var $weekSelectWidget = $('.weekSelector.slide-select');
+
+    $weekSelectWidget.on('click', '.right-arrow, .left-arrow', function(e) {
+        e.preventDefault();
+        var currentActive = $('.weekSelector.slide-select li.item.active').not('li.arrow');
+        if (currentActive) {
+            if ($(this).hasClass('right-arrow')) {
+                var nextActive = currentActive.next();
+            }
+            if ($(this).hasClass('left-arrow')) {
+                var nextActive = currentActive.prev();
+            }
+            if ( nextActive && nextActive.hasClass('item') && currentActive.hasClass('item') ) {
+                nextActive.addClass('active');
+                currentActive.removeClass('active');
+                var weekNum = nextActive.data('week-num');
+                $('.diet-progress select').val(weekNum).trigger('change');
+            }
+        } else {
+            $weekSelectWidget
+                .find('li').eq(0)
+                    .addClass('active');
+        }
+    });
 }
 
 

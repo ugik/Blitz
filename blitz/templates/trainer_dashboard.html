@@ -78,8 +78,15 @@
 			<div class="inbox-container"></div>
 			<div class="feeds">
 				{% if user.blitz and user.blitz.members %}
+					<div class="feeds-filter">
+						<ul>
+							<li class="active">Everything</li>
+							<li>Workouts</li>
+							<li>Check-Ins</li>
+						</ul>
+					</div>
 		        	{% include "main_feed.html" %}
-		        {% else %}n
+		        {% else %}
 		        <b>Time to do something to get a program started...</b>
 
 		        <form action="upload" method="get" name="upload" class="formpage-block-form">
