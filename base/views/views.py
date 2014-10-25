@@ -146,6 +146,11 @@ def blitz_setup(request):
 
     trainer = request.user.trainer
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
+    # load salespages template data
+    salespages = SalesPageContent.objects.filter(trainer=trainer)
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    modalBlitz = True if 'modalBlitz' in request.GET else False
+
     if request.method == 'POST':
         form = BlitzSetupForm(request.POST, trainer=trainer)
         errors = []
@@ -198,17 +203,29 @@ def blitz_setup(request):
                               RequestContext(request))
         else:
 
-            return render_to_response('blitz_setup.html', 
-                              {'form': form, 'trainer' : trainer, 'errors' : errors,
-                               'programs' : programs}, 
-                              RequestContext(request))
+            return render(request, 'trainer_salespages.html', {
+                          'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                          'SITE_URL' : domain(request), 'modalBlitz' : modalBlitz,
+                          'form': form, 'trainer' : trainer, 'errors' : errors,
+                          'programs' : programs }) 
+
+#            return render_to_response('blitz_setup.html', 
+#                              {'form': form, 'trainer' : trainer, 'errors' : errors,
+#                               'programs' : programs}, 
+#                              RequestContext(request))
 
     else:
         form = BlitzSetupForm(None, trainer=trainer)
 
-    return render_to_response('blitz_setup.html', 
-                              {'form': form, 'trainer' : trainer, 'programs' : programs}, 
-                              RequestContext(request))
+    return render(request, 'trainer_salespages.html', {
+                  'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                  'SITE_URL' : domain(request), 'modalBlitz' : modalBlitz,
+                  'form': form, 'trainer' : trainer,
+                  'programs' : programs }) 
+
+#    return render_to_response('blitz_setup.html', 
+#                              {'form': form, 'trainer' : trainer, 'programs' : programs}, 
+#                              RequestContext(request))
 
 # client setup for a Blitz, ?free option
 # url: /client-setup/(?P<pk>\d+)
@@ -223,7 +240,7 @@ def client_setup(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
 
     mode = "free" if 'free' in request.GET else None
-    modal = True if 'modal' in request.GET else False
+    modalInvite = True if 'modalInvite' in request.GET else False
 
     # handle where modal returns to
     url_return = None
@@ -265,11 +282,12 @@ def client_setup(request, pk):
         else:
             return render(request, 'trainer_salespages.html', {
                           'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-                          'SITE_URL' : domain(request), 'modal': True,
+                          'SITE_URL' : domain(request),
                           'invite' : invite, 'form': form, 'trainer' : trainer, 
                           'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
                           'workoutplans' : workoutplans, 'invite_url' :invite_url, 
-                          'url_return' : url_return, 'errors' : form.errors} )
+                          'url_return' : url_return, 'errors' : form.errors,
+                          'modalInvite' : modalInvite } )
                               
 
 #            return render_to_response('client_setup_modal.html', 
@@ -291,14 +309,14 @@ def client_setup(request, pk):
             invite = "Hey,\n\nI've setup your program and we're ready to start on %s. Just go to the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
             invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
-
         return render(request, 'trainer_salespages.html', {
-                      'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-                      'SITE_URL' : domain(request), 'modal': modal,
-                      'invite' : invite, 'form': form, 'trainer' : trainer, 
-                      'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
-                      'workoutplans' : workoutplans, 'invite_url' :invite_url, 
-                      'url_return' : url_return, 'errors' : form.errors} )
+                          'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                          'SITE_URL' : domain(request),
+                          'invite' : invite, 'form': form, 'trainer' : trainer, 
+                          'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
+                          'workoutplans' : workoutplans, 'invite_url' :invite_url, 
+                          'url_return' : url_return, 'errors' : form.errors,
+                          'modalInvite' : modalInvite } )
 
 #        return render_to_response('client_setup_modal2.html', 
 #                          {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
@@ -516,10 +534,13 @@ def my_salespages(request):
     if not request.user.is_trainer:
         return redirect('home')
 
+    # load data needed for client-setup and blitz-setup modal(s)
     trainer = request.user.trainer
     salespages = SalesPageContent.objects.filter(trainer=trainer)
     # sales pages for trainer's Blitzes that are either provisional or not recurring
     blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
+
     return render(request, 'trainer_salespages.html', {
         'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
         'SITE_URL' : domain(request) })

@@ -66,23 +66,6 @@
     {% endwith %}
   {% endif %}
 
-<!-- TODO: need some IF clause that disables adding clients at some stage of the blitz  -->
-{% if trainer.get_blitz and not trainer.get_blitz.provisional and not trainer.get_blitz.recurring %}
-
-                 <div class="btn-group">
-                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="width:210px; margin-bottom: 10px;">
-                  Invite Clients<span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ user.blitz.pk }}?url_return=home">Invite paid client</a></li>
-                  <li role="presentation" class="divider"></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ user.blitz.pk }}?free&url_return=home">Invite free client</a></li>
-                  </ul>
-                 </div>
-
-
-{% endif %}
 </div>
 
 {% endblock %}
