@@ -101,20 +101,49 @@
 	</div>
 
 	<div class="section sidebar-box diet-progress">
-		<div class="header">
+		<!-- TODO: Remove .header element -->
+		<div class="header hidden">
 			Diet Progress
 			<select>
 				<option value='this_week'>This Week</option>
 			{% for week in macro_history %}
-				<option value='{{ week.week_number }}'>Week {{ week.week_number }}</option>
+				<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
 			{% endfor %}
-				
 			</select>
+			<div class="weekSelector slide-select">
+				<ul>
+					<li class="arrow"> <a href="#"><span class="icon icon-chevron-left"></span></a> </li>
+					<li class="item active">This Week</li>
+					{% for week in macro_history %}
+						<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }} </li>
+					{% endfor %}
+					<li class="arrow"> <a href="#"><span class="icon icon-chevron-right"></span></a> </li>
+				</ul>
+			</div>
 		</div>
 		<div class="macro-history">
+			<div class="week-name">
+				Diet Progress
+				<select>
+					<option value='this_week'>This Week</option>
+				{% for week in macro_history %}
+					<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
+				{% endfor %}
+				</select>
+				<div class="weekSelector slide-select">
+					<ul>
+						<li class="arrow "> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
+						<li class="item active">This Week</li>
+						{% for week in macro_history %}
+							<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }}</li>
+						{% endfor %}
+						<li class="arrow right-arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
+					</ul>
+				</div>
+			</div>
 			{% for week in macro_history %}
 			<div class="week week-{{ week.week_number }} {% if not week.is_current %}hidden{%else%}current{% endif %}" data-week-number={{ week.week_number }}>
-				<div class="week-name">Week {{ week.week_number }}</div>
+				<!-- <div class="week-name">Week {{ week.week_number }}</div> -->
 				<div class="days">
 					<table>
 						<tr>

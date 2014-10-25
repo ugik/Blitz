@@ -4,9 +4,9 @@
         <img src="{{ gym_session.client.user.headshot_url }}" class="img-circle" />
     </div>
     <div class="feed-item-content">
-
+        {% comment %}
         <a class="feed-permalink" href="{% url "single_post_gym" feed_item.pk %}"><i class="icon-link"></i></a>
-
+        {% endcomment %}
         <div class="gym-session-feed-item">
             <div class="title">
 

@@ -3,7 +3,9 @@
         <img src="{{ comment.user.headshot_url }}" class="img-circle" />
     </div>
     <div class="feed-item-content">
+        {% comment %}
         <a class="feed-permalink feed-permalink-grey" href="{% url "single_post_comment" feed_item.pk %}"><i class="icon-link"></i></a>
+        {% endcomment %}
         <div class="comment-feed-item">
             <div class="parent-headshot-card">
                 <img src="{{ comment.user.headshot_url }}" class="img-circle" />
