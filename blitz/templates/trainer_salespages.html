@@ -94,9 +94,7 @@
 </div>
 
 {% if modal %}
-    {% include "client_setup_modal.html" with invite=invite form=form trainer=trainer 
-                blitz=blitz  mode=mode signup_key=signup_key workoutplans=workoutplans 
-                invite_url=invite_url url_return=url_return error=form.errors %}
+{% include "client_setup_modal.html" with invite=invite form=form trainer=trainer blitz=blitz  mode=mode signup_key=signup_key workoutplans=workoutplans invite_url=invite_url url_return=url_return error=form.errors %}
 {% endif %}
 
 {% endblock %}

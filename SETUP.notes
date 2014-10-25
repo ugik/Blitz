@@ -18,6 +18,9 @@ find . -name file.ext
 find . -name \*douche*
 rename -n s/"douchebag"/"client"/g  *
 
+#apache
+sudo /etc/init.d/apache2 restart
+
 #backup
 tar -czf backup.tar.gz --exclude=*.mp4 --exclude=*.jpg .
 
