@@ -540,19 +540,28 @@ def test_program(file):
     return {'errors' : errors, 'log' : log, 'ready' : ready}
 
 
+# generate slug for workout objects
+def get_slug(short_name, plan_pk, exercise):
+    return "%s, plan_pk:%s, %s" % (short_name, str(plan_pk), exercise)
+
+# load program from 3-sheet XLS file (uploaded by spotter)
 def load_program(file, trainer_id, plan_name):
 
     workbook = xlrd.open_workbook(file)
     worksheet = workbook.sheet_by_name('Meta')
     # workout meta
+
+
+    plan = WorkoutPlan.objects.create(name=plan_name, trainer_id=trainer_id)
+    trainer = Trainer.objects.get(id=trainer_id)
+
     curr_row = 0
     while curr_row < worksheet.nrows - 1:
         curr_row += 1
         row = worksheet.row(curr_row)
-        workout = Workout.objects.get_or_create(
-                     slug="%s_%s" % (str(trainer_id), worksheet.cell_value(curr_row, 0)),
-                     display_name=worksheet.cell_value(curr_row, 1))
-    
+        slug = get_slug(trainer.short_name, plan.pk, worksheet.cell_value(curr_row, 0))
+        workout = Workout.objects.get_or_create(slug=slug, display_name=worksheet.cell_value(curr_row, 1))
+
     # workout sets
     worksheet = workbook.sheet_by_name('Workouts')
     curr_row = 0
@@ -560,8 +569,8 @@ def load_program(file, trainer_id, plan_name):
         curr_row += 1
         row = worksheet.row(curr_row)
 
-        workout, _ = Workout.objects.get_or_create(
-                      slug="%s_%s" % (str(trainer_id), worksheet.cell_value(curr_row, 0)))
+        slug = get_slug(trainer.short_name, plan.pk, worksheet.cell_value(curr_row, 0))
+        workout, _ = Workout.objects.get_or_create(slug=slug)
         lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1).lower())
 
         exercise = Exercise.objects.create(lift=lift, 
@@ -573,8 +582,6 @@ def load_program(file, trainer_id, plan_name):
             workout_set = WorkoutSet.objects.create(lift=lift, workout=workout, num_reps=int(reps_str), exercise=exercise)
 
     # plan schedule
-    plan = WorkoutPlan.objects.create(name=plan_name, trainer_id=trainer_id)
-
     worksheet = workbook.sheet_by_name('Plan')
     curr_row = 0
     while curr_row < worksheet.nrows - 1:
@@ -582,8 +589,8 @@ def load_program(file, trainer_id, plan_name):
         row = worksheet.row(curr_row)
 
     # workout specs
-        workout = Workout.objects.get(
-                      slug="%s_%s" % (str(trainer_id), worksheet.cell_value(curr_row, 0)))
+        slug = get_slug(trainer.short_name, plan.pk, worksheet.cell_value(curr_row, 0))
+        workout = Workout.objects.get(slug=slug)
         workout_week, _ = WorkoutPlanWeek.objects.get_or_create(workout_plan=plan, 
                           week=int(worksheet.cell_value(curr_row, 1)))
 

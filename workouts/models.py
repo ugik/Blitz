@@ -50,7 +50,7 @@ class Workout(models.Model):
     slug = models.SlugField(max_length=100)
 
     def __unicode__(self):
-        return self.display_name
+        return "%s (%s)" % (self.display_name, self.slug)
 
     def get_lifts(self):
         """
@@ -128,7 +128,7 @@ class WorkoutPlan(models.Model):
     trainer = models.ForeignKey('base.Trainer', null=True)
 
     def __unicode__(self):
-        return self.name
+        return "%s (pk:%d) trainer:%s" % (self.name, self.pk, self.trainer.name)
 
     def num_weeks(self):
         return self.workoutplanweek_set.count()

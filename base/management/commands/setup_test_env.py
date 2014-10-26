@@ -25,6 +25,10 @@ class Command(BaseCommand):
         admin.is_staff = True
         admin.save()
 
+        admin = User.objects.create_user('spotter', 'spotter@example.com', 'asdf')
+        admin.is_staff = True
+        admin.save()
+
         now = timezone_now()
         most_recent_monday = now.date() - datetime.timedelta(days=now.weekday())
         blitz_start_date = most_recent_monday - datetime.timedelta(days=14)

@@ -76,7 +76,7 @@ class Command(BaseCommand):
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.price = 100
-            blitz.video_html = "<iframe width="480" height="270" src="//www.youtube.com/embed/uzYoxGY1BmE?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>"
+            blitz.video_html = "<iframe width='480' height='270' src='//www.youtube.com/embed/uzYoxGY1BmE?feature=player_detailpage' frameborder='0' allowfullscreen></iframe>"
             blitz.save()
 
         invite = BlitzInvitation.objects.create(blitz=blitz, email='jimmy@example.com', 

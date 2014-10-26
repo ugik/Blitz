@@ -73,6 +73,7 @@ cd /home/ubuntu/$project/ssl
 sudo cp blitz_us.crt /etc/apache2/ssl
 sudo cp www.blitz.us.key /etc/apache2/ssl
 sudo cp COMODORSAAddTrustCA.crt /etc/apache2/ssl
+sudo cp blitz_us.ca-bundle /etc/apache2/ssl
 
 # instance env vars
 export EMAIL_PASSWORD='$email_password'
