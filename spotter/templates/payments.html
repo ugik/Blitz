@@ -1,0 +1,32 @@
+{% extends "spotter_base.html" %}
+
+{% block main %}
+
+<header>Payment History</header>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+
+    <div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+      {% for payment in payments %}
+      <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
+        <div style="text-align: left;" class="spotterheader">
+          <small>Client:</small> {{ payment.client.name }}
+          <small>Blitz:</small> {{ payment.blitz.title }} 
+<br>          {{ payment.status }}:
+              {% if payment.invitation.price %}<small>Invitation Price:</small> ${{ payment.invitation.price }}
+              {% else %} ${{ payment.amount }}{% endif %}
+<br>          {{ payment.created_at }}
+          <small>Transaction #:</small> {{ payment.xtion }}
+
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+
+{% endblock %}
+

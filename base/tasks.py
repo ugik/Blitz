@@ -65,7 +65,7 @@ def client_morning_notifications():
             } )
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
-@periodic_task(run_every=crontab(hour="11", minute="59", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
 def usage_digest(days=0):
     from django.core.mail import EmailMultiAlternatives
     from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz

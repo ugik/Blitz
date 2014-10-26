@@ -15,6 +15,7 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
@@ -1294,51 +1295,52 @@ def payment_hook(request, pk):
     if form.is_valid():
 
         # process payment w/balanced 1.1 API
-        import balanced
-
+        client = Client()        
+        invitation = BlitzInvitation()
+        marketplace = balanced.Marketplace.query.one()
+        
         # find invitation record if applicable
         if 'invitation' in request.GET:
             invitation = get_object_or_404(BlitzInvitation, pk=request.GET.get('invitation'))
-        else:
-            invitation = None
-        
-        marketplace = balanced.Marketplace.query.one()
 
-        try:
-            # fetch the card on file
-            card = balanced.Card.fetch(form.cleaned_data['card_uri'])
+        # fetch the card on file
+        card_uri = form.cleaned_data['card_uri']
+        card = balanced.Card.fetch(form.cleaned_data['card_uri'])
 
-            # validate CVV
-            if card.cvv_match in ['no','unsupported']:
-                has_error = True
-                error = "Invalid CVV code. Please try another card. "
-            else:
-                # charge card
-                # invitation may have a custom price
-                if invitation:
-                    debit_amount_str = "%d00" % invitation.price
-                else:
-                    debit_amount_str = "%d00" % blitz.price
-
-                card.debit(appears_on_statement_as = 'Blitz.us payment',
-                       amount = debit_amount_str,
-                       description='Blitz.us payment')
-        except:
+        # validate CVV
+        if card.cvv_match in ['no','unsupported']:
             has_error = True
-            error = "Card could not be charged. Please try another card. "
-            # Update ChargeSetting, Payment records
+            error = "Invalid CVV code. Please try another card. "
+        else:
+            # charge card
+            # invitation may have a custom price
+            if invitation:
+                debit_amount_str = "%d00" % invitation.price
+            else:
+                debit_amount_str = "%d00" % blitz.price
 
-        if not error:
+            # create client so we have debit meta info
             client = utils.get_or_create_client(
                 request.session['name'],
                 request.session['email'].lower(),
                 request.session['password']
-            )
+                )
             client.balanced_account_uri = card.href
             client.save()
+            meta = {"client_id": client.pk, "blitz_id": blitz.pk, "invitation_id": invitation.pk}
 
-            # Update ChargeSetting, Payment records
+            debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
+                   amount = debit_amount_str,
+                   description='Blitz.us payment', meta=meta)
+            if debit.status != 'succeeded':
+                has_error = True
+                error = debit.failure_reason
 
+        if error:
+            has_error = True
+            if client:    # delete user+client if they were created with failed card
+                client.user.delete()
+        else:
             # invitation may have custom workoutplan and price
             if invitation:
                 utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price)

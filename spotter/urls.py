@@ -25,6 +25,7 @@ urlpatterns = patterns(
 
     url(r'^download$', 'spotter.views.spotter_download', name='spotter_download'),
     url(r'^delete$', 'spotter.views.spotter_delete', name='spotter_delete'),
+    url(r'^payments$', 'spotter.views.spotter_payments', name='spotter_payments'),
 
     )
 

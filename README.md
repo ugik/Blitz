@@ -37,6 +37,13 @@ Start the development server, and log in with the following logins:
 * email: `amare@example.com`; password: `asdf` (this is a mock client)
 * email: `ct@example.com`; password: `asdf` (this is a mock trainer)
 
+### Running tests
+
+bash runTests.sh 
+bash runTests.sh TestBasic
+bash runTests.sh TestCreditcards
+...
+
 ### Adding test data
 
 See base/management/commands/setup_new_stuff.py for loading additional test data, specifically new clients for trainers. A group of clients on a program for a trainer is called a 'Blitz'.
