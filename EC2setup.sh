@@ -67,6 +67,13 @@ cd /home/ubuntu
 sudo cp $project/WSGI/project.wsgi ./$project.wsgi
 sudo cp $project/WSGI/project.conf /etc/apache2/sites-available/$project.conf
 
+# copy SSL certs
+sudo mkdir /etc/apache2/ssl
+cd /home/ubuntu/$project/ssl
+sudo cp blitz_us.crt /etc/apache2/ssl
+sudo cp www.blitz.us.key /etc/apache2/ssl
+sudo cp COMODORSAAddTrustCA.crt /etc/apache2/ssl
+
 # instance env vars
 export EMAIL_PASSWORD='$email_password'
 sudo echo "export EMAIL_PASSWORD='$email_password'" >> ~/.bashrc
