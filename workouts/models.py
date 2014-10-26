@@ -128,7 +128,10 @@ class WorkoutPlan(models.Model):
     trainer = models.ForeignKey('base.Trainer', null=True)
 
     def __unicode__(self):
-        return "%s (pk:%d) trainer:%s" % (self.name, self.pk, self.trainer.name)
+        if self.trainer:
+            return "%s (pk:%d) trainer:%s" % (self.name, self.pk, self.trainer.name)
+        else:
+            return "%s (pk:%d)" % (self.name, self.pk)
 
     def num_weeks(self):
         return self.workoutplanweek_set.count()

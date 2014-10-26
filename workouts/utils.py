@@ -107,6 +107,7 @@ def load_workout_plan_from_fileset_2(plan_name, workout_meta_file, workouts_file
 
         workout = Workout.objects.get(slug=fields[0])
         workout_plan_week, _ = WorkoutPlanWeek.objects.get_or_create(workout_plan=plan, week=int(fields[1]))
+
         workout_plan_day, _ = WorkoutPlanDay.objects.get_or_create(
             workout_plan_week=workout_plan_week,
             day_of_week=fields[2],
