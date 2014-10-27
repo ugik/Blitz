@@ -14,11 +14,22 @@
 
 {% block outer_content %}
 {% block content %}
+
+
+{% block header_content %}{{ super }}
+    {% include "header_content.html" %}
+    <div class="clearfix"></div>
+{% endblock %}
+
 <div id="dashboard">
+	
+	
+	<!-- <div class="clearfix"></div> -->
+
 	<div class="sidebar-left">
-		<div class="header">
+		<!-- <div class="header">
 			<a class="brand center" href="/" id="logo"><img src="{{ STATIC_URL }}images/logo.png"/></a>
-		</div>
+		</div> -->
 		
 		<div class="search-input">
 			<input type='text' class="search-text" placeholder="Search for a client or program...">
@@ -55,7 +66,7 @@
 			<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
 				<div class="item-inner">
 					{{ client.name }}
-				</div>			
+				</div>
 			</li>
 			{% endfor %}
 		</ul>
@@ -65,13 +76,9 @@
 	</div> <!--/ sidebar-left -->
 
 	<div class="content-wrapper">
-		<div id="header">
-			{% comment %}
-			{% block header_content %}{{super}}
-			    {% include "header_content.html" %}
-			{% endblock %}
-			{% endcomment %}
-		</div>
+		<!-- <div id="header">
+			<div class="clearfix"></div>
+		</div> -->
 		<div class="colorstripe"></div>
 
 		<div class="content row-fluid">
@@ -106,10 +113,7 @@
 			<div class="clearfix"></div>
 		</div>
 	</div> <!--/ content -->
-
 </div>
-
-<div class="clearfix"></div>
 {% endblock content %}
 
 {% endblock outer_content %}

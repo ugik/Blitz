@@ -130,11 +130,13 @@ img.headshot {
     display: table
 }
 
-#dashboard #header {
-    background: #343434
+#header {
+    background: #343434;
+    width: 100%;
+    margin: 0px;
 }
 
-#dashboard #header p {
+#header p {
     color: #a6a6a8;
     text-shadow: 0 0 2px #000
 }
