@@ -256,12 +256,12 @@ ul.filters li.item:hover {
 
 .feeds {
     padding-right: 28px !important;
-    width: 616px;
+    width: 560px;
     float: left;
     color: #333;
     font-size: 18pt;
     padding: 30px 0 0 30px;
-    margin-right: 25px
+    margin-right: 0px
 }
 
 .inbox-container {
