@@ -26,6 +26,10 @@ $blitz-purple: #9b8ddb;
   font-family: 'metanormal_caps';
 }
 
+@mixin daniel() {
+  font-family: 'danielregular';
+}
+
 @mixin pnmacrosfont() {
   font-family: 'proxima_nova_excn_ththin';
 }
@@ -3891,9 +3895,11 @@ ul.spotternav li {
       }
     }
   }
-  .btn-group, .dropdown-toggle, .btn-group > .btn:first-child, div.btn-group > button {
+  .dropdown-toggle, .btn-group > .btn:first-child, div.btn-group > button {
     font-size: 21px;
-    padding: 11px;
+    //padding: 1px;
+    margin-left: 5px;
+    padding-top: 12px;
   }
 }
 
@@ -4296,5 +4302,12 @@ a#primary_logo.brand img {
       margin-top: 10px;
     }
   }
+}
+
+#trainersig {
+  @include daniel();
+  font-size: 24px;
+  text-align: center;
+  padding: 20px;
 }
 
