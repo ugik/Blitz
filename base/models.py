@@ -260,7 +260,7 @@ class Trainer(models.Model):
     
     def all_clients(self):
         members = [f.members() for f in self.active_blitzes()]
-        return list(itertools.chain(*members))
+        return list(set(itertools.chain(*members)))
 
     def _all_clients(self):
         clients = Client.objects.get_empty_query_set()

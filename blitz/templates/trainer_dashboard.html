@@ -46,11 +46,13 @@
 
 			{% if blitzes %}
 				{% for blitz in blitzes %}
+                                    {% if not blitz.provisional and not blitz.recurring %}
 				<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 					<div class="item-inner">
-						{{ blitz.title }}
+  			                    {{ blitz.title }}
 					</div>
 				</li>
+                                    {% endif %}
 				{% endfor %}
 
 				<div class="separator">
@@ -61,7 +63,7 @@
 			{% for client in clients %}
 			<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
 				<div class="item-inner">
-					{{ client.name }}
+			             {{ client.name }}
 				</div>
 			</li>
 			{% endfor %}
