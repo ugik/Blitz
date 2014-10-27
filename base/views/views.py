@@ -336,6 +336,10 @@ def spotter_program_edit(request, pk):
 
     trainer = request.user.trainer
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
+    workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
+
+#    import pdb; pdb.set_trace()
+    modalSpotter = True if 'modalSpotter' in request.GET else False
 
     # if trainer has exactly 1 Blitz or trainer.currently_viewing_blitz is None then pick first Blitz
     # this handles both cases where .currently_viewing_blitz is inoperable
@@ -352,15 +356,23 @@ def spotter_program_edit(request, pk):
 
             return redirect('my_blitz_program')
         else:
-            return render_to_response('spotter_program_edit.html', 
-                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
-                              RequestContext(request))
+            return render(request, 'trainer_programs.html', 
+                   {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                    'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+
+#            return render_to_response('spotter_program_edit.html', 
+#                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
+#                              RequestContext(request))
+
     else:
         form = SpotterProgramEditForm()
+        return render(request, 'trainer_programs.html', 
+               {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
 
-        return render_to_response('spotter_program_edit.html', 
-                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
-                              RequestContext(request))
+#        return render_to_response('spotter_program_edit.html', 
+#                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
+#                              RequestContext(request))
 
 # handle trainer uploading documents
 # url: /upload
@@ -550,11 +562,12 @@ def my_salespages(request):
 # url: /program
 @login_required
 def my_programs(request):
+    modalSpotter = True if 'modalSpotter' in request.GET else False
 
     if request.user.is_trainer:
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
         return render(request, 'trainer_programs.html', 
-           {'trainer': request.user.trainer, 'workoutplans' : workoutplans })
+           {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
     else:
         request_blitz = request.user.blitz
         blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )

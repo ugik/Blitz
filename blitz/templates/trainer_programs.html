@@ -6,6 +6,15 @@
     background:rgba(255,255,255, 0.9);
 }
 </style>
+<script type="text/javascript">
+    $(window).load(function(){
+        var modalSpotter = '{{ modalSpotter }}';
+        if (modalSpotter == 'True') {
+            $('#modal').modal('show'); }
+    });
+
+</script>
+
 {% endblock %}
 
 
@@ -52,8 +61,8 @@
                      </div>
                      </form></td>
 
-                 <td><form method="get" 
-                        action="/spotter_program_edit/{{ plan.pk }}" class="formpage-block-form">
+                 <td><form method="post" 
+                        action="/spotter_program_edit/{{ plan.pk }}?modalSpotter" class="formpage-block-form">
                      {% csrf_token %}
                      <div class="submit-container">
                          <button class='obtn obtn-comment-grn' type='submit'>Edit Program</button>
@@ -69,6 +78,10 @@
     </div>
 </div>
 
+<!-- include spotter_program_edit_modal if necessary -->
+{% if modalSpotter %}
+{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan errors=errors %}
+{% endif %}
 {% endblock %}
 
 
