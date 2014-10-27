@@ -7,11 +7,15 @@
             <div class="container">
 
                 {% if user.is_trainer %}
-                <a class="branding" href="/" id="logo" style="display: none;">
+                <!-- <a class="branding" href="/" id="logo" style="display: none;">
                   <img src="{{ STATIC_URL }}images/logo.png"/>
+                </a> -->
+                <a class="branding" href="/" id="logo">
+                    <img class="center" src="{{ STATIC_URL }}images/logo.png"/>
                 </a>
                 {% endif %}
 
+                {% comment %}
                 {% if user.is_trainer %}
                   <a class="branding" href="/" id="logo2">
                   {% if user.trainer.get_blitz and user.trainer.get_blitz.sales_page_content.logo %}
@@ -25,6 +29,7 @@
                   </a> 
                   {% endif %}
                 {% endif %}
+                {% endcomment %}
 
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">

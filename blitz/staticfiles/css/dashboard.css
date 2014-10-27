@@ -81,6 +81,10 @@ img.headshot {
     border-left: 1px solid #eaeaea;
 }
 
+.box:first-child {
+    border-left: none;
+}
+
 
 .box .title {
     border-radius: 6px 6px 0px 0px;
@@ -126,11 +130,13 @@ img.headshot {
     display: table
 }
 
-#dashboard #header {
-    background: #343434
+#header {
+    background: #343434;
+    width: 100%;
+    margin: 0px;
 }
 
-#dashboard #header p {
+#header p {
     color: #a6a6a8;
     text-shadow: 0 0 2px #000
 }
@@ -250,12 +256,12 @@ ul.filters li.item:hover {
 
 .feeds {
     padding-right: 28px !important;
-    width: 616px;
+    width: 560px;
     float: left;
     color: #333;
     font-size: 18pt;
     padding: 30px 0 0 30px;
-    margin-right: 25px
+    margin-right: 0px
 }
 
 .inbox-container {
@@ -376,4 +382,65 @@ ul.filters li.item:hover {
 
 .trainer-info .inner {
     margin-top: 15px
+}
+
+
+/**
+ * Widgets
+ */
+
+ .slide-select {
+    font-size: 12px;
+ }
+
+.slide-select ul {
+    list-style: none;
+}
+
+.slide-select ul li {
+    display: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.slide-select ul li.arrow,
+.slide-select ul li.active {
+    display: inline-block;
+}
+
+/* TODO: Move to the correct place */
+.macro-history {
+    margin-top: 10px;
+}
+
+.macro-history .weekSelector {
+    float: right;
+}
+
+.macro-history .weekSelector .icon {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* TODO: Move to the correct place */
+.feeds-filter {
+    width: 100%;
+    border-bottom: 1px solid #cacacc;
+    margin-bottom: 25px;
+}
+
+.feeds-filter ul {
+    list-style: none;
+    margin: 0px auto 14px auto;
+}
+
+.feeds-filter ul li {
+    color: #7ab2ea;
+    display: inline-block;
+    margin-right: 34px;
+}
+
+.feeds-filter ul li.active {
+    color: #545454;
+    border-bottom: 3px solid #95c0f4;
 }
