@@ -24,13 +24,15 @@
                  action="upload" class="formpage-block-form">
                    {% csrf_token %}
                    <div class="submit-container">
-                      <button class='obtn obtn-comment-grn' type='submit'>+ Upload New Program</button>
+                    <button class='obtn obtn-comment-grn' type='submit'>
+                        + Upload New Program
+                    </button>
                    </div>
                 </form>
             </div>
 
         </div>
-        <div class="span8" style="float: none; margin: 0 auto;">
+        <div class="span8" style="float: none; margin: 0 auto; text-align: center;">
         {% if workoutplans %}
 
          Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.<br><br>
