@@ -15,6 +15,7 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
@@ -146,6 +147,11 @@ def blitz_setup(request):
 
     trainer = request.user.trainer
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
+    # load salespages template data
+    salespages = SalesPageContent.objects.filter(trainer=trainer)
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    modalBlitz = True if 'modalBlitz' in request.GET else False
+
     if request.method == 'POST':
         form = BlitzSetupForm(request.POST, trainer=trainer)
         errors = []
@@ -198,17 +204,29 @@ def blitz_setup(request):
                               RequestContext(request))
         else:
 
-            return render_to_response('blitz_setup.html', 
-                              {'form': form, 'trainer' : trainer, 'errors' : errors,
-                               'programs' : programs}, 
-                              RequestContext(request))
+            return render(request, 'trainer_salespages.html', {
+                          'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                          'SITE_URL' : domain(request), 'modalBlitz' : modalBlitz,
+                          'form': form, 'trainer' : trainer, 'errors' : errors,
+                          'programs' : programs }) 
+
+#            return render_to_response('blitz_setup.html', 
+#                              {'form': form, 'trainer' : trainer, 'errors' : errors,
+#                               'programs' : programs}, 
+#                              RequestContext(request))
 
     else:
         form = BlitzSetupForm(None, trainer=trainer)
 
-    return render_to_response('blitz_setup.html', 
-                              {'form': form, 'trainer' : trainer, 'programs' : programs}, 
-                              RequestContext(request))
+    return render(request, 'trainer_salespages.html', {
+                  'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                  'SITE_URL' : domain(request), 'modalBlitz' : modalBlitz,
+                  'form': form, 'trainer' : trainer,
+                  'programs' : programs }) 
+
+#    return render_to_response('blitz_setup.html', 
+#                              {'form': form, 'trainer' : trainer, 'programs' : programs}, 
+#                              RequestContext(request))
 
 # client setup for a Blitz, ?free option
 # url: /client-setup/(?P<pk>\d+)
@@ -223,7 +241,7 @@ def client_setup(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
 
     mode = "free" if 'free' in request.GET else None
-    modal = True if 'modal' in request.GET else False
+    modalInvite = True if 'modalInvite' in request.GET else False
 
     # handle where modal returns to
     url_return = None
@@ -265,11 +283,12 @@ def client_setup(request, pk):
         else:
             return render(request, 'trainer_salespages.html', {
                           'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-                          'SITE_URL' : domain(request), 'modal': True,
+                          'SITE_URL' : domain(request),
                           'invite' : invite, 'form': form, 'trainer' : trainer, 
                           'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
                           'workoutplans' : workoutplans, 'invite_url' :invite_url, 
-                          'url_return' : url_return, 'errors' : form.errors} )
+                          'url_return' : url_return, 'errors' : form.errors,
+                          'modalInvite' : modalInvite } )
                               
 
 #            return render_to_response('client_setup_modal.html', 
@@ -291,14 +310,14 @@ def client_setup(request, pk):
             invite = "Hey,\n\nI've setup your program and we're ready to start on %s. Just go to the following link to sign up: %s?signup_key=%s\n\nLooking forward to tracking your progress and helping you get awesome results!\n\n%s" % (blitz.begin_date.strftime('%B %d, %Y'), uri+'/client-signup', signup_key, trainer.name)
             invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
-
         return render(request, 'trainer_salespages.html', {
-                      'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
-                      'SITE_URL' : domain(request), 'modal': modal,
-                      'invite' : invite, 'form': form, 'trainer' : trainer, 
-                      'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
-                      'workoutplans' : workoutplans, 'invite_url' :invite_url, 
-                      'url_return' : url_return, 'errors' : form.errors} )
+                          'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
+                          'SITE_URL' : domain(request),
+                          'invite' : invite, 'form': form, 'trainer' : trainer, 
+                          'blitz' : blitz, 'mode' : mode, 'signup_key' : signup_key,  
+                          'workoutplans' : workoutplans, 'invite_url' :invite_url, 
+                          'url_return' : url_return, 'errors' : form.errors,
+                          'modalInvite' : modalInvite } )
 
 #        return render_to_response('client_setup_modal2.html', 
 #                          {'invite' : invite, 'form': form, 'trainer' : trainer, 'mode' : mode,
@@ -516,10 +535,13 @@ def my_salespages(request):
     if not request.user.is_trainer:
         return redirect('home')
 
+    # load data needed for client-setup and blitz-setup modal(s)
     trainer = request.user.trainer
     salespages = SalesPageContent.objects.filter(trainer=trainer)
     # sales pages for trainer's Blitzes that are either provisional or not recurring
     blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
+
     return render(request, 'trainer_salespages.html', {
         'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
         'SITE_URL' : domain(request) })
@@ -1147,11 +1169,8 @@ def sales_blitz(request):
             blitz.sales_page_content.program_introduction = request.POST.get('intro')
 
         if 'datepicker' in request.POST:
-            try:
-                # set date, keeping in mind model will force begin to Monday
-                blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
-            except:
-                pass
+            # set date, keeping in mind model will force begin to Monday
+            blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
 
 #        import pdb; pdb.set_trace()
         
@@ -1276,51 +1295,52 @@ def payment_hook(request, pk):
     if form.is_valid():
 
         # process payment w/balanced 1.1 API
-        import balanced
-
+        client = Client()        
+        invitation = BlitzInvitation()
+        marketplace = balanced.Marketplace.query.one()
+        
         # find invitation record if applicable
         if 'invitation' in request.GET:
             invitation = get_object_or_404(BlitzInvitation, pk=request.GET.get('invitation'))
-        else:
-            invitation = None
-        
-        marketplace = balanced.Marketplace.query.one()
 
-        try:
-            # fetch the card on file
-            card = balanced.Card.fetch(form.cleaned_data['card_uri'])
+        # fetch the card on file
+        card_uri = form.cleaned_data['card_uri']
+        card = balanced.Card.fetch(form.cleaned_data['card_uri'])
 
-            # validate CVV
-            if card.cvv_match in ['no','unsupported']:
-                has_error = True
-                error = "Invalid CVV code. Please try another card. "
-            else:
-                # charge card
-                # invitation may have a custom price
-                if invitation:
-                    debit_amount_str = "%d00" % invitation.price
-                else:
-                    debit_amount_str = "%d00" % blitz.price
-
-                card.debit(appears_on_statement_as = 'Blitz.us payment',
-                       amount = debit_amount_str,
-                       description='Blitz.us payment')
-        except:
+        # validate CVV
+        if card.cvv_match in ['no','unsupported']:
             has_error = True
-            error = "Card could not be charged. Please try another card. "
-            # Update ChargeSetting, Payment records
+            error = "Invalid CVV code. Please try another card. "
+        else:
+            # charge card
+            # invitation may have a custom price
+            if invitation:
+                debit_amount_str = "%d00" % invitation.price
+            else:
+                debit_amount_str = "%d00" % blitz.price
 
-        if not error:
+            # create client so we have debit meta info
             client = utils.get_or_create_client(
                 request.session['name'],
                 request.session['email'].lower(),
                 request.session['password']
-            )
+                )
             client.balanced_account_uri = card.href
             client.save()
+            meta = {"client_id": client.pk, "blitz_id": blitz.pk, "invitation_id": invitation.pk}
 
-            # Update ChargeSetting, Payment records
+            debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
+                   amount = debit_amount_str,
+                   description='Blitz.us payment', meta=meta)
+            if debit.status != 'succeeded':
+                has_error = True
+                error = debit.failure_reason
 
+        if error:
+            has_error = True
+            if client:    # delete user+client if they were created with failed card
+                client.user.delete()
+        else:
             # invitation may have custom workoutplan and price
             if invitation:
                 utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price)
@@ -1658,7 +1678,12 @@ def trainer_dashboard(request):
     header = "%s - %s" % (heading.saying, heading.author)
 
     if blitzes and clients:
-        return render(request, 'trainer_dashboard.html', {'clients': clients, 'blitzes': blitzes, 'user_id': user_id, 'macro_history':  macro_utils.get_full_macro_history(clients[0]), 'header': header})
+        return render(request, 'trainer_dashboard.html', {
+            'clients': clients,
+            'blitzes': blitzes,
+            'user_id': user_id,
+            'macro_history':  macro_utils.get_full_macro_history(clients[0])
+        })
     else:
         return redirect('home')
 

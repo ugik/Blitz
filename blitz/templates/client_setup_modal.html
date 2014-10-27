@@ -1,4 +1,4 @@
-<div class="modal-full fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-full fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog-full">
       <div class="modal-content-full">
          <div class="modal-header">
@@ -22,9 +22,9 @@
                         {% endif %}
        
                         {% if mode = "free" %}
-                           <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modal&free" method="post" name="client-setup">
+                           <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modalInvite&free" method="post" name="client-setup">
                         {% else %}
-                           <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modal" method="post" name="client-setup">
+                           <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modalInvite" method="post" name="client-setup">
                         {% endif %}
  
                         {% csrf_token %}

@@ -58,9 +58,6 @@ git reset --hard origin/{branch}
 #pip freeze issue
 sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
-#apache wsgi
-http://www.webforefront.com/django/setupapachewebserverwsgi.html
-
 #test harness
 python manage.py dumpdata base --indent=4 > base/fixtures/base_testdata.json
 

@@ -194,8 +194,8 @@ ALERTS_HOUR = 23
 MORNING_NOTIFICATIONS_HOUR = 5
 
 import balanced
-balanced.configure('ak-test-1hV3JgBOpi5ZcqX5HbNEv0EmSzKeJ3tHg')
-BALANCED_MARKETPLACE_URI = '/v1/marketplaces/TEST-MP7EQIjjYTbU7Up7rFbpILVH'
+balanced.configure('ak-test-2HbxysbHinoGa4nnmnLz63SluBiYiUQCV')
+BALANCED_MARKETPLACE_URI = '/v1/marketplaces/TEST-MP1tHThD8oovCyo9YnXXWImY'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",

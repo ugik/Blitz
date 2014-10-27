@@ -312,7 +312,7 @@ class Client(models.Model):
         return self.blitz_membership().blitz
 
     def blitz_membership(self):
-        return BlitzMember.objects.get(client=self)
+        return BlitzMember.objects.filter(client=self)[0]
 
     def other_blitz_members(self):
         """

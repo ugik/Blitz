@@ -53,7 +53,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=img</td>
+	<td>css=a.btn.btn-navbar</td>
 	<td></td>
 </tr>
 <tr>
@@ -78,7 +78,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Inbox</td>
+	<td>//a[contains(@href, '/inbox')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -153,13 +153,8 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=form[name=&quot;SalesBlitz&quot;] &gt; div.submit-container &gt; button.obtn.obtn-comment-half</td>
+	<td>css=#primary_logo &gt; img</td>
 	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>this is the why work with me section</td>
 </tr>
 <tr>
 	<td>goBackAndWait</td>
@@ -212,23 +207,13 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>css=li.solo-client &gt; div.item &gt; img.img-circle.headshot</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>//div[@id='dashboard']/div/ul/li[4]/div/img</td>
-	<td></td>
-</tr>
-<tr>
 	<td>clickAndWait</td>
 	<td>css=img</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=img.basic-tooltip.img-circle</td>
+	<td>link=Luke Walton</td>
 	<td></td>
 </tr>
 <tr>
@@ -248,7 +233,12 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=img</td>
+	<td>css=a.btn.btn-navbar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Home</td>
 	<td></td>
 </tr>
 <tr>
@@ -268,15 +258,9 @@
 </tr>
 <tr>
 	<td>open</td>
-	<td></td>
 	<td>/logout</td>
-</tr>
-<tr>
-	<td>storeSelectedValue</td>
-	<td></td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

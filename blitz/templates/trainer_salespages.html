@@ -1,7 +1,11 @@
 {% extends "client_content.html" %}
 
 {% block morehead %}
-<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+ <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
 <style>
 .well{
     background:rgba(255,255,255, 0.9);
@@ -9,9 +13,15 @@
 </style>
 <script type="text/javascript">
     $(window).load(function(){
-        var modal = '{{ modal }}';
-        if (modal == 'True') {
-            $('#modal1').modal('show'); }
+        var modalInvite = '{{ modalInvite }}';
+        var modalBlitz = '{{ modalBlitz }}';
+        if (modalInvite == 'True' || modalBlitz == 'True' ) {
+            jQuery.noConflict();
+            $('#modal').modal('show'); }
+    });
+    $(function() {
+        $( "#datepicker" ).datepicker();
+        $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
     });
 </script>
 
@@ -77,9 +87,9 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
 
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modal">Invite paid client</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite">Invite paid client</a></li>
                   <li role="presentation" class="divider"></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modal&free">Invite free client</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite&free">Invite free client</a></li>
                   </ul>
                  </div></td>
 
@@ -94,8 +104,14 @@
   </div>
 </div>
 
-{% if modal %}
+<!-- include client_setup_modal if necessary -->
+{% if modalInvite %}
 {% include "client_setup_modal.html" with invite=invite form=form trainer=trainer blitz=blitz  mode=mode signup_key=signup_key workoutplans=workoutplans invite_url=invite_url url_return=url_return error=form.errors %}
+{% endif %}
+
+<!-- include blitz_setup_modal if necessary -->
+{% if modalBlitz %}
+{% include "blitz_setup_modal.html" with form=form trainer=trainer errors=errors programs=programs %}
 {% endif %}
 
 {% endblock %}

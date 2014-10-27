@@ -1,52 +1,55 @@
 <div class='bg'>
-	<div class="cover">
-		<div class="spacer20"></div>
+	<div class="section cover">
+	<div class="spacer20"></div>
 		<a href="{% url 'client_profile' 1 %}" target="_blank"><img src="{{ MEDIA_URL }}{{ client.headshot }}" class="client-picture img-circle center" /></a>
 		<div class="spacer20"></div>
 		<p class="client-name center">{{ client.name }}</p>
 		<p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>
 	</div>
-	<div class="sidebar-box">
+	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="edit-diet-goal" href="{% url 'set_client_macros' client.pk %}" target="_blank"><span class="icon icon-pencil"></span></a>
+			Diet Goals <a class="btn btn-default btn-edit" href="{% url 'set_client_macros' client.pk %}" target="_blank">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
 			{% if macro_goals %}
-				<button type="button" class="switch-training btn btn-small">Training day</button> <button type="button" class="switch-resting btn btn-small btn-link">Off day</button>
+				<div class="btn-group">
+				    <button type="button" class="switch-training btn btn-default active">Training day</button>
+				    <button type="button" class="switch-resting btn btn-default">Off day</button>
+				</div>
 			{% endif %}
 		</div>
 		<div class="goals-history">
 			{% if macro_goals %}
 			{% with macro_goals as macro %}
 			<div class="training">
-				<div class="box box-orange">
+				<div class="box">
 					<div class="title">
-						calories
+						Calories
 					</div>
 					<div class="description info info-calories">
 						{{ macro.training_calories_min }}k - {{ macro.training_calories_min }}k
 					</div>
 				</div>
 			
-				<div class="box box-purple">
+				<div class="box">
 					<div class="title">
-						protein
+						Protein
 					</div>
 					<div class="description info info-protein">
 						{{ macro.training_protein_min }}k - {{ macro.training_protein }}k
 					</div>
 				</div>
 
-				<div class="box box-green">
+				<div class="box">
 					<div class="title">
-						carbs
+						Carbs
 					</div>
 					<div class="description info info-carbs">
 						{{ macro.training_carbs_min }}k - {{ macro.training_carbs }}k
 					</div>
 				</div>
 
-				<div class="box box-blue">
+				<div class="box">
 					<div class="title">
-						fat
+						Fat
 					</div>
 					<div class="description info info-fat">
 						{{ macro.training_fat_min }}k - {{ macro.training_fat }}k
@@ -54,34 +57,34 @@
 				</div>
 			</div> <!-- training -->
 			<div class="resting hidden">
-				<div class="box box-orange">
+				<div class="box">
 					<div class="title">
-						calories
+						Calories
 					</div>
 					<div class="description info info-calories">
 						{{ macro.rest_calories_min }}k - {{ macro.rest_calories_min }}k
 					</div>
 				</div>
 			
-				<div class="box box-purple">
+				<div class="box">
 					<div class="title">
-						protein
+						Protein
 					</div>
 					<div class="description info info-protein">
 						{{ macro.rest_protein_min }}k - {{ macro.rest_protein }}k
 					</div>
 				</div>
 
-				<div class="box box-green">
+				<div class="box">
 					<div class="title">
-						carbs
+						Carbs
 					</div>
 					<div class="description info info-carbs">
 						{{ macro.rest_carbs_min }}k - {{ macro.rest_carbs }}k
 					</div>
 				</div>
 
-				<div class="box box-blue">
+				<div class="box">
 					<div class="title">
 						fat
 					</div>
@@ -97,7 +100,7 @@
 		<div class="spacer10"></div>
 	</div>
 
-	<div class="sidebar-box diet-progress">
+	<div class="section sidebar-box diet-progress">
 		<div class="header">
 			Diet Progress
 			<select>
@@ -158,7 +161,7 @@
 		<div class="spacer10"></div>
 	</div>
 
-	<div class="sidebar-box">
+	<div class="section sidebar-box">
 		<div class="header">
 			Workout Plan
 		</div>
