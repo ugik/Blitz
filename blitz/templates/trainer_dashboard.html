@@ -22,15 +22,11 @@
 {% endblock %}
 
 <div id="dashboard">
-	
-	
-	<!-- <div class="clearfix"></div> -->
-
 	<div class="sidebar-left">
 		<!-- <div class="header">
 			<a class="brand center" href="/" id="logo"><img src="{{ STATIC_URL }}images/logo.png"/></a>
 		</div> -->
-		
+
 		<div class="search-input">
 			<input type='text' class="search-text" placeholder="Search for a client or program...">
 		</div>
@@ -44,10 +40,10 @@
 				<div class="item-inner">
 					All Updates
 				</div>
-			</li>			
+			</li>
 			<div class="separator">
 			</div>
-			
+
 			{% if blitzes %}
 				{% for blitz in blitzes %}
 				<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
@@ -84,6 +80,9 @@
 		<div class="content row-fluid">
 			<div class="inbox-container"></div>
 			<div class="feeds">
+				{% if alerts %}
+				    {% include "trainer_alerts.html" %}
+				{% endif %}
 				{% if user.blitz and user.blitz.members %}
 					<div class="feeds-filter">
 						<ul>

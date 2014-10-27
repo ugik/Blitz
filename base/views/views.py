@@ -1671,6 +1671,7 @@ def single_post_comment(request, pk):
 @login_required
 def trainer_dashboard(request):
     user_id = request.user.pk
+    trainer = request.user.trainer
 
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
@@ -1681,6 +1682,7 @@ def trainer_dashboard(request):
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
+            'alerts': trainer.get_alerts(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0])
