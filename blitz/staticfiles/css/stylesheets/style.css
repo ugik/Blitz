@@ -4707,30 +4707,31 @@ ul.spotternav li {
 /* line 3892, ../sass/style.scss */
 .contentwell .btn-group, .contentwell .dropdown-toggle, .contentwell .btn-group > .btn:first-child, .contentwell div.btn-group > button {
   font-size: 21px;
-  padding: 11px;
+  margin-left: 5px;
+  padding-top: 11px;
 }
 
-/* line 3898, ../sass/style.scss */
+/* line 3900, ../sass/style.scss */
 .meta {
   font-family: 'metanormal_caps';
 }
 
-/* line 3902, ../sass/style.scss */
+/* line 3904, ../sass/style.scss */
 .dropdown-menu > li > a:hover {
   cursor: pointer;
 }
 
-/* line 3906, ../sass/style.scss */
+/* line 3908, ../sass/style.scss */
 .modal.fade {
   display: none;
 }
 
-/* line 3910, ../sass/style.scss */
+/* line 3912, ../sass/style.scss */
 .modal.fade.in {
   top: 0%;
 }
 
-/* line 3917, ../sass/style.scss */
+/* line 3919, ../sass/style.scss */
 .modal-full.fade.in {
   top: 0;
   left: 0;
@@ -4747,35 +4748,35 @@ ul.spotternav li {
   overflow: hidden;
 }
 
-/* line 3937, ../sass/style.scss */
+/* line 3939, ../sass/style.scss */
 .modal-dialog-full {
   width: 100%;
   height: 100%;
   padding: 0;
   margin: 0;
 }
-/* line 3942, ../sass/style.scss */
+/* line 3944, ../sass/style.scss */
 .modal-dialog-full .blitz-login {
   display: none;
 }
 
-/* line 3947, ../sass/style.scss */
+/* line 3949, ../sass/style.scss */
 .modal-content-full {
   height: 100%;
   border-radius: 0;
   color: white;
   overflow: hidden;
 }
-/* line 3952, ../sass/style.scss */
+/* line 3954, ../sass/style.scss */
 .modal-content-full .modal-body {
   width: 100%;
   margin: 0 auto;
 }
-/* line 3956, ../sass/style.scss */
+/* line 3958, ../sass/style.scss */
 .modal-content-full textarea {
   width: 100%;
 }
-/* line 3959, ../sass/style.scss */
+/* line 3961, ../sass/style.scss */
 .modal-content-full .close {
   color: white;
   text-shadow: none;
@@ -4786,12 +4787,12 @@ ul.spotternav li {
   -o-transition: all 0.5s linear;
   opacity: 1;
 }
-/* line 3964, ../sass/style.scss */
+/* line 3966, ../sass/style.scss */
 .modal-content-full .close :hover {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
-/* line 3968, ../sass/style.scss */
+/* line 3970, ../sass/style.scss */
 .modal-content-full .close span {
   transition: all 0.5s linear;
   -webkit-transition: all 0.5s linear;
@@ -4800,25 +4801,25 @@ ul.spotternav li {
   -o-transition: all 0.5s linear;
   opacity: .5;
 }
-/* line 3972, ../sass/style.scss */
+/* line 3974, ../sass/style.scss */
 .modal-content-full .close span:hover {
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
 
-/* line 3979, ../sass/style.scss */
+/* line 3981, ../sass/style.scss */
 .modal-header {
   border: none;
   color: white;
 }
 
-/* line 3984, ../sass/style.scss */
+/* line 3986, ../sass/style.scss */
 .modal-body {
   height: 100%;
   max-height: none;
 }
 
-/* line 3989, ../sass/style.scss */
+/* line 3991, ../sass/style.scss */
 .modal-body .row {
   max-height: none;
   overflow-y: auto;
@@ -4826,14 +4827,14 @@ ul.spotternav li {
   width: 100%;
 }
 @media only screen and (min-width: 481px) {
-  /* line 3994, ../sass/style.scss */
+  /* line 3996, ../sass/style.scss */
   .modal-body .row .span6 {
     width: 40%;
     margin-left: 30%;
   }
 }
 @media (max-width: 480px) {
-  /* line 3994, ../sass/style.scss */
+  /* line 3996, ../sass/style.scss */
   .modal-body .row .span6 {
     width: 100%;
     margin-top: 40px;
@@ -4842,25 +4843,25 @@ ul.spotternav li {
   }
 }
 
-/* line 4008, ../sass/style.scss */
+/* line 4010, ../sass/style.scss */
 .modal-block {
   margin-bottom: 0px;
   padding: 0px;
 }
 @media (max-width: 480px) {
-  /* line 4008, ../sass/style.scss */
+  /* line 4010, ../sass/style.scss */
   .modal-block {
     padding: 30px;
   }
 }
 
-/* line 4016, ../sass/style.scss */
+/* line 4018, ../sass/style.scss */
 body.modal-open {
   overflow: hidden;
   -webkit-filter: blur(20px);
 }
 
-/* line 4021, ../sass/style.scss */
+/* line 4023, ../sass/style.scss */
 .errorlist {
   padding: 0px 0px 0px 0px;
   background: none;
@@ -4875,7 +4876,7 @@ body.modal-open {
   width: 103%;
   margin-left: -1.5%;
 }
-/* line 4034, ../sass/style.scss */
+/* line 4036, ../sass/style.scss */
 .errorlist ul {
   list-style-type: none;
   margin: 0px;
@@ -4884,63 +4885,63 @@ body.modal-open {
   margin-bottom: -3px;
 }
 
-/* line 4043, ../sass/style.scss */
+/* line 4045, ../sass/style.scss */
 .formpage-block input .datepicker {
   width: 100%;
 }
 
-/* line 4047, ../sass/style.scss */
+/* line 4049, ../sass/style.scss */
 .formpage-block .content textarea {
   width: 100%;
 }
 
-/* line 4051, ../sass/style.scss */
+/* line 4053, ../sass/style.scss */
 .sales-page {
   background: url("/static/images/background.png");
 }
-/* line 4053, ../sass/style.scss */
+/* line 4055, ../sass/style.scss */
 .sales-page .row {
   text-align: center;
   margin: 0 auto;
   padding-bottom: 30px;
 }
 @media (max-width: 480px) {
-  /* line 4058, ../sass/style.scss */
+  /* line 4060, ../sass/style.scss */
   .sales-page .container .row .span2 {
     margin-left: 0px !important;
   }
 }
 
-/* line 4065, ../sass/style.scss */
+/* line 4067, ../sass/style.scss */
 .sales-header {
   color: white;
 }
-/* line 4067, ../sass/style.scss */
+/* line 4069, ../sass/style.scss */
 .sales-header .content {
   font-size: 24px;
   font-family: 'proxima_novalight';
   line-height: 1.4;
 }
-/* line 4071, ../sass/style.scss */
+/* line 4073, ../sass/style.scss */
 .sales-header .content small {
   font-size: 0.7em;
 }
-/* line 4075, ../sass/style.scss */
+/* line 4077, ../sass/style.scss */
 .sales-header .submit-container {
   margin-top: 30px;
   margin-bottom: 30px;
 }
-/* line 4079, ../sass/style.scss */
+/* line 4081, ../sass/style.scss */
 .sales-header img {
   width: 150px;
   border: 6px solid white;
   margin-bottom: 10px;
 }
-/* line 4084, ../sass/style.scss */
+/* line 4086, ../sass/style.scss */
 .sales-header input {
   text-align: center;
 }
-/* line 4087, ../sass/style.scss */
+/* line 4089, ../sass/style.scss */
 .sales-header textarea {
   text-align: center;
   width: 80%;
@@ -4954,46 +4955,46 @@ body.modal-open {
   line-height: 1.4;
 }
 @media (max-width: 480px) {
-  /* line 4087, ../sass/style.scss */
+  /* line 4089, ../sass/style.scss */
   .sales-header textarea {
     font-size: 18px;
     padding: 10px;
   }
 }
 
-/* line 4107, ../sass/style.scss */
+/* line 4109, ../sass/style.scss */
 a#primary_logo.brand img, #trainerlogo {
   padding: 20px;
   max-height: 50px;
 }
 
 @media (max-width: 480px) {
-  /* line 4112, ../sass/style.scss */
+  /* line 4114, ../sass/style.scss */
   a#primary_logo.brand img {
     display: none;
   }
 }
 
-/* line 4118, ../sass/style.scss */
+/* line 4120, ../sass/style.scss */
 .sales-page-section-2 {
   line-height: 1.4;
   background-color: #F3F3F3;
 }
 @media only screen and (min-width: 769px) {
-  /* line 4121, ../sass/style.scss */
+  /* line 4123, ../sass/style.scss */
   .sales-page-section-2 .offset2 {
     margin-left: 180px;
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
-  /* line 4121, ../sass/style.scss */
+  /* line 4123, ../sass/style.scss */
   .sales-page-section-2 .offset2 {
     margin-left: 10%;
     width: 80%;
   }
 }
 
-/* line 4132, ../sass/style.scss */
+/* line 4134, ../sass/style.scss */
 .sales-note {
   background: white;
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
@@ -5006,20 +5007,20 @@ a#primary_logo.brand img, #trainerlogo {
   line-height: 1.4;
 }
 
-/* line 4142, ../sass/style.scss */
+/* line 4144, ../sass/style.scss */
 .sns-heading {
   font-size: 24px;
   font-family: 'proxima_novabold';
   margin-bottom: 10px;
 }
 
-/* line 4148, ../sass/style.scss */
+/* line 4150, ../sass/style.scss */
 .sns-body {
   font-size: 18px;
   font-family: 'proxima_novalight';
   margin-bottom: 30px;
 }
-/* line 4153, ../sass/style.scss */
+/* line 4155, ../sass/style.scss */
 .sns-body textarea {
   width: 80%;
   text-align: center;
@@ -5030,75 +5031,75 @@ a#primary_logo.brand img, #trainerlogo {
   line-height: 1.4;
 }
 @media (max-width: 480px) {
-  /* line 4153, ../sass/style.scss */
+  /* line 4155, ../sass/style.scss */
   .sns-body textarea {
     font-size: 18px;
     padding: 10px;
   }
 }
 
-/* line 4169, ../sass/style.scss */
+/* line 4171, ../sass/style.scss */
 .sales-page-section-3 {
   background: white;
 }
-/* line 4171, ../sass/style.scss */
+/* line 4173, ../sass/style.scss */
 .sales-page-section-3 h1 {
   font-family: 'proxima_novabold';
 }
-/* line 4174, ../sass/style.scss */
+/* line 4176, ../sass/style.scss */
 .sales-page-section-3 h3 {
   font-family: 'proxima_novalight';
   margin-bottom: 0px;
 }
-/* line 4178, ../sass/style.scss */
+/* line 4180, ../sass/style.scss */
 .sales-page-section-3 img {
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
-/* line 4181, ../sass/style.scss */
+/* line 4183, ../sass/style.scss */
 .sales-page-section-3 .desc {
   margin-bottom: 30px;
   font-family: 'proxima_novalight';
 }
 
-/* line 4187, ../sass/style.scss */
+/* line 4189, ../sass/style.scss */
 .sales-page-section-4 {
   margin: 50px 0px;
   color: white;
   line-height: 1.4;
 }
-/* line 4192, ../sass/style.scss */
+/* line 4194, ../sass/style.scss */
 .sales-page-section-4 h1 {
   font-family: 'proxima_novabold';
 }
-/* line 4195, ../sass/style.scss */
+/* line 4197, ../sass/style.scss */
 .sales-page-section-4 .row {
   text-align: center;
   margin: 0 auto;
   padding-bottom: 30px;
 }
 @media only screen and (min-width: 769px) {
-  /* line 4200, ../sass/style.scss */
+  /* line 4202, ../sass/style.scss */
   .sales-page-section-4 .offset2 {
     margin-left: 180px;
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
-  /* line 4200, ../sass/style.scss */
+  /* line 4202, ../sass/style.scss */
   .sales-page-section-4 .offset2 {
     margin-left: 10%;
     width: 80%;
   }
 }
-/* line 4209, ../sass/style.scss */
+/* line 4211, ../sass/style.scss */
 .sales-page-section-4 .desc {
   font-size: 27px;
   font-family: 'proxima_novalight';
   margin-bottom: 30px;
 }
 
-/* line 4216, ../sass/style.scss */
+/* line 4218, ../sass/style.scss */
 .disabled-button {
   cursor: none;
   -webkit-animation: btnpulsate .0s none;
@@ -5107,7 +5108,7 @@ a#primary_logo.brand img, #trainerlogo {
   animation: btnpulsate .0s none;
 }
 
-/* line 4221, ../sass/style.scss */
+/* line 4223, ../sass/style.scss */
 .sales-footer {
   width: 100%;
   color: rgba(255, 255, 255, 0.9);
@@ -5118,7 +5119,7 @@ a#primary_logo.brand img, #trainerlogo {
   padding: 10px;
 }
 
-/* line 4232, ../sass/style.scss */
+/* line 4234, ../sass/style.scss */
 .sales-section-overlay {
   text-align: center;
   padding-top: 30px;
@@ -5136,7 +5137,7 @@ a#primary_logo.brand img, #trainerlogo {
   z-index: 9999;*/
 }
 
-/* line 4249, ../sass/style.scss */
+/* line 4251, ../sass/style.scss */
 #savebar {
   /*
   position: fixed;
@@ -5162,7 +5163,7 @@ a#primary_logo.brand img, #trainerlogo {
   font-size: 20px;
 }
 @media (max-width: 480px) {
-  /* line 4286, ../sass/style.scss */
+  /* line 4288, ../sass/style.scss */
   #savebar .obtn {
     height: 30px;
     font-size: 0.9em;
@@ -5170,7 +5171,7 @@ a#primary_logo.brand img, #trainerlogo {
   }
 }
 @media (max-width: 480px) {
-  /* line 4293, ../sass/style.scss */
+  /* line 4295, ../sass/style.scss */
   #savebar button {
     margin-top: 10px;
   }

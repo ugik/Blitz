@@ -3891,7 +3891,9 @@ ul.spotternav li {
   }
   .btn-group, .dropdown-toggle, .btn-group > .btn:first-child, div.btn-group > button {
     font-size: 21px;
-    padding: 11px;
+    //padding: 1px;
+    margin-left: 5px;
+    padding-top: 11px;
   }
 }
 
