@@ -152,7 +152,14 @@ def get_feeditem_html(feed_item, user):
         })
 
 def get_client_summary_html(client, macro_goals, macro_history):
-    macro_goals_formatted = { k: '{:.1f}'.format(macro_goals[k]/1000.00) for k in macro_goals }
+    macro_goals_formatted = {}
+    for k in macro_goals:
+        # Converts number to 'k' if the number is greater/equal than 1000 and adds 'k' sufix
+        if macro_goals[k] >= 1000:
+            macro_goals_formatted[k] =  '{:.1f}k'.format(macro_goals[k]/1000.00)
+        else:
+            macro_goals_formatted[k] =  macro_goals[k]
+
     return render_to_string('dashboard/client_summary.html', {
         'client': client,
         'macro_goals': macro_goals_formatted,
