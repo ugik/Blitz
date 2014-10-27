@@ -301,10 +301,10 @@ ul.filters li.item:hover {
 
 #summary .diet-goals .btn-group {
     width: 100%;
-    border: 2px solid #7ab2ea;
+    /*border: 2px solid #7ab2ea;*/
     background: #fff;
-    border-radius: 7px;
-    margin-top: 10px;
+    border-radius: 8px 8px 0px 0px;
+    /*margin-top: 10px;*/
 }
 
 #summary .diet-goals .btn-group button {
@@ -312,6 +312,12 @@ ul.filters li.item:hover {
     background: #fff;
     height: 25px;
     padding: 0px;
+}
+
+#summary .diet-goals .btn-group button:first-child() {
+}
+
+#summary .diet-goals .btn-group button {
 }
 
 #summary .diet-goals .btn-group button.active {
@@ -338,6 +344,11 @@ ul.filters li.item:hover {
 #summary .sidebar-box .header {
     padding: 13px 0 !important;
     border-bottom: none !important;
+}
+
+#summary .sidebar-box .goals-history {
+    border: 1px solid #c3c2c3;
+    border-radius: 8px;
 }
 
 #summary .sidebar-box .goals-history .box {
