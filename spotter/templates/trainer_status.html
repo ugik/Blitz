@@ -2,7 +2,7 @@
 
 {% block main %}
 
-<header>Here are the trainers <i>and their Blitz & WorkoutPlan status</i><br></header>
+<header>Here are the trainers <i>and their Programs & WorkoutPlan status</i><br></header>
 <style>
       tr:nth-of-type(odd) {
       background-color:#D8F1D7;
@@ -10,10 +10,10 @@
 </style>
 
   <p>
-    Remember: Trainers have <b>WorkoutPlan</b>s (that define daily/weekly exercises) and <b>Blitz</b>(es) (that belong to an individual or group of <b>Client</b>(s)
+    Remember: Trainers have <b>WorkoutPlan</b>s (that define daily/weekly exercises) and <b>Program</b>(s) (that belong to an individual or group of <b>Client</b>(s)
   </p>
   <p>
-    A 'provisional' blitz is a 1:1 Blitz that clients will signup for, upon signup a <i>copy</i> of this provisional blitz is applied
+    A 'provisional' program is a 1:1 program that clients will signup for, upon signup a <i>copy</i> of this provisional program is applied
   </p>
 
     <div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
@@ -23,10 +23,10 @@
           {{ trainer.name }}
         </div>
         <ul style="text-align: left; margin: 10px 0px 50px 0px;">
-           <li>Blitzes:
+           <li>Programs:
             <ul style="margin-top: 10px;">
            {% if not trainer.blitz_set.all %}
-               <li style="padding-left: 20px;">(no Blitzes)
+               <li style="padding-left: 20px;">(no Programs)
            {% endif %}
            {% for blitz in trainer.blitz_set.all %}
                <li style="padding-left: 20px;">{% if blitz.url_slug %}{{ blitz.url_slug }} : {% endif %} <b>{{ blitz.title }}</b>
@@ -48,7 +48,7 @@
            {% endif %}
            {% for workoutplan in trainer.workoutplan_set.all %}
               <li style="padding-left: 20px;">{{ workoutplan.name }}
-              <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Blitz</small></a>
+              <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Program</small></a>
            {% endfor %}</ul>
         </ul>
       </div>

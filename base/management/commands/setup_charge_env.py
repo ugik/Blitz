@@ -21,6 +21,7 @@ from django.db.models import Q
 import os
 import xlrd
 import datetime
+from dateutil import rrule
 import requests
 from datetime import date, timedelta
 from random import randint
@@ -29,9 +30,29 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        clients = ['Dwayne Wade', 'Richard Hamilton', 'Leon Powe', 'Manute Bol', 'Spud Webb', 
+                   'Dennis Rodman', 'Nate Robinson', 'Manu Ginobili', 'David Robinson', 'Ray Allen']
         timezone = current_tz()
-        back = randint(100,300)    # random # of days
-        startdate = date.today() - timedelta(days = back)
-        print startdate
+        data = []
+        for client in clients:
+            back = randint(100,300)    # random # of days
+            startdate = date.today() - timedelta(days = back)
+            data.append({'name': client, 'start': startdate})
 
+        mikerashid = Trainer.objects.get(name='Mike Rashid')
+        blitz = Blitz.objects.get(url_slug='3weeks')
+        
+        print "Today %s" % date.today()
+        for d in data:
+            m = (len(list(rrule.rrule(rrule.MONTHLY, dtstart=d['start'], until=date.today()))))
+            print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), d['start'], m
+
+'''
+            try:
+                c = Client.objects.get(name=d['name'])
+            except Client.DoesNotExist:
+                c = create_client(d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), "asdf", 25, 200, 6, 0, 'M')
+                add_client_to_blitz(blitz, c)
+
+'''
 
