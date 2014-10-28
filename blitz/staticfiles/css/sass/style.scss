@@ -4241,8 +4241,11 @@ a#primary_logo.brand img {
   text-align: center;
   padding-top: 30px;
   font-size: 18px;
-  color: #666;
+  color: #ddd;
   @include lightfont();
+  img {
+    opacity: 0.2;
+  }
   /*background: rgba(0,0,0,0.8);
   color: white;
   font-size: 21px;
@@ -4253,6 +4256,28 @@ a#primary_logo.brand img {
   width: 100%;
   z-index: 9999;*/
 } 
+
+.overlay {
+  //background: #ffcc00;
+  //color: #ddd !important;
+  img {
+    opacity: 0.2; 
+  }
+}
+
+.overlay-text {
+  font-size: 24px;
+  position: absolute;
+  margin-top: 12%;
+  border-radius: 5px;
+  background: black;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  width: 60%;
+  margin-left: 20%;
+  line-height: 1.4;
+}
 
 #savebar {
   /*
@@ -4310,4 +4335,5 @@ a#primary_logo.brand img {
   text-align: center;
   padding: 20px;
 }
+
 
