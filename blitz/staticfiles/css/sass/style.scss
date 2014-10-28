@@ -669,10 +669,16 @@ textarea,textarea:focus {
 
 #logo {
   float: left;
-  width: 330px;
-  padding-top: 16px;
+  //width: 330px;
+  padding-top: 15px;
+  margin-right: 80px;
   img {
     max-height: 40px;
+  }
+  @include mobile-only {
+    //margin-left: 35%
+    width: 24%;
+    margin-left: 38%;
   }
 }
 
@@ -688,6 +694,7 @@ textarea,textarea:focus {
 }
 
 #top-level-navs {
+  text-align: center;
   overflow: auto;
   float: left;
   //top: 4px;
@@ -700,7 +707,7 @@ textarea,textarea:focus {
     padding: 0px;
     @include transition(0.5s, ease);
     @include mobile-landscape-and-below { 
-      width: 90%; 
+      width: 99%; 
       float: inherit; 
       //background: #1c1c1c; 
       z-index: 10; 
@@ -711,6 +718,8 @@ textarea,textarea:focus {
       font-size: 16px;
       margin: 0px;
       padding: 25px;
+      padding-left: 35px;
+      padding-right: 35px;
       background: rgba(0,0,0,0) !important;
       };
     }
@@ -4123,6 +4132,14 @@ a#primary_logo.brand img {
     }
 }
 
+
+a#secondary_logo.brand {
+  padding: 10px;
+  @include mobile-only {
+    //display: none;
+    }
+}
+
 .sales-page-section-2 {
   line-height: 1.4;
   background-color: #F3F3F3;
@@ -4241,8 +4258,11 @@ a#primary_logo.brand img {
   text-align: center;
   padding-top: 30px;
   font-size: 18px;
-  color: #666;
+  color: #ddd;
   @include lightfont();
+  img {
+    opacity: 0.2;
+  }
   /*background: rgba(0,0,0,0.8);
   color: white;
   font-size: 21px;
@@ -4253,6 +4273,28 @@ a#primary_logo.brand img {
   width: 100%;
   z-index: 9999;*/
 } 
+
+.overlay {
+  //background: #ffcc00;
+  //color: #ddd !important;
+  img {
+    opacity: 0.2; 
+  }
+}
+
+.overlay-text {
+  font-size: 24px;
+  position: absolute;
+  margin-top: 12%;
+  border-radius: 5px;
+  background: black;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  width: 60%;
+  margin-left: 20%;
+  line-height: 1.4;
+}
 
 #savebar {
   /*
@@ -4310,4 +4352,5 @@ a#primary_logo.brand img {
   text-align: center;
   padding: 20px;
 }
+
 
