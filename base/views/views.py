@@ -902,7 +902,7 @@ def blitz(request, pk):
         'start_date': start_date,
         'end_date': end_date,
         'members_count': len(headshots),
-        'headshots': headshots
+        'headshots': headshots,
         'html': get_blitz_group_header_html(title, start_date, end_date, headshots),
     }
     return JSONResponse(ret)

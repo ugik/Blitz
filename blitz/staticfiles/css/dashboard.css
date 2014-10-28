@@ -246,7 +246,7 @@ ul.filters li.item:hover {
  * Content
  */
 .content-wrapper {
-    margin-left: 330px;
+    margin-left: 321px;
     position: relative
 }
 
@@ -257,12 +257,12 @@ ul.filters li.item:hover {
 
 .feeds {
     /*padding-right: 28px !important;*/
-    width: 568px;
+    width: 595px;
     float: left;
     color: #333;
     font-size: 18pt;
-    padding: 0px 28px 0px 10px;
-    margin-right: 0px
+    padding: 0px 0px 0px 10px;
+    margin-right: 10px
 }
 
 .inbox-container {
