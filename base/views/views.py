@@ -19,7 +19,7 @@ import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
+from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -863,7 +863,6 @@ def blitz_feed(request):
 def search_client_blitz(request, keyword):
     pass
 
-
 def client_summary(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
     try:
@@ -888,14 +887,29 @@ def client_summary(request, pk):
         'macro_history':  macro_utils.get_full_macro_history(client),
         'html': get_client_summary_html(client, macro_goals, macro_history)
     }
-
     return JSONResponse(res)
 
+def blitz(request, pk):
+    blitz = get_object_or_404(Blitz, pk=int(pk) )
+
+    title = blitz.title
+    start_date = str(blitz.begin_date)
+    end_date = str(blitz.custom_end_date)
+    headshots = [ str(member.headshot) for member in blitz.members() ]
+
+    ret = {
+        'title': title,
+        'start_date': start_date,
+        'end_date': end_date,
+        'members_count': len(headshots),
+        'headshots': headshots,
+        'html': get_blitz_group_header_html(title, start_date, end_date, headshots),
+    }
+    return JSONResponse(ret)
 
 @login_required
 @csrf_exempt
 def comment_like(request):
-
     comment = Comment.objects.get(pk=int(request.POST['comment_pk']))
     if comment.liked_by_user(request.user):
         return JSONResponse({'is_error': True, 'error': 'User already likes this'})
@@ -1701,5 +1715,3 @@ def trainer_dashboard(request):
         })
     else:
         return redirect('home')
-
-
