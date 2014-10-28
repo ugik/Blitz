@@ -37,7 +37,9 @@ class="sales-page"
            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
            <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
            <label id="id_label" name="logo_picture"  for="id_logo_picture"/>
-           <img id="trainerlogo" src="{{ MEDIA_URL }}{{ sales_page.logo }}" /> 
+           {% if sales_page.logo %}
+               <img id="trainerlogo" src="{{ MEDIA_URL }}{{ sales_page.logo }}" /> 
+           {% endif %}
            </label>
         {% else %}
            {% if sales_page.logo %}
@@ -142,7 +144,7 @@ class="sales-page"
 
             <div class="submit-container">
             {% if debug_mode %}
-              <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button">
+              <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button" disabled>
                 Sign up for {{ blitz.name }}
               </button>
             {% else %}
@@ -298,7 +300,7 @@ class="sales-page"
   <div id="savebar">
     <div class="content">
       This is a preview of how your page will look to potential clients.
-      <button action="submit" class='btn-outline' type='submit'>
+      <button action="submit" class='btn-outline' type='submit' onclick="document.forms['SalesBlitz'].submit();">
         <div class="savetext">Save</div>
       </button>
     </div>
@@ -307,14 +309,6 @@ class="sales-page"
   &nbsp;
 {% endif %}
 
-  <script type="text/javascript">
-    $('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });
-
-    $(document).ready(function() {
-
-    });
-
-  </script>
   </div>
 
 {% endblock outer_content %}

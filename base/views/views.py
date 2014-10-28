@@ -1183,7 +1183,9 @@ def sales_blitz(request):
 
         if 'datepicker' in request.POST:
             # set date, keeping in mind model will force begin to Monday
-            blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
+#            import pdb; pdb.set_trace()
+            if request.POST.get('datepicker') != '':
+                blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
 
 #        import pdb; pdb.set_trace()
         
