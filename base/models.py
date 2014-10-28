@@ -612,7 +612,10 @@ class Blitz(models.Model):
         return self.loop_begin_date() + datetime.timedelta(days=7*self.num_weeks())
 
     def num_weeks(self):
-        return self.workout_plan.workoutplanweek_set.all().count()
+        if self.workout_plan:
+            return self.workout_plan.workoutplanweek_set.all().count()
+        else:
+            return 0
 
     def price_per_week(self):
         return float(self.price) / self.num_weeks()
