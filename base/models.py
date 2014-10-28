@@ -573,6 +573,7 @@ class Blitz(models.Model):
     def members(self):
         return [f.client for f in self.blitzmember_set.all()]
 
+    # Returns members as a query result object
     def _members(self):
         members = Client.objects.get_empty_query_set()
         for b in self.blitzmember_set.all():

@@ -231,10 +231,10 @@ $(document).ready(function() {
         OBJECT_ID = $(this).data('object-pk') || false;
         SEARCH_TEXT = '';
 
-        
         // Hide and clear client summary
         $summary.addClass('hidden').html('');
-
+        // END
+        
         // Clear feed container
         if ( $mainFeed.html() ) {
             $mainFeed.html('');
@@ -243,16 +243,19 @@ $(document).ready(function() {
         if ( $inboxContainer.html() ) {
             $inboxContainer.html('');
         }
-
         $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
-        
+        // END
+
+        // Hide and clear blitz group header
+        $('.group').html('');
+        // END
+
         if (FEED_SCOPE === 'all') {
             OBJECT_ID = false;
 
             // Reset Seearch Input
             $searchInput.val('')
                 .trigger('input');
-
             homepage_morefeed();
         } else {
             if (FEED_SCOPE === 'inbox') {
@@ -266,6 +269,12 @@ $(document).ready(function() {
             }
             else {
                 $inboxContainer.addClass('hidden');
+            }
+
+            if (FEED_SCOPE === 'blitz') {
+                $.get('/api/blitz/' + OBJECT_ID, function(data) {
+                    $('.group').html(data.html);
+                });
             }
 
             if (FEED_SCOPE === 'client') {
@@ -285,7 +294,6 @@ $(document).ready(function() {
         $(this).addClass('active');
     });
     // End Filters
-
 
     homepage_morefeed();
 });
