@@ -4353,4 +4353,15 @@ a#secondary_logo.brand {
   padding: 20px;
 }
 
+#sslbadge {
+  display: block;
+  margin-top: 20px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  img {
+    width: 5%;
+    opacity: 0.7;
+    margin-right: 5px;
+  }
 
+}

@@ -5225,3 +5225,17 @@ a#secondary_logo.brand {
   text-align: center;
   padding: 20px;
 }
+
+/* line 4356, ../sass/style.scss */
+#sslbadge {
+  display: block;
+  margin-top: 20px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+/* line 4361, ../sass/style.scss */
+#sslbadge img {
+  width: 5%;
+  opacity: 0.7;
+  margin-right: 5px;
+}
