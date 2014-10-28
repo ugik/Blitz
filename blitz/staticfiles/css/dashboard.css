@@ -124,6 +124,7 @@ img.headshot {
  * Dashboard
  */
 #dashboard {
+    background: #fbfcfe;
     height: 100%;
     width: 100%;
     position: relative;
@@ -145,9 +146,9 @@ img.headshot {
  * Left sidebar
  */
 .sidebar-left {
-    background: #252322;
+    background: url('../images/sidebard_background.png') #252322;
     height: 100%;
-    min-width: 330px;
+    min-width: 310px;
     /*custom*/
     position: absolute;
     top: 0;
@@ -187,7 +188,7 @@ img.headshot {
     -webkit-border-radius: 0;
     border-radius: 0;
     height: 40px;
-    width: 296px
+    width: 286px
 }
 
 ul.filters {
@@ -255,12 +256,12 @@ ul.filters li.item:hover {
 }
 
 .feeds {
-    padding-right: 28px !important;
-    width: 545px;
+    /*padding-right: 28px !important;*/
+    width: 568px;
     float: left;
     color: #333;
     font-size: 18pt;
-    padding: 30px 0 0 30px;
+    padding: 0px 28px 0px 10px;
     margin-right: 0px
 }
 
@@ -454,4 +455,36 @@ ul.filters li.item:hover {
 .feeds-filter ul li.active {
     color: #545454;
     border-bottom: 3px solid #95c0f4;
+}
+
+
+
+/* TODO: Move to the correct place */
+/**
+ * Group
+ */
+.group {
+    background: #fff;
+    color: #767577;
+    border-bottom: #d9d9d9;
+    margin-bottom: 40px;
+}
+
+.group .members {
+    margin-bottom: 28px;
+}
+
+.group .members img.headshot {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #70b3e9;
+    margin: 0px 10px 10px 0px;
+}
+
+.group img.headshot h3{
+    display: inline-block;
+}
+
+.group img.headshot:last-child {
+    margin-right: 0px;
 }

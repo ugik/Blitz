@@ -133,6 +133,14 @@ def grouped_sets_with_user_data(gym_session):
 def JSONResponse(content):
     return HttpResponse(json.dumps(content), mimetype="application/json")
 
+def get_blitz_group_header_html(title, start_date, end_date, headshots):
+    return render_to_string('dashboard/blitz_group_header.html', {
+        'title': title,
+        'start_date': start_date,
+        'end_date': end_date,
+        'headshots': headshots,
+        'members_count': len(headshots)
+    })
 
 def get_feeditem_html(feed_item, user):
 

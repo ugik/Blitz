@@ -46,24 +46,23 @@
 
 			{% if blitzes %}
 				{% for blitz in blitzes %}
-                                    {% if not blitz.provisional and not blitz.recurring %}
-				<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
-					<div class="item-inner">
-  			                    {{ blitz.title }}
-					</div>
-				</li>
-                                    {% endif %}
+                    {% if not blitz.provisional and not blitz.recurring %}
+					<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
+						<div class="item-inner">
+	  			            {{ blitz.title }}
+						</div>
+					</li>
+                    {% endif %}
 				{% endfor %}
 
 				<div class="separator">
 				</div>
-
 			{% endif %}
 
 			{% for client in clients %}
 			<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
 				<div class="item-inner">
-			             {{ client.name }}
+	                {{ client.name }}
 				</div>
 			</li>
 			{% endfor %}
@@ -82,6 +81,8 @@
 		<div class="content row-fluid">
 			<div class="inbox-container"></div>
 			<div class="feeds">
+				<div class="group">
+				</div>
 				{% if alerts %}
 				    {% include "trainer_alerts.html" %}
 				{% endif %}
