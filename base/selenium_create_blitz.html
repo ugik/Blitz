@@ -37,14 +37,49 @@
 	<td></td>
 </tr>
 <tr>
-	<td>open</td>
-	<td>/blitz-setup</td>
+	<td>click</td>
+	<td>css=a.btn.btn-navbar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Pages</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.obtn.obtn-comment-grn</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=id_title</td>
-	<td>Mind &amp; Body</td>
+	<td>Mike's new thing</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=26</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_charge</td>
+	<td>49.99</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//button[@type='submit'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>This field is required</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -52,69 +87,9 @@
 	<td>new</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//button[@type='button']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>xpath=(//button[@type='button'])[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=span.text</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=datepicker</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=27</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=id_charge</td>
-	<td>boo</td>
-</tr>
-<tr>
 	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
+	<td>xpath=(//button[@type='submit'])[4]</td>
 	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>must be number</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=id_charge</td>
-	<td>50</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=datepicker</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=27</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>Your new program is setup!</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -123,7 +98,7 @@
 </tr>
 <tr>
 	<td>click</td>
-	<td>//div[@id='header']/div/div/div/a[3]/span[2]</td>
+	<td>css=a.btn.btn-navbar</td>
 	<td></td>
 </tr>
 <tr>
@@ -174,7 +149,7 @@
 <tr>
 	<td>type</td>
 	<td>name=name</td>
-	<td>Jimmy McGee</td>
+	<td>Clyde Drexler</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -189,12 +164,12 @@
 <tr>
 	<td>type</td>
 	<td>name=name</td>
-	<td>Jimmy McGee</td>
+	<td>Clyde Drexler</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>name=email</td>
-	<td>jimmy@example.com</td>
+	<td>clyde@example.com</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -207,19 +182,34 @@
 	<td></td>
 </tr>
 <tr>
+	<td>click</td>
+	<td>//div[@id='header']/div/div/div/a[2]/span[3]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
-	<td>link=Invite paid client</td>
+	<td>link=Pages</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//a[contains(text(),'Invite paid client')])[3]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>name=name</td>
-	<td>Jimmy McGee</td>
+	<td>Clyde Drexler</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>name=email</td>
-	<td>jimmy@example.com</td>
+	<td>clyde@example.com</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -228,7 +218,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>document.forms['client-setup'].elements[7]</td>
+	<td>//div[@id='modal']/div/div/div[2]/div/div/div/div[3]/form/button</td>
 	<td></td>
 </tr>
 <tr>
@@ -239,12 +229,12 @@
 <tr>
 	<td>type</td>
 	<td>name=name</td>
-	<td>Vince Wilfork</td>
+	<td>Shawn Kemp</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>name=email</td>
-	<td>vince@example.com</td>
+	<td>shawn@example.com</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -254,11 +244,11 @@
 <tr>
 	<td>type</td>
 	<td>name=invite</td>
-	<td>Hey Vince,<br /><br />I've setup your program and we're ready to start on October 06, 2014. Just go to the following link to sign up: http://127.0.0.1:8000/client-signup?signup_key=TQLH5X<br /><br />Looking forward to tracking your progress and helping you get awesome results!<br /><br />Mike Rashid<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	<td>I've setup your program and we're ready to start </td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//div[@id='modal1']/div/div/div[2]/div/div/div/div[3]/form/button</td>
+	<td>//div[@id='modal']/div/div/div[2]/div/div/div/div[3]/form/button</td>
 	<td></td>
 </tr>
 <tr>
