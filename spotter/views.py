@@ -34,16 +34,23 @@ def spotter_index(request):
 @login_required
 def spotter_payments(request):
     import balanced
-    debits = balanced.Debit.query.all()
     payments = []
-    for debit in debits:
-        if 'client_id' in debit.meta:
-            client = Client.objects.get(pk=debit.meta['client_id'])
-            blitz = Blitz.objects.get(pk=debit.meta['blitz_id'])
-            invitation = BlitzInvitation.objects.get(pk=debit.meta['invitation_id'])
-            payments.append({'client': client, 'blitz': blitz, 'invitation': invitation,
+
+    for client in Client.objects.all():
+        debits = balanced.Debit.query.filter(client_id=client.pk)
+        for debit in debits:
+            if 'client_id' in debit.meta:
+                try:
+                    client = Client.objects.get(pk=debit.meta['client_id'])
+                    blitz = Blitz.objects.get(pk=debit.meta['blitz_id'])
+                    invitation = BlitzInvitation.objects.filter(pk=debit.meta['invitation_id'])
+                    if invitation:
+                        invitation = invitation[0]
+                    payments.append({'client': client, 'blitz': blitz, 'invitation': invitation,
                              'amount': debit.amount, 'status': debit.status, 
                              'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
+                except:
+                    pass
 
 #    import pdb; pdb.set_trace()
     return render(request, 'payments.html', 

@@ -9,15 +9,16 @@
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
 			Diet Goals <a class="btn btn-default btn-edit" href="{% url 'set_client_macros' client.pk %}" target="_blank">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
-			{% if macro_goals %}
-				<div class="btn-group">
-				    <button type="button" class="switch-training btn btn-default active">Training day</button>
-				    <button type="button" class="switch-resting btn btn-default">Off day</button>
-				</div>
-			{% endif %}
+			
 		</div>
 		<div class="goals-history">
 			{% if macro_goals %}
+			
+			<div class="btn-group">
+			    <button type="button" class="switch-training btn btn-default active">Training Days</button>
+			    <button type="button" class="switch-resting btn btn-default">Rest Days</button>
+			</div>
+			
 			{% with macro_goals as macro %}
 			<div class="training">
 				<div class="box">
