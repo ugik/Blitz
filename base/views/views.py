@@ -1058,10 +1058,10 @@ def trainer_signup(request):
 def client_signup(request):
 
     invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
+    blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
 
     # if invitation is not free redirect to pay-wall signup page
     if not invitation.free:
-        blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
         return redirect("/%s/%s/signup?signup_key=%s" % (blitz.trainer.short_name, blitz.url_slug, request.GET.get('signup_key')))
 
     if request.method == "POST":
@@ -1072,7 +1072,6 @@ def client_signup(request):
                 invitation.email,
                 form.cleaned_data['password1']
             )
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
             # add new client to Blitz
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
             # alert trainer of new client signup
@@ -1084,7 +1083,7 @@ def client_signup(request):
             u = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
-            return redirect('home')
+            return redirect('/signup-complete?pk='+str(blitz.pk))
 
     else:
         form = SetPasswordForm()
