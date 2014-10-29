@@ -256,7 +256,6 @@ ul.filters li.item:hover {
 }
 
 .feeds {
-    /*padding-right: 28px !important;*/
     width: 595px;
     float: left;
     color: #333;
@@ -273,12 +272,13 @@ ul.filters li.item:hover {
  * Right sidebar
  */
 #summary {
-    /*background: #f5f5f5;*/
+    position: absolute;
+    right: 0px;
     background: #fafafb;
-    height: 100% !important;
+    height: 100%;
     border-left: 1px solid #adadad;
     width: 330px;
-    float: right
+    float: right;
 }
 
 #summary .section {
@@ -302,10 +302,8 @@ ul.filters li.item:hover {
 
 #summary .diet-goals .btn-group {
     width: 100%;
-    /*border: 2px solid #7ab2ea;*/
     background: #fff;
     border-radius: 8px 8px 0px 0px;
-    /*margin-top: 10px;*/
 }
 
 #summary .diet-goals .btn-group button {
