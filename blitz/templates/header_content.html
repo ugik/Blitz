@@ -50,7 +50,8 @@
                                 <a class="{% ifequal request.path "/inbox" %}active{% endifequal %}"
                                    href="/inbox">
                             {% if user|numunreadthreads > 0 %}<span class="num-unread-threads">
-                            {{ user|numunreadthreads }}</span> {% endif %}Inbox</a>
+                            {{ user|numunreadthreads }}</span> {% endif %}<span class="results-count"><span class="inner">{{ user|numunreadthreads }}</span></span> Inbox </a>
+
                             </li>
                             <li class="nav-item">
                                 <a class="{% ifequal request.path "/salespage" %}active{% endifequal %}"

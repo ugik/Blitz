@@ -512,6 +512,7 @@ ul.filters li.item:hover {
 /*.alerts-wrapper {
     
 }*/
+
 .results-count {
     background: #86bee9;
     float: right;
@@ -528,4 +529,16 @@ ul.filters li.item:hover {
     margin-left: 0px;
     text-align: center;
     width: 34px;
+}
+
+#header .results-count {
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin: 0px 5px 0px 0px;
+}
+
+#header .results-count .inner {
+    width: 24px;
+    margin-top: 2px;
 }

@@ -155,7 +155,6 @@ def get_timezone(user):
         return user.trainer.get_timezone()
     except ObjectDoesNotExist:
         pass
-
     try:
         return user.client.get_timezone()
     except:
