@@ -236,33 +236,44 @@ $(document).ready(function() {
         // END
         
         // Clear feed container
-        if ( $mainFeed.html() ) {
-            $mainFeed.html('');
+        var clearFeed = function() {
+            if ( $mainFeed.html() ) {
+                $mainFeed.html('');
+            }
+            if ( $inboxContainer.html() ) {
+                $inboxContainer.html('');
+            }
+            $('.feeds-filter').removeClass('hidden');
+            $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
         }
-
-        if ( $inboxContainer.html() ) {
-            $inboxContainer.html('');
-        }
-        $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
+        clearFeed();
         // END
 
         // Hide and clear blitz group header
         $('.group').html('');
         // END
 
+        // Hide Alerts
+        $('.alerts-wrapper').addClass('hidden');
+        // END
+
         if (FEED_SCOPE === 'all') {
             OBJECT_ID = false;
-
+            
             // Reset Seearch Input
             $searchInput.val('')
                 .trigger('input');
             homepage_morefeed();
+        } else if (FEED_SCOPE === 'alerts') { // Alerts
+            $('#main-feed-controls, .formpage-block-form').addClass('hidden');
+            $('.feeds-filter').addClass('hidden');
+            $('.alerts-wrapper').removeClass('hidden');
         } else {
+            // Inbox
             if (FEED_SCOPE === 'inbox') {
                 // Reset Seearch Input
                 $searchInput.val('')
                     .trigger('input');
-
                 $.get('/api/inbox_feed', function(data) {
                     renderInbox(data.html);
                 });
@@ -271,12 +282,14 @@ $(document).ready(function() {
                 $inboxContainer.addClass('hidden');
             }
 
+            // Blitz
             if (FEED_SCOPE === 'blitz') {
                 $.get('/api/blitz/' + OBJECT_ID, function(data) {
                     $('.group').html(data.html);
                 });
             }
 
+            // Client
             if (FEED_SCOPE === 'client') {
                 if (OBJECT_ID) {
                     summaryXHR = $.get('/api/client_summary/' + OBJECT_ID, function(data) {

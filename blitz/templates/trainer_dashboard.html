@@ -86,7 +86,9 @@
 				</div>
 
 				{% if alerts %}
-				    {% include "trainer_alerts.html" %}
+					<div class="alerts-wrapper hidden">
+						{% include "trainer_alerts.html" %}	
+					</div>				    
 				{% endif %}
 				{% if user.blitz and user.blitz.members %}
 					<div class="feeds-filter">
