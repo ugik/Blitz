@@ -525,5 +525,7 @@ ul.filters li.item:hover {
 .results-count .inner {
     position: absolute;
     margin-top: 5px;
-    margin-left: 6px;
+    margin-left: 0px;
+    text-align: center;
+    width: 34px;
 }
