@@ -52,6 +52,7 @@ mysql -uroot -pmysql
 /flame/41502/jahed-daily/signup
 
 #git pull hard
+https://gist.github.com/hofmannsven/6814451
 git fetch origin {branch}
 git reset --hard origin/{branch}
 

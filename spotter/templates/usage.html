@@ -1,5 +1,7 @@
 {% extends "spotter_base.html" %}
 
+{% load price_tags %}
+
 {% block main %}
 
 <style type="text/css">
@@ -65,7 +67,8 @@
     <ul>{{ member.grouper }}</ul>
         <ul><ul>
         {% for c in member.list %}
-        <li> {{ c.client.name }} in {{ c.blitz.name }} for ${{ c.blitz.price }}</li>
+        <li> {{ c.client.name }} in {{ c.blitz.name }} for $
+        {% if c.blitz.price|member_price:c == 0 %}FREE{% else %}{{ c.blitz.price|member_price:c }}{% endif %} </li>
         {% endfor %}
         </ul>
     {% endfor %}

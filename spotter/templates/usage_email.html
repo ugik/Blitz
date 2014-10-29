@@ -1,5 +1,7 @@
 {% extends "emails/base_email.html" %}
 
+{% load price_tags %}
+
 {% block email_content %}
 
 <h4>Daily usage digest past {{ days }} days</h4>
@@ -28,7 +30,8 @@
 <ul><b>{{ member.grouper }}<b></ul>
     <ul>
     {% for c in member.list %}
-    <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for ${{ c.blitz.price }}</li>
+    <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for $
+{% if c.blitz.price|member_price:c == 0 %}FREE{% else %}{{ c.blitz.price|member_price:c }}{% endif %}</li>
     {% endfor %}
     </ul>
 {% endfor %}
