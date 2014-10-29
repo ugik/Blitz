@@ -53,6 +53,7 @@
 						<div class="item-inner">
 	  			            {{ blitz.title }}
 						</div>
+						<span class="results-count"><span class="inner">{{ blitz.feeds_count }}</span></span>
 					</li>
                     {% endif %}
 				{% endfor %}
@@ -66,6 +67,7 @@
 				<div class="item-inner">
 	                {{ client.name }}
 				</div>
+				<span class="results-count"><span class="inner">{{ client.feeds_count }}</span></span>
 			</li>
 			{% endfor %}
 		</ul>
