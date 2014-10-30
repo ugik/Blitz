@@ -1966,7 +1966,7 @@ a:focus {
 @media (max-width: 480px) {
   /* line 1809, ../sass/style.scss */
   .blitz-login img {
-    margin-top: 0%;
+    margin-top: 5%;
   }
 }
 @media (max-width: 480px) {
