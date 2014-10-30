@@ -61,6 +61,14 @@ class Command(BaseCommand):
             blitz.price = 50
             blitz.save()
 
+        joe = Client
+        try:
+            joe = Client.objects.get(name='Joe Johnson')
+        except Client.DoesNotExist:
+            joe = create_client("Joe Johnson", "joe@example.com", "asdf", 29, 210, 6, 5, 'M')
+            joe.headshot_from_image(settings.TEST_MEDIA_DIR + '/jj.jpg')
+            add_client_to_blitz(blitz, joe)
+
         invite = BlitzInvitation.objects.create(blitz=blitz, email='vince@example.com', 
                      name='Vince Wilfork', signup_key='TEST1', price=99)
 
@@ -98,7 +106,7 @@ class Command(BaseCommand):
             tay.headshot_from_image(settings.TEST_MEDIA_DIR + '/tayshaun_prince.png')
             add_client_to_blitz(blitz, tay)
 
-        clients = [luke, tay]
+        clients = [luke, tay, joe]
 
         # seed some demo workout data
         shapeness = knicks_profile()

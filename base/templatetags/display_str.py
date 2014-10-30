@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 
 # lazy model import to avoid circular references (when imported from model)
 completedset = get_model('base', 'CompletedSet')
-Client = get_model('base', 'Client')
 
 register = template.Library()
 
@@ -13,7 +12,11 @@ register = template.Library()
 
 @register.filter
 def display_str(completedset, viewer):
-# if viewer is trainer then client will be null
+    Client = get_model('base', 'Client')
+    if not viewer or not completedset:
+        return ''
+
+    # if viewer is trainer then client will be null
     if viewer.is_trainer:
         client = Client(user=viewer)  # placeholder client object
         client.units = "I"

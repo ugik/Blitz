@@ -80,12 +80,14 @@ def simulate_recurring_blitz(blitz, client, num_workouts, shapeness):
     """
     for i in range(1, num_workouts):
         back = randint(1,300)    # random # of days
-        date = date.today() - timedelta(days = back)
+        a_date = date.today() - timedelta(days = back)
 
         # did user skip?
         if random.random() > P_COMPLETED_WORKOUT: continue
+        
+        workout_plan_day = list(blitz.iterate_workouts())[0][1]
 
-        gym_session = simulate_gym_session(client, date, workout_plan_day, shapeness)
+        gym_session = simulate_gym_session(client, a_date, workout_plan_day, shapeness)
         finalize_gym_session(blitz, gym_session, pytz.timezone('UTC').localize(datetime.datetime.combine(gym_session.date_of_session, datetime.time() )) )
 
 
