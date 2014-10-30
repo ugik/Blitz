@@ -88,10 +88,12 @@
                                 <a class="{% ifequal request.path "/program" %}active{% endifequal %}"
                                    href="{% url "my_blitz_program" %}">Program</a>
                             </li>
+                            {% if not user.client.get_blitz.recurring %}
                             <li class="nav-item">
                                 <a class="{% ifequal request.path "/members" %}active{% endifequal %}"
                                    href="{% url "my_blitz_members" %}">People</a>
                             </li>
+                            {% endif %}
                             <li class="nav-item tablet-portrait-and-below">
                                 <a class="{% ifequal request.path "/logout" %}active{% endifequal %}"
                                    href="/logout">Logout</a>

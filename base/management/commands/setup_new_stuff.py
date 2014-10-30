@@ -61,6 +61,17 @@ class Command(BaseCommand):
             blitz.price = 50
             blitz.save()
 
+        invite = BlitzInvitation.objects.create(blitz=blitz, email='vince@example.com', 
+                     name='Vince Wilfork', signup_key='TEST1', price=99)
+
+        blitz = Blitz.objects.get(url_slug='3weeks')
+        blitz.pk = None
+        blitz.provisional = False
+        blitz.recurring = True
+        blitz.title = "individual:%s blitz:%s" % ("JJ", blitz.url_slug)
+        blitz.url_slug = ''
+        blitz.save()
+
         joe = Client
         try:
             joe = Client.objects.get(name='Joe Johnson')
@@ -68,9 +79,6 @@ class Command(BaseCommand):
             joe = create_client("Joe Johnson", "joe@example.com", "asdf", 29, 210, 6, 5, 'M')
             joe.headshot_from_image(settings.TEST_MEDIA_DIR + '/jj.jpg')
             add_client_to_blitz(blitz, joe)
-
-        invite = BlitzInvitation.objects.create(blitz=blitz, email='vince@example.com', 
-                     name='Vince Wilfork', signup_key='TEST1', price=99)
 
         try:
             blitz = Blitz.objects.get(url_slug='mike')

@@ -90,4 +90,15 @@ week of 10.20
 - WorkoutPlan swapping
 - Payment reports from balanced
 
+week of 10.27
+- edit spotter modal
+- fix SetComplete.display_str()
+- handle empty "Last time you did..."
+- rework tests for new modals
+- handle recurring settings:performance graphs
+- recurring blitz test data
+- usage report price and free invite enhancements
+- rename 'Blitz' to 'Program' for programs
+- additional Balanced payments cc checks
+
 

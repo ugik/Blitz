@@ -490,11 +490,23 @@ def client_profile_progress(request, pk):
     gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
     session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions ]
 
+
+    lift_history_maxes = get_lift_history_maxes(client)
+    # reduce the lifts to 10 weeks history (especially in recurring programs)
+    NUM_LIFTS = 10
+    for key in lift_history_maxes.keys():
+        lifts = lift_history_maxes[key]
+        lifts.sort(key=lambda x: x[0].date_of_session)
+        if len(lifts) > NUM_LIFTS+1:
+            lift_history_maxes[key] = lifts[len(lifts)-NUM_LIFTS-1:len(lifts)-1]
+
+#    import pdb; pdb.set_trace()
+
     context = {
         'client': client,
         'session_list': session_list,
         'section': 'progress',
-        'lift_history_maxes': get_lift_history_maxes(client),
+        'lift_history_maxes': lift_history_maxes,
     }
 
     return render(request, 'client_profile.html', context)

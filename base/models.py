@@ -594,7 +594,7 @@ class Blitz(models.Model):
             return self.begin_date    # TODO resolve end-date that hasn't been set yet
         return list(self.iterate_workouts())[-1][0]
 
-# loop begin/end dates connote the dates of repeating Blitz (for 1:1 Clients) per today's date
+# loop begin/end dates connote the dates of recurring Blitz (for 1:1 Clients) per today's date
     def loop_begin_date(self, timezone=None):
         if not self.recurring:   # ignore for non-recurring Blitz
             return self.begin_date
