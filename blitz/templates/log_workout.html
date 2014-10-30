@@ -99,10 +99,12 @@
                             &nbsp;
                             {% else %}
                                 <p>Last time, you did
+                                  {% if group.lift_summary.last_session %}
                                     {% for a in group.lift_summary.last_session %}
                                     {% if a.display_str = '' %}<small>(none)</small>{% else %}
                                     {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}{% endif %}
                                     {% endfor %}.
+                                  {% else %}<small>(none)</small>{% endif %}
                                 </p>
                             {% endif %}
                             </div>
