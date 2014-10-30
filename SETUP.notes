@@ -59,8 +59,13 @@ git reset --hard origin/{branch}
 #pip freeze issue
 sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
-#test harness
-python manage.py dumpdata base --indent=4 > base/fixtures/base_testdata.json
+#database+usermedia backup/restore
+mysqldump --all-databases --single-transaction --user=root -pmysql > database.sql
+mv database.sql Blitz/blitz/usermedia
+tar -czf usermedia.tar.gz Blitz/blitz/usermedia
+
+mysql -uroot -p < database.sql  // into new, blank instance of MySQ
+tar xf usermedia.tar.gz         // unpacks usermedia w/Blitz/blitz/usermedia dir structure
 
 #enom email
 http://mail-29.name-services.com/Login.aspx

@@ -494,11 +494,13 @@ def client_profile_progress(request, pk):
     lift_history_maxes = get_lift_history_maxes(client)
     # reduce the lifts to 10 weeks history (especially in recurring programs)
     NUM_LIFTS = 10
+    reduction = False
     for key in lift_history_maxes.keys():
         lifts = lift_history_maxes[key]
         lifts.sort(key=lambda x: x[0].date_of_session)
-        if len(lifts) > NUM_LIFTS+1:
-            lift_history_maxes[key] = lifts[len(lifts)-NUM_LIFTS-1:len(lifts)-1]
+        if len(lifts)-1 > NUM_LIFTS:   # array is 0-based
+            lift_history_maxes[key] = lifts[len(lifts)-1-NUM_LIFTS:len(lifts)-1]
+            reduction = True
 
 #    import pdb; pdb.set_trace()
 
@@ -507,6 +509,7 @@ def client_profile_progress(request, pk):
         'session_list': session_list,
         'section': 'progress',
         'lift_history_maxes': lift_history_maxes,
+        'reduction': reduction
     }
 
     return render(request, 'client_profile.html', context)

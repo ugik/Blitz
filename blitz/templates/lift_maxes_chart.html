@@ -14,10 +14,14 @@
         {% endfor %}
     </div>
     <div class="xaxis">
+      {% if reduction %}
+        (last 10 sessions <i>hover over to see details</i>)
+      {% else %}
         {% for gym_session, m in maxes %}
             <div class="week">
                 Wk {{ m.gym_session.workout_plan_day.workout_plan_week.week }}
             </div>
         {% endfor %}
+      {% endif %}
     </div>
 </div>
