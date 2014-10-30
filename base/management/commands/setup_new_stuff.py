@@ -8,7 +8,7 @@ from workouts.models import Lift, Workout, WorkoutSet, WorkoutPlan, WorkoutPlanW
 from base.utils import create_trainer, create_client, add_client_to_blitz, create_salespagecontent
 from base.new_content import create_new_parent_comment, add_child_to_comment, add_like_to_comment
 from base import new_content
-from base.simulations import knicks_profile, simulate_blitz_through_date
+from base.simulations import knicks_profile, simulate_blitz_through_date, simulate_recurring_blitz
 from workouts import utils as workout_utils
 from base import alerts
 
@@ -103,7 +103,10 @@ class Command(BaseCommand):
         # seed some demo workout data
         shapeness = knicks_profile()
         for d in clients:
-            simulate_blitz_through_date(blitz, d, timezone_now().date(), shapeness)
+            if d.get_blitz().recurring:
+                simulate_recurring_blitz(d.get_blitz(), d, 100, shapeness)
+            else:
+                simulate_blitz_through_date(d.get_blitz(), d, timezone_now().date(), shapeness)
             d.has_completed_intro = True
             d.save()
 

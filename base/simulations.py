@@ -2,10 +2,12 @@ from base.models import GymSession, CompletedSet
 from base.new_content import finalize_gym_session
 from workouts.utils import get_grouped_sets
 
-import random
-import datetime
 import pytz
-
+import random
+from random import randint
+import datetime
+from datetime import date, timedelta
+from dateutil import rrule
 from django.utils.timezone import now as timezone_now
 
 P_COMPLETED_WORKOUT = .5 # probability that a user actually did a given gym session
@@ -65,6 +67,20 @@ def simulate_blitz_through_date(blitz, client, to_date, shapeness):
     for date, workout_plan_day in blitz.iterate_workouts():
 
         if date > to_date: break
+
+        # did user skip?
+        if random.random() > P_COMPLETED_WORKOUT: continue
+
+        gym_session = simulate_gym_session(client, date, workout_plan_day, shapeness)
+        finalize_gym_session(blitz, gym_session, pytz.timezone('UTC').localize(datetime.datetime.combine(gym_session.date_of_session, datetime.time() )) )
+
+def simulate_recurring_blitz(blitz, client, num_workouts, shapeness):
+    """
+    Simulate blitz data up through (inclusive) week and day for recurring blitz
+    """
+    for i in range(1, num_workouts):
+        back = randint(1,300)    # random # of days
+        date = date.today() - timedelta(days = back)
 
         # did user skip?
         if random.random() > P_COMPLETED_WORKOUT: continue
