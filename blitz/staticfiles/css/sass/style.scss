@@ -3802,10 +3802,27 @@ label#id_document.upload {
   }
 }
   
-  .btn-outline:hover, .btn-outline:active, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled], .btn-group.open .btn-info.dropdown-toggle  {
+  .btn-outline:hover, .btn-outline:active, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled], .btn-group.open .btn-info.dropdown-toggle, .btn-outline-trans:hover, .btn-outline-trans:focus, .btn-outline-trans:active  {
     background: $fadedblue;
     color: white;
+    border: 2px solid $fadedblue;
   }
+
+.btn-outline-trans {
+  text-shadow: none;
+  background: rgba(0,0,0,0);
+  border: 2px solid white;
+  @include transition(0.5s, linear);
+  @include borderradius(5px);
+  text-decoration: none !important;
+  color: white;
+  text-align: center;
+  //margin: 0 auto;
+  //width: 30%;
+  @include meta();
+  font-size: 24px;
+  padding: 10px 20px;
+}
 
 
 .upload-btn {
