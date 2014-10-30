@@ -24,7 +24,7 @@ from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
-from workouts.models import WorkoutPlan
+from workouts.models import WorkoutPlan, WorkoutPlanDay
 
 from base.templatetags import units_tags
 from base import new_content
@@ -714,9 +714,11 @@ def log_workout(request, week_number, day_char):
             set_info = {}
             set_info['workout_set'] = workout_set
             set_info['completed_set'] = None
+            
             if CompletedSet.objects.filter(gym_session=gym_session, workout_set=workout_set).exists():
                 set_info['completed_set'] = CompletedSet.objects.get(gym_session=gym_session, workout_set=workout_set)
             group['set_infos'].append(set_info)
+
         group['lift_summary'] = client.lift_summary(group['lift'])
 
     if request.method == "POST":
@@ -748,6 +750,7 @@ def log_workout(request, week_number, day_char):
             for group in grouped_sets:
                 print [set_info.get('error') for set_info in group['set_infos']]
 
+#    import pdb; pdb.set_trace()
     return render(request, 'log_workout.html', {
         'client': client,
         'plan_day': plan_day,

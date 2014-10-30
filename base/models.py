@@ -55,6 +55,7 @@ from django.core.validators import RegexValidator
 from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
 
 from base.templatetags import units_tags
+from base.templatetags import display_str
 
 from workouts.models import WorkoutPlanDay, WorkoutSet, WorkoutPlan, DAYS_OF_WEEK
 
@@ -417,6 +418,7 @@ class Client(models.Model):
                 if CompletedSet.objects.filter(gym_session=gym_session, workout_set__lift=lift).exists():
                     ret['last_session'] = CompletedSet.objects.filter(gym_session=gym_session, workout_set__lift=lift)
                     break
+
         return ret
 
     def get_timezone(self):
@@ -771,9 +773,12 @@ class CompletedSet(models.Model):
     def reverse_ratio_of_pr(self):
         return 1-self.ratio_of_pr()
 
+    def display_str(self):
+        return display_str.display_str(self, self.gym_session.client.user)
+
     def __unicode__(self):
         return "%s / %s / %s" % (
-            self.display_str(),
+            display_str.display_str(self, self.gym_session.client.user),
             self.workout_set.lift.slug, 
             str(self.gym_session),
         )

@@ -100,7 +100,8 @@
                             {% else %}
                                 <p>Last time, you did
                                     {% for a in group.lift_summary.last_session %}
-                                    {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}
+                                    {% if a.display_str = '' %}<small>(none)</small>{% else %}
+                                    {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}{% endif %}
                                     {% endfor %}.
                                 </p>
                             {% endif %}

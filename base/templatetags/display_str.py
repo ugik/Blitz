@@ -2,10 +2,10 @@ from django import template
 from django.db.models import get_model
 from base.templatetags import units_tags
 from django.contrib.auth.models import User
-from base.models import Client
 
 # lazy model import to avoid circular references (when imported from model)
 completedset = get_model('base', 'CompletedSet')
+Client = get_model('base', 'Client')
 
 register = template.Library()
 
