@@ -1958,7 +1958,7 @@ a:focus {
 }
 /* line 1809, ../sass/style.scss */
 .blitz-login img {
-  margin-top: 10%;
+  margin-top: 20%;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -5319,7 +5319,7 @@ a#secondary_logo.brand {
   }
 }
 
-@media (max-width: 480px) {
+@media only screen and (max-width: 768px) {
   /* line 4434, ../sass/style.scss */
   #mc_embed_signup_scroll input {
     font-size: 18px !important;

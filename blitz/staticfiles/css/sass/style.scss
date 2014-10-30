@@ -1807,7 +1807,7 @@ a:focus {
   text-align: center;
   margin-bottom: -30px;
   img {
-    margin-top: 10%;
+    margin-top: 20%;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -4432,7 +4432,7 @@ a#secondary_logo.brand {
 } 
 
 #mc_embed_signup_scroll input {
-  @include mobile-only {
+  @include tablet-portrait-and-below {
     font-size: 18px !important;
   }
 }
