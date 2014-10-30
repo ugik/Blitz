@@ -670,15 +670,16 @@ textarea,textarea:focus {
 #logo {
   float: left;
   //width: 330px;
-  padding-top: 15px;
-  margin-right: 80px;
+  padding-top: 10px;
+  margin-left: 20px;
+  margin-right: 50px;
   img {
-    max-height: 40px;
+    max-height: 50px;
   }
   @include mobile-only {
     //margin-left: 35%
     width: 24%;
-    margin-left: 38%;
+    margin-left: 43.5%;
   }
 }
 
@@ -1802,7 +1803,7 @@ a:focus {
 
 
 .blitz-login {
-  padding-top: 20%;
+  //padding-top: 20%;
   text-align: center;
   img {
     margin-top: 10%;
