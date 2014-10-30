@@ -1811,6 +1811,9 @@ a:focus {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    @include mobile-only {
+      margin-top: 0%;
+    }
   }
   @include mobile-only {
     margin-top: 0% !important;
@@ -4393,7 +4396,7 @@ a#secondary_logo.brand {
   height: 60px;
   width: 60px;
   padding: 20px;
-  @include mobile-only {
+  @include tablet-portrait-and-below {
     display: none;
   }
 }
@@ -4439,7 +4442,8 @@ a#secondary_logo.brand {
 
 #secondary_logo > img {
   padding: 10px;
-  @include mobile-only {
+  @include tablet-portrait-and-below {
+    margin: 0 auto;
     width: 60%;
     padding-left: 20%;
     padding-top: 10%;
