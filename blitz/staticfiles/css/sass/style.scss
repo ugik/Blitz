@@ -4436,3 +4436,12 @@ a#secondary_logo.brand {
     font-size: 18px !important;
   }
 }
+
+#secondary_logo > img {
+  padding: 10px;
+  @include mobile-only {
+    width: 60%;
+    padding-left: 20%;
+    padding-top: 10%;
+  }
+}
