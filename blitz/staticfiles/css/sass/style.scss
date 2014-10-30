@@ -3823,6 +3823,10 @@ label#id_document.upload {
   @include meta();
   font-size: 24px;
   padding: 10px 20px;
+  @include mobile-only {
+    font-size: 18px;
+    padding: 5px 10px;
+  }
 }
 
 
@@ -4390,5 +4394,44 @@ a#secondary_logo.brand {
   padding: 20px;
   @include mobile-only {
     display: none;
+  }
+}
+
+.rotate{
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+     
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    -o-transition-property: -o-transform;
+    transition-property: transform;
+     
+    overflow:hidden;
+ 
+}  
+ 
+.rotate:hover  {
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+     cursor: pointer;
+} 
+
+.loginbutton {
+  padding-top: 30px; 
+  text-align: right;
+  @include mobile-only {
+    margin-right: 20px;
+    height: 44px;
+    margin-bottom: -40px;
+    font-size: 21px;
+  }
+} 
+
+#mc_embed_signup_scroll input {
+  @include mobile-only {
+    font-size: 18px !important;
   }
 }
