@@ -5284,7 +5284,7 @@ a#secondary_logo.brand {
 }
 
 /* line 4401, ../sass/style.scss */
-.rotate {
+.rotate, .branding {
   -webkit-transition-duration: 0.8s;
   -moz-transition-duration: 0.8s;
   -o-transition-duration: 0.8s;
@@ -5297,7 +5297,7 @@ a#secondary_logo.brand {
 }
 
 /* line 4416, ../sass/style.scss */
-.rotate:hover {
+.rotate:hover, .branding:hover {
   -webkit-transform: rotate(360deg);
   -moz-transform: rotate(360deg);
   -o-transform: rotate(360deg);
