@@ -4998,7 +4998,7 @@ body.modal-open {
 
 /* line 4142, ../sass/style.scss */
 a#primary_logo.brand img, #trainerlogo {
-  padding: 20px;
+  padding: 30px;
   max-height: 50px;
 }
 
@@ -5260,4 +5260,17 @@ a#secondary_logo.brand {
   width: 5%;
   opacity: 0.7;
   margin-right: 5px;
+}
+
+/* line 4387, ../sass/style.scss */
+#salespageblitzlogo img {
+  height: 60px;
+  width: 60px;
+  padding: 20px;
+}
+@media (max-width: 480px) {
+  /* line 4387, ../sass/style.scss */
+  #salespageblitzlogo img {
+    display: none;
+  }
 }

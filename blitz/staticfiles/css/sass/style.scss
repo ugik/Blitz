@@ -4140,7 +4140,7 @@ body.modal-open {
 
 
 a#primary_logo.brand img, #trainerlogo {
-  padding: 20px;
+  padding: 30px;
   max-height: 50px;
 }
 
@@ -4382,4 +4382,13 @@ a#secondary_logo.brand {
     margin-right: 5px;
   }
 
+}
+
+#salespageblitzlogo img {
+  height: 60px;
+  width: 60px;
+  padding: 20px;
+  @include mobile-only {
+    display: none;
+  }
 }
