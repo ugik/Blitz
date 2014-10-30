@@ -501,14 +501,29 @@ Example @include keyframes
 }
 
 .navbar .btn-navbar {
-  margin-top: 20px;
+  margin-top: 25px;
+  background: none;
+  background-image: none;
+  text-shadow: none;
+  @include ffboxshadow();
+  color: white;
+  border: none;
+}
+
+.btn-navbar:hover, .navbar .btn-navbar:focus, .navbar .btn-navbar:active, .navbar .btn-navbar.active, .navbar .btn-navbar.disabled, .navbar .btn-navbar[disabled] {
+    background: none;
+    background-image: none;
+    background-color: rgba(0,0,0,0) !important;
+    text-shadow: none;
+    color: $fadedblue !important;
+    margin-top: 26px;
 }
 
 .navbar .btn-navbar .icon-bar {
   display: block;
   width: 18px;
   height: 2px;
-  background-color: #1c1c1c;
+  background-color: #white;
 }
 
 .rightrow {
