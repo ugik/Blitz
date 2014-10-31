@@ -5353,3 +5353,19 @@ a#secondary_logo.brand {
     padding-top: 10%;
   }
 }
+
+/* line 4458, ../sass/style.scss */
+.logoborder {
+  transition: all 0.5s linear;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  padding: 30px;
+}
+
+/* line 4465, ../sass/style.scss */
+.logoborder:hover {
+  border: 2px dashed #7ab2ea;
+}

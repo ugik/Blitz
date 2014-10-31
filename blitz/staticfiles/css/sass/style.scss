@@ -4454,3 +4454,14 @@ a#secondary_logo.brand {
     padding-top: 10%;
   }
 }
+
+.logoborder {
+  @include transition(0.5s, linear);
+  border: 2px dashed rgba(255,255,255,0.3);
+  padding: 30px;
+  //padding: 30px;
+}
+
+.logoborder:hover {
+    border: 2px dashed $fadedblue;
+  }

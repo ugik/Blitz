@@ -36,10 +36,10 @@ class="sales-page"
         {% if debug_mode %}
            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
            <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
-           <label id="id_label" name="logo_picture"  for="id_logo_picture"/>
+           <label class="" id="id_label" name="logo_picture"  for="id_logo_picture"/>
 
 <!-- CHRIS: add img-circle def to css, as in trainer headshot -->
-            <img class="brand img-circle" 
+            <img class="brand logoborder" 
            {% if sales_page.logo %}
                src="{{ MEDIA_URL }}{{ sales_page.logo }}"
            {% else %}
@@ -48,7 +48,7 @@ class="sales-page"
            </label>
         {% else %}
            {% if sales_page.logo %}
-           <a class="brand" href="/" id="secondary_logo">
+           <a class="brand logoborder" href="/" id="secondary_logo">
               <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
             </a>
            {% endif %}
