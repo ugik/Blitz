@@ -4406,7 +4406,7 @@ a#secondary_logo.brand {
   }
 }
 
-.rotate, {
+.rotate, #logo {
     -webkit-transition-duration: 0.8s;
     -moz-transition-duration: 0.8s;
     -o-transition-duration: 0.8s;
@@ -4421,7 +4421,7 @@ a#secondary_logo.brand {
  
 }  
  
-.rotate:hover,  {
+.rotate:hover, #logo:hover {
     -webkit-transform:rotate(360deg);
     -moz-transform:rotate(360deg);
     -o-transform:rotate(360deg);
