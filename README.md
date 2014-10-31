@@ -36,27 +36,27 @@ Start the development server, and log in with the following logins:
 
 ### Running tests
 
-Selenium test scripts are in base/tests/*.py and run from command line. Database is copied to backup prior to tests and restored upon completion.
+Selenium test scripts are in 'base/tests/*.py; and run from command line. Database is copied to backup prior to tests and restored upon completion.
 
-bash runTests.sh 
-bash runTests.sh TestBasic
-bash runTests.sh TestCreditcards
-...
+'bash runTests.sh'
+'bash runTests.sh TestBasic'
+'bash runTests.sh TestCreditcards'
 
 ### EC2 instance
 
 Please read EC2start.sh and EC2update.sh carefully to understand what is applied to ec2 deployments.
 
-An Ubuntu ec2 instance is formed by running EC2start.sh with public DNS parameter, this will copy the essential files needed to setup the instance, then running EC2setup.sh ON THE REMOTE SERVER. NOTE: prior to running EC2setup.sh, fill out the environment vars at the top of the script. The ec2.pem key is above the Blitz directory structure.
+An Ubuntu ec2 instance is formed with 'bash EC2start.sh' with public DNS as parameter, this will copy the essential files needed to setup the instance, with 'bash EC2setup.sh' ON THE REMOTE SERVER. 
+NOTE: prior to running EC2setup.sh, fill out the environment vars at the top of the script. The ec2.pem key is above the Blitz directory structure.
 
-The remote ec2 instance is updated using the EC2update.sh script with public DNS parameter. This rsync's all necessary files and resets Apache. adding a 'migrate' parameter will force deployment server database migration.
+The remote ec2 instance is updated with 'bash EC2update.sh' script with public DNS parameter. This rsync's all necessary files and resets Apache. adding a 'migrate' parameter will force deployment server database migration.
 
 ### Automated tasks
 
-Celery wrapped in SupervisorD tasks are in base/tasks.py, these involve automated email notifications as well as regular backup copy to backup server.
+Celery wrapped in SupervisorD tasks are in 'base/tasks.py', these involve automated email notifications, daily usage digest to team@blitz.us as well as regular backup copy to backup server.
 
 ### Backup server
 
-A backup server whose public DNS address is specified in backup.sh will receive a SQLdump and a tar file containing all usermedia (user supplied images), as part of a regularly scheduled task. See base/tasks.py for details. The backup server will have a replica of the data and media as of the last backup.
+A backup server whose public DNS address is specified in 'backup.sh' will receive a SQLdump and a tar file containing all usermedia (user supplied images), as part of a regularly scheduled task. See 'base/tasks.py' for details. The backup server will have a replica of the data and media as of the last backup.
 
 
