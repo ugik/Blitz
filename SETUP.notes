@@ -64,8 +64,11 @@ mysqldump --all-databases --single-transaction --user=root -pmysql > database.sq
 mv database.sql Blitz/blitz/usermedia
 tar -czf usermedia.tar.gz Blitz/blitz/usermedia
 
-mysql -uroot -p < database.sql  // into new, blank instance of MySQ
 tar xf usermedia.tar.gz         // unpacks usermedia w/Blitz/blitz/usermedia dir structure
+mysql -uroot -p < database.sql  // into new, blank instance of MySQ
+
+#delete databases
+mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| grep -v information_schema| grep -v test | gawk '{print "drop database " $1 ";"}' | mysql -uroot -pmysql
 
 #enom email
 http://mail-29.name-services.com/Login.aspx
