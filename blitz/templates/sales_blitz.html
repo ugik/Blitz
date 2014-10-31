@@ -37,9 +37,14 @@ class="sales-page"
            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
            <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
            <label id="id_label" name="logo_picture"  for="id_logo_picture"/>
+
+<!-- CHRIS: add img-circle def to css, as in trainer headshot -->
+            <img class="brand img-circle" 
            {% if sales_page.logo %}
-               <img id="trainerlogo" src="{{ MEDIA_URL }}{{ sales_page.logo }}" /> 
-           {% endif %}
+               src="{{ MEDIA_URL }}{{ sales_page.logo }}"
+           {% else %}
+               src="{{ MEDIA_URL }}{{ sales_page.logo }}"
+           {% endif %} align="left" class="shadowimg" />
            </label>
         {% else %}
            {% if sales_page.logo %}
@@ -92,12 +97,11 @@ class="sales-page"
   {% endif %}
 
       <div class="sales-header">
-         <h1>Personal Fitness Coaching with {{ sales_page.trainer_name }}</h1>
+         <h1>Personal Fitness Coaching with {{ sales_page.trainer.name }}</h1>
 
          <div class="content">
             {% if debug_mode %}
-               <textarea class="edit" name="intro" id="intro">
-                  {{ sales_page.program_introduction }}
+               <textarea class="edit" name="intro" id="intro">{{ sales_page.program_introduction }}
                </textarea>
             {% else %}
               {{ sales_page.program_introduction }}

@@ -13,23 +13,16 @@
                 <a class="branding" href="/" id="logo">
                     <img class="center" src="{{ STATIC_URL }}images/logo.png"/>
                 </a>
-                {% endif %}
-
-                {% comment %}
-                {% if user.is_trainer %}
-                  <a class="branding" href="/" id="logo2">
-                  {% if user.trainer.get_blitz and user.trainer.get_blitz.sales_page_content.logo %}
-                    <img src="{{ MEDIA_URL }}{{ user.trainer.get_blitz.sales_page_content.logo }}" />
-                  </a> 
-                  {% endif %}
-                  {% else %}
+                {% else %}
+<!-- CHRIS: add correct styling to trainer logo img class -->
                   {% if user.client.get_blitz.sales_page_content.logo %}
                   <a class="branding" href="/" id="logo2">
                     <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
                   </a> 
                   {% endif %}
                 {% endif %}
-                {% endcomment %}
+
+                {% comment %}{% endcomment %}
 
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
                 <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
