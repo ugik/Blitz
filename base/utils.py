@@ -93,10 +93,11 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     content.save()
     return content
 
-def add_client_to_blitz(blitz, client, workoutplan=None, price=0):
+def add_client_to_blitz(blitz, client, workoutplan=None, price=0, date=datetime.date.today):
     """
     Assuming we'll want to attach more info to plan joining
     """
+#    import pdb; pdb.set_trace()
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
         blitz.pk = None
@@ -108,7 +109,7 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0):
         blitz.url_slug = ''
         blitz.save()
 
-    membership = BlitzMember.objects.create(blitz=blitz, client=client)
+    membership = BlitzMember.objects.create(blitz=blitz, client=client, date_created=date)
     return membership
 
 # TODO: should be instance method of GymSession

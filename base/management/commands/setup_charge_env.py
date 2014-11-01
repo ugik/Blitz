@@ -39,20 +39,13 @@ class Command(BaseCommand):
             startdate = date.today() - timedelta(days = back)
             data.append({'name': client, 'start': startdate})
 
-        mikerashid = Trainer.objects.get(name='Mike Rashid')
-        blitz = Blitz.objects.get(url_slug='3weeks')
-        
         print "Today %s" % date.today()
         for d in data:
+            blitz = Blitz.objects.get(url_slug='3weeks')
             m = (len(list(rrule.rrule(rrule.MONTHLY, dtstart=d['start'], until=date.today()))))
             print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), d['start'], m
 
-'''
-            try:
-                c = Client.objects.get(name=d['name'])
-            except Client.DoesNotExist:
-                c = create_client(d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), "asdf", 25, 200, 6, 0, 'M')
-                add_client_to_blitz(blitz, c)
+            c = create_client(d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), "asdf", randint(22,35), randint(180,230), 6, randint(0,11), 'M')
+            add_client_to_blitz(blitz, c, None, 0, d['start'])
 
-'''
 

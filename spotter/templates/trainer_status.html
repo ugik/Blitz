@@ -31,13 +31,19 @@
            {% for blitz in trainer.blitz_set.all %}
                <li style="padding-left: 20px;">{% if blitz.url_slug %}{{ blitz.url_slug }} : {% endif %} <b>{{ blitz.title }}</b>
                    {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
-                   {% if blitz.recurring %}<small>(Recurring)</small>{% endif %}
-                   {% if not blitz.recurring %}<small>(Group)</small>{% endif %}
-
+                   {% if blitz.recurring %}
+                      {% if blitz.blitzmember_set.all %}
+                          {{ blitz.blitzmember_set.all.0.date_created }}
+                      {% endif %}
+                      <small>(Recurring)</small>
+                   {% else %}
+                      <small>(Group)</small>
+                   {% endif %}
+                   <br>&nbsp;&nbsp;&nbsp;&nbsp;
                    {% if blitz.workout_plan.id %}
                        <small><u>has workoutplan:{{ blitz.workout_plan.name }}</u></small>
                    {% else %}
-                       <small><b>(no WorkoutPlan assigned)</b></small>
+                       <small><u>(no WorkoutPlan assigned)</u></small>
                    {% endif %}
 
            {% endfor %}</ul>
