@@ -283,6 +283,11 @@ ul.filters li.item:hover {
 
 #summary .section {
     border-top: 1px solid #c1c0c3;
+    border-radius: none;
+}
+
+#summary .section:last-child {
+    border-bottom: 1px solid #c1c0c3;
 }
 
 #summary .diet-goals {
@@ -293,12 +298,18 @@ ul.filters li.item:hover {
     margin-bottom: 0px;
 }
 
-#summary .diet-goals .btn-edit {
+#summary .btn-edit {
     float: right;
     border: 2px solid #7ab2ea;
     background: #fff;
     color: #7ab2ea;
+    margin-right: 10px;
 }
+
+#summary .btn-edit:last-child {
+    margin-right: 0px;
+}
+
 
 #summary .diet-goals .btn-group {
     width: 100%;
@@ -322,6 +333,20 @@ ul.filters li.item:hover {
 #summary .diet-goals .btn-group button.active {
     background: #7ab2ea;
     color: #fff;
+}
+
+#summary .workout-plan .btn-group {
+    display: inline-block;
+    float: right;
+}
+
+#summary .workout-plan .btn-group .btn-edit {
+    border-radius: 8px;
+    float: none;
+}
+
+#summary .workout-plan h4 {
+    color: #7ab2ea;
 }
 
 #summary .cover {
@@ -435,27 +460,27 @@ ul.filters li.item:hover {
 /* TODO: Move to the correct place */
 .feeds-filter {
     width: 100%;
-    border-bottom: 1px solid #cacacc;
     margin-bottom: 25px;
 }
 
 .feeds-filter ul {
+    border-bottom: 1px solid #cacacc;
     list-style: none;
     margin: 0px auto 14px auto;
 }
 
 .feeds-filter ul li {
+    height: 32px;
     color: #7ab2ea;
     display: inline-block;
     margin-right: 34px;
+    cursor: pointer;
 }
 
 .feeds-filter ul li.active {
     color: #545454;
     border-bottom: 3px solid #95c0f4;
 }
-
-
 
 /* TODO: Move to the correct place */
 /**
@@ -483,7 +508,7 @@ ul.filters li.item:hover {
     margin-bottom: 17px;
 }
 
-.group .actions button.btn {
+.group .actions .btn {
     background: none transparent;
     padding: 14px 10px;
     color: #84aeff;
@@ -492,7 +517,7 @@ ul.filters li.item:hover {
     transition: all 0.2s;
 }
 
-.group .actions button.btn:hover {
+.group .actions .btn:hover {
     background: #84aeff;
     color: #fff;
 }
@@ -505,11 +530,53 @@ ul.filters li.item:hover {
     margin-right: 0px;
 }
 
-
 /*Alerts*/
 /*.alerts-wrapper {
     
 }*/
+
+.trainer-alert .btn {
+    background: none transparent;
+    padding: 10px 34px;
+    color: #84aeff;
+    border: 2px solid #84aeff;
+    margin-right: 18px;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.trainer-alert i.icon-remove-sign {
+    color: #cecece;
+}
+
+.trainer-alert .btn:hover {
+    background: #84aeff;
+    color: #fff;
+}
+
+.trainer-alert .actions {
+    display: inline-block;
+    float: right;
+}
+
+.trainer-alert form {
+    margin-top: 25px;
+}
+
+.trainer-alert form textarea,
+.trainer-alert form button {
+    width: 571px;
+}
+
+.trainer-alert form .btn {
+    background: #73b9df;
+    color: #FFF;
+}
+
+.trainer-alert form .btn:hover {
+    background: #427996;
+}
+
 
 .results-count {
     background: #86bee9;
@@ -539,4 +606,31 @@ ul.filters li.item:hover {
 #header .results-count .inner {
     width: 24px;
     margin-top: 2px;
+}
+
+@media only screen and (max-width:1280px) {
+    .feeds {
+        width: 62% !important;
+    }
+}
+
+@media only screen and (max-width:1235px) {
+    .feeds {
+        width: 59% !important;
+    }
+}
+
+@media only screen and (max-width:1182px) {
+    .feeds {
+        width: 55% !important;
+    }
+}
+
+@media only screen and (max-width:1094px) {
+    .feeds {
+        width: 97% !important;
+    }
+    #summary {
+        display: none !important;
+    }
 }
