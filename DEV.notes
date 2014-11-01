@@ -88,7 +88,7 @@ week of 10.20
 - Google analytics setup
 - SSL https:
 - WorkoutPlan swapping
-- Payment reports from balanced
+- sketch-out Payment reports from balanced
 
 week of 10.27
 - edit spotter modal
@@ -101,5 +101,6 @@ week of 10.27
 - rename 'Blitz' to 'Program' for programs
 - additional Balanced payments cc checks
 - database+usermedia automated backup to remote server
+- payments report additional features
 
 
