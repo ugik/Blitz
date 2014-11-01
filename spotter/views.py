@@ -37,7 +37,7 @@ def spotter_payments(request):
     payments = []
 
     for client in Client.objects.all():
-        debits = balanced.Debit.query.filter(client_id=client.pk)
+        debits = debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
         for debit in debits:
             if 'client_id' in debit.meta:
                 try:
@@ -47,7 +47,7 @@ def spotter_payments(request):
                     if invitation:
                         invitation = invitation[0]
                     payments.append({'client': client, 'blitz': blitz, 'invitation': invitation,
-                             'amount': debit.amount, 'status': debit.status, 
+                             'amount': debit.amount/100, 'status': debit.status, 
                              'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
                 except:
                     pass

@@ -498,8 +498,9 @@ def client_profile_progress(request, pk):
     for key in lift_history_maxes.keys():
         lifts = lift_history_maxes[key]
         lifts.sort(key=lambda x: x[0].date_of_session)
-        if len(lifts)-1 > NUM_LIFTS:   # array is 0-based
-            lift_history_maxes[key] = lifts[len(lifts)-1-NUM_LIFTS:len(lifts)-1]
+        lifts.reverse()
+        if len(lifts) > NUM_LIFTS-1:   # array is 0-based
+            lift_history_maxes[key] = lifts[0:NUM_LIFTS]
             reduction = True
 
 #    import pdb; pdb.set_trace()

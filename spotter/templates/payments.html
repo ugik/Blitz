@@ -9,23 +9,29 @@
     }
 </style>
 
-    <div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
-      {% for payment in payments %}
-      <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
-        <div style="text-align: left;" class="spotterheader">
-          <small>Client:</small> {{ payment.client.name }}
-          <small>Blitz:</small> {{ payment.blitz.title }} 
-<br>          {{ payment.status }}:
-              {% if payment.invitation.price %}<small>Invitation Price:</small> ${{ payment.invitation.price }}
-              {% else %} ${{ payment.amount }}{% endif %}
-<br>          {{ payment.created_at }}
-          <small>Transaction #:</small> {{ payment.xtion }}
+<div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
 
-        </div>
-      </div>
-      {% endfor %}
+{% regroup payments|dictsort:"client.name" by client.name as client_payments_list %}
+  {% for client_payments in client_payments_list %}
+  <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
+     <div style="text-align: left;" class="spotterheader">
+     <ul><li>{{ client_payments.grouper }}</li><br>
 
-    </div>
+<small>
+     {% for payment in client_payments.list|dictsort:"created_at" %}
+         <li> Blitz:{{ payment.blitz.title }} </li>
+         <li> {% if payment.invitation.price %}Invited Price: ${{ payment.invitation.price|stringformat:"0.2f" }}
+              {% else %} ${{ payment.amount|stringformat:"0.2f" }}{% endif %}({{ payment.status }})</li>
+         <li> {{ payment.created_at }}
+              Transaction #:{{ payment.xtion }} </li>
+<br>
+     {% endfor %}
+</small>
+     </ul>
+     </div>
+  </div>
+  {% endfor %}
+</div>
 
 
 {% endblock %}
