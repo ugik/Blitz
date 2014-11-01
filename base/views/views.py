@@ -84,7 +84,7 @@ def home(request):
             return redirect('spotter_index')
 
         if request.user.is_trainer:
-            return trainer_home(request)
+            return trainer_dashboard(request)
         else:
             return client_home(request)
 
