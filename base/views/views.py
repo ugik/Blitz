@@ -837,7 +837,7 @@ def blitz_feed(request):
     try:
         obj_id = int( request.GET.get('object_id') )
     except Exception as e:
-#        print e
+        print e
         obj_id = None
 
     if search_text and len(search_text) > 0:
@@ -922,7 +922,7 @@ def blitz(request, pk):
         'end_date': end_date,
         'members_count': len(headshots),
         'headshots': headshots,
-        'html': get_blitz_group_header_html(title, start_date, end_date, headshots),
+        'html': get_blitz_group_header_html(blitz, title, start_date, end_date, headshots),
     }
     return JSONResponse(ret)
 
@@ -1729,6 +1729,8 @@ def trainer_dashboard(request):
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
             'alerts': trainer.get_alerts(),
+            'alerts_count': len( trainer.get_alerts() ),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0])

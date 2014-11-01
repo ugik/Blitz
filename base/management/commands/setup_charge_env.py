@@ -35,7 +35,7 @@ class Command(BaseCommand):
         timezone = current_tz()
         data = []
         for client in clients:
-            back = randint(100,300)    # random # of days
+            back = randint(100,500)    # random # of days
             startdate = date.today() - timedelta(days = back)
             data.append({'name': client, 'start': startdate})
 

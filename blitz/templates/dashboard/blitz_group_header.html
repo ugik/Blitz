@@ -1,8 +1,14 @@
 <h3>{{ title }} <small>Starts {{start_date}} | Ends {{end_date}} - {{ members_count }} Members</small></h3>
 <div class="members">
 	{% if headshots %}
-		{% for headshot in headshots%}
-		<img class="img-circle headshot" src="/media/{{ headshot }}">
+		{% for member in blitz.members %}
+		<a href="{% url 'client_profile' member.pk %}" target="_blank"><img class="img-circle headshot" src="/media/{{ member.headshot }}"></a>
 		{% endfor %}
 	{% endif %}
+</div>
+<div class="actions">
+	<a class="btn btn-primary" href="#" data-object-id="{{blitz.pk}}" target="_blank">Edit Dates</a>
+	<a class="btn btn-primary" href="{% url 'spotter_program_edit' blitz.pk %}" data-object-id="{{blitz.pk}}" target="_blank">Edit Program</a>
+	<a class="btn btn-primary" href="#" data-object-id="{{blitz.pk}}" target="_blank">Edit Macros</a>
+	<a class="btn btn-primary" href="#" data-object-id="{{blitz.pk}}" target="_blank">Edit Page</a>
 </div>

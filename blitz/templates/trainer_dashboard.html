@@ -20,13 +20,9 @@
     {% include "header_content.html" %}
     <div class="clearfix"></div>
 {% endblock %}
-
+<div class="colorstripe"></div>
 <div id="dashboard">
 	<div class="sidebar-left">
-		<!-- <div class="header">
-			<a class="brand center" href="/" id="logo"><img src="{{ STATIC_URL }}images/logo.png"/></a>
-		</div> -->
-
 		<div class="search-input">
 			<input type='text' class="search-text" placeholder="Search for a client or program...">
 		</div>
@@ -35,11 +31,13 @@
 				<div class="item-inner">
 					Alerts
 				</div>
+				<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
 			</li>
 			<li class="item active" data-scope='all'>
 				<div class="item-inner">
 					All Updates
 				</div>
+				<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
 			</li>
 			<div class="separator">
 			</div>
@@ -51,6 +49,7 @@
 						<div class="item-inner">
 	  			            {{ blitz.title }}
 						</div>
+						<span class="results-count"><span class="inner">{{ blitz.feeds_count }}</span></span>
 					</li>
                     {% endif %}
 				{% endfor %}
@@ -64,6 +63,7 @@
 				<div class="item-inner">
 	                {{ client.name }}
 				</div>
+				<span class="results-count"><span class="inner">{{ client.feeds_count }}</span></span>
 			</li>
 			{% endfor %}
 		</ul>
@@ -73,27 +73,29 @@
 	</div> <!--/ sidebar-left -->
 
 	<div class="content-wrapper">
-		<!-- <div id="header">
-			<div class="clearfix"></div>
-		</div> -->
-		<div class="colorstripe"></div>
-
 		<div class="content row-fluid">
-			<div class="inbox-container"></div>
+			<!-- Inbox Container -->
+			<div class="inbox-container">
+				<!-- Will be populated by AJAX -->
+			</div>
+
 			<div class="feeds">
 				<!-- Blitz group header -->
 				<div class="group">
-				</div>
+					<!-- Will be populated by AJAX -->
+				</div>	
 
 				{% if alerts %}
-				    {% include "trainer_alerts.html" %}
+					<div class="alerts-wrapper hidden">
+						{% include "trainer_alerts.html" %}	
+					</div>				    
 				{% endif %}
 				{% if user.blitz and user.blitz.members %}
 					<div class="feeds-filter">
 						<ul>
-							<li class="active">Everything</li>
-							<li>Workouts</li>
-							<li>Check-Ins</li>
+							<li class="active" data-scope="all">Everything</li>
+							<li data-scope="workouts">Workouts</li>
+							<li data-scope="check-ins">Check-Ins</li>
 						</ul>
 					</div>
 		        	{% include "main_feed.html" %}

@@ -168,6 +168,14 @@ $(document).ready(function() {
         });
     });
 
+
+    // On Windows Resize
+    $(window).resize(function() {
+        $('.feeds').width( $('.content-wrapper').width()-(330+20) );
+    });
+    $(window).trigger('resize');
+    // END
+
     $('#homepage-loadmore').on('click', function(e) {
         homepage_morefeed();
     });
@@ -215,8 +223,32 @@ $(document).ready(function() {
         }
     });
 
+    // Alerts
+    $('#trainer-alert-box').on('click', 'button[data-action=leave-message]', function(e) {
+        var targetId = $(this).data('target-id');
+
+        // Hide unfocused message box
+        $('button[data-action=leave-message]').not( $(this) )
+            .html('Message');
+
+        $('.message-entry').not( $('#'+targetId) )
+            .addClass('hidden')
+            .find('textarea')
+                .val('');
+
+        // Shows textarea for type a message
+        if ( $('#'+targetId).hasClass('hidden') ) {
+            // Showing textarea
+            $('#'+targetId).removeClass('hidden');
+            $(this).html('Close');
+        } else {
+            $('#'+targetId).addClass('hidden');
+            $(this).html('Message');
+        }
+    });
+
     // Filters
-    $('.filters').on('click', 'li', function(event) {
+    $('.filters, .feeds-filter').on('click', 'li', function(event) {
         // Abort ajax requests
         if (xhr) {
             xhr.abort();
@@ -232,37 +264,48 @@ $(document).ready(function() {
         SEARCH_TEXT = '';
 
         // Hide and clear client summary
-        $summary.addClass('hidden').html('');
+        $summary.html('');
         // END
-        
-        // Clear feed container
-        if ( $mainFeed.html() ) {
-            $mainFeed.html('');
-        }
 
-        if ( $inboxContainer.html() ) {
-            $inboxContainer.html('');
+        // Clear feed container
+        var clearFeed = function() {
+            if ( $mainFeed.html() ) {
+                $mainFeed.html('');
+            }
+            if ( $inboxContainer.html() ) {
+                $inboxContainer.html('');
+            }
+            $('.feeds-filter').removeClass('hidden');
+            $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
         }
-        $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
+        clearFeed();
         // END
 
         // Hide and clear blitz group header
         $('.group').html('');
         // END
 
+        // Hide Alerts
+        $('.alerts-wrapper').addClass('hidden');
+        // END
+
         if (FEED_SCOPE === 'all') {
             OBJECT_ID = false;
-
+            
             // Reset Seearch Input
             $searchInput.val('')
                 .trigger('input');
             homepage_morefeed();
+        } else if (FEED_SCOPE === 'alerts') { // Alerts
+            $('#main-feed-controls, .formpage-block-form').addClass('hidden');
+            $('.feeds-filter').addClass('hidden');
+            $('.alerts-wrapper').removeClass('hidden');
         } else {
+            // Inbox
             if (FEED_SCOPE === 'inbox') {
                 // Reset Seearch Input
                 $searchInput.val('')
                     .trigger('input');
-
                 $.get('/api/inbox_feed', function(data) {
                     renderInbox(data.html);
                 });
@@ -271,12 +314,14 @@ $(document).ready(function() {
                 $inboxContainer.addClass('hidden');
             }
 
+            // Blitz
             if (FEED_SCOPE === 'blitz') {
                 $.get('/api/blitz/' + OBJECT_ID, function(data) {
                     $('.group').html(data.html);
                 });
             }
 
+            // Client
             if (FEED_SCOPE === 'client') {
                 if (OBJECT_ID) {
                     summaryXHR = $.get('/api/client_summary/' + OBJECT_ID, function(data) {
@@ -284,16 +329,27 @@ $(document).ready(function() {
                     });
                 }
             } else {
-                $summary.addClass('hidden');
+                $summary.html('');
             }
             homepage_morefeed();
         }
 
         // Sets 'active' class to clicked filter
-        $('ul.filters li').removeClass('active');
+        $(this).parent().find('li').not($(this))
+            .removeClass('active');
         $(this).addClass('active');
     });
     // End Filters
+
+    // $('.feeds-filter').on('click', 'li', function(e) {
+    //     alert();
+
+
+    //     $(this).parent().find('li').not($(this))
+    //         .removeClass('active');
+
+    //     $(this).addClass('active');
+    // });
 
     homepage_morefeed();
 });

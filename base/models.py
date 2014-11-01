@@ -464,6 +464,10 @@ class Client(models.Model):
     def current_blitz_day_index(self):
         return self.get_blitz().current_day_index(self.get_timezone())
 
+    def feeds_count(self):
+        count = self.get_feeditems().count()
+        return count
+
 MACRO_STRATEGIES = (
     ('M', 'Macros Only'),
     ('C', 'Calories Only'),
@@ -649,6 +653,10 @@ class Blitz(models.Model):
             users.append(f.client.user)
         users.append(self.trainer.user)
         return users
+
+    def feeds_count(self):
+        count = FeedItem.objects.filter(blitz_id=self.pk).count()
+        return count
 
 class BlitzInvitation(models.Model):
 
