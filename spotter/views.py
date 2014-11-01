@@ -23,6 +23,7 @@ import xlrd
 import datetime
 import requests
 from datetime import date, timedelta
+from dateutil import rrule
 
 @login_required
 def spotter_index(request):
@@ -34,27 +35,48 @@ def spotter_index(request):
 @login_required
 def spotter_payments(request):
     import balanced
+    clients = []
     payments = []
+    total_cost = total_paid = 0
 
     for client in Client.objects.all():
-        debits = debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
-        for debit in debits:
-            if 'client_id' in debit.meta:
-                try:
-                    client = Client.objects.get(pk=debit.meta['client_id'])
-                    blitz = Blitz.objects.get(pk=debit.meta['blitz_id'])
-                    invitation = BlitzInvitation.objects.filter(pk=debit.meta['invitation_id'])
-                    if invitation:
-                        invitation = invitation[0]
-                    payments.append({'client': client, 'blitz': blitz, 'invitation': invitation,
-                             'amount': debit.amount/100, 'status': debit.status, 
-                             'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                except:
-                    pass
+#        import pdb; pdb.set_trace()
+        blitz = client.get_blitz()
+        invitation = blitz.blitzinvitation_set.all()
 
-#    import pdb; pdb.set_trace()
+        if blitz.blitzmember_set.all():
+            start_date = blitz.blitzmember_set.all()[0].date_created
+        else:
+            start_date = date.today()
+        months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
+
+        if not invitation:
+            invitation = BlitzInvitation()
+            total_cost = months * blitz.price
+        else:
+            invitation = invitation[0]
+            if invitation.price:
+                total_cost = months * invitation.price
+            else:
+                total_cost = months * blitz.price
+
+        debits = debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
+        if debits:
+            for debit in debits:
+                if 'client_id' in debit.meta:
+                    payments.append({'amount': debit.amount/100, 'status': debit.status, 
+                         'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
+                    total_paid += debit.amount/100
+
+        clients.append({'client':client, 'blitz': blitz, 'invitation': invitation,
+                        'start':start_date, 'months': months, 'payments': payments,
+                        'total_cost':total_cost, 'total_paid':total_paid, 'due':total_cost-total_paid})
+
+        payments = []
+        total_cost = total_paid = 0
+
     return render(request, 'payments.html', 
-          {'payments' : payments})
+          {'clients' : clients})
 
 @login_required
 def spotter_usage(request):

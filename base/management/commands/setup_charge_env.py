@@ -46,6 +46,6 @@ class Command(BaseCommand):
             print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), d['start'], m
 
             c = create_client(d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), "asdf", randint(22,35), randint(180,230), 6, randint(0,11), 'M')
-            add_client_to_blitz(blitz, c, None, 0, d['start'])
+            add_client_to_blitz(blitz, c, None, blitz.price, d['start'])
 
 
