@@ -1712,6 +1712,14 @@ def single_post_comment(request, pk):
     feeditem_html = get_feeditem_html(feeditem, request.user)
     return render(request, 'single_post.html', {'feeditem': feeditem, 'feeditem_html': feeditem_html})
 
+# client survey
+def client_survey(request):
+    return render(request, 'client_intake_survey.html', {})
+
+# trainer survey
+def trainer_survey(request):
+    return render(request, 'trainer_intake_survey.html', {})
+
 # trainer dashboard
 # url: /dashboard
 @login_required
