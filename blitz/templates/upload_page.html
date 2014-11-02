@@ -37,30 +37,10 @@
       </div>
     {% endif %}
 
-    <script>
-      //document.getElementById("file").onchange = function() {
-      //document.getElementById("form").submit();
-      //}; /*  was trying to get form to auto submit upon upload*/
-      function uploadFile_onChange(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-            $('.prif_img').attr('src', e.target.result).width(120).height(150);
-
-
-              };
-
-              reader.readAsDataURL(input.files[0]);
-          }
-      }
-    </script>
     <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 
         <input type="file" name="document" id="file" style="height:0;"/>
         <label id="file" name="document" for="file"/ class="btn-outline upload-btn" >Select a File</label>
-
-    <!--    <img src="{{ STATIC_URL }}images/logo.png" width="9%" height="9%"/></label> -->
 
     <br>
         <div class="submit-container">
