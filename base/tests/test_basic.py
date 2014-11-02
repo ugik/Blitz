@@ -11,17 +11,19 @@ class TestBasic(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
+        self.driver.set_window_size(800, 1000)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
         self.accept_next_alert = True
     
     def test_basic(self):
         driver = self.driver
-        driver.get(self.base_url + "/login?standard")
+        driver.get(self.base_url + "/login")
+        driver.find_element_by_css_selector("button.btn-outline-trans").click()
         driver.find_element_by_id("id_email").clear()
-        driver.find_element_by_id("id_email").send_keys("mr@example.com")
+        driver.find_element_by_id("id_email").send_keys("tay@example.com")
         driver.find_element_by_id("id_password").clear()
-        driver.find_element_by_id("id_password").send_keys("foo")
+        driver.find_element_by_id("id_password").send_keys("asd")
         driver.find_element_by_css_selector("button.obtn.obtn-comment").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
@@ -30,50 +32,105 @@ class TestBasic(unittest.TestCase):
         driver.find_element_by_css_selector("button.obtn.obtn-comment").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
+        driver.get(self.base_url + "/client-checkin")
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_css_selector("b.caret").click()
-        driver.find_element_by_css_selector("ul.dropdown-menu > li > a").click()
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
-        driver.find_element_by_xpath("//a[contains(@href, '/inbox')]").click()
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
-        driver.find_element_by_link_text("Pages").click()
-        driver.find_element_by_css_selector("button.obtn.obtn-comment-grn").click()
-        driver.back()
+        driver.find_element_by_id("done_action").click()
+        driver.get(self.base_url + "/log-workout/1/M")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_name("set-829-weight").clear()
+        driver.find_element_by_name("set-829-weight").send_keys("100")
+        driver.find_element_by_name("set-829-reps").clear()
+        driver.find_element_by_name("set-829-reps").send_keys("8")
+        driver.find_element_by_name("set-830-weight").clear()
+        driver.find_element_by_name("set-830-weight").send_keys("110")
+        driver.find_element_by_name("set-830-reps").clear()
+        driver.find_element_by_name("set-830-reps").send_keys("9")
+        driver.find_element_by_name("set-831-weight").clear()
+        driver.find_element_by_name("set-831-weight").send_keys("120")
+        driver.find_element_by_name("set-831-reps").clear()
+        driver.find_element_by_name("set-831-reps").send_keys("10")
+        driver.get(self.base_url + "/")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/profile/c/8/progress")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/profile/c/8/checkins")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/logout")
+        driver.find_element_by_css_selector("button.btn-outline-trans").click()
+        # ERROR: Caught exception [unknown command [pause(1000)]]
+        driver.find_element_by_id("id_email").clear()
+        driver.find_element_by_id("id_email").send_keys("mr@example.com")
+        driver.find_element_by_id("id_password").clear()
+        driver.find_element_by_id("id_password").send_keys("asdf")
+        driver.find_element_by_css_selector("button.obtn.obtn-comment").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/salespage")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/blitz-setup?modalBlitz")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_id("id_title").clear()
+        driver.find_element_by_id("id_title").send_keys("Test")
+        driver.find_element_by_id("datepicker").click()
+        driver.find_element_by_link_text("24").click()
+        driver.find_element_by_xpath("(//button[@type='submit'])[4]").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_css_selector("button.close").click()
         driver.find_element_by_link_text("http://127.0.0.1:8000/Mike/3weeks").click()
-        driver.find_element_by_css_selector("button.obtn.obtn-comment-half").click()
-        driver.back()
-        driver.back()
-        driver.find_element_by_link_text("http://127.0.0.1:8000/Mike/3weeks/signup").click()
-        driver.back()
-        driver.find_element_by_css_selector("button.obtn.full-width").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_css_selector("button.obtn.obtn-comment-half").click()
-        driver.find_element_by_id("why").clear()
-        driver.find_element_by_id("why").send_keys("this is the why work with me section")
-        driver.find_element_by_css_selector("#primary_logo > img").click()
-        driver.back()
-        driver.back()
-        driver.back()
-        driver.back()
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
-        driver.find_element_by_link_text("Programs").click()
-        driver.find_element_by_css_selector("button.obtn.obtn-comment-grn").click()
-        driver.back()
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
-        driver.find_element_by_link_text("Dashboard").click()
-        driver.find_element_by_css_selector("img").click()
-        driver.find_element_by_link_text("Luke Walton").click()
-        driver.find_element_by_link_text("Progress").click()
-        driver.find_element_by_link_text("Check-ins").click()
-        driver.find_element_by_link_text("History").click()
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
-        driver.find_element_by_link_text("Home").click()
-        driver.find_element_by_xpath("//img[@alt='Tayshawn Prince']").click()
-        driver.find_element_by_css_selector("img").click()
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_id("blitz-signup-submit").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/salespage")
+        driver.find_element_by_link_text("http://127.0.0.1:8000/Mike/3weeks/signup").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/sales-blitz?slug=3weeks&short_name=Mike&debug=True&key=WRT3MI")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/client-setup/7?modalInvite&free")
+        driver.find_element_by_xpath("//form/button").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/client-setup/7?modalInvite")
+        driver.find_element_by_css_selector("button.close").click()
+        driver.get(self.base_url + "/program")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/upload")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/dashboard")
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/logout")
+        driver.find_element_by_css_selector("button.btn-outline-trans").click()
+        # ERROR: Caught exception [unknown command [pause(1000)]]
+        driver.find_element_by_id("id_email").clear()
+        driver.find_element_by_id("id_email").send_keys("spotter@example.com")
+        driver.find_element_by_id("id_password").clear()
+        driver.find_element_by_id("id_password").send_keys("asdf")
+        driver.find_element_by_css_selector("button.obtn.obtn-comment").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_link_text("Trainers, Programs, and WorkoutPlans").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.get(self.base_url + "/logout")
     
     def is_element_present(self, how, what):

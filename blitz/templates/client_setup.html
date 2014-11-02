@@ -14,6 +14,7 @@
     {% else %}
     <p>Here is the email to your invited client: </p>
     {% endif %}
+
     {% if mode = "free" %}
     <form class="form" action="/client-setup/{{ blitz.pk }}?free" method="post" name="client-setup">
     {% else %}
@@ -33,7 +34,7 @@
         {% include "error_field.html" with param='price' %}
         {% endif %}
         <br>
-        {% if blitz.recurring %}
+        {% if blitz.recurring and workoutplans %}
             <select name="workoutplan_id" id="workoutplan_id">
             {% for wp in workoutplans %}
                 <option value="{{wp.id}}"{% if wp = blitz.workoutplan %}selected{% endif %}>
@@ -43,9 +44,9 @@
             </select>
             <br>
         {% endif %}
-        <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
+<!--        <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
         </textarea></td>
-        {% include "error_field.html" with param='invite' %}
+        {% include "error_field.html" with param='invite' %} -->
         <br>
         <input type="hidden" name="signup_key" value="{{ signup_key }}">
         <input type="hidden" name="invite_url" value="{{ invite_url }}">

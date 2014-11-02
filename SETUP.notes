@@ -52,14 +52,23 @@ mysql -uroot -pmysql
 /flame/41502/jahed-daily/signup
 
 #git pull hard
+https://gist.github.com/hofmannsven/6814451
 git fetch origin {branch}
 git reset --hard origin/{branch}
 
 #pip freeze issue
 sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
-#test harness
-python manage.py dumpdata base --indent=4 > base/fixtures/base_testdata.json
+#database+usermedia backup/restore
+mysqldump --all-databases --single-transaction --user=root -pmysql > database.sql
+mv database.sql Blitz/blitz/usermedia
+tar -czf usermedia.tar.gz Blitz/blitz/usermedia
+
+tar xf usermedia.tar.gz         // unpacks usermedia w/Blitz/blitz/usermedia dir structure
+mysql -uroot -p < database.sql  // into new, blank instance of MySQ
+
+#delete databases
+mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| grep -v information_schema| grep -v test | gawk '{print "drop database " $1 ";"}' | mysql -uroot -pmysql
 
 #enom email
 http://mail-29.name-services.com/Login.aspx

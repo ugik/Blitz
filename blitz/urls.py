@@ -37,7 +37,7 @@ urlpatterns += patterns(
     url(r'^reset-password-complete', 'base.views.reset_password_complete', name='reset_password_complete'),
 
     # url(r'^$', 'base.views.home', name='home'),
-    url(r'^$', 'base.views.trainer_dashboard', name='home'),
+    url(r'^$', 'base.views.home', name='home'),
 
     url(r'^profile$', 'base.views.my_profile', name='my_profile'),
     url(r'^profile/c/(?P<pk>\d+)$', 'base.views.client_profile', name='client_profile'),

@@ -2,7 +2,6 @@ from django import template
 from django.db.models import get_model
 from base.templatetags import units_tags
 from django.contrib.auth.models import User
-from base.models import Client
 
 # lazy model import to avoid circular references (when imported from model)
 completedset = get_model('base', 'CompletedSet')
@@ -13,7 +12,11 @@ register = template.Library()
 
 @register.filter
 def display_str(completedset, viewer):
-# if viewer is trainer then client will be null
+    Client = get_model('base', 'Client')
+    if not viewer or not completedset:
+        return ''
+
+    # if viewer is trainer then client will be null
     if viewer.is_trainer:
         client = Client(user=viewer)  # placeholder client object
         client.units = "I"

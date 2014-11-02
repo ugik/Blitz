@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://127.0.0.1:8000/" />
+<link rel="selenium.base" href="http://127.0.0.1:8000" />
 <title>selenium_create_blitz</title>
 </head>
 <body>
@@ -13,7 +13,12 @@
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/login?standard</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.btn-outline-trans</td>
 	<td></td>
 </tr>
 <tr>
@@ -32,19 +37,44 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>css=img</td>
-	<td></td>
-</tr>
-<tr>
 	<td>open</td>
 	<td>/blitz-setup</td>
 	<td></td>
 </tr>
 <tr>
+	<td>open</td>
+	<td>/blitz-setup?modalBlitz</td>
+	<td></td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>id=id_title</td>
-	<td>Mind &amp; Body</td>
+	<td>New</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=24</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_charge</td>
+	<td>49.99</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//form/button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>This field is required</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -52,63 +82,23 @@
 	<td>new</td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//button[@type='button']</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>xpath=(//button[@type='button'])[2]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=span.text</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=datepicker</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=27</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=id_charge</td>
-	<td>boo</td>
-</tr>
-<tr>
 	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
+	<td>//form/button</td>
 	<td></td>
 </tr>
 <tr>
 	<td>assertTextPresent</td>
 	<td></td>
-	<td>must be number</td>
+	<td>Title too short</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=id_charge</td>
-	<td>50</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>id=datepicker</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=27</td>
-	<td></td>
+	<td>id=id_title</td>
+	<td>Mike's new thing</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//button[@type='submit']</td>
+	<td>//form/button</td>
 	<td></td>
 </tr>
 <tr>
@@ -122,160 +112,36 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>//div[@id='header']/div/div/div/a[3]/span[2]</td>
+	<td>assertTextPresent</td>
 	<td></td>
+	<td>Everything</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=Pages</td>
+	<td>open</td>
+	<td>/salespage</td>
 	<td></td>
 </tr>
 <tr>
 	<td>assertTextPresent</td>
 	<td></td>
-	<td>New Program</td>
+	<td>Mike's new thing Program</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=exact:http://127.0.0.1:8000/Mike/new</td>
-	<td></td>
-</tr>
-<tr>
-	<td>goBackAndWait</td>
-	<td></td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=exact:http://127.0.0.1:8000/Mike/new/signup</td>
+	<td>open</td>
+	<td>/Mike/new</td>
 	<td></td>
 </tr>
 <tr>
 	<td>assertTextPresent</td>
 	<td></td>
-	<td>$50</td>
-</tr>
-<tr>
-	<td>goBackAndWait</td>
-	<td></td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>xpath=(//button[@type='button'])[3]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>xpath=(//a[contains(text(),'Invite free client')])[3]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=name</td>
-	<td>Jimmy McGee</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>document.forms['client-setup'].elements[8]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>This field is required</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=name</td>
-	<td>Jimmy McGee</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=email</td>
-	<td>jimmy@example.com</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>document.forms['client-setup'].elements[8]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Continue →</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Invite paid client</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=name</td>
-	<td>Jimmy McGee</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=email</td>
-	<td>jimmy@example.com</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=price</td>
-	<td>29.95</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>document.forms['client-setup'].elements[7]</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>This email address is already invited.</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=name</td>
-	<td>Vince Wilfork</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=email</td>
-	<td>vince@example.com</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=price</td>
-	<td>99.99</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>name=invite</td>
-	<td>Hey Vince,<br /><br />I've setup your program and we're ready to start on October 06, 2014. Just go to the following link to sign up: http://127.0.0.1:8000/client-signup?signup_key=TQLH5X<br /><br />Looking forward to tracking your progress and helping you get awesome results!<br /><br />Mike Rashid<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//div[@id='modal1']/div/div/div[2]/div/div/div/div[3]/form/button</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>Awesome</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Continue →</td>
-	<td></td>
+	<td>Personal Fitness</td>
 </tr>
 <tr>
 	<td>open</td>
 	<td>/logout</td>
 	<td></td>
 </tr>
+
 </tbody></table>
 </body>
 </html>

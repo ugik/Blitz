@@ -66,6 +66,7 @@ sudo sed -i -e '1i'$ip_address' '$project'\' /etc/hosts
 cd /home/ubuntu
 sudo cp $project/WSGI/project.wsgi ./$project.wsgi
 sudo cp $project/WSGI/project.conf /etc/apache2/sites-available/$project.conf
+sudo mkdir backup
 
 # copy SSL certs
 sudo mkdir /etc/apache2/ssl
@@ -84,6 +85,7 @@ source ~/.bashrc
 # apache2 available sites
 sudo a2dissite 000-default
 sudo a2ensite $project.conf
+sudo a2enmod ssl
 
 # static files
 sudo chown ubuntu:ubuntu -R /home/ubuntu/$project
