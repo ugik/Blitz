@@ -152,6 +152,7 @@ def blitz_setup(request):
     blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
     modalBlitz = True if 'modalBlitz' in request.GET else False
 
+#    import pdb; pdb.set_trace()
     if request.method == 'POST':
         form = BlitzSetupForm(request.POST, trainer=trainer)
         errors = []
@@ -338,7 +339,6 @@ def spotter_program_edit(request, pk):
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
     workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
 
-#    import pdb; pdb.set_trace()
     modalSpotter = True if 'modalSpotter' in request.GET else False
 
     # if trainer has exactly 1 Blitz or trainer.currently_viewing_blitz is None then pick first Blitz
