@@ -56,6 +56,9 @@ https://gist.github.com/hofmannsven/6814451
 git fetch origin {branch}
 git reset --hard origin/{branch}
 
+#git use master file
+git checkout origin/master blitz/staticfiles/css/stylesheets/style.css
+
 #pip freeze issue
 sudo rm -rf /usr/local/lib/python2.7/dist-packages/requests*
 
