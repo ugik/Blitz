@@ -1285,6 +1285,7 @@ def sales_blitz(request):
                 if not trainer.headshot:
                     trainer.headshot = form.cleaned_data['picture']
                     trainer.save()
+                    trainer.headshot_from_image(settings.MEDIA_ROOT+'/'+trainer.headshot.name)
 
         blitz.sales_page_content.save()
         blitz.save()
