@@ -10,8 +10,8 @@ workon fitFlame
 pagekite.py 8000 fitflame.pagekite.me
 
 #replace douche (client)
-grep -r --include=*.py "Douche" .
-rpl -R -x'.py' 'Douchebag' 'Client' .
+grep -r --include=*.py "Foo" .
+rpl -R -x'.py' 'Blitz' 'Program' .
 
 #replace douche filenames
 find . -name file.ext

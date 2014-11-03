@@ -37,7 +37,7 @@ def backup():
     if len(c) > 0:
         os.system("bash ~/Blitz/backup.sh")
 
-@periodic_task(run_every=crontab(hour="*/1", minute="1", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="*", minute="1", day_of_week="*"))  
 def trainer_alerts():
     for client in Client.objects.all():
         blitz = client.get_blitz()
@@ -51,7 +51,7 @@ def trainer_alerts():
         yesterday = client.current_datetime().date() + datetime.timedelta(days=-1)
         create_alerts_for_day(client, yesterday)
 
-@periodic_task(run_every=crontab(hour="*/1", minute="2", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="*", minute="2", day_of_week="*"))  
 def client_morning_notifications():
     for client in Client.objects.all():
 
