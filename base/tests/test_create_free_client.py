@@ -25,14 +25,12 @@ class TestCreateFreeClient(unittest.TestCase):
         driver.find_element_by_name("password2").send_keys("asdf")
         driver.find_element_by_xpath("//button").click()
         driver.find_element_by_link_text(u"Set up your profile →").click()
-        driver.find_element_by_id("1").click()
+        driver.find_element_by_css_selector("label.radio").click()
         driver.find_element_by_name("age").clear()
         driver.find_element_by_name("age").send_keys("30")
-        driver.find_element_by_id("4").click()
         driver.find_element_by_xpath("//form[@id='setupForm']/div[3]/label[2]").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        # ERROR: Caught exception [ERROR: Unsupported command [selectWindow | null | ]]
         driver.find_element_by_name("weight").clear()
         driver.find_element_by_name("weight").send_keys("100")
         driver.find_element_by_name("height_feet").clear()
