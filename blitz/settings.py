@@ -102,6 +102,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'blitz.urls'
+APPEND_SLASH = False
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'blitz.wsgi.application'

@@ -18,7 +18,7 @@
                     <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}">
                         {% csrf_token %}
                         <div class="form-group">
-                            <textarea class="message-text"></textarea>
+                            <textarea class="message-text" name="message_content" required></textarea>
                         </div>
                         <button class="btn btn-primary" type="submit">Send Message</button>
                     </form>
@@ -37,7 +37,7 @@
                     <form action="{% url 'new_message_to_user' %}" data-to-user-id="{{ alert.client.user.pk }}">
                         {% csrf_token %}
                         <div class="form-group">
-                            <textarea class="message-text"></textarea>
+                            <textarea class="message-text" name="message_content" required></textarea>
                         </div>
                         <button class="btn btn-primary" type="submit">Send Message</button>
                     </form>

@@ -223,10 +223,12 @@ $(document).ready(function() {
         }
     });
 
-    // Alerts
+    /**
+     * Trainer Alerts
+     */ 
     $('#trainer-alert-box').on('click', 'button[data-action=leave-message]', function(e) {
         var targetId = $(this).data('target-id')
-            MessageForm = $('#'+targetId).find('form').eq(0),
+            MessageForm = $('#'+targetId).find('form'),
             toggleButton = $(this);
 
         // Hide unfocused message box
@@ -247,35 +249,42 @@ $(document).ready(function() {
             $('#'+targetId).addClass('hidden');
             $(this).html('Message');
         }
-
-        // On Click Send Message Button
-        $('#'+targetId).on('click', 'button[type=submit]', function(e) {
-            e.preventDefault();
-            // var formdata = new FormData();
-            var msg = MessageForm.find('textarea.message-text').val();
-            $.ajax({
-                url: MessageForm.attr('action'),
-                data: { message_content: msg },
-                }, function(data) {
-            }).then(function(response){
-                // alert('Sended ' + response.message1 + ' by: ' + MessageForm.attr('action') );
-                alert( JSON.stringify(response) );
-
-                // Hide current message box if message successfuly sended
-                toggleButton.html('Message');
-                $('#'+targetId)
-                    .addClass('hidden')
-                    .find('textarea')
-                        .val('');
-
-            }, function(error) {
-                // TODO: Show alert in the UI
-                alert(error);
-            });
-        });
     });
 
-    // Filters
+    // On Click Send Message Button
+    $('.message-entry form').submit(function(e) {
+        e.preventDefault();
+
+        var $form = $(this),
+            $submitButton = $form.find('button[type="submit"]'),
+            formData = new FormData( this );
+        
+            $submitButton.hide();
+
+        // Submit form via AJAX
+        var hrx = $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false
+        }).then(function(data) {
+            $form.parent().addClass('hidden');
+            $form.closest('.trainer-alert')
+                .fadeOut(500);
+        }, function(error) {
+            // TODO: Show alert in the UI
+            $submitButton.show();
+            $form.find('button[type="submit"]').show();
+            alert( JSON.stringify(error) );
+        });
+    });
+    // END Trainer alerts
+
+
+    /**
+     * Filters
+     */ 
     $('.filters, .feeds-filter').on('click', 'li', function(event) {
         // Abort ajax requests
         if (xhr) {
