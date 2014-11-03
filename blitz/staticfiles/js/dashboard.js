@@ -225,10 +225,12 @@ $(document).ready(function() {
 
     // Alerts
     $('#trainer-alert-box').on('click', 'button[data-action=leave-message]', function(e) {
-        var targetId = $(this).data('target-id');
+        var targetId = $(this).data('target-id')
+            MessageForm = $('#'+targetId).find('form').eq(0),
+            toggleButton = $(this);
 
         // Hide unfocused message box
-        $('button[data-action=leave-message]').not( $(this) )
+        $('button[data-action=leave-message]').not( toggleButton )
             .html('Message');
 
         $('.message-entry').not( $('#'+targetId) )
@@ -245,6 +247,32 @@ $(document).ready(function() {
             $('#'+targetId).addClass('hidden');
             $(this).html('Message');
         }
+
+        // On Click Send Message Button
+        $('#'+targetId).on('click', 'button[type=submit]', function(e) {
+            e.preventDefault();
+            // var formdata = new FormData();
+            var msg = MessageForm.find('textarea.message-text').val();
+            $.ajax({
+                url: MessageForm.attr('action'),
+                data: { message_content: msg },
+                }, function(data) {
+            }).then(function(response){
+                // alert('Sended ' + response.message1 + ' by: ' + MessageForm.attr('action') );
+                alert( JSON.stringify(response) );
+
+                // Hide current message box if message successfuly sended
+                toggleButton.html('Message');
+                $('#'+targetId)
+                    .addClass('hidden')
+                    .find('textarea')
+                        .val('');
+
+            }, function(error) {
+                // TODO: Show alert in the UI
+                alert(error);
+            });
+        });
     });
 
     // Filters
@@ -340,16 +368,6 @@ $(document).ready(function() {
         $(this).addClass('active');
     });
     // End Filters
-
-    // $('.feeds-filter').on('click', 'li', function(e) {
-    //     alert();
-
-
-    //     $(this).parent().find('li').not($(this))
-    //         .removeClass('active');
-
-    //     $(this).addClass('active');
-    // });
 
     homepage_morefeed();
 });
