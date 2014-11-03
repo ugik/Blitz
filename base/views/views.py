@@ -1408,10 +1408,12 @@ def payment_hook(request, pk):
         else:
             # charge card
             # invitation may have a custom price
-            if invitation:
+            if invitation and invitation.price:
                 debit_amount_str = "%d00" % invitation.price
-            else:
+            elif blitz.price:
                 debit_amount_str = "%d00" % blitz.price
+            else:
+                debit_amount_str = "0"
 
             # create client so we have debit meta info
             client = utils.get_or_create_client(
@@ -1423,12 +1425,18 @@ def payment_hook(request, pk):
             client.save()
             meta = {"client_id": client.pk, "blitz_id": blitz.pk, "invitation_id": invitation.pk}
 
-            debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
+            try:
+                debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
                    amount = debit_amount_str,
                    description='Blitz.us payment', meta=meta)
-            if debit.status != 'succeeded':
+
+                if debit.status != 'succeeded':
+                    has_error = True
+                    error = debit.failure_reason
+
+            except Exception as e:
                 has_error = True
-                error = debit.failure_reason
+                error = "Error: %s, %s, %s" % (e.status, e.category_code, e.additional)
 
         if error:
             has_error = True
