@@ -5423,3 +5423,31 @@ a#secondary_logo.brand {
     margin: 0 auto;
   }
 }
+
+/* line 4514, ../sass/style.scss */
+.results-count {
+  background: #7ab2ea;
+  float: right;
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  border-radius: 20px;
+  margin-right: 30px;
+}
+
+/* line 4524, ../sass/style.scss */
+.results-count .inner {
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 0px;
+  text-align: center;
+  width: 34px;
+}
+
+/* line 4532, ../sass/style.scss */
+ul.filters li.item {
+  height: 40px;
+  list-style: none;
+  font-size: 18px;
+  color: #9d9ea3;
+}

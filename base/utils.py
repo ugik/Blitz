@@ -85,7 +85,7 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     content = SalesPageContent.objects.create(name = name, trainer = trainer)
     content.program_introduction = "I'm taking a limited number of awesome, highly-motivated people for a new online coaching program."
     content.program_why = "I've been coaching--and coaching online--for a long time. I've seen what works and what doesn't, and know that it's not just about making a program that's effective, but one you can stick to. Mixing years of training and nutrition experience with a good dash of psychology, I think I've got something that can really help people take their fitness to the next level."
-    content.program_who = "If you're at least familiar with basic lifts and nutrition, but need a more personalized approach and expert feedback to push yourself to the next level, this is definitely for you."
+    content.program_who = "If you're familiar with basic lifts and nutrition, but need a more personalized approach and expert feedback to push yourself to the next level, I think I can help you out."
     content.program_last_words = "If you're having second thoughts, working with me might not be for you. To get the most out of working with me, I need you to be focused, motivated, and ready to put in the work to get the results you deserve. You show up with that, and I'll do the rest."
     content.program_title = title if title else "%s Program" % name
     content.sales_page_key = key if key else ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
