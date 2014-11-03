@@ -4541,3 +4541,31 @@ list-style: none;
 font-size: 18px;
 color: #9d9ea3;
 }
+
+.trainer-uploads-left {
+  margin-left: 0px;
+  //margin-right: 50px;
+  max-width: 560px;
+}
+
+.trainer-uploads-right {
+  margin-left: 0px;
+}
+
+.uploads-top {
+  font-size: 30px;
+  margin-bottom: 10px;
+  @include boldfont();
+}
+
+.uploads-bottom {
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+.uploads-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  margin-left: 0px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
