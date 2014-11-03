@@ -5083,25 +5083,32 @@ a#secondary_logo.brand {
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   margin-top: 30px;
   margin-bottom: 30px;
-  padding: 20px;
+  padding-top: 50px;
+  padding-bottom: 30px;
   text-align: center;
   line-height: 1.4;
 }
 
-/* line 4215, ../sass/style.scss */
+/* line 4216, ../sass/style.scss */
+.sales-note-section {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* line 4221, ../sass/style.scss */
 .sns-heading {
-  font-size: 24px;
+  font-size: 36px;
   font-family: 'proxima_novabold';
   margin-bottom: 10px;
 }
 
-/* line 4221, ../sass/style.scss */
+/* line 4227, ../sass/style.scss */
 .sns-body {
   font-size: 18px;
   font-family: 'proxima_novalight';
   margin-bottom: 30px;
 }
-/* line 4226, ../sass/style.scss */
+/* line 4232, ../sass/style.scss */
 .sns-body textarea {
   width: 80%;
   text-align: center;
@@ -5112,75 +5119,75 @@ a#secondary_logo.brand {
   line-height: 1.4;
 }
 @media (max-width: 480px) {
-  /* line 4226, ../sass/style.scss */
+  /* line 4232, ../sass/style.scss */
   .sns-body textarea {
     font-size: 18px;
     padding: 10px;
   }
 }
 
-/* line 4242, ../sass/style.scss */
+/* line 4248, ../sass/style.scss */
 .sales-page-section-3 {
   background: white;
 }
-/* line 4244, ../sass/style.scss */
+/* line 4250, ../sass/style.scss */
 .sales-page-section-3 h1 {
   font-family: 'proxima_novabold';
 }
-/* line 4247, ../sass/style.scss */
+/* line 4253, ../sass/style.scss */
 .sales-page-section-3 h3 {
   font-family: 'proxima_novalight';
   margin-bottom: 0px;
 }
-/* line 4251, ../sass/style.scss */
+/* line 4257, ../sass/style.scss */
 .sales-page-section-3 img {
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
-/* line 4254, ../sass/style.scss */
+/* line 4260, ../sass/style.scss */
 .sales-page-section-3 .desc {
   margin-bottom: 30px;
   font-family: 'proxima_novalight';
 }
 
-/* line 4260, ../sass/style.scss */
+/* line 4266, ../sass/style.scss */
 .sales-page-section-4 {
   margin: 50px 0px;
   color: white;
   line-height: 1.4;
 }
-/* line 4265, ../sass/style.scss */
+/* line 4271, ../sass/style.scss */
 .sales-page-section-4 h1 {
   font-family: 'proxima_novabold';
 }
-/* line 4268, ../sass/style.scss */
+/* line 4274, ../sass/style.scss */
 .sales-page-section-4 .row {
   text-align: center;
   margin: 0 auto;
   padding-bottom: 30px;
 }
 @media only screen and (min-width: 769px) {
-  /* line 4273, ../sass/style.scss */
+  /* line 4279, ../sass/style.scss */
   .sales-page-section-4 .offset2 {
     margin-left: 180px;
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
-  /* line 4273, ../sass/style.scss */
+  /* line 4279, ../sass/style.scss */
   .sales-page-section-4 .offset2 {
     margin-left: 10%;
     width: 80%;
   }
 }
-/* line 4282, ../sass/style.scss */
+/* line 4288, ../sass/style.scss */
 .sales-page-section-4 .desc {
   font-size: 27px;
   font-family: 'proxima_novalight';
   margin-bottom: 30px;
 }
 
-/* line 4289, ../sass/style.scss */
+/* line 4295, ../sass/style.scss */
 .disabled-button {
   cursor: none;
   -webkit-animation: btnpulsate .0s none;
@@ -5189,7 +5196,7 @@ a#secondary_logo.brand {
   animation: btnpulsate .0s none;
 }
 
-/* line 4294, ../sass/style.scss */
+/* line 4300, ../sass/style.scss */
 .sales-footer {
   width: 100%;
   color: rgba(255, 255, 255, 0.9);
@@ -5200,7 +5207,7 @@ a#secondary_logo.brand {
   padding: 10px;
 }
 
-/* line 4305, ../sass/style.scss */
+/* line 4311, ../sass/style.scss */
 .sales-section-overlay {
   text-align: center;
   padding-top: 30px;
@@ -5217,17 +5224,17 @@ a#secondary_logo.brand {
   width: 100%;
   z-index: 9999;*/
 }
-/* line 4311, ../sass/style.scss */
+/* line 4317, ../sass/style.scss */
 .sales-section-overlay img {
   opacity: 0.2;
 }
 
-/* line 4328, ../sass/style.scss */
+/* line 4334, ../sass/style.scss */
 .overlay img {
   opacity: 0.2;
 }
 
-/* line 4333, ../sass/style.scss */
+/* line 4339, ../sass/style.scss */
 .overlay-text {
   font-size: 24px;
   position: absolute;
@@ -5242,7 +5249,7 @@ a#secondary_logo.brand {
   line-height: 1.4;
 }
 
-/* line 4347, ../sass/style.scss */
+/* line 4353, ../sass/style.scss */
 #savebar {
   /*
   position: fixed;
@@ -5268,7 +5275,7 @@ a#secondary_logo.brand {
   font-size: 20px;
 }
 @media (max-width: 480px) {
-  /* line 4384, ../sass/style.scss */
+  /* line 4390, ../sass/style.scss */
   #savebar .obtn {
     height: 30px;
     font-size: 0.9em;
@@ -5276,13 +5283,13 @@ a#secondary_logo.brand {
   }
 }
 @media (max-width: 480px) {
-  /* line 4391, ../sass/style.scss */
+  /* line 4397, ../sass/style.scss */
   #savebar button {
     margin-top: 10px;
   }
 }
 
-/* line 4397, ../sass/style.scss */
+/* line 4403, ../sass/style.scss */
 #trainersig {
   font-family: 'danielregular';
   font-size: 24px;
@@ -5290,34 +5297,34 @@ a#secondary_logo.brand {
   padding: 20px;
 }
 
-/* line 4404, ../sass/style.scss */
+/* line 4410, ../sass/style.scss */
 #sslbadge {
   display: block;
   margin-top: 20px;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
 }
-/* line 4409, ../sass/style.scss */
+/* line 4415, ../sass/style.scss */
 #sslbadge img {
   width: 5%;
   opacity: 0.7;
   margin-right: 5px;
 }
 
-/* line 4417, ../sass/style.scss */
+/* line 4423, ../sass/style.scss */
 #salespageblitzlogo img {
   height: 60px;
   width: 60px;
   padding: 20px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 4417, ../sass/style.scss */
+  /* line 4423, ../sass/style.scss */
   #salespageblitzlogo img {
     display: none;
   }
 }
 
-/* line 4426, ../sass/style.scss */
+/* line 4432, ../sass/style.scss */
 .rotate, #logo {
   -webkit-transition-duration: 0.8s;
   -moz-transition-duration: 0.8s;
@@ -5330,7 +5337,7 @@ a#secondary_logo.brand {
   overflow: hidden;
 }
 
-/* line 4441, ../sass/style.scss */
+/* line 4447, ../sass/style.scss */
 .rotate:hover, #logo:hover {
   -webkit-transform: rotate(360deg);
   -moz-transform: rotate(360deg);
@@ -5338,13 +5345,13 @@ a#secondary_logo.brand {
   cursor: pointer;
 }
 
-/* line 4448, ../sass/style.scss */
+/* line 4454, ../sass/style.scss */
 .loginbutton {
   padding-top: 30px;
   text-align: right;
 }
 @media (max-width: 480px) {
-  /* line 4448, ../sass/style.scss */
+  /* line 4454, ../sass/style.scss */
   .loginbutton {
     margin-right: 20px;
     height: 44px;
@@ -5354,18 +5361,18 @@ a#secondary_logo.brand {
 }
 
 @media only screen and (max-width: 768px) {
-  /* line 4459, ../sass/style.scss */
+  /* line 4465, ../sass/style.scss */
   #mc_embed_signup_scroll input {
     font-size: 18px !important;
   }
 }
 
-/* line 4465, ../sass/style.scss */
+/* line 4471, ../sass/style.scss */
 #secondary_logo > img {
   padding: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 4465, ../sass/style.scss */
+  /* line 4471, ../sass/style.scss */
   #secondary_logo > img {
     margin: 0 auto;
     width: 60%;
@@ -5374,7 +5381,7 @@ a#secondary_logo.brand {
   }
 }
 
-/* line 4475, ../sass/style.scss */
+/* line 4481, ../sass/style.scss */
 .logoborder {
   transition: all 0.5s linear;
   -webkit-transition: all 0.5s linear;
@@ -5385,12 +5392,12 @@ a#secondary_logo.brand {
   padding: 30px;
 }
 
-/* line 4482, ../sass/style.scss */
+/* line 4488, ../sass/style.scss */
 .logoborder:hover {
   border: 2px dashed #7ab2ea;
 }
 
-/* line 4486, ../sass/style.scss */
+/* line 4492, ../sass/style.scss */
 #trainernologo {
   font-family: 'metanormal_caps';
   font-size: 30px;
@@ -5400,7 +5407,7 @@ a#secondary_logo.brand {
   color: white;
 }
 @media (max-width: 480px) {
-  /* line 4486, ../sass/style.scss */
+  /* line 4492, ../sass/style.scss */
   #trainernologo {
     width: 80%;
     text-align: center;
@@ -5409,14 +5416,14 @@ a#secondary_logo.brand {
   }
 }
 
-/* line 4501, ../sass/style.scss */
+/* line 4507, ../sass/style.scss */
 .tinytext {
   font-size: 12px;
   opacity: 0.5;
 }
 
 @media (max-width: 480px) {
-  /* line 4506, ../sass/style.scss */
+  /* line 4512, ../sass/style.scss */
   .mobile-full-width {
     width: 100%;
     text-align: center;
@@ -5424,7 +5431,7 @@ a#secondary_logo.brand {
   }
 }
 
-/* line 4514, ../sass/style.scss */
+/* line 4520, ../sass/style.scss */
 .results-count {
   background: #7ab2ea;
   float: right;
@@ -5435,7 +5442,7 @@ a#secondary_logo.brand {
   margin-right: 30px;
 }
 
-/* line 4524, ../sass/style.scss */
+/* line 4530, ../sass/style.scss */
 .results-count .inner {
   position: absolute;
   margin-top: 5px;
@@ -5444,7 +5451,7 @@ a#secondary_logo.brand {
   width: 34px;
 }
 
-/* line 4532, ../sass/style.scss */
+/* line 4538, ../sass/style.scss */
 ul.filters li.item {
   height: 40px;
   list-style: none;
