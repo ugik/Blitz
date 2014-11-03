@@ -10,7 +10,6 @@ import unittest, time, re
 class TestCreateFreeClient(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
-        self.driver.set_window_size(800, 800)
         self.driver.implicitly_wait(30)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
@@ -24,13 +23,14 @@ class TestCreateFreeClient(unittest.TestCase):
         driver.find_element_by_name("password2").clear()
         driver.find_element_by_name("password2").send_keys("asdf")
         driver.find_element_by_xpath("//button").click()
-        driver.find_element_by_id("video-continue").click()
+        driver.find_element_by_css_selector("#video-continue").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_css_selector("img.basic-tooltip.img-circle").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_css_selector("img").click()
+        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
+        driver.find_element_by_link_text("Home").click()
         driver.find_element_by_link_text("Go log it now").click()
         driver.find_element_by_name("set-829-weight").clear()
         driver.find_element_by_name("set-829-weight").send_keys("1")

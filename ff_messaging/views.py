@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
@@ -26,7 +27,7 @@ def inbox(request):
         'new_message_to_user': new_message_to_user
     })
 
-# @login_required()
+@login_required()
 def inbox_feed(request):
     user_threads = UserThread.objects.filter(user=request.user).order_by('-thread__last_message_date')
     possible_recipients = possible_recipients_for_user(request.user)
@@ -36,8 +37,6 @@ def inbox_feed(request):
         new_message_to_user = None
 
     ret = {
-        # 'recipient_names_json': json.dumps([u.display_name for u in possible_recipients]),
-        # 'recipient_map_json': json.dumps({u.display_name: u.pk for u in possible_recipients}),
         'html': get_inboxfeed_html(user_threads)
     }
     return JSONResponse(ret)
@@ -87,3 +86,20 @@ def new_message_to_user(request, pk):
     else:
         request.session['new_message_to_user'] = to_user
         return redirect('new_message')
+
+@login_required()
+@csrf_exempt
+def send_message_to_user(request, pk):
+    to_user = get_object_or_404(User, pk=int(pk))
+
+    print to_user.display_name, request.user.display_name
+    thread = get_thread_for_users(request.user, to_user)
+    message_content = str( request.GET.get('message_content', '') )
+    message = create_new_message(thread, request.user, message_content)
+
+    return JSONResponse({
+        'from_user': request.user,
+        'to_user': to_user,
+        'message_content': message_content
+    })
+    

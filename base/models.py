@@ -55,6 +55,7 @@ from django.core.validators import RegexValidator
 from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
 
 from base.templatetags import units_tags
+from base.templatetags import display_str
 
 from workouts.models import WorkoutPlanDay, WorkoutSet, WorkoutPlan, DAYS_OF_WEEK
 
@@ -417,6 +418,7 @@ class Client(models.Model):
                 if CompletedSet.objects.filter(gym_session=gym_session, workout_set__lift=lift).exists():
                     ret['last_session'] = CompletedSet.objects.filter(gym_session=gym_session, workout_set__lift=lift)
                     break
+
         return ret
 
     def get_timezone(self):
@@ -461,6 +463,10 @@ class Client(models.Model):
 
     def current_blitz_day_index(self):
         return self.get_blitz().current_day_index(self.get_timezone())
+
+    def feeds_count(self):
+        count = self.get_feeditems().count()
+        return count
 
 MACRO_STRATEGIES = (
     ('M', 'Macros Only'),
@@ -592,7 +598,7 @@ class Blitz(models.Model):
             return self.begin_date    # TODO resolve end-date that hasn't been set yet
         return list(self.iterate_workouts())[-1][0]
 
-# loop begin/end dates connote the dates of repeating Blitz (for 1:1 Clients) per today's date
+# loop begin/end dates connote the dates of recurring Blitz (for 1:1 Clients) per today's date
     def loop_begin_date(self, timezone=None):
         if not self.recurring:   # ignore for non-recurring Blitz
             return self.begin_date
@@ -612,7 +618,10 @@ class Blitz(models.Model):
         return self.loop_begin_date() + datetime.timedelta(days=7*self.num_weeks())
 
     def num_weeks(self):
-        return self.workout_plan.workoutplanweek_set.all().count()
+        if self.workout_plan:
+            return self.workout_plan.workoutplanweek_set.all().count()
+        else:
+            return 0
 
     def price_per_week(self):
         return float(self.price) / self.num_weeks()
@@ -644,6 +653,10 @@ class Blitz(models.Model):
             users.append(f.client.user)
         users.append(self.trainer.user)
         return users
+
+    def feeds_count(self):
+        count = FeedItem.objects.filter(blitz_id=self.pk).count()
+        return count
 
 class BlitzInvitation(models.Model):
 
@@ -768,9 +781,12 @@ class CompletedSet(models.Model):
     def reverse_ratio_of_pr(self):
         return 1-self.ratio_of_pr()
 
+    def display_str(self):
+        return display_str.display_str(self, self.gym_session.client.user)
+
     def __unicode__(self):
         return "%s / %s / %s" % (
-            self.display_str(),
+            display_str.display_str(self, self.gym_session.client.user),
             self.workout_set.lift.slug, 
             str(self.gym_session),
         )

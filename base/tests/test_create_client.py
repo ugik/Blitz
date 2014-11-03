@@ -11,6 +11,7 @@ class TestCreateClient(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
+        self.driver.set_window_size(800, 1000)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -55,7 +56,7 @@ class TestCreateClient(unittest.TestCase):
         driver.get(self.base_url + "/program")
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_xpath("//div[@id='header']/div/div/div/a[2]/span[2]").click()
+        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
         driver.find_element_by_link_text("Inbox").click()
         driver.find_element_by_id("to-autocomplete").clear()
         driver.find_element_by_id("to-autocomplete").send_keys("Mike Rashid")

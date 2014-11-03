@@ -24,7 +24,7 @@ from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
-from workouts.models import WorkoutPlan
+from workouts.models import WorkoutPlan, WorkoutPlanDay
 
 from base.templatetags import units_tags
 from base import new_content
@@ -84,7 +84,7 @@ def home(request):
             return redirect('spotter_index')
 
         if request.user.is_trainer:
-            return trainer_home(request)
+            return trainer_dashboard(request)
         else:
             return client_home(request)
 
@@ -152,6 +152,7 @@ def blitz_setup(request):
     blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
     modalBlitz = True if 'modalBlitz' in request.GET else False
 
+#    import pdb; pdb.set_trace()
     if request.method == 'POST':
         form = BlitzSetupForm(request.POST, trainer=trainer)
         errors = []
@@ -338,7 +339,6 @@ def spotter_program_edit(request, pk):
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
     workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
 
-#    import pdb; pdb.set_trace()
     modalSpotter = True if 'modalSpotter' in request.GET else False
 
     # if trainer has exactly 1 Blitz or trainer.currently_viewing_blitz is None then pick first Blitz
@@ -490,11 +490,27 @@ def client_profile_progress(request, pk):
     gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
     session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions ]
 
+
+    lift_history_maxes = get_lift_history_maxes(client)
+    # reduce the lifts to 10 weeks history (especially in recurring programs)
+    NUM_LIFTS = 10
+    reduction = False
+    for key in lift_history_maxes.keys():
+        lifts = lift_history_maxes[key]
+        lifts.sort(key=lambda x: x[0].date_of_session)
+        lifts.reverse()
+        if len(lifts) > NUM_LIFTS-1:   # array is 0-based
+            lift_history_maxes[key] = lifts[0:NUM_LIFTS]
+            reduction = True
+
+#    import pdb; pdb.set_trace()
+
     context = {
         'client': client,
         'session_list': session_list,
         'section': 'progress',
-        'lift_history_maxes': get_lift_history_maxes(client),
+        'lift_history_maxes': lift_history_maxes,
+        'reduction': reduction
     }
 
     return render(request, 'client_profile.html', context)
@@ -714,9 +730,11 @@ def log_workout(request, week_number, day_char):
             set_info = {}
             set_info['workout_set'] = workout_set
             set_info['completed_set'] = None
+            
             if CompletedSet.objects.filter(gym_session=gym_session, workout_set=workout_set).exists():
                 set_info['completed_set'] = CompletedSet.objects.get(gym_session=gym_session, workout_set=workout_set)
             group['set_infos'].append(set_info)
+
         group['lift_summary'] = client.lift_summary(group['lift'])
 
     if request.method == "POST":
@@ -748,6 +766,7 @@ def log_workout(request, week_number, day_char):
             for group in grouped_sets:
                 print [set_info.get('error') for set_info in group['set_infos']]
 
+#    import pdb; pdb.set_trace()
     return render(request, 'log_workout.html', {
         'client': client,
         'plan_day': plan_day,
@@ -903,7 +922,7 @@ def blitz(request, pk):
         'end_date': end_date,
         'members_count': len(headshots),
         'headshots': headshots,
-        'html': get_blitz_group_header_html(title, start_date, end_date, headshots),
+        'html': get_blitz_group_header_html(blitz, title, start_date, end_date, headshots),
     }
     return JSONResponse(ret)
 
@@ -1058,10 +1077,10 @@ def trainer_signup(request):
 def client_signup(request):
 
     invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
+    blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
 
     # if invitation is not free redirect to pay-wall signup page
     if not invitation.free:
-        blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
         return redirect("/%s/%s/signup?signup_key=%s" % (blitz.trainer.short_name, blitz.url_slug, request.GET.get('signup_key')))
 
     if request.method == "POST":
@@ -1072,7 +1091,6 @@ def client_signup(request):
                 invitation.email,
                 form.cleaned_data['password1']
             )
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
             # add new client to Blitz
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan)
             # alert trainer of new client signup
@@ -1084,7 +1102,7 @@ def client_signup(request):
             u = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
-            return redirect('home')
+            return redirect('/signup-complete?pk='+str(blitz.pk))
 
     else:
         form = SetPasswordForm()
@@ -1197,7 +1215,9 @@ def sales_blitz(request):
 
         if 'datepicker' in request.POST:
             # set date, keeping in mind model will force begin to Monday
-            blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
+#            import pdb; pdb.set_trace()
+            if request.POST.get('datepicker') != '':
+                blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
 
 #        import pdb; pdb.set_trace()
         

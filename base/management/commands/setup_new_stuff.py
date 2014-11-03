@@ -8,7 +8,7 @@ from workouts.models import Lift, Workout, WorkoutSet, WorkoutPlan, WorkoutPlanW
 from base.utils import create_trainer, create_client, add_client_to_blitz, create_salespagecontent
 from base.new_content import create_new_parent_comment, add_child_to_comment, add_like_to_comment
 from base import new_content
-from base.simulations import knicks_profile, simulate_blitz_through_date
+from base.simulations import knicks_profile, simulate_blitz_through_date, simulate_recurring_blitz
 from workouts import utils as workout_utils
 from base import alerts
 
@@ -64,6 +64,22 @@ class Command(BaseCommand):
         invite = BlitzInvitation.objects.create(blitz=blitz, email='vince@example.com', 
                      name='Vince Wilfork', signup_key='TEST1', price=99)
 
+        blitz = Blitz.objects.get(url_slug='3weeks')
+        blitz.pk = None
+        blitz.provisional = False
+        blitz.recurring = True
+        blitz.title = "individual:%s blitz:%s" % ("JJ", blitz.url_slug)
+        blitz.url_slug = ''
+        blitz.save()
+
+        joe = Client
+        try:
+            joe = Client.objects.get(name='Joe Johnson')
+        except Client.DoesNotExist:
+            joe = create_client("Joe Johnson", "joe@example.com", "asdf", 29, 210, 6, 5, 'M')
+            joe.headshot_from_image(settings.TEST_MEDIA_DIR + '/jj.jpg')
+            add_client_to_blitz(blitz, joe)
+
         try:
             blitz = Blitz.objects.get(url_slug='mike')
         except Blitz.DoesNotExist:
@@ -98,12 +114,15 @@ class Command(BaseCommand):
             tay.headshot_from_image(settings.TEST_MEDIA_DIR + '/tayshaun_prince.png')
             add_client_to_blitz(blitz, tay)
 
-        clients = [luke, tay]
+        clients = [luke, tay, joe]
 
         # seed some demo workout data
         shapeness = knicks_profile()
         for d in clients:
-            simulate_blitz_through_date(blitz, d, timezone_now().date(), shapeness)
+            if d.get_blitz().recurring:
+                simulate_recurring_blitz(d.get_blitz(), d, 100, shapeness)
+            else:
+                simulate_blitz_through_date(d.get_blitz(), d, timezone_now().date(), shapeness)
             d.has_completed_intro = True
             d.save()
 

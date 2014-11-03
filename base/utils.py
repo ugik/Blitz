@@ -83,20 +83,21 @@ def get_or_create_client(name, email, password, age=None, weight_in_lbs=None, he
 def create_salespagecontent(name, trainer, key=None, title=None):
 
     content = SalesPageContent.objects.create(name = name, trainer = trainer)
-    content.program_introduction = "TRAINER INTRO... type here how you introduce your training program..."
-    content.program_why = "WHY... type here why people should sign up for your program..."
-    content.program_who = "WHO... type here who should sign up for your program..."
-    content.program_last_words = "LAST WORDS... here's your chance to bring it home!"
+    content.program_introduction = "I'm taking a limited number of awesome, highly-motivated people for a new online coaching program."
+    content.program_why = "I've been coaching--and coaching online--for a long time. I've seen what works and what doesn't, and know that it's not just about making a program that's effective, but one you can stick to. Mixing years of training and nutrition experience with a good dash of psychology, I think I've got something that can really help people take their fitness to the next level."
+    content.program_who = "If you're at least familiar with basic lifts and nutrition, but need a more personalized approach and expert feedback to push yourself to the next level, this is definitely for you."
+    content.program_last_words = "If you're having second thoughts, working with me might not be for you. To get the most out of working with me, I need you to be focused, motivated, and ready to put in the work to get the results you deserve. You show up with that, and I'll do the rest."
     content.program_title = title if title else "%s Program" % name
     content.sales_page_key = key if key else ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))
 
     content.save()
     return content
 
-def add_client_to_blitz(blitz, client, workoutplan=None, price=0):
+def add_client_to_blitz(blitz, client, workoutplan=None, price=0, date=datetime.date.today):
     """
     Assuming we'll want to attach more info to plan joining
     """
+#    import pdb; pdb.set_trace()
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
         blitz.pk = None
@@ -108,7 +109,7 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0):
         blitz.url_slug = ''
         blitz.save()
 
-    membership = BlitzMember.objects.create(blitz=blitz, client=client)
+    membership = BlitzMember.objects.create(blitz=blitz, client=client, date_created=date)
     return membership
 
 # TODO: should be instance method of GymSession
@@ -133,8 +134,9 @@ def grouped_sets_with_user_data(gym_session):
 def JSONResponse(content):
     return HttpResponse(json.dumps(content), mimetype="application/json")
 
-def get_blitz_group_header_html(title, start_date, end_date, headshots):
+def get_blitz_group_header_html(blitz, title, start_date, end_date, headshots):
     return render_to_string('dashboard/blitz_group_header.html', {
+        'blitz': blitz,
         'title': title,
         'start_date': start_date,
         'end_date': end_date,

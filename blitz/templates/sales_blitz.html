@@ -36,12 +36,18 @@ class="sales-page"
         {% if debug_mode %}
            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
            <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
-           <label id="id_label" name="logo_picture"  for="id_logo_picture"/>
-           <img id="trainerlogo" src="{{ MEDIA_URL }}{{ sales_page.logo }}" /> 
+           <label class="" id="id_label" name="logo_picture"  for="id_logo_picture"/>
+
+            <img class="brand logoborder" 
+           {% if sales_page.logo %}
+               src="{{ MEDIA_URL }}{{ sales_page.logo }}"
+           {% else %}
+               src="{{ MEDIA_URL }}{{ sales_page.logo }}"
+           {% endif %} align="left" class="shadowimg" />
            </label>
         {% else %}
            {% if sales_page.logo %}
-           <a class="brand" href="/" id="secondary_logo">
+           <a class="brand logoborder" href="/" id="secondary_logo">
               <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
             </a>
            {% endif %}
@@ -54,7 +60,7 @@ class="sales-page"
         &nbsp;
       </div>
       <div class="span2">
-        <a class="brand" href="/" id="primary_logo">
+        <a class="brand" href="/" id="salespageblitzlogo">
           <img src="{{ STATIC_URL }}images/logo-w.png" align="right" />
         </a>
       </div>
@@ -90,12 +96,11 @@ class="sales-page"
   {% endif %}
 
       <div class="sales-header">
-         <h1>Personal Fitness Coaching with {{ sales_page.trainer_name }}</h1>
+         <h1>Personal Fitness Coaching with {{ sales_page.trainer.name }}</h1>
 
          <div class="content">
             {% if debug_mode %}
-               <textarea class="edit" name="intro" id="intro">
-                  {{ sales_page.program_introduction }}
+               <textarea class="edit" name="intro" id="intro">{{ sales_page.program_introduction }}
                </textarea>
             {% else %}
               {{ sales_page.program_introduction }}
@@ -142,7 +147,7 @@ class="sales-page"
 
             <div class="submit-container">
             {% if debug_mode %}
-              <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button">
+              <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button" disabled>
                 Sign up for {{ blitz.name }}
               </button>
             {% else %}
@@ -213,12 +218,14 @@ class="sales-page"
   <div class="sales-page-section-3">
     {% if debug_mode %}
     <div class="sales-section-overlay">
-      <i class="icon-lightbulb"></i> This section just explains what training on Blitz is like (for now, you can't edit or remove it).
+      <div class="overlay-text">
+        <i class="icon-lightbulb" style="display: none;"></i> This section just explains what training on Blitz is like (for now, you can't edit or remove it).
+      </div>
     {% else %}
     {% endif %}
     <div class="container" style="padding: 20px;">
       <div class="row">
-        <h1>How We'll Take Your Fitness to the Next Level</h1>
+        <h1>How we'll take your fitness to the next level</h1>
       </div>
       <div class="row">
         <div class="span4" style="margin-left: 0px">
@@ -296,7 +303,7 @@ class="sales-page"
   <div id="savebar">
     <div class="content">
       This is a preview of how your page will look to potential clients.
-      <button action="submit" class='btn-outline' type='submit'>
+      <button action="submit" class='btn-outline' type='submit' onclick="document.forms['SalesBlitz'].submit();">
         <div class="savetext">Save</div>
       </button>
     </div>
@@ -305,14 +312,6 @@ class="sales-page"
   &nbsp;
 {% endif %}
 
-  <script type="text/javascript">
-    $('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });
-
-    $(document).ready(function() {
-
-    });
-
-  </script>
   </div>
 
 {% endblock outer_content %}

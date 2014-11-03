@@ -44,7 +44,7 @@
                            </td>
                            {% include "error_field.html" with param='price' %}
                         {% endif %}
-                        {% if blitz.recurring %}
+                        {% if blitz.recurring and workoutplans %}
                            <td><div style="margin-left: 25px;"><select name="workoutplan_id" id="workoutplan_id" class="selectpicker">
                            {% for wp in workoutplans %}
                               <option value="{{wp.id}}"{% if wp = blitz.workoutplan %}selected{% endif %}>
@@ -62,8 +62,8 @@
 
                         {% endif %}
                         </table>
-                        <textarea name="invite" class="full-width" rows="8" style="width:450px;">{{ invite|safe }}</textarea></td>
-                        {% include "error_field.html" with param='invite' %}
+<!--                        <textarea name="invite" class="full-width" rows="8" style="width:450px;">{{ invite|safe }}</textarea></td>
+                        {% include "error_field.html" with param='invite' %} -->
                         <br>
                         <input type="hidden" name="signup_key" value="{{ signup_key }}">
                         <input type="hidden" name="invite_url" value="{{ invite_url }}">

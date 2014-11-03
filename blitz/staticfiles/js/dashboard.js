@@ -168,6 +168,14 @@ $(document).ready(function() {
         });
     });
 
+
+    // On Windows Resize
+    $(window).resize(function() {
+        $('.feeds').width( $('.content-wrapper').width()-(330+20) );
+    });
+    $(window).trigger('resize');
+    // END
+
     $('#homepage-loadmore').on('click', function(e) {
         homepage_morefeed();
     });
@@ -215,8 +223,60 @@ $(document).ready(function() {
         }
     });
 
+    // Alerts
+    $('#trainer-alert-box').on('click', 'button[data-action=leave-message]', function(e) {
+        var targetId = $(this).data('target-id')
+            MessageForm = $('#'+targetId).find('form').eq(0),
+            toggleButton = $(this);
+
+        // Hide unfocused message box
+        $('button[data-action=leave-message]').not( toggleButton )
+            .html('Message');
+
+        $('.message-entry').not( $('#'+targetId) )
+            .addClass('hidden')
+            .find('textarea')
+                .val('');
+
+        // Shows textarea for type a message
+        if ( $('#'+targetId).hasClass('hidden') ) {
+            // Showing textarea
+            $('#'+targetId).removeClass('hidden');
+            $(this).html('Close');
+        } else {
+            $('#'+targetId).addClass('hidden');
+            $(this).html('Message');
+        }
+
+        // On Click Send Message Button
+        $('#'+targetId).on('click', 'button[type=submit]', function(e) {
+            e.preventDefault();
+            // var formdata = new FormData();
+            var msg = MessageForm.find('textarea.message-text').val();
+            $.ajax({
+                url: MessageForm.attr('action'),
+                data: { message_content: msg },
+                }, function(data) {
+            }).then(function(response){
+                // alert('Sended ' + response.message1 + ' by: ' + MessageForm.attr('action') );
+                alert( JSON.stringify(response) );
+
+                // Hide current message box if message successfuly sended
+                toggleButton.html('Message');
+                $('#'+targetId)
+                    .addClass('hidden')
+                    .find('textarea')
+                        .val('');
+
+            }, function(error) {
+                // TODO: Show alert in the UI
+                alert(error);
+            });
+        });
+    });
+
     // Filters
-    $('.filters').on('click', 'li', function(event) {
+    $('.filters, .feeds-filter').on('click', 'li', function(event) {
         // Abort ajax requests
         if (xhr) {
             xhr.abort();
@@ -232,9 +292,9 @@ $(document).ready(function() {
         SEARCH_TEXT = '';
 
         // Hide and clear client summary
-        $summary.addClass('hidden').html('');
+        $summary.html('');
         // END
-        
+
         // Clear feed container
         var clearFeed = function() {
             if ( $mainFeed.html() ) {
@@ -297,13 +357,14 @@ $(document).ready(function() {
                     });
                 }
             } else {
-                $summary.addClass('hidden');
+                $summary.html('');
             }
             homepage_morefeed();
         }
 
         // Sets 'active' class to clicked filter
-        $('ul.filters li').removeClass('active');
+        $(this).parent().find('li').not($(this))
+            .removeClass('active');
         $(this).addClass('active');
     });
     // End Filters

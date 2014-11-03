@@ -88,6 +88,19 @@ week of 10.20
 - Google analytics setup
 - SSL https:
 - WorkoutPlan swapping
-- Payment reports from balanced
+- sketch-out Payment reports from balanced
+
+week of 10.27
+- edit spotter modal
+- fix SetComplete.display_str()
+- handle empty "Last time you did..."
+- rework tests for new modals
+- handle recurring settings:performance graphs
+- recurring blitz test data
+- usage report price and free invite enhancements
+- rename 'Blitz' to 'Program' for programs
+- additional Balanced payments cc checks
+- database+usermedia automated backup to remote server
+- payments report additional features
 
 

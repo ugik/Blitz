@@ -9,23 +9,31 @@
     }
 </style>
 
-    <div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
-      {% for payment in payments %}
-      <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
-        <div style="text-align: left;" class="spotterheader">
-          <small>Client:</small> {{ payment.client.name }}
-          <small>Blitz:</small> {{ payment.blitz.title }} 
-<br>          {{ payment.status }}:
-              {% if payment.invitation.price %}<small>Invitation Price:</small> ${{ payment.invitation.price }}
-              {% else %} ${{ payment.amount }}{% endif %}
-<br>          {{ payment.created_at }}
-          <small>Transaction #:</small> {{ payment.xtion }}
+<div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
 
-        </div>
-      </div>
-      {% endfor %}
-
-    </div>
+{% for client in clients|dictsortreversed:"months" %}
+  <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
+     <div style="text-align: left;" class="spotterheader">
+     <ul><li>{{ client.client.name }} start date: {{ client.date_start }} ({{ client.months }} months)</li>  {% if not client.blitz.recurring %} <li> Blitz:{{ client.blitz.title }} {% endif %}
+     {% if client.invitation.price %}Invited Price: ${{ client.invitation.price|stringformat:"0.2f" }}
+     {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
+<br>
+     Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
+<br><br>
+   {% if client.payments %}
+   Charges:
+   <small>
+     {% for payment in client.payments|dictsort:"created_at" %}
+         <li> ({{ payment.status }}) {{ payment.amount }}</li>
+         <li> {{ payment.created_at }} Transaction #:{{ payment.xtion }} </li>
+   <br> {% endfor %}
+   </small>
+     </ul>
+   {% endif %}
+   </div>
+  </div>
+  {% endfor %}
+</div>
 
 
 {% endblock %}

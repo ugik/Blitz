@@ -30,6 +30,13 @@ def email_test():
     send_mail('Celery email test', 'Daily test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
 
 
+@periodic_task(run_every=crontab(hour="*", minute="59", day_of_week="*"))  
+def backup():
+    # check to make sure database is up and real
+    c = Client.objects.all()
+    if len(c) > 0:
+        os.system("bash ~/Blitz/backup.sh")
+
 @periodic_task(run_every=crontab(hour="*/1", minute="1", day_of_week="*"))  
 def trainer_alerts():
     for client in Client.objects.all():

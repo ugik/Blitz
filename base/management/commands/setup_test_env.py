@@ -20,7 +20,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         # superuser for using admin
-        admin = User.objects.create_user('admin', 'admin@example.com', 'admin')
+        admin = User.objects.create_user('admin', 'admin@example.com', 'Blitz22')
         admin.is_superuser = True
         admin.is_staff = True
         admin.save()
