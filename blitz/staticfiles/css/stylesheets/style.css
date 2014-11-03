@@ -5458,3 +5458,35 @@ ul.filters li.item {
   font-size: 18px;
   color: #9d9ea3;
 }
+
+/* line 4545, ../sass/style.scss */
+.trainer-uploads-left {
+  margin-left: 0px;
+  max-width: 560px;
+}
+
+/* line 4551, ../sass/style.scss */
+.trainer-uploads-right {
+  margin-left: 0px;
+}
+
+/* line 4555, ../sass/style.scss */
+.uploads-top {
+  font-size: 30px;
+  margin-bottom: 10px;
+  font-family: 'proxima_novabold';
+}
+
+/* line 4561, ../sass/style.scss */
+.uploads-bottom {
+  opacity: 0.5;
+  font-size: 14px;
+}
+
+/* line 4566, ../sass/style.scss */
+.uploads-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  margin-left: 0px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
