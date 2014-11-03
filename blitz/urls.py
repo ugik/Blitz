@@ -69,6 +69,7 @@ urlpatterns += patterns(
 
     url(r'^log-workout/(?P<week_number>\d+)/(?P<day_char>\w+)$', 'base.views.log_workout', name='log_workout'),
 
+    url(r'^api/send-message-to-user/(?P<pk>\d+)', 'ff_messaging.views.send_message_to_user', name='send_message_to_user'),
     url(r'^api/new-comment', 'base.views.new_comment', name='new_comment'),
     url(r'^api/blitz_feed$', 'base.views.blitz_feed', name='blitz_feed'),
     url(r'^api/blitz/(?P<pk>\d+)$', 'base.views.blitz', name='blitz'),
