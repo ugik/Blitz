@@ -232,6 +232,7 @@ class Trainer(models.Model):
 
     def headshot_from_image(self, image_path):
         image = Image.open(image_path)
+
         size = (75, 75)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
@@ -241,6 +242,7 @@ class Trainer(models.Model):
 
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
+
 
     def get_timezone(self):
         return timezone(self.timezone)
@@ -370,16 +372,22 @@ class Client(models.Model):
         return self.get_todays_workout(timezone) is not None
 
     def headshot_from_image(self, image_path):
+
         image = Image.open(image_path)
         size = (75, 75)
+        size_2X = (150, 150)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
+        thumb_2X = ImageOps.fit(image, size_2X, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
-        thumb.save(thumb_io, format='JPEG')
         thumb_contentfile = ContentFile(thumb_io.getvalue())
+
+        thumb.save(thumb_io, format='JPEG')
+        thumb_2X.save(thumb_io, format='JPEG')
 
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
+        self.headshot.save(filename.split('.jpg')[0]+"@2x.jpg", thumb_contentfile)
 
     def get_gym_sessions(self):
         """
