@@ -32,6 +32,61 @@
 	<td></td>
 </tr>
 <tr>
+	<td>clickAndWait</td>
+	<td>link=Set up your profile →</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=label.radio</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=age</td>
+	<td>30</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//form[@id='setupForm']/div[3]/label[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>(kg)</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=weight</td>
+	<td>100</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=height_feet</td>
+	<td>1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=height_inches</td>
+	<td>80</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.obtn.full-width</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=skip-headshot</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Finish Signup →</td>
+	<td></td>
+</tr>
+<tr>
 	<td>click</td>
 	<td>css=#video-continue</td>
 	<td></td>
@@ -42,23 +97,8 @@
 	<td>Next Workout:</td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>css=img.basic-tooltip.img-circle</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertTextPresent</td>
-	<td></td>
-	<td>Luke</td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=a.btn.btn-navbar</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Home</td>
+	<td>open</td>
+	<td>/</td>
 	<td></td>
 </tr>
 <tr>
@@ -125,11 +165,6 @@
 	<td>assertTextPresent</td>
 	<td></td>
 	<td>Jimmy McGee logged a workout. </td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>link=Like</td>
-	<td></td>
 </tr>
 <tr>
 	<td>open</td>

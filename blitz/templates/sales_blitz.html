@@ -37,19 +37,27 @@ class="sales-page"
            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
            <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
            <label class="" id="id_label" name="logo_picture"  for="id_logo_picture"/>
-
-            <img class="brand logoborder" 
+            
            {% if sales_page.logo %}
-               src="{{ MEDIA_URL }}{{ sales_page.logo }}"
+              <img class="brand logoborder" src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg" />
            {% else %}
-               src="{{ MEDIA_URL }}{{ sales_page.logo }}"
-           {% endif %} align="left" class="shadowimg" />
+               <div id="trainernologo">
+                {{ sales_page.trainer.name }}
+                <div class="tinytext">
+                  (click to upload your logo here)
+                </div>
+               </div>
+           {% endif %} 
            </label>
         {% else %}
            {% if sales_page.logo %}
-           <a class="brand logoborder" href="/" id="secondary_logo">
+            <a class="brand logoborder" href="/" id="secondary_logo">
               <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
             </a>
+            {% else %}
+            <div id="trainernologo">
+              {{ sales_page.trainer.name }} 
+            </div>
            {% endif %}
            {% if sales_page.video_html %}
               {% autoescape off %}{{ sales_page.video_html }}{% endautoescape %}
@@ -289,6 +297,9 @@ class="sales-page"
           {% endif %}
           </div>
         </form>
+<script type="text/javascript">
+$('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });
+</script> 
 
         </div>
       </div>

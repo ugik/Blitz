@@ -34,26 +34,42 @@ Start the development server, and log in with the following logins:
 * email: `amare@example.com`; password: `asdf` (this is a mock client)
 * email: `ct@example.com`; password: `asdf` (this is a mock trainer)
 
+See other mock clients & trainers through admin interface
+
 ### Running tests
 
 Selenium test scripts are in `base/tests/*.py` and run from command line. Database is copied to backup prior to tests and restored upon completion.
 
 `bash runTests.sh`
 `bash runTests.sh TestBasic`
+`bash runTests.sh TestCreateBlitz`
+`bash runTests.sh TestCreateClient`
+`bash runTests.sh TestCreateTrainer`
 `bash runTests.sh TestCreditcards`
+
+### Emails
+
+Server email password is established as an environment variable. To have emails sent in development (DEBUG) mode you will need to export the password environment variable. 
+
+add export `EMAIL_PASSWORD=Blitz22` to the bottom of your `~./bashrc` and load initially with: `source ~/.bashrc`
+
+In deployment the email environment vars are set in Apache config files.
+
 
 ### EC2 instance
 
-Please read EC2start.sh and EC2update.sh carefully to understand what is applied to ec2 deployments.
+* Please read EC2start.sh and EC2update.sh carefully to understand what is applied to ec2 deployments.
 
-An Ubuntu ec2 instance is formed with `bash EC2start.sh` with public DNS as parameter, this will copy the essential files needed to setup the instance, with `bash EC2setup.sh` ON THE REMOTE SERVER. 
-NOTE: prior to running EC2setup.sh, fill out the environment vars at the top of the script. The ec2.pem key is above the Blitz directory structure.
+An Ubuntu ec2 instance is formed with `bash EC2start.sh` + public DNS as parameter, this will copy the essential files needed to setup the instance, with `bash EC2setup.sh` ON THE REMOTE SERVER. 
+* NOTE: prior to running EC2setup.sh, fill out the environment vars at the top of the script. The ec2.pem key is above the Blitz directory structure.
 
 The remote ec2 instance is updated with `bash EC2update.sh` script with public DNS parameter. This rsync's all necessary files and resets Apache. adding a 'migrate' parameter will force deployment server database migration.
 
 ### Automated tasks
 
 Celery wrapped in SupervisorD tasks are in `base/tasks.py`, these involve automated email notifications, daily usage digest to team@blitz.us as well as regular backup copy to backup server.
+
+The supervisor admin is available via `:9001` access
 
 ### Backup server
 

@@ -102,5 +102,7 @@ week of 10.27
 - additional Balanced payments cc checks
 - database+usermedia automated backup to remote server
 - payments report additional features
+- rework tests, using page load /... 
+- trainer uploads page
 
 
