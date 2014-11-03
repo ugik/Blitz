@@ -62,6 +62,7 @@ from workouts.models import WorkoutPlanDay, WorkoutSet, WorkoutPlan, DAYS_OF_WEE
 import datetime
 import random
 import string
+import PIL
 from PIL import Image, ImageOps
 import StringIO
 from pytz import timezone
@@ -184,6 +185,15 @@ def forgot_password_token(user):
     except:
         raise Exception("No blitz for user")
 
+# creates image of a given width and appropriate aspect-ratio, default width 150, "@2X" suffix
+def create_2X_image(image_path, width=150, suffix="@2X"):
+    img = Image.open(image_path)
+    wpercent = (width/float(img.size[0]))
+    hsize = int((float(img.size[1])*float(wpercent)))
+    img = img.resize((width,hsize), PIL.Image.ANTIALIAS)
+    img.save(image_path.split('.')[0]+suffix+".jpg")
+
+
 User.user_type = property(lambda u: user_type(u))
 User.is_trainer = property(lambda u: user_is_trainer(u))
 User.display_name = property(lambda u: user_display_name(u))
@@ -243,6 +253,7 @@ class Trainer(models.Model):
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
 
+        create_2X_image(image_path, width=150, suffix="@2X")
 
     def get_timezone(self):
         return timezone(self.timezone)
@@ -375,19 +386,16 @@ class Client(models.Model):
 
         image = Image.open(image_path)
         size = (75, 75)
-        size_2X = (150, 150)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
-        thumb_2X = ImageOps.fit(image, size_2X, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
-        thumb_contentfile = ContentFile(thumb_io.getvalue())
-
         thumb.save(thumb_io, format='JPEG')
-        thumb_2X.save(thumb_io, format='JPEG')
+        thumb_contentfile = ContentFile(thumb_io.getvalue())
 
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
-        self.headshot.save(filename.split('.jpg')[0]+"@2x.jpg", thumb_contentfile)
+
+        create_2X_image(image_path, width=150, suffix="@2X")
 
     def get_gym_sessions(self):
         """

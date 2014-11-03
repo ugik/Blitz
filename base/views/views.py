@@ -1117,6 +1117,11 @@ def trainer_signup_uploads(request, pk):
 # url: /client-signup ?signup_key
 def client_signup(request):
 
+    # fail gracefully if invitation key is bogus
+    invitations = BlitzInvitation.objects.filter(signup_key=request.GET.get('signup_key'))
+    if not invitations:
+        return redirect('home')
+
     invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
     blitz = get_object_or_404(Blitz, id=invitation.blitz_id)
 
