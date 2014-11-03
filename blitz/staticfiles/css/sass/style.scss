@@ -4482,3 +4482,31 @@ a#secondary_logo.brand {
 .logoborder:hover {
     border: 2px dashed $fadedblue;
   }
+
+#trainernologo {
+  @include meta();
+  font-size: 30px;
+  padding: 30px;
+  width: 350px;
+  text-align: left;
+  color: white;
+  @include mobile-only {
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: -60px;
+  }
+}
+
+.tinytext {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.mobile-full-width {
+  @include mobile-only {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+  }
+}
