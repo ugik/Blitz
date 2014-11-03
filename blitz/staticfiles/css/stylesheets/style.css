@@ -5475,15 +5475,17 @@ ul.filters li.item {
   font-size: 30px;
   margin-bottom: 10px;
   font-family: 'proxima_novabold';
+  line-height: 1.3;
 }
 
-/* line 4561, ../sass/style.scss */
+/* line 4562, ../sass/style.scss */
 .uploads-bottom {
   opacity: 0.5;
   font-size: 14px;
+  line-height: 1.3;
 }
 
-/* line 4566, ../sass/style.scss */
+/* line 4568, ../sass/style.scss */
 .uploads-row {
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   margin-left: 0px;
