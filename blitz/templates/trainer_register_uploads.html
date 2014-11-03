@@ -81,11 +81,11 @@
                 var label_document = '{{ document }}';
 
                 if (/^\s*$/.test(label_headshot_image)){ }
-                else { document.getElementById("label_headshot_image").style="display:none; visibility:hidden;"; }
+                else { document.getElementById("label_headshot_image").style.display="none"; }
                 if (/^\s*$/.test(label_logo_image)){ }
-                else { document.getElementById("label_logo_image").style="display:none; visibility:hidden;"; }
+                else { document.getElementById("label_logo_image").style.display="none"; }
                 if (/^\s*$/.test(label_document)){ }
-                else { document.getElementById("label_document").style="display:none; visibility:hidden;"; }
+                else { document.getElementById("label_document").style.display="none"; }
 
                 $('input[type=file]').change(function(e) { document.uploadsForm.submit(); });
 

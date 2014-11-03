@@ -5492,3 +5492,8 @@ ul.filters li.item {
   padding-bottom: 15px;
   padding-top: 15px;
 }
+
+/* line 4575, ../sass/style.scss */
+.dn {
+  display: none;
+}
