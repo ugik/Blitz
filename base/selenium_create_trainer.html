@@ -42,9 +42,24 @@
 	<td>label=US/Hawaii</td>
 </tr>
 <tr>
+	<td>clickAndWait</td>
+	<td>//button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td></td>
+	<td>This field is required.</td>
+</tr>
+<tr>
+	<td>selectWindow</td>
+	<td>null</td>
+	<td></td>
+</tr>
+<tr>
 	<td>type</td>
 	<td>id=id_short_name</td>
-	<td>troy</td>
+	<td>Mike</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -52,38 +67,38 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>css=a.btn.btn-navbar</td>
+	<td>assertTextPresent</td>
 	<td></td>
+	<td>Short name taken</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_short_name</td>
+	<td>troy</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password1</td>
+	<td>asdf</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password2</td>
+	<td>asdf</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Inbox</td>
+	<td>//button</td>
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>css=a.btn.btn-navbar</td>
+	<td>assertTextPresent</td>
 	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=Pages</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=a.btn.btn-navbar</td>
-	<td></td>
+	<td>Sweet</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Programs</td>
-	<td></td>
-</tr>
-<tr>
-	<td>click</td>
-	<td>css=a.btn.btn-navbar</td>
+	<td>id=done_action</td>
 	<td></td>
 </tr>
 <tr>

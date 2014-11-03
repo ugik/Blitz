@@ -165,6 +165,11 @@ class ClientCheckinForm(forms.Form):
     side_image = forms.ImageField(required=False)
     weight = forms.IntegerField(min_value=0, max_value=500, required=False)
 
+class TrainerUploadsForm(forms.Form): 
+    headshot_image = forms.ImageField(required=False)
+    logo_image = forms.ImageField(required=False)
+    document = forms.FileField(required=False)
+
 class SalesBlitzForm(forms.Form): 
     FEE_CHOICES = (('O', 'One-time',), ('R', 'Recurring',))
 

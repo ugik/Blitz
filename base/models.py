@@ -217,6 +217,8 @@ class Trainer(models.Model):
             return self.currently_viewing_blitz
         elif self.active_blitzes():
             return self.active_blitzes()[0]
+        elif self.blitz_set.all():
+            return self.blitz_set.all()[0]
         else:
             return None
 

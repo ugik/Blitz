@@ -11,6 +11,7 @@ class TestCreateFreeClient(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
+        self.driver.set_window_size(800, 1000)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -23,14 +24,26 @@ class TestCreateFreeClient(unittest.TestCase):
         driver.find_element_by_name("password2").clear()
         driver.find_element_by_name("password2").send_keys("asdf")
         driver.find_element_by_xpath("//button").click()
+        driver.find_element_by_link_text(u"Set up your profile →").click()
+        driver.find_element_by_css_selector("label.radio").click()
+        driver.find_element_by_name("age").clear()
+        driver.find_element_by_name("age").send_keys("30")
+        driver.find_element_by_xpath("//form[@id='setupForm']/div[3]/label[2]").click()
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_name("weight").clear()
+        driver.find_element_by_name("weight").send_keys("100")
+        driver.find_element_by_name("height_feet").clear()
+        driver.find_element_by_name("height_feet").send_keys("1")
+        driver.find_element_by_name("height_inches").clear()
+        driver.find_element_by_name("height_inches").send_keys("80")
+        driver.find_element_by_css_selector("button.obtn.full-width").click()
+        driver.find_element_by_id("skip-headshot").click()
+        driver.find_element_by_link_text(u"Finish Signup →").click()
         driver.find_element_by_css_selector("#video-continue").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_css_selector("img.basic-tooltip.img-circle").click()
-        # Warning: assertTextPresent may require manual changes
-        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_css_selector("a.btn.btn-navbar").click()
-        driver.find_element_by_link_text("Home").click()
+        driver.get(self.base_url + "/")
         driver.find_element_by_link_text("Go log it now").click()
         driver.find_element_by_name("set-829-weight").clear()
         driver.find_element_by_name("set-829-weight").send_keys("1")
@@ -53,7 +66,6 @@ class TestCreateFreeClient(unittest.TestCase):
         driver.find_element_by_css_selector("button.obtn.log-workout-submit").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_link_text("Like").click()
         driver.get(self.base_url + "/logout")
     
     def is_element_present(self, how, what):

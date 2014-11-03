@@ -17,7 +17,7 @@ from django.core.urlresolvers import resolve
 from spotter.urls import *
 import balanced
 
-from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm
+from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
@@ -78,6 +78,7 @@ def all_clients(request):
 
 # url: /
 def home(request):
+
     if request.user.is_authenticated():
         # handle spotter type users, see spotter app for details
         if request.user._wrapped.username == 'spotter':
@@ -1059,7 +1060,7 @@ def trainer_signup(request):
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
-            return redirect('home')
+            return redirect('/register-trainer-uploads/%d' % trainer.pk)
 
     else:
         form = NewTrainerForm()
@@ -1071,6 +1072,46 @@ def trainer_signup(request):
            }
 
     return render(request, 'trainer_register.html', args)
+
+# trainer registration uploads
+# url: /register-trainer-uploads/(?P<pk>\d+)
+def trainer_signup_uploads(request, pk):
+    trainer = get_object_or_404(Trainer, pk=int(pk))
+    blitz = trainer.get_blitz()
+    salespage = blitz.sales_page_content
+    document = False
+
+    if request.method == 'POST':
+        form = TrainerUploadsForm(request.POST, request.FILES)
+
+        if form.is_valid() and form.is_multipart():
+
+            if form.cleaned_data['headshot_image']:
+                trainer.headshot = form.cleaned_data['headshot_image']
+                trainer.save()
+                trainer.headshot_from_image(settings.MEDIA_ROOT+'/'+trainer.headshot.name)
+
+            if form.cleaned_data['logo_image']:
+                salespage.logo = form.cleaned_data['logo_image']
+                salespage.save()
+
+            if form.cleaned_data['document']:
+                save_file(request.FILES['document'], trainer.pk)
+                document = True
+
+            if form.data['done'] == '1':
+                return redirect('home')
+
+        else:
+            if form.data['done'] == '1':
+                return redirect('home')
+
+    else:
+        form = TrainerUploadsForm()
+
+    return render(request, 'trainer_register_uploads.html', { 
+             'trainer': trainer, 'blitz': trainer.get_blitz(), 
+             'salespage': trainer.get_blitz().sales_page_content, 'document': document })
 
 # client signup
 # url: /client-signup ?signup_key
@@ -1244,6 +1285,7 @@ def sales_blitz(request):
                 if not trainer.headshot:
                     trainer.headshot = form.cleaned_data['picture']
                     trainer.save()
+                    trainer.headshot_from_image(settings.MEDIA_ROOT+'/'+trainer.headshot.name)
 
         blitz.sales_page_content.save()
         blitz.save()
@@ -1712,6 +1754,14 @@ def single_post_comment(request, pk):
     feeditem_html = get_feeditem_html(feeditem, request.user)
     return render(request, 'single_post.html', {'feeditem': feeditem, 'feeditem_html': feeditem_html})
 
+# client survey
+def client_survey(request):
+    return render(request, 'client_intake_survey.html', {})
+
+# trainer survey
+def trainer_survey(request):
+    return render(request, 'trainer_intake_survey.html', {})
+
 # trainer dashboard
 # url: /dashboard
 @login_required
@@ -1736,4 +1786,12 @@ def trainer_dashboard(request):
             'macro_history':  macro_utils.get_full_macro_history(clients[0])
         })
     else:
-        return redirect('home')
+        return render(request, 'trainer_dashboard.html', {
+            'clients': clients,
+            'alerts': trainer.get_alerts(),
+            'alerts_count': len( trainer.get_alerts() ),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
+            'blitzes': blitzes,
+            'user_id': user_id,
+            'macro_history':  macro_utils.get_full_macro_history(clients[0])
+        })
