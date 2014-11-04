@@ -8,7 +8,8 @@
 </div>
 <div class="actions">
 	<a class="btn btn-primary" href="#" data-object-id="{{blitz.pk}}">Edit Dates</a>
-	<a class="btn btn-primary" href="{% url 'spotter_program_edit' blitz.pk %}" data-object-id="{{blitz.pk}}" target="_blank">Edit Program</a>
+	<a class="btn btn-primary" href="{% url 'spotter_program_edit' blitz.workout_plan.pk %}" data-object-id="{{blitz.workout_plan.pk}}">Edit Program</a>
 	<a class="btn btn-primary" href="#" data-object-id="{{blitz.pk}}">Edit Macros</a>
-	<a class="btn btn-primary" href="#" data-object-id="{{blitz.pk}}">Edit Page</a>
+	<a class="btn btn-primary" href="/sales-blitz?slug={{ blitz.url_slug }}&short_name={{ blitz.trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}">Edit Page</a>
 </div>
+

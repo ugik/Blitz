@@ -363,23 +363,25 @@ def spotter_program_edit(request, pk):
 
             return redirect('my_blitz_program')
         else:
-            return render(request, 'trainer_programs.html', 
-                   {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
-                    'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
-
-#            return render_to_response('spotter_program_edit.html', 
-#                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
-#                              RequestContext(request))
+            if 'modalSpotter' in request.GET:
+                return render(request, 'trainer_programs.html', 
+                    {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                     'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+            else:
+                return render_to_response('spotter_program_edit.html', 
+                    {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
+                     RequestContext(request))
 
     else:
         form = SpotterProgramEditForm()
-        return render(request, 'trainer_programs.html', 
-               {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
-                'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
-
-#        return render_to_response('spotter_program_edit.html', 
-#                              {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
-#                              RequestContext(request))
+        if 'modalSpotter' in request.GET:
+            return render(request, 'trainer_programs.html', 
+                {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                 'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+        else:
+            return render_to_response('spotter_program_edit.html', 
+                {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
+                 RequestContext(request))
 
 # handle trainer uploading documents
 # url: /upload
