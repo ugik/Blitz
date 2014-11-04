@@ -1793,5 +1793,5 @@ def trainer_dashboard(request):
             'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
-            'macro_history':  macro_utils.get_full_macro_history(clients[0])
+            'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else []
         })
