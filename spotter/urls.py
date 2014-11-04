@@ -8,8 +8,8 @@ urlpatterns = patterns(
     url(r'^program_upload$', 'spotter.views.spotter_program_upload', name='spotter_program_upload'),
     url(r'^program_create$', 'spotter.views.spotter_program_create', name='spotter_program_create'),
     url(r'^program_create/(?P<file>\w+)/$', 'spotter.views.spotter_program_create', name='spotter_program_create'),
-    url(r'^program_delete$', 'spotter.views.spotter_program_delete', name='spotter_program_delete'),
-    url(r'^program_delete/(?P<plan>\w+)/$', 'spotter.views.spotter_program_delete'),
+#    url(r'^program_delete$', 'spotter.views.spotter_program_delete', name='spotter_program_delete'),
+#    url(r'^program_delete/(?P<plan>\w+)/$', 'spotter.views.spotter_program_delete'),
     url(r'^program_sales_page$', 'spotter.views.spotter_sales_pages', name='spotter_sales_pages'),
     url(r'^program_sales_pages$', 'spotter.views.spotter_blitz_sales_pages', name='spotter_blitz_sales_pages'),
 

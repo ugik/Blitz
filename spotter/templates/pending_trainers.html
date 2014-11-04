@@ -18,7 +18,6 @@
         <td>Trainer id: {{ element }}</td>
       {% elif forloop.last %}
           {% if element > 0 %}
-              <td><a href="program_delete?plan={{ element }}">DELETE plan id:{{ element }}</a> <small>(click on link to delete plan)</small></td>
           {% elif element = -1 %}
               <td></td>
           {% endif %}
