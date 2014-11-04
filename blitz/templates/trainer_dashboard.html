@@ -12,6 +12,7 @@
 {% endblock %}
 
 
+
 {% block outer_content %}
 {% block content %}
 
@@ -26,7 +27,7 @@
 		<div class="search-input">
 			<input type='text' class="search-text" placeholder="Search for a client or program...">
 		</div>
-		<ul class='filters'>
+		<ul class='filters scopes'>
 			<li class='item' data-scope='alerts'>
 				<div class="item-inner">
 					Alerts
@@ -83,19 +84,19 @@
 				<!-- Blitz group header -->
 				<div class="group">
 					<!-- Will be populated by AJAX -->
-				</div>	
+				</div>
 
 				{% if alerts %}
 					<div class="alerts-wrapper hidden">
-						{% include "trainer_alerts.html" %}	
-					</div>				    
+						{% include "trainer_alerts.html" %}
+					</div>
 				{% endif %}
 				{% if user.blitz and user.blitz.members %}
 					<div class="feeds-filter">
 						<ul>
-							<li class="active" data-scope="all">Everything</li>
-							<li data-scope="workouts">Workouts</li>
-							<li data-scope="check-ins">Check-Ins</li>
+							<li class="active" data-scope-filter="all">Everything</li>
+							<li data-scope-filter="workouts">Workouts</li>
+							<li data-scope-filter="checkins">Check-Ins</li>
 						</ul>
 					</div>
 		        	{% include "main_feed.html" %}
@@ -108,13 +109,13 @@
     	        <div class="submit-container">
 		            <button class='obtn obtn-half' type='submit'>Upload stuff</button>
 		        </div>
-
 		        </form>
 		        {% endif %}
 			</div> <!--/ feeds -->
 
+			<!-- Summary -->
 			<div id="summary">
-			</div> <!--/ summary -->
+			</div>
 
 			<div class="clearfix"></div>
 		</div>

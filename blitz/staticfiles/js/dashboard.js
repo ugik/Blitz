@@ -1,5 +1,6 @@
 var FEEDITEM_OFFSET = 0;
 var FEED_SCOPE = 'all';
+var FEED_SCOPE_FILTER = 'all';
 var OBJECT_ID;
 var SEARCH_TEXT;
 
@@ -19,6 +20,7 @@ function homepage_morefeed() {
     xhr = $.get('/api/blitz_feed',
         {'offset': FEEDITEM_OFFSET,
          'feed_scope': FEED_SCOPE,
+         'feed_scope_filter': FEED_SCOPE_FILTER,
          'object_id': OBJECT_ID,
          'search_text': SEARCH_TEXT
         },
@@ -275,7 +277,6 @@ $(document).ready(function() {
         }, function(error) {
             // TODO: Show alert in the UI
             $submitButton.show();
-            $form.find('button[type="submit"]').show();
             alert( JSON.stringify(error) );
         });
     });
@@ -297,7 +298,17 @@ $(document).ready(function() {
         
         FEEDITEM_OFFSET = 0;
         FEED_SCOPE = $(this).data('scope') || FEED_SCOPE;
-        OBJECT_ID = $(this).data('object-pk') || false;
+        FEED_SCOPE_FILTER = $(this).data('scope-filter') || FEED_SCOPE_FILTER;
+
+        // On Change scopes (when a left-sidebar filter is clicked)
+        if ($(this).parent().hasClass('scopes')) {
+            OBJECT_ID = $(this).data('object-pk') || false;
+            FEED_SCOPE_FILTER = 'all'
+
+            $('.feeds-filter ul li').removeClass('active');
+            $('.feeds-filter ul li:first-child').addClass('active');
+        }
+
         SEARCH_TEXT = '';
 
         // Hide and clear client summary

@@ -838,8 +838,16 @@ def save_sets(request):
 @login_required
 @csrf_exempt
 def blitz_feed(request):
+    content_types = {
+        'workouts': 'gym session',
+        'checkins': 'comment',
+        'all': 'all'
+    }
+
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
+    feed_scope_filter = (content_types[request.GET.get('feed_scope_filter')] if request.GET.get('feed_scope_filter') else 'all')
+
     search_text = request.GET.get('search_text')
     feed_items = []
 
@@ -866,14 +874,24 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+10]
     else:
         if feed_scope == 'all':
-            feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+10]
+            if feed_scope_filter != 'all':
+                feed_items = FeedItem.objects.filter(blitz=request.user.blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
+            else:
+                feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+10]
 
         elif feed_scope == 'blitz':
-            feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
+            if feed_scope_filter != 'all':
+                feed_items = FeedItem.objects.filter(blitz_id=obj_id, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
+            else:
+                feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
 
         elif feed_scope == 'client':
             client = Client.objects.get(pk=obj_id)
-            feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+10]
+            
+            if feed_scope_filter != 'all':
+                feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
+            else:
+                feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+10]
 
     ret = {
         'feeditems': [],

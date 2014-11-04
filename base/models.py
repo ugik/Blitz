@@ -403,20 +403,22 @@ class Client(models.Model):
         """
         return self.gymsession_set.all().order_by('date_of_session')
 
-    def get_feeditems(self):
+    def get_feeditems(self, filter_by='all'):
         """
         Feed items in chronological order
         """
 
         feeditems = FeedItem.objects.get_empty_query_set()
-       
+
         # Adds client related Gym Sessions to the feeditems query set
-        for q in self.gymsession_set.all():
-            feeditems |= q.feeditems.all()
+        if filter_by == 'gym session' or filter_by == 'all' or filter_by == '':
+            for q in self.gymsession_set.all():
+                feeditems |= q.feeditems.all()
 
         # Adds client related Comments to the feeditems query set
-        for q in Comment.objects.filter(user=self.user).all():
-            feeditems |= q.feeditems.all()
+        if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
+            for q in Comment.objects.filter(user=self.user).all():
+                feeditems |= q.feeditems.all()
 
         return feeditems
 
