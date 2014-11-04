@@ -9,11 +9,11 @@ workon fitFlame
 #pagekite
 pagekite.py 8000 fitflame.pagekite.me
 
-#replace douche (client)
+#replace string
 grep -r --include=*.py "Foo" .
 rpl -R -x'.py' 'Blitz' 'Program' .
 
-#replace douche filenames
+#replace filenames
 find . -name file.ext
 find . -name \*douche*
 rename -n s/"douchebag"/"client"/g  *

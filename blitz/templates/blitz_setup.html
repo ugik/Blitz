@@ -20,21 +20,23 @@
 <div class="row">
     <div class="span4 offset4">
         <div class="formpage-block">
-
+                     <div class="header">
+                        Create new Program
+                     </div>
 
     <form class="form" action="#" method="post">
     {% csrf_token %}
 
         <div class="fieldWrapper">{{ form.title }}</div>
         <div class="fieldWrapper">
-<small>Short url for your blitz, eg. /Blitz.us/</small><b><u>{{ trainer.short_name }}/Group1</u></b>
+<small>Short url for your program, eg. /Blitz.us/</small><b><u>{{ trainer.short_name }}/Group1</u></b>
         {{ form.url_slug }}<br><a style="color:red;">{{ form.url_slug.errors }}</a>
         </div>
 
         <table><tr>
         <td>Workout plan:</td> <td><select name="program" id="program" class="selectpicker show-tick">
         {% for program in programs %}
-        <option value="{{ program }}">{{ program }}</option>
+        <option value="{{ program }}">{{ program.name }}</option>
         {% endfor %}
         </select></td></tr><tr>
         <td>Type:</td> <td><select name="blitz_type" id="blitz_type" class="selectpicker show-tick">
@@ -51,14 +53,8 @@
     </script>
         <br>
 
-        <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}"></td></tr>
+        <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}">
 
-<!--
-        <div class="fieldWrapper">
-                {{ form.start_day }}
-        </div> -->
-
-        </td></tr>
         <div class="fieldWrapper">
                 <div style="width: 10%; float: left; display: inline; margin-top: 8px; font-size: 1.5em;">
                   $
@@ -81,8 +77,5 @@
 </div>
 </div>
 
-</div>
-</div>
-</div>
 
 {% endblock formpage_content %}

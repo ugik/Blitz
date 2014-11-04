@@ -206,25 +206,31 @@ def blitz_setup(request):
                               RequestContext(request))
         else:
 
-            return render(request, 'trainer_salespages.html', {
+            if 'modalBlitz' in request.GET:
+                return render(request, 'trainer_salespages.html', {
                           'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
                           'SITE_URL' : domain(request), 'modalBlitz' : modalBlitz,
                           'form': form, 'trainer' : trainer, 'errors' : errors,
                           'programs' : programs }) 
-
-#            return render_to_response('blitz_setup.html', 
-#                              {'form': form, 'trainer' : trainer, 'errors' : errors,
-#                               'programs' : programs}, 
-#                              RequestContext(request))
+            else:
+                return render_to_response('blitz_setup.html', 
+                         {'form': form, 'trainer' : trainer, 'errors' : errors,
+                          'programs' : programs}, RequestContext(request))
 
     else:
         form = BlitzSetupForm(None, trainer=trainer)
 
-    return render(request, 'trainer_salespages.html', {
+        if 'modalBlitz' in request.GET:
+
+            return render(request, 'trainer_salespages.html', {
                   'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
                   'SITE_URL' : domain(request), 'modalBlitz' : modalBlitz,
                   'form': form, 'trainer' : trainer,
                   'programs' : programs }) 
+        else:
+            return render_to_response('blitz_setup.html', 
+                 {'form': form, 'trainer' : trainer,
+                  'programs' : programs}, RequestContext(request))
 
 #    return render_to_response('blitz_setup.html', 
 #                              {'form': form, 'trainer' : trainer, 'programs' : programs}, 
