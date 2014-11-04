@@ -431,7 +431,7 @@ def client_home(request, **kwargs):
 
     client = request.user.client
 
-    import pdb; pdb.set_trace()
+#    import pdb; pdb.set_trace()
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
         next_workout_date, next_workout = client.get_next_workout() 
