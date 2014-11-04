@@ -40,8 +40,10 @@ def spotter_payments(request):
     total_cost = total_paid = 0
 
     for client in Client.objects.all():
-#        import pdb; pdb.set_trace()
         blitz = client.get_blitz()
+        if not blitz:
+            continue
+
         invitation = blitz.blitzinvitation_set.all()
 
         if blitz.blitzmember_set.all():
@@ -313,24 +315,25 @@ def spotter_custom_set(request):
     workoutset_custom_id = request.GET.get('custom_id', None)
 
     if request.method == 'POST':
-#        import pdb; pdb.set_trace()
-        client = Client.objects.get(pk=request.POST['client'])
-        if workoutset_custom_id:    # update workoutset custom record
-            set = WorkoutSetCustom.objects.get(pk=workoutset_custom_id)
-        else:                       # create new workoutset custom record
-            set = WorkoutSetCustom()
-#            ws = WorkoutSet.objects.get(pk=workoutset_id)
-            set.workoutset_id = workoutset_id
+        if 'client' in request.POST:
+            client = Client.objects.get(pk=request.POST['client'])
+            if workoutset_custom_id:    # update workoutset custom record
+                set = WorkoutSetCustom.objects.get(pk=workoutset_custom_id)
+            else:                       # create new workoutset custom record
+                set = WorkoutSetCustom()
+    #            ws = WorkoutSet.objects.get(pk=workoutset_id)
+                set.workoutset_id = workoutset_id
+    
+            set.lift_id = request.POST['lift']
+            set.num_reps = request.POST['num_reps']
+            set.client = client
+            set.save()
 
-        set.lift_id = request.POST['lift']
-        set.num_reps = request.POST['num_reps']
-        set.client = client
-        set.save()
-
-        response = redirect('/spotter/exercise_page')
-        response['Location'] += '?workout=%s' % set.workoutset.workout.slug
-        return response
-
+            response = redirect('/spotter/exercise_page')
+            response['Location'] += '?workout=%s' % set.workoutset.workout.slug
+            return response
+        else:
+            return redirect('home')
     else:
         if workoutset_custom_id:
         # use custom workoutset if provided
@@ -354,22 +357,25 @@ def spotter_custom_exercise(request):
     exercise_custom_id = request.GET.get('custom_id', None)
 
     if request.method == 'POST':
-        client = Client.objects.get(pk=request.POST['client'])
+        if 'client' in request.POST:
+            client = Client.objects.get(pk=request.POST['client'])
 
-        if exercise_custom_id:    # update exercise custom record
-            exe = ExerciseCustom.objects.get(pk=exercise_custom_id)
-        else:                     # create new exercise custom record
-            exe = ExerciseCustom()
-            exe.exercise_id = exercise_id
+            if exercise_custom_id:    # update exercise custom record
+                exe = ExerciseCustom.objects.get(pk=exercise_custom_id)
+            else:                     # create new exercise custom record
+                exe = ExerciseCustom()
+                exe.exercise_id = exercise_id
 
-        exe.lift_id = request.POST['lift']
-        exe.sets_display = request.POST['sets_display']
-        exe.client = client
-        exe.save()
+            exe.lift_id = request.POST['lift']
+            exe.sets_display = request.POST['sets_display']
+            exe.client = client
+            exe.save()
 
-        response = redirect('/spotter/exercise_page')
-        response['Location'] += '?workout=%s' % exe.exercise.workout.slug
-        return response
+            response = redirect('/spotter/exercise_page')
+            response['Location'] += '?workout=%s' % exe.exercise.workout.slug
+            return response
+        else:
+            return redirect('home')
 
     else:
         if exercise_custom_id:

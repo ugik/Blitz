@@ -325,10 +325,16 @@ class Client(models.Model):
         """
         Client has exactly one blitz
         """
-        return self.blitz_membership().blitz
+        if self.blitz_membership():
+            return self.blitz_membership().blitz
+        else:
+            return None
 
     def blitz_membership(self):
-        return BlitzMember.objects.filter(client=self)[0]
+        if BlitzMember.objects.filter(client=self):
+            return BlitzMember.objects.filter(client=self)[0]
+        else:
+            return None
 
     def other_blitz_members(self):
         """
