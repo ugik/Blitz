@@ -422,6 +422,9 @@ def spotter_program_delete(request):
     if not request.user.is_staff:
         return redirect('home')
 
+    return redirect('home')
+
+# need to revisit this
     plan_id = request.GET.get('plan', None)
     errors = delete_plan(plan_id)
     pending_trainers = get_pending_trainers()
@@ -437,6 +440,9 @@ def spotter_program_delete(request):
 def delete_plan(plan_id):
 
     errors = []
+    return errors
+
+# need to revisit this
     plan = WorkoutPlan.objects.filter(id=plan_id)
     if plan:
         weeks = WorkoutPlanWeek.objects.filter(workout_plan_id=plan[0].id)

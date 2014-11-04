@@ -15,7 +15,6 @@ rpl -R -x'.py' 'Blitz' 'Program' .
 
 #replace filenames
 find . -name file.ext
-find . -name \*douche*
 rename -n s/"douchebag"/"client"/g  *
 
 #apache
@@ -69,6 +68,14 @@ tar -czf usermedia.tar.gz Blitz/blitz/usermedia
 
 tar xf usermedia.tar.gz         // unpacks usermedia w/Blitz/blitz/usermedia dir structure
 mysql -uroot -p < database.sql  // into new, blank instance of MySQ
+
+#database data migration
+./manage.py dumpdata base > base_data.json
+./manage.py dumpdata workouts > workouts_data.json
+./manage.py dumpdata ff_messaging > ff_messaging_data.json
+./manage.py dumpdata auth.user > users_data.json
+   (on sqlite system)
+./manage.py loaddata ___.json
 
 #delete databases
 mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| grep -v information_schema| grep -v test | gawk '{print "drop database " $1 ";"}' | mysql -uroot -pmysql
