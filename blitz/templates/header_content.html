@@ -64,12 +64,7 @@
                             <li class="nav-item">
                                 <a class="{% ifequal request.path "/program" %}active{% endifequal %}"
                                    href="/program">Programs</a>
-                            </li>
-                            {% if user.trainer.all_clients %}
-                            <li class="nav-item">
-                                <a class="{% ifequal request.path "/dashboard" %}active{% endifequal %}" href="/dashboard">Dashboard</a>
-                            </li>
-                            {% endif %}
+                            </li>                            
                             <li class="nav-item tablet-portrait-and-below">
                                 <a class="{% ifequal request.path "/logout" %}active{% endifequal %}"
                                    href="/logout">Logout</a>
