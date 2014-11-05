@@ -15,7 +15,7 @@
                     <i class="icon-time"></i> {{ alert.date_created|dayssince|capfirst }}
                 </div>
                 <div class="message-entry hidden" id="alert{{ alert.pk }}">
-                    <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}">
+                    <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}" data-alert_pk="{{ alert.pk }}">
                         {% csrf_token %}
                         <div class="form-group">
                             <textarea class="message-text" name="message_content" required></textarea>
@@ -34,7 +34,7 @@
                     <i class="icon-time"></i> {{ alert.date_created|dayssince|capfirst }}
                 </div>
                 <div class="message-entry hidden" id="alert{{ alert.pk }}">
-                    <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}">
+                    <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}" data-alert_pk="{{ alert.pk }}">
                         {% csrf_token %}
                         <div class="form-group">
                             <textarea class="message-text" name="message_content" required></textarea>

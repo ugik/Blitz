@@ -409,20 +409,22 @@ class Client(models.Model):
         """
         return self.gymsession_set.all().order_by('date_of_session')
 
-    def get_feeditems(self):
+    def get_feeditems(self, filter_by='all'):
         """
         Feed items in chronological order
         """
 
         feeditems = FeedItem.objects.get_empty_query_set()
-       
+
         # Adds client related Gym Sessions to the feeditems query set
-        for q in self.gymsession_set.all():
-            feeditems |= q.feeditems.all()
+        if filter_by == 'gym session' or filter_by == 'all' or filter_by == '':
+            for q in self.gymsession_set.all():
+                feeditems |= q.feeditems.all()
 
         # Adds client related Comments to the feeditems query set
-        for q in Comment.objects.filter(user=self.user).all():
-            feeditems |= q.feeditems.all()
+        if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
+            for q in Comment.objects.filter(user=self.user).all():
+                feeditems |= q.feeditems.all()
 
         return feeditems
 
@@ -489,7 +491,7 @@ class Client(models.Model):
         return self.get_blitz().current_day_index(self.get_timezone())
 
     def feeds_count(self):
-        count = self.get_feeditems().count()
+        count = self.get_feeditems().filter(is_viewed=False).count()
         return count
 
 MACRO_STRATEGIES = (
@@ -679,11 +681,10 @@ class Blitz(models.Model):
         return users
 
     def feeds_count(self):
-        count = FeedItem.objects.filter(blitz_id=self.pk).count()
+        count = FeedItem.objects.filter(blitz_id=self.pk).filter(is_viewed=False).count()
         return count
 
 class BlitzInvitation(models.Model):
-
     blitz = models.ForeignKey(Blitz)
     email = models.EmailField()
     name = models.CharField(max_length=100)
@@ -718,6 +719,7 @@ class FeedItem(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     pub_date = models.DateTimeField()
+    is_viewed = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "Feed item for %s / %d in blitz %s" % ( str(self.content_type), self.object_id, str(self.blitz) )

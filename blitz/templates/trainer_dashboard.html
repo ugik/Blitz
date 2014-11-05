@@ -12,6 +12,7 @@
 {% endblock %}
 
 
+
 {% block outer_content %}
 {% block content %}
 
@@ -23,53 +24,55 @@
 <div class="colorstripe"></div>
 <div id="dashboard">
 	<div class="sidebar-left">
-		<div class="search-input">
-			<input type='text' class="search-text" placeholder="Search for a client or program...">
-		</div>
-		<ul class='filters'>
-			<li class='item' data-scope='alerts'>
-				<div class="item-inner">
-					Alerts
-				</div>
-				<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
-			</li>
-			<li class="item active" data-scope='all'>
-				<div class="item-inner">
-					All Updates
-				</div>
-				<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
-			</li>
-			<div class="separator">
+		<div class="inner">
+			<div class="search-input">
+				<input type='text' class="search-text" placeholder="Search for a client or program...">
 			</div>
-
-			{% if blitzes %}
-				{% for blitz in blitzes %}
-                    {% if not blitz.provisional and not blitz.recurring %}
-					<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
-						<div class="item-inner">
-	  			            {{ blitz.title }}
-						</div>
-						<span class="results-count"><span class="inner">{{ blitz.feeds_count }}</span></span>
-					</li>
-                    {% endif %}
-				{% endfor %}
-
+			<ul class='filters scopes'>
+				<li class='item' data-scope='alerts'>
+					<div class="item-inner">
+						Alerts
+					</div>
+					<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
+				</li>
+				<li class="item active" data-scope='all'>
+					<div class="item-inner">
+						All Updates
+					</div>
+					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
+				</li>
 				<div class="separator">
 				</div>
-			{% endif %}
 
-			{% for client in clients %}
-			<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
-				<div class="item-inner">
-	                {{ client.name }}
-				</div>
-				<span class="results-count"><span class="inner">{{ client.feeds_count }}</span></span>
-			</li>
-			{% endfor %}
-		</ul>
-		<div class="actions">
-			<button type='button' class='obtn fullwidth' onclick="window.location='/blitz-setup'; return false;">+ Add Client/Group</button>
-		</div>
+				{% if blitzes %}
+					{% for blitz in blitzes %}
+	                    {% if not blitz.provisional and not blitz.recurring %}
+						<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
+							<div class="item-inner">
+		  			            {{ blitz.title }}
+							</div>
+							<span class="results-count"><span class="inner">{{ blitz.feeds_count }}</span></span>
+						</li>
+	                    {% endif %}
+					{% endfor %}
+
+					<div class="separator">
+					</div>
+				{% endif %}
+
+				{% for client in clients %}
+				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
+					<div class="item-inner">
+		                {{ client.name }}
+					</div>
+					<span class="results-count"><span class="inner">{{ client.feeds_count }}</span></span>
+				</li>
+				{% endfor %}
+			</ul>
+			<div class="actions">
+				<button type='button' class='obtn fullwidth' onclick="window.location='/blitz-setup'; return false;">+ Add Client/Group</button>
+			</div>
+		</div> <!-- inner -->
 	</div> <!--/ sidebar-left -->
 
 	<div class="content-wrapper">
@@ -83,19 +86,19 @@
 				<!-- Blitz group header -->
 				<div class="group">
 					<!-- Will be populated by AJAX -->
-				</div>	
+				</div>
 
 				{% if alerts %}
 					<div class="alerts-wrapper hidden">
-						{% include "trainer_alerts.html" %}	
-					</div>				    
+						{% include "trainer_alerts.html" %}
+					</div>
 				{% endif %}
 				{% if user.blitz and user.blitz.members %}
 					<div class="feeds-filter">
 						<ul>
-							<li class="active" data-scope="all">Everything</li>
-							<li data-scope="workouts">Workouts</li>
-							<li data-scope="check-ins">Check-Ins</li>
+							<li class="active" data-scope-filter="all">Everything</li>
+							<li data-scope-filter="workouts">Workouts</li>
+							<li data-scope-filter="checkins">Check-Ins</li>
 						</ul>
 					</div>
 		        	{% include "main_feed.html" %}
@@ -108,13 +111,13 @@
     	        <div class="submit-container">
 		            <button class='obtn obtn-half' type='submit'>Upload stuff</button>
 		        </div>
-
 		        </form>
 		        {% endif %}
 			</div> <!--/ feeds -->
 
+			<!-- Summary -->
 			<div id="summary">
-			</div> <!--/ summary -->
+			</div>
 
 			<div class="clearfix"></div>
 		</div>
