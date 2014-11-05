@@ -46,6 +46,17 @@ import urllib2
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 
+#============================
+# Helper Functions
+#============================
+def mark_feeds_as_viewed(feed_items):
+    "Marks feeds items as viewed"
+    for feed_item in feed_items:
+        feed_item.is_viewed = True
+        feed_item.save()
+
+
+
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
     return render(request, 'legal_page.html', {'legal_content': content})
@@ -885,6 +896,8 @@ def blitz_feed(request):
             else:
                 feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
 
+            mark_feeds_as_viewed(feed_items)
+
         elif feed_scope == 'client':
             client = Client.objects.get(pk=obj_id)
             
@@ -892,6 +905,8 @@ def blitz_feed(request):
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
             else:
                 feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+10]
+
+            mark_feeds_as_viewed(feed_items)
 
     ret = {
         'feeditems': [],
@@ -905,9 +920,6 @@ def blitz_feed(request):
         })
 
     return JSONResponse(ret)
-
-def search_client_blitz(request, keyword):
-    pass
 
 def client_summary(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
@@ -1505,7 +1517,7 @@ def payment_hook(request, pk):
 def trainer_dismiss_alert(request):
 
     trainer = request.user.trainer
-    alert_pk = int(request.POST['alert_pk'])
+    alert_pk = int( request.POST.get('alert_pk') )
     alert = TrainerAlert.objects.get(pk=alert_pk)
     alert.trainer_dismissed = True
     alert.save()

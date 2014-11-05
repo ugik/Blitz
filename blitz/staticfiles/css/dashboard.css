@@ -156,7 +156,7 @@ img.headshot {
  * Left sidebar
  */
 .sidebar-left {
-    background: url('../images/sidebard_background.png') #252322;
+    background: url('../images/sidebar_background.png') #252322;
     height: 100%;
     min-width: 310px;
     /*custom*/

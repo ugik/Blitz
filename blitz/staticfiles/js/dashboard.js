@@ -136,9 +136,15 @@ $(document).ready(function() {
         $inboxContainer = $('.inbox-container'),
         $addCommentSubmit = $('#add-comment-submit'),
         $addComment = $('#add-comment'),
-        $searchInput = $('.search-input input');
+        $searchInput = $('.search-input input'),
+        $trainerAlertBox = $('#trainer-alert-box'),
+        $alertsCount = $('li[data-scope=alerts] .results-count .inner');
 
-    // add comment button show/hide
+    var reduceAlertsCount = function() {
+        $alertsCount.html( $alertsCount.html()-1 );
+    }
+
+    // Add comment button show/hide
     $addComment.on('focus', function() {
         $addCommentSubmit.show(300);
     });
@@ -148,7 +154,7 @@ $(document).ready(function() {
         }
     });
 
-    // add comment submit
+    // Add comment submit
     $addCommentSubmit.on('click', function(e) {
         e.preventDefault();
         var comment_text = $addComment.val();
@@ -228,7 +234,7 @@ $(document).ready(function() {
     /**
      * Trainer Alerts
      */ 
-    $('#trainer-alert-box').on('click', 'button[data-action=leave-message]', function(e) {
+    $trainerAlertBox.on('click', 'button[data-action=leave-message]', function(e) {
         var targetId = $(this).data('target-id')
             MessageForm = $('#'+targetId).find('form'),
             toggleButton = $(this);
@@ -253,6 +259,11 @@ $(document).ready(function() {
         }
     });
 
+    // Reduce Alerts count on dismiss
+    $trainerAlertBox.on('click', '.dismiss-alert', function(e) {
+        reduceAlertsCount();
+    })
+
     // On Click Send Message Button
     $('.message-entry form').submit(function(e) {
         e.preventDefault();
@@ -271,11 +282,23 @@ $(document).ready(function() {
             processData: false,
             contentType: false
         }).then(function(data) {
-            $form.parent().addClass('hidden');
-            $form.closest('.trainer-alert')
-                .fadeOut(500);
+            reduceAlertsCount();
+            $form.parent().hide();
+            $.ajax({
+                url: '/trainer/dismiss-alert',
+                type: 'POST',
+                data:{alert_pk: $form.data('alert_pk')},
+                alert_pk: $form.data('alert_pk')
+            }).then(function(data) {
+                $form.closest('.trainer-alert')
+                    .fadeOut(500);
+            }, function(error) {
+                // TODO: Show alert in the UI instead of built-in alert
+                alert(error)
+                $form.parent().show();
+            });
         }, function(error) {
-            // TODO: Show alert in the UI
+            // TODO: Show alert in the UI browser built-in alert
             $submitButton.show();
             alert( JSON.stringify(error) );
         });
@@ -287,7 +310,10 @@ $(document).ready(function() {
      * Filters
      */ 
     $('.filters, .feeds-filter').on('click', 'li', function(event) {
-        // Abort ajax requests
+        var $clickedFilter = $(this),
+            unviewedItemsCount = $clickedFilter.find('.results-count .inner').html();
+
+        // Abort pending ajax requests
         if (xhr) {
             xhr.abort();
         }
@@ -366,6 +392,12 @@ $(document).ready(function() {
             if (FEED_SCOPE === 'blitz') {
                 $.get('/api/blitz/' + OBJECT_ID, function(data) {
                     $('.group').html(data.html);
+                    if (unviewedItemsCount < 10) {
+                        $clickedFilter.find('.results-count .inner').html('0');
+                    }
+                    else {
+                        $clickedFilter.find('.results-count .inner').html(unviewedItemsCount-10);
+                    }
                 });
             }
 
@@ -374,6 +406,13 @@ $(document).ready(function() {
                 if (OBJECT_ID) {
                     summaryXHR = $.get('/api/client_summary/' + OBJECT_ID, function(data) {
                         renderSummary(data.html);
+
+                        if (unviewedItemsCount < 10) {
+                            $clickedFilter.find('.results-count .inner').html('0');
+                        }
+                        else {
+                            $clickedFilter.find('.results-count .inner').html(unviewedItemsCount-10);
+                        }
                     });
                 }
             } else {

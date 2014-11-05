@@ -485,7 +485,7 @@ class Client(models.Model):
         return self.get_blitz().current_day_index(self.get_timezone())
 
     def feeds_count(self):
-        count = self.get_feeditems().count()
+        count = self.get_feeditems().filter(is_viewed=False).count()
         return count
 
 MACRO_STRATEGIES = (
@@ -675,11 +675,10 @@ class Blitz(models.Model):
         return users
 
     def feeds_count(self):
-        count = FeedItem.objects.filter(blitz_id=self.pk).count()
+        count = FeedItem.objects.filter(blitz_id=self.pk).filter(is_viewed=False).count()
         return count
 
 class BlitzInvitation(models.Model):
-
     blitz = models.ForeignKey(Blitz)
     email = models.EmailField()
     name = models.CharField(max_length=100)
@@ -714,6 +713,7 @@ class FeedItem(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     pub_date = models.DateTimeField()
+    is_viewed = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "Feed item for %s / %d in blitz %s" % ( str(self.content_type), self.object_id, str(self.blitz) )
