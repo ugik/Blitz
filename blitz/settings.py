@@ -187,6 +187,8 @@ EMAIL_HOST_USER = 'team@blitz.us'
 DEFAULT_FROM_EMAIL = 'team@blitz.us'
 SERVER_EMAIL = 'team@blitz.us'
 
+import djcelery  
+djcelery.setup_loader()  
 BROKER_URL = 'amqp://guest:guest@localhost:5672/'
 CELERY_RESULT_BACKEND='djcelery.backends.database:DatabaseBackend'
 CELERY_BEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'

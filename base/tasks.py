@@ -25,10 +25,6 @@ import os
 
 # celery periodic tasks http://celeryproject.org/docs/reference/celery.task.schedules.html#celery.task.schedules.crontab  
 
-@task()
-def email_test(): 
-    send_mail('Celery email test', 'Daily test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
-
 
 @periodic_task(run_every=crontab(hour="*", minute="59", day_of_week="*"))  
 def backup():
@@ -116,12 +112,6 @@ def usage_digest(days=0):
     subject = "Usage Digest"
 
     send_email(from_mail, to_mail, subject, template_text, template_html, context)
-
-
-@periodic_task(run_every=crontab(hour="1", minute="1", day_of_week="*"))  
-def process_payments():
-    pass
-# for each client with recurring chargesettings: process recurring charge, handle errors
 
 
 
