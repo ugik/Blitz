@@ -105,4 +105,12 @@ week of 10.27
 - rework tests, using page load /... 
 - trainer uploads page
 
+week of 11.3
+- fix cascading workout delete issue
+- rework CeleryD
+- dashboard links wiring
+- investigate custom exercise/sets display
+- cleanup spotter utilities, rework overview
+- fix documents upload button in trainer uploads page 
+
 

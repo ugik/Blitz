@@ -1526,6 +1526,16 @@ def trainer_dismiss_alert(request):
     return JSONResponse({'is_error': False})
 
 @login_required
+@csrf_exempt
+def trainer_change_date(request):
+
+    trainer = request.user.trainer
+    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+    blitz.begin_date = datetime.datetime.strptime(request.POST.get('begin_date')[4:15],"%b %d %Y").date()
+    blitz.save()
+    return JSONResponse({'is_error': False})
+
+@login_required
 def set_up_profile_basic(request):
     client = request.user.client
 
