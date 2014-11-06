@@ -24,6 +24,10 @@ def display_str(completedset, viewer):
         client = viewer.client
 
     lift = completedset.workout_set.lift
+
+#    if completedset.num_reps_completed == 1:
+#        import pdb; pdb.set_trace()
+
     if lift.lift_type == 'I':
         return "%d secs" % completedset.num_reps_completed
     elif lift.weight_or_body and not lift.allow_weight_or_body:

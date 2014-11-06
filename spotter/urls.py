@@ -13,7 +13,6 @@ urlpatterns = patterns(
     url(r'^program_sales_page$', 'spotter.views.spotter_sales_pages', name='spotter_sales_pages'),
     url(r'^program_sales_pages$', 'spotter.views.spotter_blitz_sales_pages', name='spotter_blitz_sales_pages'),
 
-    url(r'^workouts$', 'spotter.views.spotter_workouts', name='spotter_workouts'),
     url(r'^workoutplan$', 'spotter.views.spotter_workoutplan', name='spotter_workoutplan'),
 
     url(r'^exercise_page$', 'spotter.views.spotter_exercise', name='spotter_exercise'),

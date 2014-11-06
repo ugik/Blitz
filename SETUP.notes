@@ -15,7 +15,7 @@ rpl -R -x'.py' 'Blitz' 'Program' .
 
 #replace filenames
 find . -name file.ext
-rename -n s/"douchebag"/"client"/g  *
+rename -n s/"foo"/"bar"/g  *
 
 #apache
 sudo /etc/init.d/apache2 restart

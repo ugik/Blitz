@@ -67,6 +67,7 @@ cd /home/ubuntu
 sudo cp $project/WSGI/project.wsgi ./$project.wsgi
 sudo cp $project/WSGI/project.conf /etc/apache2/sites-available/$project.conf
 sudo mkdir backup
+sudo chown ubuntu:ubuntu backup
 
 # copy SSL certs
 sudo mkdir /etc/apache2/ssl

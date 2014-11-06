@@ -788,6 +788,7 @@ class CompletedSet(models.Model):
     set_type = models.CharField(max_length=1, choices=SET_TYPES, default='S')
 
     def save(self, *args, **kwargs):
+        foo = bar
         self.weight_in_lbs = units_tags.kg_conversion(self.weight_in_lbs, self.gym_session.client)
         super(CompletedSet, self).save(*args, **kwargs)
 

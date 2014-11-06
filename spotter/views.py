@@ -285,16 +285,6 @@ def spotter_program_create(request):
                               RequestContext(request))
 
 @login_required
-def spotter_workouts(request):
-    if not request.user.is_staff:
-        return redirect('home')
-
-    workouts = Workout.objects.all()
-    return render_to_response('workouts_page.html', 
-                              {'workouts' : workouts},
-                              RequestContext(request))
-
-@login_required
 def spotter_workoutplan(request):
     if not request.user.is_staff:
         return redirect('home')
