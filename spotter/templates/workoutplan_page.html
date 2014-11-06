@@ -1,0 +1,24 @@
+{% extends "spotter_base.html" %}
+
+{% block main %}
+
+<header>Workoutplan Details</i><br></header><br>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+
+<table>
+{% for workoutplanweek in workoutplan.workoutplanweek_set.all %}
+<tr><td>week#<b>{{ workoutplanweek.week }}</b></td>
+   {% for workoutplanday in workoutplanweek.workoutplanday_set.all %}
+       <td>{{ workoutplanday.day_of_week }}</td>
+       <td><a href="exercise_page?workout={{ workoutplanday.workout.slug }}">{{ workoutplanday.workout.slug }}</a></td>
+   {% endfor %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+

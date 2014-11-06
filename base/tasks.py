@@ -63,7 +63,7 @@ def client_morning_notifications():
 
         # plan starts today
         if blitz.begin_date == client.current_datetime().date():
-            from_email, to = "robot@blitz.us", client.user.email
+            from_email, to = "team@blitz.us", client.user.email
             subject = "Your Blitz.us program begins today!"
 
             text_content = render_to_string('emails/program_begins_today.txt', {

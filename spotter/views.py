@@ -295,6 +295,16 @@ def spotter_workouts(request):
                               RequestContext(request))
 
 @login_required
+def spotter_workoutplan(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    workoutplan = WorkoutPlan.objects.get(pk=request.GET.get('plan'))
+    return render_to_response('workoutplan_page.html', 
+                              {'workoutplan' : workoutplan},
+                              RequestContext(request))
+
+@login_required
 def spotter_exercise(request):
     if not request.user.is_staff:
         return redirect('home')
@@ -338,10 +348,15 @@ def spotter_custom_set(request):
         if workoutset_custom_id:
         # use custom workoutset if provided
             set = WorkoutSetCustom.objects.get(pk=workoutset_custom_id)
-            members = set.workoutset.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all()[0].blitzmember_set.all()
+            members = []
+            for blitz in set.workoutset.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all():
+                members += blitz.blitzmember_set.all()
         else:
             set = WorkoutSet.objects.get(pk=workoutset_id)
-            members = set.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all()[0].blitzmember_set.all()
+            members = []
+            for blitz in set.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all():
+                members += blitz.blitzmember_set.all()
+
     
         return render_to_response('custom_set_page.html', 
                   {'workoutset' : set, 
@@ -381,10 +396,14 @@ def spotter_custom_exercise(request):
         if exercise_custom_id:
         # use custom exercise if provided
             exercise = ExerciseCustom.objects.get(pk=exercise_custom_id)
-            members = exercise.exercise.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all()[0].blitzmember_set.all()
+            members = []
+            for blitz in exercise.exercise.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all():
+                members += blitz.blitzmember_set.all()
         else:
             exercise = Exercise.objects.get(pk=exercise_id)
-            members = exercise.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all()[0].blitzmember_set.all()
+            members = []
+            for blitz in exercise.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all():
+                members += blitz.blitzmember_set.all()
     
         return render_to_response('custom_exercise_page.html', 
                   {'exercise' : exercise,

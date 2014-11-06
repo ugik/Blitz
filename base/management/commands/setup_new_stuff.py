@@ -45,6 +45,9 @@ class Command(BaseCommand):
                 settings.DATA_DIR + '/mikerashid/workouts.csv',
                 settings.DATA_DIR + '/mikerashid/plan.csv',)
 
+        mikerashid_plan.trainer = mikerashid
+        mikerashid_plan.save()
+
         blitz = Blitz
 
         try:

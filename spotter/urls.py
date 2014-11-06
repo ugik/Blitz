@@ -14,12 +14,13 @@ urlpatterns = patterns(
     url(r'^program_sales_pages$', 'spotter.views.spotter_blitz_sales_pages', name='spotter_blitz_sales_pages'),
 
     url(r'^workouts$', 'spotter.views.spotter_workouts', name='spotter_workouts'),
+    url(r'^workoutplan$', 'spotter.views.spotter_workoutplan', name='spotter_workoutplan'),
+
     url(r'^exercise_page$', 'spotter.views.spotter_exercise', name='spotter_exercise'),
     url(r'^exercise_page/(?P<slug>\w+)/$', 'spotter.views.spotter_exercise', name='spotter_exercise'),
     url(r'^custom_workoutset$', 'spotter.views.spotter_custom_set', name='spotter_custom_set'),
     url(r'^custom_exercise$', 'spotter.views.spotter_custom_exercise', name='spotter_custom_exercise'),
 
-    url(r'^pending_trainers$', 'spotter.views.spotter_pending_trainers', name='spotter_pending_trainers'),
     url(r'^status_trainers$', 'spotter.views.spotter_status_trainers', name='spotter_status_trainers'),
     url(r'^assign_workoutplan$', 'spotter.views.assign_workoutplan', name='spotter_assign_workoutplan'),
 

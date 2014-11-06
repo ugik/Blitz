@@ -15,14 +15,6 @@ from base.alerts import create_alerts_for_day
 
 logger = get_task_logger(__name__)
 
-# http://celery.readthedocs.org/en/latest/reference/celery.schedules.html
-@periodic_task(run_every=(crontab(hour="*", minute="*", day_of_week="*")))
-def scraper_example():
-    logger.info("Start task")
-    now = datetime.now()
-    logger.info("Task finished: result = %i" % result)
-
-
 @periodic_task(run_every=(crontab(hour="24", minute="*", day_of_week="*")))
 def trainer_alerts():
     for client in Client.objects.all():
@@ -57,7 +49,4 @@ def client_morning_notifications():
             } )
             send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
-@task()
-def email_test(): 
-    send_mail('hi', 'test email celery', 'robot@blitz.us', ['georgek@gmail.com'])
 

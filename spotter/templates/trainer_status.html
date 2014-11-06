@@ -41,7 +41,7 @@
                    {% endif %}
                    <br>&nbsp;&nbsp;&nbsp;&nbsp;
                    {% if blitz.workout_plan.id %}
-                       <small><u>has workoutplan:{{ blitz.workout_plan.name }}</u></small>
+                       <small>has workoutplan:&nbsp;<a href="workoutplan?plan={{ blitz.workout_plan.pk }}">{{ blitz.workout_plan.name }}</a></small>
                    {% else %}
                        <small><u>(no WorkoutPlan assigned)</u></small>
                    {% endif %}
@@ -53,8 +53,9 @@
                <li style="padding-left: 20px;">(no WorkoutPlans)
            {% endif %}
            {% for workoutplan in trainer.workoutplan_set.all %}
-              <li style="padding-left: 20px;">{{ workoutplan.name }}
-              <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Program</small></a>
+              <li style="padding-left: 20px;">
+          <a href="workoutplan?plan={{ workoutplan.pk }}">{{ workoutplan.name }}</a>
+       action:&nbsp;<a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Program</small></a>
            {% endfor %}</ul>
         </ul>
       </div>
