@@ -195,12 +195,15 @@ class Intro1Form(forms.Form):
     units = forms.ChoiceField(widget=forms.RadioSelect, choices=UNITS_CHOICES)
     gender = forms.CharField(max_length=1)
 
-class ProfileURLForm(forms.Form):
+class MacrosForm(forms.Form): 
+    MACROS_CHOICES = (('I', 'Imperial',), ('M', 'Metric',))
 
+    formulas = forms.ChoiceField(widget=forms.RadioSelect, choices=MACROS_CHOICES)
+
+class ProfileURLForm(forms.Form):
     picture = forms.ImageField()
 
 class CreateAccountForm(forms.Form):
-
     name = forms.CharField(max_length=100, required=True)
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput(render_value=False))

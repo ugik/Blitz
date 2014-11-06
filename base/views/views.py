@@ -17,7 +17,7 @@ from django.core.urlresolvers import resolve
 from spotter.urls import *
 import balanced
 
-from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm
+from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
@@ -393,6 +393,49 @@ def spotter_program_edit(request, pk):
             return render_to_response('spotter_program_edit.html', 
                 {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
                  RequestContext(request))
+
+
+# setting macros for clients group program
+# url: /blitz_macros/(?P<pk>\d+)
+@login_required
+def blitz_macros(request, pk):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
+
+    trainer = request.user.trainer
+    blitz = get_object_or_404(Blitz, pk=int(pk) )
+
+    modalMacros = True if 'modalMacros' in request.GET else False
+
+    if request.method == 'POST':
+        form = MacrosForm(request.POST)
+
+        if form.is_valid():
+            email_spotter_program_edit(pk, form.cleaned_data['edit_request'])
+
+            return redirect('my_blitz_program')
+        else:
+            if 'modalSpotter' in request.GET:
+                return render(request, 'trainer_programs.html', 
+                    {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                     'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+            else:
+                return render_to_response('blitz_macros.html', 
+                    {'trainer' : trainer, 'blitz' : blitz, 'errors' : form.errors}, 
+                     RequestContext(request))
+
+    else:
+        form = MacrosForm()
+        if 'modalSpotter' in request.GET:
+            return render(request, 'trainer_programs.html', 
+                {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                 'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+        else:
+            return render_to_response('blitz_macros.html', 
+                {'trainer' : trainer, 'blitz' : blitz, 'errors' : form.errors}, 
+                 RequestContext(request))
+
 
 # handle trainer uploading documents
 # url: /upload

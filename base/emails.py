@@ -5,7 +5,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from email.MIMEImage import MIMEImage
 
-from base.models import WorkoutPlan, Trainer
+from django.contrib.auth.models import User
+from django.db.models import Q
+from base.models import Client, Trainer, TrainerAlert, BlitzMember
+from datetime import date, timedelta
 
 import os
 
@@ -155,6 +158,51 @@ def email_spotter_program_edit(pk, message):
 #            'message': message,
 #        })
 #        send_mail(subject, text_content, from_email, [to], fail_silently=True)
+
+def usage_digest(days=0):
+    from django.core.mail import EmailMultiAlternatives
+    from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
+    from pytz import timezone
+
+    timezone = current_tz()
+    startdate = date.today() - timedelta(days = days)
+
+    enddate = date.today() - timedelta(days=0)
+    trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
+    members = BlitzMember.objects.filter(date_created__range=[startdate, enddate])
+
+    # get clients with CC on file
+    paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
+    MRR = 0
+    for payer in paying_clients:
+        if payer.blitzmember_set:
+            # recurring monthly charge
+            if payer.blitzmember_set.all()[0].blitz.recurring:
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
+            # monthly charge for non-recurring blitz
+            else: 
+                MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+
+    users = User.objects.all()
+    login_users = []
+    for user in users:
+        if timezone.normalize(user.last_login).date() >= startdate:
+            login_users.append(user)
+
+    f = open('/etc/hosts', 'r')  # grab host and ip address
+    lines = [line.strip() for line in f]
+    f.close()
+
+    template_html = 'usage_email.html'
+    template_text = 'usage_email.txt'
+    context = {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members,     
+               'MRR':MRR, 'hosts':lines[0]}
+    to_mail = ['georgek@gmail.com']
+    from_mail = settings.DEFAULT_FROM_EMAIL           
+    subject = "Usage Digest"
+
+    send_email(from_mail, to_mail, subject, template_text, template_html, context)
+
 
 def email_tests():
     from base.models import User, Client, Trainer, Comment
