@@ -33,13 +33,17 @@
 					<div class="item-inner">
 						Alerts
 					</div>
+					{% if alerts_count %}
 					<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
+					{% endif %}
 				</li>
 				<li class="item active" data-scope='all'>
 					<div class="item-inner">
 						All Updates
 					</div>
+					{% if updates_count %}
 					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
+					{% endif %}
 				</li>
 				<div class="separator">
 				</div>
@@ -51,7 +55,9 @@
 							<div class="item-inner">
 		  			            {{ blitz.title }}
 							</div>
+							{% if blitz.feeds_count %}
 							<span class="results-count"><span class="inner">{{ blitz.feeds_count }}</span></span>
+							{% endif %}
 						</li>
 	                    {% endif %}
 					{% endfor %}
@@ -65,7 +71,9 @@
 					<div class="item-inner">
 		                {{ client.name }}
 					</div>
+					{% if client.feeds_count %}
 					<span class="results-count"><span class="inner">{{ client.feeds_count }}</span></span>
+					{% endif %}
 				</li>
 				{% endfor %}
 			</ul>
