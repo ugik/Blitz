@@ -3,7 +3,7 @@
 {% block main %}
 
 <header>Here are the workoutsets and exercises for workout: {{ workout.display_name }}</header>
-<small>Note: that "sets" and "reps" pertain to workout logging reps while "exercises" pertain to all other workout displays.<br>Note: custom entries listed chronologically (last entry is the one used)</small>
+<small>Note: that "sets" and "reps" pertain to workout logging reps while "exercises" pertain to all other workout displays.<br>Note: custom entries listed chronologically (last entry is the one used)</small><br>
 <style>
       tr:nth-of-type(odd) {
       background-color:#D8F1D7;
@@ -24,7 +24,7 @@
             <td><a href="custom_exercise?custom_id={{ c.pk }}"><small>(for {{ c.client }} on {{ c.date_created }})</small></a></td></tr>
             {% endfor %}
         {% endif %}
-            <td><a href="custom_exercise?id={{ workoutset.list.0.exercise.id }}">create exercise</a></td>
+            <td><a href="custom_exercise?id={{ workoutset.list.0.exercise.id }}">custom exercise</a></td>
     </tr>
         {% for w in workoutset.list %}
         <tr><td><small>order:</small>{{ w.exercise.order }}</td>
@@ -37,7 +37,7 @@
             <td><a href="custom_workoutset?custom_id={{ c.pk }}"><small>(for {{ c.client }} on {{ c.date_created }})</small></a></td>
             {% endfor %}
         {% endif %}
-        <td><a href="custom_workoutset?id={{ w.pk }}">create set</a></td>
+        <td><a href="custom_workoutset?id={{ w.pk }}">custom set</a></td>
         </tr>
         {% endfor %}
 

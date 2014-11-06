@@ -1118,7 +1118,7 @@ def trainer_signup_uploads(request, pk):
     trainer = get_object_or_404(Trainer, pk=int(pk))
     blitz = trainer.get_blitz()
     salespage = blitz.sales_page_content
-    document = False
+    document = ''
 
     if request.method == 'POST':
         form = TrainerUploadsForm(request.POST, request.FILES)
