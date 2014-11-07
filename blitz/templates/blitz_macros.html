@@ -35,45 +35,99 @@
                     </select>
                     <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
                     <script type="text/javascript">
+                        $(document).ready(function(){
+                           var kg = 100;
+                           var h = 1.8;
+                           var age = 30;
+                           var rest_factor = 1.15;
+                           var bulk_factor = 1.15;
+                           var cut_factor = 0.85;
+
+                           var r_cals = (10 * kg + 6.25 * h - 5 * age + 5);
+                           var r_protein = (0.9 * kg * 2.2);
+                           var r_fat = (0.4 * kg * 2.2);
+                           var r_carbs = (r_cals - r_protein - r_fat / 4);
+                           var w_cals = r_cals * rest_factor;
+                           var w_protein = r_protein * rest_factor;
+                           var w_fat = r_fat * rest_factor;
+                           var w_carbs = r_carbs * rest_factor;
+
+                             document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
+                             document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
+                             document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
+                             document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
+                             document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
+                             document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
+                             document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
+                             document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
+}) 
                         $(document).ready(function(e) {
+
                         $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
                            });
                         $('select.selectpicker').on('change', function(){
                            var kg = 100;
                            var h = 1.8;
                            var age = 30;
-                           var cals = (10 * kg + 6.25 * h - 5 * age + 5);
-                           var protein = (0.9 * kg * 2.2);
-                           var fat = (0.4 * kg * 2.2);
-                           var carbs = (cals - protein - fat / 4);
+                           var rest_factor = 1.15;
+                           var bulk_factor = 1.15;
+                           var cut_factor = 0.85;
+
                            var selected = $('.selectpicker option:selected').val();
                              if (selected == 'DEFAULT') {
-                             document.getElementById('rest_cals').text=cals.toString();
-                             document.getElementById('rest_fat').text=fat.toString();
-                             document.getElementById('rest_carbs').text=carbs.toString();
-                             document.getElementById('rest_protein').text=protein.toString();
-                             document.getElementById('wout_cals').text='0';
-                             document.getElementById('wout_fat').text='0';
-                             document.getElementById('wout_carbs').text='0';
-                             document.getElementById('wout_protein').text='0';
+                           var r_cals = (10 * kg + 6.25 * h - 5 * age + 5);
+                           var r_protein = (0.9 * kg * 2.2);
+                           var r_fat = (0.4 * kg * 2.2);
+                           var r_carbs = (r_cals - r_protein - r_fat / 4);
+                           var w_cals = r_cals * rest_factor;
+                           var w_protein = r_protein * rest_factor;
+                           var w_fat = r_fat * rest_factor;
+                           var w_carbs = r_carbs * rest_factor;
+
+                             document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
+                             document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
+                             document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
+                             document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
+                             document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
+                             document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
+                             document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
+                             document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
                              } else if (selected == 'BULK') {
-                             document.getElementById('rest_cals').text='1';
-                             document.getElementById('rest_fat').text='1';
-                             document.getElementById('rest_carbs').text='0';
-                             document.getElementById('rest_protein').text='0';
-                             document.getElementById('wout_cals').text='1';
-                             document.getElementById('wout_fat').text='1';
-                             document.getElementById('wout_carbs').text='0';
-                             document.getElementById('wout_protein').text='0';
+                           var r_cals = bulk_factor * (10 * kg + 6.25 * h - 5 * age + 5);
+                           var r_protein = bulk_factor * (0.9 * kg * 2.2);
+                           var r_fat = bulk_factor * (0.4 * kg * 2.2);
+                           var r_carbs = bulk_factor * (r_cals - r_protein - r_fat / 4);
+                           var w_cals = r_cals * rest_factor;
+                           var w_protein = r_protein * rest_factor;
+                           var w_fat = r_fat * rest_factor;
+                           var w_carbs = r_carbs * rest_factor;
+
+                             document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
+                             document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
+                             document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
+                             document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
+                             document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
+                             document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
+                             document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
+                             document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
                              } else if (selected == 'CUT') {
-                             document.getElementById('rest_cals').text='0';
-                             document.getElementById('rest_fat').text='2';
-                             document.getElementById('rest_carbs').text='0';
-                             document.getElementById('rest_protein').text='2';
-                             document.getElementById('wout_cals').text='2';
-                             document.getElementById('wout_fat').text='0';
-                             document.getElementById('wout_carbs').text='2';
-                             document.getElementById('wout_protein').text='0';
+                           var r_cals = cut_factor * (10 * kg + 6.25 * h - 5 * age + 5);
+                           var r_protein = cut_factor * (0.9 * kg * 2.2);
+                           var r_fat = cut_factor * (0.4 * kg * 2.2);
+                           var r_carbs = cut_factor * (r_cals - r_protein - r_fat / 4);
+                           var w_cals = r_cals * rest_factor;
+                           var w_protein = r_protein * rest_factor;
+                           var w_fat = r_fat * rest_factor;
+                           var w_carbs = r_carbs * rest_factor;
+
+                             document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
+                             document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
+                             document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
+                             document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
+                             document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
+                             document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
+                             document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
+                             document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
                              }
                          });
                     </script>
