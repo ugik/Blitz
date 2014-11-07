@@ -819,6 +819,7 @@ class CheckIn(models.Model):
     front_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     side_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     date_created = models.DateField(default=datetime.date.today)
+    feeditems = generic.GenericRelation(FeedItem)
 
     def __unicode__(self):
         return "Check-in %s: \"%s\"" % (self.client.name, self.date_created)
