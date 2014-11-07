@@ -523,7 +523,7 @@ Example @include keyframes
   display: block;
   width: 18px;
   height: 2px;
-  background-color: #white;
+  background-color: #fff;
 }
 
 .rightrow {
@@ -1151,6 +1151,38 @@ h3 {@include lightfont();}
     padding: 5px 0 0px;
   }
 }
+
+.check-in-feed-item {
+  @include boxshadow(0px,0px,2px,1px,rgba(0,0,0,.1));
+  border-radius: 4px;
+  .title {
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    color: white;
+    //@include blitz-gradient();
+    background: #EAC17A;
+    padding: $parentpadding;
+    border-bottom: $border;
+    font-size: 18px;
+    padding: 15px 20px;
+    @include mobile-only {padding-left: 62px;};
+    a {
+      color: white;
+      @include boldfont();
+    }
+  }
+  //.workout-content .exercise-container:nth-last-child(1) .exercise {
+  //  border-bottom: none;
+  //}
+  //.workout-content .exercise-container:nth-last-child(2) .exercise {
+  //  border-bottom: none;
+  //}
+  .feeditem-pub-date {
+    color: rgba(255,255,255,0.5);
+    padding: 5px 0 0px;
+  }
+}
+
 
 a.edit-workout-link {
   float: right;
