@@ -412,11 +412,11 @@ def blitz_macros(request, pk):
         form = MacrosForm(request.POST)
 
         if form.is_valid():
-            email_spotter_program_edit(pk, form.cleaned_data['edit_request'])
-
-            return redirect('my_blitz_program')
+            formula = form.cleaned_data['formulas']
+            blitz_macros_set(blitz, formula)
+            return redirect('home')
         else:
-            if 'modalSpotter' in request.GET:
+            if 'modalMacros' in request.GET:
                 return render(request, 'trainer_programs.html', 
                     {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
                      'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
@@ -427,7 +427,7 @@ def blitz_macros(request, pk):
 
     else:
         form = MacrosForm()
-        if 'modalSpotter' in request.GET:
+        if 'modalMacros' in request.GET:
             return render(request, 'trainer_programs.html', 
                 {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
                  'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
@@ -436,6 +436,34 @@ def blitz_macros(request, pk):
                 {'trainer' : trainer, 'blitz' : blitz, 'errors' : form.errors}, 
                  RequestContext(request))
 
+# given a macro formula, set all client macros for specified blitz
+def blitz_macros_set(blitz, formula):
+    for client in blitz.members():
+
+        age = client.age
+        kg = client.weight_in_lbs * 0.45359237
+        cm = feet_conversion(client)
+        wkout_factor = 1.15   # % above rest day
+        beast_factor = 1.15   # % above regular
+        bulk_factor = 1.1
+        cut_factor = 0.9
+
+        r_cals = (10 * kg + 6.25 * cm - 5 * age + 5)
+        r_protein = (0.9 * kg * 2.2)
+        r_fat = (0.4 * kg * 2.2)
+        r_carbs = (r_cals - r_protein - r_fat) / 4
+        w_cals = r_cals * rest_factor
+        w_protein = r_protein * rest_factor
+        w_fat = r_fat * rest_factor
+        w_carbs = r_carbs * rest_factor
+
+#    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="U", blank=True)
+
+
+        client.macro_target_json = '{"training_protein": 1, "rest_carbs": 1, "rest_carbs_min": 1, "training_calories": 1, "training_carbs": 1, "rest_fat_min": 1, "rest_calories": 1, "training_fat": 1, "training_fat_min": 1, "rest_fat": 1, "training_carbs_min": 1, "training_calories_min": 1, "training_protein_min": 1, "rest_calories_min": 1, "rest_protein": 1, "rest_protein_min": 1}'
+        client.save()
+
+    return
 
 # handle trainer uploading documents
 # url: /upload

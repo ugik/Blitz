@@ -80,6 +80,9 @@ mysql -uroot -p < database.sql  // into new, blank instance of MySQ
 #delete databases
 mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| grep -v information_schema| grep -v test | gawk '{print "drop database " $1 ";"}' | mysql -uroot -pmysql
 
+#bash smtp email
+# http://askubuntu.com/questions/12917/how-to-send-mail-from-the-command-line
+
 #enom email
 http://mail-29.name-services.com/Login.aspx
 

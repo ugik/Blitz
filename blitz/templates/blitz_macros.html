@@ -28,29 +28,29 @@
            <div class="formpage-block">
               <form method="post" name="blitz_macros"> {% csrf_token %}
 
-                    <select name="formula" id="formula-select" class="selectpicker">
+                    <select name="formulas" id="formula-select" class="selectpicker">
                         <option value="DEFAULT">Default</option>
-                        <option value="BULK">Bulking</option>
-                        <option value="CUT">Cutting</option>
+                        <option value="BULK">Bulking (+10%)</option>
+                        <option value="BEAST">Beast Mode (+15%)</option>
+                        <option value="CUT">Cutting (-10%)</option>
                     </select>
                     <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
                     <script type="text/javascript">
-                        $(document).ready(function(){
+                        function show_macros(factor) {
+                           factor = factor || 1;
                            var kg = 100;
-                           var h = 1.8;
+                           var h = 183;
                            var age = 30;
-                           var rest_factor = 1.15;
-                           var bulk_factor = 1.15;
-                           var cut_factor = 0.85;
+                           var wkout_factor = 1.15;
 
-                           var r_cals = (10 * kg + 6.25 * h - 5 * age + 5);
-                           var r_protein = (0.9 * kg * 2.2);
-                           var r_fat = (0.4 * kg * 2.2);
-                           var r_carbs = (r_cals - r_protein - r_fat / 4);
-                           var w_cals = r_cals * rest_factor;
-                           var w_protein = r_protein * rest_factor;
-                           var w_fat = r_fat * rest_factor;
-                           var w_carbs = r_carbs * rest_factor;
+                           var r_cals = factor * (10 * kg + 6.25 * h - 5 * age + 5);
+                           var r_protein = factor * (0.9 * kg * 2.2);
+                           var r_fat = factor * (0.4 * kg * 2.2);
+                           var r_carbs = factor * (r_cals - r_protein - r_fat) / 4;
+                           var w_cals = r_cals * wkout_factor;
+                           var w_protein = r_protein * wkout_factor;
+                           var w_fat = r_fat * wkout_factor;
+                           var w_carbs = r_carbs * wkout_factor;
 
                              document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
                              document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
@@ -60,90 +60,37 @@
                              document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
                              document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
                              document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
-}) 
+
+                            return 0;
+                        }
+                        $(document).ready(function(){
+                            x = show_macros(1);
+                        }) 
                         $(document).ready(function(e) {
 
                         $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
                            });
                         $('select.selectpicker').on('change', function(){
-                           var kg = 100;
-                           var h = 1.8;
-                           var age = 30;
-                           var rest_factor = 1.15;
-                           var bulk_factor = 1.15;
-                           var cut_factor = 0.85;
-
                            var selected = $('.selectpicker option:selected').val();
-                             if (selected == 'DEFAULT') {
-                           var r_cals = (10 * kg + 6.25 * h - 5 * age + 5);
-                           var r_protein = (0.9 * kg * 2.2);
-                           var r_fat = (0.4 * kg * 2.2);
-                           var r_carbs = (r_cals - r_protein - r_fat / 4);
-                           var w_cals = r_cals * rest_factor;
-                           var w_protein = r_protein * rest_factor;
-                           var w_fat = r_fat * rest_factor;
-                           var w_carbs = r_carbs * rest_factor;
-
-                             document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
-                             document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
-                             document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
-                             document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
-                             document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
-                             document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
-                             document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
-                             document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
-                             } else if (selected == 'BULK') {
-                           var r_cals = bulk_factor * (10 * kg + 6.25 * h - 5 * age + 5);
-                           var r_protein = bulk_factor * (0.9 * kg * 2.2);
-                           var r_fat = bulk_factor * (0.4 * kg * 2.2);
-                           var r_carbs = bulk_factor * (r_cals - r_protein - r_fat / 4);
-                           var w_cals = r_cals * rest_factor;
-                           var w_protein = r_protein * rest_factor;
-                           var w_fat = r_fat * rest_factor;
-                           var w_carbs = r_carbs * rest_factor;
-
-                             document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
-                             document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
-                             document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
-                             document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
-                             document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
-                             document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
-                             document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
-                             document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
-                             } else if (selected == 'CUT') {
-                           var r_cals = cut_factor * (10 * kg + 6.25 * h - 5 * age + 5);
-                           var r_protein = cut_factor * (0.9 * kg * 2.2);
-                           var r_fat = cut_factor * (0.4 * kg * 2.2);
-                           var r_carbs = cut_factor * (r_cals - r_protein - r_fat / 4);
-                           var w_cals = r_cals * rest_factor;
-                           var w_protein = r_protein * rest_factor;
-                           var w_fat = r_fat * rest_factor;
-                           var w_carbs = r_carbs * rest_factor;
-
-                             document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
-                             document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
-                             document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
-                             document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
-                             document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
-                             document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
-                             document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
-                             document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
-                             }
+                             if (selected == 'DEFAULT') { x = show_macros(1); } 
+                             else if (selected == 'BULK') { x = show_macros(1.1); }
+                             else if (selected == 'CUT') { x = show_macros(0.9); }
+                             else if (selected == 'BEAST') { x = show_macros(1.15); }
                          });
                     </script>
                  <br>
                  Example: <i>(Male)</i><table>
-                 <tr><td>Weight: 100kg&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Height: 1.8m&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Age: 30</td></tr>
+                 <tr><td>Weight: 100kg (220lbs)&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Height: 1.83m (6') &nbsp;&nbsp;&nbsp;&nbsp;</td><td>Age: 30</td></tr>
                  <tr><td></td><td>Rest Day</td><td>Workout Day</td></tr>
-                 <tr><td>Calories:</td><td><a id='rest_cals'>-</a></td>
-                     <td><a id='wout_cals'>-</a></td></tr>
-                 <tr><td>Carbs:</td><td><a id='rest_carbs'>-</a>
-                     <td><a id='wout_carbs'>-</a></td></tr>
-                 <tr><td>Fat:</td><td><a id='rest_fat'>-</a></td>
-                     <td><a id='wout_fat'>-</a></td></tr>
-                 <tr><td>Protein:</td><td><a id='rest_protein'>-</a></td>
-                     <td><a id='wout_protein'>-</a></td></tr>
-                 </table>
+                 <tr><td>Calories:</td><td><a id='rest_cals'>-</a>g</td>
+                     <td><a id='wout_cals'>-</a>g</td></tr>
+                 <tr><td>Carbs:</td><td><a id='rest_carbs'>-</a>g
+                     <td><a id='wout_carbs'>-</a>g</td></tr>
+                 <tr><td>Fat:</td><td><a id='rest_fat'>-</a>g</td>
+                     <td><a id='wout_fat'>-</a>g</td></tr>
+                 <tr><td>Protein:</td><td><a id='rest_protein'>-</a>g</td>
+                     <td><a id='wout_protein'>-</a>g</td></tr>
+                 </table><br>
                  <button class="obtn btn btn-warning" type='submit'>Set Macros</button>
               </form>
 

@@ -196,7 +196,7 @@ class Intro1Form(forms.Form):
     gender = forms.CharField(max_length=1)
 
 class MacrosForm(forms.Form): 
-    MACROS_CHOICES = (('I', 'Imperial',), ('M', 'Metric',))
+    MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',))
 
     formulas = forms.ChoiceField(widget=forms.RadioSelect, choices=MACROS_CHOICES)
 
