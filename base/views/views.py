@@ -439,28 +439,40 @@ def blitz_macros(request, pk):
 # given a macro formula, set all client macros for specified blitz
 def blitz_macros_set(blitz, formula):
     for client in blitz.members():
+  
+        age = float(client.age)
+        kg = float(client.weight_in_lbs * 0.45359237)
+        cm = float(units_tags.feet_conversion(client, True))
+        wkout_factor = float(1.15)   # % workout day above rest day
+        min_factor = float(0.8)      # % min below
 
-        age = client.age
-        kg = client.weight_in_lbs * 0.45359237
-        cm = feet_conversion(client)
-        wkout_factor = 1.15   # % above rest day
-        beast_factor = 1.15   # % above regular
-        bulk_factor = 1.1
-        cut_factor = 0.9
+        if formula == 'BULK':
+            factor = float(1.1)
+        elif formula == 'CUT':
+            factor = float(0.9)
+        elif formula == 'BEAST':
+            factor = float(1.15)
+        else:
+            factor = float(1.0)
 
-        r_cals = (10 * kg + 6.25 * cm - 5 * age + 5)
-        r_protein = (0.9 * kg * 2.2)
-        r_fat = (0.4 * kg * 2.2)
-        r_carbs = (r_cals - r_protein - r_fat) / 4
-        w_cals = r_cals * rest_factor
-        w_protein = r_protein * rest_factor
-        w_fat = r_fat * rest_factor
-        w_carbs = r_carbs * rest_factor
+        if client.gender == 'F':
+            r_cals = float((10 * kg + 6.25 * cm - 5 * age - 161) * factor)
+        else:
+            r_cals = float((10 * kg + 6.25 * cm - 5 * age + 5) * factor)
 
-#    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="U", blank=True)
+        r_protein = (0.9 * kg * 2.2) * factor
+        r_fat = (0.4 * kg * 2.2) * factor
+        r_carbs = (r_cals - r_protein - r_fat) / 4 * factor
+        w_cals = r_cals * wkout_factor
+        w_protein = r_protein * wkout_factor
+        w_fat = r_fat * wkout_factor
+        w_carbs = r_carbs * wkout_factor
 
+        client.macro_target_json = '{"training_protein_min": %0.2f, "training_protein": %0.2f, "rest_protein_min": %0.2f, "rest_protein": %0.2f, "training_carbs_min": %0.2f, "training_carbs": %0.2f, "rest_carbs_min": %0.2f, "rest_carbs": %0.2f, "training_calories_min": %0.2f, "training_calories": %0.2f, "rest_calories_min": %0.2f, "rest_calories": %0.2f, "training_fat_min": %0.2f, "training_fat": %0.2f, "rest_fat_min": %0.2f, "rest_fat": %0.2f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
 
-        client.macro_target_json = '{"training_protein": 1, "rest_carbs": 1, "rest_carbs_min": 1, "training_calories": 1, "training_carbs": 1, "rest_fat_min": 1, "rest_calories": 1, "training_fat": 1, "training_fat_min": 1, "rest_fat": 1, "training_carbs_min": 1, "training_calories_min": 1, "training_protein_min": 1, "rest_calories_min": 1, "rest_protein": 1, "rest_protein_min": 1}'
+        print client.name
+        print client.macro_target_json
+        print "---------------------------"
         client.save()
 
     return

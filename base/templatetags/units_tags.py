@@ -29,11 +29,11 @@ def kg_conversion(value, client):
         return None
 
 @register.filter
-def feet_conversion(value):
+def feet_conversion(value, override=False):
 # converts feet+inches value from client.height_feet, client.height.inches according to client.units setting
     RATIO_FT = 30.48
     RATIO_IN = 2.54
-    if value.units == "M":
+    if value.units == "M" or override:
         return "{:3.0f}".format(value.height_feet * RATIO_FT + value.height_inches * RATIO_IN)
     else:
         return str(value.height_feet) + "'" + str(value.height_inches) + '"'
