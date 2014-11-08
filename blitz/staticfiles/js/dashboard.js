@@ -392,12 +392,24 @@ $(document).ready(function() {
             if (FEED_SCOPE === 'blitz') {
                 $.get('/api/blitz/' + OBJECT_ID, function(data) {
                     $('.group').html(data.html);
+
                     if (unviewedItemsCount < 10) {
-                        $clickedFilter.find('.results-count .inner').html('0');
+                        unviewedItemsCount = 0;
                     }
                     else {
-                        $clickedFilter.find('.results-count .inner').html(unviewedItemsCount-10);
+                        unviewedItemsCount-= 10;                        
                     }
+
+                    // Updates count indicator
+                    $clickedFilter.find('.results-count .inner')
+                        .html(unviewedItemsCount);
+
+                    // Hides count indicator if not unviewed items
+                    if (unviewedItemsCount < 1) {
+                        $clickedFilter.find('.results-count')
+                            .addClass('hidden');
+                    }
+
                 });
             }
 

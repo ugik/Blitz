@@ -147,7 +147,6 @@ def get_blitz_group_header_html(blitz, title, start_date, end_date, headshots):
     })
 
 def get_feeditem_html(feed_item, user):
-
     if feed_item.content_type.name == 'comment':
         return render_to_string('feeditems/comment.html', {
             'comment': feed_item.content_object,
@@ -163,6 +162,21 @@ def get_feeditem_html(feed_item, user):
             'feed_item': feed_item,
             'user': user
         })
+
+def get_checkin_html(checkin, user):
+    return render_to_string('feeditems/checkins.html', {
+        'checkin': checkin,
+        'user': user,
+        'MEDIA_URL': MEDIA_URL
+    })
+
+
+# def get_checkin_html(checkin, user):
+#     return render_to_string('feeditems/checkin.html', {
+#         'comment': feed_item.content_object,
+#         'feed_item': feed_item,
+#         'user': user,
+#     })
 
 def get_client_summary_html(client, macro_goals, macro_history):
     macro_goals_formatted = {}

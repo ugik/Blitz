@@ -19,7 +19,7 @@ import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
+from base.utils import get_checkin_html, get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -935,7 +935,7 @@ def save_sets(request):
 def blitz_feed(request):
     content_types = {
         'workouts': 'gym session',
-        'checkins': 'comment',
+        'checkins': 'checkins',
         'all': 'all'
     }
 
@@ -969,7 +969,9 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+10]
     else:
         if feed_scope == 'all':
-            if feed_scope_filter != 'all':
+            if feed_scope_filter == 'checkins':
+                feed_items = CheckIn.objects.all().order_by('-date_created')[offset:offset+10]
+            elif feed_scope_filter != 'all':
                 feed_items = FeedItem.objects.filter(blitz=request.user.blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
             else:
                 feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+10]
@@ -984,7 +986,7 @@ def blitz_feed(request):
 
         elif feed_scope == 'client':
             client = Client.objects.get(pk=obj_id)
-            
+
             if feed_scope_filter != 'all':
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
             else:
@@ -997,11 +999,17 @@ def blitz_feed(request):
         'offset': offset+10,
     }
 
-    for feed_item in feed_items:
-        ret['feeditems'].append({
-            'date': feed_item.pub_date.isoformat(),
-            'html': get_feeditem_html(feed_item, request.user),
-        })
+    if feed_scope_filter == 'checkins':
+        for feed_item in feed_items:
+            ret['feeditems'].append({
+                'html': get_checkin_html(feed_item, request.user),
+            })
+    else:
+        for feed_item in feed_items:
+            ret['feeditems'].append({
+                'date': feed_item.pub_date.isoformat(),
+                'html': get_feeditem_html(feed_item, request.user),
+            })
 
     return JSONResponse(ret)
 
