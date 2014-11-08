@@ -97,8 +97,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'bugsnag.django.middleware.BugsnagMiddleware',
 )
 
 ROOT_URLCONF = 'blitz.urls'
@@ -148,7 +148,11 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+#        'bugsnag': {
+#            'level': 'INFO',
+#            'class': 'bugsnag.handlers.BugsnagHandler',
+#        },
     },
     'loggers': {
         'django.request': {
@@ -195,6 +199,13 @@ CELERY_BEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_TIMEZONE = 'US/Pacific'
 ALERTS_HOUR = 23
 MORNING_NOTIFICATIONS_HOUR = 5
+
+import bugsnag
+bugsnag.configure(app_version = "0.9")
+BUGSNAG = {
+  "api_key": "48df94d44ce707ca4f42a548f1a3c85c",
+  "project_root": os.path.join(os.path.abspath(os.path.dirname(__file__))),
+}
 
 import balanced
 balanced.configure('ak-test-2HbxysbHinoGa4nnmnLz63SluBiYiUQCV')

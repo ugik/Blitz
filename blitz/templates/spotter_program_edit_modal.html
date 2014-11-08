@@ -21,7 +21,7 @@
                  <input type="hidden" name="workoutplan_pk" value="{{ workoutplan }}">
                  <button class="obtn btn btn-warning" type='submit'>Send Edit Instructions</button>
               </form>
-              <button onclick="window.location='/program'; return false;" class="obtn btn btn-warning" type='submit'>Return</button>
+              <button onclick="window.location={% if url_return %} '/{{ url_return }}'{% else %}'/program'{% endif %}; return false;" class="obtn btn btn-warning" type='submit'>Return</button>
 
            </div>
 

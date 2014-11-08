@@ -89,7 +89,6 @@ def all_clients(request):
 
 # url: /
 def home(request):
-
     if request.user.is_authenticated():
         # handle spotter type users, see spotter app for details
         if request.user._wrapped.username == 'spotter':
@@ -358,6 +357,7 @@ def spotter_program_edit(request, pk):
     workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
 
     modalSpotter = True if 'modalSpotter' in request.GET else False
+    modalSpotterDashboard = True if 'modalSpotterDashboard' in request.GET else False
 
     # if trainer has exactly 1 Blitz or trainer.currently_viewing_blitz is None then pick first Blitz
     # this handles both cases where .currently_viewing_blitz is inoperable
@@ -374,10 +374,25 @@ def spotter_program_edit(request, pk):
 
             return redirect('my_blitz_program')
         else:
-            if 'modalSpotter' in request.GET:
+            # spawn modal form via dashboard
+            if 'modalSpotterDashboard' in request.GET:
+                user_id = request.user.pk
+                blitzes = request.user.trainer.active_blitzes()
+                clients = request.user.trainer.all_clients()
+                return render(request, 'trainer_dashboard.html', {
+                    'clients': clients, 'blitzes': blitzes, 'user_id': user_id,
+                    'alerts': trainer.get_alerts(), 'alerts_count': len( trainer.get_alerts() ),
+                    'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
+                    'macro_history':  macro_utils.get_full_macro_history(clients[0]),
+                    'modalSpotterDashboard' : modalSpotterDashboard,
+                    'trainer': trainer, 'workoutplan': workoutplan
+                    })
+            # spawn modal form via programs page
+            elif 'modalSpotter' in request.GET:
                 return render(request, 'trainer_programs.html', 
                     {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
                      'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+            # regular non-modal form
             else:
                 return render_to_response('spotter_program_edit.html', 
                     {'trainer' : trainer, 'workoutplan' : workoutplan, 'errors' : form.errors}, 
@@ -385,6 +400,18 @@ def spotter_program_edit(request, pk):
 
     else:
         form = SpotterProgramEditForm()
+        if 'modalSpotterDashboard' in request.GET:
+            user_id = request.user.pk
+            blitzes = request.user.trainer.active_blitzes()
+            clients = request.user.trainer.all_clients()
+            return render(request, 'trainer_dashboard.html', {
+                'clients': clients, 'blitzes': blitzes, 'user_id': user_id,
+                'alerts': trainer.get_alerts(), 'alerts_count': len( trainer.get_alerts() ),
+                'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
+                'macro_history':  macro_utils.get_full_macro_history(clients[0]),
+                'modalSpotterDashboard' : modalSpotterDashboard,
+                'trainer': trainer, 'workoutplan': workoutplan
+                })
         if 'modalSpotter' in request.GET:
             return render(request, 'trainer_programs.html', 
                 {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
@@ -946,10 +973,9 @@ def blitz_feed(request):
     search_text = request.GET.get('search_text')
     feed_items = []
 
-    try:
+    if 'object_id' in request.GET and request.GET.get('object_id').isdigit():
         obj_id = int( request.GET.get('object_id') )
-    except Exception as e:
-        print e
+    else:
         obj_id = None
 
     if search_text and len(search_text) > 0:
@@ -1016,10 +1042,17 @@ def blitz_feed(request):
 def client_summary(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
     try:
-        macro_goals = json.loads(client.macro_target_json)
+        if client.macro_target_json:
+            macro_goals = json.loads(client.macro_target_json)
+        else:
+            macro_goals = {}
+
     except Exception as e:
         print e
         macro_goals = {}
+        import bugsnag
+        bugsnag.notify(Exception(e))
+
     macro_history = macro_utils.get_full_macro_history(client)
 
     res = {
@@ -1824,9 +1857,13 @@ def set_client_macros(request, pk):
 
 # ERROR handling
 def page404(request):
+    import bugsnag
+    bugsnag.notify(Exception('404'))
     return render(request, '404.html')
 
 def page500(request):
+    import bugsnag
+    bugsnag.notify(Exception('500'))
     return render(request, '500.html')
 
 def not_found_error(request, template_name='404.html'):
