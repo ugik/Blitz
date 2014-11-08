@@ -14,6 +14,8 @@
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 
+<link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 {% endblock %}
 
 
@@ -136,7 +138,9 @@
 	</div> <!--/ content -->
 
 <!-- include spotter_program_edit_modal -->
-{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' errors=errors %}
+{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
+<!-- include blitz_macros_modal -->
+{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 
 </div>
 

@@ -1632,8 +1632,20 @@ def spotter_edit(request):
     blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
 
     if 'spotter_text' in request.POST:
-        email_spotter_program_edit(blitz.workout_plan.pk, request.POST.get('spotter_text'))
+        if len(request.POST.get('spotter_text'))>1:
+            email_spotter_program_edit(blitz.workout_plan.pk, request.POST.get('spotter_text'))
     
+    return JSONResponse({'is_error': False})
+
+@login_required
+@csrf_exempt
+def macros_save(request):
+    trainer = request.user.trainer
+    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+
+    if 'formula' in request.POST:
+        blitz_macros_set(blitz, request.POST.get('formula'))
+
     return JSONResponse({'is_error': False})
 
 @login_required

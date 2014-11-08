@@ -11,15 +11,11 @@
 <input type="text" class="datepicker" id="datepicker" name="begin_date" value="{{ blitz.begin_date|date:"m/d/Y" }}" style="width:85px; height:15px;">
  Edit</a>
 
-	<a class="btn btn-primary" onclick="{ document.getElementById('plan_name').text='{{ blitz.workout_plan.name }}'; document.getElementById('edit_request').value='Help me improve the {{ blitz.workout_plan.name }} program.'; jQuery.noConflict(); $('#modal').modal('show'); }">Edit Program</a>
+	<a class="btn btn-primary" onclick="{ document.getElementById('plan_name').text='{{ blitz.workout_plan.name }}'; document.getElementById('edit_request').value='Help me improve the {{ blitz.workout_plan.name }} program.'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">Edit Program</a>
 
-<!--	<a class="btn btn-primary" href="{% url 'spotter_program_edit' blitz.workout_plan.pk %}" data-object-id="{{blitz.workout_plan.pk}}">Edit Program</a> -->
-
-	<a class="btn btn-primary" href="{% url 'blitz_macros' blitz.pk %}" data-object-id="{{blitz.pk}}">Edit Macros</a>
+	<a class="btn btn-primary" onclick="{ jQuery.noConflict(); $('#modalMacros').modal('show'); }">Edit Macros</a>
 
 	<a class="btn btn-primary" href="/sales-blitz?slug={{ blitz.url_slug }}&short_name={{ blitz.trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}">Edit Page</a>
-
-<!--	<a class="btn btn-primary" href="/sales-blitz?slug={{ blitz.url_slug }}&short_name={{ blitz.trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}">Edit Page</a> -->
 
 
 </div>
@@ -36,8 +32,6 @@ $(document).ready(function() {
                 type: 'POST',
                 data: {blitz: {{ blitz.pk }},
                        begin_date: $("#datepicker").datepicker('getDate')},
-                success: function( data, textStatus, jQxhr ){ }, 
-                error: function( jqXhr, textStatus, errorThrown ){ console.log( errorThrown ); }
             })
     })
 
@@ -52,8 +46,14 @@ $.ajax({
      type: 'POST',
      data: {blitz: {{ blitz.pk }},
      spotter_text: document.getElementById('edit_request').value },
-     success: function( data, textStatus, jQxhr ){ }, 
-     error: function( jqXhr, textStatus, errorThrown ){ console.log( errorThrown ); }
+      })
+ }
+function save_macros() { 
+$.ajax({
+     url: '/trainer/macros-save',
+     type: 'POST',
+     data: {blitz: {{ blitz.pk }},
+     formula: document.getElementById('formula-select').value },
       })
  }
 
