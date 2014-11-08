@@ -141,7 +141,7 @@ def get_blitz_group_header_html(blitz, title, start_date, end_date, headshots):
         'blitz': blitz,
         'title': title,
         'start_date': start_date,
-        'end_date': end_date,
+        'end_date': blitz.end_date(),
         'headshots': headshots,
         'members_count': len(headshots)
     })

@@ -1,14 +1,14 @@
 <div class='bg'>
 	<div class="section cover">
 	<div class="spacer20"></div>
-		<a href="{% url 'client_profile' 1 %}" target="_blank"><img src="{{ MEDIA_URL }}{{ client.headshot }}" class="client-picture img-circle center" /></a>
+		<a href="{% url 'client_profile' 1 %}"><img src="{{ MEDIA_URL }}{{ client.headshot }}" class="client-picture img-circle center" /></a>
 		<div class="spacer20"></div>
 		<p class="client-name center">{{ client.name }}</p>
 		<p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>
 	</div>
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" href="{% url 'set_client_macros' client.pk %}" target="_blank">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
+			Diet Goals <a class="btn btn-default btn-edit" href="{% url 'set_client_macros' client.pk %}">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
 			
 		</div>
 		<div class="goals-history">
@@ -87,7 +87,7 @@
 
 				<div class="box">
 					<div class="title">
-						fat
+						Fat
 					</div>
 					<div class="description info info-fat">
 						{{ macro.rest_fat_min }} - {{ macro.rest_fat }}
@@ -195,14 +195,14 @@
 		<div class="header">
 			Workout Plan
 			<div class="btn-group">
-				<a class="btn btn-default btn-edit" href="#" target="_blank"> Switch</a>
-				<a class="btn btn-default btn-edit" href="#" target="_blank"> Edit</a>
+				<a class="btn btn-default btn-edit" href="#"> Switch</a>
+				<a class="btn btn-default btn-edit" href="#"> Edit</a>
 			</div>
 		</div>
 
 		<div class="details">
 			<h4><strong>{{ client.get_blitz.workout_plan.name }}</strong></h4>
-			<small>Editing workout programms coming soon</small>
+			<small>Editing workout programs coming soon</small>
 		</div>
 
 		<div class="spacer10"></div>
