@@ -375,20 +375,8 @@ def spotter_program_edit(request, pk):
             return redirect('my_blitz_program')
         else:
             # spawn modal form via dashboard
-            if 'modalSpotterDashboard' in request.GET:
-                user_id = request.user.pk
-                blitzes = request.user.trainer.active_blitzes()
-                clients = request.user.trainer.all_clients()
-                return render(request, 'trainer_dashboard.html', {
-                    'clients': clients, 'blitzes': blitzes, 'user_id': user_id,
-                    'alerts': trainer.get_alerts(), 'alerts_count': len( trainer.get_alerts() ),
-                    'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
-                    'macro_history':  macro_utils.get_full_macro_history(clients[0]),
-                    'modalSpotterDashboard' : modalSpotterDashboard,
-                    'trainer': trainer, 'workoutplan': workoutplan
-                    })
             # spawn modal form via programs page
-            elif 'modalSpotter' in request.GET:
+            if 'modalSpotter' in request.GET:
                 return render(request, 'trainer_programs.html', 
                     {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
                      'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
@@ -400,18 +388,6 @@ def spotter_program_edit(request, pk):
 
     else:
         form = SpotterProgramEditForm()
-        if 'modalSpotterDashboard' in request.GET:
-            user_id = request.user.pk
-            blitzes = request.user.trainer.active_blitzes()
-            clients = request.user.trainer.all_clients()
-            return render(request, 'trainer_dashboard.html', {
-                'clients': clients, 'blitzes': blitzes, 'user_id': user_id,
-                'alerts': trainer.get_alerts(), 'alerts_count': len( trainer.get_alerts() ),
-                'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
-                'macro_history':  macro_utils.get_full_macro_history(clients[0]),
-                'modalSpotterDashboard' : modalSpotterDashboard,
-                'trainer': trainer, 'workoutplan': workoutplan
-                })
         if 'modalSpotter' in request.GET:
             return render(request, 'trainer_programs.html', 
                 {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
@@ -1651,6 +1627,17 @@ def trainer_dismiss_alert(request):
 
 @login_required
 @csrf_exempt
+def spotter_edit(request):
+    trainer = request.user.trainer
+    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+
+    if 'spotter_text' in request.POST:
+        email_spotter_program_edit(blitz.workout_plan.pk, request.POST.get('spotter_text'))
+    
+    return JSONResponse({'is_error': False})
+
+@login_required
+@csrf_exempt
 def trainer_change_date(request):
 
     trainer = request.user.trainer
@@ -1973,7 +1960,8 @@ def trainer_dashboard(request):
             'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
-            'macro_history':  macro_utils.get_full_macro_history(clients[0])
+            'macro_history':  macro_utils.get_full_macro_history(clients[0]),
+            'trainer': trainer
         })
     else:
         return render(request, 'trainer_dashboard.html', {

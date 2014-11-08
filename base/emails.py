@@ -8,6 +8,7 @@ from email.MIMEImage import MIMEImage
 from django.contrib.auth.models import User
 from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
+from workouts.models import WorkoutPlan
 from datetime import date, timedelta
 
 import os
@@ -152,12 +153,6 @@ def email_spotter_program_edit(pk, message):
         html_template = 'emails/program_edit.html'
         context = { 'workoutplan': workoutplan[0], 'message': message }
         send_email(from_email, to_email, subject, text_template, html_template, context )
-
-#        text_content = render_to_string('emails/program_edit.txt', {
-#           'workoutplan': workoutplan[0],
-#            'message': message,
-#        })
-#        send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 def usage_digest(days=0):
     from django.core.mail import EmailMultiAlternatives

@@ -14,16 +14,6 @@
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 
-<script type="text/javascript">
-    $(window).load(function(){
-        var modalSpotter = '{{ modalSpotterDashboard }}';
-        if (modalSpotter == 'True') {
-            jQuery.noConflict();
-            $('#modal').modal('show'); }
-    });
-
-</script>
-
 {% endblock %}
 
 
@@ -145,10 +135,8 @@
 		</div>
 	</div> <!--/ content -->
 
-<!-- include spotter_program_edit_modal if necessary -->
-{% if modalSpotterDashboard %}
-{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='dashboard' errors=errors %}
-{% endif %}
+<!-- include spotter_program_edit_modal -->
+{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' errors=errors %}
 
 </div>
 

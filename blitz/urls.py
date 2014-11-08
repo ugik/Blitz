@@ -93,6 +93,7 @@ urlpatterns += patterns(
 
     url(r'^trainer/dismiss-alert$', 'base.views.trainer_dismiss_alert', name='trainer_dismiss_alert'),
     url(r'^trainer/change-date$', 'base.views.trainer_change_date', name='trainer_change_date'),
+    url(r'^trainer/spotter-edit$', 'base.views.spotter_edit', name='spotter_edit'),
 
     # todo: intro views namespaced as intro/[slug]
     url(r'^intro-data-1$', 'base.views.set_intro_1', name='set_intro_1'),
