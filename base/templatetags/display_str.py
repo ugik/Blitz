@@ -3,6 +3,7 @@ from django.db.models import get_model
 from base.templatetags import units_tags
 from django.contrib.auth.models import User
 
+from workouts.models import WorkoutSetCustom
 # lazy model import to avoid circular references (when imported from model)
 completedset = get_model('base', 'CompletedSet')
 
@@ -25,21 +26,27 @@ def display_str(completedset, viewer):
 
     lift = completedset.workout_set.lift
 
-#    if completedset.num_reps_completed == 1:
-#        import pdb; pdb.set_trace()
+    # intercept for custom workset for client
+    custom_set = WorkoutSetCustom.objects.filter(client=client, workoutset=completedset.workout_set).order_by('-pk')
+    if custom_set:
+        lift = custom_set[0].lift
 
     if lift.lift_type == 'I':
-        return "%d secs" % completedset.num_reps_completed
+        if custom_set:
+            return "%d secs" % custom_set[0].num_reps
+        else:
+            return "%d secs" % completedset.num_reps_completed
     elif lift.weight_or_body and not lift.allow_weight_or_body:
-        return "%d reps" % completedset.num_reps_completed
+        if custom_set:
+            return "%d reps" % custom_set[0].num_reps
+        else:
+            return "%d reps" % completedset.num_reps_completed
 
     # TODO: body weight weighted
     elif lift.weight_or_body and lift.allow_weight_or_body:
         if completedset.set_type == 'A':
-#            type_str = '-%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, completedset.gym_session.client))
             type_str = '-%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
         elif completedset.set_type == 'W':
-#            type_str = '%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, completedset.gym_session.client))
             type_str = '%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
         else:
             type_str = 'bw'
@@ -47,14 +54,12 @@ def display_str(completedset, viewer):
         return "%d reps (%s)" % (completedset.num_reps_completed, type_str)
 
     else:
-#        weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, completedset.gym_session.client))
         if completedset.weight_in_lbs:
             weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
             ds = "%d x %.1f" % (completedset.num_reps_completed, weight)
             # get rid of trailing zeros
             if '.' in ds and ds.endswith('0'):
                 ds = ds.rstrip('0').rstrip('.')
-#        return ds + ' ' + units_tags.weight_label(completedset.gym_session.client.units)
             return ds + ' ' + units_tags.weight_label(client.units)
         else:
             return ''

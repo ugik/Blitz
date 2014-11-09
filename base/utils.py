@@ -155,7 +155,6 @@ def get_feeditem_html(feed_item, user):
         })
 
     elif feed_item.content_type.name == 'gym session':
-#        import pdb; pdb.set_trace()
         return render_to_string('feeditems/gym_session.html', {
             'gym_session': feed_item.content_object,
             'exercises': grouped_sets_with_user_data(feed_item.content_object),

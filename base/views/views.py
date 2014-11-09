@@ -801,6 +801,7 @@ def save_set_to_session(gym_session, workout_set, item):
         completed_set = CompletedSet.objects.get(gym_session=gym_session,
             workout_set=workout_set)
     else:
+
         completed_set = CompletedSet(gym_session=gym_session,
             workout_set=workout_set)
     completed_set.num_reps_completed = item['num_reps_completed']
@@ -808,6 +809,7 @@ def save_set_to_session(gym_session, workout_set, item):
         completed_set.weight_in_lbs = item['weight_in_lbs']
     if 'set_type' in item:
         completed_set.set_type = item['set_type']
+
     completed_set.save()
     return completed_set
 
@@ -872,7 +874,6 @@ def log_workout(request, week_number, day_char):
             for group in grouped_sets:
                 print [set_info.get('error') for set_info in group['set_infos']]
 
-    import pdb; pdb.set_trace()
     return render(request, 'log_workout.html', {
         'client': client,
         'plan_day': plan_day,

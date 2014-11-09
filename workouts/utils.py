@@ -1,4 +1,4 @@
-from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise
+from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSetCustom
 from workouts.templatetags import custom_exercise
 
 from django.conf import settings
@@ -67,6 +67,17 @@ def get_grouped_sets(workout, client=None):
     groups = []
     for exercise in workout.get_exercises():
         sets = exercise.workoutset_set.all()
+
+        # Custom exercise intercept
+        custom = ExerciseCustom.objects.filter(client=client, exercise=exercise).order_by('-pk')
+        if custom:
+            exercise.lift = custom[0].lift
+            exercise.sets_display = custom[0].sets_display
+            for i,set in enumerate(sets):
+                c_set = WorkoutSetCustom.objects.filter(client=client, workoutset=set).order_by('-pk')
+                if c_set:
+                    sets[i].lift = c_set[0].lift
+                    sets[i].num_reps = c_set[0].num_reps
 
         groups.append({
             'exercise': exercise,
