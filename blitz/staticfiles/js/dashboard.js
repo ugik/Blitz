@@ -124,6 +124,11 @@ function renderSummary(html) {
 
 
 $(document).ready(function() {
+    // $(window).on('scroll', function(e) {
+    //     var $leftSidebar = $('');
+    //     alert( $(this).scrollTop() );
+    // });
+
     var summaryXHR;
 
     /**

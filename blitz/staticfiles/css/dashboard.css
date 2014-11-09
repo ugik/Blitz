@@ -20,6 +20,8 @@
     margin: 16px auto
 }
 
+
+
 /**
  * Overwrites
  */
@@ -145,6 +147,9 @@ img.headshot {
     background: #343434;
     width: 100%;
     margin: 0px;
+    position: fixed;
+    z-index: 1;
+
 }
 
 #header p {
@@ -157,14 +162,21 @@ img.headshot {
  */
 .sidebar-left {
     background: url('../images/sidebar_background.png') #252322;
-    height: 100%;
+    height: 100vh;
     min-width: 310px;
     /*custom*/
-    position: absolute;
+    /*position: absolute;*/
+    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    float: left
+    float: left;
+    margin-top: 69px;
+    overflow-y: hidden;
+}
+
+.sidebar-left:hover {
+    overflow-y: auto;
 }
 
 .sidebar-left .header {
@@ -257,7 +269,8 @@ ul.filters li.item:hover {
  */
 .content-wrapper {
     margin-left: 321px;
-    position: relative
+    position: relative;
+    margin-top: 69px;
 }
 
 .content {
