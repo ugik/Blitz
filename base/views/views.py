@@ -597,7 +597,6 @@ def client_profile_progress(request, pk):
     gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
     session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions ]
 
-
     lift_history_maxes = get_lift_history_maxes(client)
     # reduce the lifts to 10 weeks history (especially in recurring programs)
     NUM_LIFTS = 10
@@ -873,7 +872,7 @@ def log_workout(request, week_number, day_char):
             for group in grouped_sets:
                 print [set_info.get('error') for set_info in group['set_infos']]
 
-#    import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
     return render(request, 'log_workout.html', {
         'client': client,
         'plan_day': plan_day,

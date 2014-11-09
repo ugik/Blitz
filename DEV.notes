@@ -112,8 +112,10 @@ week of 11.3
 - investigate custom exercise/sets display
 - cleanup spotter utilities, rework overview
 - get Suhail testing
+- runaway process bash script
 - fix documents upload button in trainer uploads page 
 - dashboard set program date begin
 - dashboard group macros
+- dashboard inline modals: Group Program Edit, Group Macros
 
 
