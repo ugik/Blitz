@@ -91,6 +91,7 @@ class Command(BaseCommand):
                 title="Mind & Body Training", begin_date=blitz_start_date, url_slug="mike")
             blitz.provisional = False
             blitz.recurring = False
+            blitz.price_model = "O"
             blitz.sales_page_content = content
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'

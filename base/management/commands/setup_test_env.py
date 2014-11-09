@@ -92,6 +92,7 @@ class Command(BaseCommand):
         joy_beginner_blitz.macro_strategy = 'M'
         joy_beginner_blitz.price = 499
         joy_beginner_blitz.recurring = False
+        joy_beginner_blitz.price_model = "O"
         joy_beginner_blitz.save()
 
         joy_advanced_plan = workout_utils.load_workout_plan_from_fileset_2(
@@ -110,6 +111,7 @@ class Command(BaseCommand):
         joy_advanced_blitz.macro_strategy = 'M'
         joy_advanced_blitz.price = 499
         joy_beginner_blitz.recurring = False
+        joy_beginner_blitz.price_model = "O"
         joy_advanced_blitz.save()
 
         jahed = create_trainer('Jahed Momand', 'jahedmomand@gmail.com', 'asdf')
@@ -144,7 +146,8 @@ class Command(BaseCommand):
         perryman_blitz.uses_macros = True
         perryman_blitz.macro_strategy = 'M'
         perryman_blitz.price = 500
-        joy_beginner_blitz.recurring = False
+        perryman_blitz.recurring = False
+        perryman_blitz.price_model = "O"
         perryman_blitz.save()
 
         # now set up test users
@@ -163,7 +166,8 @@ class Command(BaseCommand):
         blitz.uses_macros = True
         blitz.macro_strategy = 'M'
         blitz.price = 200
-        joy_beginner_blitz.recurring = False
+        blitz.recurring = False
+        blitz.price_model = "O"
         blitz.save()
 
         carmelo = create_client("Carmelo Anthony", "carmelo@example.com", "asdf", 29, 230, 6, 8, 'M')

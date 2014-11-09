@@ -208,6 +208,7 @@ def blitz_setup(request):
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.recurring = False if form.data['blitz_type'] == "GRP" else True
+            blitz.price_model = "O" if form.data['blitz_type'] == "GRP" else "R"
             blitz.provisional = True if blitz.recurring else False
             blitz.save()
 

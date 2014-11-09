@@ -39,11 +39,12 @@ class Command(BaseCommand):
             startdate = date.today() - timedelta(days = back)
             data.append({'name': client, 'start': startdate})
 
-        print "Today %s" % date.today()
+        print "Test data for payments history (today is %s)" % date.today()
+        
         for d in data:
             blitz = Blitz.objects.get(url_slug='3weeks')
             m = (len(list(rrule.rrule(rrule.MONTHLY, dtstart=d['start'], until=date.today()))))
-            print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), d['start'], m
+            print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), " Start:"+str(d['start']), " # months"+str(m)
 
             c = create_client(d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), "asdf", randint(22,35), randint(180,230), 6, randint(0,11), 'M')
             add_client_to_blitz(blitz, c, None, blitz.price, d['start'])

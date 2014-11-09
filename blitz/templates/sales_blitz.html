@@ -103,34 +103,36 @@ class="sales-page"
     <a style="display: none; color:lightgreen;">(Edit GREEN areas to create your sales page)</a>  
   {% endif %}
 
-      <div class="sales-header">
-         <h1>Personal Fitness Coaching with {{ sales_page.trainer.name }}</h1>
+  <div class="sales-header">
+     <h1>Personal Fitness Coaching with {{ sales_page.trainer.name }}</h1>
 
-         <div class="content">
-            {% if debug_mode %}
-               <textarea class="edit" name="intro" id="intro">{{ sales_page.program_introduction }}
-               </textarea>
-            {% else %}
-              {{ sales_page.program_introduction }}
-            {% endif %}
+     <div class="content">
+        {% if debug_mode %}
+           <textarea class="edit" name="intro" id="intro">{{ sales_page.program_introduction }}
+           </textarea>
+        {% else %}
+           {{ sales_page.program_introduction }}
+        {% endif %}
+
+        {% if blitz.price_model == "O" %}
             <br />Begins
             {% if debug_mode %}
-               <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}"> 
+                <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}"> 
                 <small><i>(Programs always start on Monday)</i></small>
             {% else %}
-               {{ blitz.begin_date }}
-            {% endif %} <br> 
+                {{ blitz.begin_date }}
+            {% endif %} <br>
             Price: ${{ blitz.price_recurring_monthly }}
             {% if debug_mode %}
                 <input class="edit" type="text" name="price" id="price" style="size:5; maxlength:30;" value="{{ blitz.price }}">
-                  <select name="price_model" id="price_model" class="selectpicker show-tick">
+                <select name="price_model" id="price_model" class="selectpicker show-tick">
                     <option value="O"{% if "O" == blitz.price_model %} selected="selected"{% endif %}>
                       One-time
                     </option>
                     <option value="R"{% if "R" == blitz.price_model %} selected="selected"{% endif %}>
                       Recurring
                     </option>
-                  </select>
+                </select>
                 <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
                 <script type="text/javascript">
                       $(document).ready(function(e) {
@@ -138,36 +140,31 @@ class="sales-page"
                       });
                 </script>
 
-
-  <!--          <select name="price_model" id="price_model" style="width:100px; background-color:lightgreen">
-               <option value="O"{% if "O" == blitz.price_model %} selected="selected"{% endif %}>One-time</option>
-               <option value="R"{% if "R" == blitz.price_model %} selected="selected"{% endif %}>Recurring</option>
-              </select> -->
-
             {% else %}
-               {{ blitz.price }}
-               {% if blitz.price_model == "R" %}
-                  Monthly Recurring
-               {% else %}
-                  One-time
-               {% endif %}
+                {{ blitz.price }}
+                {% if blitz.price_model == "R" %}
+                   Monthly Recurring
+                {% else %}
+                   One-time
+                {% endif %}
             {% endif %}</a>
+        {% endif %} 
 
-            <div class="submit-container">
-            {% if debug_mode %}
-              <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button" disabled>
-                Sign up for {{ blitz.name }}
-              </button>
-            {% else %}
-              <button action="submit" class="obtn obtn-comment-half" type='submit'>
-                Sign up for {{ blitz.name }}
-              </button>
-            {% endif %}
-            </div>
-         </div>
-      </div>
-    </div>
+        <div class="submit-container">
+        {% if debug_mode %}
+            <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button" disabled>
+            Sign up for {{ blitz.name }}
+            </button>
+        {% else %}
+            <button action="submit" class="obtn obtn-comment-half" type='submit'>
+               Sign up for {{ blitz.name }}
+            </button>
+        {% endif %}
+     </div>
   </div>
+</div>
+</div>
+</div>
 
   <div class="sales-page-section-2">
     <div class="container" style="padding: 20px;">

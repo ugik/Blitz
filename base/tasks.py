@@ -33,7 +33,7 @@ def backup():
     if len(c) > 0:
         os.system("bash ~/Blitz/backup.sh")
 
-@periodic_task(run_every=crontab(hour="*", minute="57", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
 def email_test(): 
     send_mail('Celery email test', 'Daily test email celery', 'team@blitz.us', ['georgek@gmail.com'])
 
@@ -41,7 +41,7 @@ def email_test():
 def trainer_alerts():
     for client in Client.objects.all():
         blitz = client.get_blitz()
-        if client.current_datetime().hour != settings.ALERTS_HOUR:
+        if True or client.current_datetime().hour != settings.ALERTS_HOUR:
             continue
         if blitz is None:
             continue
