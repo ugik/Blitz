@@ -11,8 +11,12 @@ register = template.Library()
 
 #Template filters to show completed sets, this was in CompletedSet model but it needs access to non-model variable: the viewer user
 
+# completedset.gym_session.date_of_session contains date to compare against custom date
+
 @register.filter
 def display_str(completedset, viewer):
+#    import pdb; pdb.set_trace()
+
     Client = get_model('base', 'Client')
     if not viewer or not completedset:
         return ''
@@ -29,18 +33,19 @@ def display_str(completedset, viewer):
     # intercept for custom workset for client
     custom_set = WorkoutSetCustom.objects.filter(client=client, workoutset=completedset.workout_set).order_by('-pk')
     if custom_set:
-        lift = custom_set[0].lift
+        if custom_set[0].date_created <= completedset.gym_session.date_of_session:
+            lift = custom_set[0].lift
 
     if lift.lift_type == 'I':
         if custom_set:
-            return "%d secs" % custom_set[0].num_reps
-        else:
-            return "%d secs" % completedset.num_reps_completed
+            if custom_set[0].date_created <= completedset.gym_session.date_of_session:
+                return "%d secs" % custom_set[0].num_reps
+        return "%d secs" % completedset.num_reps_completed
     elif lift.weight_or_body and not lift.allow_weight_or_body:
         if custom_set:
-            return "%d reps" % custom_set[0].num_reps
-        else:
-            return "%d reps" % completedset.num_reps_completed
+            if custom_set[0].date_created <= completedset.gym_session.date_of_session:
+                return "%d reps" % custom_set[0].num_reps
+        return "%d reps" % completedset.num_reps_completed
 
     # TODO: body weight weighted
     elif lift.weight_or_body and lift.allow_weight_or_body:

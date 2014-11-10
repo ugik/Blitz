@@ -832,7 +832,7 @@ def log_workout(request, week_number, day_char):
         client=client
     )[0]
 
-    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, request.user.client)
+    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, request.user.client, gym_session.date_of_session)
     for group in grouped_sets:
         group['set_infos'] = []
         for workout_set in group['sets']:
@@ -1404,8 +1404,6 @@ def sales_blitz(request):
 #            import pdb; pdb.set_trace()
             if request.POST.get('datepicker') != '':
                 blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
-
-#        import pdb; pdb.set_trace()
         
         if 'price' in request.POST:
             if request.POST.get('price').isdigit():
