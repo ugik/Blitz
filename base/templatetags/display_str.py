@@ -11,6 +11,8 @@ register = template.Library()
 
 #Template filters to show completed sets, this was in CompletedSet model but it needs access to non-model variable: the viewer user
 
+# client (real or synthetic in the case of trainer) is the viewer, use for units
+# completedset.gym_session.client is the client to whom the workout belongs
 # completedset.gym_session.date_of_session contains date to compare against custom date
 
 @register.filter
@@ -31,7 +33,7 @@ def display_str(completedset, viewer):
     lift = completedset.workout_set.lift
 
     # intercept for custom workset for client
-    custom_set = WorkoutSetCustom.objects.filter(client=client, workoutset=completedset.workout_set).order_by('-pk')
+    custom_set = WorkoutSetCustom.objects.filter(client=completedset.gym_session.client, workoutset=completedset.workout_set).order_by('-pk')
     if custom_set:
         if custom_set[0].date_created <= completedset.gym_session.date_of_session:
             lift = custom_set[0].lift
