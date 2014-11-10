@@ -135,13 +135,19 @@
 
 			<div class="clearfix"></div>
 		</div>
+        <input type="hidden" id="client_name" name="client_name" value="" />
+        <input type="hidden" id="client_gender" name="client_gender" value="" />
+        <input type="hidden" id="client_age" name="client_age" value="" />
+        <input type="hidden" id="client_height" name="client_height" value="" />
+        <input type="hidden" id="client_weight" name="client_weight" value="" />
 	</div> <!--/ content -->
 
 <!-- include spotter_program_edit_modal -->
 {% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 <!-- include blitz_macros_modal -->
 {% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
-
+<!-- include client_macros_modal -->
+{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
 </div>
 
 {% endblock content %}

@@ -14,6 +14,7 @@ from base import alerts
 
 import datetime
 import csv
+from random import randint
 
 class Command(BaseCommand):
 
@@ -218,7 +219,6 @@ class Command(BaseCommand):
                 if date >= timezone_now().date(): break
                 alerts.create_alerts_for_day(client, date)
 
-
         # comments
         amarerunning = create_new_parent_comment(amare.user, "Who wants to go for a jog after the gym today?", timezone_now())[0]
         add_like_to_comment(amarerunning, kidd.user, timezone_now())
@@ -242,10 +242,22 @@ class Command(BaseCommand):
             lift.weight_or_body = True
             lift.save()
 
-        #
         # Macros
-        #
-        macro = MacroDay(client=amare, day=blitz.get_date_for_day_index(3, 0), protein=True, fat=False, carbs=True)
-        macro.save()
+        for x in range(0, 25):
+            macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
+            macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
+            macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
 
 

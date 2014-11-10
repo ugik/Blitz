@@ -122,6 +122,7 @@ class="sales-page"
             {% else %}
                 {{ blitz.begin_date }}
             {% endif %} <br>
+
             Price: ${{ blitz.price_recurring_monthly }}
             {% if debug_mode %}
                 <input class="edit" type="text" name="price" id="price" style="size:5; maxlength:30;" value="{{ blitz.price }}">
@@ -148,6 +149,8 @@ class="sales-page"
                    One-time
                 {% endif %}
             {% endif %}</a>
+           </div>
+
         {% endif %} 
 
         <div class="submit-container">

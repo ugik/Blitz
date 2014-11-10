@@ -134,6 +134,7 @@ urlpatterns += patterns(
     url(r'^blitz-setup$', 'base.views.blitz_setup', name='blitz_setup'),
 
     url(r'^blitz_macros/(?P<pk>\d+)$', 'base.views.blitz_macros', name='blitz_macros'),
+    url(r'^client_macros/(?P<pk>\d+)$', 'base.views.client_macros', name='client_macros'),
 
     url(r'^spotter_program_edit/(?P<pk>\d+)$', 'base.views.spotter_program_edit', name='spotter_program_edit'),
 

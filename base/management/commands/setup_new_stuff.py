@@ -14,6 +14,7 @@ from base import alerts
 
 import datetime
 import csv
+from random import randint
 
 class Command(BaseCommand):
 
@@ -145,5 +146,23 @@ class Command(BaseCommand):
         add_child_to_comment(lukeburr, luke.user, "Sure buddy", timezone_now())
         noburr = add_child_to_comment(lukeburr, mikerashid.user,
             "No TexMex, get a clue!", timezone_now())
+
+        # Macros
+        for x in range(0, 25):
+            macro, _ = MacroDay.objects.get_or_create(client=tay, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
+            macro, _ = MacroDay.objects.get_or_create(client=luke, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
+            macro, _ = MacroDay.objects.get_or_create(client=joe, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
 
 

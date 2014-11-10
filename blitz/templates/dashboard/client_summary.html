@@ -1,3 +1,14 @@
+<script type="text/javascript">
+// set client attributes in hidden fields for access my modal
+    $(document).ready(function(){
+       document.getElementById('client_gender').text='{{ client.gender }}';
+       document.getElementById('client_age').text='{{ client.age }}';
+       document.getElementById('client_weight').text='{{ client.weight }}';
+       document.getElementById('client_height').text='{{ client.height }}';
+       document.getElementById('client_name').text='{{ client.name }}';
+      }) 
+</script>
+
 <div class='bg'>
 	<div class="section cover">
 	<div class="spacer20"></div>
@@ -8,7 +19,7 @@
 	</div>
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" href="{% url 'set_client_macros' client.pk %}">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
+			Diet Goals <a class="btn btn-default btn-edit" onclick="{ jQuery.noConflict(); $('#modalClientMacros').modal('show'); }"">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
 			
 		</div>
 		<div class="goals-history">
@@ -208,3 +219,6 @@
 		<div class="spacer10"></div>
 	</div>
 </div>
+
+
+

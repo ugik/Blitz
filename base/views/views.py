@@ -440,10 +440,53 @@ def blitz_macros(request, pk):
                 {'trainer' : trainer, 'blitz' : blitz, 'errors' : form.errors}, 
                  RequestContext(request))
 
-# given a macro formula, set all client macros for specified blitz
-def blitz_macros_set(blitz, formula):
-    for client in blitz.members():
-  
+# setting macros for individual client
+# url: /client_macros/(?P<pk>\d+)
+@login_required
+def client_macros(request, pk):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
+
+    trainer = request.user.trainer
+    client = get_object_or_404(Client, pk=int(pk) )
+
+    if request.method == 'POST':
+        form = MacrosForm(request.POST)
+
+        if form.is_valid():
+            formula = form.cleaned_data['formulas']
+            blitz_macros_set(blitz, formula, client)
+            return redirect('home')
+        else:
+            if 'modalMacros' in request.GET:
+                return render(request, 'trainer_programs.html', 
+                    {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                     'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+            else:
+                return render_to_response('client_macros.html', 
+                    {'trainer' : trainer, 'client' : client, 'errors' : form.errors}, 
+                     RequestContext(request))
+
+    else:
+        form = MacrosForm()
+        if 'modalMacros' in request.GET:
+            return render(request, 'trainer_programs.html', 
+                {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                 'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+        else:
+            return render_to_response('client_macros.html', 
+                {'trainer' : trainer, 'client' : client, 'errors' : form.errors}, 
+                 RequestContext(request))
+
+# given a macro formula, set macros for specified blitz and all or (optional) specified client
+def blitz_macros_set(blitz, formula, client=None):
+    if client:
+        clients = get_object_or_404(Client, pk=int(pk) )
+    else:
+        clients = blitz.members()
+
+    for client in clients:
         age = float(client.age)
         kg = float(client.weight_in_lbs * 0.45359237)
         cm = float(units_tags.feet_conversion(client, True))
@@ -474,9 +517,6 @@ def blitz_macros_set(blitz, formula):
 
         client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
 
-        print client.name
-        print client.macro_target_json
-        print "---------------------------"
         client.save()
 
     return
