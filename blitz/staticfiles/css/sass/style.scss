@@ -572,14 +572,14 @@ body {
   width: 100%;
   padding: 0px;
   a {
-    @include transition(0.5s, ease);
+    @include transition(0.3s, ease);
   }
 }
 
 a {
   color: $fadedblue;
   text-decoration: none;
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
   }
   a:hover, a:focus {
     text-decoration: underline;
@@ -728,7 +728,7 @@ textarea,textarea:focus {
     float: left;
     margin: 0px;
     padding: 0px;
-    @include transition(0.5s, ease);
+    @include transition(0.3s, ease);
     @include mobile-landscape-and-below { 
       width: 99%; 
       float: inherit; 
@@ -736,7 +736,7 @@ textarea,textarea:focus {
       z-index: 10; 
       };
     a {
-      @include transition(0.5s, ease);
+      @include transition(0.3s, ease);
       @include meta();
       font-size: 16px;
       margin: 0px;
@@ -1683,7 +1683,7 @@ a.edit-workout-link {
 .obtn {
   border: none;
 
-  @include transition(0.5s, ease);
+  @include transition(0.3s, ease);
   display: block;
   font-size: 24px;
   @include meta();
@@ -1754,7 +1754,7 @@ a.edit-workout-link {
 
 .gbtn {
   border: none;
-  @include transition(0.5s, ease);
+  @include transition(0.3s, ease);
   display: block;
   font-size: 24px;
   @include meta();
@@ -1819,7 +1819,7 @@ a.edit-workout-link {
 
 
 a {
-  @include transition(0.5s, ease);
+  @include transition(0.3s, ease);
 }
 
 a:focus {
@@ -2728,7 +2728,7 @@ hr { margin-top: 60px;}
 #trainer-alert-box {
   border-radius: 4px;
   @include ffboxshadow();
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
   background: $commentbg;
   border: $border;
   margin-bottom: 30px;
@@ -2773,7 +2773,7 @@ hr { margin-top: 60px;}
   font-size: 28px;
   float: right;
   cursor: pointer;
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
 }
 .dismiss-alert:hover {
   color: rgba(0,0,0,.5);
@@ -2974,7 +2974,7 @@ label.radio {
 
 
 .formpage-block label, .formpage-block label.radio, label.radio {
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
   }
 
 .formpage-block input[type="radio"]:checked+label {
@@ -3743,7 +3743,7 @@ a.feed-permalink-grey {
 }
 
 #dashboard .sidebar-left ul.filters li {
-  @include transition(0.5s, ease);
+  @include transition(0.3s, ease);
 }
 
 #dashboard .feeds .feed-item 
@@ -3800,7 +3800,7 @@ input#id_document {
 label#id_document.upload {
   background: white;
   border: 2px solid $fadedblue;
-  @include transition(0.5s, ease);
+  @include transition(0.3s, ease);
   @include borderradius(5px);
   text-decoration: none !important;
   color: $fadedblue;
@@ -3834,10 +3834,15 @@ label#id_document.upload {
 }
 
 .btn-group, .dropdown-toggle, .btn-group>.btn:first-child, div.btn-group > button {
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
   text-shadow: none;
   span.caret {
-    color: $fadedblue;
+    border-top-color: $fadedblue !important;
+    border-bottom-color: $fadedblue !important;
+  }
+  span.caret:hover {
+    border-top-color: white !important;
+    border-bottom-color: white !important;
   }
 
 }
@@ -3846,7 +3851,7 @@ label#id_document.upload {
   text-shadow: none;
   background: white;
   border: 2px solid $fadedblue;
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
   @include borderradius(5px);
   text-decoration: none !important;
   color: $fadedblue;
@@ -3871,7 +3876,7 @@ label#id_document.upload {
   text-shadow: none;
   background: rgba(0,0,0,0);
   border: 2px solid white;
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
   @include borderradius(5px);
   text-decoration: none !important;
   color: white;
@@ -4056,14 +4061,14 @@ ul.spotternav li {
   .close {
     color: white;
     text-shadow: none;
-    @include transition(0.5s, linear);
+    @include transition(0.3s, linear);
     opacity: 1;
     :hover {
       text-shadow: 0 0 5px rgba(255,255,255,0.5);
       opacity: 1;
     }
     span {
-      @include transition(0.5s, linear);
+      @include transition(0.3s, linear);
       opacity: .5;
     }
     span:hover {
@@ -4511,7 +4516,7 @@ a#secondary_logo.brand {
 }
 
 .logoborder {
-  @include transition(0.5s, linear);
+  @include transition(0.3s, linear);
   border: 2px dashed rgba(255,255,255,0.3);
   padding: 30px;
   //padding: 30px;
@@ -4606,4 +4611,157 @@ color: #9d9ea3;
 
 .dn {
    display: none; 
+}
+
+.macroform-day {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  float: left;
+  @include borderradius(5px);
+  border: 1px solid white;
+  padding: 10px;
+}
+
+.macroform-day-header {
+  width: 100%;
+  text-align: center;
+  @include meta();
+  font-size: 24px;
+  //margin-top: 10px;
+  margin-bottom: 0px;
+  //border-top: 1px solid white;  
+  border-bottom: 1px solid white;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-top: -10px;
+  
+}
+
+.macroform-macros {
+  width: 100%;
+  text-align: center;
+  
+}
+
+.macroform {
+  width: 23%;
+  text-align: center;
+  float: left;
+  padding: 1%;
+}
+
+.macroform-header {
+  text-align: center;
+  @include meta();
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.macroform-macro {
+  text-align: center;
+  @include borderradius(5px);
+  border: 1px solid white;
+  padding: 10px;
+  a {
+    color: white;
+    text-decoration: none;
+    //cursor: none;
+  }
+}
+
+.macroform-numbers {
+  //padding: 10px;
+}
+
+.macroexample {
+  @include meta();
+  font-size: 18px;
+  text-transform: italic;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.mformh3 {
+  font-size: 30px;
+  color: white;
+  @include lightfont();
+  text-align: center;
+}
+
+.group h3 {
+  @include meta();
+  font-size: 30px;
+  small {
+    @include lightfont();
+  }
+}
+
+.group {
+  //padding: 15px;
+  background: none;
+  margin-bottom: 40px;
+  margin-top: -20px;
+}
+
+.group .actions .btn {
+  background: none transparent;
+  padding: 10px 20px;
+  color: #84aeff;
+  border: 2px solid #84aeff;
+  margin-right: 10px;
+  @include transition(0.3s, linear);
+}
+
+.feeds {
+  max-width: 725px;
+  float: left;
+  color: #333;
+  font-size: 18pt;
+  margin-right: 10px;
+  padding: 30px;
+}
+
+.startlabel {
+  margin-right: 10px;
+  float: left;
+}
+
+.inbtn {
+  width: 80px; 
+  height: 15px;
+  float: left;
+  margin-top: -5px;
+  text-align: center;
+}
+
+.ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
+  @include lightfont();
+  color: #444;
+}
+
+.ui-datepicker td, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  text-align: center;
+  background: none;
+  color: #888;
+}
+
+.ui-widget-header {
+  background: none;
+  border: none;
+  
+}
+
+a.ui-state-default :hover {
+  border: 1px solid $fadedblue;
+  color: $fadedblue;
+}
+
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+  background: none;
+  border: none;
+  :hover {
+    cursor: pointer;
+  }
 }
