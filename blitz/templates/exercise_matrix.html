@@ -6,15 +6,17 @@
 
     {% for exercise in exercises %}
         <div class="exercise-container {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+
             <div class="exercise">
                 <div class="exercise-name-container">
-
                     <div class="exercise-name">
+                    {% if gym_session %}
                         {% with gym_session.client.pk|stringformat:"s" as c_pk %}
                         {% with gym_session.pk|stringformat:"s" as g_pk %}
                         {% with "c="|add:c_pk|add:"&g="|add:g_pk as param %}
                             {{ exercise.exercise|display_lift:param }}
                         {% endwith %}{% endwith %}{% endwith %}
+                    {% endif %}
                     </div>
                 </div>
                 <div class="exercise-details-container">
