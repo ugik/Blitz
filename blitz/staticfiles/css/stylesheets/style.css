@@ -304,22 +304,22 @@ body {
 }
 /* line 574, ../sass/style.scss */
 body a {
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
 }
 
 /* line 579, ../sass/style.scss */
 a {
   color: #7ab2ea;
   text-decoration: none;
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
 }
 
 /* line 584, ../sass/style.scss */
@@ -502,11 +502,11 @@ textarea, textarea:focus {
   float: left;
   margin: 0px;
   padding: 0px;
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
 }
 @media only screen and (max-width: 480px) {
   /* line 727, ../sass/style.scss */
@@ -518,11 +518,11 @@ textarea, textarea:focus {
 }
 /* line 738, ../sass/style.scss */
 #top-level-navs .nav-item a {
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
   font-family: 'metanormal_caps';
   font-size: 16px;
   margin: 0px;
@@ -1812,11 +1812,11 @@ a.edit-workout-link {
 /* line 1683, ../sass/style.scss */
 .obtn {
   border: none;
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
   display: block;
   font-size: 24px;
   font-family: 'metanormal_caps';
@@ -1893,11 +1893,11 @@ a.edit-workout-link {
 /* line 1755, ../sass/style.scss */
 .gbtn {
   border: none;
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
   display: block;
   font-size: 24px;
   font-family: 'metanormal_caps';
@@ -1963,11 +1963,11 @@ a.edit-workout-link {
 
 /* line 1821, ../sass/style.scss */
 a {
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
 }
 
 /* line 1825, ../sass/style.scss */
@@ -3262,11 +3262,11 @@ hr {
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
   background: #FAFCFB;
   border: 1px solid rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
@@ -3322,11 +3322,11 @@ hr {
   font-size: 28px;
   float: right;
   cursor: pointer;
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
 }
 
 /* line 2778, ../sass/style.scss */
@@ -3571,11 +3571,11 @@ label.radio {
 
 /* line 2976, ../sass/style.scss */
 .formpage-block label, .formpage-block label.radio, label.radio {
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
 }
 
 /* line 2980, ../sass/style.scss */
@@ -4513,11 +4513,11 @@ a.feed-permalink-grey {
 
 /* line 3745, ../sass/style.scss */
 #dashboard .sidebar-left ul.filters li {
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
 }
 
 /* line 3749, ../sass/style.scss */
@@ -4583,11 +4583,11 @@ input#id_document {
 label#id_document.upload {
   background: white;
   border: 2px solid #7ab2ea;
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -4624,11 +4624,11 @@ label#id_document.upload {
 
 /* line 3836, ../sass/style.scss */
 .btn-group, .dropdown-toggle, .btn-group > .btn:first-child, div.btn-group > button {
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
   text-shadow: none;
 }
 /* line 3839, ../sass/style.scss */
@@ -4647,11 +4647,11 @@ label#id_document.upload {
   text-shadow: none;
   background: white;
   border: 2px solid #7ab2ea;
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -4679,11 +4679,11 @@ label#id_document.upload {
   text-shadow: none;
   background: transparent;
   border: 2px solid white;
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -4897,11 +4897,11 @@ ul.spotternav li {
 .modal-content-full .close {
   color: white;
   text-shadow: none;
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
   opacity: 1;
 }
 /* line 4066, ../sass/style.scss */
@@ -4911,11 +4911,11 @@ ul.spotternav li {
 }
 /* line 4070, ../sass/style.scss */
 .modal-content-full .close span {
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
   opacity: .5;
 }
 /* line 4074, ../sass/style.scss */
@@ -5424,11 +5424,11 @@ a#secondary_logo.brand {
 
 /* line 4518, ../sass/style.scss */
 .logoborder {
-  transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
   border: 2px dashed rgba(255, 255, 255, 0.3);
   padding: 30px;
 }
@@ -5618,4 +5618,95 @@ ul.filters li.item {
   color: white;
   font-family: 'proxima_novalight';
   text-align: center;
+}
+
+/* line 4693, ../sass/style.scss */
+.group h3 {
+  font-family: 'metanormal_caps';
+  font-size: 30px;
+}
+/* line 4696, ../sass/style.scss */
+.group h3 small {
+  font-family: 'proxima_novalight';
+}
+
+/* line 4701, ../sass/style.scss */
+.group {
+  background: none;
+  margin-bottom: 40px;
+  margin-top: -20px;
+}
+
+/* line 4708, ../sass/style.scss */
+.group .actions .btn {
+  background: none transparent;
+  padding: 10px 20px;
+  color: #84aeff;
+  border: 2px solid #84aeff;
+  margin-right: 10px;
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+}
+
+/* line 4717, ../sass/style.scss */
+.feeds {
+  max-width: 725px;
+  float: left;
+  color: #333;
+  font-size: 18pt;
+  margin-right: 10px;
+  padding: 30px;
+}
+
+/* line 4726, ../sass/style.scss */
+.startlabel {
+  margin-right: 10px;
+  float: left;
+}
+
+/* line 4731, ../sass/style.scss */
+.inbtn {
+  width: 80px;
+  height: 15px;
+  float: left;
+  margin-top: -5px;
+  text-align: center;
+}
+
+/* line 4739, ../sass/style.scss */
+.ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
+  font-family: 'proxima_novalight';
+  color: #444;
+}
+
+/* line 4744, ../sass/style.scss */
+.ui-datepicker td, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  text-align: center;
+  background: none;
+  color: #888;
+}
+
+/* line 4750, ../sass/style.scss */
+.ui-widget-header {
+  background: none;
+  border: none;
+}
+
+/* line 4756, ../sass/style.scss */
+a.ui-state-default :hover {
+  border: 1px solid #7ab2ea;
+  color: #7ab2ea;
+}
+
+/* line 4761, ../sass/style.scss */
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+  background: none;
+  border: none;
+}
+/* line 4764, ../sass/style.scss */
+.ui-datepicker .ui-datepicker-prev :hover, .ui-datepicker .ui-datepicker-next :hover {
+  cursor: pointer;
 }
