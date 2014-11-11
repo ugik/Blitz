@@ -1,4 +1,11 @@
+<script type="text/javascript">
+// set client attributes in hidden fields for access my modal
+    $(document).ready(function(){
+       document.getElementById('blitz_title').text='{{ blitz.title }}';
+      })
+</script>
 <h3>{{ title }} <small>Starts {{start_date}} | Ends {{end_date}} - {{ members_count }} Members</small></h3>
+
 <div class="members">
 	{% if headshots %}
 		{% for member in blitz.members %}
@@ -7,9 +14,8 @@
 	{% endif %}
 </div>
 <div class="actions">
-	<a class="btn btn-primary" id="datep" href="#" data-object-id="{{blitz.pk}}" style="height:20px;">
-<input type="text" class="datepicker" id="datepicker" name="begin_date" value="{{ blitz.begin_date|date:"m/d/Y" }}" style="width:85px; height:15px;">
- Edit</a>
+	<a class="btn btn-primary" id="datep" href="#" data-object-id="{{blitz.pk}}" style="height:20px;"><div class="startlabel">Starts: </div>
+<input type="text" class="datepicker inbtn" id="datepicker" name="begin_date" value="{{ blitz.begin_date|date:"m/d/Y" }}" style=""></a>
 
 	<a class="btn btn-primary" onclick="{ document.getElementById('plan_name').text='{{ blitz.workout_plan.name }}'; document.getElementById('edit_request').value='Help me improve the {{ blitz.workout_plan.name }} program.'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">Edit Program</a>
 
@@ -23,6 +29,7 @@
 
 <script>
 $(document).ready(function() {
+    document.getElementById('title').text='{{ blitz.title }}';
     $('#datep').click(function() {
         $('#datepicker').datepicker('show');
     });
@@ -58,4 +65,5 @@ $.ajax({
  }
 
 </script>
+
 

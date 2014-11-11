@@ -1,31 +1,50 @@
 from django import template
 from workouts.models import Exercise, ExerciseCustom, WorkoutSetCustom
-from base.models import Client
+from base.models import Client, GymSession
 from django.contrib.auth.models import User
+from django.http import QueryDict
 
 register = template.Library()
 
 #Template filters to show custom exercise sets_display and exercise lift
 
 @register.filter
-def custom_lift(value, client):
+def display_lift(value, args):
+    qs = QueryDict(args)
+
+    client = Client.objects.get(pk=qs['c'])
     if not client:
         return value.lift
-    custom = ExerciseCustom.objects.filter(client=client, exercise=value).order_by('-pk')
-    if custom:
-        return custom[0].lift
-    else:
+    gym_session = GymSession.objects.get(pk=qs['g'])
+    if not gym_session:
         return value.lift
 
+    custom = ExerciseCustom.objects.filter(client=client, exercise=value).order_by('-pk')
+    if custom:
+        if gym_session and custom[0].date_created <= gym_session.date_of_session:
+            return custom[0].lift
+    return value.lift
+
 @register.filter
-def custom_sets_display(value, client):
+def custom_lift(value, client, gym_date=None):
+    if not client:
+        return value.lift
+
+    custom = ExerciseCustom.objects.filter(client=client, exercise=value).order_by('-pk')
+    if custom:
+        if gym_date and custom[0].date_created <= gym_date:
+            return custom[0].lift
+    return value.lift
+
+@register.filter
+def custom_sets_display(value, client, gym_date=None):
     if not client: 
         return value.sets_display
     custom = ExerciseCustom.objects.filter(client=client, exercise=value).order_by('-pk')
     if custom:
-        return custom[0].sets_display
-    else:
-        return value.sets_display
+        if gym_date and custom[0].date_created <= gym_date:
+            return custom[0].sets_display
+    return value.sets_display
 
 @register.filter
 def custom_workout_lifts(value, client):

@@ -208,6 +208,7 @@ def blitz_setup(request):
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.recurring = False if form.data['blitz_type'] == "GRP" else True
+            blitz.price_model = "O" if form.data['blitz_type'] == "GRP" else "R"
             blitz.provisional = True if blitz.recurring else False
             blitz.save()
 
@@ -439,10 +440,53 @@ def blitz_macros(request, pk):
                 {'trainer' : trainer, 'blitz' : blitz, 'errors' : form.errors}, 
                  RequestContext(request))
 
-# given a macro formula, set all client macros for specified blitz
-def blitz_macros_set(blitz, formula):
-    for client in blitz.members():
-  
+# setting macros for individual client
+# url: /client_macros/(?P<pk>\d+)
+@login_required
+def client_macros(request, pk):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
+
+    trainer = request.user.trainer
+    client = get_object_or_404(Client, pk=int(pk) )
+
+    if request.method == 'POST':
+        form = MacrosForm(request.POST)
+
+        if form.is_valid():
+            formula = form.cleaned_data['formulas']
+            blitz_macros_set(blitz, formula, client)
+            return redirect('home')
+        else:
+            if 'modalMacros' in request.GET:
+                return render(request, 'trainer_programs.html', 
+                    {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                     'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+            else:
+                return render_to_response('client_macros.html', 
+                    {'trainer' : trainer, 'client' : client, 'errors' : form.errors}, 
+                     RequestContext(request))
+
+    else:
+        form = MacrosForm()
+        if 'modalMacros' in request.GET:
+            return render(request, 'trainer_programs.html', 
+                {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
+                 'modalSpotter' : modalSpotter, 'workoutplan' : workoutplan, 'errors' : form.errors })
+        else:
+            return render_to_response('client_macros.html', 
+                {'trainer' : trainer, 'client' : client, 'errors' : form.errors}, 
+                 RequestContext(request))
+
+# given a macro formula, set macros for specified blitz and all or (optional) specified client
+def blitz_macros_set(blitz, formula, client=None):
+    if client:
+        clients = get_object_or_404(Client, pk=int(pk) )
+    else:
+        clients = blitz.members()
+
+    for client in clients:
         age = float(client.age)
         kg = float(client.weight_in_lbs * 0.45359237)
         cm = float(units_tags.feet_conversion(client, True))
@@ -473,9 +517,6 @@ def blitz_macros_set(blitz, formula):
 
         client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
 
-        print client.name
-        print client.macro_target_json
-        print "---------------------------"
         client.save()
 
     return
@@ -596,7 +637,6 @@ def client_profile_progress(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
     gym_sessions = GymSession.objects.filter(client=client).order_by('-date_of_session')
     session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions ]
-
 
     lift_history_maxes = get_lift_history_maxes(client)
     # reduce the lifts to 10 weeks history (especially in recurring programs)
@@ -802,6 +842,7 @@ def save_set_to_session(gym_session, workout_set, item):
         completed_set = CompletedSet.objects.get(gym_session=gym_session,
             workout_set=workout_set)
     else:
+
         completed_set = CompletedSet(gym_session=gym_session,
             workout_set=workout_set)
     completed_set.num_reps_completed = item['num_reps_completed']
@@ -809,6 +850,7 @@ def save_set_to_session(gym_session, workout_set, item):
         completed_set.weight_in_lbs = item['weight_in_lbs']
     if 'set_type' in item:
         completed_set.set_type = item['set_type']
+
     completed_set.save()
     return completed_set
 
@@ -830,7 +872,7 @@ def log_workout(request, week_number, day_char):
         client=client
     )[0]
 
-    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, request.user.client)
+    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, request.user.client, gym_session.date_of_session)
     for group in grouped_sets:
         group['set_infos'] = []
         for workout_set in group['sets']:
@@ -873,7 +915,6 @@ def log_workout(request, week_number, day_char):
             for group in grouped_sets:
                 print [set_info.get('error') for set_info in group['set_infos']]
 
-#    import pdb; pdb.set_trace()
     return render(request, 'log_workout.html', {
         'client': client,
         'plan_day': plan_day,
@@ -1403,8 +1444,6 @@ def sales_blitz(request):
 #            import pdb; pdb.set_trace()
             if request.POST.get('datepicker') != '':
                 blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
-
-#        import pdb; pdb.set_trace()
         
         if 'price' in request.POST:
             if request.POST.get('price').isdigit():

@@ -1,4 +1,4 @@
-from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise
+from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSetCustom
 from workouts.templatetags import custom_exercise
 
 from django.conf import settings
@@ -55,7 +55,7 @@ def get_set_group_title(set_group):
 
 # todo: this is pathetic, do a real groupby
 # todo: also return tuple not dict
-def get_grouped_sets(workout, client=None):
+def get_grouped_sets(workout, client=None, gym_date=None):
     """
     Gets a list of "grouped sets" from a workout. Each item is:
     {
@@ -68,11 +68,26 @@ def get_grouped_sets(workout, client=None):
     for exercise in workout.get_exercises():
         sets = exercise.workoutset_set.all()
 
+        # Custom exercise intercept
+        custom = ExerciseCustom.objects.filter(client=client, exercise=exercise).order_by('-pk')
+        if custom:
+            if custom[0].date_created <= gym_date:
+                exercise.lift = custom[0].lift
+                exercise.sets_display = custom[0].sets_display
+                for i,set in enumerate(sets):
+                    c_set = WorkoutSetCustom.objects.filter(client=client, workoutset=set).order_by('-pk')
+                    if c_set[0].date_created <= gym_date:
+                        if c_set:
+                            sets[i].lift = c_set[0].lift
+                            sets[i].num_reps = c_set[0].num_reps
+
+#        import pdb; pdb.set_trace()
+
         groups.append({
             'exercise': exercise,
-            'lift': custom_exercise.custom_lift(exercise,client),
+            'lift': custom_exercise.custom_lift(exercise, client, gym_date),
             'sets': sets,
-            'title': custom_exercise.custom_sets_display(exercise,client),
+            'title': custom_exercise.custom_sets_display(exercise, client, gym_date),
         })
     return groups
 

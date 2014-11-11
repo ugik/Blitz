@@ -6,19 +6,18 @@
 
     {% for exercise in exercises %}
         <div class="exercise-container {% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">
+
             <div class="exercise">
                 <div class="exercise-name-container">
-
-<!-- we get lift name using template filter and client instance from various sources -->
-                    {% if client %}
-              <div class="exercise-name">{{ exercise.exercise|custom_lift:client }}</div>
-                    {% elif user.client %}
-              <div class="exercise-name">{{ exercise.exercise|custom_lift:user.client }}</div>
-                    {% elif gym_session.client %}
-              <div class="exercise-name">{{ exercise.exercise|custom_lift:gym_session.client }}</div>
-                    {% else %}
-                    <div class="exercise-name">{{ exercise.lift }}</div>
+                    <div class="exercise-name">
+                    {% if gym_session %}
+                        {% with gym_session.client.pk|stringformat:"s" as c_pk %}
+                        {% with gym_session.pk|stringformat:"s" as g_pk %}
+                        {% with "c="|add:c_pk|add:"&g="|add:g_pk as param %}
+                            {{ exercise.exercise|display_lift:param }}
+                        {% endwith %}{% endwith %}{% endwith %}
                     {% endif %}
+                    </div>
                 </div>
                 <div class="exercise-details-container">
                     <div class="exercise-details">

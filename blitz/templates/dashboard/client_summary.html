@@ -1,3 +1,44 @@
+<script type="text/javascript">
+// set attributes in modal indirectly (modal is loaded from dashboard which lacks detail context)
+    $(document).ready(function(){
+       document.getElementById('name').text='{{ client.name }}';
+       if ('{{ client.gender }}' == 'M') {
+           document.getElementById('blurb').text="he's {{ client.height_feet }}'{{ client.height_inches }}, {{ client.weight_in_lbs }}lbs, {{ client.age }} years old."
+       } else {
+           document.getElementById('blurb').text="she's {{ client.height_feet }}'{{ client.height_inches }}, {{ client.weight_in_lbs }}lbs, {{ client.age }} years old."
+       }
+    $("#headshot").attr("src", "{{ client.get_headshot_url }}");
+      }) 
+                        function show_client_macros(factor) {
+                           factor = factor || 1;
+                           var kg = {{ client.weight_in_lbs }}/2.2;
+                           var h = {{ client.height_feet }}*30.48 + {{ client.height_inches }}*2.54;
+                           var age = {{ client.age }};
+                           var wkout_factor = 1.15;
+
+                           var r_cals = factor * (10 * kg + 6.25 * h - 5 * age + 5);
+                           var r_protein = factor * (0.9 * kg * 2.2);
+                           var r_fat = factor * (0.4 * kg * 2.2);
+                           var r_carbs = factor * (r_cals - r_protein - r_fat) / 4;
+                           var w_cals = r_cals * wkout_factor;
+                           var w_protein = r_protein * wkout_factor;
+                           var w_fat = r_fat * wkout_factor;
+                           var w_carbs = r_carbs * wkout_factor;
+
+                             document.getElementById('c_rest_cals').text=r_cals.toFixed(0).toString();
+                             document.getElementById('c_rest_fat').text=r_fat.toFixed(0).toString();
+                             document.getElementById('c_rest_carbs').text=r_carbs.toFixed(0).toString();
+                             document.getElementById('c_rest_protein').text=r_protein.toFixed(0).toString();
+                             document.getElementById('c_wout_cals').text=w_cals.toFixed(0).toString();
+                             document.getElementById('c_wout_fat').text=w_fat.toFixed(0).toString();
+                             document.getElementById('c_wout_carbs').text=w_carbs.toFixed(0).toString();
+                             document.getElementById('c_wout_protein').text=w_protein.toFixed(0).toString();
+
+                            return 0;
+                        }
+     x = show_client_macros(1);
+</script>
+
 <div class='client-summary'>
 	<div class="section cover">
 	<div class="spacer20"></div>
@@ -8,7 +49,7 @@
 	</div>
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" href="{% url 'set_client_macros' client.pk %}">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
+			Diet Goals <a class="btn btn-default btn-edit" onclick="{ jQuery.noConflict(); $('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
 			
 		</div>
 		<div class="goals-history">

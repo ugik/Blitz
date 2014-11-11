@@ -14,6 +14,7 @@ from base import alerts
 
 import datetime
 import csv
+from random import randint
 
 class Command(BaseCommand):
 
@@ -92,6 +93,7 @@ class Command(BaseCommand):
         joy_beginner_blitz.macro_strategy = 'M'
         joy_beginner_blitz.price = 499
         joy_beginner_blitz.recurring = False
+        joy_beginner_blitz.price_model = "O"
         joy_beginner_blitz.save()
 
         joy_advanced_plan = workout_utils.load_workout_plan_from_fileset_2(
@@ -110,6 +112,7 @@ class Command(BaseCommand):
         joy_advanced_blitz.macro_strategy = 'M'
         joy_advanced_blitz.price = 499
         joy_beginner_blitz.recurring = False
+        joy_beginner_blitz.price_model = "O"
         joy_advanced_blitz.save()
 
         jahed = create_trainer('Jahed Momand', 'jahedmomand@gmail.com', 'asdf')
@@ -144,7 +147,8 @@ class Command(BaseCommand):
         perryman_blitz.uses_macros = True
         perryman_blitz.macro_strategy = 'M'
         perryman_blitz.price = 500
-        joy_beginner_blitz.recurring = False
+        perryman_blitz.recurring = False
+        perryman_blitz.price_model = "O"
         perryman_blitz.save()
 
         # now set up test users
@@ -163,7 +167,8 @@ class Command(BaseCommand):
         blitz.uses_macros = True
         blitz.macro_strategy = 'M'
         blitz.price = 200
-        joy_beginner_blitz.recurring = False
+        blitz.recurring = False
+        blitz.price_model = "O"
         blitz.save()
 
         carmelo = create_client("Carmelo Anthony", "carmelo@example.com", "asdf", 29, 230, 6, 8, 'M')
@@ -214,7 +219,6 @@ class Command(BaseCommand):
                 if date >= timezone_now().date(): break
                 alerts.create_alerts_for_day(client, date)
 
-
         # comments
         amarerunning = create_new_parent_comment(amare.user, "Who wants to go for a jog after the gym today?", timezone_now())[0]
         add_like_to_comment(amarerunning, kidd.user, timezone_now())
@@ -238,10 +242,22 @@ class Command(BaseCommand):
             lift.weight_or_body = True
             lift.save()
 
-        #
         # Macros
-        #
-        macro = MacroDay(client=amare, day=blitz.get_date_for_day_index(3, 0), protein=True, fat=False, carbs=True)
-        macro.save()
+        for x in range(0, 25):
+            macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
+            macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
+            macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+            protein = True if randint(0,1)==0 else False
+            fat = True if randint(0,1)==0 else False
+            carbs = True if randint(0,1)==0 else False
+            macro.save()
 
 
