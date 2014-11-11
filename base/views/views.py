@@ -1823,9 +1823,10 @@ def client_checkin(request):
             checkin.client = client
             checkin.save()
 
-            alert = TrainerAlert.objects.create(
-                       trainer=client.get_blitz().trainer, text="checked-in.",
-                       client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+            alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
+            alert.text="checked-in."
+            alert.alert_type = 'X'
+            alert.save()
 
             if form.data['done'] == '1':
                 return redirect('home')
