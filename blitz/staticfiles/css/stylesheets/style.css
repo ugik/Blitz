@@ -5606,13 +5606,14 @@ ul.filters li.item {
 /* line 4685, ../sass/style.scss */
 .macroexample {
   font-family: 'metanormal_caps';
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 1.4;
   text-transform: italic;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-/* line 4693, ../sass/style.scss */
+/* line 4694, ../sass/style.scss */
 .mformh3 {
   font-size: 30px;
   color: white;
@@ -5620,25 +5621,25 @@ ul.filters li.item {
   text-align: center;
 }
 
-/* line 4700, ../sass/style.scss */
+/* line 4701, ../sass/style.scss */
 .group h3 {
   font-family: 'metanormal_caps';
   font-size: 30px;
   line-height: 1.4;
 }
-/* line 4704, ../sass/style.scss */
+/* line 4705, ../sass/style.scss */
 .group h3 small {
   font-family: 'proxima_novalight';
 }
 
-/* line 4709, ../sass/style.scss */
+/* line 4710, ../sass/style.scss */
 .group {
   background: none;
   margin-bottom: 40px;
   margin-top: -20px;
 }
 
-/* line 4716, ../sass/style.scss */
+/* line 4717, ../sass/style.scss */
 .group .actions .btn {
   background: none transparent;
   padding: 10px 20px;
@@ -5652,7 +5653,7 @@ ul.filters li.item {
   -o-transition: all 0.3s linear;
 }
 
-/* line 4725, ../sass/style.scss */
+/* line 4726, ../sass/style.scss */
 .feeds {
   max-width: 725px;
   float: left;
@@ -5662,19 +5663,19 @@ ul.filters li.item {
   padding: 30px;
 }
 
-/* line 4734, ../sass/style.scss */
+/* line 4735, ../sass/style.scss */
 .startlabel {
   margin-right: 10px;
   float: left;
 }
 
-/* line 4739, ../sass/style.scss */
+/* line 4740, ../sass/style.scss */
 #modalMacros > div > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select > button > span.filter-option.pull-left {
   text-align: center;
   font-size: 18px;
 }
 
-/* line 4744, ../sass/style.scss */
+/* line 4745, ../sass/style.scss */
 .inbtn {
   width: 80px;
   height: 15px;
@@ -5684,44 +5685,44 @@ ul.filters li.item {
 }
 
 @media (max-width: 480px) {
-  /* line 4752, ../sass/style.scss */
+  /* line 4753, ../sass/style.scss */
   .wtw {
     width: 90% !important;
     margin-left: 0% !important;
   }
 }
 
-/* line 4759, ../sass/style.scss */
+/* line 4760, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
   font-family: 'proxima_novalight';
   color: #444;
 }
 
-/* line 4764, ../sass/style.scss */
+/* line 4765, ../sass/style.scss */
 .ui-datepicker td, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   text-align: center;
   background: none;
   color: #888;
 }
 
-/* line 4770, ../sass/style.scss */
+/* line 4771, ../sass/style.scss */
 .ui-widget-header {
   background: none;
   border: none;
 }
 
-/* line 4776, ../sass/style.scss */
+/* line 4777, ../sass/style.scss */
 a.ui-state-default :hover {
   border: 1px solid #7ab2ea;
   color: #7ab2ea;
 }
 
-/* line 4781, ../sass/style.scss */
+/* line 4782, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
   background: none;
   border: none;
 }
-/* line 4784, ../sass/style.scss */
+/* line 4785, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev :hover, .ui-datepicker .ui-datepicker-next :hover {
   cursor: pointer;
 }

@@ -4684,7 +4684,8 @@ color: #9d9ea3;
 
 .macroexample {
   @include meta();
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 1.4;
   text-transform: italic;
   margin-top: 20px;
   margin-bottom: 20px;
