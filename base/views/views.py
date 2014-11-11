@@ -387,6 +387,7 @@ def spotter_program_edit(request, pk):
 
     else:
         form = SpotterProgramEditForm()
+
         if 'modalSpotter' in request.GET:
             return render(request, 'trainer_programs.html', 
                 {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 
@@ -983,8 +984,6 @@ def blitz_feed(request):
         'all': 'all'
     }
 
-#    import pdb; pdb.set_trace()
-
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
     feed_scope_filter = (content_types[request.GET.get('feed_scope_filter')] if request.GET.get('feed_scope_filter') else 'all')
@@ -1036,7 +1035,6 @@ def blitz_feed(request):
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
 #                 feed_items = client.get_blitz().get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
-#                 import pdb; pdb.set_trace()
 
                 feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
 

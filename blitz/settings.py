@@ -127,7 +127,6 @@ INSTALLED_APPS = (
     'django_extensions',
     'tastypie',
     'djcelery',
-    'debug_toolbar',
 
     'base',
     'workouts',
