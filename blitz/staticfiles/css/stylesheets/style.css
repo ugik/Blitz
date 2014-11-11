@@ -5768,7 +5768,7 @@ a.ui-state-default :hover {
 
 /* line 4818, ../sass/style.scss */
 #summary {
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border: none;
 }
 
 /* line 4822, ../sass/style.scss */
@@ -5848,4 +5848,6 @@ a.ui-state-default :hover {
 /* line 4885, ../sass/style.scss */
 .client-summary {
   position: fixed;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  height: 100%;
 }

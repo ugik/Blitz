@@ -4816,7 +4816,7 @@ a.ui-state-default :hover {
 }
 
 #summary {
-  border-left: 1px solid rgba(0,0,0,0.1);
+  border: none;
 }
 
 .navbar-fixed-top {
@@ -4884,4 +4884,6 @@ a.ui-state-default :hover {
 
 .client-summary {
   position: fixed;
+  border-left: 1px solid rgba(0,0,0,0.1);
+  height: 100%;
 }
