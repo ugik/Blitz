@@ -19,10 +19,10 @@
                 <a href="{{ checkin.client.user.get_profile_url }}">{{ checkin.client.name }}</a> logged a check-in.
                 <div class="feeditem-pub-date"><i class="icon-time"></i> {{ checkin.pub_date|timesince }} ago</div>
             </div>
-        </div>
+        
         <div class="checkin-wrap">
             <div class="checkin-weight">
-    			<strong>Weight</strong>: {{ checkin.weight }} lbs ({{down/up}}from {{ old.checkin.weight }} on {{ old.checkin.date }})
+    			<strong>Weight</strong>: {{ checkin.weight }} lbs
     		</div>
     		<div class="checkin-pic-wrap">
     			<div class="checkin-pic">
@@ -32,6 +32,8 @@
     				<img src="/media/{{ checkin.side_image }}"/>
     			</div>	
     		</div>
+        </div>
+
         </div>
 		
     </div>

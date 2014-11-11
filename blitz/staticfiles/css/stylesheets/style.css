@@ -5777,30 +5777,37 @@ a.ui-state-default :hover {
 }
 
 /* line 4826, ../sass/style.scss */
+.check-in-feed-item {
+  float: left;
+  margin-bottom: 30px;
+}
+
+/* line 4831, ../sass/style.scss */
 .checkin-wrap {
   padding: 20px;
 }
 
-/* line 4830, ../sass/style.scss */
+/* line 4835, ../sass/style.scss */
 .checkin-weight {
   font-family: 'proxima_novalight';
   font-size: 18px;
   margin-bottom: 20px;
 }
 
-/* line 4836, ../sass/style.scss */
+/* line 4841, ../sass/style.scss */
 .checkin-pic-wrap {
   width: 100%;
+  margin-bottom: 20px;
 }
 
-/* line 4840, ../sass/style.scss */
+/* line 4846, ../sass/style.scss */
 .checkin-pic {
   float: left;
-  width: 45%;
-  margin-right: 2.5%;
+  width: 48%;
+  margin-right: 2%;
 }
 @media (max-width: 480px) {
-  /* line 4840, ../sass/style.scss */
+  /* line 4846, ../sass/style.scss */
   .checkin-pic {
     width: 100%;
     margin-right: 0;
