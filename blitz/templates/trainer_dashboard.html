@@ -31,6 +31,7 @@
 <div id="dashboard">
 	<div class="sidebar-left">
 		<div class="inner">
+			{% if clients  %}
 			<div class="search-input">
 				<input type='text' class="search-text" placeholder="Search for a client or program...">
 			</div>
@@ -83,8 +84,25 @@
 				</li>
 				{% endfor %}				
 			</ul>
+			{% else %}
+			<div class="new-trainer-experience">
+				<div>
+					<h3>Clients and Groups</h3>
+				</div>
+				<div>
+					<p>
+						When you're got clients or groups signed up, they'll be listed out over here.
+					</p>
+					<p>We recommend talking up your coaching practice on your website or with clients directly (e.g. via Skype), and the once they're cool with your pricing, invite them to sign up here.
+					</p>
+				</div>	
+			</div>
+			{% endif %}
 			<div class="actions">
 				<button type='button' class='obtn fullwidth' onclick="window.location='/blitz-setup'; return false;">+ Add Client/Group</button>
+				{% if not clients %}
+				<button type='button' class='obtn fullwidth' onclick="window.location='/blitz-setup'; return false;">Ping Us</button>
+				{% endif %}
 			</div>
 		</div> <!-- inner -->
 	</div> <!--/ sidebar-left -->
@@ -117,33 +135,48 @@
 					</div>
 		        	{% include "main_feed.html" %}
 		        {% else %}
-		        <b>Time to do something to get a program started...</b>
-
-		        <form action="upload" method="get" name="upload" class="formpage-block-form">
+		        <div id="main-feed">
+			        <div id="welcome-text">
+			        	<h2>Welcome to BLITZ!</h2>
+    			        <p>We're psyched to have you aboard, and you'll be transforming client's physiques(and your bank account) in not time.</p>
+    			        <p>Now might be a good time to throw your link(blitz.us/trainer-name) up on your website, or invite clients via the button on the left, if your're really ambitious, you can create a group program for set of clients to join and do the same program for a set time starting on the same date. We'll have your programs set tup within a day, so feel free to invite people now and we'll have it take cor of. Also, if you want to edit your page, it's unde Pages up top. Same goes for adding more programs.</p>
+    			        <p>And don't forget-we're here for you. So if there's anything you need, don't hesitate to ping us. We are 100% commited to helping you grow your coaching business and provide an awesome experience for your clients.</p>
+    			    </div>
+			        {% include "dashboard/_dummy_gym_session_feed.html" %}
+			        {% include "dashboard/_dummy_comment_feed.html" %}
+		        </div>
+		        <!-- <form action="upload" method="get" name="upload" class="formpage-block-form">
 		        {% csrf_token %}
 		        <br>
     	        <div class="submit-container">
 		            <button class='obtn obtn-half' type='submit'>Upload stuff</button>
 		        </div>
-		        </form>
+		        </form> -->
 		        {% endif %}
 			</div> <!--/ feeds -->
 
 			<!-- Summary -->
 			<div id="summary">
+				{% if not clients %}
+					{% include "dashboard/_dummy_client_summary.html" %}
+				{% endif %}
 			</div>
 
 			<div class="clearfix"></div>
 		</div>
 	</div> <!--/ content -->
 
+{% comment %}
 <!-- include spotter_program_edit_modal -->
 {% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 <!-- include blitz_macros_modal -->
 {% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
+{% endcomment %}
 
 </div>
 
 {% endblock content %}
 
 {% endblock outer_content %}
+
+
