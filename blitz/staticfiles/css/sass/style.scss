@@ -4613,6 +4613,10 @@ color: #9d9ea3;
    display: none; 
 }
 
+.modal-body .row .span6 {
+
+}
+
 .macroform-day {
   width: 100%;
   text-align: center;
@@ -4621,6 +4625,9 @@ color: #9d9ea3;
   @include borderradius(5px);
   border: 1px solid white;
   padding: 10px;
+  @include mobile-only {
+    //width: 80%;
+  }
 }
 
 .macroform-day-header {
@@ -4693,6 +4700,7 @@ color: #9d9ea3;
 .group h3 {
   @include meta();
   font-size: 30px;
+  line-height: 1.4;
   small {
     @include lightfont();
   }
@@ -4728,12 +4736,24 @@ color: #9d9ea3;
   float: left;
 }
 
+#modalMacros > div > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select > button > span.filter-option.pull-left {
+  text-align: center;
+  font-size: 18px;
+}
+
 .inbtn {
   width: 80px; 
   height: 15px;
   float: left;
   margin-top: -5px;
   text-align: center;
+}
+
+.wtw {
+  @include mobile-only {
+    width: 90% !important;
+    margin-left: 0% !important;
+  }
 }
 
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
