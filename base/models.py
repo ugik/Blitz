@@ -680,6 +680,24 @@ class Blitz(models.Model):
         users.append(self.trainer.user)
         return users
 
+    def get_feeditems(self, filter_by='all'):
+        """
+        Blitz' Feed items in chronological order
+        """
+        feeditems = FeedItem.objects.filter(blitz=self)
+
+        # Adds client related Gym Sessions to the feeditems query set
+#        if filter_by == 'gym session' or filter_by == 'all' or filter_by == '':
+#            for q in self.gymsession_set.all():
+#                feeditems |= q.feeditems.all()
+
+        # Adds client related Comments to the feeditems query set
+#        if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
+#            for q in Comment.objects.filter(user=self.user).all():
+#                feeditems |= q.feeditems.all()
+
+        return feeditems
+
     def feeds_count(self):
         count = FeedItem.objects.filter(blitz_id=self.pk).filter(is_viewed=False).count()
         return count
@@ -840,10 +858,10 @@ class CheckIn(models.Model):
 
 class Comment(models.Model):
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, db_index=True)
     text = models.TextField()
     image = models.ImageField(upload_to="feed/", blank=True, null=True)
-    date_and_time = models.DateTimeField()
+    date_and_time = models.DateTimeField(db_index=True)
     parent_comment = models.ForeignKey('self', null=True, blank=True)
     gym_session = models.ForeignKey(GymSession, null=True, blank=True, related_name='gymsessioncomments')
     feeditems = generic.GenericRelation(FeedItem)
