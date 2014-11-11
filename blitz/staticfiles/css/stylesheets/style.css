@@ -5838,30 +5838,27 @@ body {
 /* Let's get this party started, webkit scrollbar styles */
 /* line 4875, ../sass/style.scss */
 ::-webkit-scrollbar {
-  width: 12px;
+  max-width: 4px;
+  max-height: 4px;
 }
 
 /* Track */
-/* line 4880, ../sass/style.scss */
+/* line 4881, ../sass/style.scss */
 ::-webkit-scrollbar-track {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Handle */
-/* line 4887, ../sass/style.scss */
+/* line 4889, ../sass/style.scss */
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: rgba(255, 0, 0, 0.8);
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+  background: rgba(0, 0, 0, 0.6);
 }
 
-/* line 4893, ../sass/style.scss */
+/* line 4895, ../sass/style.scss */
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(255, 0, 0, 0.4);
-}
-
-/* line 4897, ../sass/style.scss */
-.client-summary {
-  position: fixed;
+  background: rgba(0, 0, 0, 0.3);
 }
