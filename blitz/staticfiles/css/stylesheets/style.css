@@ -1502,7 +1502,7 @@ a.edit-workout-link {
 
 /* line 1474, ../sass/style.scss */
 .feeditem-actions-container {
-  overflow: auto;
+  overflow: none;
   background: #fafcfb;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -5476,23 +5476,25 @@ a#secondary_logo.brand {
 .results-count {
   background: #7ab2ea;
   float: right;
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   color: #fff;
   border-radius: 20px;
-  margin-right: 30px;
+  margin-right: 20px;
+  margin-top: 8px;
 }
 
-/* line 4567, ../sass/style.scss */
+/* line 4568, ../sass/style.scss */
 .results-count .inner {
   position: absolute;
-  margin-top: 5px;
-  margin-left: 0px;
+  margin-top: 2px;
+  margin-left: 1px;
   text-align: center;
-  width: 34px;
+  width: 24px;
+  font-size: 16px;
 }
 
-/* line 4575, ../sass/style.scss */
+/* line 4577, ../sass/style.scss */
 ul.filters li.item {
   height: 40px;
   list-style: none;
@@ -5500,18 +5502,18 @@ ul.filters li.item {
   color: #9d9ea3;
 }
 
-/* line 4582, ../sass/style.scss */
+/* line 4584, ../sass/style.scss */
 .trainer-uploads-left {
   margin-left: 0px;
   max-width: 560px;
 }
 
-/* line 4588, ../sass/style.scss */
+/* line 4590, ../sass/style.scss */
 .trainer-uploads-right {
   margin-left: 0px;
 }
 
-/* line 4592, ../sass/style.scss */
+/* line 4594, ../sass/style.scss */
 .uploads-top {
   font-size: 30px;
   margin-bottom: 10px;
@@ -5519,14 +5521,14 @@ ul.filters li.item {
   line-height: 1.3;
 }
 
-/* line 4599, ../sass/style.scss */
+/* line 4601, ../sass/style.scss */
 .uploads-bottom {
   opacity: 0.5;
   font-size: 14px;
   line-height: 1.3;
 }
 
-/* line 4605, ../sass/style.scss */
+/* line 4607, ../sass/style.scss */
 .uploads-row {
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   margin-left: 0px;
@@ -5534,12 +5536,12 @@ ul.filters li.item {
   padding-top: 15px;
 }
 
-/* line 4612, ../sass/style.scss */
+/* line 4614, ../sass/style.scss */
 .dn {
   display: none;
 }
 
-/* line 4620, ../sass/style.scss */
+/* line 4622, ../sass/style.scss */
 .macroform-day {
   width: 100%;
   text-align: center;
@@ -5552,7 +5554,7 @@ ul.filters li.item {
   padding: 10px;
 }
 
-/* line 4633, ../sass/style.scss */
+/* line 4635, ../sass/style.scss */
 .macroform-day-header {
   width: 100%;
   text-align: center;
@@ -5565,13 +5567,13 @@ ul.filters li.item {
   margin-top: -10px;
 }
 
-/* line 4648, ../sass/style.scss */
+/* line 4650, ../sass/style.scss */
 .macroform-macros {
   width: 100%;
   text-align: center;
 }
 
-/* line 4654, ../sass/style.scss */
+/* line 4656, ../sass/style.scss */
 .macroform {
   width: 23%;
   text-align: center;
@@ -5579,7 +5581,7 @@ ul.filters li.item {
   padding: 1%;
 }
 
-/* line 4661, ../sass/style.scss */
+/* line 4663, ../sass/style.scss */
 .macroform-header {
   text-align: center;
   font-family: 'metanormal_caps';
@@ -5588,7 +5590,7 @@ ul.filters li.item {
   margin-bottom: 5px;
 }
 
-/* line 4669, ../sass/style.scss */
+/* line 4671, ../sass/style.scss */
 .macroform-macro {
   text-align: center;
   -webkit-border-radius: 5px;
@@ -5597,13 +5599,13 @@ ul.filters li.item {
   border: 1px solid white;
   padding: 10px;
 }
-/* line 4674, ../sass/style.scss */
+/* line 4676, ../sass/style.scss */
 .macroform-macro a {
   color: white;
   text-decoration: none;
 }
 
-/* line 4685, ../sass/style.scss */
+/* line 4687, ../sass/style.scss */
 .macroexample {
   font-family: 'metanormal_caps';
   font-size: 16px;
@@ -5611,9 +5613,10 @@ ul.filters li.item {
   text-transform: italic;
   margin-top: 20px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
-/* line 4694, ../sass/style.scss */
+/* line 4697, ../sass/style.scss */
 .mformh3 {
   font-size: 30px;
   color: white;
@@ -5621,25 +5624,25 @@ ul.filters li.item {
   text-align: center;
 }
 
-/* line 4701, ../sass/style.scss */
+/* line 4704, ../sass/style.scss */
 .group h3 {
   font-family: 'metanormal_caps';
   font-size: 30px;
   line-height: 1.4;
 }
-/* line 4705, ../sass/style.scss */
+/* line 4708, ../sass/style.scss */
 .group h3 small {
   font-family: 'proxima_novalight';
 }
 
-/* line 4710, ../sass/style.scss */
+/* line 4713, ../sass/style.scss */
 .group {
   background: none;
   margin-bottom: 40px;
   margin-top: -20px;
 }
 
-/* line 4717, ../sass/style.scss */
+/* line 4720, ../sass/style.scss */
 .group .actions .btn {
   background: none transparent;
   padding: 10px 20px;
@@ -5653,7 +5656,7 @@ ul.filters li.item {
   -o-transition: all 0.3s linear;
 }
 
-/* line 4726, ../sass/style.scss */
+/* line 4729, ../sass/style.scss */
 .feeds {
   max-width: 725px;
   float: left;
@@ -5663,19 +5666,19 @@ ul.filters li.item {
   padding: 30px;
 }
 
-/* line 4735, ../sass/style.scss */
+/* line 4738, ../sass/style.scss */
 .startlabel {
   margin-right: 10px;
   float: left;
 }
 
-/* line 4740, ../sass/style.scss */
+/* line 4743, ../sass/style.scss */
 #modalMacros > div > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select > button > span.filter-option.pull-left {
   text-align: center;
   font-size: 18px;
 }
 
-/* line 4745, ../sass/style.scss */
+/* line 4748, ../sass/style.scss */
 .inbtn {
   width: 80px;
   height: 15px;
@@ -5685,44 +5688,166 @@ ul.filters li.item {
 }
 
 @media (max-width: 480px) {
-  /* line 4753, ../sass/style.scss */
+  /* line 4756, ../sass/style.scss */
   .wtw {
     width: 90% !important;
     margin-left: 0% !important;
   }
 }
 
-/* line 4760, ../sass/style.scss */
+/* line 4763, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
   font-family: 'proxima_novalight';
   color: #444;
 }
 
-/* line 4765, ../sass/style.scss */
+/* line 4768, ../sass/style.scss */
 .ui-datepicker td, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   text-align: center;
   background: none;
   color: #888;
 }
 
-/* line 4771, ../sass/style.scss */
+/* line 4774, ../sass/style.scss */
 .ui-widget-header {
   background: none;
   border: none;
 }
 
-/* line 4777, ../sass/style.scss */
+/* line 4780, ../sass/style.scss */
 a.ui-state-default :hover {
   border: 1px solid #7ab2ea;
   color: #7ab2ea;
 }
 
-/* line 4782, ../sass/style.scss */
+/* line 4785, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
   background: none;
   border: none;
 }
-/* line 4785, ../sass/style.scss */
+/* line 4788, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev :hover, .ui-datepicker .ui-datepicker-next :hover {
   cursor: pointer;
+}
+
+/* line 4793, ../sass/style.scss */
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {
+  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+  background-color: #7ab2ea;
+}
+
+/* line 4798, ../sass/style.scss */
+.trainer-alert .btn {
+  font-family: 'metanormal_caps';
+  text-shadow: none;
+}
+
+/* line 4803, ../sass/style.scss */
+.trainer-alert form .btn {
+  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+  background: #7ab2ea;
+  border: none;
+  box-shadow: none;
+}
+
+/* line 4810, ../sass/style.scss */
+.trainer-alert form .btn:hover {
+  background: #94c1ee;
+}
+
+/* line 4814, ../sass/style.scss */
+.trainer-alert form .btn:focus {
+  box-shadow: none;
+}
+
+/* line 4818, ../sass/style.scss */
+#summary {
+  border: none;
+}
+
+/* line 4822, ../sass/style.scss */
+.navbar-fixed-top {
+  background: #2b2b2b;
+}
+
+/* line 4826, ../sass/style.scss */
+.check-in-feed-item {
+  float: left;
+  margin-bottom: 30px;
+}
+
+/* line 4831, ../sass/style.scss */
+.checkin-wrap {
+  padding: 20px;
+}
+
+/* line 4835, ../sass/style.scss */
+.checkin-weight {
+  font-family: 'proxima_novalight';
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* line 4841, ../sass/style.scss */
+.checkin-pic-wrap {
+  width: 100%;
+  margin-bottom: 20px;
+  display: block;
+  float: left;
+}
+
+/* line 4848, ../sass/style.scss */
+.checkin-pic {
+  float: left;
+  width: 48%;
+  margin-right: 2%;
+}
+@media (max-width: 480px) {
+  /* line 4848, ../sass/style.scss */
+  .checkin-pic {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+
+/* Let's get this party started, webkit scrollbar styles */
+/* line 4860, ../sass/style.scss */
+::-webkit-scrollbar {
+  max-width: 4px;
+  max-height: 4px;
+}
+
+/* Track */
+/* line 4866, ../sass/style.scss */
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Handle */
+/* line 4874, ../sass/style.scss */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 100px;
+  border-radius: 100px;
+  background: #7ab2ea;
+}
+
+/* line 4881, ../sass/style.scss */
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* line 4885, ../sass/style.scss */
+.client-summary {
+  position: fixed;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  height: 100%;
 }

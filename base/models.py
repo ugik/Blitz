@@ -713,12 +713,12 @@ class BlitzMember(models.Model):
 
 class FeedItem(models.Model):
 
-    blitz = models.ForeignKey(Blitz)
+    blitz = models.ForeignKey(Blitz, db_index=True)
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField(db_index=True)
     is_viewed = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -731,9 +731,9 @@ class GymSession(models.Model):
     Cannot be used for a generic gym session, yet...
     """
 
-    date_of_session = models.DateField()
+    date_of_session = models.DateField(db_index=True)
     workout_plan_day = models.ForeignKey(WorkoutPlanDay)
-    client = models.ForeignKey(Client)
+    client = models.ForeignKey(Client, db_index=True)
     notes = models.TextField(default="")
     is_logged = models.BooleanField(default=False)
     feeditems = generic.GenericRelation(FeedItem, related_name='gymsessions')
@@ -824,7 +824,7 @@ class CheckIn(models.Model):
     weight = models.IntegerField(null=True, blank=True)
     front_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     side_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
-    date_created = models.DateField(default=datetime.date.today)
+    date_created = models.DateField(default=datetime.date.today, db_index=True)
     feeditems = generic.GenericRelation(FeedItem)
 
     def __unicode__(self):
@@ -905,7 +905,7 @@ class GymSessionLike(models.Model):
 class MacroDay(models.Model):
 
     client = models.ForeignKey(Client)
-    day = models.DateField()
+    day = models.DateField(db_index=True)
     protein = models.NullBooleanField()
     carbs = models.NullBooleanField()
     fat = models.NullBooleanField()
@@ -963,7 +963,7 @@ class TrainerAlert(models.Model):
     alert_type = models.CharField(max_length=1, choices=TRAINER_ALERT_TYPES)
     trainer = models.ForeignKey(Trainer)
     client = models.ForeignKey(Client)
-    date_created = models.DateField()
+    date_created = models.DateField(db_index=True)
     trainer_dismissed = models.BooleanField(default=False)
     text = models.CharField(max_length=100, blank=True, null=True, default="")
 

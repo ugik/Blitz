@@ -125,7 +125,7 @@ class Command(BaseCommand):
         shapeness = knicks_profile()
         for d in clients:
             if d.get_blitz().recurring:
-                simulate_recurring_blitz(d.get_blitz(), d, 100, shapeness)
+                simulate_recurring_blitz(d.get_blitz(), d, 200, shapeness)
             else:
                 simulate_blitz_through_date(d.get_blitz(), d, timezone_now().date(), shapeness)
             d.has_completed_intro = True

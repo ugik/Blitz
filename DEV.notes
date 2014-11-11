@@ -121,7 +121,11 @@ week of 11.3
 - complete dated Exercise+Set customization
 
 week of 11.10
+- random diet data in rebuild.sh
 - understand nightly alerts task
 - handle '$' label better in forms
-
+- client macros modal
+- Fix check-in alert duplication
+* create Retina @2X images in test data
+* FeedItem performance work
 
