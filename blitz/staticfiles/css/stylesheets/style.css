@@ -352,11 +352,42 @@ textarea, textarea:focus {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
+.results-count {
+  background: #86bee9;
+  float: right;
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  border-radius: 20px;
+  margin-right: 30px; }
+
+.results-count .inner {
+  position: absolute;
+  margin-top: 5px;
+  margin-left: 0px;
+  text-align: center;
+  width: 34px; }
+
 #header {
   min-height: 70px;
   background: #343434;
   position: fixed;
   z-index: 9; }
+
+#header .nav-item .results-count {
+  float: left;
+  width: 25px;
+  height: 25px;
+  margin: 0px 5px 0px 0px; }
+
+#header .nav-item a.active .results-count {
+  background: #fff;
+  color: #86bee9; }
+
+#header .nav-item .results-count .inner {
+  width: 24px;
+  margin-top: 2px;
+  position: relative; }
 
 #logo {
   float: left;
@@ -488,6 +519,7 @@ textarea, textarea:focus {
     font-family: 'proxima_novabold'; }
 
 #main-content-container {
+  margin-top: 70px;
   padding: 30px 0;
   min-height: 750px;
   background: #f7f7f7; }

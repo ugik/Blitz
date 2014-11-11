@@ -38,7 +38,7 @@
                                 <a class="{% ifequal request.path "/" %}active{% endifequal %}" 
                                    href="{% url "home" %}">Home</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item {% ifequal request.path "/inbox" %}active{% endifequal %}">
                                 <a class="{% ifequal request.path "/inbox" %}active{% endifequal %}"
                                    href="/inbox">
                             {% if user|numunreadthreads > 0 %}
