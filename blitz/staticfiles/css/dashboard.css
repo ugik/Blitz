@@ -104,8 +104,6 @@ img.headshot {
     margin-bottom: 10px
 }
 
-
-
 #account-block {
     margin-right: 23px;
 }
@@ -198,6 +196,7 @@ img.headshot {
     float: left;
     margin-top: 69px;
     overflow-y: hidden;
+    z-index: 1;
 }
 
 .sidebar-left .new-trainer-experience {

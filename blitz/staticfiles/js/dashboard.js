@@ -94,10 +94,16 @@ function renderSummary(html) {
         setWeek(weekNum);
     });
 
-    // Switch Week / Widget
+    /**
+     * Weeks Switcher - Widget
+     */ 
+    // Hide <select> element
     $weekSelect.hide();
+
+    // TODO: append widget from jQuery
     var $weekSelectWidget = $('.weekSelector.slide-select');
 
+    // When left/righ arrows are clicked
     $weekSelectWidget.on('click', '.right-arrow, .left-arrow', function(e) {
         e.preventDefault();
         var currentActive = $('.weekSelector.slide-select li.item.active').not('li.arrow');
