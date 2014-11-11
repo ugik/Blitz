@@ -4871,7 +4871,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Let's get this party started */
+/* Let's get this party started, webkit scrollbar styles */
 ::-webkit-scrollbar {
     width: 12px;
 }
@@ -4892,4 +4892,8 @@ body {
 }
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(255,0,0,0.4); 
+}
+
+.client-summary {
+  position: fixed;
 }

@@ -5835,7 +5835,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Let's get this party started */
+/* Let's get this party started, webkit scrollbar styles */
 /* line 4875, ../sass/style.scss */
 ::-webkit-scrollbar {
   width: 12px;
@@ -5859,4 +5859,9 @@ body {
 /* line 4893, ../sass/style.scss */
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(255, 0, 0, 0.4);
+}
+
+/* line 4897, ../sass/style.scss */
+.client-summary {
+  position: fixed;
 }
