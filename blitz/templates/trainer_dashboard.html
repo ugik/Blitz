@@ -135,6 +135,8 @@
 
 			<div class="clearfix"></div>
 		</div>
+<!-- hidden fields to access from dashboard blitz_group_header.html, client_summary.html -->
+        <input type="hidden" id="blitz_title" name="blitz_title" value="" />
         <input type="hidden" id="client_name" name="client_name" value="" />
         <input type="hidden" id="client_gender" name="client_gender" value="" />
         <input type="hidden" id="client_age" name="client_age" value="" />
@@ -148,6 +150,7 @@
 {% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 <!-- include client_macros_modal -->
 {% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+
 </div>
 
 {% endblock content %}

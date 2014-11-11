@@ -1,3 +1,9 @@
+<script type="text/javascript">
+// set client attributes in hidden fields for access my modal
+    $(document).ready(function(){
+       document.getElementById('blitz_title').text='{{ blitz.title }}';
+      })
+</script>
 <h3>{{ title }} <small>Starts {{start_date}} | Ends {{end_date}} - {{ members_count }} Members</small></h3>
 
 <div class="members">
@@ -23,6 +29,7 @@
 
 <script>
 $(document).ready(function() {
+    document.getElementById('title').text=document.getElementById('blitz_title').text;
     $('#datep').click(function() {
         $('#datepicker').datepicker('show');
     });
@@ -58,4 +65,5 @@ $.ajax({
  }
 
 </script>
+
 

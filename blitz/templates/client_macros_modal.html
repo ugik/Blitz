@@ -17,18 +17,18 @@
            For reference {% ifequal client.gender "M" %} he's {% else %} she's {% endifequal %}  {{ client.age }} years old, {% if client.height_feet %} {{ client|feet_conversion }} {{ client.units|height_label }}, {% if client.weight_in_lbs %} {{ client.weight_in_lbs|lbs_conversion:client }} {{ client.units|weight_label }} {% endif %} {% endif %}
 
            <div class="formpage-block">
-              <form method="post" name="blitz_macros"> {% csrf_token %}
+              <form method="post" name="client_macros"> {% csrf_token %}
 
-                    <select name="formulas" id="formula-select" class="selectpicker">
+                    <select name="client_macros_formulas" id="client-formula-select" class="selectpicker">
                         <option value="DEFAULT">Default</option>
                         <option value="BULK">Bulking (+10%)</option>
                         <option value="BEAST">Beast Mode (+15%)</option>
                         <option value="CUT">Cutting (-10%)</option>
                     </select>
                     <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
-                    <!-- Note: formulas also in base/view.py blitz_macros_set() -->
+                    <!-- Note: formulas also in base/view.py client_macros_set() -->
                     <script type="text/javascript">
-                        function show_macros(factor) {
+                        function show_client_macros(factor) {
                            factor = factor || 1;
                            var kg = 100;
                            var h = 183;
@@ -56,19 +56,18 @@
                             return 0;
                         }
                         $(document).ready(function(){
-                            x = show_macros(1);
+                            x = show_client_macros(1);
                         }) 
                         $(document).ready(function(e) {
-
+$("select[name='huge']").selectpicker
                         $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
                            });
-                        $('select.selectpicker').on('change', function(){
-                           var selected = $('.selectpicker option:selected').val();
-                             alert(document.getElementById('client_selected').text);
-                             if (selected == 'DEFAULT') { x = show_macros(1); } 
-                             else if (selected == 'BULK') { x = show_macros(1.1); }
-                             else if (selected == 'CUT') { x = show_macros(0.9); }
-                             else if (selected == 'BEAST') { x = show_macros(1.15); }
+                        $(document).on("change", "#client-formula-select", function(){
+                           var selected = $('#client-formula-select').val();
+                             if (selected == 'DEFAULT') { x = show_client_macros(1); } 
+                             else if (selected == 'BULK') { x = show_client_macros(1.1); }
+                             else if (selected == 'CUT') { x = show_client_macros(0.9); }
+                             else if (selected == 'BEAST') { x = show_client_macros(1.15); }
                          });
                     </script>
                  <br>
@@ -84,7 +83,7 @@
                  <tr><td>Protein:</td><td><a id='c_rest_protein'>-</a>g</td>
                      <td><a id='c_wout_protein'>-</a>g</td></tr>
                  </table><br>
-                 <button class="obtn btn btn-warning" onclick="{ save_macros(); return false; }" class="close" data-dismiss="modal">Set Macros</button>
+                 <button class="obtn btn btn-warning" onclick="{ save_client_macros(); return false; }" class="close" data-dismiss="modal">Set Macros</button>
               </form>
            </div>
         </div>
