@@ -1502,7 +1502,7 @@ a.edit-workout-link {
 
 /* line 1474, ../sass/style.scss */
 .feeditem-actions-container {
-  overflow: auto;
+  overflow: none;
   background: #fafcfb;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -5817,33 +5817,15 @@ a.ui-state-default :hover {
   }
 }
 
-/* For the "inset" look only */
-/* line 4860, ../sass/style.scss */
-html {
-  overflow: auto;
-}
-
-/* line 4863, ../sass/style.scss */
-body {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  bottom: 20px;
-  right: 20px;
-  padding: 30px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
 /* Let's get this party started, webkit scrollbar styles */
-/* line 4875, ../sass/style.scss */
+/* line 4860, ../sass/style.scss */
 ::-webkit-scrollbar {
   max-width: 4px;
   max-height: 4px;
 }
 
 /* Track */
-/* line 4881, ../sass/style.scss */
+/* line 4866, ../sass/style.scss */
 ::-webkit-scrollbar-track {
   -webkit-border-radius: 100px;
   border-radius: 100px;
@@ -5851,14 +5833,19 @@ body {
 }
 
 /* Handle */
-/* line 4889, ../sass/style.scss */
+/* line 4874, ../sass/style.scss */
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 100px;
   border-radius: 100px;
-  background: rgba(0, 0, 0, 0.6);
+  background: #7ab2ea;
 }
 
-/* line 4895, ../sass/style.scss */
+/* line 4881, ../sass/style.scss */
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(0, 0, 0, 0.3);
+}
+
+/* line 4885, ../sass/style.scss */
+.client-summary {
+  position: fixed;
 }

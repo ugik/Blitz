@@ -1472,7 +1472,7 @@ a.edit-workout-link {
 
 
 .feeditem-actions-container {
-  overflow: auto;
+  overflow: none;
   //background: $commentactionsbg;
   background: rgba(250, 252, 251, 1.0);
   border-top: $border;
@@ -4856,21 +4856,6 @@ a.ui-state-default :hover {
   }
 }
 
-/* For the "inset" look only */
-html {
-    overflow: auto;
-}
-body {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    bottom: 20px;
-    right: 20px;
-    padding: 30px; 
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-
 /* Let's get this party started, webkit scrollbar styles */
 ::-webkit-scrollbar {
     max-width: 4px;
@@ -4889,9 +4874,14 @@ body {
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 100px;
     border-radius: 100px;
-    background: rgba(0,0,0,0.6); 
+    //background: rgba(0,0,0,0.6); 
+    background: $fadedblue;
     //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(0,0,0,0.3); 
+}
+
+.client-summary {
+  position: fixed;
 }
