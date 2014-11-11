@@ -5816,3 +5816,47 @@ a.ui-state-default :hover {
     margin-bottom: 20px;
   }
 }
+
+/* For the "inset" look only */
+/* line 4860, ../sass/style.scss */
+html {
+  overflow: auto;
+}
+
+/* line 4863, ../sass/style.scss */
+body {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  bottom: 20px;
+  right: 20px;
+  padding: 30px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/* Let's get this party started */
+/* line 4875, ../sass/style.scss */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+/* line 4880, ../sass/style.scss */
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+/* line 4887, ../sass/style.scss */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(255, 0, 0, 0.8);
+}
+
+/* line 4893, ../sass/style.scss */
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 0, 0, 0.4);
+}
