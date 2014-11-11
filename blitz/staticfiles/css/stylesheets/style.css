@@ -5738,3 +5738,30 @@ a.ui-state-default :hover {
   background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
   background-color: #7ab2ea;
 }
+
+/* line 4798, ../sass/style.scss */
+.trainer-alert .btn {
+  font-family: 'metanormal_caps';
+  text-shadow: none;
+}
+
+/* line 4803, ../sass/style.scss */
+.trainer-alert form .btn {
+  background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
+  background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
+  background: #7ab2ea;
+  border: none;
+  box-shadow: none;
+}
+
+/* line 4810, ../sass/style.scss */
+.trainer-alert form .btn:hover {
+  background: #94c1ee;
+}
+
+/* line 4814, ../sass/style.scss */
+.trainer-alert form .btn:focus {
+  box-shadow: none;
+}

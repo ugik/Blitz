@@ -4794,3 +4794,23 @@ a.ui-state-default :hover {
   @include blitz-gradient();
   background-color: $fadedblue;
 }
+
+.trainer-alert .btn {
+  @include meta();
+  text-shadow: none;
+}
+
+.trainer-alert form .btn {
+  @include blitz-gradient();
+  background: $fadedblue;
+  border: none;
+  box-shadow: none;
+}
+
+.trainer-alert form .btn:hover {
+  background: $linkcolorhover;
+}
+
+.trainer-alert form .btn:focus {
+  box-shadow: none;
+}
