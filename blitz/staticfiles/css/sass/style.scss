@@ -4838,6 +4838,11 @@ a.ui-state-default :hover {
 }
 
 .checkin-pic {
-  max-width: 45%;
+  float: left;
+  width: 45%;
   margin-right: 2.5%;
+  @include mobile-only {
+    width: 100%;
+    margin-right: 0;
+  }
 }

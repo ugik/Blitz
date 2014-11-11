@@ -5795,6 +5795,14 @@ a.ui-state-default :hover {
 
 /* line 4840, ../sass/style.scss */
 .checkin-pic {
-  max-width: 45%;
+  float: left;
+  width: 45%;
   margin-right: 2.5%;
+}
+@media (max-width: 480px) {
+  /* line 4840, ../sass/style.scss */
+  .checkin-pic {
+    width: 100%;
+    margin-right: 0;
+  }
 }
