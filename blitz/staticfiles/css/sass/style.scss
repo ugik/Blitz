@@ -4841,6 +4841,8 @@ a.ui-state-default :hover {
 .checkin-pic-wrap {
   width: 100%;
   margin-bottom: 20px;
+  display: block;
+  float: left;
 }
 
 .checkin-pic {
@@ -4850,5 +4852,6 @@ a.ui-state-default :hover {
   @include mobile-only {
     width: 100%;
     margin-right: 0;
+    margin-bottom: 20px;
   }
 }

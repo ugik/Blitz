@@ -5798,18 +5798,21 @@ a.ui-state-default :hover {
 .checkin-pic-wrap {
   width: 100%;
   margin-bottom: 20px;
+  display: block;
+  float: left;
 }
 
-/* line 4846, ../sass/style.scss */
+/* line 4848, ../sass/style.scss */
 .checkin-pic {
   float: left;
   width: 48%;
   margin-right: 2%;
 }
 @media (max-width: 480px) {
-  /* line 4846, ../sass/style.scss */
+  /* line 4848, ../sass/style.scss */
   .checkin-pic {
     width: 100%;
     margin-right: 0;
+    margin-bottom: 20px;
   }
 }
