@@ -29,7 +29,7 @@
 
 <script>
 $(document).ready(function() {
-    document.getElementById('title').text=document.getElementById('blitz_title').text;
+    document.getElementById('title').text='{{ blitz.title }}';
     $('#datep').click(function() {
         $('#datepicker').datepicker('show');
     });

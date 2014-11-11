@@ -12,15 +12,14 @@
 
     <div class="row">
         <div class="span6" style="float: none; margin: 0 auto;">
-           <img class="profile-headshot img-circle" src="{{ client.get_headshot_url }}" />
-           <h3>Let's tweak macros for {{ client.name }}</h3>
-           For reference {% ifequal client.gender "M" %} he's {% else %} she's {% endifequal %}  {{ client.age }} years old, {% if client.height_feet %} {{ client|feet_conversion }} {{ client.units|height_label }}, {% if client.weight_in_lbs %} {{ client.weight_in_lbs|lbs_conversion:client }} {{ client.units|weight_label }} {% endif %} {% endif %}
-
+           <img class="profile-headshot img-circle" id='headshot' src="{{ client.get_headshot_url }}" />
+           <h3>Let's tweak macros for <a id='name' ></a></h3>
+           For reference <a id='blurb'></a>
            <div class="formpage-block">
               <form method="post" name="client_macros"> {% csrf_token %}
 
                     <select name="client_macros_formulas" id="client-formula-select" class="selectpicker">
-                        <option value="DEFAULT">Default</option>
+                        <option value="DEFAULT">Standard Macro Formula</option>
                         <option value="BULK">Bulking (+10%)</option>
                         <option value="BEAST">Beast Mode (+15%)</option>
                         <option value="CUT">Cutting (-10%)</option>
@@ -28,40 +27,10 @@
                     <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
                     <!-- Note: formulas also in base/view.py client_macros_set() -->
                     <script type="text/javascript">
-                        function show_client_macros(factor) {
-                           factor = factor || 1;
-                           var kg = 100;
-                           var h = 183;
-                           var age = 30;
-                           var wkout_factor = 1.15;
 
-                           var r_cals = factor * (10 * kg + 6.25 * h - 5 * age + 5);
-                           var r_protein = factor * (0.9 * kg * 2.2);
-                           var r_fat = factor * (0.4 * kg * 2.2);
-                           var r_carbs = factor * (r_cals - r_protein - r_fat) / 4;
-                           var w_cals = r_cals * wkout_factor;
-                           var w_protein = r_protein * wkout_factor;
-                           var w_fat = r_fat * wkout_factor;
-                           var w_carbs = r_carbs * wkout_factor;
-
-                             document.getElementById('c_rest_cals').text=r_cals.toFixed(0).toString();
-                             document.getElementById('c_rest_fat').text=r_fat.toFixed(0).toString();
-                             document.getElementById('c_rest_carbs').text=r_carbs.toFixed(0).toString();
-                             document.getElementById('c_rest_protein').text=r_protein.toFixed(0).toString();
-                             document.getElementById('c_wout_cals').text=w_cals.toFixed(0).toString();
-                             document.getElementById('c_wout_fat').text=w_fat.toFixed(0).toString();
-                             document.getElementById('c_wout_carbs').text=w_carbs.toFixed(0).toString();
-                             document.getElementById('c_wout_protein').text=w_protein.toFixed(0).toString();
-
-                            return 0;
-                        }
-                        $(document).ready(function(){
-                            x = show_client_macros(1);
-                        }) 
                         $(document).ready(function(e) {
-$("select[name='huge']").selectpicker
-                        $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
-                           });
+                            $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                        });
                         $(document).on("change", "#client-formula-select", function(){
                            var selected = $('#client-formula-select').val();
                              if (selected == 'DEFAULT') { x = show_client_macros(1); } 
@@ -70,21 +39,113 @@ $("select[name='huge']").selectpicker
                              else if (selected == 'BEAST') { x = show_client_macros(1.15); }
                          });
                     </script>
-                 <br>
-                 Example: <i>(Male)</i><table>
-                 <tr><td>Weight: 100kg (220lbs)&nbsp;&nbsp;&nbsp;&nbsp;</td><td>Height: 1.83m (6') &nbsp;&nbsp;&nbsp;&nbsp;</td><td>Age: 30</td></tr>
-                 <tr><td></td><td>Rest Day</td><td>Workout Day</td></tr>
-                 <tr><td>Calories:</td><td><a id='c_rest_cals'>-</a>g</td>
-                     <td><a id='c_wout_cals'>-</a>g</td></tr>
-                 <tr><td>Carbs:</td><td><a id='c_rest_carbs'>-</a>g
-                     <td><a id='c_wout_carbs'>-</a>g</td></tr>
-                 <tr><td>Fat:</td><td><a id='c_rest_fat'>-</a>g</td>
-                     <td><a id='c_wout_fat'>-</a>g</td></tr>
-                 <tr><td>Protein:</td><td><a id='c_rest_protein'>-</a>g</td>
-                     <td><a id='c_wout_protein'>-</a>g</td></tr>
-                 </table><br>
-                 <button class="obtn btn btn-warning" onclick="{ save_client_macros(); return false; }" class="close" data-dismiss="modal">Set Macros</button>
+                <div class="macroform-day">
+                  <div class="macroform-day-header">
+                    Workout Day
+                  </div>
+                  <div class="macroform-macros">
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Calories
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_wout_cals'></a> g
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Protein
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_wout_protein'></a> g
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Fat
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_wout_fat'></a> g
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Carbs
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_wout_carbs'></a> g
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="macroform-day">
+                  <div class="macroform-day-header">
+                    Rest Day
+                  </div>
+                  <div class="macroform-macros">
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Calories
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_rest_cals'></a> g
+                      </div>
+                    </div>
+                    </div>
+
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Protein
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_rest_protein'></a> g
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Fat
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_rest_fat'></a> g
+                      </div>
+                    </div>
+                  </div>
+
+                    <div class="macroform">
+                      <div class="macroform-header">
+                        Carbs
+                      </div>
+                      <div class="macroform-numbers">
+                        <div class="macroform-macro">
+                          <a id='c_rest_carbs'></a> g
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+                
+                 <button class="obtn full-width btn-warning" onclick="{ save_macros(); return false; }" class="close" data-dismiss="modal" style="margin-left: 10px;">Set Macros</button>
               </form>
+
            </div>
         </div>
     </div>
