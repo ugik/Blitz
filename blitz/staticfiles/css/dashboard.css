@@ -243,7 +243,8 @@ img.headshot {
     -webkit-border-radius: 0;
     border-radius: 0;
     height: 40px;
-    width: 286px
+    width: 100%;
+    padding: 0;
 }
 
 ul.filters {
