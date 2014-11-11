@@ -5765,3 +5765,36 @@ a.ui-state-default :hover {
 .trainer-alert form .btn:focus {
   box-shadow: none;
 }
+
+/* line 4818, ../sass/style.scss */
+#summary {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* line 4822, ../sass/style.scss */
+.navbar-fixed-top {
+  background: #2b2b2b;
+}
+
+/* line 4826, ../sass/style.scss */
+.checkin-wrap {
+  padding: 20px;
+}
+
+/* line 4830, ../sass/style.scss */
+.checkin-weight {
+  font-family: 'proxima_novalight';
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* line 4836, ../sass/style.scss */
+.checkin-pic-wrap {
+  width: 100%;
+}
+
+/* line 4840, ../sass/style.scss */
+.checkin-pic {
+  max-width: 45%;
+  margin-right: 2.5%;
+}

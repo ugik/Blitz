@@ -4814,3 +4814,30 @@ a.ui-state-default :hover {
 .trainer-alert form .btn:focus {
   box-shadow: none;
 }
+
+#summary {
+  border-left: 1px solid rgba(0,0,0,0.1);
+}
+
+.navbar-fixed-top {
+  background: #2b2b2b;
+}
+
+.checkin-wrap {
+  padding: 20px;
+}
+
+.checkin-weight {
+  @include lightfont();
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.checkin-pic-wrap {
+  width: 100%;
+}
+
+.checkin-pic {
+  max-width: 45%;
+  margin-right: 2.5%;
+}

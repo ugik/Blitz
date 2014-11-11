@@ -20,17 +20,19 @@
                 <div class="feeditem-pub-date"><i class="icon-time"></i> {{ checkin.pub_date|timesince }} ago</div>
             </div>
         </div>
-        <div>
-			<strong>Weight</strong>: {{ checkin.weight }} lbs
-		</div>
-		<div class="pictures">
-			<div>
-				<img src="/media/{{ checkin.front_image }}" width="120" />
-			</div>
-			<div>
-				<img src="/media/{{ checkin.side_image }}" width="120"/>
-			</div>	
-		</div>
+        <div class="checkin-wrap">
+            <div class="checkin-weight">
+    			<strong>Weight</strong>: {{ checkin.weight }} lbs ({{down/up}}from {{ old.checkin.weight }} on {{ old.checkin.date }})
+    		</div>
+    		<div class="checkin-pic-wrap">
+    			<div class="checkin-pic">
+    				<img src="/media/{{ checkin.front_image }}"/>
+    			</div>
+    			<div class="checkin-pic">
+    				<img src="/media/{{ checkin.side_image }}"/>
+    			</div>	
+    		</div>
+        </div>
 		
     </div>
 </div>
