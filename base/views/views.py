@@ -1035,10 +1035,10 @@ def blitz_feed(request):
             if feed_scope_filter != 'all':
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
-                 feed_items = client.get_blitz().get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
+#                 feed_items = client.get_blitz().get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
 #                 import pdb; pdb.set_trace()
 
-#                feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
+                feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
 
 # see if we can do this after view rendered
             mark_feeds_as_viewed(feed_items)
