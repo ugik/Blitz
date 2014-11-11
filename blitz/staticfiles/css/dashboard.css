@@ -493,6 +493,23 @@ ul.filters li.item:hover {
 }
 
 
+.macro-combo .calories {
+    background: #9b8ddb !important;
+}
+
+.macro-combo .fat {
+    background: #eea463 !important;
+}
+
+.macro-combo .carbs {
+    background: #57c6b9 !important;
+}
+
+.macro-combo .protein {
+    background: #e8748e !important;
+}
+
+
 /**
  * Widgets
  */
