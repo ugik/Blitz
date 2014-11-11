@@ -680,6 +680,9 @@ textarea,textarea:focus {
 
 #header {
   min-height: 70px;
+  background: #343434;
+  position: fixed;
+  z-index: 9;
 }
 
 #logo {
