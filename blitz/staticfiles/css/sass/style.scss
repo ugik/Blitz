@@ -4689,6 +4689,7 @@ color: #9d9ea3;
   text-transform: italic;
   margin-top: 20px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .mformh3 {
@@ -4785,4 +4786,9 @@ a.ui-state-default :hover {
   :hover {
     cursor: pointer;
   }
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, .dropdown-submenu:hover>a, .dropdown-submenu:focus>a {
+  @include blitz-gradient();
+  background-color: $fadedblue;
 }
