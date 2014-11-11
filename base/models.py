@@ -733,7 +733,7 @@ class GymSession(models.Model):
 
     date_of_session = models.DateField(db_index=True)
     workout_plan_day = models.ForeignKey(WorkoutPlanDay)
-    client = models.ForeignKey(Client)
+    client = models.ForeignKey(Client, db_index=True)
     notes = models.TextField(default="")
     is_logged = models.BooleanField(default=False)
     feeditems = generic.GenericRelation(FeedItem, related_name='gymsessions')

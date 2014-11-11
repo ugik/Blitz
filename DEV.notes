@@ -127,4 +127,5 @@ week of 11.10
 - client macros modal
 - Fix check-in alert duplication
 * create Retina @2X images in test data
+* FeedItem performance work
 

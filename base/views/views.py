@@ -55,8 +55,6 @@ def mark_feeds_as_viewed(feed_items):
         feed_item.is_viewed = True
         feed_item.save()
 
-
-
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
     return render(request, 'legal_page.html', {'legal_content': content})
@@ -977,11 +975,15 @@ def save_sets(request):
 @login_required
 @csrf_exempt
 def blitz_feed(request):
+    FEED_SIZE = 5
+
     content_types = {
         'workouts': 'gym session',
         'checkins': 'checkins',
         'all': 'all'
     }
+
+#    import pdb; pdb.set_trace()
 
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
@@ -1009,21 +1011,21 @@ def blitz_feed(request):
         # for blitz in blitzs:
         #     feed_items |= blitz.get_feeditems()
 
-        feed_items = feed_items.order_by('-pub_date')[offset:offset+10]
+        feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:
         if feed_scope == 'all':
             if feed_scope_filter == 'checkins':
-                feed_items = CheckIn.objects.all().order_by('-date_created')[offset:offset+10]
+                feed_items = CheckIn.objects.all().order_by('-date_created')[offset:offset+FEED_SIZE]
             elif feed_scope_filter != 'all':
-                feed_items = FeedItem.objects.filter(blitz=request.user.blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
+                feed_items = FeedItem.objects.filter(blitz=request.user.blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
-                feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+10]
+                feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+FEED_SIZE]
 
         elif feed_scope == 'blitz':
             if feed_scope_filter != 'all':
-                feed_items = FeedItem.objects.filter(blitz_id=obj_id, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
+                feed_items = FeedItem.objects.filter(blitz_id=obj_id, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
-                feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+10]
+                feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+FEED_SIZE]
 
             mark_feeds_as_viewed(feed_items)
 
@@ -1031,15 +1033,16 @@ def blitz_feed(request):
             client = Client.objects.get(pk=obj_id)
 
             if feed_scope_filter != 'all':
-                feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+10]
+                feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
-                feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+10]
+                feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
 
+# see if we can do this after view rendered
             mark_feeds_as_viewed(feed_items)
 
     ret = {
         'feeditems': [],
-        'offset': offset+10,
+        'offset': offset+FEED_SIZE,
     }
 
     if feed_scope_filter == 'checkins':
