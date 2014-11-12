@@ -5687,6 +5687,10 @@ ul.filters li.item {
   text-align: center;
 }
 
+/* line 4756, ../sass/style.scss */
+.wtw {
+  text-align: center;
+}
 @media (max-width: 480px) {
   /* line 4756, ../sass/style.scss */
   .wtw {
@@ -5695,42 +5699,42 @@ ul.filters li.item {
   }
 }
 
-/* line 4763, ../sass/style.scss */
+/* line 4764, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
   font-family: 'proxima_novalight';
   color: #444;
 }
 
-/* line 4768, ../sass/style.scss */
+/* line 4769, ../sass/style.scss */
 .ui-datepicker td, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   text-align: center;
   background: none;
   color: #888;
 }
 
-/* line 4774, ../sass/style.scss */
+/* line 4775, ../sass/style.scss */
 .ui-widget-header {
   background: none;
   border: none;
 }
 
-/* line 4780, ../sass/style.scss */
+/* line 4781, ../sass/style.scss */
 a.ui-state-default :hover {
   border: 1px solid #7ab2ea;
   color: #7ab2ea;
 }
 
-/* line 4785, ../sass/style.scss */
+/* line 4786, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
   background: none;
   border: none;
 }
-/* line 4788, ../sass/style.scss */
+/* line 4789, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev :hover, .ui-datepicker .ui-datepicker-next :hover {
   cursor: pointer;
 }
 
-/* line 4793, ../sass/style.scss */
+/* line 4794, ../sass/style.scss */
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {
   background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
   background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
@@ -5739,13 +5743,13 @@ a.ui-state-default :hover {
   background-color: #7ab2ea;
 }
 
-/* line 4798, ../sass/style.scss */
+/* line 4799, ../sass/style.scss */
 .trainer-alert .btn {
   font-family: 'metanormal_caps';
   text-shadow: none;
 }
 
-/* line 4803, ../sass/style.scss */
+/* line 4804, ../sass/style.scss */
 .trainer-alert form .btn {
   background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
   background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
@@ -5756,45 +5760,45 @@ a.ui-state-default :hover {
   box-shadow: none;
 }
 
-/* line 4810, ../sass/style.scss */
+/* line 4811, ../sass/style.scss */
 .trainer-alert form .btn:hover {
   background: #94c1ee;
 }
 
-/* line 4814, ../sass/style.scss */
+/* line 4815, ../sass/style.scss */
 .trainer-alert form .btn:focus {
   box-shadow: none;
 }
 
-/* line 4818, ../sass/style.scss */
+/* line 4819, ../sass/style.scss */
 #summary {
   border: none;
 }
 
-/* line 4822, ../sass/style.scss */
+/* line 4823, ../sass/style.scss */
 .navbar-fixed-top {
   background: #2b2b2b;
 }
 
-/* line 4826, ../sass/style.scss */
+/* line 4827, ../sass/style.scss */
 .check-in-feed-item {
   float: left;
   margin-bottom: 30px;
 }
 
-/* line 4831, ../sass/style.scss */
+/* line 4832, ../sass/style.scss */
 .checkin-wrap {
   padding: 20px;
 }
 
-/* line 4835, ../sass/style.scss */
+/* line 4836, ../sass/style.scss */
 .checkin-weight {
   font-family: 'proxima_novalight';
   font-size: 18px;
   margin-bottom: 20px;
 }
 
-/* line 4841, ../sass/style.scss */
+/* line 4842, ../sass/style.scss */
 .checkin-pic-wrap {
   width: 100%;
   margin-bottom: 20px;
@@ -5802,14 +5806,14 @@ a.ui-state-default :hover {
   float: left;
 }
 
-/* line 4848, ../sass/style.scss */
+/* line 4849, ../sass/style.scss */
 .checkin-pic {
   float: left;
   width: 48%;
   margin-right: 2%;
 }
 @media (max-width: 480px) {
-  /* line 4848, ../sass/style.scss */
+  /* line 4849, ../sass/style.scss */
   .checkin-pic {
     width: 100%;
     margin-right: 0;
@@ -5818,14 +5822,14 @@ a.ui-state-default :hover {
 }
 
 /* Let's get this party started, webkit scrollbar styles */
-/* line 4860, ../sass/style.scss */
+/* line 4861, ../sass/style.scss */
 ::-webkit-scrollbar {
   max-width: 4px;
   max-height: 4px;
 }
 
 /* Track */
-/* line 4866, ../sass/style.scss */
+/* line 4867, ../sass/style.scss */
 ::-webkit-scrollbar-track {
   -webkit-border-radius: 100px;
   border-radius: 100px;
@@ -5833,40 +5837,40 @@ a.ui-state-default :hover {
 }
 
 /* Handle */
-/* line 4874, ../sass/style.scss */
+/* line 4875, ../sass/style.scss */
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 100px;
   border-radius: 100px;
   background: #7ab2ea;
 }
 
-/* line 4881, ../sass/style.scss */
+/* line 4882, ../sass/style.scss */
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(0, 0, 0, 0.3);
 }
 
-/* line 4885, ../sass/style.scss */
+/* line 4886, ../sass/style.scss */
 .client-summary {
   position: fixed;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   height: 100%;
 }
 
-/* line 4891, ../sass/style.scss */
+/* line 4892, ../sass/style.scss */
 #homepage-loading {
   max-width: 36px;
   margin-top: 100px;
   padding: 20px;
 }
 
-/* line 4897, ../sass/style.scss */
+/* line 4898, ../sass/style.scss */
 .feeds-filter ul {
   font-family: 'metanormal_caps';
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: -1px;
 }
 
-/* line 4903, ../sass/style.scss */
+/* line 4904, ../sass/style.scss */
 .feeds-filter ul li {
   transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
@@ -5880,19 +5884,19 @@ a.ui-state-default :hover {
   animation: btnpulsate .0s none;
 }
 
-/* line 4909, ../sass/style.scss */
+/* line 4910, ../sass/style.scss */
 .feeds-filter ul li:hover {
   color: #7ab2ea;
   border-bottom: 3px solid #7ab2ea;
 }
 
-/* line 4915, ../sass/style.scss */
+/* line 4916, ../sass/style.scss */
 .feeds-filter ul li.active {
   color: #7ab2ea;
 }
 
-/* line 4919, ../sass/style.scss */
-.client-summary, .feeds {
+/* line 4920, ../sass/style.scss */
+.client-summary, .feeds, .feeds-filter, #main-feed {
   -webkit-animation: fadein 0.25s;
   /* Safari, Chrome and Opera > 12.1 */
   -moz-animation: fadein 0.25s;
@@ -5902,4 +5906,55 @@ a.ui-state-default :hover {
   -o-animation: fadein 0.25s;
   /* Opera < 12.1 */
   animation: fadein 0.25s;
+}
+
+/* line 4924, ../sass/style.scss */
+#dashboard > div.content-wrapper > div > div.feeds > div.alerts-wrapper {
+  margin-top: -20px;
+  -webkit-animation: fadein 0.25s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 0.25s;
+  /* Firefox < 16 */
+  -ms-animation: fadein 0.25s;
+  /* Internet Explorer */
+  -o-animation: fadein 0.25s;
+  /* Opera < 12.1 */
+  animation: fadein 0.25s;
+}
+
+/* line 4929, ../sass/style.scss */
+.modal-body .row .span6 {
+  text-align: center;
+}
+@media (max-width: 480px) {
+  /* line 4929, ../sass/style.scss */
+  .modal-body .row .span6 {
+    margin-left: -5%;
+  }
+}
+
+/* line 4939, ../sass/style.scss */
+#modalClientMacros > div > div > div.modal-body > div > div > div > form {
+  margin-left: -5%;
+}
+
+@media (max-width: 480px) {
+  /* line 4943, ../sass/style.scss */
+  #modalClientMacros .formpage-block {
+    margin-left: 0%;
+    width: 82%;
+  }
+}
+
+/* line 4951, ../sass/style.scss */
+.modal-body .row .span6 #headshot {
+  max-width: 150px;
+  margin: 0 auto;
+  border: 6px solid white;
+}
+
+/* line 4957, ../sass/style.scss */
+h3 a#name, a#blurb {
+  text-decoration: none;
+  color: white;
 }

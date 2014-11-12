@@ -4758,6 +4758,7 @@ color: #9d9ea3;
     width: 90% !important;
     margin-left: 0% !important;
   }
+  text-align: center;
 }
 
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
@@ -4916,6 +4917,45 @@ a.ui-state-default :hover {
   color: $fadedblue;
 }
 
-.client-summary, .feeds {
+.client-summary, .feeds, .feeds-filter, #main-feed {
   @include fadein();
+}
+
+#dashboard > div.content-wrapper > div > div.feeds > div.alerts-wrapper {
+  margin-top: -20px;
+  @include fadein();
+}
+
+.modal-body .row .span6 {
+  text-align: center;
+  @include mobile-only {
+    margin-left: -5%;
+    h3 {
+      //margin-left: -5%;
+    }
+  }
+}
+
+#modalClientMacros > div > div > div.modal-body > div > div > div > form {
+  margin-left: -5%;
+}
+
+#modalClientMacros .formpage-block {
+  @include mobile-only {
+    margin-left: 0%;
+    width: 82%;
+    //padding: 0px;
+  }
+}
+
+.modal-body .row .span6 #headshot {
+  max-width: 150px;
+  margin: 0 auto;
+  border: 6px solid white;
+}
+
+h3 a#name, a#blurb {
+  text-decoration: none;
+  color: white;
+  //@include boldfont();
 }
