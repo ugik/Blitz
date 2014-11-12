@@ -4893,3 +4893,25 @@ a.ui-state-default :hover {
   margin-top: 100px;
   padding: 20px;
 }
+
+.feeds-filter ul {
+  @include meta();
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  margin-bottom: -1px;
+}
+
+.feeds-filter ul li {
+  @include transition(0.3s, linear);
+  color: rgba(0,0,0,0.3);
+  @include animation('btnpulsate .0s none');
+}
+
+.feeds-filter ul li:hover {
+    color: $fadedblue;
+    border-bottom: 3px solid $fadedblue;
+    //text-shadow: 1px 1px rgba(0,0,0,0.15);
+  }
+
+.feeds-filter ul li.active {
+  color: $fadedblue;
+}
