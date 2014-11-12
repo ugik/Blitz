@@ -351,6 +351,7 @@ def spotter_program_edit(request, pk):
     if not request.user.is_trainer:
         return redirect('home')
 
+#    import pdb; pdb.set_trace()
     trainer = request.user.trainer
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
     workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
@@ -369,6 +370,7 @@ def spotter_program_edit(request, pk):
         form = SpotterProgramEditForm(request.POST)
 
         if form.is_valid():
+            print "SPOTTER PROGRAM EDIT"
             email_spotter_program_edit(pk, form.cleaned_data['edit_request'])
 
             return redirect('my_blitz_program')
@@ -648,8 +650,6 @@ def client_profile_progress(request, pk):
         if len(lifts) > NUM_LIFTS-1:   # array is 0-based
             lift_history_maxes[key] = lifts[0:NUM_LIFTS]
             reduction = True
-
-#    import pdb; pdb.set_trace()
 
     context = {
         'client': client,
@@ -1755,7 +1755,6 @@ def set_up_profile_photo(request):
     if request.method == 'POST':
         form = ProfileURLForm(request.POST, request.FILES)
     
-#        import pdb; pdb.set_trace()
         if form.is_valid() and form.is_multipart():
             client.headshot = form.cleaned_data['picture']
             client.save()

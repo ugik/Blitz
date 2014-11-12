@@ -236,7 +236,7 @@
 		<div class="header">
 			
 			<div class="btn-group">
-				<a class="btn btn-default btn-edit" href="/spotter_program_edit/{{ client.get_blitz.workout_plan.pk }}"> Edit Plan</a>
+				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('plan_name').text='{{ client.get_blitz.workout_plan.name }}'; document.getElementById('edit_request').value='Help me improve the {{ client.get_blitz.workout_plan.name }} program.'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }"> Edit Plan</a>
 			</div>
 		</div>
 
