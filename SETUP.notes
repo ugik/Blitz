@@ -17,27 +17,9 @@ rpl -R -x'.py' 'Blitz' 'Program' .
 find . -name file.ext
 rename -n s/"foo"/"bar"/g  *
 
-#apache
-sudo /etc/init.d/apache2 restart
-
-#backup
-tar -czf backup.tar.gz --exclude=*.mp4 --exclude=*.jpg .
-
 #South
 ./manage.py schemamigration <appname> --auto
 ./manage.py migrate <appname>
-
-#celery
-http://www.marinamele.com/2014/02/how-to-install-celery-on-django-and.html
-http://bixly.com/blog/supervisord-or-how-i-learned-to-stop-worrying-and-um-use-supervisord/
-blitz/__init__.py 
-if not settings.DEBUG or True:
-    from .celery import app as celery_app
-
-#supervisord
-supervisord -c ./supervisord.conf
-supervisorctl stop all
-supervisord.conf -->./manage.py celeryd -v 2 -B -E -l DEBUG
 
 nohup supervisord -n > logs/supervisord.out 2> logs/supervisord.err < /dev/null &
 sudo ps -ef | grep supervisord
@@ -82,6 +64,9 @@ mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| gr
 
 #bash smtp email
 # http://askubuntu.com/questions/12917/how-to-send-mail-from-the-command-line
+
+#forms w/Ajax
+# http://axiacore.com/blog/how-use-mixings-process-form-django/
 
 #enom email
 http://mail-29.name-services.com/Login.aspx
