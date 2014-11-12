@@ -4915,3 +4915,7 @@ a.ui-state-default :hover {
 .feeds-filter ul li.active {
   color: $fadedblue;
 }
+
+.client-summary, .feeds {
+  @include fadein();
+}
