@@ -186,9 +186,12 @@ def blitz_setup(request):
             errors.append("CHARGE $ must be a value")
 
         if not errors and form.is_valid():
+
+#            import pdb; pdb.set_trace()
+
             if 'program' in form.data:
-                program = form.data['program']
-                plan = WorkoutPlan.objects.filter(name=program)
+                program_pk = form.data['program']
+                plan = WorkoutPlan.objects.get(pk=program_pk)
             else:
                 plan = None
 
@@ -197,7 +200,7 @@ def blitz_setup(request):
             if not plan: # blitz w/workoutplan pending
                 blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'))
             else:  # blitz w/workoutplan selected
-                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'), workout_plan = plan[0])
+                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'), workout_plan = plan)
 
             blitz.title = form.data['title']
             blitz.sales_page_content = content
@@ -1445,7 +1448,6 @@ def sales_blitz(request):
 
         if 'datepicker' in request.POST:
             # set date, keeping in mind model will force begin to Monday
-#            import pdb; pdb.set_trace()
             if request.POST.get('datepicker') != '':
                 blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
         

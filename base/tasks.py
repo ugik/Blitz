@@ -34,7 +34,7 @@ def backup():
         os.system("bash ~/Blitz/backup.sh")
 
 @periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
-def usage_digest(): 
+def usage(): 
     usage_digest()
 
 #@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
