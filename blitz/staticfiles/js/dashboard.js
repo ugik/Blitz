@@ -4,6 +4,9 @@ var FEED_SCOPE_FILTER = 'all';
 var OBJECT_ID;
 var SEARCH_TEXT;
 
+// TODO: Watch FEED_SCOPE and OBJECT_ID vars
+var SCOPE_CHANGED = false;
+
 var xhr;
 
 function homepage_setLoading() {
@@ -321,6 +324,16 @@ $(document).ready(function() {
      * Filters
      */ 
     $('.filters, .feeds-filter').on('click', 'li', function(event) {
+
+        // Detects Changes
+        // TODO: Watch FEED_SCOPE and OBJECT_ID vars
+        if ( $(this).data('scope') && ( FEED_SCOPE !== $(this).data('scope') ) ) {
+            SCOPE_CHANGED = true;
+        } else {
+            SCOPE_CHANGED = false;
+        }
+        //END
+
         var $clickedFilter = $(this),
             unviewedItemsCount = $clickedFilter.find('.results-count .inner').html();
 
@@ -367,7 +380,9 @@ $(document).ready(function() {
         // END
 
         // Hide and clear blitz group header
-        $('.group').html('');
+        if (SCOPE_CHANGED == true ) {
+            $('.group').html('');    
+        }        
         // END
 
         // Hide Alerts
