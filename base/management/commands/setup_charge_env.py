@@ -50,3 +50,4 @@ class Command(BaseCommand):
             add_client_to_blitz(blitz, c, None, blitz.price, d['start'])
 
 
+

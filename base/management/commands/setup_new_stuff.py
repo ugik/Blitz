@@ -13,6 +13,8 @@ from workouts import utils as workout_utils
 from base import alerts
 
 import datetime
+from dateutil import rrule
+from datetime import date, timedelta
 import csv
 from random import randint
 
@@ -74,6 +76,7 @@ class Command(BaseCommand):
         blitz.recurring = True
         blitz.title = "individual:%s blitz:%s" % ("JJ", blitz.url_slug)
         blitz.url_slug = ''
+        blitz.begin_date = now.date() - datetime.timedelta(weeks=40)
         blitz.save()
 
         joe = Client
@@ -159,7 +162,8 @@ class Command(BaseCommand):
             fat = True if randint(0,1)==0 else False
             carbs = True if randint(0,1)==0 else False
             macro.save()
-            macro, _ = MacroDay.objects.get_or_create(client=joe, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
+        for x in range(0, 100):   # extra diet entries for JJ over 40-week period
+            macro, _ = MacroDay.objects.get_or_create(client=joe, day=blitz.get_date_for_day_index(randint(0,40), randint(0,7)))
             protein = True if randint(0,1)==0 else False
             fat = True if randint(0,1)==0 else False
             carbs = True if randint(0,1)==0 else False

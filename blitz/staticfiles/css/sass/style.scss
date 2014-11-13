@@ -4798,6 +4798,7 @@ color: #9d9ea3;
     width: 90% !important;
     margin-left: 0% !important;
   }
+  text-align: center;
 }
 
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
@@ -4926,4 +4927,75 @@ a.ui-state-default :hover {
   position: fixed;
   border-left: 1px solid rgba(0,0,0,0.1);
   height: 100%;
+}
+
+#homepage-loading {
+  max-width: 36px;
+  margin-top: 100px;
+  padding: 20px;
+}
+
+.feeds-filter ul {
+  @include meta();
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  margin-bottom: -1px;
+}
+
+.feeds-filter ul li {
+  @include transition(0.3s, linear);
+  color: rgba(0,0,0,0.3);
+  @include animation('btnpulsate .0s none');
+}
+
+.feeds-filter ul li:hover {
+    color: $fadedblue;
+    border-bottom: 3px solid $fadedblue;
+    //text-shadow: 1px 1px rgba(0,0,0,0.15);
+  }
+
+.feeds-filter ul li.active {
+  color: $fadedblue;
+}
+
+.client-summary, .feeds, .feeds-filter, #main-feed {
+  @include fadein();
+}
+
+#dashboard > div.content-wrapper > div > div.feeds > div.alerts-wrapper {
+  margin-top: -20px;
+  @include fadein();
+}
+
+.modal-body .row .span6 {
+  text-align: center;
+  @include mobile-only {
+    margin-left: -5%;
+    h3 {
+      //margin-left: -5%;
+    }
+  }
+}
+
+#modalClientMacros > div > div > div.modal-body > div > div > div > form {
+  margin-left: -5%;
+}
+
+#modalClientMacros .formpage-block {
+  @include mobile-only {
+    margin-left: 0%;
+    width: 82%;
+    //padding: 0px;
+  }
+}
+
+.modal-body .row .span6 #headshot {
+  max-width: 150px;
+  margin: 0 auto;
+  border: 6px solid white;
+}
+
+h3 a#name, a#blurb {
+  text-decoration: none;
+  color: white;
+  //@include boldfont();
 }

@@ -4100,10 +4100,12 @@ ul.filters li.item {
   margin-top: -5px;
   text-align: center; }
 
-@media (max-width: 480px) {
-  .wtw {
-    width: 90% !important;
-    margin-left: 0% !important; } }
+.wtw {
+  text-align: center; }
+  @media (max-width: 480px) {
+    .wtw {
+      width: 90% !important;
+      margin-left: 0% !important; } }
 
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
   font-family: 'proxima_novalight';
@@ -4212,3 +4214,78 @@ a.ui-state-default :hover {
   position: fixed;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   height: 100%; }
+
+#homepage-loading {
+  max-width: 36px;
+  margin-top: 100px;
+  padding: 20px; }
+
+.feeds-filter ul {
+  font-family: 'metanormal_caps';
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: -1px; }
+
+.feeds-filter ul li {
+  transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -ms-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  color: rgba(0, 0, 0, 0.3);
+  -webkit-animation: btnpulsate .0s none;
+  -moz-animation: btnpulsate .0s none;
+  -o-animation: btnpulsate .0s none;
+  animation: btnpulsate .0s none; }
+
+.feeds-filter ul li:hover {
+  color: #7ab2ea;
+  border-bottom: 3px solid #7ab2ea; }
+
+.feeds-filter ul li.active {
+  color: #7ab2ea; }
+
+.client-summary, .feeds, .feeds-filter, #main-feed {
+  -webkit-animation: fadein 0.25s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 0.25s;
+  /* Firefox < 16 */
+  -ms-animation: fadein 0.25s;
+  /* Internet Explorer */
+  -o-animation: fadein 0.25s;
+  /* Opera < 12.1 */
+  animation: fadein 0.25s; }
+
+#dashboard > div.content-wrapper > div > div.feeds > div.alerts-wrapper {
+  margin-top: -20px;
+  -webkit-animation: fadein 0.25s;
+  /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 0.25s;
+  /* Firefox < 16 */
+  -ms-animation: fadein 0.25s;
+  /* Internet Explorer */
+  -o-animation: fadein 0.25s;
+  /* Opera < 12.1 */
+  animation: fadein 0.25s; }
+
+.modal-body .row .span6 {
+  text-align: center; }
+  @media (max-width: 480px) {
+    .modal-body .row .span6 {
+      margin-left: -5%; } }
+
+#modalClientMacros > div > div > div.modal-body > div > div > div > form {
+  margin-left: -5%; }
+
+@media (max-width: 480px) {
+  #modalClientMacros .formpage-block {
+    margin-left: 0%;
+    width: 82%; } }
+
+.modal-body .row .span6 #headshot {
+  max-width: 150px;
+  margin: 0 auto;
+  border: 6px solid white; }
+
+h3 a#name, a#blurb {
+  text-decoration: none;
+  color: white; }

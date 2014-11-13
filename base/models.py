@@ -191,7 +191,10 @@ def create_2X_image(image_path, width=150, suffix="@2X"):
     wpercent = (width/float(img.size[0]))
     hsize = int((float(img.size[1])*float(wpercent)))
     img = img.resize((width,hsize), PIL.Image.ANTIALIAS)
-    img.save(image_path.split('.')[0]+suffix+".jpg")
+
+    file_name = image_path.split('/')[-1]
+    new_file_name = file_name.split('.')[0]+"@2X."+file_name.split('.')[-1]
+    img.save(image_path.replace(file_name,new_file_name))
 
 
 User.user_type = property(lambda u: user_type(u))
