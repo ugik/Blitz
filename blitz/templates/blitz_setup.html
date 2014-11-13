@@ -36,7 +36,7 @@
         <table><tr>
         <td>Workout plan:</td> <td><select name="program" id="program" class="selectpicker show-tick">
         {% for program in programs %}
-        <option value="{{ program }}">{{ program.name }}</option>
+        <option value="{{ program.pk }}">{{ program.name }}</option>
         {% endfor %}
         </select></td></tr><tr>
         <td>Type:</td> <td><select name="blitz_type" id="blitz_type" class="selectpicker show-tick">

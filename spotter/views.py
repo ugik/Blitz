@@ -35,6 +35,10 @@ def spotter_index(request):
 @login_required
 def spotter_payments(request):
     import balanced
+
+    test = True if 'test' in request.GET else None
+    charge = True if 'charge' in request.GET else None
+
     clients = []
     payments = []
     total_cost = total_paid = 0
@@ -42,6 +46,9 @@ def spotter_payments(request):
     for client in Client.objects.all():
         blitz = client.get_blitz()
         if not blitz:
+            continue
+        # by default ignore test/free users
+        if not test and client.balanced_account_uri == '':
             continue
 
         invitation = blitz.blitzinvitation_set.all()
@@ -78,7 +85,7 @@ def spotter_payments(request):
         total_cost = total_paid = 0
 
     return render(request, 'payments.html', 
-          {'clients' : clients})
+          {'clients' : clients, 'test' : test, 'charge' : charge })
 
 @login_required
 def spotter_usage(request):
@@ -604,7 +611,6 @@ def test_program(file):
         if len(errors) == 0:
             ready = True
 
-#    import pdb; pdb.set_trace()
     return {'errors' : errors, 'log' : log, 'ready' : ready}
 
 

@@ -130,5 +130,7 @@ week of 11.10
 - dashboard wiring continued
 - checkin alert link to checkin page
 - more Celery refining
-* create Retina @2X images in test data
+- create Retina @2X images in test data
+- extend payments report
+
 

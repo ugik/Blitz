@@ -617,15 +617,17 @@ class Blitz(models.Model):
         return members
 
     def end_date(self): # the date of last workout
+#        import pdb; pdb.set_trace()
+
         if self.custom_end_date:
             return self.custom_end_date
         if self.recurring:
             return self.loop_end_date()
         if self.provisional: 
             return self.begin_date
-        if not list(self.iterate_workouts()):
-            return self.begin_date    # TODO resolve end-date that hasn't been set yet
-        return list(self.iterate_workouts())[-1][0]
+        if self.workout_plan and map( lambda x: x, set(self.iterate_workouts()) ):
+            return map( lambda x: x, set(self.iterate_workouts()) )[-1][0]
+        return self.begin_date  # last resort 
 
 # loop begin/end dates connote the dates of recurring Blitz (for 1:1 Clients) per today's date
     def loop_begin_date(self, timezone=None):
@@ -654,9 +656,6 @@ class Blitz(models.Model):
 
     def price_per_week(self):
         return float(self.price) / self.num_weeks()
-
-    def num_workouts(self):
-        return len(list(self.iterate_workouts()))
 
     def price_per_workout(self):
         if self.custom_price_per_workout:
