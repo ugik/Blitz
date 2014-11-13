@@ -611,7 +611,6 @@ def test_program(file):
         if len(errors) == 0:
             ready = True
 
-#    import pdb; pdb.set_trace()
     return {'errors' : errors, 'log' : log, 'ready' : ready}
 
 
