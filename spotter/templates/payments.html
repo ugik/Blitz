@@ -9,8 +9,21 @@
     }
 </style>
 
+{% if test %}
+(including test/free users)
+{% else %}
+(add <b>?test</b> to include test/free users)
+{% endif %}
+
+{% if charge %}
+(processing payments due)
+{% else %}
+(add <b>?charge</b> to process charges)
+{% endif %}
+
 <div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
 
+{% if clients %}
 {% for client in clients|dictsortreversed:"months" %}
   <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
      <div style="text-align: left;" class="spotterheader">
@@ -33,6 +46,10 @@
    </div>
   </div>
   {% endfor %}
+
+{% else %}
+   <b>No Payments to report at this time.</b>
+{% endif %}
 </div>
 
 
