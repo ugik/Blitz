@@ -286,6 +286,7 @@ ul.filters li.item:hover {
 }
 
 .sidebar-left .actions {
+    height: 155px;
     padding: 0 10px
 }
 
