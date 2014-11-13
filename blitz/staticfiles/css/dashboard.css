@@ -45,7 +45,7 @@ body {
     margin: 0px 20px 0px 20px;
 }
 
-#header .results-count {
+/*#header .results-count {
     float: left;
     width: 25px;
     height: 25px;
@@ -56,7 +56,7 @@ body {
     width: 24px;
     margin-top: 2px;
     position: relative;
-}
+}*/
 
 img.headshot {
     top: 12px;
@@ -172,7 +172,6 @@ img.headshot {
     margin: 0px;
     position: fixed;
     z-index: 9;
-
 }
 
 #header p {
@@ -287,6 +286,7 @@ ul.filters li.item:hover {
 }
 
 .sidebar-left .actions {
+    height: 155px;
     padding: 0 10px
 }
 
@@ -493,6 +493,23 @@ ul.filters li.item:hover {
 }
 
 
+.macro-combo .calories {
+    background: #9b8ddb !important;
+}
+
+.macro-combo .fat {
+    background: #eea463 !important;
+}
+
+.macro-combo .carbs {
+    background: #57c6b9 !important;
+}
+
+.macro-combo .protein {
+    background: #e8748e !important;
+}
+
+
 /**
  * Widgets
  */
@@ -648,25 +665,6 @@ ul.filters li.item:hover {
 
 .trainer-alert form .btn:hover {
     background: #427996;
-}
-
-
-.results-count {
-    background: #86bee9;
-    float: right;
-    width: 35px;
-    height: 35px;
-    color: #fff;
-    border-radius: 20px;
-    margin-right: 30px;
-}
-
-.results-count .inner {
-    position: absolute;
-    margin-top: 5px;
-    margin-left: 0px;
-    text-align: center;
-    width: 34px;
 }
 
 
