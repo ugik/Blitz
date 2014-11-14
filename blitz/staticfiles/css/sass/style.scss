@@ -571,6 +571,7 @@ body {
   // this code may be questionable; trying to fix tablet layout
   width: 100%;
   padding: 0px;
+  background: #fbfcfe;
   a {
     @include transition(0.3s, ease);
   }
@@ -4998,4 +4999,8 @@ h3 a#name, a#blurb {
   text-decoration: none;
   color: white;
   //@include boldfont();
+}
+
+#modalClientMacros > div > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select > button > span.filter-option.pull-left {
+  text-align: center;
 }
