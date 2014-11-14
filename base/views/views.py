@@ -486,7 +486,7 @@ def client_macros(request, pk):
 # given a macro formula, set macros for specified blitz and all or (optional) specified client
 def blitz_macros_set(blitz, formula, client=None):
     if client:
-        clients = get_object_or_404(Client, pk=int(pk) )
+        clients = [client]
     else:
         clients = blitz.members()
 
@@ -1682,12 +1682,23 @@ def spotter_edit(request):
 
 @login_required
 @csrf_exempt
-def macros_save(request):
+def blitz_macros_save(request):
     trainer = request.user.trainer
     blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
 
     if 'formula' in request.POST:
         blitz_macros_set(blitz, request.POST.get('formula'))
+
+    return JSONResponse({'is_error': False})
+
+@login_required
+@csrf_exempt
+def client_macros_save(request):
+    trainer = request.user.trainer
+    client = get_object_or_404(Client, pk=int(request.POST.get('client')))
+
+    if 'formula' in request.POST:
+        blitz_macros_set(None, request.POST.get('formula'), client)
 
     return JSONResponse({'is_error': False})
 

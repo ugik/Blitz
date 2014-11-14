@@ -19,7 +19,6 @@
 
 	<a class="btn btn-primary" href="/sales-blitz?slug={{ blitz.url_slug }}&short_name={{ blitz.trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}">Edit Page</a>
 
-
 </div>
 
 
@@ -37,12 +36,11 @@ $(document).ready(function() {
                        begin_date: $("#datepicker").datepicker('getDate')},
             })
     })
-
-});
+})
 $(function() {
   $( "#datepicker" ).datepicker();
   $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
-});
+})
 function save_spotter_edit() { 
 $.ajax({
      url: '/trainer/spotter-edit',
@@ -51,9 +49,9 @@ $.ajax({
      spotter_text: document.getElementById('edit_request').value },
       })
  }
-function save_macros() { 
+function save_blitz_macros() { 
      $.ajax({
-        url: '/trainer/macros-save',
+        url: '/trainer/blitz-macros-save',
         type: 'POST',
         data: {blitz: {{ blitz.pk }},
         formula: document.getElementById('formula-select').value },
@@ -62,7 +60,7 @@ function save_macros() {
 // set client attributes in hidden fields for access by modal
     $(document).ready(function(){
        document.getElementById('blitz_title').text='{{ blitz.title }}';
-      })
+      });
 
 </script>
 

@@ -3,15 +3,7 @@
     $(document).ready(function() {
        show_client();
        show_client_macros(1);
-      });
-
-    function save_macros() { 
-       $.ajax({
-          url: '/trainer/macros-save',
-          type: 'POST',
-          data: {blitz: {{ blitz.pk }}, formula: document.getElementById('formula-select').value },
-          });
-       }
+      })
 
     function show_client() {
        document.getElementById('name').text='{{ client.name }}';
@@ -51,7 +43,17 @@
        return 0;
        }
 
+    function save_macros() { 
+         $.ajax({
+             url:'/trainer/client-macros-save',
+             type: 'POST',
+             data: {client: {{ client.pk }}, formula: document.getElementById('formula-select').value },
+             success:function(result){}
+           });
+       }
+
 </script>
+
 
 <div class='client-summary'>
 	<div class="section cover">
