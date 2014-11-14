@@ -4159,6 +4159,8 @@ a.ui-state-default :hover {
 #summary {
   border: none; }
 
+#modalInclude { display: none; }
+
 .navbar-fixed-top {
   background: #2b2b2b; }
 

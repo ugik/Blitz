@@ -27,7 +27,7 @@
 {% for client in clients|dictsortreversed:"months" %}
   <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
      <div style="text-align: left;" class="spotterheader">
-     <ul><li>{{ client.client.name }} start date: {{ client.date_start }} ({{ client.months }} months)</li>  {% if not client.blitz.recurring %} <li> Blitz:{{ client.blitz.title }} {% endif %}
+     <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.date_start }} ({{ client.months }} months)</li>  {% if not client.blitz.recurring %} <li> Blitz:{{ client.blitz.title }} {% endif %}
      {% if client.invitation.price %}Invited Price: ${{ client.invitation.price|stringformat:"0.2f" }}
      {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
 <br>

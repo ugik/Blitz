@@ -132,5 +132,10 @@ week of 11.10
 - more Celery refining
 - create Retina @2X images in test data
 - extend payments report
+- new Group fixes
+- supervisor.conf except in rsync
+* client-summary macros display
+* fix empty-space bottom of feed (from modal)
+* figure out check-ins filter
 
 
