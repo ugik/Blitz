@@ -13,7 +13,7 @@
    <div class="modal-dialog-full">
       <div class="modal-content-full">
          <div class="modal-header">
-            <button type="button" onclick="window.location={% if url_return %} '{{ url_return }}'{% else %}'/program'{% endif %}; return false;" class="close" data-dismiss="modal">
+            <button type="button" onclick="window.location={% if url_return %} '{{ url_return }}'{% else %}'/program'{% endif %}; return false; document.getElementById('modalInclude').style.display = 'none';" class="close" data-dismiss="modal">
                <span aria-hidden="true">× Close</span>
             </button>
          </div>
@@ -162,7 +162,7 @@
                           <a id='rest_protein'></a> g
                       </div>
                     </div>
-                  </div>
+                    </div>
 
                     <div class="macroform">
                       <div class="macroform-header">
@@ -171,9 +171,9 @@
                       <div class="macroform-numbers">
                         <div class="macroform-macro">
                           <a id='rest_fat'></a> g
+                        </div>
                       </div>
                     </div>
-                  </div>
 
                     <div class="macroform">
                       <div class="macroform-header">
@@ -189,7 +189,7 @@
                   
                 </div>
                 
-                 <button class="obtn full-width btn-warning" onclick="{ save_macros(); return false; }" class="close" data-dismiss="modal" style="margin-left: 10px;">Set Macros</button>
+                 <button class="obtn full-width btn-warning" onclick="{ save_blitz_macros(); return false; }" class="close" data-dismiss="modal" style="margin-left: 10px;">Set Macros</button>
               </form>
 
            </div>
@@ -201,7 +201,6 @@
 </div>
 </div>
 </div>
-</div>
-</div>
+
 
 

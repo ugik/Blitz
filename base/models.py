@@ -617,7 +617,6 @@ class Blitz(models.Model):
         return members
 
     def end_date(self): # the date of last workout
-#        import pdb; pdb.set_trace()
 
         if self.custom_end_date:
             return self.custom_end_date

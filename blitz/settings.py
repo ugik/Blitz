@@ -98,36 +98,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'bugsnag.django.middleware.BugsnagMiddleware',
 )
-
-#=======================
-# Django Debug ToolBar
-#=======================
-DEBUG_TOOLBAR_PANELS = [
-    'ddt_request_history.panels.request_history.RequestHistoryPanel',
-    'debug_toolbar.panels.versions.VersionsPanel',
-    'debug_toolbar.panels.timer.TimerPanel',
-    'debug_toolbar.panels.settings.SettingsPanel',
-    'debug_toolbar.panels.headers.HeadersPanel',
-    'debug_toolbar.panels.request.RequestPanel',
-    'debug_toolbar.panels.sql.SQLPanel',
-    'debug_toolbar.panels.templates.TemplatesPanel',
-    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-    'debug_toolbar.panels.cache.CachePanel',
-    'debug_toolbar.panels.signals.SignalsPanel',
-    'debug_toolbar.panels.logging.LoggingPanel',
-    'debug_toolbar.panels.redirects.RedirectsPanel',
-    'debug_toolbar.panels.profiling.ProfilingPanel',
-]
-
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': 'ddt_request_history.panels.request_history.allow_ajax', # Stores AJAX Requests
-}
-
-DEBUG_TOOLBAR_CONFIG = {
-    'RESULTS_STORE_SIZE': 100,
-}
 
 
 ROOT_URLCONF = 'blitz.urls'
@@ -161,7 +132,6 @@ INSTALLED_APPS = (
     'workouts',
     'ff_messaging',
     'spotter',
-
 )
 
 LOGGING = {
@@ -178,10 +148,6 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-#        'bugsnag': {
-#            'level': 'INFO',
-#            'class': 'bugsnag.handlers.BugsnagHandler',
-#        },
     },
     'loggers': {
         'django.request': {
@@ -228,13 +194,6 @@ CELERY_BEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 CELERY_TIMEZONE = 'US/Pacific'
 ALERTS_HOUR = 23
 MORNING_NOTIFICATIONS_HOUR = 5
-
-import bugsnag
-bugsnag.configure(app_version = "0.9")
-BUGSNAG = {
-  "api_key": "48df94d44ce707ca4f42a548f1a3c85c",
-  "project_root": os.path.join(os.path.abspath(os.path.dirname(__file__))),
-}
 
 import balanced
 balanced.configure('ak-test-2HbxysbHinoGa4nnmnLz63SluBiYiUQCV')
