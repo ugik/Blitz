@@ -187,3 +187,42 @@ barbell-back-squat	Barbell Back Squat	R	0	1
 1-arm-dumbbell-floor-press	One Arm Dumbbell Floor Press	R	0	1
 dumbbell-reverse-lunge	Dumbbell Reverse Lunge	R	0	1
 pushups	Pushups	R	1	0
+barbell-snatch	Barbell Snatch	R	0	0
+1-arm-dumbbell-snatch	One Arm Dumbbell Snatch	R	0	0
+clean-pull	Clean Pull	R	0	0
+power-clean	Power Clean	R	0	0
+hang-clean	Hang Clean	R	0	0
+behind-the-neck-military-press	Behind-the-Neck Military Press	R	0	0
+behind-the-neck-press	Behind-the-Neck Press	R	0	0
+behind-the-neck-push-press	Behind-the-Neck Push Press	R	0	0
+clean-and-jerk	Clean and Jerk	R	0	0
+french-press	French Press	R	0	0
+skullcrusher	Skullcrusher	R	0	0
+1-arm-kb-swing	One Arm Kettlebell Swing	R	0	0
+2-arm-kb-swing	Double Kettlebell Swing	R	0	0
+1-arm-kb-snatch	One Arm Kettlebell Snatch	R	0	0
+kb-iron-cross-hold	Kettlebell Iron Cross Hold	I	0	1
+1-arm-kb-press	One Arm Kettlebell Press	R	0	0
+2-arm-kb-press	Double Kettlebell Press	R	0	0
+kb-high-pull	Kettlebell High Pull	R	0	0
+1-arm-kb-front-raises	One Arm Kettlebell Front Raise	R	0	0
+2-arm-kb-front-raises	Double Kettlebell Front Raise	R	0	0
+1-arm-kb-lateral-raises	One Arm Kettlebell Lateral Raise	R	0	0
+2-arm-kb-lateral-raises	Double Kettlebell Lateral Raise	R	0	0
+kb-turkish-get-up	Kettlebell Turkish Get Up	R	0	0
+kb-wood-choppers	Kettlebell Wood Chopper	R	0	0
+kb-renegade-row	Kettlebell Renegade Row	R	0	0
+1-arm-kb-bicep-curl One Arm Kettlebell Bicep Curl	R	0	0
+2-arm-kb-bicep-curl Double Kettlebell Bicep Curl	R	0	0
+kb-squat	Kettlebell Squat	R	0	0
+kb-goblet-squat	Kettlebell Goblet Squat	R	0	0
+kb-overhead-squat	Kettlebell Overhead Squat	R	0	0
+kb-overhead-squat-to-press	Kettlebell Overhead Squat + Press	R	0	0
+kb-walking-lunges	Kettlebell	Walking	Lunge	R	0	0
+kb-bench-press	Kettlebell Bench Press	R	0	0
+1-arm-kb-bench-press	One Arm Kettlebell Bench Press	R	0	0
+kb-push-ups	Kettlebell Pushup	R	0	1
+kb-bent-over-row	Kettlebell Bent-over Row	R	0	0
+kb-deadlift	Kettlebell Deadlift	R	0	0
+kb-1-leg-deadlift	Kettlebell One-Leg Deadlift	R	0	0
+kb-btn-tricep-exension	Kettlebell Behind-the-Neck Tricep Extension	R	0	0
