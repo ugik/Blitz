@@ -52,11 +52,11 @@ $.ajax({
       })
  }
 function save_macros() { 
-$.ajax({
-     url: '/trainer/macros-save',
-     type: 'POST',
-     data: {blitz: {{ blitz.pk }},
-     formula: document.getElementById('formula-select').value },
+     $.ajax({
+        url: '/trainer/macros-save',
+        type: 'POST',
+        data: {blitz: {{ blitz.pk }},
+        formula: document.getElementById('formula-select').value },
       })
  }
 // set client attributes in hidden fields for access by modal

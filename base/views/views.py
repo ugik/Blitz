@@ -1074,8 +1074,6 @@ def client_summary(request, pk):
     except Exception as e:
         print e
         macro_goals = {}
-        import bugsnag
-        bugsnag.notify(Exception(e))
 
     macro_history = macro_utils.get_full_macro_history(client)
 
@@ -1901,13 +1899,9 @@ def set_client_macros(request, pk):
 
 # ERROR handling
 def page404(request):
-    import bugsnag
-    bugsnag.notify(Exception('404'))
     return render(request, '404.html')
 
 def page500(request):
-    import bugsnag
-    bugsnag.notify(Exception('500'))
     return render(request, '500.html')
 
 def not_found_error(request, template_name='404.html'):
