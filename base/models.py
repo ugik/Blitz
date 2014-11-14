@@ -493,7 +493,7 @@ class Client(models.Model):
     def current_blitz_day_index(self):
         return self.get_blitz().current_day_index(self.get_timezone())
 
-    def feeds_count(self):
+    def unviewed_feeds_count(self):
         count = self.get_feeditems().filter(is_viewed=False).count()
         return count
 
@@ -699,8 +699,8 @@ class Blitz(models.Model):
 
         return feeditems
 
-    def feeds_count(self):
-        count = FeedItem.objects.filter(blitz_id=self.pk).filter(is_viewed=False).count()
+    def unviewed_feeds_count(self):
+        count = self.get_feeditems().filter(is_viewed=False).count()
         return count
 
 class BlitzInvitation(models.Model):
@@ -844,7 +844,7 @@ class CheckIn(models.Model):
     front_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     side_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     date_created = models.DateField(default=datetime.date.today, db_index=True)
-    feeditems = generic.GenericRelation(FeedItem)
+    # feeditems = generic.GenericRelation(FeedItem, related_name='checkins')
 
     def __unicode__(self):
         return "Check-in %s: \"%s\"" % (self.client.name, self.date_created)

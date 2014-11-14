@@ -1,4 +1,4 @@
-<div class="feed-item" data-object_pk="{{ gym_session.pk }}" data-content_type="gym session" data-viewed={{ feed_item.viewed }} >
+<div class="feed-item" data-object_pk="{{ gym_session.pk }}" data-content_type="gym session" data-viewed="{% if feed_item.is_viewed == True %}true{% else %}false{% endif %}">
 
     <div class="parent-headshot">
         <img src="{{ gym_session.client.user.headshot_url }}" class="img-circle" />

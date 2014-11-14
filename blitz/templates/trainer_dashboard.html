@@ -60,8 +60,8 @@
 							<div class="item-inner">
 		  			            {{ blitz.title }}
 							</div>
-							{% if blitz.feeds_count %}
-							<span class="results-count"><span class="inner">{{ blitz.feeds_count }}</span></span>
+							{% if blitz.unviewed_feeds_count %}
+							<span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
 							{% endif %}
 						</li>
 	                    {% endif %}
@@ -76,8 +76,8 @@
 					<div class="item-inner">
 		                {{ client.name }}
 					</div>
-					{% if client.feeds_count %}
-					<span class="results-count"><span class="inner">{{ client.feeds_count }}</span></span>
+					{% if client.unviewed_feeds_count %}
+					<span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
 					{% endif %}
 				</li>
 				{% endfor %}				
