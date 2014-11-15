@@ -3917,7 +3917,7 @@ label#id_document.upload {
 
 .btn-outline-trans {
   text-shadow: none;
-  background: rgba(0,0,0,0);
+  background: transparent;
   border: 2px solid white;
   @include transition(0.3s, linear);
   @include borderradius(5px);
@@ -3929,6 +3929,13 @@ label#id_document.upload {
   @include meta();
   font-size: 24px;
   padding: 10px 20px;
+  :hover {
+    @include blitz-gradient;
+    @include animation('btnpulsate .75s infinite');
+  }
+  :focus {
+    outline: none;
+  }
   @include mobile-only {
     font-size: 18px;
     padding: 5px 10px;
@@ -5186,3 +5193,47 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   @include meta();
   margin-bottom: 10px;
 }
+
+.sidebar-left .actions button:not(:first-child) {
+  @include transition(0.3s, ease);
+  background: transparent;
+  :focus {
+    outline: none;
+  }
+  padding: 10px 20px;
+}
+
+
+// .splitbutton {
+//   min-height: 40px;
+//   width: 100%;
+//   color: white;
+//   border-radius: 5px;
+//   //border: 2px solid white;
+//   @include borderbox();
+//   //@include transition(0.3s, ease);
+//   //@include blitz-gradient();
+//   //background: transparent;
+//   @include meta();
+//   font-size: 24px;
+//   padding: 10px 20px;
+//   .left {
+//     @include borderbox();
+//     float: left;
+//     width: 50%;
+//     border 2px solid white;
+//     border-radius: 5px 0px 0px 5px;
+//   }
+//   .right {
+//     @include borderbox();
+//     border-left: 1px solid white;
+//     float: left;
+//     width: 50%;
+//     border 2px solid white;
+//     border-radius: 0px 5px 5px 0px;
+//   }
+// }
+
+// .splitbutton.left:hover, .splitbutton.right:hover {
+//   @include animation('btnpulsate .75s infinite');
+// }
