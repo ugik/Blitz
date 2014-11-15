@@ -46,14 +46,16 @@ import urllib2
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 
-#============================
+#====================================
 # Helper Functions
-#============================
+#====================================
 def mark_feeds_as_viewed(feed_items):
     "Marks feeds items as viewed"
     for feed_item in feed_items:
         feed_item.is_viewed = True
         feed_item.save()
+
+
 
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
@@ -1029,8 +1031,6 @@ def blitz_feed(request):
             else:
                 feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+FEED_SIZE]
 
-            mark_feeds_as_viewed(feed_items)
-
         elif feed_scope == 'client':
             client = Client.objects.get(pk=obj_id)
 
@@ -1042,7 +1042,7 @@ def blitz_feed(request):
                 feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
 
 # see if we can do this after view rendered
-            mark_feeds_as_viewed(feed_items)
+            # mark_feeds_as_viewed(feed_items)
 
     ret = {
         'feeditems': [],
@@ -1062,6 +1062,27 @@ def blitz_feed(request):
             })
 
     return JSONResponse(ret)
+
+
+@csrf_exempt
+def blitz_feed_viewed(request):
+    if request.is_ajax and request.method == 'POST':
+        feed_items = json.loads( request.POST.get('feed_items') )
+
+        for feed_item in feed_items:
+            content_type = feed_item.get('content_type')
+            object_pk = feed_item.get('object_pk')
+
+            result = FeedItem.objects.filter(content_type__name=content_type, object_id=object_pk)
+            mark_feeds_as_viewed(result)
+
+        return JSONResponse({
+            'status': 'successful',
+            # 'feed_items': request.POST.get('feed_items'),
+            'viewed_count': len(feed_items)
+            })
+    else:
+        return JSONResponse({'error': 'Use a POST method AJAX request'})
 
 def client_summary(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
@@ -1290,7 +1311,6 @@ def trainer_signup_uploads(request, pk):
         else:
             if form.data['done'] == '1':
                 return redirect('home')
-
     else:
         form = TrainerUploadsForm()
 
@@ -2019,7 +2039,7 @@ def trainer_dashboard(request):
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
@@ -2030,7 +2050,7 @@ def trainer_dashboard(request):
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date').count(),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else []

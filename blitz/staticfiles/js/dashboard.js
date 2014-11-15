@@ -3,6 +3,10 @@ var FEED_SCOPE = 'all';
 var FEED_SCOPE_FILTER = 'all';
 var OBJECT_ID;
 var SEARCH_TEXT;
+var CLICKED_FILTER;
+
+// TODO: Watch FEED_SCOPE and OBJECT_ID vars
+var SCOPE_CHANGED = false;
 
 var xhr;
 
@@ -11,7 +15,43 @@ function homepage_setLoading() {
     $('#homepage-loading').show();
 }
 
-function homepage_morefeed() {
+function UpdateViewedFeedsCount(clickedFilter) {
+    var clickedFilter = clickedFilter || $('ul.filters.scopes li.active').eq(0) || NaN
+    var $FeedItems = $('.feed-item[data-viewed="false"]'),
+        unviewedItems = [];
+
+    for (i=0; i < $FeedItems.length; i++) {
+        unviewedItems.push({
+            'content_type': $FeedItems.eq(i).data('content_type'),
+            'object_pk': $FeedItems.eq(i).data('object_pk')
+        })        
+    }
+
+    if (unviewedItems) {
+        $.post('/api/blitz_feed/viewed/mark', {
+            'feed_items': JSON.stringify(unviewedItems)
+        }, function(data) {
+            if (clickedFilter) {
+                console.log(clickedFilter);
+                var unviewedItemsCount = clickedFilter.find('.results-count .inner').html() - data.viewed_count;
+
+                // Updates count indicator
+                clickedFilter.find('.results-count .inner').html(unviewedItemsCount);
+
+                // Hides count indicator if not unviewed items
+                if (unviewedItemsCount < 1) {
+                    clickedFilter.find('.results-count').hide();
+                }
+            }
+            $FeedItems.attr('data-viewed', 'true');
+        });
+    }
+}
+
+function homepage_morefeed(options={}) {
+    var options = options || {};
+    var clickedFilter = options.clickedFilter || '';
+
     homepage_setLoading();
     // Abort ajax requests
     if (xhr) {
@@ -33,6 +73,9 @@ function homepage_morefeed() {
             FEEDITEM_OFFSET = data.offset;
             $('#homepage-loadmore').show();
             $('#homepage-loading').hide();
+
+            // Updates Filters Counter
+            UpdateViewedFeedsCount(clickedFilter);
         }
     );
 }
@@ -196,7 +239,7 @@ $(document).ready(function() {
     // END
 
     $('#homepage-loadmore').on('click', function(e) {
-        homepage_morefeed();
+        homepage_morefeed({clickedFilter: CLICKED_FILTER});
     });
 
     // Search
@@ -321,6 +364,16 @@ $(document).ready(function() {
      * Filters
      */ 
     $('.filters, .feeds-filter').on('click', 'li', function(event) {
+
+        // Detects Changes
+        // TODO: Watch FEED_SCOPE and OBJECT_ID vars
+        if ( $(this).data('scope') && ( FEED_SCOPE !== $(this).data('scope') ) ) {
+            SCOPE_CHANGED = true;
+        } else {
+            SCOPE_CHANGED = false;
+        }
+        // END
+
         var $clickedFilter = $(this),
             unviewedItemsCount = $clickedFilter.find('.results-count .inner').html();
 
@@ -332,18 +385,23 @@ $(document).ready(function() {
         if (summaryXHR) {
             summaryXHR.abort();
         }
-        
+
         FEEDITEM_OFFSET = 0;
         FEED_SCOPE = $(this).data('scope') || FEED_SCOPE;
         FEED_SCOPE_FILTER = $(this).data('scope-filter') || FEED_SCOPE_FILTER;
 
-        // On Change scopes (when a left-sidebar filter is clicked)
+        // On Scope Change (when a left-sidebar filter is clicked)
         if ($(this).parent().hasClass('scopes')) {
             OBJECT_ID = $(this).data('object-pk') || false;
             FEED_SCOPE_FILTER = 'all'
 
-            $('.feeds-filter ul li').removeClass('active');
+            $('.feeds-filter ul li').not().removeClass('active');
             $('.feeds-filter ul li:first-child').addClass('active');
+
+            // Make it Global
+            CLICKED_FILTER = $clickedFilter;
+        } else {
+            CLICKED_FILTER = NaN;
         }
 
         SEARCH_TEXT = '';
@@ -367,7 +425,9 @@ $(document).ready(function() {
         // END
 
         // Hide and clear blitz group header
-        $('.group').html('');
+        if (SCOPE_CHANGED == true ) {
+            $('.group').html('');    
+        }        
         // END
 
         // Hide Alerts
@@ -380,7 +440,7 @@ $(document).ready(function() {
             // Reset Seearch Input
             $searchInput.val('')
                 .trigger('input');
-            homepage_morefeed();
+            homepage_morefeed({clickedFilter: CLICKED_FILTER});
         } else if (FEED_SCOPE === 'alerts') { // Alerts
             $('#main-feed-controls, .formpage-block-form').addClass('hidden');
             $('.feeds-filter').addClass('hidden');
@@ -402,25 +462,7 @@ $(document).ready(function() {
             // Blitz
             if (FEED_SCOPE === 'blitz') {
                 $.get('/api/blitz/' + OBJECT_ID, function(data) {
-                    $('.group').html(data.html);
-
-                    if (unviewedItemsCount < 10) {
-                        unviewedItemsCount = 0;
-                    }
-                    else {
-                        unviewedItemsCount-= 10;                        
-                    }
-
-                    // Updates count indicator
-                    $clickedFilter.find('.results-count .inner')
-                        .html(unviewedItemsCount);
-
-                    // Hides count indicator if not unviewed items
-                    if (unviewedItemsCount < 1) {
-                        $clickedFilter.find('.results-count')
-                            .addClass('hidden');
-                    }
-
+                    $('.group').html(data.html);                
                 });
             }
 
@@ -429,19 +471,12 @@ $(document).ready(function() {
                 if (OBJECT_ID) {
                     summaryXHR = $.get('/api/client_summary/' + OBJECT_ID, function(data) {
                         renderSummary(data.html);
-
-                        if (unviewedItemsCount < 10) {
-                            $clickedFilter.find('.results-count .inner').html('0');
-                        }
-                        else {
-                            $clickedFilter.find('.results-count .inner').html(unviewedItemsCount-10);
-                        }
                     });
                 }
             } else {
                 $summary.html('');
             }
-            homepage_morefeed();
+            homepage_morefeed({clickedFilter: CLICKED_FILTER});
         }
 
         // Sets 'active' class to clicked filter

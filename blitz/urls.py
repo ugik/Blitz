@@ -76,6 +76,9 @@ urlpatterns += patterns(
     url(r'^api/send-message-to-user/(?P<pk>\d+)', 'ff_messaging.views.send_message_to_user', name='send_message_to_user'),
     url(r'^api/new-comment', 'base.views.new_comment', name='new_comment'),
     url(r'^api/blitz_feed$', 'base.views.blitz_feed', name='blitz_feed'),
+
+    url(r'^api/blitz_feed/viewed/mark$', 'base.views.blitz_feed_viewed', name='blitz_feed_viewed'),
+
     url(r'^api/blitz/(?P<pk>\d+)$', 'base.views.blitz', name='blitz'),
     url(r'^api/inbox_feed', 'ff_messaging.views.inbox_feed', name='inbox_feed'),
     url(r'^api/comment_like', 'base.views.comment_like', name='comment_like'),
