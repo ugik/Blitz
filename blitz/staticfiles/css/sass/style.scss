@@ -5008,6 +5008,7 @@ h3 a#name, a#blurb {
 #summary .sidebar-box .goals-history {
   //border-radius: 4px;
   margin-top: 5px;
+  border: 1px solid rgba(0,0,0,0.15) !important;
 }
 
 #summary .sidebar-box {
@@ -5016,6 +5017,7 @@ h3 a#name, a#blurb {
 
 .sidebar-box {
   border-radius: none !important;
+  @include borderbox();
 }
 
 .macro-toggle {
@@ -5041,7 +5043,7 @@ h3 a#name, a#blurb {
   padding-bottom: 5px;
   @include transition(0.3s, linear);
   background: white;
-  border-radius: 4px 0px 0px 0px;
+  border-radius: 6px 0px 0px 0px;
   color: $fadedblue;
   font-size: 16px;
   @include meta();
@@ -5053,7 +5055,7 @@ h3 a#name, a#blurb {
   outline: none;
   box-shadow: none;
   @include borderbox();
-  border: 1px solid $fadedblue;
+  border: 2px solid $fadedblue;
 }
 
 .macro-toggle .active {
@@ -5066,7 +5068,7 @@ h3 a#name, a#blurb {
   padding-bottom: 5px;
   @include transition(0.3s, linear);
   background: white;
-  border-radius: 0px 4px 0px 0px;
+  border-radius: 0px 6px 0px 0px;
   color: $fadedblue;
   font-size: 16px;
   @include meta();
@@ -5078,7 +5080,7 @@ h3 a#name, a#blurb {
   outline: none;
   box-shadow: none;
   @include borderbox();
-  border: 1px solid $fadedblue;
+  border: 2px solid $fadedblue;
 }
 
 #summary .sidebar-box .goals-history .box {

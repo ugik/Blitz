@@ -6013,19 +6013,23 @@ h3 a#name, a#blurb {
 /* line 5008, ../sass/style.scss */
 #summary .sidebar-box .goals-history {
   margin-top: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
 
-/* line 5013, ../sass/style.scss */
+/* line 5014, ../sass/style.scss */
 #summary .sidebar-box {
   border-radius: none !important;
 }
 
-/* line 5017, ../sass/style.scss */
+/* line 5018, ../sass/style.scss */
 .sidebar-box {
   border-radius: none !important;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-/* line 5021, ../sass/style.scss */
+/* line 5023, ../sass/style.scss */
 .macro-toggle {
   margin-left: 0px !important;
   box-shadow: none;
@@ -6042,12 +6046,12 @@ h3 a#name, a#blurb {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 5032, ../sass/style.scss */
+/* line 5034, ../sass/style.scss */
 .macro-toggle a {
   outline: none;
 }
 
-/* line 5039, ../sass/style.scss */
+/* line 5041, ../sass/style.scss */
 .switch-training {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -6057,7 +6061,7 @@ h3 a#name, a#blurb {
   -ms-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   background: white;
-  border-radius: 4px 0px 0px 0px;
+  border-radius: 6px 0px 0px 0px;
   color: #7ab2ea;
   font-size: 16px;
   font-family: 'metanormal_caps';
@@ -6068,20 +6072,20 @@ h3 a#name, a#blurb {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #7ab2ea;
+  border: 2px solid #7ab2ea;
 }
-/* line 5050, ../sass/style.scss */
+/* line 5052, ../sass/style.scss */
 .switch-training a {
   outline: none;
 }
 
-/* line 5059, ../sass/style.scss */
+/* line 5061, ../sass/style.scss */
 .macro-toggle .active {
   background: #7ab2ea;
   color: white;
 }
 
-/* line 5064, ../sass/style.scss */
+/* line 5066, ../sass/style.scss */
 .switch-resting {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -6091,7 +6095,7 @@ h3 a#name, a#blurb {
   -ms-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   background: white;
-  border-radius: 0px 4px 0px 0px;
+  border-radius: 0px 6px 0px 0px;
   color: #7ab2ea;
   font-size: 16px;
   font-family: 'metanormal_caps';
@@ -6102,14 +6106,14 @@ h3 a#name, a#blurb {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border: 1px solid #7ab2ea;
+  border: 2px solid #7ab2ea;
 }
-/* line 5075, ../sass/style.scss */
+/* line 5077, ../sass/style.scss */
 .switch-resting a {
   outline: none;
 }
 
-/* line 5084, ../sass/style.scss */
+/* line 5086, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box {
   width: 25%;
   float: left;
@@ -6124,12 +6128,12 @@ h3 a#name, a#blurb {
   color: #4B4B4A;
   margin-bottom: 15px;
 }
-/* line 5095, ../sass/style.scss */
+/* line 5097, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box .title {
   font-size: 12px !important;
 }
 
-/* line 5100, ../sass/style.scss */
+/* line 5102, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box .info {
   padding: 0px;
   font-color: #515352;
@@ -6138,12 +6142,12 @@ h3 a#name, a#blurb {
   margin-top: 5px;
 }
 
-/* line 5108, ../sass/style.scss */
+/* line 5110, ../sass/style.scss */
 #dashboard #summary .sidebar-box .header {
   text-align: left;
 }
 
-/* line 5112, ../sass/style.scss */
+/* line 5114, ../sass/style.scss */
 #summary .btn-edit {
   margin-top: -5px;
 }
