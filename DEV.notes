@@ -123,19 +123,22 @@ week of 11.3
 week of 11.10
 - random diet data in rebuild.sh
 - understand nightly alerts task
-- handle '$' label better in forms
 - client macros modal
-- Fix check-in alert duplication
 - FeedItem performance work
 - dashboard wiring continued
 - checkin alert link to checkin page
-- more Celery refining
+- more Celery refining/fixes
 - create Retina @2X images in test data
 - extend payments report
-- new Group fixes
+- new Group setup fixes
 - supervisor.conf except in rsync
-* client-summary macros display
-* fix empty-space bottom of feed (from modal)
-* figure out check-ins filter
+- client-summary macros display
+- trainer digest
+/ fix empty-space bottom of feed (from modal)
+- https for payment urls
+- customize exercise note in client summary
+
+
+
 
 

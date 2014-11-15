@@ -106,8 +106,9 @@ def spotter_usage(request):
             if payer.blitzmember_set.all()[0].blitz.recurring:
                 MRR += float(payer.blitzmember_set.all()[0].blitz.price)
             # monthly charge for non-recurring blitz
-            else: 
-                MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+            else:
+                if payer.blitzmember_set.all()[0].blitz.num_weeks() > 0:
+                    MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
 
     timezone = current_tz()
     if 'days' in request.GET:

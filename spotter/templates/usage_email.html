@@ -5,9 +5,16 @@
 {% block email_content %}
 
 <h4>Daily usage digest past {{ days }} days</h4>
+{% if trainer %}
+{{ trainer.name }}
+{% endif %}
 
+{% if hosts %}
 <h3>from: {{ hosts }}</h3>
+{% endif %}
+{% if MRR %}
 <h3>MRR ${{ MRR }}</h3>
+{% endif %}
 
 {% if trainers %}
 <h3>New Trainers:</h3>
@@ -39,10 +46,19 @@
 {% endif %}
 
 {% if login_users %}
-<h3>Last login</h3>
+<h3>Logins</h3>
 <ul>
 {% for login in login_users|dictsort:"last_login" %}
     <li> {{ login.email }} {{ login.last_login }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if laggard_users %}
+<h3>Missing in action</h3>
+<ul>
+{% for laggard in laggard_users|dictsort:"last_login" %}
+    <li> {{ laggard.email }} {{ laggard.last_login }}</li>
 {% endfor %}
 </ul>
 {% endif %}

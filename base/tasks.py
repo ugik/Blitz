@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from base.alerts import create_alerts_for_day
-from base.emails import send_email, usage_digest
+from base.emails import send_email, usage_digest, usage_trainer
 from datetime import date, timedelta
 
 import datetime
@@ -55,7 +55,14 @@ def trainer_alerts():
         yesterday = client.current_datetime().date() + datetime.timedelta(days=-1)
         create_alerts_for_day(client, yesterday)
 
+
 @periodic_task(run_every=crontab(hour="*", minute="2", day_of_week="*"))  
+def trainer_digests():
+    for trainer in Trainer.objects.all():
+        usage_trainer(trainer)
+
+
+@periodic_task(run_every=crontab(hour="*", minute="3", day_of_week="*"))  
 def client_morning_notifications():
     for client in Client.objects.all():
 

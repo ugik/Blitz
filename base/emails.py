@@ -199,6 +199,43 @@ def usage_digest(days=0):
     send_email(from_mail, to_mail, subject, template_text, template_html, context)
 
 
+def usage_trainer(trainer):
+    from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
+    from pytz import timezone
+    LAGGARD_DAYS = 7
+
+    timezone = current_tz()
+    days = 1
+    startdate = date.today() - timedelta(days = days)
+    enddate = date.today() - timedelta(days=0)
+    laggard = date.today() - timedelta(days = LAGGARD_DAYS)
+
+    users = []
+    clients = Client.objects.all()
+    for client in clients:
+        if not client.user.is_trainer and client.get_blitz().trainer == trainer:
+            users.append(client.user)
+
+    login_users = []
+    laggard_users = []
+    for user in users:
+        if timezone.normalize(user.last_login).date() >= startdate:
+            login_users.append(user)
+    for user in users:
+        if timezone.normalize(user.last_login).date() <= laggard:
+            laggard_users.append(user)
+
+    template_html = 'usage_email.html'
+    template_text = 'usage_email.txt'
+    context = {'days':days, 'trainer':trainer, 'login_users':login_users,
+               'laggard_users':laggard_users }
+    to_mail = ['georgek@gmail.com']
+    from_mail = settings.DEFAULT_FROM_EMAIL           
+    subject = "Usage Digest"
+
+    send_email(from_mail, to_mail, subject, template_text, template_html, context)
+
+
 def email_tests():
     from base.models import User, Client, Trainer, Comment
     from ff_messaging.models import Message
