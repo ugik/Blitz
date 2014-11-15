@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.core.mail import send_mail, EmailMessage
 from workouts import utils as workout_utils
-from workouts.models import WorkoutSet, Lift, Workout
+from workouts.models import WorkoutSet, Lift, Workout, ExerciseCustom
 
 import hashlib
 import datetime
@@ -96,7 +96,6 @@ def create_salespagecontent(name, trainer, key=None, title=None):
 def add_client_to_blitz(blitz, client, workoutplan=None, price=0, 
                         start_date=None):
 
-#    import pdb; pdb.set_trace()
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
         blitz.pk = None
@@ -186,10 +185,17 @@ def get_client_summary_html(client, macro_goals, macro_history):
         else:
             macro_goals_formatted[k] =  macro_goals[k]
 
+    exercise_custom = ExerciseCustom.objects.filter(client=client).order_by('-pk')
+    if exercise_custom:
+        customized = str(exercise_custom[0].date_created)
+    else:
+        customized = None
+
     return render_to_string('dashboard/client_summary.html', {
         'client': client,
         'macro_goals': macro_goals_formatted,
         'macro_history': macro_history,
+        'customized': customized,
         'MEDIA_URL': MEDIA_URL
     })
 

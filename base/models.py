@@ -80,6 +80,8 @@ UNIT_CHOICES = (
     ('I', 'Imperial'),
 )
 
+MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',))
+
 FEE_CHOICES = (('O', 'One-time',), ('R', 'Recurring',))
 
 #
@@ -704,7 +706,7 @@ class Blitz(models.Model):
         return count
 
 class BlitzInvitation(models.Model):
-    blitz = models.ForeignKey(Blitz)
+    blitz = models.ForeignKey(Blitz, blank=True, null=True)
     email = models.EmailField()
     name = models.CharField(max_length=100)
     signup_key = models.CharField(max_length=30, default="")
@@ -716,6 +718,8 @@ class BlitzInvitation(models.Model):
 
     # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
     workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
+
+    macro_formula = models.CharField(max_length=10, choices=MACROS_CHOICES, default='DEFAULT')
 
     def __unicode__(self):
         return "Invitation for %s; key: %s" % (self.name, self.signup_key)

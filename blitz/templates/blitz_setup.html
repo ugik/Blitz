@@ -38,22 +38,34 @@
         {% for program in programs %}
         <option value="{{ program.pk }}">{{ program.name }}</option>
         {% endfor %}
-        </select></td></tr><tr>
-        <td>Type:</td> <td><select name="blitz_type" id="blitz_type" class="selectpicker show-tick">
-        <option value="IND">Individual</option>
-        <option value="GRP">Group</option>
         </select></td></tr>
-        </table>
 
-    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
-    <script type="text/javascript">
+        {% if not group %}
+        <tr><td>Type:</td> <td><select name="blitz_type" id="blitz_type" class="selectpicker show-tick" 
+        {% if group %} style="visibility:hidden;" {% endif %}>
+            <option value="IND">Individual</option>
+            <option value="GRP">Group</option>
+        </select></td></tr>
+        {% endif %}
+
+        <tr><td>Macros:</td><td>
+        <select name="formulas" id="formula-select" class="selectpicker">
+            <option value="DEFAULT">Standard Macro Formula</option>
+            <option value="BULK">Bulking (+10%)</option>
+            <option value="BEAST">Beast Mode (+15%)</option>
+            <option value="CUT">Cutting (-10%)</option>
+        </select>
+        </td></tr>
+        <tr><td>Start:</td><td>
+        <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}">
+        <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+        <script type="text/javascript">
           $(document).ready(function(e) {
               $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
-          });
-    </script>
-        <br>
-
-        <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}">
+            });
+        </script>
+        </td>
+        </table>
 
         <div class="fieldWrapper">
                 <div style="width: 10%; float: left; display: inline; margin-top: 8px; font-size: 1.5em;">

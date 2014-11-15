@@ -8,6 +8,9 @@ import re
 from base.models import Trainer, Blitz, BlitzInvitation
 from workouts.models import WorkoutPlan
 
+MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',))
+BLITZ_TYPE_CHOICES = (('GRP', 'Group',), ('IND', 'Individual',))
+
 class LoginForm(forms.Form):
 
     email = forms.CharField(max_length=100)
@@ -93,6 +96,8 @@ class NewClientForm(forms.Form):
     price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Charge $'}), required=False)
     workoutplan_id = forms.CharField(max_length=5, required=False)
 
+    formulas = forms.ChoiceField(widget=forms.RadioSelect, choices=MACROS_CHOICES)
+
     def clean_email(self):
         data = self.cleaned_data['email']
         if User.objects.filter(email=data).exists():
@@ -108,9 +113,10 @@ class BlitzSetupForm(forms.Form):
     start_day = forms.DateField(initial=datetime.date.today,
                                 widget=forms.DateInput(attrs= {'class': 'datepicker', 'id':'datepicker', 'placeholder':'Start Date'} ))
     charge = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'How much do you want to charge?'}))
-    blitz_type = forms.CharField(max_length=10,widget=forms.TextInput())
+    blitz_type = forms.ChoiceField(widget=forms.RadioSelect, choices=BLITZ_TYPE_CHOICES, required=False)
 
     trainer = Trainer()
+    formulas = forms.ChoiceField(widget=forms.RadioSelect, choices=MACROS_CHOICES)
 
     def __init__(self,*args,**kwargs):
         trainer = kwargs.pop("trainer")     # client is the parameter passed from views.py
@@ -196,7 +202,6 @@ class Intro1Form(forms.Form):
     gender = forms.CharField(max_length=1)
 
 class MacrosForm(forms.Form): 
-    MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',))
 
     formulas = forms.ChoiceField(widget=forms.RadioSelect, choices=MACROS_CHOICES)
 

@@ -257,7 +257,8 @@
 		</div>
 
 		<div class="details">
-			{{ client.get_blitz.workout_plan.name }}
+	            <h5>{{ client.get_blitz.workout_plan.name }} 
+                        {% if customized %}(customized {{ customized }}){% endif %}</h5>
 		</div>
 
 		<div class="spacer10"></div>

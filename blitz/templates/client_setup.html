@@ -1,6 +1,15 @@
-{% extends "small_block_content.html" %}
+{% extends "formpage.html" %}
 
-{% block small_block_content %}
+{% block morehead %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+
+{% endblock %}
+
+{% block formpage_content %}
 
 <div class="well"><div class="panel panel-default">
   <div class="panel-heading"><b>Invite
@@ -42,7 +51,16 @@
                 </option>
             {% endfor %}
             </select>
-            <br>
+
+        <tr><td>Macros:</td><td>
+        <select name="formulas" id="formula-select" class="selectpicker">
+            <option value="DEFAULT">Standard Macro Formula</option>
+            <option value="BULK">Bulking (+10%)</option>
+            <option value="BEAST">Beast Mode (+15%)</option>
+            <option value="CUT">Cutting (-10%)</option>
+        </select>
+        </td></tr>
+        <br>
         {% endif %}
 <!--        <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
         </textarea></td>
@@ -54,6 +72,6 @@
         <button class="obtn full-width btn-warning">Invite client</button>
 </div>
 
-{% endblock small_block_content %}
+{% endblock formpage_content %}
 
 

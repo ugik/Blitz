@@ -53,6 +53,15 @@
                            {% endfor %}
                            </select></div></td></tr>
 
+                           <tr><td>Macros:</td><td>
+                           <select name="formulas" id="formula-select" class="selectpicker">
+                               <option value="DEFAULT">Standard Macro Formula</option>
+                               <option value="BULK">Bulking (+10%)</option>
+                               <option value="BEAST">Beast Mode (+15%)</option>
+                               <option value="CUT">Cutting (-10%)</option>
+                           </select>
+                           </td></tr>
+
                            <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
                            <script type="text/javascript">
                               $(document).ready(function(e) {
