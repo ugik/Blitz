@@ -111,8 +111,8 @@ class BlitzSetupForm(forms.Form):
     title = forms.CharField(max_length=30,widget=forms.TextInput(attrs={'placeholder': 'Program Name'})) 
     url_slug = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'placeholder': 'url'}))
     start_day = forms.DateField(initial=datetime.date.today,
-                                widget=forms.DateInput(attrs= {'class': 'datepicker', 'id':'datepicker', 'placeholder':'Start Date'} ))
-    charge = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'class':'form-control','placeholder': 'How much do you want to charge?'}))
+                                widget=forms.DateInput(attrs= {'class': 'datepicker', 'id':'datepicker', 'placeholder': 'Start Date'} ))
+    charge = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'class':'form-control','placeholder': '500'}))
     blitz_type = forms.ChoiceField(widget=forms.RadioSelect, choices=BLITZ_TYPE_CHOICES, required=False)
 
     trainer = Trainer()
