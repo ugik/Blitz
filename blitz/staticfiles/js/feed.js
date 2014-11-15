@@ -2,7 +2,7 @@
 $(document).ready(function() {
     // expanding textareas
     $(document).on('DOMSubtreeModified', function() {
-        $('.add-child-comment-container textarea').expandingTextarea();
+        $('.add-child-comment-container textarea').expandingTextarea().css('position', 'relative');
     });
 
     // todo: abstract here
