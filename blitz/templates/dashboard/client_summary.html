@@ -250,10 +250,10 @@
 
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
-			
-			<div class="btn-group">
-				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('plan_name').text='{{ client.get_blitz.workout_plan.name }}'; document.getElementById('edit_request').value='Help me improve the {{ client.get_blitz.workout_plan.name }} program.'; $('#modalInclude').show(); jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }"> Edit Plan</a>
-			</div>
+			<span class="sidebar-box-title">Workout Plan</span>
+				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('plan_name').text='{{ client.get_blitz.workout_plan.name }}'; document.getElementById('edit_request').value='Help me improve the {{ client.get_blitz.workout_plan.name }} program.'; $('#modalInclude').show(); jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
+					Edit
+				</a>
 		</div>
 
 		<div class="details">

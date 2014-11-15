@@ -3513,6 +3513,7 @@ input::-webkit-inner-spin-button {
 
 
 .macro-history {
+  margin-bottom: 10px;
   //@include ffboxshadow();
     table {
     width: 100%;
@@ -5107,10 +5108,22 @@ h3 a#name, a#blurb {
   margin-top: 5px; 
 }
 
+#summary > div > div.section.diet-goals.sidebar-box, #summary > div > div.section.sidebar-box.diet-progress {
+  margin-bottom: 0px !important;
+}
+
 #dashboard #summary .sidebar-box .header {
   text-align: left; 
 }
 
 #summary .btn-edit {
   margin-top: -5px;
+}
+
+#dashboard #summary .sidebar-box .macro-history .week-name {
+  text-align: left;
+}
+
+span.sidebar-box-title {
+  opacity: 0.5;
 }
