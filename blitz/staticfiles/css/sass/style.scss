@@ -5127,3 +5127,10 @@ h3 a#name, a#blurb {
 span.sidebar-box-title {
   opacity: 0.5;
 }
+
+#summary > div > div.section.sidebar-box.workout-plan > div.details {
+  @include meta();
+  font-size: 22px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}

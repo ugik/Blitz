@@ -6165,3 +6165,11 @@ h3 a#name, a#blurb {
 span.sidebar-box-title {
   opacity: 0.5;
 }
+
+/* line 5131, ../sass/style.scss */
+#summary > div > div.section.sidebar-box.workout-plan > div.details {
+  font-family: 'metanormal_caps';
+  font-size: 22px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
