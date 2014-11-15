@@ -5008,16 +5008,13 @@ h3 a#name, a#blurb {
 #summary .sidebar-box .goals-history {
   //border-radius: 4px;
   margin-top: 5px;
-  border: 1px solid rgba(0,0,0,0.15) !important;
+  border: 1px solid #e1e3e2 !important;
+  margin-bottom: 15px;
 }
 
 #summary .sidebar-box {
-  border-radius: none !important;
-}
-
-.sidebar-box {
-  border-radius: none !important;
-  @include borderbox();
+  border-radius: 0px !important;
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 .macro-toggle {

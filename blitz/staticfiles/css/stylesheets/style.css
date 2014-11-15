@@ -6013,23 +6013,17 @@ h3 a#name, a#blurb {
 /* line 5008, ../sass/style.scss */
 #summary .sidebar-box .goals-history {
   margin-top: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e1e3e2 !important;
+  margin-bottom: 15px;
 }
 
-/* line 5014, ../sass/style.scss */
+/* line 5015, ../sass/style.scss */
 #summary .sidebar-box {
-  border-radius: none !important;
+  border-radius: 0px !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* line 5018, ../sass/style.scss */
-.sidebar-box {
-  border-radius: none !important;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-/* line 5023, ../sass/style.scss */
+/* line 5020, ../sass/style.scss */
 .macro-toggle {
   margin-left: 0px !important;
   box-shadow: none;
@@ -6046,12 +6040,12 @@ h3 a#name, a#blurb {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 5034, ../sass/style.scss */
+/* line 5031, ../sass/style.scss */
 .macro-toggle a {
   outline: none;
 }
 
-/* line 5041, ../sass/style.scss */
+/* line 5038, ../sass/style.scss */
 .switch-training {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -6074,18 +6068,18 @@ h3 a#name, a#blurb {
   box-sizing: border-box;
   border: 2px solid #7ab2ea;
 }
-/* line 5052, ../sass/style.scss */
+/* line 5049, ../sass/style.scss */
 .switch-training a {
   outline: none;
 }
 
-/* line 5061, ../sass/style.scss */
+/* line 5058, ../sass/style.scss */
 .macro-toggle .active {
   background: #7ab2ea;
   color: white;
 }
 
-/* line 5066, ../sass/style.scss */
+/* line 5063, ../sass/style.scss */
 .switch-resting {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -6108,12 +6102,12 @@ h3 a#name, a#blurb {
   box-sizing: border-box;
   border: 2px solid #7ab2ea;
 }
-/* line 5077, ../sass/style.scss */
+/* line 5074, ../sass/style.scss */
 .switch-resting a {
   outline: none;
 }
 
-/* line 5086, ../sass/style.scss */
+/* line 5083, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box {
   width: 25%;
   float: left;
@@ -6128,12 +6122,12 @@ h3 a#name, a#blurb {
   color: #4B4B4A;
   margin-bottom: 15px;
 }
-/* line 5097, ../sass/style.scss */
+/* line 5094, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box .title {
   font-size: 12px !important;
 }
 
-/* line 5102, ../sass/style.scss */
+/* line 5099, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box .info {
   padding: 0px;
   font-color: #515352;
@@ -6142,12 +6136,12 @@ h3 a#name, a#blurb {
   margin-top: 5px;
 }
 
-/* line 5110, ../sass/style.scss */
+/* line 5107, ../sass/style.scss */
 #dashboard #summary .sidebar-box .header {
   text-align: left;
 }
 
-/* line 5114, ../sass/style.scss */
+/* line 5111, ../sass/style.scss */
 #summary .btn-edit {
   margin-top: -5px;
 }
