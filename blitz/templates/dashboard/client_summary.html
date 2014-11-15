@@ -71,9 +71,9 @@
 		<div class="goals-history">
 			{% if macro_goals %}
 			
-			<div class="btn-group">
-			    <button type="button" class="switch-training btn btn-default active">Training Days</button>
-			    <button type="button" class="switch-resting btn btn-default">Rest Days</button>
+			<div class="macro-toggle">
+			    <button type="button" class="switch-training active">Training Days</button>
+			    <button type="button" class="switch-resting">Rest Days</button>
 			</div>
 			
 			{% with macro_goals as macro %}
@@ -83,7 +83,7 @@
 						Calories
 					</div>
 					<div class="description info info-calories">
-						{{ macro.training_calories_min }} - {{ macro.training_calories }}
+						{{ macro.training_calories_min }}-{{ macro.training_calories }}
 					</div>
 				</div>
 			
@@ -92,7 +92,7 @@
 						Protein
 					</div>
 					<div class="description info info-protein">
-						{{ macro.training_protein_min }} - {{ macro.training_protein }}
+						{{ macro.training_protein_min }}-{{ macro.training_protein }}
 					</div>
 				</div>
 
@@ -101,7 +101,7 @@
 						Carbs
 					</div>
 					<div class="description info info-carbs">
-						{{ macro.training_carbs_min }} - {{ macro.training_carbs }}
+						{{ macro.training_carbs_min }}-{{ macro.training_carbs }}
 					</div>
 				</div>
 
@@ -110,7 +110,7 @@
 						Fat
 					</div>
 					<div class="description info info-fat">
-						{{ macro.training_fat_min }} - {{ macro.training_fat }}
+						{{ macro.training_fat_min }}-{{ macro.training_fat }}
 					</div>
 				</div>
 			</div> <!-- training -->
@@ -120,7 +120,7 @@
 						Calories
 					</div>
 					<div class="description info info-calories">
-						{{ macro.rest_calories_min }} - {{ macro.rest_calories }}
+						{{ macro.rest_calories_min }}-{{ macro.rest_calories }}
 					</div>
 				</div>
 			
@@ -129,7 +129,7 @@
 						Protein
 					</div>
 					<div class="description info info-protein">
-						{{ macro.rest_protein_min }} - {{ macro.rest_protein }}
+						{{ macro.rest_protein_min }}-{{ macro.rest_protein }}
 					</div>
 				</div>
 
@@ -138,7 +138,7 @@
 						Carbs
 					</div>
 					<div class="description info info-carbs">
-						{{ macro.rest_carbs_min }} - {{ macro.rest_carbs }}
+						{{ macro.rest_carbs_min }}-{{ macro.rest_carbs }}
 					</div>
 				</div>
 
@@ -147,7 +147,7 @@
 						Fat
 					</div>
 					<div class="description info info-fat">
-						{{ macro.rest_fat_min }} - {{ macro.rest_fat }}
+						{{ macro.rest_fat_min }}-{{ macro.rest_fat }}
 					</div>
 				</div>
 			</div> <!-- resting -->
