@@ -39,6 +39,12 @@ class Command(BaseCommand):
         for line in lifts_file:
             if line.strip() == '' or line.startswith('#'): continue
             fields = line.strip('\n').split('\t')
+            if len(fields) == 1:
+                fields = line.strip('\n').split(',')
+            if len(fields) == 1:
+                print "Columns missing in lifts.tsv"
+                raise
+
             lift = Lift(slug=fields[0], name=fields[1])
             lift.name = fields[1]
             lift.lift_type = fields[2]
