@@ -11,24 +11,21 @@
 
 {% block formpage_content %}
 
-<div class="well"><div class="panel panel-default">
-  <div class="panel-heading"><b>Invite
-  {% if blitz.recurring %} for <img src="{{ STATIC_URL }}images/SalesPage1on1.png" width="45px"/>Blitz 
-  {% else %} for <img src="{{ STATIC_URL }}images/SalesPageGroup.png" width="45px"/>Blitz {% endif %}
-  </b></div><br>
-  <div class="panel-body">
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+            <div class="header">Invite a client</div>
+                {% if mode = "free" %}
+                    <p>Tell us a bit about the client you want invited, note this will be <b>FREE of charge</b>: </p>
+                {% else %}
+                    <p></p>
+                {% endif %}
 
-    {% if mode = "free" %}
-    <p>Tell us a bit about the client you want invited, note this will be <b>FREE of charge</b>: </p>
-    {% else %}
-    <p>Here is the email to your invited client: </p>
-    {% endif %}
-
-    {% if mode = "free" %}
-    <form class="form" action="/client-setup/{{ blitz.pk }}?free" method="post" name="client-setup">
-    {% else %}
-    <form class="form" action="/client-setup/{{ blitz.pk }}" method="post" name="client-setup">
-    {% endif %}
+                {% if mode = "free" %}
+                    <form class="form" action="/client-setup/{{ blitz.pk }}?free" method="post" name="client-setup">
+                {% else %}
+                    <form class="form" action="/client-setup/{{ blitz.pk }}" method="post" name="client-setup">
+                {% endif %}
 
         {% csrf_token %}
 
@@ -38,13 +35,10 @@
         <input type="text" name="email" placeholder="Email" />
         {% include "error_field.html" with param='email' %}
         <br>
-        {% if mode != "free" %}
-        $<input type="text" name="price" placeholder="Price #" value="{{ blitz.price }}"/>
-        {% include "error_field.html" with param='price' %}
-        {% endif %}
-        <br>
+
         {% if blitz.recurring and workoutplans %}
-            <select name="workoutplan_id" id="workoutplan_id">
+
+            <select name="workoutplan_id" id="workoutplan_id" class="selectpicker">
             {% for wp in workoutplans %}
                 <option value="{{wp.id}}"{% if wp = blitz.workoutplan %}selected{% endif %}>
                 {{wp.name}} 
@@ -52,15 +46,27 @@
             {% endfor %}
             </select>
 
-        <tr><td>Macros:</td><td>
-        <select name="formulas" id="formula-select" class="selectpicker">
-            <option value="DEFAULT">Standard Macro Formula</option>
-            <option value="BULK">Bulking (+10%)</option>
-            <option value="BEAST">Beast Mode (+15%)</option>
-            <option value="CUT">Cutting (-10%)</option>
-        </select>
-        </td></tr>
+            <select name="formulas" id="formula-select" class="selectpicker">
+                <option value="DEFAULT">Standard Macro Formula</option>
+                <option value="BULK">Bulking (+10%)</option>
+                <option value="BEAST">Beast Mode (+15%)</option>
+                <option value="CUT">Cutting (-10%)</option>
+            </select>
+            <br>
+
+        {% if mode != "free" %}
+        <div class="input-row-fw">
+          <div class="field-label">
+            $ / month:
+          </div>
+          <div class="form-input">
+            <input type="text" name="price" placeholder="Price #" value="{{ blitz.price }}"/>
+            {% include "error_field.html" with param='price' %}
+          </div>
+        </div>
+        {% endif %}
         <br>
+
         {% endif %}
 <!--        <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
         </textarea></td>
@@ -69,7 +75,7 @@
         <input type="hidden" name="signup_key" value="{{ signup_key }}">
         <input type="hidden" name="invite_url" value="{{ invite_url }}">
 
-        <button class="obtn full-width btn-warning">Invite client</button>
+        <button class="obtn full-width">Invite client</button>
 </div>
 
 {% endblock formpage_content %}

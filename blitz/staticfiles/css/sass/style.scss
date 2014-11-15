@@ -17,6 +17,7 @@ $blitz-red: #e8748e;
 $blitz-orange: #eea463;
 $blitz-green: #57c6b9;
 $blitz-purple: #9b8ddb;
+$error-red: #ed2a44;
 
 @mixin boldfont() {
   font-family: 'proxima_novabold';
@@ -4167,10 +4168,10 @@ body.modal-open {
   background: none;
   text-shadow: none;
   list-style-type: none !important;
-  color: #ed2a44;
+  color: $error-red;
   margin-top: -10px;
   margin-left: -8px;
-  border-top: 3px solid #ed2a44;
+  border-top: 3px solid $error-red;
   padding-top: 5px;
   padding-bottom: 10px;
   width: 103%; 
@@ -5133,4 +5134,55 @@ span.sidebar-box-title {
   font-size: 22px;
   margin-top: -10px;
   margin-bottom: 15px;
+}
+
+body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > div.form-input > div > button > span.filter-option.pull-left {
+  text-align: center !important;
+  }
+
+body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:nth-child(1) > td:nth-child(2) > div {
+  //margin-left: 10px !important;
+}
+
+.input-row-fw {
+  width: 100%;
+  float: left;
+}
+
+.field-label {
+  float: left;
+  width: 30%;
+  margin-top: 10px;
+}
+
+.form-input {
+  float: left;
+  margin-left: 5%;
+  width: 65%;
+}
+
+.fieldWrapper-url {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  @include meta();
+}
+
+.alert {
+  background: none;
+  color: $error-red;
+  border: none;
+  text-shadow: none;
+  border: 1px solid $error-red;
+}
+
+.alert-warning {
+
+}
+
+.error-header {
+  font-size: 18px;
+  @include meta();
+  margin-bottom: 10px;
 }
