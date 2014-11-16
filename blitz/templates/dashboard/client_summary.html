@@ -31,14 +31,14 @@
        var w_fat = r_fat * wkout_factor;
        var w_carbs = r_carbs * wkout_factor;
 
-       document.getElementById('c_rest_cals').text=r_cals.toFixed(0).toString();
-       document.getElementById('c_rest_fat').text=r_fat.toFixed(0).toString();
-       document.getElementById('c_rest_carbs').text=r_carbs.toFixed(0).toString();
-       document.getElementById('c_rest_protein').text=r_protein.toFixed(0).toString();
-       document.getElementById('c_wout_cals').text=w_cals.toFixed(0).toString();
-       document.getElementById('c_wout_fat').text=w_fat.toFixed(0).toString();
-       document.getElementById('c_wout_carbs').text=w_carbs.toFixed(0).toString();
-       document.getElementById('c_wout_protein').text=w_protein.toFixed(0).toString();
+       document.getElementById('c_rest_cals').value=r_cals.toFixed(0).toString();
+       document.getElementById('c_rest_fat').value=r_fat.toFixed(0).toString();
+       document.getElementById('c_rest_carbs').value=r_carbs.toFixed(0).toString();
+       document.getElementById('c_rest_protein').value=r_protein.toFixed(0).toString();
+       document.getElementById('c_wout_cals').value=w_cals.toFixed(0).toString();
+       document.getElementById('c_wout_fat').value=w_fat.toFixed(0).toString();
+       document.getElementById('c_wout_carbs').value=w_carbs.toFixed(0).toString();
+       document.getElementById('c_wout_protein').value=w_protein.toFixed(0).toString();
 
        return 0;
        }
@@ -47,7 +47,16 @@
          $.ajax({
              url:'/trainer/client-macros-save',
              type: 'POST',
-             data: {client: {{ client.pk }}, formula: document.getElementById('formula-select').value },
+             data: {client: {{ client.pk }}, formula: document.getElementById('formula-select').value,
+                    c_rest_cals: document.getElementById('c_rest_cals').value,
+                    c_rest_fat: document.getElementById('c_rest_fat').value,
+                    c_rest_carbs: document.getElementById('c_rest_carbs').value,
+                    c_rest_protein: document.getElementById('c_rest_protein').value,
+                    c_wout_cals: document.getElementById('c_wout_cals').value,
+                    c_wout_fat: document.getElementById('c_wout_fat').value,
+                    c_wout_carbs: document.getElementById('c_wout_carbs').value,
+                    c_wout_protein: document.getElementById('c_wout_protein').value,
+                    },
              success:function(result){}
            });
        }

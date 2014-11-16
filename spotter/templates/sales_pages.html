@@ -29,8 +29,7 @@
 <header> Edit sales page content
 
 <div class="span8">
-
-      <form action="#" method="post" id="contactform">
+      <form action="{% url 'spotter_sales_pages2' %}?plan={{ plan }}" method="post" id="contactform">
       {% csrf_token %}
       <div id="ajaxwrapper">
           <table>
@@ -38,7 +37,9 @@
           {{ form.errors }}
           </table><br>
           <div class="submit-container">
-            <p id="sendwrapper"><input type="submit" class='obtn full-width' value="Send" id="sendbutton"/></p>
+             <p id="sendwrapper">
+                <input type="submit" class='obtn full-width' value="Send" id="sendbutton"/>
+             </p>
           </div>
       </div>
       </form>
