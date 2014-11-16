@@ -422,13 +422,16 @@ def spotter_sales_pages(request):
             content = SalesPageContent.objects.get(pk=plan_id)
             update_record = SalesPageForm(request.POST, instance=content)
             update_record.save()
-            return render_to_response('sales_pages.html', 
-                              {'form': form, 'errors' : form.errors},
-                              RequestContext(request))
+            if request.is_ajax():
+                pass
+            else:
+                return redirect('spotter_blitz_sales_pages')
+
     else:
         content = SalesPageContent.objects.get(pk=plan_id)
         form = SalesPageForm(instance=content)
 
+#    import pdb; pdb.set_trace()
     return render_to_response('sales_pages.html', 
                               {'form': form, 'errors' : form.errors},
                               RequestContext(request))
