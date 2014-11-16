@@ -172,6 +172,7 @@ barbell-standing-shoulder-press,Barbell Standing Shoulder Press,R,0,1
 45-degree-back-extension,45 Degree Back Extension,R,0,1
 weighted-pullup,Weighted Pullup,R,0,1
 seated-dumbbell-front-raise,Seated Dumbbell Front Raise,R,0,1
+stiff-legged-deadlift,Stiff-Legged Deadlift,R,0,0
 db-stiff-legged-deadlift,DB Stiff Legged Deadlift,R,0,1
 seated-dumbbell-shoulder-press,Seated Dumbbell Shoulder Press,R,0,1
 reverse-db-lunge,Reverse DB Lunge,R,0,1
@@ -225,9 +226,16 @@ kb-push-ups,Kettlebell Pushup,R,0,1
 kb-bent-over-row,Kettlebell Bent-over Row,R,0,0
 kb-deadlift,Kettlebell Deadlift,R,0,0
 kb-1-leg-deadlift,Kettlebell One-Leg Deadlift,R,0,0
+kb-rdl,Kettlebell Romanian Deadlift,R,0,0
+kb-1-leg-RDL,Kettlebell One-Leg Romanian Deadlift,R,0,0
+kb-stiff-legged-deadlift,Kettlebell Stiff-Legged Deadlift,R,0,0
+kb-1-leg-stiff-legged-deadlift,Kettlebell One-Leg Stiff-Legged Deadlift,R,0,0
 kb-btn-tricep-exension,Kettlebell Behind-the-Neck Tricep Extension,R,0,0
 1-arm-kb-row,One Arm Kettlebell Row,R,0,0
 2-arm-kb-row,Double Kettlebell Row,R,0,0
 snatch-grib-btn-press,Snatch grip Behind-the-Neck Press,R,0,0
 snatch-grib-btn-push-press,Snatch grip Behind-the-Neck Push Press,R,0,0
 barbell-thrusters,Barbell Thrusters,R,0,0
+kb-thrusters,Kettlebell Thrusters,R,0,0
+kb-power-cleans,Kettlebell Power Cleans,R,0,0
+kb-hang-cleans,Kettlebell Hang Cleans,R,0,0
