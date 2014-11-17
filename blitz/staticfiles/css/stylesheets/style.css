@@ -5724,6 +5724,7 @@ ul.filters li.item {
 /* line 4779, ../sass/style.scss */
 .feeds {
   max-width: 725px;
+  width: 725px;
   float: left;
   color: #333;
   font-size: 18pt;
@@ -5731,19 +5732,19 @@ ul.filters li.item {
   padding: 30px;
 }
 
-/* line 4788, ../sass/style.scss */
+/* line 4789, ../sass/style.scss */
 .startlabel {
   margin-right: 10px;
   float: left;
 }
 
-/* line 4793, ../sass/style.scss */
+/* line 4794, ../sass/style.scss */
 #modalMacros > div > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select > button > span.filter-option.pull-left {
   text-align: center;
   font-size: 18px;
 }
 
-/* line 4798, ../sass/style.scss */
+/* line 4799, ../sass/style.scss */
 .inbtn {
   width: 80px;
   height: 15px;
@@ -5752,54 +5753,54 @@ ul.filters li.item {
   text-align: center;
 }
 
-/* line 4806, ../sass/style.scss */
+/* line 4807, ../sass/style.scss */
 .wtw {
   text-align: center;
 }
 @media (max-width: 480px) {
-  /* line 4806, ../sass/style.scss */
+  /* line 4807, ../sass/style.scss */
   .wtw {
     width: 90% !important;
     margin-left: 0% !important;
   }
 }
 
-/* line 4814, ../sass/style.scss */
+/* line 4815, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-header, .ui-datepicker th, .ui-widget-content {
   font-family: 'proxima_novalight';
   color: #444;
 }
 
-/* line 4819, ../sass/style.scss */
+/* line 4820, ../sass/style.scss */
 .ui-datepicker td, .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   text-align: center;
   background: none;
   color: #888;
 }
 
-/* line 4825, ../sass/style.scss */
+/* line 4826, ../sass/style.scss */
 .ui-widget-header {
   background: none;
   border: none;
 }
 
-/* line 4831, ../sass/style.scss */
+/* line 4832, ../sass/style.scss */
 a.ui-state-default :hover {
   border: 1px solid #7ab2ea;
   color: #7ab2ea;
 }
 
-/* line 4836, ../sass/style.scss */
+/* line 4837, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
   background: none;
   border: none;
 }
-/* line 4839, ../sass/style.scss */
+/* line 4840, ../sass/style.scss */
 .ui-datepicker .ui-datepicker-prev :hover, .ui-datepicker .ui-datepicker-next :hover {
   cursor: pointer;
 }
 
-/* line 4844, ../sass/style.scss */
+/* line 4845, ../sass/style.scss */
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus, .dropdown-submenu:hover > a, .dropdown-submenu:focus > a {
   background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
   background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
@@ -5808,13 +5809,13 @@ a.ui-state-default :hover {
   background-color: #7ab2ea;
 }
 
-/* line 4849, ../sass/style.scss */
+/* line 4850, ../sass/style.scss */
 .trainer-alert .btn {
   font-family: 'metanormal_caps';
   text-shadow: none;
 }
 
-/* line 4854, ../sass/style.scss */
+/* line 4855, ../sass/style.scss */
 .trainer-alert form .btn {
   background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
   background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
@@ -5825,45 +5826,45 @@ a.ui-state-default :hover {
   box-shadow: none;
 }
 
-/* line 4861, ../sass/style.scss */
+/* line 4862, ../sass/style.scss */
 .trainer-alert form .btn:hover {
   background: #94c1ee;
 }
 
-/* line 4865, ../sass/style.scss */
+/* line 4866, ../sass/style.scss */
 .trainer-alert form .btn:focus {
   box-shadow: none;
 }
 
-/* line 4869, ../sass/style.scss */
+/* line 4870, ../sass/style.scss */
 #summary {
   border: none;
 }
 
-/* line 4873, ../sass/style.scss */
+/* line 4874, ../sass/style.scss */
 .navbar-fixed-top {
   background: #2b2b2b;
 }
 
-/* line 4877, ../sass/style.scss */
+/* line 4878, ../sass/style.scss */
 .check-in-feed-item {
   float: left;
   margin-bottom: 30px;
 }
 
-/* line 4882, ../sass/style.scss */
+/* line 4883, ../sass/style.scss */
 .checkin-wrap {
   padding: 20px;
 }
 
-/* line 4886, ../sass/style.scss */
+/* line 4887, ../sass/style.scss */
 .checkin-weight {
   font-family: 'proxima_novalight';
   font-size: 18px;
   margin-bottom: 20px;
 }
 
-/* line 4892, ../sass/style.scss */
+/* line 4893, ../sass/style.scss */
 .checkin-pic-wrap {
   width: 100%;
   margin-bottom: 20px;
@@ -5871,14 +5872,14 @@ a.ui-state-default :hover {
   float: left;
 }
 
-/* line 4899, ../sass/style.scss */
+/* line 4900, ../sass/style.scss */
 .checkin-pic {
   float: left;
   width: 48%;
   margin-right: 2%;
 }
 @media (max-width: 480px) {
-  /* line 4899, ../sass/style.scss */
+  /* line 4900, ../sass/style.scss */
   .checkin-pic {
     width: 100%;
     margin-right: 0;
@@ -5887,14 +5888,14 @@ a.ui-state-default :hover {
 }
 
 /* Let's get this party started, webkit scrollbar styles */
-/* line 4911, ../sass/style.scss */
+/* line 4912, ../sass/style.scss */
 ::-webkit-scrollbar {
   max-width: 4px;
   max-height: 4px;
 }
 
 /* Track */
-/* line 4917, ../sass/style.scss */
+/* line 4918, ../sass/style.scss */
 ::-webkit-scrollbar-track {
   -webkit-border-radius: 100px;
   border-radius: 100px;
@@ -5902,40 +5903,40 @@ a.ui-state-default :hover {
 }
 
 /* Handle */
-/* line 4925, ../sass/style.scss */
+/* line 4926, ../sass/style.scss */
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 100px;
   border-radius: 100px;
   background: #7ab2ea;
 }
 
-/* line 4932, ../sass/style.scss */
+/* line 4933, ../sass/style.scss */
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(0, 0, 0, 0.3);
 }
 
-/* line 4936, ../sass/style.scss */
+/* line 4937, ../sass/style.scss */
 .client-summary {
   position: fixed;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   height: 100%;
 }
 
-/* line 4942, ../sass/style.scss */
+/* line 4943, ../sass/style.scss */
 #homepage-loading {
   max-width: 36px;
   margin-top: 100px;
   padding: 20px;
 }
 
-/* line 4948, ../sass/style.scss */
+/* line 4949, ../sass/style.scss */
 .feeds-filter ul {
   font-family: 'metanormal_caps';
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: -1px;
 }
 
-/* line 4954, ../sass/style.scss */
+/* line 4955, ../sass/style.scss */
 .feeds-filter ul li {
   transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
@@ -5949,18 +5950,18 @@ a.ui-state-default :hover {
   animation: btnpulsate .0s none;
 }
 
-/* line 4960, ../sass/style.scss */
+/* line 4961, ../sass/style.scss */
 .feeds-filter ul li:hover {
   color: #7ab2ea;
   border-bottom: 3px solid #7ab2ea;
 }
 
-/* line 4966, ../sass/style.scss */
+/* line 4967, ../sass/style.scss */
 .feeds-filter ul li.active {
   color: #7ab2ea;
 }
 
-/* line 4970, ../sass/style.scss */
+/* line 4971, ../sass/style.scss */
 .client-summary, .feeds, .feeds-filter, #main-feed {
   -webkit-animation: fadein 0.25s;
   /* Safari, Chrome and Opera > 12.1 */
@@ -5973,7 +5974,7 @@ a.ui-state-default :hover {
   animation: fadein 0.25s;
 }
 
-/* line 4974, ../sass/style.scss */
+/* line 4975, ../sass/style.scss */
 #dashboard > div.content-wrapper > div > div.feeds > div.alerts-wrapper {
   margin-top: -20px;
   -webkit-animation: fadein 0.25s;
@@ -5987,63 +5988,63 @@ a.ui-state-default :hover {
   animation: fadein 0.25s;
 }
 
-/* line 4979, ../sass/style.scss */
+/* line 4980, ../sass/style.scss */
 .modal-body .row .span6 {
   text-align: center;
 }
 @media (max-width: 480px) {
-  /* line 4979, ../sass/style.scss */
+  /* line 4980, ../sass/style.scss */
   .modal-body .row .span6 {
     margin-left: -5%;
   }
 }
 
-/* line 4989, ../sass/style.scss */
+/* line 4990, ../sass/style.scss */
 #modalClientMacros > div > div > div.modal-body > div > div > div > form {
   margin-left: -5%;
 }
 
 @media (max-width: 480px) {
-  /* line 4993, ../sass/style.scss */
+  /* line 4994, ../sass/style.scss */
   #modalClientMacros .formpage-block {
     margin-left: 0%;
     width: 82%;
   }
 }
 
-/* line 5001, ../sass/style.scss */
+/* line 5002, ../sass/style.scss */
 .modal-body .row .span6 #headshot {
   max-width: 150px;
   margin: 0 auto;
   border: 6px solid white;
 }
 
-/* line 5007, ../sass/style.scss */
+/* line 5008, ../sass/style.scss */
 h3 a#name, a#blurb {
   text-decoration: none;
   color: white;
 }
 
-/* line 5013, ../sass/style.scss */
+/* line 5014, ../sass/style.scss */
 #modalClientMacros > div > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select > button > span.filter-option.pull-left {
   text-align: center;
   font-size: 18px;
 }
 
-/* line 5020, ../sass/style.scss */
+/* line 5021, ../sass/style.scss */
 #summary .sidebar-box .goals-history {
   margin-top: 5px;
   border: 1px solid #e1e3e2 !important;
   margin-bottom: 15px;
 }
 
-/* line 5027, ../sass/style.scss */
+/* line 5028, ../sass/style.scss */
 #summary .sidebar-box {
   border-radius: 0px !important;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* line 5032, ../sass/style.scss */
+/* line 5033, ../sass/style.scss */
 .macro-toggle {
   margin-left: 0px !important;
   box-shadow: none;
@@ -6060,12 +6061,12 @@ h3 a#name, a#blurb {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 5043, ../sass/style.scss */
+/* line 5044, ../sass/style.scss */
 .macro-toggle a {
   outline: none;
 }
 
-/* line 5050, ../sass/style.scss */
+/* line 5051, ../sass/style.scss */
 .switch-training {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -6088,18 +6089,18 @@ h3 a#name, a#blurb {
   box-sizing: border-box;
   border: 2px solid #7ab2ea;
 }
-/* line 5061, ../sass/style.scss */
+/* line 5062, ../sass/style.scss */
 .switch-training a {
   outline: none;
 }
 
-/* line 5070, ../sass/style.scss */
+/* line 5071, ../sass/style.scss */
 .macro-toggle .active {
   background: #7ab2ea;
   color: white;
 }
 
-/* line 5075, ../sass/style.scss */
+/* line 5076, ../sass/style.scss */
 .switch-resting {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -6122,12 +6123,12 @@ h3 a#name, a#blurb {
   box-sizing: border-box;
   border: 2px solid #7ab2ea;
 }
-/* line 5086, ../sass/style.scss */
+/* line 5087, ../sass/style.scss */
 .switch-resting a {
   outline: none;
 }
 
-/* line 5095, ../sass/style.scss */
+/* line 5096, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box {
   width: 25%;
   float: left;
@@ -6142,12 +6143,12 @@ h3 a#name, a#blurb {
   color: #4B4B4A;
   margin-bottom: 15px;
 }
-/* line 5106, ../sass/style.scss */
+/* line 5107, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box .title {
   font-size: 12px !important;
 }
 
-/* line 5111, ../sass/style.scss */
+/* line 5112, ../sass/style.scss */
 #summary .sidebar-box .goals-history .box .info {
   padding: 0px;
   font-color: #515352;
@@ -6156,32 +6157,32 @@ h3 a#name, a#blurb {
   margin-top: 5px;
 }
 
-/* line 5119, ../sass/style.scss */
+/* line 5120, ../sass/style.scss */
 #summary > div > div.section.diet-goals.sidebar-box, #summary > div > div.section.sidebar-box.diet-progress {
   margin-bottom: 0px !important;
 }
 
-/* line 5123, ../sass/style.scss */
+/* line 5124, ../sass/style.scss */
 #dashboard #summary .sidebar-box .header {
   text-align: left;
 }
 
-/* line 5127, ../sass/style.scss */
+/* line 5128, ../sass/style.scss */
 #summary .btn-edit {
   margin-top: -5px;
 }
 
-/* line 5131, ../sass/style.scss */
+/* line 5132, ../sass/style.scss */
 #dashboard #summary .sidebar-box .macro-history .week-name {
   text-align: left;
 }
 
-/* line 5135, ../sass/style.scss */
+/* line 5136, ../sass/style.scss */
 span.sidebar-box-title {
   opacity: 0.5;
 }
 
-/* line 5139, ../sass/style.scss */
+/* line 5140, ../sass/style.scss */
 #summary > div > div.section.sidebar-box.workout-plan > div.details {
   font-family: 'metanormal_caps';
   font-size: 22px;
@@ -6189,57 +6190,61 @@ span.sidebar-box-title {
   margin-bottom: 15px;
 }
 
-/* line 5146, ../sass/style.scss */
+/* line 5147, ../sass/style.scss */
 body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > div.form-input > div > button > span.filter-option.pull-left {
   text-align: center !important;
 }
 
-/* line 5154, ../sass/style.scss */
+/* line 5155, ../sass/style.scss */
 .input-row-fw {
   width: 100%;
   float: left;
 }
 
-/* line 5159, ../sass/style.scss */
+/* line 5160, ../sass/style.scss */
 .field-label {
   float: left;
   width: 30%;
   margin-top: 10px;
 }
 
-/* line 5165, ../sass/style.scss */
+/* line 5166, ../sass/style.scss */
 .form-input {
   float: left;
   margin-left: 5%;
   width: 65%;
 }
 
-/* line 5171, ../sass/style.scss */
+/* line 5172, ../sass/style.scss */
 .fieldWrapper-url {
   text-align: center;
   font-size: 18px;
   margin-bottom: 5px;
   margin-top: 15px;
-  font-family: 'metanormal_caps';
 }
 
 /* line 5179, ../sass/style.scss */
-.alert {
+.url-label {
+  font-family: 'metanormal_caps';
+  font-size: 24px;
+}
+
+/* line 5184, ../sass/style.scss */
+.formpage-block > .alert {
   background: none;
   color: #ed2a44;
   border: none;
   text-shadow: none;
-  border: 1px solid #ed2a44;
 }
 
-/* line 5191, ../sass/style.scss */
+/* line 5192, ../sass/style.scss */
 .error-header {
   font-size: 18px;
   font-family: 'metanormal_caps';
   margin-bottom: 10px;
 }
 
-/* line 5197, ../sass/style.scss */
+/* line 5198, ../sass/style.scss */
 .sidebar-left .actions button:not(:first-child) {
   transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
@@ -6249,7 +6254,62 @@ body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > 
   background: transparent;
   padding: 10px 20px;
 }
-/* line 5200, ../sass/style.scss */
+/* line 5201, ../sass/style.scss */
 .sidebar-left .actions button:not(:first-child) :focus {
   outline: none;
+}
+
+/* line 5243, ../sass/style.scss */
+#main-content-container div.container div.row.rightrow div.span8.rightspan div.alert.alert-info {
+  border: 1px solid #7ab2ea !important;
+  background: white !important;
+}
+
+/* line 5248, ../sass/style.scss */
+#welcome-text {
+  display: none;
+}
+
+/* line 5252, ../sass/style.scss */
+.new-trainer-experience h3 {
+  font-family: 'metanormal_caps';
+  color: white;
+  margin-top: 10px;
+}
+
+/* line 5258, ../sass/style.scss */
+#summary .text-overlay {
+  text-align: center;
+  padding-top: 10px;
+  margin-top: -100px;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+}
+
+/* line 5266, ../sass/style.scss */
+.disable {
+  display: none;
+}
+
+/* line 5270, ../sass/style.scss */
+.condensetext {
+  letter-spacing: -4px;
+  word-spacing: 14px;
+  color: #ccc;
+}
+
+/* line 5276, ../sass/style.scss */
+.intro-box {
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  background: white;
+  margin-bottom: 30px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 20px;
+  display: block;
+  line-height: 1.4;
+  font-family: 'proxima_novalight';
 }

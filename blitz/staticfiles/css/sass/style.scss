@@ -5174,7 +5174,11 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   font-size: 18px;
   margin-bottom: 5px;
   margin-top: 15px;
+}
+
+.url-label {
   @include meta();
+  font-size: 24px;
 }
 
 .formpage-block > .alert {
@@ -5182,7 +5186,6 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   color: $error-red;
   border: none;
   text-shadow: none;
-  //border: 1px solid $error-red;
 }
 
 
@@ -5254,4 +5257,29 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 
 #summary .text-overlay {
   text-align: center;
+  padding-top: 10px;
+  margin-top: -100px;
+  background: rgba(0,0,0,0.7);
+  display: none;
+}
+
+.disable {
+  display: none;
+}
+
+.condensetext {
+  letter-spacing: -4px;
+  word-spacing: 14px;
+  color: #ccc;
+}
+
+.intro-box {
+  @include ffboxshadow();
+  background: white;
+  margin-bottom: 30px;
+  @include borderradius(5px);
+  padding: 20px;
+  display: block;
+  line-height: 1.4;
+  @include lightfont();
 }
