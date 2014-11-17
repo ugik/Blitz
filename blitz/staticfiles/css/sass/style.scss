@@ -885,6 +885,10 @@ textarea,textarea:focus {
 
  }
 
+.row .rightrow {
+ .margin-top: 70px; 
+ }
+
  .hr {}
 
  .h1 .h2 .h3 .h4 .h5 .h6 {
@@ -1369,6 +1373,7 @@ a.edit-workout-link {
     position: relative;
   }
   .landscape-header-bottom {
+    margin-bottom: -70px;
     background: rgba(0, 0, 0, 0.5);
     color: white;
     font-weight: lighter;
@@ -1445,7 +1450,7 @@ a.edit-workout-link {
 }
 
 .profile-tabs {
-
+  margin-bottom: -70px;
   background: $navbarblue;
   overflow: auto;
   text-decoration: none;
@@ -4676,7 +4681,7 @@ color: #9d9ea3;
 .macroform-day {
   width: 100%;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   float: left;
   @include borderradius(5px);
   border: 1px solid white;
@@ -4720,6 +4725,9 @@ color: #9d9ea3;
   font-size: 18px;
   margin-top: 10px;
   margin-bottom: 5px;
+  @include mobile-only {
+    font-size: 0.8em;
+  }
 }
 
 .macroform-macro {
@@ -5292,4 +5300,53 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 
 .btn-group, .dropdown-toggle, .btn-group {
   text-align: center;
+}
+
+#main-content-container .container .rightrow {
+  margin-left: -30px;
+}
+
+input.macro-input {
+  border-radius: 4px !important;
+  //background: transparent;
+  //color: white;
+  height: 10px;
+  padding: 15px 0px !important;
+  width: 40px;
+  margin-bottom: -0px;
+  @include mobile-only {
+    padding: 15px 10px !important;
+    margin-left: -10px;
+  }
+}
+
+.with-input {
+  padding-left: 25px;
+  margin-top: 0px;
+ }
+
+ p.macroblurb {
+  font-size: 0.8em;
+  margin-top: 5px;
+  line-height: 1.2;
+  margin-bottom: -5px;
+  opacity: 0.6;
+ }
+
+ .description a {
+  color: $mainfontcolor;
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+  }
+ }
+
+.modal-body {
+  @include mobile-only {
+    padding: 0px !important;
+  }
+}
+
+.modal-body .row .span6 img#headshot {
+  width: 125px;
 }
