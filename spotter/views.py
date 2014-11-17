@@ -489,25 +489,6 @@ def delete_plan(plan_id):
     errors = []
     return errors
 
-# need to revisit this
-    plan = WorkoutPlan.objects.filter(id=plan_id)
-    if plan:
-        weeks = WorkoutPlanWeek.objects.filter(workout_plan_id=plan[0].id)
-        for week in weeks:
-            days = WorkoutPlanDay.objects.filter(workout_plan_week_id=week.id)
-            for day in days:
-                exercises = Exercise.objects.filter(workout_id=day.workout.id)
-                for exercise in exercises:
-                    exercise.delete()
-                day.delete()
-                day.workout.delete()
-            week.delete()
-        plan.delete()
-    else:
-        errors.append('No plan with id#%s' % plan_id)
-
-    return errors
-
 
 def get_pending_sales_pages():
 

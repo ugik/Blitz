@@ -900,11 +900,11 @@ def log_workout(request, week_number, day_char):
         raise Http404
 
     # assume for now that workout was done on assigned day
-    gym_session = GymSession.objects.get_or_create(
+    gym_session, _ = GymSession.objects.get_or_create(
         date_of_session=blitz.get_workout_date(int(week_number), day_char),
         workout_plan_day=plan_day,
         client=client
-    )[0]
+    )
 
     grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, request.user.client, gym_session.date_of_session)
     for group in grouped_sets:
