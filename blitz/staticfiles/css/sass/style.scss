@@ -4681,7 +4681,7 @@ color: #9d9ea3;
 .macroform-day {
   width: 100%;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   float: left;
   @include borderradius(5px);
   border: 1px solid white;
@@ -4725,6 +4725,9 @@ color: #9d9ea3;
   font-size: 18px;
   margin-top: 10px;
   margin-bottom: 5px;
+  @include mobile-only {
+    font-size: 0.8em;
+  }
 }
 
 .macroform-macro {
@@ -5311,6 +5314,10 @@ input.macro-input {
   padding: 15px 0px !important;
   width: 40px;
   margin-bottom: -0px;
+  @include mobile-only {
+    padding: 15px 10px !important;
+    margin-left: -10px;
+  }
 }
 
 .with-input {
@@ -5322,7 +5329,7 @@ input.macro-input {
   font-size: 0.8em;
   margin-top: 5px;
   line-height: 1.2;
-  margin-bottom: -10px;
+  margin-bottom: -5px;
   opacity: 0.6;
  }
 
@@ -5333,3 +5340,13 @@ input.macro-input {
     text-decoration: none;
   }
  }
+
+.modal-body {
+  @include mobile-only {
+    padding: 0px !important;
+  }
+}
+
+.modal-body .row .span6 img#headshot {
+  width: 125px;
+}
