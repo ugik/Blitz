@@ -45,6 +45,7 @@
                            {% endfor %}
                            </select>
                            </div>
+                        {% endif %}
 
                            <div class="input-row-fw" style="text-align: center;">
                                  <select name="formulas" id="formula-select" class="selectpicker full-width" style="text-align: center;">
@@ -60,8 +61,6 @@
                                     $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
                                     });
                                  </script>
-
-                              {% endif %}
                            </div>
 
                         {% if mode != "free" %}
