@@ -54,6 +54,12 @@
                 <option value="CUT">Cutting (-10%)</option>
             </select>
             <br>
+            <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+            <script type="text/javascript">
+                 $(document).ready(function(e) {
+                 $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                   });
+            </script>
 
         {% if mode != "free" %}
         <div class="input-row-fw">
