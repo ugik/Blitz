@@ -6330,3 +6330,8 @@ body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > 
 .btn-group, .dropdown-toggle, .btn-group {
   text-align: center;
 }
+
+/* line 5302, ../sass/style.scss */
+#main-content-container .container .rightrow {
+  margin-left: -30px;
+}
