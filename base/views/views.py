@@ -2074,6 +2074,13 @@ def trainer_dashboard(request):
     heading = Heading.objects.all().order_by('?')[:1].get()
     header = "%s - %s" % (heading.saying, heading.author)
 
+    show_intro = request.GET.get('show-intro') == 'true'
+    if request.session.get('show_intro') is True:
+        request.session.pop('show_intro')
+        show_intro = True
+    if request.session.get('shown_intro') is True:
+        request.session.pop('shown_intro')
+
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
@@ -2083,7 +2090,8 @@ def trainer_dashboard(request):
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
-            'trainer': trainer
+            'trainer': trainer,
+            'show_intro': show_intro
         })
     else:
         return render(request, 'trainer_dashboard.html', {
@@ -2093,5 +2101,6 @@ def trainer_dashboard(request):
             'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
+            'show_intro': show_intro,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else []
         })

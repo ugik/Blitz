@@ -7,6 +7,11 @@
 {% if user.blitz and user.blitz.members %}
 <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
 {% endif %}
+<script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
+
+<script type="text/javascript">
+  var SHOW_INTRO = {% if show_intro %}true{% else %}true{% endif %};
+</script>
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
 <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
@@ -162,13 +167,15 @@
 	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
-</div>
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
-	{% include "onboarding_content_trainer.html" %}
+	{% include "onboarding_content_trainer.html" with trainer=trainer %}
+</div>
 </div>
 
+
 {% endblock content %}
+
 
 {% endblock outer_content %}
 
