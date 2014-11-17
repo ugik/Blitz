@@ -15,6 +15,7 @@
            <img class="profile-headshot img-circle" id='headshot' src="{{ client.get_headshot_url }}" />
            <h3>Let's tweak macros for <a id='name' ></a></h3>
            For reference <a id='blurb'></a>
+           <p class="macroblurb">You can use one of our preset formulas to give a rough calculation, but whatever you type below that will override it. So you can set <a id='name' ></a>'s macros however you want.</>
            <div class="formpage-block">
               <form method="post" name="client_macros"> {% csrf_token %}
 
@@ -49,8 +50,8 @@
                         Calories
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_wout_cals" style="width:40px; height:10px;">
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_wout_cals" class="macro-input">
                       </div>
                     </div>
                     </div>
@@ -60,8 +61,8 @@
                         Protein
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_wout_protein" style="width:40px; height:10px;">g
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_wout_protein" class="macro-input">
                       </div>
                     </div>
                   </div>
@@ -71,8 +72,8 @@
                         Fat
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_wout_fat" style="width:40px; height:10px;">g
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_wout_fat" class="macro-input">
                       </div>
                     </div>
                   </div>
@@ -82,8 +83,8 @@
                         Carbs
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_wout_carbs" style="width:40px; height:10px;">g
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_wout_carbs" class="macro-input">
                         </div>
                       </div>
                     </div>
@@ -101,8 +102,8 @@
                         Calories
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_rest_cals" style="width:40px; height:10px;">
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_rest_cals" class="macro-input">
                       </div>
                     </div>
                     </div>
@@ -112,8 +113,8 @@
                         Protein
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_rest_protein" style="width:40px; height:10px;">g
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_rest_protein" class="macro-input">
                       </div>
                     </div>
                   </div>
@@ -123,8 +124,8 @@
                         Fat
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_rest_fat" style="width:40px; height:10px;">g
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_rest_fat" class="macro-input">
                       </div>
                     </div>
                   </div>
@@ -134,8 +135,8 @@
                         Carbs
                       </div>
                       <div class="macroform-numbers">
-                        <div class="macroform-macro">
-                          <input type="text" id="c_rest_carbs" style="width:40px; height:10px;">g
+                        <div class="macroform-macro with-input">
+                          <input type="text" id="c_rest_carbs" class="macro-input">
                         </div>
                       </div>
                     </div>
