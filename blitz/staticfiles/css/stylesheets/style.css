@@ -6353,18 +6353,27 @@ input.macro-input {
 @media (max-width: 480px) {
   /* line 5309, ../sass/style.scss */
   input.macro-input {
-    padding: 15px 10px !important;
-    margin-left: -10px;
+    padding: 15px 15px !important;
+    margin-left: -15px;
+    margin-top: -15px;
   }
 }
 
-/* line 5323, ../sass/style.scss */
+/* line 5324, ../sass/style.scss */
 .with-input {
   padding-left: 25px;
-  margin-top: 0px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+  border: none !important;
+}
+@media (max-width: 480px) {
+  /* line 5324, ../sass/style.scss */
+  .with-input {
+    border: none !important;
+  }
 }
 
-/* line 5328, ../sass/style.scss */
+/* line 5335, ../sass/style.scss */
 p.macroblurb {
   font-size: 0.8em;
   margin-top: 5px;
@@ -6373,24 +6382,24 @@ p.macroblurb {
   opacity: 0.6;
 }
 
-/* line 5336, ../sass/style.scss */
+/* line 5343, ../sass/style.scss */
 .description a {
   color: #515352;
   text-decoration: none;
 }
-/* line 5339, ../sass/style.scss */
+/* line 5346, ../sass/style.scss */
 .description a :hover {
   text-decoration: none;
 }
 
 @media (max-width: 480px) {
-  /* line 5344, ../sass/style.scss */
+  /* line 5351, ../sass/style.scss */
   .modal-body {
     padding: 0px !important;
   }
 }
 
-/* line 5350, ../sass/style.scss */
+/* line 5357, ../sass/style.scss */
 .modal-body .row .span6 img#headshot {
   width: 125px;
 }
