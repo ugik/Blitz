@@ -6292,17 +6292,17 @@ body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > 
 
 /* line 5270, ../sass/style.scss */
 .disable {
-  display: none;
+  opacity: 0.25;
 }
 
-/* line 5274, ../sass/style.scss */
+/* line 5275, ../sass/style.scss */
 .condensetext {
   letter-spacing: -4px;
   word-spacing: 14px;
   color: #ccc;
 }
 
-/* line 5280, ../sass/style.scss */
+/* line 5281, ../sass/style.scss */
 .intro-box {
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
@@ -6319,7 +6319,7 @@ body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > 
   font-size: 21px;
 }
 
-/* line 5292, ../sass/style.scss */
+/* line 5293, ../sass/style.scss */
 .btn-group, .dropdown-toggle, .btn-group {
   text-align: center;
 }

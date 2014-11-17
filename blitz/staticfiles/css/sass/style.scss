@@ -5268,7 +5268,8 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 }
 
 .disable {
-  display: none;
+  //display: none;
+  opacity: 0.25;
 }
 
 .condensetext {
