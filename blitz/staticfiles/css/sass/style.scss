@@ -211,6 +211,7 @@ Full font specs
   @include regularfont();
   font-size: 27px;
   color: #A9A9A9;
+  border-radius: 5px;
 }
 
 $mq-mobile-portrait   : 320px !default;
@@ -625,6 +626,7 @@ video {
   }
 
 textarea {
+  border-radius: 5px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -2704,6 +2706,7 @@ hr { margin-top: 60px;}
     @include borderbox();
   }
   input[type="text"], input[type="password"], input[type="email"] {
+    border-radius: 5px;
     width: 100%;
     padding: 8px 7px;
     position: relative;
@@ -2714,6 +2717,7 @@ hr { margin-top: 60px;}
     @include borderradius(0);
   }
   input {
+    border-radius: 5px;
     border: 1px solid #ccc;
     -webkit-transition: border .75s ease;
     -moz-transition: border .75s ease;
@@ -5144,7 +5148,7 @@ span.sidebar-box-title {
   margin-bottom: 15px;
 }
 
-body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > div.form-input > div > button > span.filter-option.pull-left {
+body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > div.form-input > div > button > span.filter-option.pull-left, #modal > div > div > div.modal-body > div > div > div > div.content > form > div:nth-child(4) > div > button > span.filter-option.pull-left, #modal > div > div > div.modal-body > div > div > div > div.content > form > div:nth-child(5) > div > button > span.filter-option.pull-left {
   text-align: center !important;
   }
 
@@ -5282,4 +5286,8 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   display: block;
   line-height: 1.4;
   @include lightfont();
+}
+
+.btn-group, .dropdown-toggle, .btn-group {
+  text-align: center;
 }
