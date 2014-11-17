@@ -177,10 +177,14 @@
 </div>
 
 <div id="modalInclude">
-<!-- include modals -->
-{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
-{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
-{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+	<!-- include modals -->
+	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
+	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
+	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+</div>
+
+<div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
+	{% include "onboarding_content_trainer.html" %}
 </div>
 
 {% endblock content %}
