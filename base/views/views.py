@@ -605,7 +605,6 @@ def client_home(request, **kwargs):
 
     client = request.user.client
 
-#    import pdb; pdb.set_trace()
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
         next_workout_date, next_workout = client.get_next_workout() 
@@ -1373,8 +1372,10 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.macro_formula)
+
+            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula)
             # alert trainer of new client signup
+
             alert = TrainerAlert.objects.create(
                        trainer=invitation.blitz.trainer, text="New client registration.",
                        client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
@@ -2091,7 +2092,8 @@ def trainer_dashboard(request):
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
             'trainer': trainer,
-            'show_intro': show_intro
+            'show_intro': show_intro,
+            'shown_intro': show_intro
         })
     else:
         return render(request, 'trainer_dashboard.html', {
@@ -2102,5 +2104,6 @@ def trainer_dashboard(request):
             'blitzes': blitzes,
             'user_id': user_id,
             'show_intro': show_intro,
+            'shown_intro': show_intro,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else []
         })

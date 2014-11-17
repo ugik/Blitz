@@ -532,7 +532,7 @@ class Blitz(models.Model):
 
     # macros
     uses_macros = models.BooleanField(default=False)
-    macro_strategy = models.CharField(max_length=1, default="", choices=MACRO_STRATEGIES)
+    macro_strategy = models.CharField(max_length=1, default="DEFAULT", choices=MACRO_STRATEGIES)
 
     # payment
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)

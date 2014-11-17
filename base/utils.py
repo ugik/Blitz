@@ -93,8 +93,8 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     content.save()
     return content
 
-def add_client_to_blitz(blitz, client, workoutplan=None, price=0, 
-                        start_date=None):
+#TODO handle macro_formula optional param
+def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=None, macro_formula=None):
 
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
@@ -105,6 +105,7 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0,
         blitz.workout_plan = workoutplan
         blitz.price = price
         blitz.url_slug = ''
+        blitz.macro_strategy = macro_formula if macro_formula else 'DEFAULT'
         blitz.save()
 
     if not start_date:
@@ -140,7 +141,7 @@ def get_blitz_group_header_html(blitz, title, start_date, end_date, headshots):
         'blitz': blitz,
         'title': title,
         'start_date': start_date,
-        'end_date': blitz.end_date(),
+        'end_date': str(blitz.end_date()),
         'headshots': headshots,
         'members_count': len(headshots)
     })

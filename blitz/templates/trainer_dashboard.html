@@ -10,7 +10,7 @@
 <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
 
 <script type="text/javascript">
-  var SHOW_INTRO = {% if show_intro %}true{% else %}true{% endif %};
+  var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
 </script>
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
@@ -134,11 +134,11 @@
 						</ul>
 					</div>
 		        	{% include "main_feed.html" %}
-		        {% else %}
-		        <div id="main-feed">
-			        {% include "dashboard/_dummy_gym_session_feed.html" %}
-			        {% include "dashboard/_dummy_comment_feed.html" %}
-		        </div>
+		                {% else %}
+		                     <div id="main-feed">
+			                 {% include "dashboard/_dummy_gym_session_feed.html" %}
+			                 {% include "dashboard/_dummy_comment_feed.html" %}
+ 		                     </div>
 		        <!-- <form action="upload" method="get" name="upload" class="formpage-block-form">
 		        {% csrf_token %}
 		        <br>
