@@ -885,6 +885,10 @@ textarea,textarea:focus {
 
  }
 
+.row .rightrow {
+ .margin-top: 70px; 
+ }
+
  .hr {}
 
  .h1 .h2 .h3 .h4 .h5 .h6 {
@@ -1369,6 +1373,7 @@ a.edit-workout-link {
     position: relative;
   }
   .landscape-header-bottom {
+    margin-bottom: -70px;
     background: rgba(0, 0, 0, 0.5);
     color: white;
     font-weight: lighter;
@@ -1445,7 +1450,7 @@ a.edit-workout-link {
 }
 
 .profile-tabs {
-
+  margin-bottom: -70px;
   background: $navbarblue;
   overflow: auto;
   text-decoration: none;
