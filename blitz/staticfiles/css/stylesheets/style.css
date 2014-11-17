@@ -6354,17 +6354,18 @@ input.macro-input {
 /* line 5321, ../sass/style.scss */
 p.macroblurb {
   font-size: 0.8em;
-  margin-top: 10px;
+  margin-top: 5px;
+  line-height: 1.2;
   margin-bottom: -10px;
   opacity: 0.6;
 }
 
-/* line 5328, ../sass/style.scss */
+/* line 5329, ../sass/style.scss */
 .description a {
   color: #515352;
   text-decoration: none;
 }
-/* line 5331, ../sass/style.scss */
+/* line 5332, ../sass/style.scss */
 .description a :hover {
   text-decoration: none;
 }
