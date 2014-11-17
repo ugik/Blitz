@@ -4778,6 +4778,7 @@ color: #9d9ea3;
 
 .feeds {
   max-width: 725px;
+  width: 725px;
   float: left;
   color: #333;
   font-size: 18pt;
@@ -5239,4 +5240,14 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 #main-content-container div.container div.row.rightrow div.span8.rightspan div.alert.alert-info {
   border: 1px solid $fadedblue !important;
   background: white !important;
+}
+
+#welcome-text {
+  display: none;
+}
+
+.new-trainer-experience h3 {
+  @include meta();
+  color: white;
+  margin-top: 10px;
 }
