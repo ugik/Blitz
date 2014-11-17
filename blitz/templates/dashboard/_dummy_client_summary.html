@@ -3,50 +3,37 @@
 	</div>
 
 	<div class="text-overlay">
-		<p>Once you've got a client signed up, <br/>
-		their stats, workouts, and diet logs <br/>
-		will show up here.</p>
+		<p>Once you've got clients their stats, workouts, and diet logs will show up here.</p>
 	</div>
 
     <div class="section cover">
         <div class="spacer20"></div>
-        <a href="/profile/c/1">
-            <img src="{{ STATIC_URL }}images/curtisjackson.jpg" class="client-picture img-circle center">
-        </a>
+            <img src="{{ STATIC_URL }}images/silhouette.jpeg" class="client-picture img-circle center" style="width: 160px;">
         <div class="spacer20"></div>
-        <p class="client-name center">Curtis Jackson</p>
+        <p class="client-name center">Example Client</p>
         <p class="client-info center">
-            <span class="client-height">5'9" |</span>
-            <span class="client-weight">204 lbs. |</span>
+            <span class="client-height">6'0"  ●   </span>
+            <span class="client-weight">224 lbs.  ●   </span>
             <span class="client-age">33 yrs old</span>
         </p>
     </div>
     <div class="section diet-goals sidebar-box">
         <div class="header">
-            Diet Goals <a class="btn btn-default btn-edit" href="/profile/c/1/set-macros">Edit</a>
+            Diet Goals
         </div>
         <div class="goals-history">
-            <div class="btn-group">
-                <button type="button" class="switch-training btn btn-default active">Training Days</button>
-                <button type="button" class="switch-resting btn btn-default">Rest Days</button>
+            <div class="macro-toggle">
+                <button type="button" class="switch-training active">Training Days</button>
+                <button type="button" class="switch-resting">Rest Days</button>
             </div>
 
             <div class="training">
                 <div class="box">
                     <div class="title">
-                        Calories
-                    </div>
-                    <div class="description info info-calories">
-                        190 - 220
-                    </div>
-                </div>
-
-                <div class="box">
-                    <div class="title">
                         Protein
                     </div>
-                    <div class="description info info-protein">
-                        450 - 475
+                    <div class="description info info-calories">
+                        190-220
                     </div>
                 </div>
 
@@ -54,8 +41,8 @@
                     <div class="title">
                         Carbs
                     </div>
-                    <div class="description info info-carbs">
-                        3.3k - 4.1k
+                    <div class="description info info-protein">
+                        450-475
                     </div>
                 </div>
 
@@ -64,9 +51,19 @@
                         Fat
                     </div>
                     <div class="description info info-fat">
-                        70 - 85
+                        70-85
                     </div>
                 </div>
+
+                <div class="box">
+                    <div class="title">
+                        Calories
+                    </div>
+                    <div class="description info info-carbs">
+                        3.8k-4.1k
+                    </div>
+                </div>
+
             </div>
             <!-- training -->
             <div class="resting hidden">
@@ -944,19 +941,14 @@
     </div>
 
     <div class="section sidebar-box workout-plan">
-        <div class="header">
+        <div class="header" style="opacity: 0.3;">
             Workout Plan
-            <div class="btn-group">
-                <a class="btn btn-default btn-edit" href="#"> Switch</a>
-                <a class="btn btn-default btn-edit" href="#"> Edit</a>
-            </div>
         </div>
 
         <div class="details">
             <h4>
-                <strong>Mount Sexy</strong>
+                <div style="color: #999; font-size: 24px;">Starting Strength</div>
             </h4>
-            <small>Editing workout programs coming soon</small>
         </div>
 
         <div class="spacer10"></div>

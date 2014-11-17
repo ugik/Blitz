@@ -211,6 +211,7 @@ Full font specs
   @include regularfont();
   font-size: 27px;
   color: #A9A9A9;
+  border-radius: 5px;
 }
 
 $mq-mobile-portrait   : 320px !default;
@@ -625,6 +626,7 @@ video {
   }
 
 textarea {
+  border-radius: 5px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -2704,6 +2706,7 @@ hr { margin-top: 60px;}
     @include borderbox();
   }
   input[type="text"], input[type="password"], input[type="email"] {
+    border-radius: 5px;
     width: 100%;
     padding: 8px 7px;
     position: relative;
@@ -2714,6 +2717,7 @@ hr { margin-top: 60px;}
     @include borderradius(0);
   }
   input {
+    border-radius: 5px;
     border: 1px solid #ccc;
     -webkit-transition: border .75s ease;
     -moz-transition: border .75s ease;
@@ -4778,6 +4782,7 @@ color: #9d9ea3;
 
 .feeds {
   max-width: 725px;
+  width: 725px;
   float: left;
   color: #333;
   font-size: 18pt;
@@ -5143,7 +5148,7 @@ span.sidebar-box-title {
   margin-bottom: 15px;
 }
 
-body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > div.form-input > div > button > span.filter-option.pull-left {
+body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > div.form-input > div > button > span.filter-option.pull-left, #modal > div > div > div.modal-body > div > div > div > div.content > form > div:nth-child(4) > div > button > span.filter-option.pull-left, #modal > div > div > div.modal-body > div > div > div > div.content > form > div:nth-child(5) > div > button > span.filter-option.pull-left {
   text-align: center !important;
   }
 
@@ -5173,7 +5178,11 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   font-size: 18px;
   margin-bottom: 5px;
   margin-top: 15px;
+}
+
+.url-label {
   @include meta();
+  font-size: 24px;
 }
 
 .formpage-block > .alert {
@@ -5181,7 +5190,6 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   color: $error-red;
   border: none;
   text-shadow: none;
-  border: 1px solid $error-red;
 }
 
 
@@ -5239,4 +5247,49 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 #main-content-container div.container div.row.rightrow div.span8.rightspan div.alert.alert-info {
   border: 1px solid $fadedblue !important;
   background: white !important;
+}
+
+#welcome-text {
+  display: none;
+}
+
+.new-trainer-experience h3 {
+  @include meta();
+  color: white;
+  margin-top: 10px;
+}
+
+#summary .text-overlay {
+  text-align: center;
+  padding-top: 10px;
+  margin-top: -100px;
+  background: rgba(0,0,0,0.7);
+  display: none;
+}
+
+.disable {
+  //display: none;
+  opacity: 0.25;
+}
+
+.condensetext {
+  letter-spacing: -4px;
+  word-spacing: 14px;
+  color: #ccc;
+}
+
+.intro-box {
+  @include ffboxshadow();
+  background: white;
+  margin-bottom: 30px;
+  @include borderradius(5px);
+  padding: 20px;
+  display: block;
+  line-height: 1.4;
+  @include lightfont();
+  font-size: 21px;
+}
+
+.btn-group, .dropdown-toggle, .btn-group {
+  text-align: center;
 }

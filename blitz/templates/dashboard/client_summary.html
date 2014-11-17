@@ -15,6 +15,11 @@
        $("#headshot").attr("src", "{{ client.get_headshot_url }}");
     }
 
+//    function update_summary_macros() {
+//        document.getElementById('g_wout_cals_min').text="777";
+//        document.getElementById('g_wout_cals').text="999";
+//    }
+
     function show_client_macros(factor) {
        factor = factor || 1;
        var kg = {{ client.weight_in_lbs }}/2.2;
@@ -92,7 +97,7 @@
 						Calories
 					</div>
 					<div class="description info info-calories">
-						{{ macro.training_calories_min }}-{{ macro.training_calories }}
+			<a id="g_wout_cals_min">{{ macro.training_calories_min }}</a>-<a id="g_wout_cals">{{ macro.training_calories }}</a>
 					</div>
 				</div>
 			

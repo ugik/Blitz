@@ -89,9 +89,7 @@
 				</div>
 				<div>
 					<p>
-						When you're got clients or groups signed up, they'll be listed out over here.
-					</p>
-					<p>We recommend talking up your coaching practice on your website or with clients directly (e.g. via Skype), and the once they're cool with your pricing, invite them to sign up here.
+						When you're got clients or groups, they'll be listed over here.
 					</p>
 				</div>	
 			</div>
@@ -135,12 +133,6 @@
 		        	{% include "main_feed.html" %}
 		        {% else %}
 		        <div id="main-feed">
-			        <div id="welcome-text">
-			        	<h2>Welcome to BLITZ!</h2>
-    			        <p>We're psyched to have you aboard, and you'll be transforming client's physiques(and your bank account) in not time.</p>
-    			        <p>Now might be a good time to throw your link(blitz.us/trainer-name) up on your website, or invite clients via the button on the left, if your're really ambitious, you can create a group program for set of clients to join and do the same program for a set time starting on the same date. We'll have your programs set tup within a day, so feel free to invite people now and we'll have it take cor of. Also, if you want to edit your page, it's unde Pages up top. Same goes for adding more programs.</p>
-    			        <p>And don't forget-we're here for you. So if there's anything you need, don't hesitate to ping us. We are 100% commited to helping you grow your coaching business and provide an awesome experience for your clients.</p>
-    			    </div>
 			        {% include "dashboard/_dummy_gym_session_feed.html" %}
 			        {% include "dashboard/_dummy_comment_feed.html" %}
 		        </div>
@@ -168,10 +160,14 @@
 </div>
 
 <div id="modalInclude">
-<!-- include modals -->
-{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
-{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
-{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+	<!-- include modals -->
+	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
+	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
+	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+</div>
+
+<div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
+	{% include "onboarding_content_trainer.html" %}
 </div>
 
 {% endblock content %}

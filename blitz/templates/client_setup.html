@@ -45,7 +45,7 @@
                 </option>
             {% endfor %}
             </select>
-
+        {% endif %}
             <select name="formulas" id="formula-select" class="selectpicker">
                 <option value="DEFAULT">Standard Macro Formula</option>
                 <option value="BULK">Bulking (+10%)</option>
@@ -53,6 +53,12 @@
                 <option value="CUT">Cutting (-10%)</option>
             </select>
             <br>
+            <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+            <script type="text/javascript">
+                 $(document).ready(function(e) {
+                 $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                   });
+            </script>
 
         {% if mode != "free" %}
         <div class="input-row-fw">
@@ -67,7 +73,6 @@
         {% endif %}
         <br>
 
-        {% endif %}
 <!--        <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
         </textarea></td>
         {% include "error_field.html" with param='invite' %} -->
