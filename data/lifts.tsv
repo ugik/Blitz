@@ -242,5 +242,10 @@ kb-hang-cleans,Kettlebell Hang Cleans,R,0,0
 barbell-bent-over-row,Barbell Bent-Over Row,R,0,0
 db-alternating-curls,Dumbbell Curls (alternating),R,0,0
 wide-grip-pull-up,Wide-Grip Pull-Up,R,1,1
+<<<<<<< HEAD
 reverse-hyperextension,Reverse Hyperextension,R,1,1
 neutral-grip-pull-up,Neutral-Grip Pull-Up,R,1,1
+=======
+reverse-hyperextension,Reverse Hyperextensions,R,1,1
+neutral-grip-pull-up,Neutral-Grip Pull-Up,R,1,1
+>>>>>>> d6b3f36e24ab0dcbdeee9259a3197b668bc8aeed

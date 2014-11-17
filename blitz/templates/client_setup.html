@@ -45,6 +45,7 @@
                 </option>
             {% endfor %}
             </select>
+        {% endif %}
 
             <select name="formulas" id="formula-select" class="selectpicker">
                 <option value="DEFAULT">Standard Macro Formula</option>
@@ -67,7 +68,6 @@
         {% endif %}
         <br>
 
-        {% endif %}
 <!--        <textarea name="invite" class="input-xlarge" rows="10" style="width:400px;">{{ invite|safe }}
         </textarea></td>
         {% include "error_field.html" with param='invite' %} -->
