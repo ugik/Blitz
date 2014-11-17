@@ -418,6 +418,7 @@ def spotter_sales_pages(request):
 
     if request.method == 'POST':
         form = SalesPageForm(request.POST)
+
         if form.is_valid():
             content = SalesPageContent.objects.get(pk=plan_id)
             update_record = SalesPageForm(request.POST, instance=content)
@@ -431,9 +432,35 @@ def spotter_sales_pages(request):
         content = SalesPageContent.objects.get(pk=plan_id)
         form = SalesPageForm(instance=content)
 
-#    import pdb; pdb.set_trace()
     return render_to_response('sales_pages.html', 
-                              {'form': form, 'errors' : form.errors},
+                              {'form': form, 'plan': plan_id, 'errors' : form.errors},
+                              RequestContext(request))
+
+
+@login_required
+def spotter_sales_pages2(request):
+
+#    import pdb; pdb.set_trace()
+
+    plan_id = request.GET.get('plan', None)
+
+    if request.method == 'POST':
+        form = SalesPageForm(request.POST)
+
+        if form.is_valid():
+            content = SalesPageContent.objects.get(pk=plan_id)
+            update_record = SalesPageForm(request.POST, instance=content)
+            update_record.save()
+            if request.is_ajax():
+                print "Ajax sales page processing..."
+            return redirect('spotter_blitz_sales_pages')
+
+    else:
+        content = SalesPageContent.objects.get(pk=plan_id)
+        form = SalesPageForm(instance=content)
+
+    return render_to_response('sales_pages.html', 
+                              {'form': form, 'plan': plan_id, 'errors' : form.errors},
                               RequestContext(request))
 
 

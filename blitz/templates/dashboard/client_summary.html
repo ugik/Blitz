@@ -15,6 +15,11 @@
        $("#headshot").attr("src", "{{ client.get_headshot_url }}");
     }
 
+//    function update_summary_macros() {
+//        document.getElementById('g_wout_cals_min').text="777";
+//        document.getElementById('g_wout_cals').text="999";
+//    }
+
     function show_client_macros(factor) {
        factor = factor || 1;
        var kg = {{ client.weight_in_lbs }}/2.2;
@@ -31,14 +36,14 @@
        var w_fat = r_fat * wkout_factor;
        var w_carbs = r_carbs * wkout_factor;
 
-       document.getElementById('c_rest_cals').text=r_cals.toFixed(0).toString();
-       document.getElementById('c_rest_fat').text=r_fat.toFixed(0).toString();
-       document.getElementById('c_rest_carbs').text=r_carbs.toFixed(0).toString();
-       document.getElementById('c_rest_protein').text=r_protein.toFixed(0).toString();
-       document.getElementById('c_wout_cals').text=w_cals.toFixed(0).toString();
-       document.getElementById('c_wout_fat').text=w_fat.toFixed(0).toString();
-       document.getElementById('c_wout_carbs').text=w_carbs.toFixed(0).toString();
-       document.getElementById('c_wout_protein').text=w_protein.toFixed(0).toString();
+       document.getElementById('c_rest_cals').value=r_cals.toFixed(0).toString();
+       document.getElementById('c_rest_fat').value=r_fat.toFixed(0).toString();
+       document.getElementById('c_rest_carbs').value=r_carbs.toFixed(0).toString();
+       document.getElementById('c_rest_protein').value=r_protein.toFixed(0).toString();
+       document.getElementById('c_wout_cals').value=w_cals.toFixed(0).toString();
+       document.getElementById('c_wout_fat').value=w_fat.toFixed(0).toString();
+       document.getElementById('c_wout_carbs').value=w_carbs.toFixed(0).toString();
+       document.getElementById('c_wout_protein').value=w_protein.toFixed(0).toString();
 
        return 0;
        }
@@ -47,7 +52,16 @@
          $.ajax({
              url:'/trainer/client-macros-save',
              type: 'POST',
-             data: {client: {{ client.pk }}, formula: document.getElementById('formula-select').value },
+             data: {client: {{ client.pk }}, formula: document.getElementById('formula-select').value,
+                    c_rest_cals: document.getElementById('c_rest_cals').value,
+                    c_rest_fat: document.getElementById('c_rest_fat').value,
+                    c_rest_carbs: document.getElementById('c_rest_carbs').value,
+                    c_rest_protein: document.getElementById('c_rest_protein').value,
+                    c_wout_cals: document.getElementById('c_wout_cals').value,
+                    c_wout_fat: document.getElementById('c_wout_fat').value,
+                    c_wout_carbs: document.getElementById('c_wout_carbs').value,
+                    c_wout_protein: document.getElementById('c_wout_protein').value,
+                    },
              success:function(result){}
            });
        }
@@ -83,7 +97,7 @@
 						Calories
 					</div>
 					<div class="description info info-calories">
-						{{ macro.training_calories_min }}-{{ macro.training_calories }}
+			<a id="g_wout_cals_min">{{ macro.training_calories_min }}</a>-<a id="g_wout_cals">{{ macro.training_calories }}</a>
 					</div>
 				</div>
 			

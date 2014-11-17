@@ -5176,7 +5176,7 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   @include meta();
 }
 
-.alert {
+.formpage-block > .alert {
   background: none;
   color: $error-red;
   border: none;
@@ -5184,9 +5184,6 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   border: 1px solid $error-red;
 }
 
-.alert-warning {
-
-}
 
 .error-header {
   font-size: 18px;
@@ -5237,3 +5234,9 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 // .splitbutton.left:hover, .splitbutton.right:hover {
 //   @include animation('btnpulsate .75s infinite');
 // }
+
+
+#main-content-container div.container div.row.rightrow div.span8.rightspan div.alert.alert-info {
+  border: 1px solid $fadedblue !important;
+  background: white !important;
+}
