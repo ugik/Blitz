@@ -6316,9 +6316,10 @@ body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > 
   display: block;
   line-height: 1.4;
   font-family: 'proxima_novalight';
+  font-size: 21px;
 }
 
-/* line 5291, ../sass/style.scss */
+/* line 5292, ../sass/style.scss */
 .btn-group, .dropdown-toggle, .btn-group {
   text-align: center;
 }

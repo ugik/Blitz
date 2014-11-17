@@ -5286,6 +5286,7 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
   display: block;
   line-height: 1.4;
   @include lightfont();
+  font-size: 21px;
 }
 
 .btn-group, .dropdown-toggle, .btn-group {
