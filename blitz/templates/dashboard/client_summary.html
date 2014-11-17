@@ -15,10 +15,73 @@
        $("#headshot").attr("src", "{{ client.get_headshot_url }}");
     }
 
-//    function update_summary_macros() {
-//        document.getElementById('g_wout_cals_min').text="777";
-//        document.getElementById('g_wout_cals').text="999";
-//    }
+    function update_summary_macros() {
+        var min_factor = 0.8;
+        // workout day calories
+        var wout_cals = parseFloat(document.getElementById('c_wout_cals').value);
+        var wout_carbs = parseFloat(document.getElementById('c_wout_carbs').value);
+        var wout_protein = parseFloat(document.getElementById('c_wout_protein').value);
+        var wout_fat = parseFloat(document.getElementById('c_wout_fat').value);
+        var rest_cals = parseFloat(document.getElementById('c_rest_cals').value);
+        var rest_carbs = parseFloat(document.getElementById('c_rest_carbs').value);
+        var rest_protein = parseFloat(document.getElementById('c_rest_protein').value);
+        var rest_fat = parseFloat(document.getElementById('c_rest_fat').value);
+        // calculate min amounts
+        var wout_cals_min = wout_cals * min_factor;
+        var wout_carbs_min = wout_carbs * min_factor;
+        var wout_protein_min = wout_protein * min_factor;
+        var wout_fat_min = wout_fat * min_factor;
+        var rest_cals_min = rest_cals * min_factor;
+        var rest_carbs_min = rest_carbs * min_factor;
+        var rest_protein_min = rest_protein * min_factor;
+        var rest_fat_min = rest_fat * min_factor;
+
+        // represent calories
+        if (wout_cals > 1000) {
+            document.getElementById('g_wout_cals').text = (wout_cals/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_cals').text = wout_cals.toFixed(0);
+        }
+        if (wout_cals_min > 1000) {
+            document.getElementById('g_wout_cals_min').text = (wout_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_cals_min').text = wout_cals_min.toFixed(0);
+        }
+        // represent carbs
+        if (wout_carbs > 1000) {
+            document.getElementById('g_wout_carbs').text = (wout_carbs/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_carbs').text = wout_carbs.toFixed(0);
+        }
+        if (wout_carbs_min > 1000) {
+            document.getElementById('g_wout_carbs_min').text = (wout_carbs_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_carbs_min').text = wout_carbs_min.toFixed(0);
+        }
+        // represent protein
+        if (wout_protein > 1000) {
+            document.getElementById('g_wout_protein').text = (wout_protein/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_protein').text = wout_protein.toFixed(0);
+        }
+        if (wout_protein_min > 1000) {
+            document.getElementById('g_wout_protein_min').text = (wout_protein_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_protein_min').text = wout_protein_min.toFixed(0);
+        }
+        // represent fat
+        if (wout_fat > 1000) {
+            document.getElementById('g_wout_fat').text = (wout_fat/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_fat').text = wout_fat.toFixed(0);
+        }
+        if (wout_cals_min > 1000) {
+            document.getElementById('g_wout_cals_min').text = (wout_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_cals_min').text = wout_cals_min.toFixed(0);
+        }
+
+    }
 
     function show_client_macros(factor) {
        factor = factor || 1;
@@ -106,7 +169,7 @@
 						Protein
 					</div>
 					<div class="description info info-protein">
-						{{ macro.training_protein_min }}-{{ macro.training_protein }}
+			<a id="g_wout_protein_min">{{ macro.training_protein_min }}</a>-<a id="g_wout_protein">{{ macro.training_protein }}</a>
 					</div>
 				</div>
 
@@ -115,7 +178,7 @@
 						Carbs
 					</div>
 					<div class="description info info-carbs">
-						{{ macro.training_carbs_min }}-{{ macro.training_carbs }}
+			<a id="g_wout_carbs_min">{{ macro.training_carbs_min }}</a>-<a id="g_wout_carbs">{{ macro.training_carbs }}</a>
 					</div>
 				</div>
 
@@ -124,7 +187,7 @@
 						Fat
 					</div>
 					<div class="description info info-fat">
-						{{ macro.training_fat_min }}-{{ macro.training_fat }}
+			<a id="g_wout_fat_min">{{ macro.training_fat_min }}</a>-<a id="g_wout_fat">{{ macro.training_fat }}</a>
 					</div>
 				</div>
 			</div> <!-- training -->
@@ -134,7 +197,7 @@
 						Calories
 					</div>
 					<div class="description info info-calories">
-						{{ macro.rest_calories_min }}-{{ macro.rest_calories }}
+			<a id="g_rest_cals_min">{{ macro.rest_calories_min }}</a>-<a id="g_rest_cals">{{ macro.rest_calories }}</a>
 					</div>
 				</div>
 			
@@ -143,7 +206,7 @@
 						Protein
 					</div>
 					<div class="description info info-protein">
-						{{ macro.rest_protein_min }}-{{ macro.rest_protein }}
+			<a id="g_rest_protein_min">{{ macro.rest_protein_min }}</a>-<a id="g_rest_protein">{{ macro.rest_protein }}</a>
 					</div>
 				</div>
 
@@ -152,7 +215,7 @@
 						Carbs
 					</div>
 					<div class="description info info-carbs">
-						{{ macro.rest_carbs_min }}-{{ macro.rest_carbs }}
+			<a id="g_rest_carbs_min">{{ macro.rest_carbs_min }}</a>-<a id="g_rest_carbs">{{ macro.rest_carbs }}</a>
 					</div>
 				</div>
 
@@ -161,7 +224,7 @@
 						Fat
 					</div>
 					<div class="description info info-fat">
-						{{ macro.rest_fat_min }}-{{ macro.rest_fat }}
+			<a id="g_rest_fat_min">{{ macro.rest_fat_min }}</a>-<a id="g_rest_fat">{{ macro.rest_fat }}</a>
 					</div>
 				</div>
 			</div> <!-- resting -->

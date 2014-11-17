@@ -20,11 +20,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        # reset Lifts objects
-        lifts = Lift.objects.all()
-        for lift in lifts:
-            lift.delete()
-
+        i = new = 0
+  
         # update lifts table
         lifts_file = open(settings.DATA_DIR + '/lifts.tsv')
         for line in lifts_file:
@@ -35,15 +32,20 @@ class Command(BaseCommand):
             if len(fields) == 1:
                 print "Columns missing in lifts.tsv"
                 raise
-             
-            lift = Lift(slug=fields[0], name=fields[1])
+
+            lift, created = Lift.objects.get_or_create(slug=fields[0])    
+            if created:
+                new += 1
+                print "new Lift created (%s) %s" % (fields[0],fields[1])
+
             lift.name = fields[1]
             lift.lift_type = fields[2]
             lift.weight_or_body = (True if fields[3] == "1" else False)
             lift.allow_weight_or_body = (True if fields[4] == "1" else False)
-            print lift
+            i += 1
 
             try: lift.save()
             except: print lift; raise
 
+        print "%s lifts established, %s new" % (i, new)
 
