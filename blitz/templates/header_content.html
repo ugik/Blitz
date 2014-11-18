@@ -14,9 +14,9 @@
                         <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
                       </a> 
                    {% else %}
-                      <div id="trainernologo">
-                         {{ user.client.get_blitz.trainer.name }} 
-                      </div>
+                      <a class="branding" href="/" id="logo2"> 
+                         {{ user.client.get_blitz.trainer.name }}
+                      </a>
 
                    {% endif %}
                 {% endif %}
