@@ -481,7 +481,7 @@ def client_macros(request, pk):
 
         if form.is_valid():
             formula = form.cleaned_data['formulas']
-            blitz_macros_set(blitz, formula, client)
+            blitz_macros_set(None, formula, client)   # set blitz for specific client
             return redirect('home')
         else:
             if 'modalMacros' in request.GET:
@@ -552,7 +552,6 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
 
         client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
 
-        print client.macro_target_json
         client.save()
 
     return
@@ -1372,10 +1371,9 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula)
+            
             # alert trainer of new client signup
-
             alert = TrainerAlert.objects.create(
                        trainer=invitation.blitz.trainer, text="New client registration.",
                        client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
@@ -1410,6 +1408,7 @@ def set_intro_1(request):
         client.height_inches = form.cleaned_data['height_inches']
         client.gender = form.cleaned_data['gender']
         client.save()
+
         ret = {
             'is_error': False,
         }
@@ -1798,6 +1797,11 @@ def set_up_profile_basic(request):
             client.gender = form.cleaned_data['gender']
 
             client.save()
+
+            # set macros if provided
+            invites = BlitzInvitation.objects.filter(email = request.user.email)
+            if invites:
+                blitz_macros_set(None, invites[0].macro_formula, client)
 
             request.session['intro_stage'] = 'photo'
             return redirect('set_up_profile')

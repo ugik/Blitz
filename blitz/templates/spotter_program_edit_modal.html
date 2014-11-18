@@ -9,7 +9,7 @@
          <div class="modal-body">
             <div class="row">
                <div class="span6" style="float: none; margin: 0 auto;">
-                  <h3>Tell a spotter how you would like to modify {{ client.name }}'s version of' {{ workoutplan.name }}: </h3>
+                  <h3>Tell a spotter how you would like to modify {{ client.name }}'s version of' <a id="plan_name">{{ workoutplan.name }}</a>: </h3>
                   <div class="formpage-block">
                      <form method="post" name="spotter_program_edit"> {% csrf_token %}
                         <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">{{ edit }}</textarea>
