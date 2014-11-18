@@ -198,6 +198,14 @@ def create_2X_image(image_path, width=150, suffix="@2X"):
     new_file_name = file_name.split('.')[0]+"@2X."+file_name.split('.')[-1]
     img.save(image_path.replace(file_name,new_file_name))
 
+class GetOrNoneManager(models.Manager):
+    """Adds get_or_none method to objects
+    """
+    def get_or_none(self, **kwargs):
+        try:
+            return self.get(**kwargs)
+        except self.model.DoesNotExist:
+            return None
 
 User.user_type = property(lambda u: user_type(u))
 User.is_trainer = property(lambda u: user_is_trainer(u))
@@ -223,6 +231,8 @@ class Trainer(models.Model):
 
     # HACK - move to session var
     currently_viewing_blitz = models.ForeignKey('base.Blitz', null=True, blank=True, related_name="currently_viewing_trainer")
+
+    objects = GetOrNoneManager()
 
     def __unicode__(self):
         return self.name
@@ -538,6 +548,8 @@ class Blitz(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     price_model = models.CharField(max_length=1, choices=FEE_CHOICES, default="R", blank=True)
 
+    objects = GetOrNoneManager()
+
     def save(self, *args, **kwargs):
 #        if self.urlkey == "":
 #            self.urlkey = ''.join(random.choice(string.digits) for x in range(6))
@@ -721,6 +733,8 @@ class BlitzInvitation(models.Model):
 
     macro_formula = models.CharField(max_length=10, choices=MACROS_CHOICES, default='DEFAULT')
 
+    objects = GetOrNoneManager()
+
     def __unicode__(self):
         return "Invitation for %s; key: %s" % (self.name, self.signup_key)
 
@@ -849,6 +863,8 @@ class CheckIn(models.Model):
     side_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     date_created = models.DateField(default=datetime.date.today, db_index=True)
     # feeditems = generic.GenericRelation(FeedItem, related_name='checkins')
+
+    objects = GetOrNoneManager()
 
     def __unicode__(self):
         return "Check-in %s: \"%s\"" % (self.client.name, self.date_created)

@@ -279,12 +279,10 @@ def client_blitz_setup(request, pk):
     if pk != 0:
         blitz = get_object_or_404(Blitz, pk=int(pk) )
     else:  # 0 blitz if we were sent here without a specific blitz, find existing provisional
-        blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
-        if not blitzes:  # shouldn't happen since every trainer has provisional blitz
+        blitz = Blitz.objects.get_or_none(trainer=trainer, provisional=True)
+        if not blitz:  # shouldn't happen since every trainer has provisional blitz
             print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
             return redirect('/')
-        else:
-            blitz = blitzes[0]
 
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
@@ -1454,11 +1452,11 @@ def default_blitz_page(request, short_name):
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
-    trainer = Trainer.objects.filter(short_name__iexact=short_name)
+    trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
     blitz = sales_page = None
     if trainer:
-        if trainer[0].blitz_set.filter(url_slug__iexact=url_slug):
-            blitz = trainer[0].blitz_set.filter(url_slug__iexact=url_slug)[0]
+        if trainer.blitz_set.filter(url_slug__iexact=url_slug):
+            blitz = trainer.blitz_set.filter(url_slug__iexact=url_slug)[0]
             sales_page = blitz.sales_page_content
         else:
             blitz = None
@@ -1466,7 +1464,7 @@ def blitz_page(request, short_name, url_slug):
 
     if sales_page and trainer:
         return render(request, "sales_blitz.html", {
-            'blitz' : blitz, 'trainer' : trainer[0], 'sales_page': sales_page })
+            'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page })
     else:
         return redirect('home')
 
@@ -1799,9 +1797,9 @@ def set_up_profile_basic(request):
             client.save()
 
             # set macros if provided
-            invites = BlitzInvitation.objects.filter(email = request.user.email)
-            if invites:
-                blitz_macros_set(None, invites[0].macro_formula, client)
+            invite = BlitzInvitation.objects.get_or_none(email = request.user.email)
+            if invite:
+                blitz_macros_set(None, invite.macro_formula, client)
 
             request.session['intro_stage'] = 'photo'
             return redirect('set_up_profile')
@@ -1879,12 +1877,10 @@ def set_up_profile(request):
 def client_checkin(request):
     client = request.user.client
     # get today's checkins, assume one per day max
-    checkins = CheckIn.objects.filter(date_created__year=client.current_datetime().date().year,
-                                      date_created__month=client.current_datetime().date().month,
-                                      date_created__day=client.current_datetime().date().day)
-    if checkins:
-        checkin = checkins[0]
-    else:
+    checkin = CheckIn.objects.get_or_none(date_created__year=client.current_datetime().date().year,
+                                          date_created__month=client.current_datetime().date().month,
+                                          date_created__day=client.current_datetime().date().day)
+    if not checkin:
         checkin = CheckIn()
 
     if request.method == 'POST':
