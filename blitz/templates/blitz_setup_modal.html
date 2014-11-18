@@ -10,71 +10,111 @@
          <div class="modal-body">
 
 <div class="row">
-    <div class="span4 offset5">
+    <div class="span4 offset4">
         <div class="formpage-block">
-                     <div class="header">
-                        Create New Program
-                     </div>
+
+           {% if errors %}
+             <div class="alert alert-warning" role="alert">
+              <div class="error-header">
+                Slow down, champ. Looks like you've got a few errors to fix:
+              </div>
+                {% for e in errors %}
+                   <li><small>{{ e }}</small></li>
+                {% endfor %}
+             </div>
+          {% endif %}
+
+           <div class="header">
+              Create New Group
+           </div>
 
     <form class="form" action="#" method="post">
     {% csrf_token %}
 
-        <div class="fieldWrapper">{{ form.title }}</div>
         <div class="fieldWrapper">
-<small>Short url for your program, eg. /Blitz.us/</small><b><u>{{ trainer.short_name }}/Group1</u></b>
-        {{ form.url_slug }}<br><a style="color:red;">{{ form.url_slug.errors }}</a>
+          {{ form.title }}
         </div>
 
-        <table><tr>
-        <td>Workout plan:</td> <td><select name="program" id="program" class="selectpicker show-tick">
-        {% for program in programs %}
-        <option value="{{ program.pk }}">{{ program.name }}</option>
-        {% endfor %}
-        </select></td></tr>
+        <div class="input-row-fw">
+          <div class="field-label">
+            Workout plan:
+          </div>
+          <div class="form-input">
+            <select name="program" id="program" class="selectpicker show-tick">
+            {% for program in programs %}
+              <option value="{{ program.pk }}">{{ program.name }}</option>
+            {% endfor %}
+            </select>
+          </div>
+        </div>
+
         {% if not group %}
-        <tr><td>Type:</td> <td><select name="blitz_type" id="blitz_type" class="selectpicker show-tick">
-            <option value="IND">Individual</option>
-            <option value="GRP">Group</option>
-        </select></td></tr>
-        {% endif %}
-        <tr><td>Macros:</td><td>
-        <select name="formulas" id="formula-select" class="selectpicker">
-            <option value="DEFAULT">Standard Macro Formula</option>
-            <option value="BULK">Bulking (+10%)</option>
-            <option value="BEAST">Beast Mode (+15%)</option>
-            <option value="CUT">Cutting (-10%)</option>
-        </select>
-        </td></tr>
-        <tr><td>Start:</td><td>
-        <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}">
-        <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
-        <script type="text/javascript">
-          $(document).ready(function(e) {
-              $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
-            });
-        </script>
-        </td>
-        </table>
-
-        <div class="fieldWrapper">
-                <div style="width: 10%; float: left; display: inline; margin-top: 8px; font-size: 1.5em;">
-                  $
-                </div>
-                <div style="width: 90%; float: left; display: inline;">
-                {{ form.charge }}
-              </div>
+        <div class="input-row-fw">
+          <div class="field-label">
+            Type:
+          </div>
+          <div class="form-input">
+              <select name="blitz_type" id="blitz_type" class="selectpicker show-tick" 
+              {% if group %} style="visibility:hidden;" {% endif %}>
+                <option value="IND">Individual</option>
+                <option value="GRP">Group</option>
+              </select>
+          </div>
         </div>
-     <button type="submit" class="obtn full-width">Create Blitz</button>
+        {% endif %}
+
+        <div class="input-row-fw">
+          <div class="field-label">
+            Macros:
+          </div>
+          <div class="form-input">
+            <select name="formulas" id="formula-select" class="selectpicker">
+                <option value="DEFAULT">Standard Macro Formula</option>
+                <option value="BULK">Bulking (+10%)</option>
+                <option value="BEAST">Beast Mode (+15%)</option>
+                <option value="CUT">Cutting (-10%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-row-fw">
+          <div class="field-label">
+            Start date:
+          </div>
+          <div class="form-input">
+            <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}">
+            <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+            <script type="text/javascript">
+              $(document).ready(function(e) {
+                  $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                });
+            </script>
+          </div>
+        </div>
+
+
+        <div class="input-row-fw">
+          <div class="field-label">
+            Cost ($):
+          </div>
+          <div class="form-input">
+            {{ form.charge }}
+          </div>
+        </div>
+
+        <div class="fieldWrapper-url">
+          Signup URL 
+          <p class="tinytext">
+            Clients will be able to sign up at blitz.us/{{ trainer.short_name }}/_____
+          </p>
+            {{ form.url_slug }}<br><a style="color:red;">{{ form.url_slug.errors }}</a>
+        </div>
+
+        <button type="submit" class="obtn full-width">Create Group</button>
 
      </form>
-  {% if errors %}
-     <div class="alert alert-warning" role="alert">
-        {% for e in errors %}
-           <li><small>{{ e }}</small></li>
-        {% endfor %}
-     </div>
-  {% endif %}
    </div>
+</div>
 </div>
 
 </div>
