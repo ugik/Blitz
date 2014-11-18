@@ -395,7 +395,7 @@ $(document).ready(function() {
             OBJECT_ID = $(this).data('object-pk') || false;
             FEED_SCOPE_FILTER = 'all'
 
-            $('.feeds-filter ul li').not().removeClass('active');
+            $('.feeds-filter ul li').not($(this)).removeClass('active');
             $('.feeds-filter ul li:first-child').addClass('active');
 
             // Make it Global

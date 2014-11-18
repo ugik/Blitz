@@ -335,13 +335,30 @@ ul.filters li.item:hover {
  * Right sidebar
  */
 #summary {
-    position: absolute;
+    /*position: absolute;*/
     right: 0px;
     background: #fafafb;
     height: 100%;
     border-left: 1px solid #adadad;
     width: 330px;
+    /*float: right;*/
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
     float: right;
+    margin-top: 69px;
+    overflow-y: hidden;
+    z-index: 1;
+}
+
+#summary .client-summary {
+    overflow-y: hidden;
+}
+
+#summary .client-summary:hover {
+    overflow-y: auto;
 }
 
 #summary .text-overlay {
