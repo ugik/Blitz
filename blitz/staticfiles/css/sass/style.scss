@@ -497,6 +497,13 @@ Example @include keyframes
   -moz-box-shadow: none;
   box-shadow: none;
 }
+
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
+  @include tablet-portrait-and-below {
+    padding: 0px 20px !important;
+  }
+}
+
 .navbar .nav>li>a {
   text-shadow: none;
   @include tablet-landscape-and-up {margin-top: 5px;};
@@ -507,9 +514,10 @@ Example @include keyframes
   background: none;
   background-image: none;
   text-shadow: none;
-  @include ffboxshadow();
+  //@include ffboxshadow();
   color: white;
   border: none;
+  box-shadow: none !important;
 }
 
 .btn-navbar:hover, .navbar .btn-navbar:focus, .navbar .btn-navbar:active, .navbar .btn-navbar.active, .navbar .btn-navbar.disabled, .navbar .btn-navbar[disabled] {
@@ -518,7 +526,7 @@ Example @include keyframes
     background-color: rgba(0,0,0,0) !important;
     text-shadow: none;
     color: $fadedblue !important;
-    margin-top: 26px;
+    margin-top: 25px;
 }
 
 .navbar .btn-navbar .icon-bar {
@@ -663,13 +671,14 @@ textarea,textarea:focus {
 }
 
 #colorstripe, .colorstripe {
-  display: block;
+  display: none;
   height: 2px;
   @include blitz-gradient();
   
 }
 
 #altcolorstripe {
+  display: none;
   height: 2px;
   @include blitz-gradient();
 }
@@ -743,12 +752,16 @@ textarea,textarea:focus {
   }
 }
 
+.header .intro-modal-header #trainersig {
+  margin-bottom: -30px;
+}
+
 #logo2 {
   float: left;
   position: relative;
   margin-right: 50px;
   padding-top: 20px;
-  max-width: 170px;
+  //max-width: 240px;
   img {
     max-height: 50px;
   }
@@ -756,6 +769,7 @@ textarea,textarea:focus {
     max-width: 50%;
     margin: 0 auto;
     margin-left: 20px;
+    text-align: center;
   }  
 }
 
@@ -4885,6 +4899,21 @@ a.ui-state-default :hover {
 
 .navbar-fixed-top {
   background: #2b2b2b;
+  @include tablet-portrait-and-below {
+    background: none;
+  }
+}
+
+#header > div {
+  @include tablet-landscape-and-up {
+    border-bottom: 2px solid $fadedblue; 
+  }
+}
+
+#header {
+  @include mobile-only {
+    border-bottom: 2px solid $fadedblue; 
+  }
 }
 
 .check-in-feed-item {
@@ -5356,4 +5385,37 @@ input.macro-input {
 
 .modal-body .row .span6 img#headshot {
   width: 125px;
+}
+
+a#logo2.branding {
+  text-decoration: none;
+  color: white;
+  @include meta();
+  font-size: 22px;
+  text-overflow: ellipsis;
+  margin-top: 5px;
+  //max-width: 240px;
+}
+
+#main-content-container .container .rightrow {
+  @include mobile-only {
+    margin-left: 0px;
+  }
+}
+
+#account-block {
+  @include tablet-landscape-and-below {
+    display: none;
+  }
+}
+
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
+  box-shadow: none;
+}
+
+.formpage-block .form .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+  width: 100% !important;
+  button > span.filter-option.pull-left {
+    text-align: center;
+  }
 }
