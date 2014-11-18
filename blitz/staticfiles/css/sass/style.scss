@@ -526,7 +526,6 @@ Example @include keyframes
     background-color: rgba(0,0,0,0) !important;
     text-shadow: none;
     color: $fadedblue !important;
-    margin-top: 25px;
 }
 
 .navbar .btn-navbar .icon-bar {
@@ -756,6 +755,12 @@ textarea,textarea:focus {
   margin-bottom: -30px;
 }
 
+.nav-collapse, .nav-collapse.collapse {
+  background: #343434;
+  //border-top: 1px solid rgba(255,255,255,0.3); 
+}
+
+
 #logo2 {
   float: left;
   position: relative;
@@ -764,13 +769,24 @@ textarea,textarea:focus {
   //max-width: 240px;
   img {
     max-height: 50px;
+    margin-top: -15px;
   }
   @include mobile-only {
-    max-width: 50%;
+    //max-width: 50%;
     margin: 0 auto;
     margin-left: 20px;
     text-align: center;
+    //width: 100%;
+    display: block;
+    /* z-index: -99999; */
+    float: left;
   }  
+}
+
+#header {
+  @include mobile-only {
+    height: 70px;
+  }
 }
 
 #top-level-navs {
