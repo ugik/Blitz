@@ -140,5 +140,13 @@ week of 11.10
 - add Client/Group from dashboard
 - default Macro setting for Blitz, as set in /blitz-setup
 
+week of 11.17
+- setup_lifts management script
+- fix client invite email
+- update macro summary in client summary
+- set macros on signup
+- complete signup _done pages
+- update tests
+
 
 

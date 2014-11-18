@@ -26,7 +26,7 @@
         var rest_carbs = parseFloat(document.getElementById('c_rest_carbs').value);
         var rest_protein = parseFloat(document.getElementById('c_rest_protein').value);
         var rest_fat = parseFloat(document.getElementById('c_rest_fat').value);
-
+        // calculate min amounts
         var wout_cals_min = wout_cals * min_factor;
         var wout_carbs_min = wout_carbs * min_factor;
         var wout_protein_min = wout_protein * min_factor;
@@ -35,7 +35,7 @@
         var rest_carbs_min = rest_carbs * min_factor;
         var rest_protein_min = rest_protein * min_factor;
         var rest_fat_min = rest_fat * min_factor;
-
+        // represent calories
         if (wout_cals > 1000) {
             document.getElementById('g_wout_cals').text = (wout_cals/1000).toFixed(1);
         } else {
@@ -46,7 +46,7 @@
         } else {
             document.getElementById('g_wout_cals_min').text = wout_cals_min.toFixed(0);
         }
-
+        // represent carbs
         if (wout_carbs > 1000) {
             document.getElementById('g_wout_carbs').text = (wout_carbs/1000).toFixed(1);
         } else {
@@ -57,7 +57,7 @@
         } else {
             document.getElementById('g_wout_carbs_min').text = wout_carbs_min.toFixed(0);
         }
-
+        // represent protein
         if (wout_protein > 1000) {
             document.getElementById('g_wout_protein').text = (wout_protein/1000).toFixed(1);
         } else {
@@ -68,7 +68,7 @@
         } else {
             document.getElementById('g_wout_protein_min').text = wout_protein_min.toFixed(0);
         }
-
+        // represent fat
         if (wout_fat > 1000) {
             document.getElementById('g_wout_fat').text = (wout_fat/1000).toFixed(1);
         } else {
@@ -79,7 +79,6 @@
         } else {
             document.getElementById('g_wout_cals_min').text = wout_cals_min.toFixed(0);
         }
-
 
     }
 

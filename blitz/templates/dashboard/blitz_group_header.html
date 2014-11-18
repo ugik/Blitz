@@ -3,7 +3,9 @@
 <div class="members">
 	{% if headshots %}
 		{% for member in blitz.members %}
-		<a href="{% url 'client_profile' member.pk %}"><img class="img-circle headshot" src="/media/{{ member.headshot }}"></a>
+		<a href="{% url 'client_profile' member.pk %}">
+                    <img class="img-circle headshot" id="headshot" src="{{ member.get_headshot_url }}">
+                </a>
 		{% endfor %}
 	{% endif %}
 </div>

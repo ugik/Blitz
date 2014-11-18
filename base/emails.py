@@ -74,8 +74,6 @@ def gym_session_comment(user, commenter, comment):
     html_template = 'emails/gym_session_comment.html'
     context = { 'commenter': commenter, 'comment': comment  }
     send_email(from_email, to_email, subject, text_template, html_template, context )
-#    text_content = render_to_string('emails/gym_session_comment.txt', { 'commenter': commenter } )
-#    send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 def signup_confirmation(client):
 
@@ -86,28 +84,16 @@ def signup_confirmation(client):
     html_template = 'emails/signup_confirmation.html'
     context = { 'client': client, 'blitz': client.get_blitz() }
     send_email(from_email, to_email, subject, text_template, html_template, context )
-#    text_content = render_to_string('emails/signup_confirmation.txt', {
-#        'client': client,
-#        'blitz': client.get_blitz(),
-#    })
-#    send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
-def client_invite(trainer, client_email, invite_url):
+def client_invite(trainer, client_email, invite_url, blitz=None):
 
     from_email, to_email = SOURCE_EMAIL, client_email
     subject = "Invitation to Blitz.us!"
 
     text_template = 'emails/client_invitation.txt'
     html_template = 'emails/client_invitation.html'
-    context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url }
+    context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz }
     send_email(from_email, to_email, subject, text_template, html_template, context )
-
-#    text_content = render_to_string('emails/client_invitation.txt', {
-#        'client': client_email,
-#        'trainer': trainer,
-#        'invite_url': invite_url,
-#    })
-#    send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 
 def forgot_password(user):
@@ -121,11 +107,6 @@ def forgot_password(user):
     context = { 'user': user, 'reset_link': reset_link }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
-#    text_content = render_to_string('emails/forgot_password.txt', {
-#        'user': user,
-#        'reset_link': reset_link
-#    })
-#    send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 def message_received(user, message):
 
@@ -137,11 +118,6 @@ def message_received(user, message):
     context = { 'user': user, 'message': message }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
-#    text_content = render_to_string('emails/message_received.txt', {
-#        'user': user,
-#        'message': message,
-#    })
-#    send_mail(subject, text_content, from_email, [to], fail_silently=True)
 
 def email_spotter_program_edit(pk, message):
     workoutplan = WorkoutPlan.objects.filter(pk=int(pk))

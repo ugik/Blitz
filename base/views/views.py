@@ -279,12 +279,10 @@ def client_blitz_setup(request, pk):
     if pk != 0:
         blitz = get_object_or_404(Blitz, pk=int(pk) )
     else:  # 0 blitz if we were sent here without a specific blitz, find existing provisional
-        blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
-        if not blitzes:  # shouldn't happen since every trainer has provisional blitz
+        blitz = Blitz.objects.get_or_none(trainer=trainer, provisional=True)
+        if not blitz:  # shouldn't happen since every trainer has provisional blitz
             print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
             return redirect('/')
-        else:
-            blitz = blitzes[0]
 
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
@@ -315,7 +313,7 @@ def client_blitz_setup(request, pk):
                 invitation.workout_plan = workoutplan
 
             invitation.save()
-            client_invite(trainer, [form.cleaned_data['email']], invite_url)
+            client_invite(trainer, [form.cleaned_data['email']], invite_url, blitz)
 
             return render_to_response('client_setup_done.html', 
                           {'form': form, 'trainer' : trainer}, RequestContext(request))
@@ -481,7 +479,7 @@ def client_macros(request, pk):
 
         if form.is_valid():
             formula = form.cleaned_data['formulas']
-            blitz_macros_set(blitz, formula, client)
+            blitz_macros_set(None, formula, client)   # set blitz for specific client
             return redirect('home')
         else:
             if 'modalMacros' in request.GET:
@@ -552,7 +550,6 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
 
         client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
 
-        print client.macro_target_json
         client.save()
 
     return
@@ -605,7 +602,6 @@ def client_home(request, **kwargs):
 
     client = request.user.client
 
-#    import pdb; pdb.set_trace()
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
         next_workout_date, next_workout = client.get_next_workout() 
@@ -900,11 +896,11 @@ def log_workout(request, week_number, day_char):
         raise Http404
 
     # assume for now that workout was done on assigned day
-    gym_session = GymSession.objects.get_or_create(
+    gym_session, _ = GymSession.objects.get_or_create(
         date_of_session=blitz.get_workout_date(int(week_number), day_char),
         workout_plan_day=plan_day,
         client=client
-    )[0]
+    )
 
     grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, request.user.client, gym_session.date_of_session)
     for group in grouped_sets:
@@ -1373,7 +1369,8 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.macro_formula)
+            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula)
+            
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
                        trainer=invitation.blitz.trainer, text="New client registration.",
@@ -1409,6 +1406,7 @@ def set_intro_1(request):
         client.height_inches = form.cleaned_data['height_inches']
         client.gender = form.cleaned_data['gender']
         client.save()
+
         ret = {
             'is_error': False,
         }
@@ -1454,11 +1452,11 @@ def default_blitz_page(request, short_name):
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
-    trainer = Trainer.objects.filter(short_name__iexact=short_name)
+    trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
     blitz = sales_page = None
     if trainer:
-        if trainer[0].blitz_set.filter(url_slug__iexact=url_slug):
-            blitz = trainer[0].blitz_set.filter(url_slug__iexact=url_slug)[0]
+        if trainer.blitz_set.filter(url_slug__iexact=url_slug):
+            blitz = trainer.blitz_set.filter(url_slug__iexact=url_slug)[0]
             sales_page = blitz.sales_page_content
         else:
             blitz = None
@@ -1466,7 +1464,7 @@ def blitz_page(request, short_name, url_slug):
 
     if sales_page and trainer:
         return render(request, "sales_blitz.html", {
-            'blitz' : blitz, 'trainer' : trainer[0], 'sales_page': sales_page })
+            'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page })
     else:
         return redirect('home')
 
@@ -1798,6 +1796,11 @@ def set_up_profile_basic(request):
 
             client.save()
 
+            # set macros if provided
+            invite = BlitzInvitation.objects.get_or_none(email = request.user.email)
+            if invite:
+                blitz_macros_set(None, invite.macro_formula, client)
+
             request.session['intro_stage'] = 'photo'
             return redirect('set_up_profile')
 
@@ -1874,12 +1877,10 @@ def set_up_profile(request):
 def client_checkin(request):
     client = request.user.client
     # get today's checkins, assume one per day max
-    checkins = CheckIn.objects.filter(date_created__year=client.current_datetime().date().year,
-                                      date_created__month=client.current_datetime().date().month,
-                                      date_created__day=client.current_datetime().date().day)
-    if checkins:
-        checkin = checkins[0]
-    else:
+    checkin = CheckIn.objects.get_or_none(date_created__year=client.current_datetime().date().year,
+                                          date_created__month=client.current_datetime().date().month,
+                                          date_created__day=client.current_datetime().date().day)
+    if not checkin:
         checkin = CheckIn()
 
     if request.method == 'POST':
@@ -2074,6 +2075,13 @@ def trainer_dashboard(request):
     heading = Heading.objects.all().order_by('?')[:1].get()
     header = "%s - %s" % (heading.saying, heading.author)
 
+    show_intro = request.GET.get('show-intro') == 'true'
+    if request.session.get('show_intro') is True:
+        request.session.pop('show_intro')
+        show_intro = True
+    if request.session.get('shown_intro') is True:
+        request.session.pop('shown_intro')
+
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
@@ -2083,7 +2091,9 @@ def trainer_dashboard(request):
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
-            'trainer': trainer
+            'trainer': trainer,
+            'show_intro': show_intro,
+            'shown_intro': show_intro
         })
     else:
         return render(request, 'trainer_dashboard.html', {
@@ -2093,5 +2103,7 @@ def trainer_dashboard(request):
             'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
+            'show_intro': show_intro,
+            'shown_intro': show_intro,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else []
         })

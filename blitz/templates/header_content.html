@@ -5,22 +5,20 @@
         <div class="navbar-inner">
             <div class="container">
                 {% if user.is_trainer %}
-                <!-- <a class="branding" href="/" id="logo" style="display: none;">
-                  <img src="{{ STATIC_URL }}images/logo.png"/>
-                </a> -->
-                <a class="branding" href="/" id="logo">
-                    <img class="center" src="{{ STATIC_URL }}images/logo.png"/>
-                </a>
+                   <a class="branding" href="/" id="logo">
+                      <img class="center" src="{{ STATIC_URL }}images/logo.png"/>
+                   </a>
                 {% else %}
-                  {% if user.client.get_blitz.sales_page_content.logo %}
-                  <a class="branding" href="/" id="logo2">
-                    <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
-                  </a> 
-                  {% elif user.client.get_blitz.trainer.headshot %}
-                  <a class="branding" href="/" id="logo2">
-                    <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.trainer.headshot }}" />
-                  </a> 
-                  {% endif %}
+                   {% if user.client.get_blitz.sales_page_content.logo %}
+                      <a class="branding" href="/" id="logo2">
+                        <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
+                      </a> 
+                   {% else %}
+                      <a class="branding" href="/" id="logo2"> 
+                         {{ user.client.get_blitz.trainer.name }}
+                      </a>
+
+                   {% endif %}
                 {% endif %}
 
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->

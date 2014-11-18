@@ -7,6 +7,11 @@
 {% if user.blitz and user.blitz.members %}
 <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
 {% endif %}
+<script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
+
+<script type="text/javascript">
+  var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
+</script>
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
 <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
@@ -97,9 +102,7 @@
 			<div class="actions">
 				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button>
 				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
-				{% if not clients %}
-				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/'; return false;">Ping Us</button>
-				{% endif %}
+
 			</div>
 		</div> <!-- inner -->
 	</div> <!--/ sidebar-left -->
@@ -131,18 +134,12 @@
 						</ul>
 					</div>
 		        	{% include "main_feed.html" %}
-		        {% else %}
-		        <div id="main-feed">
-			        {% include "dashboard/_dummy_gym_session_feed.html" %}
-			        {% include "dashboard/_dummy_comment_feed.html" %}
-		        </div>
-		        <!-- <form action="upload" method="get" name="upload" class="formpage-block-form">
-		        {% csrf_token %}
-		        <br>
-    	        <div class="submit-container">
-		            <button class='obtn obtn-half' type='submit'>Upload stuff</button>
-		        </div>
-		        </form> -->
+		                {% else %}
+		                     <div id="main-feed">
+			                 {% include "dashboard/_dummy_gym_session_feed.html" %}
+			                 {% include "dashboard/_dummy_comment_feed.html" %}
+ 		                     </div>
+
 		        {% endif %}
 			</div> <!--/ feeds -->
 
@@ -164,15 +161,12 @@
 	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
-</div>
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
-	{% include "onboarding_content_trainer.html" %}
+	{% include "onboarding_content_trainer.html" with trainer=trainer %}
+</div>
 </div>
 
 {% endblock content %}
 
 {% endblock outer_content %}
-
-
-

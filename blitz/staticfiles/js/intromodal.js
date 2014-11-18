@@ -4,6 +4,7 @@ $(document).ready(function() {
 
     app.modal = undefined;
     app.showIntro = function() {
+        jQuery.noConflict();
         app.modal = $('#intro-modal').modal({
             'backdrop': 'static',
             'keyboard': false,
