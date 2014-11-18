@@ -917,6 +917,13 @@ textarea,textarea:focus {
 
 .row .rightrow {
  .margin-top: 70px; 
+}
+
+ #main-content-container .container .rightrow {
+  @include tablet-portrait-only {
+  margin-right: 0px !important;
+  margin-left: -20px !important;
+  }
  }
 
  .hr {}
@@ -986,7 +993,7 @@ h3 {@include lightfont();}
 }
 
 .members-sidebar-box {
-  @include mobile-only { display: none; }
+  @include tablet-portrait-and-below { display: none; }
 }
 
 .members-container {
@@ -1002,6 +1009,9 @@ h3 {@include lightfont();}
         width: 100%;
         border: $imageborder;
       }
+    }
+    @include tablet-portrait-only {
+      width: 12.5%;
     }
   }
   .member-headshot-container:nth-child(3n+1) {
@@ -1678,6 +1688,9 @@ a.edit-workout-link {
     img {
       width: 100%;
     }
+    @include tablet-portrait-only {
+      width: 12.5%;
+    }
   .img-circle {
     @include borderbox();
     border: 3px solid white;
@@ -2198,7 +2211,7 @@ background-position: 0 -30px;
 }
 
 .macros-sidebar-box {
-  @include tablet-portrait-only {margin-bottom: 120px;};
+  //@include tablet-portrait-only {margin-bottom: 30px;};
 }
 
 .day-view-container {
@@ -2358,6 +2371,7 @@ background-position: 0 -30px;
       span {
         position: relative;
         top: 5px;
+        @include pnmacrosfont();
       }
     }
   }
@@ -5411,10 +5425,13 @@ a#logo2.branding {
   text-overflow: ellipsis;
   margin-top: 5px;
   //max-width: 240px;
+  @include tablet-portrait-only {
+    margin-left: 20px;
+  }
 }
 
 #main-content-container .container .rightrow {
-  @include mobile-only {
+  @include tablet-portrait-and-below {
     margin-left: 0px;
   }
 }
@@ -5433,5 +5450,25 @@ a#logo2.branding {
   width: 100% !important;
   button > span.filter-option.pull-left {
     text-align: center;
+  }
+}
+
+.rightspan {
+  @include tablet-portrait-only {
+    margin-right: 0px; 
+  }
+}
+
+.macro-portrait-fix {
+  @include tablet-portrait-only {
+    min-height: 470px;
+  }
+}
+
+.macro-form .goal .content  {
+  @include tablet-portrait-only {
+    font-size: 1.2em;
+    display: block;
+    padding: 5px;
   }
 }
