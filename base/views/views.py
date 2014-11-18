@@ -313,7 +313,7 @@ def client_blitz_setup(request, pk):
                 invitation.workout_plan = workoutplan
 
             invitation.save()
-            client_invite(trainer, [form.cleaned_data['email']], invite_url)
+            client_invite(trainer, [form.cleaned_data['email']], invite_url, blitz)
 
             return render_to_response('client_setup_done.html', 
                           {'form': form, 'trainer' : trainer}, RequestContext(request))
