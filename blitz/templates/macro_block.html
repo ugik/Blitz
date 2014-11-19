@@ -1,4 +1,11 @@
-<div class="sidebar-box macros-sidebar-box">
+<div class="sidebar-box macros-sidebar-box
+		{% if client.get_blitz.uses_macros %}
+            {% if client.macros_set %}
+                macro-portrait-fix
+            {% else  %}
+                
+            {% endif %}
+        {% endif %}">
     <div class="header">Did you hit your macros?</div>
     <div id="macro-block-container"></div>
 </div>

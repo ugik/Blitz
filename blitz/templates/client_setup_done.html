@@ -6,7 +6,7 @@
         <div class="formpage-block">
             <div class="header">Awesome, we've sent {{ form.name.value }} an invite.</div>
             <div class="content">
-                <image src="/static/images/bigcheckmark.png" style="width: 30%; alignment-baseline: central; margin: 0% 0% 20px 35%;">
+                <image src="/static/images/bigcheckmark.png" style="width: 30%; display: none; alignment-baseline: central; margin: 0% 0% 20px 35%;">
                 <p style="margin-bottom: 20px;">
                     We'll let you know when your invited client signs up.<br>
                     If we don't see a signup after a week has passed, or if the invite email bounces, we'll let you know. <br>
@@ -14,7 +14,7 @@
                 <p>
                     If you need to modify {{ form.name.value }}'s plan or macros before they show up, you can do that on the right column after you close this message.
                 </p>
-                <a href="/" class="obtn obtn-comment">Continue →</a>
+                <a href="/" class="obtn obtn-comment" style="margin-top: 30px;">Continue →</a>
             </div>
         </div>
     </div>
