@@ -52,7 +52,7 @@
 						All Updates
 					</div>
 					{% if updates_count %}
-					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
+					<span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
 				</li>				
 				<div class="separator">
@@ -66,7 +66,7 @@
 		  			            {{ blitz.title }}
 							</div>
 							{% if blitz.unviewed_feeds_count %}
-							<span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
+							<span class="results-count"><span class="inner"> - </span></span>
 							{% endif %}
 						</li>
 	                    {% endif %}
@@ -82,7 +82,7 @@
 		                {{ client.name }}
 					</div>
 					{% if client.unviewed_feeds_count %}
-					<span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
+					<span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
 				</li>
 				{% endfor %}				
