@@ -17,6 +17,7 @@ $blitz-red: #e8748e;
 $blitz-orange: #eea463;
 $blitz-green: #57c6b9;
 $blitz-purple: #9b8ddb;
+$blitz-grey: #2b2b2b;
 $error-red: #ed2a44;
 
 @mixin boldfont() {
@@ -219,6 +220,13 @@ $mq-mobile-landscape  : 480px !default;
 $mq-tablet-portrait   : 768px !default;
 $mq-tablet-landscape  : 1024px !default;
 $mq-desktop           : 1382px !default;
+
+// Special in-between tablet fix
+@mixin specialportraitfix {
+  @media only screen and (min-width : 768px) and  (max-width: 979px) {
+    @content;
+  }
+}
 
 // Both portrait and landscape
 @mixin mobile-only {
@@ -710,7 +718,7 @@ textarea,textarea:focus {
 
 #header {
   min-height: 70px;
-  background: #343434;
+  background: $blitz-grey;
   position: fixed;
   z-index: 9;
 }
@@ -2354,7 +2362,8 @@ background-position: 0 -30px;
       color: white;
       border-top-right-radius: 4px;
       border-top-left-radius: 4px;
-      @include tablet-portrait-only {font-size: 0.85em;};
+      @include meta();
+      @include tablet-only {font-size: 0.85em;};
     }
     .title-carbs { background: $blitz-green; border: 1px solid rgba(0,0,0,0.1);}
     .title-protein { background: $blitz-red; border: 1px solid rgba(0,0,0,0.1);}
@@ -2366,12 +2375,13 @@ background-position: 0 -30px;
       background: rgba(250, 252, 251, 1.0);
       border-bottom-right-radius: 4px;
       border-bottom-left-radius: 4px;
-      @include tablet-portrait-only {font-size: 0.7em;};
-      @include mobile-only {font-size: 0.9em;};
+      @include pnmacrosfont();
+      font-size: 24px;
+      @include tablet-only {font-size: 0.9em;};
+      @include mobile-only {font-size: 1.3em;};
       span {
         position: relative;
         top: 5px;
-        @include pnmacrosfont();
       }
     }
   }
@@ -5442,8 +5452,8 @@ a#logo2.branding {
   }
 }
 
-.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
-  box-shadow: none;
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner, .navbar-fixed-top, .navbar-fixed-bottom {
+  box-shadow: none !important;
 }
 
 .formpage-block .form .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
@@ -5470,5 +5480,62 @@ a#logo2.branding {
     font-size: 1.2em;
     display: block;
     padding: 5px;
+  }
+}
+
+#account-block {
+
+}
+
+#header {
+  @include specialportraitfix {
+      width: 100%;
+      left: 0 !important;
+      margin-left: 0 !important;
+      padding: 0px 0px;
+      border-bottom: none;
+    }
+  box-shadow: none !important;
+}
+
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+  @include specialportraitfix {
+    width: 100% !important;
+  }
+}
+
+.span4 {
+  @include specialportraitfix {
+    width: 25%;
+    margin-left: 2%;
+  }
+}
+
+.span8 {
+  @include specialportraitfix {
+    width: 66%;
+    margin-left: 2%;
+  }
+}
+
+#header > div {
+  @include specialportraitfix {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+#main-content-container > div > div > div.span8.rightspan a {
+  @media only screen and (min-width: 1025px)  {
+    display: block;
+    margin-left: 0px;
+    text-align: center;
+    margin-top: 10px;
+  }
+}
+
+#top-level-navs .nav-item a {
+  @media only screen and (min-width: 979px) and (max-width: 1200px) {
+    padding: 25px 25px;
   }
 }
