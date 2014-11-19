@@ -1,0 +1,130 @@
+
+<div class="modal-full fade" id="modalAddProgram" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog-full">
+      <div class="modal-content-full">
+         <div class="modal-header">
+            <button type="button" onclick="return false; document.getElementById('modalInclude').style.display = 'none';" class="close" data-dismiss="modal">
+               <span aria-hidden="true">× Close</span>
+            </button>
+         </div>
+         <div class="modal-body">
+
+
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+
+           <div class="header">
+              Create New Group
+           </div>
+
+    <form class="form" action="{% url 'blitz_setup2' %}" method="post" id="blitz_setup_form">
+    {% csrf_token %}
+      <div id="ajaxwrapper">
+
+           {% if errors %}
+             <div class="alert alert-warning" role="alert">
+              <div class="error-header">
+                Slow down, champ. Looks like you've got a few errors to fix:
+              </div>
+                {% for e in errors %}
+                   <li><small>{{ e }}</small></li>
+                {% endfor %}
+             </div>
+          {% endif %}
+
+        <div class="fieldWrapper">
+          {{ form.title }}
+        </div>
+
+        <div class="input-row-fw">
+          <div class="field-label">
+            Workout plan:
+          </div>
+          <div class="form-input">
+            <select name="program" id="program" class="selectpicker show-tick">
+            {% for program in programs %}
+              <option value="{{ program.pk }}">{{ program.name }}</option>
+            {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        {% if not group %}
+        <div class="input-row-fw">
+          <div class="field-label">
+            Type:
+          </div>
+          <div class="form-input">
+              <select name="blitz_type" id="blitz_type" class="selectpicker show-tick" 
+              {% if group %} style="visibility:hidden;" {% endif %}>
+                <option value="IND">Individual</option>
+                <option value="GRP">Group</option>
+              </select>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="input-row-fw">
+          <div class="field-label">
+            Macros:
+          </div>
+          <div class="form-input">
+            <select name="formulas" id="formula-select" class="selectpicker">
+                <option value="DEFAULT">Standard Macro Formula</option>
+                <option value="BULK">Bulking (+10%)</option>
+                <option value="BEAST">Beast Mode (+15%)</option>
+                <option value="CUT">Cutting (-10%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-row-fw">
+          <div class="field-label">
+            Start date:
+          </div>
+          <div class="form-input">
+            <input type="text" class="datepicker" id="datepicker" name="start_day" value="{{ form.start_day.value }}">
+            <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+            <script type="text/javascript">
+              $(document).ready(function(e) {
+                  $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                });
+            </script>
+          </div>
+        </div>
+
+
+        <div class="input-row-fw">
+          <div class="field-label">
+            Cost ($):
+          </div>
+          <div class="form-input">
+            {{ form.charge }}
+          </div>
+        </div>
+
+        <div class="fieldWrapper-url">
+          Signup URL
+        </div>
+        <div class="input-row-fw">
+          <div class="field-label url-label">
+            blitz.us/{{ trainer.short_name }}/
+          </div>
+          <div class="form-input">
+            {{ form.url_slug }}<br><a style="color:red;">{{ form.url_slug.errors }}</a>
+          </div>
+        </div>
+
+        <button type="submit" class="obtn full-width">Create Group</button>
+      </div>
+     </form>
+   </div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
