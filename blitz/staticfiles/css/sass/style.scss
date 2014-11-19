@@ -129,7 +129,8 @@ $error-red: #ed2a44;
     -o-filter: blur(20px);
     -ms-filter: blur(20px);
     filter: blur(20px);
-    opacity: 0.4;
+    //opacity: 0.95;
+    display: block;
 }
 
 @mixin fadein() {
@@ -4228,10 +4229,10 @@ ul.spotternav li {
   }
 }
 
-body.modal-open {
-    overflow: hidden;
-    -webkit-filter: blur(20px);
-}
+// body.modal-open {
+//     overflow: hidden;
+//     -webkit-filter: blur(20px);
+// }
 
 .errorlist { 
   padding: 0px 0px 0px 0px;
@@ -5538,4 +5539,15 @@ a#logo2.branding {
   @media only screen and (min-width: 979px) and (max-width: 1200px) {
     padding: 25px 25px;
   }
+}
+
+.blur {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+  @include iosblur();
+  background: rgba(0,0,0,0.9);
 }
