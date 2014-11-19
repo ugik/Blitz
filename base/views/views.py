@@ -2085,10 +2085,10 @@ def trainer_dashboard(request):
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
+            'blitzes': blitzes,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
             'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
-            'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
             'trainer': trainer,

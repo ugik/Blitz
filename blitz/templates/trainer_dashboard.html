@@ -34,7 +34,7 @@
 <div id="dashboard">
 	<div class="sidebar-left">
 		<div class="inner">
-			{% if clients  %}
+			{% if clients or blitzes %}
 			<div class="search-input">
 				<input type='text' class="search-text" placeholder="  Search for a client or program...">
 			</div>
@@ -125,7 +125,7 @@
 						{% include "trainer_alerts.html" %}
 					</div>
 				{% endif %}
-				{% if user.blitz and user.blitz.members %}
+				{% if clients or blitzes %}
 					<div class="feeds-filter">
 						<ul>
 							<li class="active" data-scope-filter="all">Everything</li>
@@ -134,18 +134,17 @@
 						</ul>
 					</div>
 		        	{% include "main_feed.html" %}
-		                {% else %}
-		                     <div id="main-feed">
-			                 {% include "dashboard/_dummy_gym_session_feed.html" %}
-			                 {% include "dashboard/_dummy_comment_feed.html" %}
- 		                     </div>
-
+                {% else %}
+                	<div id="main-feed">
+		                {% include "dashboard/_dummy_gym_session_feed.html" %}
+		                {% include "dashboard/_dummy_comment_feed.html" %}
+	                </div>
 		        {% endif %}
 			</div> <!--/ feeds -->
 
 			<!-- Summary -->
 			<div id="summary">
-				{% if not clients %}
+				{% if not clients and not blitzes %}
 					{% include "dashboard/_dummy_client_summary.html" %}
 				{% endif %}
 			</div>
