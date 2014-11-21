@@ -1200,7 +1200,7 @@ h3 {@include lightfont();}
   background: $trainercommentcolor;
 }
 
-.feed-item-likes {
+.feed-item-likes-container {
   font-size: 16px;
   //background: $commentbg;
   background: rgba(250, 252, 251, 1.0);
@@ -5527,13 +5527,23 @@ a#logo2.branding {
   }
 }
 
-#main-content-container > div > div > div.span8.rightspan a {
-  @media only screen and (min-width: 1025px)  {
+.anchor-container a {
+  //@media only screen and (min-width: 1025px)  {
     //display: block;
     margin-left: 0px;
     text-align: center;
     margin-top: 10px;
-  }
+    margin-bottom: 5px;
+    z-index: 999;
+}
+
+.feeditem-actions-container {
+  float: left;
+  width: 100%;
+}
+
+.feed-item-likes {
+  margin-top: 55px;
 }
 
 #top-level-navs .nav-item a {
