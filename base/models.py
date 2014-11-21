@@ -862,7 +862,7 @@ class CheckIn(models.Model):
     front_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     side_image = models.ImageField(upload_to="checkins/", blank=True, null=True)
     date_created = models.DateField(default=datetime.date.today, db_index=True)
-    # feeditems = generic.GenericRelation(FeedItem, related_name='checkins')
+    feeditems = generic.GenericRelation(FeedItem)
 
     objects = GetOrNoneManager()
 
