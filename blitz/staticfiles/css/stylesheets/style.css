@@ -1,20 +1,21 @@
 /*
 Error: Invalid CSS after "==": expected expression (e.g. 1px, bold), was "====="
-        on line 5559 of /Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss
+        on line 5560 of /Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss
 
-5554:   background: rgba(0,0,0,0.9);
-5555: }
-5556: 
-5557: #main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
-5558:   max-width: 500px
-5559: =======
-5560: #main-content-container {
-5561:   margin-top: 0px;
-5562: >>>>>>> Stashed changes
-5563: }
+5555:   background: rgba(0,0,0,0.9);
+5556: }
+5557: 
+5558: #main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
+5559:   max-width: 500px
+5560: =======
+5561: #main-content-container {
+5562:   margin-top: 0px;
+5563: >>>>>>> Stashed changes
+5564: =======
+5565: #main-content-container {
 
 Backtrace:
-/Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss:5559
+/Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss:5560
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:1163:in `expected'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/script/lexer.rb:220:in `expected!'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/script/parser.rb:572:in `assert_expr'
@@ -60,4 +61,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Invalid CSS after \"==\": expected expression (e.g. 1px, bold), was \"=====\"\A         on line 5559 of /Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss\A \A 5554:   background: rgba(0,0,0,0.9);\A 5555: }\A 5556: \A 5557: #main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {\A 5558:   max-width: 500px\A 5559: =======\A 5560: #main-content-container {\A 5561:   margin-top: 0px;\A 5562: >>>>>>> Stashed changes\A 5563: }"; }
+  content: "Error: Invalid CSS after \"==\": expected expression (e.g. 1px, bold), was \"=====\"\A         on line 5560 of /Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss\A \A 5555:   background: rgba(0,0,0,0.9);\A 5556: }\A 5557: \A 5558: #main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {\A 5559:   max-width: 500px\A 5560: =======\A 5561: #main-content-container {\A 5562:   margin-top: 0px;\A 5563: >>>>>>> Stashed changes\A 5564: =======\A 5565: #main-content-container {"; }
