@@ -45,10 +45,10 @@
     {% endfor %}
     <div style="{% if hide_comment_box %} display:none;{% endif %}" class="add-child-comment-container"
          data-object_pk="{{ parent.pk }}" data-content_type="{{ parent|content_type_name }}" >
-        <textarea rows="1" class="expanding add-child-comment-textarea" placeholder="Write a comment..." >
-        </textarea>
+        <textarea rows="1" class="expanding add-child-comment-textarea" placeholder="Write a comment..." ></textarea>
 
         <a class="obtn obtn-comment add-child-comment-submit" style="display:none;" >Post</a>
 
     </div>
 </div>
+
