@@ -21,9 +21,8 @@ rename -n s/"foo"/"bar"/g  *
 ./manage.py schemamigration <appname> --auto
 ./manage.py migrate <appname>
 
-nohup supervisord -n > logs/supervisord.out 2> logs/supervisord.err < /dev/null &
-sudo ps -ef | grep supervisord
-sudo kill -s SIGTERM ####
+# runserver processes
+ps aux | grep -i manage
 
 #mysql
 mysql -uroot -pmysql

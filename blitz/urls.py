@@ -79,7 +79,6 @@ urlpatterns += patterns(
     url(r'^api/blitz_feed$', 'base.views.blitz_feed', name='blitz_feed'),
 
     url(r'^api/blitz_feed/viewed/mark$', 'base.views.blitz_feed_viewed', name='blitz_feed_viewed'),
-    url(r'^api/blitz_feed/count$', 'base.views.get_viewed_count', name='get_viewed_count'),
 
     url(r'^api/blitz/(?P<pk>\d+)$', 'base.views.blitz', name='blitz'),
     url(r'^api/inbox_feed', 'ff_messaging.views.inbox_feed', name='inbox_feed'),

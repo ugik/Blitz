@@ -15,10 +15,10 @@
                         <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">{{ edit }}</textarea>
 
                      {% if url_return %} <!-- coming from dashboard so handle inline modal   -->
-                        <button class="obtn btn btn-warning" onclick="{ save_spotter_edit(); return false; }" class="close" data-dismiss="modal">Send Edit Instructions</button>
+                        <button class="obtn btn" onclick="{ save_spotter_edit(); return false; }" class="close" data-dismiss="modal">Send Edit Instructions</button>
                      {% else %} <!-- coming from programs page so handle as post -->
                         <input type="hidden" name="workoutplan_pk" value="{{ workoutplan }}">
-                        <button class="obtn btn btn-warning" type='submit'>Send Edit Instructions</button>
+                        <button class="obtn btn" type='submit'>Send Edit Instructions</button>
                      {% endif %}
                      </form>
                   </div>

@@ -13,10 +13,11 @@
                       <a class="branding" href="/" id="logo2">
                         <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
                       </a> 
-                   {% elif user.client.get_blitz.trainer.headshot %}
-                      <a class="branding" href="/" id="logo2">
-                        <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.trainer.headshot }}" />
-                      </a> 
+                   {% else %}
+                      <a class="branding" href="/" id="logo2"> 
+                         {{ user.client.get_blitz.trainer.name }}
+                      </a>
+
                    {% endif %}
                 {% endif %}
 
