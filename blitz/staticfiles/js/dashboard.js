@@ -56,7 +56,7 @@ function GetViewedFeedsCount() {
     });
 }
 
-function homepage_morefeed(options={}) {
+function homepage_morefeed(options) {
     var options = options || {};
     var clickedFilter = options.clickedFilter || '';
 
