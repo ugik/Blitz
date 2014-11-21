@@ -331,7 +331,7 @@ def blitz_setup2(request):
 
         else:
 
-            return render_to_response('blitz_setup4.html', 
+            return render_to_response('blitz_setup2.html', 
                          {'form': form, 'trainer' : trainer, 'errors' : errors, 'group' : forceGroup,
                           'programs' : programs}, RequestContext(request))
 
@@ -1189,36 +1189,6 @@ def blitz_feed_viewed(request):
     else:
         return JSONResponse({'error': 'Use a POST method AJAX request'})
 
-@csrf_exempt
-def get_viewed_count(request):
-    if request.is_ajax and request.method == 'POST':
-        feed_scope = request.POST.get('feed_scope')
-        object_pk  = request.POST.get('object_pk')
-
-        if feed_scope == 'all':
-            count = FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count()
-
-        elif feed_scope == 'blitz':
-            count = FeedItem.objects.filter(blitz_id=object_pk, is_viewed=False).count()
-
-        elif feed_scope == 'client':
-            client = Client.objects.get(pk=object_pk)
-            count = client.get_feeditems(filter_by='all').filter(is_viewed=False).count()
-
-        if 'count' in locals():
-            return JSONResponse({
-                'feed_scope': feed_scope,
-                'object_pk': object_pk,
-                'count': count
-            })
-        else:
-            return JSONResponse({
-                'feed_scope': feed_scope,
-                'object_pk': object_pk,
-            })
-    else:
-        return JSONResponse({'error': 'Use a POST method AJAX request'})
-
 def client_summary(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
     try:
@@ -2015,7 +1985,7 @@ def client_checkin(request):
 
             alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
             alert.text="checked-in."
-            alert.alert_type = 'X'
+            alert.alert_type = 'C'
             alert.save()
 
             if form.data['done'] == '1':
@@ -2200,10 +2170,10 @@ def trainer_dashboard(request):
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
-            'blitzes': blitzes,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count(),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
+            'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
             'trainer': trainer,
@@ -2215,7 +2185,7 @@ def trainer_dashboard(request):
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count(),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'show_intro': show_intro,

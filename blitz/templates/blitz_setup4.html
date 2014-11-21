@@ -1,8 +1,7 @@
-{% extends "formpage.html" %}
+{% extends "client_content.html" %}
 
 {% block morehead %}
-<script type="text/javascript" 
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+
 <script type="text/javascript">
   /*<![CDATA[*/
   jQuery(function() {
@@ -43,7 +42,7 @@
 
 {% endblock %}
 
-{% block formpage_content %}
+{% block main %}
 
 <form>
 <div >
@@ -53,4 +52,4 @@
 
 {% include "blitz_setup2.html" %}
 
-{% endblock formpage_content %}
+{% endblock %}

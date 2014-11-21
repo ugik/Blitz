@@ -129,7 +129,8 @@ $error-red: #ed2a44;
     -o-filter: blur(20px);
     -ms-filter: blur(20px);
     filter: blur(20px);
-    opacity: 0.4;
+    //opacity: 0.95;
+    display: block;
 }
 
 @mixin fadein() {
@@ -1199,7 +1200,7 @@ h3 {@include lightfont();}
   background: $trainercommentcolor;
 }
 
-.feed-item-likes {
+.feed-item-likes-container {
   font-size: 16px;
   //background: $commentbg;
   background: rgba(250, 252, 251, 1.0);
@@ -4228,10 +4229,10 @@ ul.spotternav li {
   }
 }
 
-body.modal-open {
-    overflow: hidden;
-    -webkit-filter: blur(20px);
-}
+// body.modal-open {
+//     overflow: hidden;
+//     -webkit-filter: blur(20px);
+// }
 
 .errorlist { 
   padding: 0px 0px 0px 0px;
@@ -4959,6 +4960,7 @@ a.ui-state-default :hover {
 .check-in-feed-item {
   float: left;
   margin-bottom: 30px;
+  max-width: 100%;
 }
 
 .checkin-wrap {
@@ -5525,13 +5527,23 @@ a#logo2.branding {
   }
 }
 
-#main-content-container > div > div > div.span8.rightspan a {
-  @media only screen and (min-width: 1025px)  {
-    display: block;
+.anchor-container a {
+  //@media only screen and (min-width: 1025px)  {
+    //display: block;
     margin-left: 0px;
     text-align: center;
     margin-top: 10px;
-  }
+    margin-bottom: 5px;
+    z-index: 999;
+}
+
+.feeditem-actions-container {
+  float: left;
+  width: 100%;
+}
+
+.feed-item-likes {
+  margin-top: 55px;
 }
 
 #top-level-navs .nav-item a {
@@ -5539,3 +5551,20 @@ a#logo2.branding {
     padding: 25px 25px;
   }
 }
+
+.blur {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+  @include iosblur();
+  background: rgba(0,0,0,0.9);
+}
+
+#main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
+  max-width: 500px
+}
+
+
