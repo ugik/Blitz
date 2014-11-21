@@ -24,13 +24,35 @@
                     </form>
                 </div>
             </div>
+            
+        {% elif alert.alert_type == "C" %}
+            <div class="trainer-alert">
+                <div class="actions">
+                    <button class="btn btn-default" type="button" data-action="leave-message" data-target-id="alert{{ alert.pk }}">Message</button>
+                    <i class="dismiss-alert icon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
+                </div>
+                <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
+                <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
+                <div class="date">
+                    <i class="icon-time"></i> {{ alert.date_created|dayssince|capfirst }}
+                </div>
+                <div class="message-entry hidden" id="alert{{ alert.pk }}">
+                    <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}" data-alert_pk="{{ alert.pk }}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea class="message-text" name="message_content" required></textarea>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
         {% elif alert.alert_type == "X" %}
             <div class="trainer-alert">
                 <div class="actions">
                     <button class="btn btn-default" type="button" data-action="leave-message" data-target-id="alert{{ alert.pk }}">Message</button>
                     <i class="dismiss-alert icon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
                 </div>
-
                 <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
                 <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> {{ alert.text }}
                 <div class="date">

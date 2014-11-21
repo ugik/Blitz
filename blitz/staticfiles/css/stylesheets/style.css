@@ -6610,8 +6610,3 @@ a#logo2.branding {
 #main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
   max-width: 500px;
 }
-
-/* line 5560, ../sass/style.scss */
-#main-content-container {
-  margin-top: 0px;
-}

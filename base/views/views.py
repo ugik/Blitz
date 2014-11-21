@@ -1894,7 +1894,7 @@ def client_checkin(request):
 
             alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
             alert.text="checked-in."
-            alert.alert_type = 'X'
+            alert.alert_type = 'C'
             alert.save()
 
             if form.data['done'] == '1':
