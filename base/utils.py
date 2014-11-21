@@ -162,20 +162,12 @@ def get_feeditem_html(feed_item, user):
             'user': user
         })
 
-def get_checkin_html(checkin, user):
-    return render_to_string('feeditems/checkins.html', {
-        'checkin': checkin,
-        'user': user,
-        'MEDIA_URL': MEDIA_URL
-    })
-
-
-# def get_checkin_html(checkin, user):
-#     return render_to_string('feeditems/checkin.html', {
-#         'comment': feed_item.content_object,
-#         'feed_item': feed_item,
-#         'user': user,
-#     })
+    elif feed_item.content_type.name == 'check in':
+        return render_to_string('feeditems/checkins.html', {
+            'checkin': feed_item.content_object,
+            'user': user,
+            'MEDIA_URL': MEDIA_URL
+        })
 
 def get_client_summary_html(client, macro_goals, macro_history):
     macro_goals_formatted = {}

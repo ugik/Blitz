@@ -19,7 +19,7 @@ import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
-from base.utils import get_checkin_html, get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
+from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -1100,15 +1100,16 @@ def save_sets(request):
 def blitz_feed(request):
     FEED_SIZE = 5
 
+    # Alias for Content Types
     content_types = {
         'workouts': 'gym session',
-        'checkins': 'checkins',
+        'checkins': 'check in',
         'all': 'all'
     }
 
     offset = int(request.GET.get('offset', 0))
     feed_scope = (request.GET.get('feed_scope') if request.GET.get('feed_scope') else 'all')
-    feed_scope_filter = (content_types[request.GET.get('feed_scope_filter')] if request.GET.get('feed_scope_filter') else 'all')
+    feed_scope_filter = (content_types.get(request.GET.get('feed_scope_filter')) if request.GET.get('feed_scope_filter') else 'all')
 
     search_text = request.GET.get('search_text')
     feed_items = []
@@ -1135,9 +1136,7 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:
         if feed_scope == 'all':
-            if feed_scope_filter == 'checkins':
-                feed_items = CheckIn.objects.all().order_by('-date_created')[offset:offset+FEED_SIZE]
-            elif feed_scope_filter != 'all':
+            if feed_scope_filter != 'all':
                 feed_items = FeedItem.objects.filter(blitz=request.user.blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
                 feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+FEED_SIZE]
@@ -1154,29 +1153,18 @@ def blitz_feed(request):
             if feed_scope_filter != 'all':
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
-#                 feed_items = client.get_blitz().get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
-
                 feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
-
-# see if we can do this after view rendered
-            # mark_feeds_as_viewed(feed_items)
 
     ret = {
         'feeditems': [],
         'offset': offset+FEED_SIZE,
     }
 
-    if feed_scope_filter == 'checkins':
-        for feed_item in feed_items:
-            ret['feeditems'].append({
-                'html': get_checkin_html(feed_item, request.user),
-            })
-    else:
-        for feed_item in feed_items:
-            ret['feeditems'].append({
-                'date': feed_item.pub_date.isoformat(),
-                'html': get_feeditem_html(feed_item, request.user),
-            })
+    for feed_item in feed_items:
+        ret['feeditems'].append({
+            'date': feed_item.pub_date.isoformat(),
+            'html': get_feeditem_html(feed_item, request.user)
+        })
 
     return JSONResponse(ret)
 
@@ -1197,6 +1185,36 @@ def blitz_feed_viewed(request):
             'status': 'successful',
             # 'feed_items': request.POST.get('feed_items'),
             'viewed_count': len(feed_items)
+            })
+    else:
+        return JSONResponse({'error': 'Use a POST method AJAX request'})
+
+@csrf_exempt
+def get_viewed_count(request):
+    if request.is_ajax and request.method == 'POST':
+        feed_scope = request.POST.get('feed_scope')
+        object_pk  = request.POST.get('object_pk')
+
+        if feed_scope == 'all':
+            count = FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count()
+
+        elif feed_scope == 'blitz':
+            count = FeedItem.objects.filter(blitz_id=object_pk, is_viewed=False).count()
+
+        elif feed_scope == 'client':
+            client = Client.objects.get(pk=object_pk)
+            count = client.get_feeditems(filter_by='all').filter(is_viewed=False).count()
+
+        if 'count' in locals():
+            return JSONResponse({
+                'feed_scope': feed_scope,
+                'object_pk': object_pk,
+                'count': count
+            })
+        else:
+            return JSONResponse({
+                'feed_scope': feed_scope,
+                'object_pk': object_pk,
             })
     else:
         return JSONResponse({'error': 'Use a POST method AJAX request'})
@@ -1979,15 +1997,21 @@ def client_checkin(request):
 
         if form.is_valid() and form.is_multipart():
 
-            if form.cleaned_data['front_image']:
-                checkin.front_image = form.cleaned_data['front_image']
-            if form.cleaned_data['side_image']:
-                checkin.side_image = form.cleaned_data['side_image']
+            if form.cleaned_data.get('front_image'):
+                checkin.front_image = form.cleaned_data.get('front_image')
 
-            if form.cleaned_data['weight']:
-                checkin.weight = float(units_tags.kg_conversion(form.cleaned_data['weight'], client))
+            if form.cleaned_data.get('side_image'):
+                checkin.side_image = form.cleaned_data.get('side_image')
+
+            if form.cleaned_data.get('weight'):
+                checkin.weight = float(units_tags.kg_conversion(form.cleaned_data.get('weight'), client))
+
             checkin.client = client
             checkin.save()
+
+            content_type = ContentType.objects.get(app_label="base", model="checkin")
+            feeditem = FeedItem.objects.get_or_create(blitz=request.user.blitz, content_type=content_type, object_id=checkin.pk, pub_date=checkin.date_created)
+            feeditem[0].save()
 
             alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
             alert.text="checked-in."
@@ -2176,10 +2200,10 @@ def trainer_dashboard(request):
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
+            'blitzes': blitzes,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
-            'blitzes': blitzes,
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count(),
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
             'trainer': trainer,
@@ -2191,7 +2215,7 @@ def trainer_dashboard(request):
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'show_intro': show_intro,
