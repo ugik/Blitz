@@ -5528,7 +5528,7 @@ a#logo2.branding {
 
 #main-content-container > div > div > div.span8.rightspan a {
   @media only screen and (min-width: 1025px)  {
-    display: block;
+    //display: block;
     margin-left: 0px;
     text-align: center;
     margin-top: 10px;
@@ -5551,3 +5551,4 @@ a#logo2.branding {
   @include iosblur();
   background: rgba(0,0,0,0.9);
 }
+

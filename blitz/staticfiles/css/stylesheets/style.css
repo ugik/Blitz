@@ -6575,7 +6575,6 @@ a#logo2.branding {
 @media only screen and (min-width: 1025px) {
   /* line 5529, ../sass/style.scss */
   #main-content-container > div > div > div.span8.rightspan a {
-    display: block;
     margin-left: 0px;
     text-align: center;
     margin-top: 10px;
