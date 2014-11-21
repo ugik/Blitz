@@ -6604,3 +6604,8 @@ a#logo2.branding {
   display: block;
   background: rgba(0, 0, 0, 0.9);
 }
+
+/* line 5555, ../sass/style.scss */
+#main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
+  max-width: 500px;
+}
