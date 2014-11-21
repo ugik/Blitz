@@ -26,8 +26,11 @@
             </div>
         {% elif alert.alert_type == "X" %}
             <div class="trainer-alert">
-                <button class="btn btn-default" type="button">Message</button>
-                <i class="dismiss-alert icon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
+                <div class="actions">
+                    <button class="btn btn-default" type="button" data-action="leave-message" data-target-id="alert{{ alert.pk }}">Message</button>
+                    <i class="dismiss-alert icon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
+                </div>
+
                 <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
                 <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> {{ alert.text }}
                 <div class="date">
