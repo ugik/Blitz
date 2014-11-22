@@ -6573,26 +6573,6 @@ a#logo2.branding {
   }
 }
 
-/* line 5530, ../sass/style.scss */
-.anchor-container a {
-  margin-left: 0px;
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  z-index: 999;
-}
-
-/* line 5540, ../sass/style.scss */
-.feeditem-actions-container {
-  float: left;
-  width: 100%;
-}
-
-/* line 5545, ../sass/style.scss */
-.feed-item-likes {
-  margin-top: 55px;
-}
-
 @media only screen and (min-width: 979px) and (max-width: 1200px) {
   /* line 5549, ../sass/style.scss */
   #top-level-navs .nav-item a {
