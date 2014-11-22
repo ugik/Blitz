@@ -1578,7 +1578,7 @@ def sales_blitz(request):
             if request.POST.get('datepicker') != '':
                 blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
                 saved = "True"
-    
+
         if 'price' in request.POST:
             if request.POST.get('price').isdigit():
                 blitz.price = request.POST.get('price')
@@ -1970,11 +1970,13 @@ def set_up_profile(request):
 def client_checkin(request):
     client = request.user.client
     # get today's checkins, assume one per day max
-    checkin = CheckIn.objects.get_or_none(date_created__year=client.current_datetime().date().year,
+    checkin = CheckIn.objects.get_or_none(client = client,
+                                          date_created__year=client.current_datetime().date().year,
                                           date_created__month=client.current_datetime().date().month,
                                           date_created__day=client.current_datetime().date().day)
     if not checkin:
         checkin = CheckIn()
+        checkin.weight = client.get_weight()
 
     if request.method == 'POST':
         form = ClientCheckinForm(request.POST, request.FILES)

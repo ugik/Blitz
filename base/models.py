@@ -514,6 +514,13 @@ class Client(models.Model):
         count = self.get_feeditems().filter(is_viewed=False).count()
         return count
 
+    def get_weight(self):
+        checkins = CheckIn.objects.filter(client=self).order_by('-pk')
+        if checkins:
+            return checkins[0].weight
+        else:
+            return self.weight_in_lbs
+
 MACRO_STRATEGIES = (
     ('M', 'Macros Only'),
     ('C', 'Calories Only'),
