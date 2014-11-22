@@ -466,7 +466,7 @@ textarea, textarea:focus {
 
 /* line 720, ../sass/style.scss */
 #header {
-  min-height: 70px;
+  min-height: 68px;
   background: #2b2b2b;
   position: fixed;
   z-index: 9;
