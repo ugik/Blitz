@@ -10,11 +10,6 @@
           jQuery("#ajaxwrapper").load(
               form.attr('action') + ' #ajaxwrapper',
               form.serializeArray(),
-              function(responseText, responseStatus) {
-                  $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
-                  $( "#datepicker" ).datepicker();
-                  $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
-
                   try { json = JSON.parse(responseText);
                         // handle successful return from view
                         alert(json["continue"]);
@@ -27,28 +22,48 @@
   /*]]>*/
   </script>
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <script src="/static/js/jquery-1.9.1.min.js"></script>
+  <script src="/static/js/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="/static/css/jquery-ui.css">
   <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
   <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 
   <script>
   $(function() {
+    var reentry = "{{ reentry }}";
+    if (reentry != "False") {
+        jQuery.noConflict(); $('#modalAddProgram').modal('show');
+
+        var newscript = document.createElement('script');
+        newscript.type = 'text/javascript';
+        newscript.async = true;
+        newscript.src = '/static/js/jquery-1.9.1.min.js';
+        document.getElementsByTagName('body')[0].appendChild(newscript);
+        newscript.src = '/static/js/jquery-ui.min.js';
+        document.getElementsByTagName('body')[0].appendChild(newscript);
+        newscript.type = 'text/css';
+        newscript.async = true;
+        newscript.src = '/static/css/jquery-ui.css';
+        document.getElementsByTagName('body')[0].appendChild(newscript);
+        newscript.src = '/static/css/bootstrap-select.css';
+        document.getElementsByTagName('body')[0].appendChild(newscript);
+    }
+    $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
     $( "#datepicker" ).datepicker();
     $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
   });
   </script>
-
 {% endblock %}
 
 {% block main %}
 
+{% if reentry %}
 <form>
 <div >
     <button type='button' class='btn-outline-trans fullwidth' onclick="jQuery.noConflict(); $('#modalAddProgram').modal('show'); return false;">+ Add Group Modal</button><br>
 </div>
 </form>
+{% endif %}
 
 {% include "blitz_setup2.html" %}
 

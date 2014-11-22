@@ -1,8 +1,6 @@
 {% extends "formpage.html" %}
 
 {% block morehead %}
-<script type="text/javascript" 
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 <script type="text/javascript">
   /*<![CDATA[*/
   jQuery(function() {
@@ -28,14 +26,12 @@
   /*]]>*/
   </script>
 
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
-  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+<script src="/static/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.min.css">  
 
   <script>
-  $(function() {
+$(document).ready(function(e) {
     $( "#datepicker" ).datepicker();
     $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
   });

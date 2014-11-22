@@ -331,16 +331,16 @@ def blitz_setup2(request):
 
         else:
 
-            return render_to_response('blitz_setup2.html', 
-                         {'form': form, 'trainer' : trainer, 'errors' : errors, 'group' : forceGroup,
-                          'programs' : programs}, RequestContext(request))
+            return render_to_response('blitz_setup4.html', 
+                         {'form': form, 'trainer': trainer, 'errors': errors, 'group': forceGroup,
+                          'programs': programs }, RequestContext(request))
 
     else:
         form = BlitzSetupForm(None, trainer=trainer)
 
         return render_to_response('blitz_setup4.html', 
-                 {'form': form, 'trainer' : trainer, 'group' : forceGroup, 
-                  'programs' : programs}, RequestContext(request))
+                 {'form': form, 'trainer': trainer, 'group': forceGroup, 
+                  'programs': programs, 'reentry': "False"}, RequestContext(request))
 
 
 # client setup
