@@ -1554,6 +1554,7 @@ def sales_blitz(request):
 
     debug_mode = False
     debug_key = None
+    saved = ''
     if 'debug' in request.GET:
         debug_mode = request.GET.get('debug')
     if 'key' in request.GET:
@@ -1570,31 +1571,40 @@ def sales_blitz(request):
     if blitz and request.method == 'POST':
         if 'intro' in request.POST:
             blitz.sales_page_content.program_introduction = request.POST.get('intro')
+            saved = "True"
 
         if 'datepicker' in request.POST:
             # set date, keeping in mind model will force begin to Monday
             if request.POST.get('datepicker') != '':
                 blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
-        
+                saved = "True"
+    
         if 'price' in request.POST:
             if request.POST.get('price').isdigit():
                 blitz.price = request.POST.get('price')
+                saved = "True"
         if 'price_model' in request.POST:
             blitz.price_model = request.POST.get('price_model')
+            saved = "True"
         if 'why' in request.POST:
             blitz.sales_page_content.program_why = request.POST.get('why')
+            saved = "True"
         if 'who' in request.POST:
             blitz.sales_page_content.program_who = request.POST.get('who')
+            saved = "True"
         if 'last' in request.POST:
             blitz.sales_page_content.program_last_words = request.POST.get('last')
+            saved = "True"
 
         form = SalesBlitzForm(request.POST, request.FILES)
 
         if form.is_valid() and form.is_multipart():
             if form.cleaned_data['logo_picture']:
                 blitz.sales_page_content.logo = form.cleaned_data['logo_picture']
+                saved = "True"
             if form.cleaned_data['picture']:
                 blitz.sales_page_content.trainer_headshot = form.cleaned_data['picture']
+                saved = "True"
 
                 if not trainer.headshot:
                     trainer.headshot = form.cleaned_data['picture']
@@ -1604,9 +1614,15 @@ def sales_blitz(request):
         blitz.sales_page_content.save()
         blitz.save()
 
-    return render(request, "sales_blitz.html", {
-        'blitz' : blitz, 'trainer' : blitz.trainer, 'sales_page': sales_page, 'debug_mode' : debug_mode
-    })
+        print "Saved=%s" % saved
+        return render(request, "sales_blitz.html", {
+            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+            'saved': saved })
+    else:
+        return render(request, "sales_blitz.html", {
+            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+            })
+
 
 # old sales page views
 def sales_page(request, plan_slug):
@@ -1614,9 +1630,7 @@ def sales_page(request, plan_slug):
     blitz = get_object_or_404(Blitz, url_slug=plan_slug)
     template = 'sales_pages/%s.html' % plan_slug.lower()
 
-    return render(request, template, {
-        'blitz': blitz,
-    })
+    return render(request, template, { 'blitz': blitz })
 
 def sales_page_2(request, urlkey):
 
