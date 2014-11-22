@@ -4,29 +4,6 @@
 
 {% block morehead %} {{ super }}
 
-<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
-<script type="text/javascript">
-  jQuery(function() {
-      var form = jQuery("#blitz_setup_form");
-      form.submit(function(e) {
-          jQuery("#ajaxwrapper").load(
-              form.attr('action') + ' #ajaxwrapper',
-              form.serializeArray(),
-              function(responseText, responseStatus) {
-                  $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
-
-                  alert('here');
-                  try { json = JSON.parse(responseText);
-                        // handle successful return from view
-                        alert(json["continue"]);
-                      } catch (e) {  }
-              }
-          );
-          e.preventDefault(); 
-      });
-  });
-  </script>
-
 {% if user.blitz and user.blitz.members %}
 <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
 <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
@@ -42,19 +19,9 @@
 <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
 <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 
-<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script> -->
-
-<script src="/static/js/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.min.css">  
-
-<script>
-  $(function() {
-    $( "#datepicker" ).datepicker();
-    $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
-  });
-</script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
 
 {% endblock %}
 
@@ -69,7 +36,7 @@
 <div id="dashboard">
 	<div class="sidebar-left">
 		<div class="inner">
-			{% if clients  %}
+			{% if clients or blitzes %}
 			<div class="search-input">
 				<input type='text' class="search-text" placeholder="  Search for a client or program...">
 			</div>
@@ -87,7 +54,7 @@
 						All Updates
 					</div>
 					{% if updates_count %}
-					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
+					<span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
 				</li>				
 				<div class="separator">
@@ -101,7 +68,7 @@
 		  			            {{ blitz.title }}
 							</div>
 							{% if blitz.unviewed_feeds_count %}
-							<span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
+							<span class="results-count"><span class="inner"> - </span></span>
 							{% endif %}
 						</li>
 	                    {% endif %}
@@ -117,7 +84,7 @@
 		                {{ client.name }}
 					</div>
 					{% if client.unviewed_feeds_count %}
-					<span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
+					<span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
 				</li>
 				{% endfor %}				
@@ -136,10 +103,7 @@
 			{% endif %}
 			<div class="actions">
 				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button>
-				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button>
-
-<br><br>
-
+				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
 
 			</div>
 		</div> <!-- inner -->
@@ -163,7 +127,7 @@
 						{% include "trainer_alerts.html" %}
 					</div>
 				{% endif %}
-				{% if user.blitz and user.blitz.members %}
+				{% if clients or blitzes %}
 					<div class="feeds-filter">
 						<ul>
 							<li class="active" data-scope-filter="all">Everything</li>
@@ -187,20 +151,18 @@
 						<a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>
 					</div>
 
-
 		        	{% include "main_feed.html" %}
-		                {% else %}
-		                     <div id="main-feed">
-			                 {% include "dashboard/_dummy_gym_session_feed.html" %}
-			                 {% include "dashboard/_dummy_comment_feed.html" %}
- 		                     </div>
-
+                {% else %}
+                	<div id="main-feed">
+		                {% include "dashboard/_dummy_gym_session_feed.html" %}
+		                {% include "dashboard/_dummy_comment_feed.html" %}
+	                </div>
 		        {% endif %}
 			</div> <!--/ feeds -->
 
 			<!-- Summary -->
 			<div id="summary">
-				{% if not clients %}
+				{% if not clients and not blitzes %}
 					{% include "dashboard/_dummy_client_summary.html" %}
 				{% endif %}
 			</div>
@@ -216,8 +178,6 @@
 	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
-
-	{% include "blitz_setup2.html" %}
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
 	{% include "onboarding_content_trainer.html" with trainer=trainer %}
