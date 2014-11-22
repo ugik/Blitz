@@ -64,9 +64,6 @@ mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| gr
 #bash smtp email
 # http://askubuntu.com/questions/12917/how-to-send-mail-from-the-command-line
 
-#forms w/Ajax
-# http://axiacore.com/blog/how-use-mixings-process-form-django/
-
 #enom email
 http://mail-29.name-services.com/Login.aspx
 

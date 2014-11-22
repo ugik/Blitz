@@ -441,6 +441,11 @@ class Client(models.Model):
             for q in Comment.objects.filter(user=self.user).all():
                 feeditems |= q.feeditems.all()
 
+        # Adds client related Check-Ins to the feeditems query set
+        if filter_by == 'check in' or filter_by == 'all' or filter_by == '':
+            for q in CheckIn.objects.filter(client=self).all():
+                feeditems |= q.feeditems.all()
+
         return feeditems
 
     def get_gym_sessions_reverse(self):
@@ -508,6 +513,13 @@ class Client(models.Model):
     def unviewed_feeds_count(self):
         count = self.get_feeditems().filter(is_viewed=False).count()
         return count
+
+    def get_weight(self):
+        checkins = CheckIn.objects.filter(client=self).order_by('-pk')
+        if checkins:
+            return checkins[0].weight
+        else:
+            return self.weight_in_lbs
 
 MACRO_STRATEGIES = (
     ('M', 'Macros Only'),

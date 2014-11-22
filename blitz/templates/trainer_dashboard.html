@@ -4,8 +4,33 @@
 
 {% block morehead %} {{ super }}
 
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+<script type="text/javascript">
+  jQuery(function() {
+      var form = jQuery("#blitz_setup_form");
+      form.submit(function(e) {
+          jQuery("#ajaxwrapper").load(
+              form.attr('action') + ' #ajaxwrapper',
+              form.serializeArray(),
+              function(responseText, responseStatus) {
+                  $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+
+                  alert('here');
+                  try { json = JSON.parse(responseText);
+                        // handle successful return from view
+                        alert(json["continue"]);
+                      } catch (e) {  }
+              }
+          );
+          e.preventDefault(); 
+      });
+  });
+  </script>
+
 {% if user.blitz and user.blitz.members %}
 <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
+<script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+
 {% endif %}
 <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
 
@@ -17,9 +42,19 @@
 <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
 <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script> -->
+
+<script src="/static/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.min.css">  
+
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
+  });
+</script>
 
 {% endblock %}
 
@@ -101,7 +136,10 @@
 			{% endif %}
 			<div class="actions">
 				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button>
-				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
+				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button>
+
+<br><br>
+
 
 			</div>
 		</div> <!-- inner -->
@@ -178,6 +216,8 @@
 	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+
+	{% include "blitz_setup2.html" %}
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
 	{% include "onboarding_content_trainer.html" with trainer=trainer %}
