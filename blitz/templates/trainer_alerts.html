@@ -32,7 +32,7 @@
                     <i class="dismiss-alert icon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
                 </div>
                 <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
-                <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
+                <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> logged a <a href="/profile/c/{{ alert.client.pk }}/checkins">check-in.</a>
                 <div class="date">
                     <i class="icon-time"></i> {{ alert.date_created|dayssince|capfirst }}
                 </div>

@@ -370,11 +370,12 @@ def client_blitz_setup(request, pk):
     if pk != 0:
         blitz = get_object_or_404(Blitz, pk=int(pk) )
     else:  # 0 blitz if we were sent here without a specific blitz, find existing provisional
-        blitz = Blitz.objects.get_or_none(trainer=trainer, provisional=True)
-        if not blitz:  # shouldn't happen since every trainer has provisional blitz
+        blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
+        if not blitzes:  # shouldn't happen since every trainer has provisional blitz
             print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
             return redirect('/')
-
+        else:
+            blitz = blitzes[0]
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
