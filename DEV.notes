@@ -147,6 +147,10 @@ week of 11.17
 - set macros on signup
 - complete signup _done pages
 - update tests
-
+- fix feed
+- show most recent weight in checkin
+- fix unicode client.name in client_macros_modal
+- fix checkins display and add trainer to filter
+- fix screen.css lookup error
 
 
