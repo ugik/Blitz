@@ -129,6 +129,15 @@
            });
        }
 
+    function save_spotter_edit() { 
+        $.ajax({
+            url: '/trainer/spotter-edit',
+            type: 'POST',
+            data: {blitz: {{ blitz.pk }},
+            spotter_text: document.getElementById('edit_request').value },
+          })
+
+ }
 </script>
 
 
@@ -327,15 +336,19 @@
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
 			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('plan_name').text='{{ client.get_blitz.workout_plan.name }}'; document.getElementById('edit_request').value='Help me improve the {{ client.get_blitz.workout_plan.name }} program.'; $('#modalInclude').show(); jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
+				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('plan_name').text='{{ client.get_blitz.workout_plan.name }}'; document.getElementById('client_name').text='{{ client.name|safe }}'; document.getElementById('edit_request').value='Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}.'; $('#modalInclude').show(); jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
 					Edit
 				</a>
 		</div>
 
-		<div class="details">
-	            <h5>{{ client.get_blitz.workout_plan.name }} 
-                        {% if customized %}(customized {{ customized }}){% endif %}</h5>
-		</div>
+		<div class="description">
+	            {{ client.get_blitz.workout_plan.name }}
+                        {% if customizations %}(customized)<br><ul>
+                            {% for custom in customizations %}
+                                <li>{{ custom }}</li>
+                            {% endfor %}</ul>
+                        {% endif %}
+		</div><br><br><br>
 
 		<div class="spacer10"></div>
 	</div>

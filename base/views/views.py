@@ -321,7 +321,6 @@ def blitz_setup2(request):
             blitz.provisional = True if blitz.recurring else False
             blitz.save()
 
-#            import pdb; pdb.set_trace()
             if request.is_ajax():
                 return JSONResponse({'continue': '/'})
                 

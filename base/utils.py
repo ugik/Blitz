@@ -178,17 +178,13 @@ def get_client_summary_html(client, macro_goals, macro_history):
         else:
             macro_goals_formatted[k] =  macro_goals[k]
 
-    exercise_custom = ExerciseCustom.objects.filter(client=client).order_by('-pk')
-    if exercise_custom:
-        customized = str(exercise_custom[0].date_created)
-    else:
-        customized = None
+    customizations = ExerciseCustom.objects.filter(client=client).order_by('-pk')
 
     return render_to_string('dashboard/client_summary.html', {
         'client': client,
         'macro_goals': macro_goals_formatted,
         'macro_history': macro_history,
-        'customized': customized,
+        'customizations': customizations,
         'MEDIA_URL': MEDIA_URL
     })
 
