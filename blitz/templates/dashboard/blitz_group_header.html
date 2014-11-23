@@ -44,11 +44,11 @@ $(function() {
   $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
 })
 function save_spotter_edit() { 
-$.ajax({
-     url: '/trainer/spotter-edit',
-     type: 'POST',
-     data: {blitz: {{ blitz.pk }},
-     spotter_text: document.getElementById('edit_request').value },
+     $.ajax({
+        url: '/trainer/spotter-edit',
+        type: 'POST',
+        data: {blitz: {{ blitz.pk }},
+        spotter_text: document.getElementById('edit_request').value },
       })
  }
 function save_blitz_macros() { 
