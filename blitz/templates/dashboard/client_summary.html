@@ -148,6 +148,16 @@
 		<p class="client-name center">{{ client.name }}</p>
 		<p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>
 	</div>
+        <div class="section week-performance sidebar-box">
+            <div class="header">
+                 Performance This Week
+            </div>
+            <div class="description"><ul>
+                 {% for info in workout_info %}
+                     <li>Missed {{ info.lift }} workout on <b>{{ info.day }}</b></li>
+                 {% endfor %}</ul>
+            </div>
+        </div>
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
 			Diet Goals <a class="btn btn-default btn-edit" onclick="{ $('#modalInclude').show(); jQuery.noConflict(); $('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
