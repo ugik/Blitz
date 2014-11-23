@@ -19,7 +19,7 @@ import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
+from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -321,7 +321,6 @@ def blitz_setup2(request):
             blitz.provisional = True if blitz.recurring else False
             blitz.save()
 
-#            import pdb; pdb.set_trace()
             if request.is_ajax():
                 return JSONResponse({'continue': '/'})
                 
@@ -370,11 +369,12 @@ def client_blitz_setup(request, pk):
     if pk != 0:
         blitz = get_object_or_404(Blitz, pk=int(pk) )
     else:  # 0 blitz if we were sent here without a specific blitz, find existing provisional
-        blitz = Blitz.objects.get_or_none(trainer=trainer, provisional=True)
-        if not blitz:  # shouldn't happen since every trainer has provisional blitz
+        blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
+        if not blitzes:  # shouldn't happen since every trainer has provisional blitz
             print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
             return redirect('/')
-
+        else:
+            blitz = blitzes[0]
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
@@ -1219,6 +1219,15 @@ def client_summary(request, pk):
         'html': get_client_summary_html(client, macro_goals, macro_history)
     }
     return JSONResponse(res)
+
+def invitee_summary(request, pk):
+    invitation = get_object_or_404(BlitzInvitation, pk=int(pk) )
+     
+    res = {
+        'html': get_invitee_summary_html(invitation)
+    }
+    return JSONResponse(res)
+
 
 def blitz(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
@@ -2195,6 +2204,19 @@ def trainer_dashboard(request):
             'trainer': trainer,
             'show_intro': show_intro,
             'shown_intro': show_intro
+        })
+    elif trainer.invitees():
+        return render(request, 'trainer_dashboard.html', {
+            'clients': None,
+            'alerts': None,
+            'alerts_count': 0,
+            'updates_count': 0,
+            'blitzes': None,
+            'user_id': user_id,
+            'show_intro': show_intro,
+            'shown_intro': show_intro,
+            'macro_history': [],
+            'invitees': trainer.invitees()
         })
     else:
         return render(request, 'trainer_dashboard.html', {

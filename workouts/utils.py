@@ -71,17 +71,15 @@ def get_grouped_sets(workout, client=None, gym_date=None):
         # Custom exercise intercept
         custom = ExerciseCustom.objects.filter(client=client, exercise=exercise).order_by('-pk')
         if custom:
-            if custom[0].date_created <= gym_date:
+            if (gym_date!=None and custom[0].date_created <= gym_date) or gym_date==None:
                 exercise.lift = custom[0].lift
                 exercise.sets_display = custom[0].sets_display
                 for i,set in enumerate(sets):
                     c_set = WorkoutSetCustom.objects.filter(client=client, workoutset=set).order_by('-pk')
-                    if c_set and c_set[0].date_created <= gym_date:
+                    if c_set and ((gym_date!=None and c_set[0].date_created <= gym_date) or gym_date==None):
                         if c_set:
                             sets[i].lift = c_set[0].lift
                             sets[i].num_reps = c_set[0].num_reps
-
-#        import pdb; pdb.set_trace()
 
         groups.append({
             'exercise': exercise,

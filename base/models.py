@@ -309,6 +309,14 @@ class Trainer(models.Model):
 #        return self.blitz_set.all().exclude(provisional=True).count() > 1
         return self.blitz_set.all().count() > 1
 
+    def invitees(self):
+        invitees = []
+        for blitz in self.blitz_set.all():
+             invites = BlitzInvitation.objects.filter(blitz=blitz)
+             if invites:
+                 invitees += invites
+        return invitees
+
 class Client(models.Model):
 
     user = models.OneToOneField(User)

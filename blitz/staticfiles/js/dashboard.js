@@ -476,6 +476,18 @@ $(document).ready(function() {
             } else {
                 $summary.html('');
             }
+
+            // Invitee
+            if (FEED_SCOPE === 'invitee') {
+                if (OBJECT_ID) {
+                    summaryXHR = $.get('/api/invitee_summary/' + OBJECT_ID, function(data) {
+                        renderSummary(data.html);
+                    });
+                }
+            } else {
+                $summary.html('');
+            }
+
             homepage_morefeed({clickedFilter: CLICKED_FILTER});
         }
 
