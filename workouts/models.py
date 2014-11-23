@@ -84,7 +84,7 @@ class ExerciseCustom(models.Model):
     date_created = models.DateField(("Date"), default=datetime.date.today)
 
     def __unicode__(self):
-        return "%s of %s in %s" % ( self.sets_display, str(self.lift), str(self.exercise.workout) )
+        return "%s of %s (replaces %s) in %s (as of %s)" % ( self.sets_display, str(self.lift), self.exercise.lift.name, str(self.exercise.workout), self.date_created )
 
 
 class WorkoutSet(models.Model):

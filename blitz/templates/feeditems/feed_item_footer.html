@@ -15,13 +15,15 @@
     </div>
     <div class="clearfix"></div>
     {% if parent.has_likes %}
-        <div class="feed-item-likes">
-            <i class="icon-thumbs-up"></i>
-            {% for u in parent.users_that_like %}
-                <a href="#">{{ u.display_name }}</a>
-                {% if not forloop.last %}and{% endif %}
-            {% endfor %}
-            like{{ parent.users_that_like|pluralize:"s," }} this.
+        <div class="feed-item-likes-container">
+            <div class="feed-item-likes">
+                <i class="icon-thumbs-up"></i>
+                {% for u in parent.users_that_like %}
+                    <a href="#">{{ u.display_name }}</a>
+                    {% if not forloop.last %}and{% endif %}
+                {% endfor %}
+                like{{ parent.users_that_like|pluralize:"s," }} this.
+            </div>
         </div>
     {% endif %}
     {% for comment in parent.comments %}
@@ -52,3 +54,4 @@
 
     </div>
 </div>
+

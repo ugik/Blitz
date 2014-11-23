@@ -32,7 +32,7 @@ def custom_lift(value, client, gym_date=None):
 
     custom = ExerciseCustom.objects.filter(client=client, exercise=value).order_by('-pk')
     if custom:
-        if gym_date and custom[0].date_created <= gym_date:
+        if (gym_date!=None and custom[0].date_created <= gym_date) or gym_date==None:
             return custom[0].lift
     return value.lift
 
@@ -42,7 +42,7 @@ def custom_sets_display(value, client, gym_date=None):
         return value.sets_display
     custom = ExerciseCustom.objects.filter(client=client, exercise=value).order_by('-pk')
     if custom:
-        if gym_date and custom[0].date_created <= gym_date:
+        if (gym_date!=None and custom[0].date_created <= gym_date) or gym_date==None:
             return custom[0].sets_display
     return value.sets_display
 

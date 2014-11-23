@@ -79,7 +79,6 @@ urlpatterns += patterns(
     url(r'^api/blitz_feed$', 'base.views.blitz_feed', name='blitz_feed'),
 
     url(r'^api/blitz_feed/viewed/mark$', 'base.views.blitz_feed_viewed', name='blitz_feed_viewed'),
-    url(r'^api/blitz_feed/count$', 'base.views.get_viewed_count', name='get_viewed_count'),
 
     url(r'^api/blitz/(?P<pk>\d+)$', 'base.views.blitz', name='blitz'),
     url(r'^api/inbox_feed', 'ff_messaging.views.inbox_feed', name='inbox_feed'),
@@ -95,6 +94,7 @@ urlpatterns += patterns(
     url(r'^macros/undo-day', 'base.views.undo_macro_day', name='undo_macro_day'),
     url(r'^macros/save-day', 'base.views.save_macro_day', name='save_macro_day'),
     url(r'api/client_summary/(?P<pk>\w+)', 'base.views.client_summary', name='client_summary'),
+    url(r'api/invitee_summary/(?P<pk>\w+)', 'base.views.invitee_summary', name='invitee_summary'),
 
     url(r'^trainer/dismiss-alert$', 'base.views.trainer_dismiss_alert', name='trainer_dismiss_alert'),
     url(r'^trainer/change-date$', 'base.views.trainer_change_date', name='trainer_change_date'),
@@ -138,6 +138,7 @@ urlpatterns += patterns(
     url(r'^blitz/(?P<pk>\d+)/([\w|-]+)/payment_hook', 'base.views.payment_hook', name='payment_hook'),
 
     url(r'^blitz-setup$', 'base.views.blitz_setup', name='blitz_setup'),
+    url(r'^blitz-setup2$', 'base.views.blitz_setup2', name='blitz_setup2'),
 
     url(r'^blitz_macros/(?P<pk>\d+)$', 'base.views.blitz_macros', name='blitz_macros'),
     url(r'^client_macros/(?P<pk>\d+)$', 'base.views.client_macros', name='client_macros'),

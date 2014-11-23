@@ -179,19 +179,24 @@ def get_client_summary_html(client, macro_goals, macro_history):
         else:
             macro_goals_formatted[k] =  macro_goals[k]
 
-    exercise_custom = ExerciseCustom.objects.filter(client=client).order_by('-pk')
-    if exercise_custom:
-        customized = str(exercise_custom[0].date_created)
-    else:
-        customized = None
+    customizations = ExerciseCustom.objects.filter(client=client).order_by('-pk')
+    workout_info = get_workout_info(client)
 
     return render_to_string('dashboard/client_summary.html', {
         'client': client,
         'macro_goals': macro_goals_formatted,
         'macro_history': macro_history,
-        'customized': customized,
+        'customizations': customizations,
+        'workout_info': workout_info,
         'MEDIA_URL': MEDIA_URL
     })
+
+def get_invitee_summary_html(invitation):
+
+    return render_to_string('dashboard/invitee_summary.html', {
+        'invitation': invitation
+    })
+
 
 def get_inboxfeed_html(user_threads):
     return render_to_string('messages/inbox_inner.html', {'user_threads': user_threads})
@@ -262,5 +267,22 @@ def get_lift_history_maxes(client):
                 l.append( (gym_session, m) )
         lifts[lift] = l
     return lifts
+
+def get_workout_info(client, days=7):
+    DAYS_OF_WEEK = {'M': 'Monday', 'T': 'Tuesday', 'W': 'Wednesday', 'H': 'Thursday', 'F': 'Friday', 'S': 'Saturday', 'U': 'Sunday'}
+
+    missed_workouts = []
+
+    if client.get_blitz().workout_plan:
+        for n in range(days):    # default to a week
+            day = client.current_datetime().date() + datetime.timedelta(days=-n)
+            day_workout = client.get_blitz().get_workout_for_date(day)
+            if day_workout and not client.gymsession_set.filter(workout_plan_day=day_workout).exists():
+                missed_workouts.append(
+                   { 'day': DAYS_OF_WEEK[day_workout.day_of_week], 
+                     'lift': day_workout.workout.display_name,
+                   })
+
+    return missed_workouts
 
 

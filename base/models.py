@@ -309,6 +309,14 @@ class Trainer(models.Model):
 #        return self.blitz_set.all().exclude(provisional=True).count() > 1
         return self.blitz_set.all().count() > 1
 
+    def invitees(self):
+        invitees = []
+        for blitz in self.blitz_set.all():
+             invites = BlitzInvitation.objects.filter(blitz=blitz)
+             if invites:
+                 invitees += invites
+        return invitees
+
 class Client(models.Model):
 
     user = models.OneToOneField(User)
@@ -513,6 +521,13 @@ class Client(models.Model):
     def unviewed_feeds_count(self):
         count = self.get_feeditems().filter(is_viewed=False).count()
         return count
+
+    def get_weight(self):
+        checkins = CheckIn.objects.filter(client=self).order_by('-pk')
+        if checkins:
+            return checkins[0].weight
+        else:
+            return self.weight_in_lbs
 
 MACRO_STRATEGIES = (
     ('M', 'Macros Only'),

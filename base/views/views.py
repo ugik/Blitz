@@ -19,7 +19,7 @@ import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
+from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -248,9 +248,99 @@ def blitz_setup(request):
                  {'form': form, 'trainer' : trainer, 'group' : forceGroup, 
                   'programs' : programs}, RequestContext(request))
 
-#    return render_to_response('blitz_setup.html', 
-#                              {'form': form, 'trainer' : trainer, 'programs' : programs}, 
-#                              RequestContext(request))
+
+# url: /blitz-setup2
+@login_required
+def blitz_setup2(request):
+    # check for incongruency
+    if not request.user.is_trainer:
+        return redirect('home')
+
+    modalBlitz = True if 'modalBlitz' in request.GET else False
+    forceGroup = True if 'group' in request.GET else None
+
+    trainer = request.user.trainer
+    programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
+    # load salespages template data
+    salespages = SalesPageContent.objects.filter(trainer=trainer)
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+
+    if request.method == 'POST':
+
+        form = BlitzSetupForm(request.POST, trainer=trainer)
+        errors = []
+
+        print form.data
+
+        # resolve title
+        if 'title' in form.data:
+            title = form.data['title']
+            if len(title)<5:
+                errors.append("Title too short")
+        else:
+            errors.append("No title")
+
+        if 'charge' in form.data:
+            charge = form.data['charge']
+            if not try_float(charge):
+                errors.append("CHARGE $ must be a value")
+        else:
+            errors.append("No $ charge")
+
+        start = form.data['start_day']
+        try:
+            datetime.datetime.strptime(start, '%m/%d/%Y')
+        except ValueError:
+            errors.append("Incorrect DATE format, should be mm/dd/yy format")
+
+# TODO setup default macro formula for new blitz
+
+        if not errors and form.is_valid():
+
+            if 'program' in form.data:
+                program_pk = form.data['program']
+                plan = WorkoutPlan.objects.get(pk=program_pk)
+            else:
+                plan = None
+
+            content = create_salespagecontent(form.data['title'], trainer, key=None, title=None)
+
+            if not plan: # blitz w/workoutplan pending
+                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'))
+            else:  # blitz w/workoutplan selected
+                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'), workout_plan = plan)
+
+            blitz.title = form.data['title']
+            blitz.sales_page_content = content
+            blitz.url_slug = form.data['url_slug']
+            blitz.price = charge
+            blitz.uses_macros = True
+            blitz.macro_strategy = 'M'
+            blitz.recurring = False if forceGroup or form.data['blitz_type'] == "GRP" else True
+            blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"
+            blitz.provisional = True if blitz.recurring else False
+            blitz.save()
+
+            if request.is_ajax():
+                return JSONResponse({'continue': '/'})
+                
+            return render_to_response('blitz_setup_done.html', 
+                              {'form': form, 'trainer' : trainer}, 
+                              RequestContext(request))
+
+        else:
+
+            return render_to_response('blitz_setup4.html', 
+                         {'form': form, 'trainer': trainer, 'errors': errors, 'group': forceGroup,
+                          'programs': programs }, RequestContext(request))
+
+    else:
+        form = BlitzSetupForm(None, trainer=trainer)
+
+        return render_to_response('blitz_setup4.html', 
+                 {'form': form, 'trainer': trainer, 'group': forceGroup, 
+                  'programs': programs, 'reentry': "False"}, RequestContext(request))
+
 
 # client setup
 # url: /client-setup
@@ -279,11 +369,12 @@ def client_blitz_setup(request, pk):
     if pk != 0:
         blitz = get_object_or_404(Blitz, pk=int(pk) )
     else:  # 0 blitz if we were sent here without a specific blitz, find existing provisional
-        blitz = Blitz.objects.get_or_none(trainer=trainer, provisional=True)
-        if not blitz:  # shouldn't happen since every trainer has provisional blitz
+        blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
+        if not blitzes:  # shouldn't happen since every trainer has provisional blitz
             print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
             return redirect('/')
-
+        else:
+            blitz = blitzes[0]
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
@@ -313,7 +404,7 @@ def client_blitz_setup(request, pk):
                 invitation.workout_plan = workoutplan
 
             invitation.save()
-            client_invite(trainer, [form.cleaned_data['email']], invite_url)
+            client_invite(trainer, [form.cleaned_data['email']], invite_url, blitz)
 
             return render_to_response('client_setup_done.html', 
                           {'form': form, 'trainer' : trainer}, RequestContext(request))
@@ -1098,36 +1189,6 @@ def blitz_feed_viewed(request):
     else:
         return JSONResponse({'error': 'Use a POST method AJAX request'})
 
-@csrf_exempt
-def get_viewed_count(request):
-    if request.is_ajax and request.method == 'POST':
-        feed_scope = request.POST.get('feed_scope')
-        object_pk  = request.POST.get('object_pk')
-
-        if feed_scope == 'all':
-            count = FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count()
-
-        elif feed_scope == 'blitz':
-            count = FeedItem.objects.filter(blitz_id=object_pk, is_viewed=False).count()
-
-        elif feed_scope == 'client':
-            client = Client.objects.get(pk=object_pk)
-            count = client.get_feeditems(filter_by='all').filter(is_viewed=False).count()
-
-        if 'count' in locals():
-            return JSONResponse({
-                'feed_scope': feed_scope,
-                'object_pk': object_pk,
-                'count': count
-            })
-        else:
-            return JSONResponse({
-                'feed_scope': feed_scope,
-                'object_pk': object_pk,
-            })
-    else:
-        return JSONResponse({'error': 'Use a POST method AJAX request'})
-
 def client_summary(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
     try:
@@ -1158,6 +1219,15 @@ def client_summary(request, pk):
         'html': get_client_summary_html(client, macro_goals, macro_history)
     }
     return JSONResponse(res)
+
+def invitee_summary(request, pk):
+    invitation = get_object_or_404(BlitzInvitation, pk=int(pk) )
+     
+    res = {
+        'html': get_invitee_summary_html(invitation)
+    }
+    return JSONResponse(res)
+
 
 def blitz(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
@@ -1493,6 +1563,7 @@ def sales_blitz(request):
 
     debug_mode = False
     debug_key = None
+    saved = ''
     if 'debug' in request.GET:
         debug_mode = request.GET.get('debug')
     if 'key' in request.GET:
@@ -1509,31 +1580,40 @@ def sales_blitz(request):
     if blitz and request.method == 'POST':
         if 'intro' in request.POST:
             blitz.sales_page_content.program_introduction = request.POST.get('intro')
+            saved = "True"
 
         if 'datepicker' in request.POST:
             # set date, keeping in mind model will force begin to Monday
             if request.POST.get('datepicker') != '':
                 blitz.begin_date = datetime.datetime.strptime(request.POST.get('datepicker'), '%Y-%m-%d').date()
-        
+                saved = "True"
+
         if 'price' in request.POST:
             if request.POST.get('price').isdigit():
                 blitz.price = request.POST.get('price')
+                saved = "True"
         if 'price_model' in request.POST:
             blitz.price_model = request.POST.get('price_model')
+            saved = "True"
         if 'why' in request.POST:
             blitz.sales_page_content.program_why = request.POST.get('why')
+            saved = "True"
         if 'who' in request.POST:
             blitz.sales_page_content.program_who = request.POST.get('who')
+            saved = "True"
         if 'last' in request.POST:
             blitz.sales_page_content.program_last_words = request.POST.get('last')
+            saved = "True"
 
         form = SalesBlitzForm(request.POST, request.FILES)
 
         if form.is_valid() and form.is_multipart():
             if form.cleaned_data['logo_picture']:
                 blitz.sales_page_content.logo = form.cleaned_data['logo_picture']
+                saved = "True"
             if form.cleaned_data['picture']:
                 blitz.sales_page_content.trainer_headshot = form.cleaned_data['picture']
+                saved = "True"
 
                 if not trainer.headshot:
                     trainer.headshot = form.cleaned_data['picture']
@@ -1543,9 +1623,15 @@ def sales_blitz(request):
         blitz.sales_page_content.save()
         blitz.save()
 
-    return render(request, "sales_blitz.html", {
-        'blitz' : blitz, 'trainer' : blitz.trainer, 'sales_page': sales_page, 'debug_mode' : debug_mode
-    })
+        print "Saved=%s" % saved
+        return render(request, "sales_blitz.html", {
+            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+            'saved': saved })
+    else:
+        return render(request, "sales_blitz.html", {
+            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+            })
+
 
 # old sales page views
 def sales_page(request, plan_slug):
@@ -1553,9 +1639,7 @@ def sales_page(request, plan_slug):
     blitz = get_object_or_404(Blitz, url_slug=plan_slug)
     template = 'sales_pages/%s.html' % plan_slug.lower()
 
-    return render(request, template, {
-        'blitz': blitz,
-    })
+    return render(request, template, { 'blitz': blitz })
 
 def sales_page_2(request, urlkey):
 
@@ -1895,11 +1979,13 @@ def set_up_profile(request):
 def client_checkin(request):
     client = request.user.client
     # get today's checkins, assume one per day max
-    checkin = CheckIn.objects.get_or_none(date_created__year=client.current_datetime().date().year,
+    checkin = CheckIn.objects.get_or_none(client = client,
+                                          date_created__year=client.current_datetime().date().year,
                                           date_created__month=client.current_datetime().date().month,
                                           date_created__day=client.current_datetime().date().day)
     if not checkin:
         checkin = CheckIn()
+        checkin.weight = client.get_weight()
 
     if request.method == 'POST':
         form = ClientCheckinForm(request.POST, request.FILES)
@@ -1927,7 +2013,7 @@ def client_checkin(request):
 
             alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
             alert.text="checked-in."
-            alert.alert_type = 'X'
+            alert.alert_type = 'C'
             alert.save()
 
             if form.data['done'] == '1':
@@ -2112,22 +2198,35 @@ def trainer_dashboard(request):
     if blitzes and clients:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
-            'blitzes': blitzes,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count(),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
+            'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
             'trainer': trainer,
             'show_intro': show_intro,
             'shown_intro': show_intro
         })
+    elif trainer.invitees():
+        return render(request, 'trainer_dashboard.html', {
+            'clients': None,
+            'alerts': None,
+            'alerts_count': 0,
+            'updates_count': 0,
+            'blitzes': None,
+            'user_id': user_id,
+            'show_intro': show_intro,
+            'shown_intro': show_intro,
+            'macro_history': [],
+            'invitees': trainer.invitees()
+        })
     else:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count(),
+            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'show_intro': show_intro,

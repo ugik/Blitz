@@ -111,15 +111,11 @@
         </div>
 
         <div class="fieldWrapper-url">
-          Signup URL
-        </div>
-        <div class="input-row-fw">
-          <div class="field-label url-label">
-            blitz.us/{{ trainer.short_name }}/
-          </div>
-          <div class="form-input">
+          Signup URL 
+          <p class="tinytext">
+            Clients can sign up at blitz.us/{{ trainer.short_name }}/[what you put below]
+          </p>
             {{ form.url_slug }}<br><a style="color:red;">{{ form.url_slug.errors }}</a>
-          </div>
         </div>
 
         <button type="submit" class="obtn full-width">Create Group</button>

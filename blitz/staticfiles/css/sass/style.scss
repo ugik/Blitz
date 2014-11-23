@@ -17,6 +17,7 @@ $blitz-red: #e8748e;
 $blitz-orange: #eea463;
 $blitz-green: #57c6b9;
 $blitz-purple: #9b8ddb;
+$blitz-grey: #2b2b2b;
 $error-red: #ed2a44;
 
 @mixin boldfont() {
@@ -128,7 +129,8 @@ $error-red: #ed2a44;
     -o-filter: blur(20px);
     -ms-filter: blur(20px);
     filter: blur(20px);
-    opacity: 0.4;
+    //opacity: 0.95;
+    display: block;
 }
 
 @mixin fadein() {
@@ -219,6 +221,13 @@ $mq-mobile-landscape  : 480px !default;
 $mq-tablet-portrait   : 768px !default;
 $mq-tablet-landscape  : 1024px !default;
 $mq-desktop           : 1382px !default;
+
+// Special in-between tablet fix
+@mixin specialportraitfix {
+  @media only screen and (min-width : 768px) and  (max-width: 979px) {
+    @content;
+  }
+}
 
 // Both portrait and landscape
 @mixin mobile-only {
@@ -497,6 +506,13 @@ Example @include keyframes
   -moz-box-shadow: none;
   box-shadow: none;
 }
+
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
+  @include tablet-portrait-and-below {
+    padding: 0px 20px !important;
+  }
+}
+
 .navbar .nav>li>a {
   text-shadow: none;
   @include tablet-landscape-and-up {margin-top: 5px;};
@@ -507,9 +523,10 @@ Example @include keyframes
   background: none;
   background-image: none;
   text-shadow: none;
-  @include ffboxshadow();
+  //@include ffboxshadow();
   color: white;
   border: none;
+  box-shadow: none !important;
 }
 
 .btn-navbar:hover, .navbar .btn-navbar:focus, .navbar .btn-navbar:active, .navbar .btn-navbar.active, .navbar .btn-navbar.disabled, .navbar .btn-navbar[disabled] {
@@ -518,7 +535,6 @@ Example @include keyframes
     background-color: rgba(0,0,0,0) !important;
     text-shadow: none;
     color: $fadedblue !important;
-    margin-top: 26px;
 }
 
 .navbar .btn-navbar .icon-bar {
@@ -663,13 +679,14 @@ textarea,textarea:focus {
 }
 
 #colorstripe, .colorstripe {
-  display: block;
+  display: none;
   height: 2px;
   @include blitz-gradient();
   
 }
 
 #altcolorstripe {
+  display: none;
   height: 2px;
   @include blitz-gradient();
 }
@@ -702,7 +719,7 @@ textarea,textarea:focus {
 
 #header {
   min-height: 70px;
-  background: #343434;
+  background: $blitz-grey;
   position: fixed;
   z-index: 9;
 }
@@ -743,20 +760,42 @@ textarea,textarea:focus {
   }
 }
 
+.header .intro-modal-header #trainersig {
+  margin-bottom: -30px;
+}
+
+.nav-collapse, .nav-collapse.collapse {
+  background: #343434;
+  //border-top: 1px solid rgba(255,255,255,0.3); 
+}
+
+
 #logo2 {
   float: left;
   position: relative;
   margin-right: 50px;
   padding-top: 20px;
-  max-width: 170px;
+  //max-width: 240px;
   img {
     max-height: 50px;
+    margin-top: -15px;
   }
   @include mobile-only {
-    max-width: 50%;
+    //max-width: 50%;
     margin: 0 auto;
     margin-left: 20px;
+    text-align: center;
+    //width: 100%;
+    display: block;
+    /* z-index: -99999; */
+    float: left;
   }  
+}
+
+#header {
+  @include mobile-only {
+    height: 70px;
+  }
 }
 
 #top-level-navs {
@@ -887,6 +926,13 @@ textarea,textarea:focus {
 
 .row .rightrow {
  .margin-top: 70px; 
+}
+
+ #main-content-container .container .rightrow {
+  @include tablet-portrait-only {
+  margin-right: 0px !important;
+  margin-left: -20px !important;
+  }
  }
 
  .hr {}
@@ -956,7 +1002,7 @@ h3 {@include lightfont();}
 }
 
 .members-sidebar-box {
-  @include mobile-only { display: none; }
+  @include tablet-portrait-and-below { display: none; }
 }
 
 .members-container {
@@ -972,6 +1018,9 @@ h3 {@include lightfont();}
         width: 100%;
         border: $imageborder;
       }
+    }
+    @include tablet-portrait-only {
+      width: 12.5%;
     }
   }
   .member-headshot-container:nth-child(3n+1) {
@@ -1151,7 +1200,7 @@ h3 {@include lightfont();}
   background: $trainercommentcolor;
 }
 
-.feed-item-likes {
+.feed-item-likes-container {
   font-size: 16px;
   //background: $commentbg;
   background: rgba(250, 252, 251, 1.0);
@@ -1647,6 +1696,9 @@ a.edit-workout-link {
     width: 20%;
     img {
       width: 100%;
+    }
+    @include tablet-portrait-only {
+      width: 12.5%;
     }
   .img-circle {
     @include borderbox();
@@ -2168,7 +2220,7 @@ background-position: 0 -30px;
 }
 
 .macros-sidebar-box {
-  @include tablet-portrait-only {margin-bottom: 120px;};
+  //@include tablet-portrait-only {margin-bottom: 30px;};
 }
 
 .day-view-container {
@@ -2311,7 +2363,8 @@ background-position: 0 -30px;
       color: white;
       border-top-right-radius: 4px;
       border-top-left-radius: 4px;
-      @include tablet-portrait-only {font-size: 0.85em;};
+      @include meta();
+      @include tablet-only {font-size: 0.85em;};
     }
     .title-carbs { background: $blitz-green; border: 1px solid rgba(0,0,0,0.1);}
     .title-protein { background: $blitz-red; border: 1px solid rgba(0,0,0,0.1);}
@@ -2323,8 +2376,10 @@ background-position: 0 -30px;
       background: rgba(250, 252, 251, 1.0);
       border-bottom-right-radius: 4px;
       border-bottom-left-radius: 4px;
-      @include tablet-portrait-only {font-size: 0.7em;};
-      @include mobile-only {font-size: 0.9em;};
+      @include pnmacrosfont();
+      font-size: 24px;
+      @include tablet-only {font-size: 0.9em;};
+      @include mobile-only {font-size: 1.3em;};
       span {
         position: relative;
         top: 5px;
@@ -4174,10 +4229,10 @@ ul.spotternav li {
   }
 }
 
-body.modal-open {
-    overflow: hidden;
-    -webkit-filter: blur(20px);
-}
+// body.modal-open {
+//     overflow: hidden;
+//     -webkit-filter: blur(20px);
+// }
 
 .errorlist { 
   padding: 0px 0px 0px 0px;
@@ -4885,11 +4940,27 @@ a.ui-state-default :hover {
 
 .navbar-fixed-top {
   background: #2b2b2b;
+  @include tablet-portrait-and-below {
+    background: none;
+  }
+}
+
+#header > div {
+  @include tablet-landscape-and-up {
+    border-bottom: 2px solid $fadedblue; 
+  }
+}
+
+#header {
+  @include mobile-only {
+    border-bottom: 2px solid $fadedblue; 
+  }
 }
 
 .check-in-feed-item {
   float: left;
   margin-bottom: 30px;
+  max-width: 100%;
 }
 
 .checkin-wrap {
@@ -5357,3 +5428,143 @@ input.macro-input {
 .modal-body .row .span6 img#headshot {
   width: 125px;
 }
+
+a#logo2.branding {
+  text-decoration: none;
+  color: white;
+  @include meta();
+  font-size: 22px;
+  text-overflow: ellipsis;
+  margin-top: 5px;
+  //max-width: 240px;
+  @include tablet-portrait-only {
+    margin-left: 20px;
+  }
+}
+
+#main-content-container .container .rightrow {
+  @include tablet-portrait-and-below {
+    margin-left: 0px;
+  }
+}
+
+#account-block {
+  @include tablet-landscape-and-below {
+    display: none;
+  }
+}
+
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner, .navbar-fixed-top, .navbar-fixed-bottom {
+  box-shadow: none !important;
+}
+
+.formpage-block .form .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+  width: 100% !important;
+  button > span.filter-option.pull-left {
+    text-align: center;
+  }
+}
+
+.rightspan {
+  @include tablet-portrait-only {
+    margin-right: 0px; 
+  }
+}
+
+.macro-portrait-fix {
+  @include tablet-portrait-only {
+    min-height: 470px;
+  }
+}
+
+.macro-form .goal .content  {
+  @include tablet-portrait-only {
+    font-size: 1.2em;
+    display: block;
+    padding: 5px;
+  }
+}
+
+#account-block {
+
+}
+
+#header {
+  @include specialportraitfix {
+      width: 100%;
+      left: 0 !important;
+      margin-left: 0 !important;
+      padding: 0px 0px;
+      border-bottom: none;
+    }
+  box-shadow: none !important;
+}
+
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+  @include specialportraitfix {
+    width: 100% !important;
+  }
+}
+
+.span4 {
+  @include specialportraitfix {
+    width: 25%;
+    margin-left: 2%;
+  }
+}
+
+.span8 {
+  @include specialportraitfix {
+    width: 66%;
+    margin-left: 2%;
+  }
+}
+
+#header > div {
+  @include specialportraitfix {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.anchor-container a {
+  //@media only screen and (min-width: 1025px)  {
+    //display: block;
+    margin-left: 0px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    z-index: 999;
+}
+
+.feeditem-actions-container {
+  float: left;
+  width: 100%;
+}
+
+.feed-item-likes {
+  margin-top: 55px;
+}
+
+#top-level-navs .nav-item a {
+  @media only screen and (min-width: 979px) and (max-width: 1200px) {
+    padding: 25px 25px;
+  }
+}
+
+.blur {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+  @include iosblur();
+  background: rgba(0,0,0,0.9);
+}
+
+#main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
+  max-width: 500px
+}
+
+

@@ -11,7 +11,7 @@ class TestCreateBlitz(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.driver.set_window_size(800, 1000)
+        self.driver.set_window_size(1200, 1000)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -25,7 +25,6 @@ class TestCreateBlitz(unittest.TestCase):
         driver.find_element_by_id("id_password").clear()
         driver.find_element_by_id("id_password").send_keys("asdf")
         driver.find_element_by_css_selector("button.obtn.obtn-comment").click()
-        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.get(self.base_url + "/blitz-setup")
         driver.get(self.base_url + "/blitz-setup?modalBlitz")
         driver.find_element_by_id("id_title").clear()
@@ -47,10 +46,9 @@ class TestCreateBlitz(unittest.TestCase):
         driver.find_element_by_xpath("//form/button").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_link_text(u"Invite clients →").click()
+        driver.find_element_by_link_text("Create a page for this group").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.get(self.base_url + "/salespage")
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.get(self.base_url + "/Mike/new")

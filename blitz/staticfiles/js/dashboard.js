@@ -16,44 +16,36 @@ function homepage_setLoading() {
 }
 
 function UpdateViewedFeedsCount(clickedFilter) {
+    var clickedFilter = clickedFilter || $('ul.filters.scopes li.active').eq(0) || NaN
     var $FeedItems = $('.feed-item[data-viewed="false"]'),
         unviewedItems = [];
 
-    $.each($FeedItems, function(e) {
+    for (i=0; i < $FeedItems.length; i++) {
         unviewedItems.push({
-            'content_type': $(this).data('content_type'),
-            'object_pk': $(this).data('object_pk')
-        });
-    });
+            'content_type': $FeedItems.eq(i).data('content_type'),
+            'object_pk': $FeedItems.eq(i).data('object_pk')
+        })        
+    }
 
-    if (unviewedItems.length > 0) {
+    if (unviewedItems) {
         $.post('/api/blitz_feed/viewed/mark', {
             'feed_items': JSON.stringify(unviewedItems)
         }, function(data) {
+            if (clickedFilter) {
+                console.log(clickedFilter);
+                var unviewedItemsCount = clickedFilter.find('.results-count .inner').html() - data.viewed_count;
+
+                // Updates count indicator
+                clickedFilter.find('.results-count .inner').html(unviewedItemsCount);
+
+                // Hides count indicator if not unviewed items
+                if (unviewedItemsCount < 1) {
+                    clickedFilter.find('.results-count').hide();
+                }
+            }
             $FeedItems.attr('data-viewed', 'true');
         });
     }
-}
-
-function GetViewedFeedsCount() {
-    var feedFilters = $('ul.filters.scopes li.item');
-
-    $.each(feedFilters, function(e) {
-        var filter = $(this);
-
-        $.post('/api/blitz_feed/count', {
-            'feed_scope': filter.data('scope'),
-            'object_pk':  filter.data('object-pk')
-        }, function(data) {
-            if (data.count < 1) {
-                filter.find('.results-count').hide('fast');
-            } else {
-                filter.find('.results-count').show('fast');
-                filter.find('.results-count .inner').html(data.count);
-                // TODO: If '.results-count' don't exists create the DOM from jQuery
-            }            
-        });
-    });
 }
 
 function homepage_morefeed(options) {
@@ -82,11 +74,8 @@ function homepage_morefeed(options) {
             $('#homepage-loadmore').show();
             $('#homepage-loading').hide();
 
-            // Marks viewed items on the server
+            // Updates Filters Counter
             UpdateViewedFeedsCount(clickedFilter);
-
-            // Gets Filters Count from the server and updates the UI
-            GetViewedFeedsCount();
         }
     );
 }
@@ -487,6 +476,18 @@ $(document).ready(function() {
             } else {
                 $summary.html('');
             }
+
+            // Invitee
+            if (FEED_SCOPE === 'invitee') {
+                if (OBJECT_ID) {
+                    summaryXHR = $.get('/api/invitee_summary/' + OBJECT_ID, function(data) {
+                        renderSummary(data.html);
+                    });
+                }
+            } else {
+                $summary.html('');
+            }
+
             homepage_morefeed({clickedFilter: CLICKED_FILTER});
         }
 

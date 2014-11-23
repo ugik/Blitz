@@ -36,7 +36,7 @@
 <div id="dashboard">
 	<div class="sidebar-left">
 		<div class="inner">
-			{% if clients or blitzes %}
+			{% if clients or blitzes or invitees %}
 			<div class="search-input">
 				<input type='text' class="search-text" placeholder="  Search for a client or program...">
 			</div>
@@ -87,7 +87,15 @@
 					<span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
 				</li>
-				{% endfor %}				
+				{% endfor %}
+ 
+                                {% for invitee in invitees %}
+<li class='item solo-client' data-object-pk="{{ invitee.pk }}" data-scope='invitee'>
+					<div class="item-inner">
+		                {{ invitee.name }} <i>(pending)</i>
+					</div>
+				</li>
+                                {% endfor %}
 			</ul>
 			{% else %}
 			<div class="new-trainer-experience">

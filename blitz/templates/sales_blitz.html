@@ -14,6 +14,10 @@ class="sales-page"
   $(function() {
     $( "#datepicker" ).datepicker();
     $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    var saved = "{{ saved }}";
+    if (saved == "True") {
+        $('#success-alert').show();
+        setTimeout(function(){ $('#success-alert').hide(); }, 2000); }
   });
 
   </script>
@@ -23,8 +27,12 @@ class="sales-page"
 
   <div class="container">
     <div class="row">
+        <div class="alert alert-success fade in" id="success-alert" style="display:none;">
+            Your changes are saved successfully...
+        </div>
       <div class="span2" style="margin-left: -30px;">
         {% if debug_mode %}
+
           <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
           action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
         {% else %}
@@ -165,6 +173,7 @@ class="sales-page"
         {% endif %}
      </div>
   </div>
+
 </div>
 </div>
 </div>
