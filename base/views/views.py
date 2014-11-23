@@ -2206,6 +2206,19 @@ def trainer_dashboard(request):
             'show_intro': show_intro,
             'shown_intro': show_intro
         })
+    elif trainer.invitees():
+        return render(request, 'trainer_dashboard.html', {
+            'clients': None,
+            'alerts': None,
+            'alerts_count': 0,
+            'updates_count': 0,
+            'blitzes': None,
+            'user_id': user_id,
+            'show_intro': show_intro,
+            'shown_intro': show_intro,
+            'macro_history': [],
+            'invitees': trainer.invitees()
+        })
     else:
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
