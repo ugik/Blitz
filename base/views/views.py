@@ -19,7 +19,7 @@ import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
+from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -1220,6 +1220,15 @@ def client_summary(request, pk):
         'html': get_client_summary_html(client, macro_goals, macro_history)
     }
     return JSONResponse(res)
+
+def invitee_summary(request, pk):
+    invitation = get_object_or_404(BlitzInvitation, pk=int(pk) )
+     
+    res = {
+        'html': get_invitee_summary_html(invitation)
+    }
+    return JSONResponse(res)
+
 
 def blitz(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )

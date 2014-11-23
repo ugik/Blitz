@@ -192,6 +192,13 @@ def get_client_summary_html(client, macro_goals, macro_history):
         'MEDIA_URL': MEDIA_URL
     })
 
+def get_invitee_summary_html(invitation):
+
+    return render_to_string('dashboard/invitee_summary.html', {
+        'invitation': invitation
+    })
+
+
 def get_inboxfeed_html(user_threads):
     return render_to_string('messages/inbox_inner.html', {'user_threads': user_threads})
 
