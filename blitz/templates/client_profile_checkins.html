@@ -21,7 +21,7 @@
     <table>
         <td><h3>Weight: {{ checkin.weight|lbs_conversion:client }} {{ client.units|weight_label }}</h3></td></tr>
         <tr>
-        <td><img src="/media/{{ checkin.front_image }}"/></td></tr>
+        <td><img src="/media/{{ checkin.front_image }}" style="width:500px;"/></td></tr>
         <tr>
         <td><img src="/media/{{ checkin.side_image }}" /></td></tr>
     </table>

@@ -94,6 +94,7 @@ urlpatterns += patterns(
     url(r'^macros/undo-day', 'base.views.undo_macro_day', name='undo_macro_day'),
     url(r'^macros/save-day', 'base.views.save_macro_day', name='save_macro_day'),
     url(r'api/client_summary/(?P<pk>\w+)', 'base.views.client_summary', name='client_summary'),
+    url(r'api/invitee_summary/(?P<pk>\w+)', 'base.views.invitee_summary', name='invitee_summary'),
 
     url(r'^trainer/dismiss-alert$', 'base.views.trainer_dismiss_alert', name='trainer_dismiss_alert'),
     url(r'^trainer/change-date$', 'base.views.trainer_change_date', name='trainer_change_date'),
