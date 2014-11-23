@@ -166,6 +166,7 @@ def get_feeditem_html(feed_item, user):
         return render_to_string('feeditems/checkins.html', {
             'checkin': feed_item.content_object,
             'user': user,
+            'feed_item': feed_item,
             'MEDIA_URL': MEDIA_URL
         })
 

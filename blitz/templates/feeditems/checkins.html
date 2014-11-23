@@ -13,8 +13,6 @@
                     <img src="{{ checkin.client.user.headshot_url }}" class="img-circle" />
                 </div>
 
-                {% if user == checkin.client.user %}
-                <a class="edit-workout-link" href="{% url " log_workout " gym_session.workout_plan_day.workout_plan_week.week gym_session.workout_plan_day.day_of_week %}"><i class="icon-edit"></i> edit</a> {% endif %}
                 <a href="{{ checkin.client.user.get_profile_url }}">{{ checkin.client.name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
                 <div class="feeditem-pub-date"><i class="icon-time"></i> {{ checkin.pub_date|timesince }} ago</div>
             </div>
