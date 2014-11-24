@@ -1203,6 +1203,36 @@ def blitz_feed_viewed(request):
     else:
         return JSONResponse({'error': 'Use a POST method AJAX request'})
 
+@csrf_exempt
+def get_viewed_count(request):
+    if request.is_ajax and request.method == 'POST':
+        feed_scope = request.POST.get('feed_scope')
+        object_pk  = request.POST.get('object_pk')
+
+        if feed_scope == 'all':
+            count = FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count()
+
+        elif feed_scope == 'blitz':
+            count = FeedItem.objects.filter(blitz_id=object_pk, is_viewed=False).count()
+
+        elif feed_scope == 'client':
+            client = Client.objects.get(pk=object_pk)
+            count = client.get_feeditems(filter_by='all').filter(is_viewed=False).count()
+
+        if 'count' in locals():
+            return JSONResponse({
+                'feed_scope': feed_scope,
+                'object_pk': object_pk,
+                'count': count
+            })
+        else:
+            return JSONResponse({
+                'feed_scope': feed_scope,
+                'object_pk': object_pk,
+            })
+    else:
+        return JSONResponse({'error': 'Use a POST method AJAX request'})
+
 def client_summary(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
     try:
