@@ -1136,17 +1136,24 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:
         if feed_scope == 'all':
-            blitzes = request.user.trainer.active_blitzes()
+            if request.user.is_trainer:
+                blitzes = request.user.trainer.active_blitzes()
 
-            feed_items = FeedItem.objects.get_empty_query_set()
+                feed_items = FeedItem.objects.get_empty_query_set()
 
-            for blitz in blitzes:
+                for blitz in blitzes:
+                    if feed_scope_filter != 'all':
+                        feed_items |= FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter)
+                    else:
+                        feed_items |= FeedItem.objects.filter(blitz=blitz)
+
+                feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
+
+            else:
                 if feed_scope_filter != 'all':
-                    feed_items |= FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter)
+                    feed_items = FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
                 else:
-                    feed_items |= FeedItem.objects.filter(blitz=blitz)
-
-            feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
+                    feed_items = FeedItem.objects.filter(blitz=request.user.client.get_blitz() ).order_by('-pub_date')[offset:offset+FEED_SIZE]
 
         elif feed_scope == 'blitz':
             if feed_scope_filter != 'all':
