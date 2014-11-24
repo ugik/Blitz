@@ -1136,10 +1136,24 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:
         if feed_scope == 'all':
-            if feed_scope_filter != 'all':
-                feed_items = FeedItem.objects.filter(blitz=request.user.blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
+            if request.user.is_trainer:
+                blitzes = request.user.trainer.active_blitzes()
+
+                feed_items = FeedItem.objects.get_empty_query_set()
+
+                for blitz in blitzes:
+                    if feed_scope_filter != 'all':
+                        feed_items |= FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter)
+                    else:
+                        feed_items |= FeedItem.objects.filter(blitz=blitz)
+
+                feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
+
             else:
-                feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+FEED_SIZE]
+                if feed_scope_filter != 'all':
+                    feed_items = FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
+                else:
+                    feed_items = FeedItem.objects.filter(blitz=request.user.client.get_blitz() ).order_by('-pub_date')[offset:offset+FEED_SIZE]
 
         elif feed_scope == 'blitz':
             if feed_scope_filter != 'all':
@@ -1154,7 +1168,7 @@ def blitz_feed(request):
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
                 feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
-
+        
     ret = {
         'feeditems': [],
         'offset': offset+FEED_SIZE,
@@ -1167,6 +1181,7 @@ def blitz_feed(request):
         })
 
     return JSONResponse(ret)
+
 
 
 @csrf_exempt
@@ -1185,6 +1200,36 @@ def blitz_feed_viewed(request):
             'status': 'successful',
             # 'feed_items': request.POST.get('feed_items'),
             'viewed_count': len(feed_items)
+            })
+    else:
+        return JSONResponse({'error': 'Use a POST method AJAX request'})
+
+@csrf_exempt
+def get_viewed_count(request):
+    if request.is_ajax and request.method == 'POST':
+        feed_scope = request.POST.get('feed_scope')
+        object_pk  = request.POST.get('object_pk')
+
+        if feed_scope == 'all':
+            count = FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count()
+
+        elif feed_scope == 'blitz':
+            count = FeedItem.objects.filter(blitz_id=object_pk, is_viewed=False).count()
+
+        elif feed_scope == 'client':
+            client = Client.objects.get(pk=object_pk)
+            count = client.get_feeditems(filter_by='all').filter(is_viewed=False).count()
+
+        if 'count' in locals():
+            return JSONResponse({
+                'feed_scope': feed_scope,
+                'object_pk': object_pk,
+                'count': count
+            })
+        else:
+            return JSONResponse({
+                'feed_scope': feed_scope,
+                'object_pk': object_pk,
             })
     else:
         return JSONResponse({'error': 'Use a POST method AJAX request'})
@@ -2005,8 +2050,11 @@ def client_checkin(request):
             checkin.save()
 
             content_type = ContentType.objects.get(app_label="base", model="checkin")
-            feeditem = FeedItem.objects.get_or_create(blitz=request.user.blitz, content_type=content_type, object_id=checkin.pk, pub_date=checkin.date_created)
-            feeditem[0].save()
+            feeditem = FeedItem.objects.get_or_none(blitz=request.user.blitz, content_type=content_type, object_id=checkin.pk)
+
+            if not feeditem:
+                feeditem = FeedItem.objects.get_or_create(blitz=request.user.blitz, content_object=checkin, content_type=content_type, object_id=checkin.pk, pub_date=datetime.datetime.now())
+                feeditem[0].save()
 
             alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
             alert.text="checked-in."

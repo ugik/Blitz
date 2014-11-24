@@ -778,6 +778,8 @@ class FeedItem(models.Model):
     pub_date = models.DateTimeField(db_index=True)
     is_viewed = models.BooleanField(default=False)
 
+    objects = GetOrNoneManager()
+
     def __unicode__(self):
         return "Feed item for %s / %d in blitz %s" % ( str(self.content_type), self.object_id, str(self.blitz) )
 
