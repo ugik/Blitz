@@ -2015,7 +2015,7 @@ def client_checkin(request):
             feeditem = FeedItem.objects.get_or_none(blitz=request.user.blitz, content_type=content_type, object_id=checkin.pk)
 
             if not feeditem:
-                feeditem = FeedItem.objects.get_or_create(blitz=request.user.blitz, content_object=checkin, content_type=content_type, object_id=checkin.pk, pub_date=datetime.datetime.now())
+                feeditem = FeedItem.objects.get_or_create(blitz=request.user.blitz, content_type=content_type, object_id=checkin.pk, pub_date=datetime.datetime.now())
                 feeditem[0].save()
 
             alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
