@@ -48,6 +48,27 @@ function UpdateViewedFeedsCount(clickedFilter) {
     }
 }
 
+function GetViewedFeedsCount() {
+    var feedFilters = $('ul.filters.scopes li.item');
+
+    $.each(feedFilters, function(e) {
+        var filter = $(this);
+
+        $.post('/api/blitz_feed/count', {
+            'feed_scope': filter.data('scope'),
+            'object_pk':  filter.data('object-pk')
+        }, function(data) {
+            if (data.count < 1) {
+                filter.find('.results-count').hide('fast');
+            } else {
+                filter.find('.results-count').show('fast');
+                filter.find('.results-count .inner').html(data.count);
+                // TODO: If '.results-count' don't exists create the DOM from jQuery
+            }            
+        });
+    });
+}
+
 function homepage_morefeed(options) {
     var options = options || {};
     var clickedFilter = options.clickedFilter || '';
@@ -74,8 +95,11 @@ function homepage_morefeed(options) {
             $('#homepage-loadmore').show();
             $('#homepage-loading').hide();
 
-            // Updates Filters Counter
+            // Mark loaded feed items as viewed
             UpdateViewedFeedsCount(clickedFilter);
+
+            // Updates Filters Counter
+            GetViewedFeedsCount();
         }
     );
 }

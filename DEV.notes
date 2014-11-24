@@ -152,5 +152,6 @@ week of 11.17
 - fix unicode client.name in client_macros_modal
 - fix checkins display and add trainer to filter
 - fix screen.css lookup error
+- client_summary Performance in Week
 
 
