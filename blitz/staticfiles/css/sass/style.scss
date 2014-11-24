@@ -1577,8 +1577,9 @@ a.edit-workout-link {
   border-bottom: $border;
   .anchor-container {
     width: 33%;
-    @include mobile-only { width: 50%; };
-    float: left;
+    display: inline-block;
+    @include mobile-only { width: 49.46%; };
+    //float: left;
     a {
       display: block;
       padding: 8px 0;
@@ -5567,4 +5568,18 @@ a#logo2.branding {
   max-width: 500px
 }
 
+// .textareaClone {
+//   margin-top: -10px !important;
+//   float: left;
+//   top: 0;
+//   left: 0;
+//   position: relative;
+//   z-index: -9999;
+//   position: absolute;
+// }
 
+// .expandingText {
+//   float: left;
+//   z-index: 999;
+//   height: 100%;
+// }
