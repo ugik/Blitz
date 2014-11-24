@@ -1136,10 +1136,17 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:
         if feed_scope == 'all':
-            if feed_scope_filter != 'all':
-                feed_items = FeedItem.objects.filter(blitz=request.user.blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
-            else:
-                feed_items = FeedItem.objects.filter(blitz=request.user.blitz).order_by('-pub_date')[offset:offset+FEED_SIZE]
+            blitzes = request.user.trainer.active_blitzes()
+
+            feed_items = FeedItem.objects.get_empty_query_set()
+
+            for blitz in blitzes:
+                if feed_scope_filter != 'all':
+                    feed_items |= FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter)
+                else:
+                    feed_items |= FeedItem.objects.filter(blitz=blitz)
+
+            feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
 
         elif feed_scope == 'blitz':
             if feed_scope_filter != 'all':
@@ -1154,7 +1161,7 @@ def blitz_feed(request):
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
                 feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
-
+        
     ret = {
         'feeditems': [],
         'offset': offset+FEED_SIZE,
@@ -1167,6 +1174,7 @@ def blitz_feed(request):
         })
 
     return JSONResponse(ret)
+
 
 
 @csrf_exempt
@@ -2008,7 +2016,7 @@ def client_checkin(request):
             feeditem = FeedItem.objects.get_or_none(blitz=request.user.blitz, content_type=content_type, object_id=checkin.pk)
 
             if not feeditem:
-                feeditem = FeedItem.objects.get_or_create(blitz=request.user.blitz, content_type=content_type, object_id=checkin.pk, pub_date=datetime.datetime.now())
+                feeditem = FeedItem.objects.get_or_create(blitz=request.user.blitz, content_object=checkin, content_type=content_type, object_id=checkin.pk, pub_date=datetime.datetime.now())
                 feeditem[0].save()
 
             alert, _ = TrainerAlert.objects.get_or_create(trainer=client.get_blitz().trainer, client_id=client.id, date_created=time.strftime("%Y-%m-%d"))
