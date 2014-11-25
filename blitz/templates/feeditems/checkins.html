@@ -22,12 +22,16 @@
                     {{ checkin.client.name }}'s latest weight is </strong>{{ checkin.weight }} lbs.</strong>
                 </div>
                 <div class="checkin-pic-wrap">
+                {% if checkin.front_image %}
                     <div class="checkin-pic">
                         <img src="/media/{{ checkin.front_image }}" />
                     </div>
+                {% endif %}
+                {% if checkin.side_image %}
                     <div class="checkin-pic">
                         <img src="/media/{{ checkin.side_image }}" />
                     </div>
+                {% endif %}
                 </div>
             </div>
 
