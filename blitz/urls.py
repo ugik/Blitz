@@ -87,6 +87,8 @@ urlpatterns += patterns(
     url(r'^api/comment_unlike', 'base.views.comment_unlike', name='comment_unlike'),
     url(r'^api/gym_session_like', 'base.views.gym_session_like', name='gym_session_like'),
     url(r'^api/gym_session_unlike', 'base.views.gym_session_unlike', name='gym_session_unlike'),
+    url(r'^api/checkin_like', 'base.views.checkin_like', name='checkin_like'),
+    url(r'^api/checkin_unlike', 'base.views.checkin_unlike', name='checkin_unlike'),
     url(r'^api/new-child-comment', 'base.views.new_child_comment', name='new_child_comment'),
 
     url(r'^api/save-sets', 'base.views.save_sets', name='save_sets'),

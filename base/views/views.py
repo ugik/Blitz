@@ -23,7 +23,7 @@ from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_s
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
-from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, TrainerAlert, SalesPageContent, CheckIn, Heading
+from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading
 from workouts.models import WorkoutPlan, WorkoutPlanDay
 
 from base.templatetags import units_tags
@@ -1305,6 +1305,8 @@ def comment_like(request):
         parent = comment.parent_comment
     elif comment.gym_session:
         parent = comment.gym_session
+    elif comment.checkin:
+        parent = comment.checkin
     else:
         parent = comment
 
@@ -1331,6 +1333,8 @@ def comment_unlike(request):
         parent = comment.parent_comment
     elif comment.gym_session:
         parent = comment.gym_session
+    elif comment.checkin:
+        parent = comment.checkin
     else:
         parent = comment
 
@@ -1378,6 +1382,24 @@ def gym_session_like(request):
 
 @login_required
 @csrf_exempt
+def checkin_like(request):
+
+    checkin = CheckIn.objects.get(pk=int(request.POST['checkin_pk']))
+
+    new_content.add_like_to_checkin(checkin, request.user, datetime.datetime.now())
+
+    content_type = ContentType.objects.get_for_model(checkin)
+    feed_item = FeedItem.objects.get(content_type=content_type, object_id=checkin.pk)
+
+    ret = {
+        'is_error': False,
+        'html': get_feeditem_html(feed_item, request.user)
+    }
+
+    return JSONResponse(ret)
+
+@login_required
+@csrf_exempt
 def gym_session_unlike(request):
 
     gym_session = GymSession.objects.get(pk=int(request.POST['gym_session_pk']))
@@ -1386,6 +1408,23 @@ def gym_session_unlike(request):
 
     content_type = ContentType.objects.get_for_model(gym_session)
     feed_item = FeedItem.objects.get(content_type=content_type, object_id=gym_session.pk)
+
+    ret = {
+        'is_error': False,
+        'html': get_feeditem_html(feed_item, request.user)
+    }
+    return JSONResponse(ret)
+
+@login_required
+@csrf_exempt
+def checkin_unlike(request):
+
+    checkin = CheckIn.objects.get(pk=int(request.POST['checkin_pk']))
+    checkin_like = CheckInLike.objects.get(user=request.user, checkin=checkin)
+    checkin_like.delete()
+
+    content_type = ContentType.objects.get_for_model(checkin)
+    feed_item = FeedItem.objects.get(content_type=content_type, object_id=checkin.pk)
 
     ret = {
         'is_error': False,
@@ -1568,6 +1607,12 @@ def new_child_comment(request):
         new_content.add_comment_to_gym_session(gym_session, request.user, request.POST['comment_text'], timezone_now())
         content_type = ContentType.objects.get_for_model(gym_session)
         feed_item = FeedItem.objects.get(content_type=content_type, object_id=gym_session.pk)
+
+    elif request.POST.get('content_type') == 'check in':
+        checkin = CheckIn.objects.get(pk=int(request.POST['object_pk']))
+        new_content.add_comment_to_checkin(checkin, request.user, request.POST['comment_text'], timezone_now())
+        content_type = ContentType.objects.get_for_model(checkin)
+        feed_item = FeedItem.objects.get(content_type=content_type, object_id=checkin.pk)
 
     ret = {
         'is_error': False,

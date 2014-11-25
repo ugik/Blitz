@@ -898,6 +898,18 @@ class CheckIn(models.Model):
         delta = today - self.date_created
         return delta.days
 
+    def has_likes(self):
+        return self.checkinlike_set.all().count() > 0
+
+    def users_that_like(self):
+        return [c.user for c in self.checkinlike_set.all()]
+
+    def liked_by_user(self, user):
+        return user in self.users_that_like()
+
+    def comments(self):
+        return self.checkincomments.all()
+
 
 class Comment(models.Model):
 
@@ -907,6 +919,7 @@ class Comment(models.Model):
     date_and_time = models.DateTimeField(db_index=True)
     parent_comment = models.ForeignKey('self', null=True, blank=True)
     gym_session = models.ForeignKey(GymSession, null=True, blank=True, related_name='gymsessioncomments')
+    checkin = models.ForeignKey(CheckIn, null=True, blank=True, related_name='checkincomments')
     feeditems = generic.GenericRelation(FeedItem)
 
     def __unicode__(self):
@@ -961,6 +974,15 @@ class GymSessionLike(models.Model):
 
     def __unicode__(self):
         return "%s liked \"%s\"" % (self.user.display_name, self.gym_session)
+
+class CheckInLike(models.Model):
+
+    user = models.ForeignKey(User)
+    checkin = models.ForeignKey(CheckIn, null=True, blank=True)
+    date_and_time = models.DateTimeField()
+
+    def __unicode__(self):
+        return "%s liked \"%s\"" % (self.user.display_name, self.checkin)
 
 
 class MacroDay(models.Model):

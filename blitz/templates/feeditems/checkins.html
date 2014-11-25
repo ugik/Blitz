@@ -35,7 +35,9 @@
                 </div>
             </div>
 
-
+            {% with checkin as parent %}
+                {% include "feeditems/feed_item_footer.html" %}
+            {% endwith %}
 
         </div>
 

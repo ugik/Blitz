@@ -20,10 +20,12 @@
     <div class="content">
     <table>
         <td><h3>Weight: {{ checkin.weight|lbs_conversion:client }} {{ client.units|weight_label }}</h3></td></tr>
-        <tr>
+        {% if checkin.front_image %}<tr>
         <td><img src="/media/{{ checkin.front_image }}" style="width:500px;"/></td></tr>
-        <tr>
+        {% endif %}
+        {% if checkin.side_image %}<tr>
         <td><img src="/media/{{ checkin.side_image }}" /></td></tr>
+        {% endif %}
     </table>
     </div>
     </div>
