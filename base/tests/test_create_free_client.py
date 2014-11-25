@@ -40,7 +40,6 @@ class TestCreateFreeClient(unittest.TestCase):
         driver.find_element_by_css_selector("button.obtn.full-width").click()
         driver.find_element_by_id("skip-headshot").click()
         driver.find_element_by_link_text(u"Finish Signup →").click()
-        driver.find_element_by_css_selector("#video-continue").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.get(self.base_url + "/")

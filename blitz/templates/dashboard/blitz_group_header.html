@@ -27,6 +27,9 @@
 <script>
 $(document).ready(function() {
     document.getElementById('title').text="{{ blitz.title|safe }}";
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
+
     $('#datep').click(function() {
         $('#datepicker').datepicker('show');
     });
@@ -39,10 +42,7 @@ $(document).ready(function() {
             })
     })
 })
-$(function() {
-  $( "#datepicker" ).datepicker();
-  $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
-})
+
 function save_spotter_edit() { 
      $.ajax({
         url: '/trainer/spotter-edit',
@@ -59,10 +59,6 @@ function save_blitz_macros() {
         formula: document.getElementById('formula-select').value },
       })
  }
-// set client attributes in hidden fields for access by modal
-    $(document).ready(function(){
-       document.getElementById('blitz_title').text='{{ blitz.title }}';
-      });
 
 </script>
 

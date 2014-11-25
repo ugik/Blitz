@@ -14,17 +14,6 @@
     <div class="span4 offset5">
         <div class="formpage-block">
 
-           {% if errors %}
-             <div class="alert alert-warning" role="alert">
-              <div class="error-header">
-                Slow down, champ. Looks like you've got a few errors to fix:
-              </div>
-                {% for e in errors %}
-                   <li><small>{{ e }}</small></li>
-                {% endfor %}
-             </div>
-          {% endif %}
-
            <div class="header">
               Create New Group
            </div>
@@ -114,6 +103,18 @@
         <button type="submit" class="obtn full-width">Create Group</button>
 
      </form>
+
+     {% if errors %}
+         <div class="alert alert-warning alert-dismissable">
+         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+         <strong>Slow down, champ. Looks like you've got a few errors to fix:</strong> 
+            {% for e in errors %}
+               <li><small>{{ e }}</small></li>
+            {% endfor %}
+         </div>
+     {% endif %}
+
+
    </div>
 </div>
 </div>

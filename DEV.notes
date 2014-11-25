@@ -154,4 +154,9 @@ week of 11.17
 - fix screen.css lookup error
 - client_summary Performance in Week
 
+week of 11.24
+- cleanup client_summary and group_header renders
+- test cleanup and headless test setup
+
+
 

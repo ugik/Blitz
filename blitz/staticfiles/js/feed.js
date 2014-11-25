@@ -74,6 +74,18 @@ $(document).ready(function() {
                 }
             );
         }
+        else if (content_type == "check in") {
+            $.post('/api/checkin_like',
+                {'checkin_pk': object_pk},
+                function(data) {
+                    if (data.is_error) {
+
+                    } else {
+                        footer.replaceWith($(data.html).find('.feed-item-footer'));
+                    }
+                }
+            );
+        }
         else if (content_type == "gym session") {
             $.post('/api/gym_session_like',
                 {'gym_session_pk': object_pk},
@@ -97,6 +109,18 @@ $(document).ready(function() {
         if (content_type == "comment") {
             $.post('/api/comment_unlike',
                 {'comment_pk': object_pk},
+                function(data) {
+                    if (data.is_error) {
+
+                    } else {
+                        footer.replaceWith($(data.html).find('.feed-item-footer'));
+                    }
+                }
+            );
+        }
+        else if (content_type == "check in") {
+            $.post('/api/checkin_unlike',
+                {'checkin_pk': object_pk},
                 function(data) {
                     if (data.is_error) {
 
