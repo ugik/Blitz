@@ -47,6 +47,8 @@ Selenium test scripts are in `base/tests/*.py` and run from command line. Databa
 `bash runTests.sh TestCreateTrainer`
 `bash runTests.sh TestCreditcards`
 
+Selenium tests can be run headlessly with: `xvfb-run --server-num=10 bash runTests.sh` and via a convenience script `bash tests.sh`
+
 ### Emails
 
 Server email password is established as an environment variable. To have emails sent in development (DEBUG) mode you will need to export the password environment variable. 
