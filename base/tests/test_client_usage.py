@@ -34,9 +34,10 @@ class TestClientUsage(unittest.TestCase):
         driver.find_element_by_id("id_password").send_keys("asdf")
         # click | css=button.obtn.obtn-comment | 
         driver.find_element_by_css_selector("button.obtn.obtn-comment").click()
-        # click | link=Check-in now | 
-        driver.find_element_by_link_text("Check-in now").click()
-        # type | name=weight | 222
+        # Warning: assertTextPresent may require manual changes
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/client-checkin")
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")        #         # type | name=weight | 222
         driver.find_element_by_name("weight").clear()
         driver.find_element_by_name("weight").send_keys("222")
         # click | id=done_action | 
