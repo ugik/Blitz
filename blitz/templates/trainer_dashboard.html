@@ -5,8 +5,12 @@
 {% block morehead %} {{ super }}
 
 {% if user.blitz and user.blitz.members %}
-<script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
-<script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+{% else %}
+{% if invitees %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
+{% endif %}
 
 {% endif %}
 <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
@@ -37,66 +41,66 @@
 	<div class="sidebar-left">
 		<div class="inner">
 			{% if clients or blitzes or invitees %}
-			<div class="search-input">
-				<input type='text' class="search-text" placeholder="  Search for a client or program...">
-			</div>
-			<ul class='filters scopes'>
-				<li class='item' data-scope='alerts'>
+
+		    	        <div class="search-input">
+                                    {% if clients or blitzes %}
+	   			        <input type='text' class="search-text" placeholder="  Search for a client or program...">
+                                    {% endif %}
+  			        </div>
+			        <ul class='filters scopes'>
+                            {% if clients or blitzes %}
+
+				    <li class='item' data-scope='alerts'>
 					<div class="item-inner">
 						Alerts
 					</div>
 					{% if alerts_count %}
 					<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
 					{% endif %}
-				</li>
-				<li class="item active" data-scope='all'>
+				    </li>
+				    <li class="item active" data-scope='all'>
 					<div class="item-inner">
 						All Updates
 					</div>
 					{% if updates_count %}
 					<span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
-				</li>				
-				<div class="separator">
-				</div>
+				    </li>				
+				    <div class="separator"></div>
 
 				{% if blitzes %}
-					{% for blitz in blitzes %}
-	                    {% if not blitz.provisional and not blitz.recurring %}
-						<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
-							<div class="item-inner">
-		  			            {{ blitz.title }}
-							</div>
-							{% if blitz.unviewed_feeds_count %}
-							<span class="results-count"><span class="inner"> - </span></span>
-							{% endif %}
-						</li>
-	                    {% endif %}
-					{% endfor %}
+				    {% for blitz in blitzes %}
+	                                {% if not blitz.provisional and not blitz.recurring %}
+					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
+						<div class="item-inner">{{ blitz.title }}</div>
+						    {% if blitz.unviewed_feeds_count %}
+						        <span class="results-count"><span class="inner"> - </span></span>
+						    {% endif %}
+					    </li>
+	                                {% endif %}
+				    {% endfor %}
 
-					<div class="separator">
-					</div>
+				    <div class="separator"></div>
 				{% endif %}
 
 				{% for client in clients %}
 				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
-					<div class="item-inner">
-		                {{ client.name }}
-					</div>
+				    <div class="item-inner">{{ client.name }}</div>
 					{% if client.unviewed_feeds_count %}
-					<span class="results-count"><span class="inner"> - </span></span>
+					    <span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
 				</li>
 				{% endfor %}
- 
+
+                            {% endif %} 
                                 {% for invitee in invitees %}
 <li class='item solo-client' data-object-pk="{{ invitee.pk }}" data-scope='invitee'>
 					<div class="item-inner">
-		                {{ invitee.name }} <i>(pending)</i>
+		                    {{ invitee.name }} <i>(pending)</i>
 					</div>
-				</li>
+				    </li>
                                 {% endfor %}
-			</ul>
+   			</ul>
 			{% else %}
 			<div class="new-trainer-experience">
 				<div>
@@ -161,25 +165,32 @@
 
 		        	{% include "main_feed.html" %}
                 {% else %}
+                    {% if invitees %}
+                	<div id="main-feed">
+		                {% include "dashboard/invitee_feed.html" %}
+		                {% include "dashboard/_dummy_comment_feed.html" %}
+	                </div>
+                    {% else %}
                 	<div id="main-feed">
 		                {% include "dashboard/_dummy_gym_session_feed.html" %}
 		                {% include "dashboard/_dummy_comment_feed.html" %}
 	                </div>
-		        {% endif %}
-			</div> <!--/ feeds -->
+                    {% endif %}
+	        {% endif %}
 
-			<!-- Summary -->
-			<div id="summary">
-				{% if not clients and not blitzes %}
-					{% include "dashboard/_dummy_client_summary.html" %}
-				{% endif %}
-			</div>
+		</div> <!--/ feeds -->
 
-			<div class="clearfix">
-			</div>
+		<!-- Summary -->
+		<div id="summary">
+			{% if not clients and not blitzes %}
+				{% include "dashboard/_dummy_client_summary.html" %}
+			{% endif %}
 		</div>
+
+		<div class="clearfix"></div>
+	    </div>
 	</div> <!--/ content -->
-</div>
+    </div>
 
 <div id="modalInclude">
 	<!-- include modals -->

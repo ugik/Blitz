@@ -45,6 +45,7 @@ from PIL import Image
 import urllib2
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
+STATIC_URL = getattr(settings, 'STATIC_URL')
 
 #====================================
 # Helper Functions
@@ -1118,6 +1119,28 @@ def blitz_feed(request):
         obj_id = int( request.GET.get('object_id') )
     else:
         obj_id = None
+
+    if feed_scope == "invitee":
+        ret = {
+            'feeditems': [],
+            'offset': 0,
+        }
+        ret['feeditems'].append({
+            'date': None,
+            'html': render_to_string('dashboard/invitee_feed.html', {
+                       'invitee': BlitzInvitation.objects.get_or_none(pk=obj_id),
+                       'STATIC_URL': STATIC_URL
+                    })
+             })
+        ret['feeditems'].append({
+            'date': None,
+            'html': render_to_string('dashboard/_dummy_comment_feed.html', {
+                       'STATIC_URL': STATIC_URL
+                    })
+             })
+
+        return JSONResponse(ret)
+
 
     if search_text and len(search_text) > 0:
         clients = request.user.trainer._all_clients().filter(name__icontains=search_text)
