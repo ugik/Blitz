@@ -58,14 +58,25 @@ def get_full_macro_history(client):
             'macro_days': [],
             'is_current': False
         }
+        dayBefore = None
         for j in range(7):
             day = get_macro_meta_for_day(client, i, j)
+            #dayBefore = ( get_macro_meta_for_day(client, i, j-1))# if (j > 0) else get_macro_meta_for_day(client, -i, 7) )
             one_week['macro_days'].append(day)
 
             # Checks if this is the current week
             if currentWeek == False and day.get('in_future') == True: #TODO: Check comparing date instead of
                 one_week['is_current'] = True
                 currentWeek = True
+
+                # Mark Current Day
+                if dayBefore:
+                    dayBefore['current'] = True
+                else:
+                    day['current'] = True
+
+            # Save this day as dayBefore for the next iteration
+            dayBefore = day
 
         weeks.append(one_week)
     return weeks

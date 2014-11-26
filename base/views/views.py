@@ -1283,7 +1283,7 @@ def client_summary(request, pk):
             'headshot': MEDIA_URL + str(client.headshot),
             'macro_target_json': client.macro_target_json
         },
-        'macro_history':  macro_utils.get_full_macro_history(client),
+        'macro_history':  macro_history,
         'html': get_client_summary_html(client, macro_goals, macro_history)
     }
     return JSONResponse(res)
