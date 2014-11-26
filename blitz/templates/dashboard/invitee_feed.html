@@ -1,5 +1,9 @@
 <div class="intro-box">
+    {% if invitee %}
     Once {{ invitee.name }} signs up, you'll be able to see their workouts, progress photos, and comments right here.
+    {% else %}
+    Once invited clients sign up, you'll be able to see their workouts, progress photos, and comments right here.
+    {% endif %}
 </div>
 
 <div class="feed-item" data-object_pk="4" data-content_type="gym session" data-viewed="">

@@ -1,7 +1,379 @@
-<div class='invitee-summary'>
-	<div class="section cover">
+<script type="text/javascript">
 
-<h4>We've invited {{ invitation.name }}, when he signs-up he'll show up here.</h4>
+    $(document).ready(function(){
+         var selected = document.getElementById('formula-select').value;
+         if (selected == 'DEFAULT') { x = show_macros(1); } 
+         else if (selected == 'BULK') { x = show_macros(1.1); }
+         else if (selected == 'CUT') { x = show_macros(0.9); }
+         else if (selected == 'BEAST') { x = show_macros(1.15); };
+
+         update_summary_macros();
+    }) 
+
+
+    function save_spotter_edit() { 
+         $.ajax({
+             url: '/trainer/spotter-edit',
+             type: 'POST',
+             data: {invitee: {{ invitation.pk }},
+             spotter_text: document.getElementById('edit_request').value },
+           })
+       }
+
+    function save_blitz_macros() { 
+         $.ajax({
+             url: '/trainer/invitee-macros-save',
+             type: 'POST',
+             data: {invitation: {{ invitation.pk }},
+             formula: document.getElementById('formula-select').value },
+         })
+ }
+
+    function show_macros(factor) {
+        factor = factor || 1;
+        var kg = 100;
+        var h = 183;
+        var age = 30;
+        var wkout_factor = 1.15;
+
+        var r_cals = factor * (10 * kg + 6.25 * h - 5 * age + 5);
+        var r_protein = factor * (0.9 * kg * 2.2);
+        var r_fat = factor * (0.4 * kg * 2.2);
+        var r_carbs = factor * (r_cals - r_protein - r_fat) / 4;
+        var w_cals = r_cals * wkout_factor;
+        var w_protein = r_protein * wkout_factor;
+        var w_fat = r_fat * wkout_factor;
+        var w_carbs = r_carbs * wkout_factor;
+
+        document.getElementById('rest_cals').text=r_cals.toFixed(0).toString();
+        document.getElementById('rest_fat').text=r_fat.toFixed(0).toString();
+        document.getElementById('rest_carbs').text=r_carbs.toFixed(0).toString();
+        document.getElementById('rest_protein').text=r_protein.toFixed(0).toString();
+        document.getElementById('wout_cals').text=w_cals.toFixed(0).toString();
+        document.getElementById('wout_fat').text=w_fat.toFixed(0).toString();
+        document.getElementById('wout_carbs').text=w_carbs.toFixed(0).toString();
+        document.getElementById('wout_protein').text=w_protein.toFixed(0).toString();
+        return 0;
+    }
+
+    function update_summary_macros() {
+        var min_factor = 0.8;
+        // workout day
+        var wout_cals = parseFloat(document.getElementById('wout_cals').text);
+        var wout_carbs = parseFloat(document.getElementById('wout_carbs').text);
+        var wout_protein = parseFloat(document.getElementById('wout_protein').text);
+        var wout_fat = parseFloat(document.getElementById('wout_fat').text);
+        // rest day
+        var rest_cals = parseFloat(document.getElementById('rest_cals').text);
+        var rest_carbs = parseFloat(document.getElementById('rest_carbs').text);
+        var rest_protein = parseFloat(document.getElementById('rest_protein').text);
+        var rest_fat = parseFloat(document.getElementById('rest_fat').text);
+        // calculate min amounts
+        var wout_cals_min = wout_cals * min_factor;
+        var wout_carbs_min = wout_carbs * min_factor;
+        var wout_protein_min = wout_protein * min_factor;
+        var wout_fat_min = wout_fat * min_factor;
+        var rest_cals_min = rest_cals * min_factor;
+        var rest_carbs_min = rest_carbs * min_factor;
+        var rest_protein_min = rest_protein * min_factor;
+        var rest_fat_min = rest_fat * min_factor;
+        // represent calories
+        if (wout_cals > 1000) {
+            document.getElementById('g_wout_cals').text = (wout_cals/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_cals').text = wout_cals.toFixed(0);
+        }
+        if (wout_cals_min > 1000) {
+            document.getElementById('g_wout_cals_min').text = (wout_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_cals_min').text = wout_cals_min.toFixed(0);
+        }
+        if (rest_cals > 1000) {
+            document.getElementById('g_rest_cals').text = (rest_cals/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_cals').text = rest_cals.toFixed(0);
+        }
+        if (rest_cals_min > 1000) {
+            document.getElementById('g_rest_cals_min').text = (rest_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_cals_min').text = rest_cals_min.toFixed(0);
+        }
+        // represent carbs
+        if (wout_carbs > 1000) {
+            document.getElementById('g_wout_carbs').text = (wout_carbs/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_carbs').text = wout_carbs.toFixed(0);
+        }
+        if (wout_carbs_min > 1000) {
+            document.getElementById('g_wout_carbs_min').text = (wout_carbs_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_carbs_min').text = wout_carbs_min.toFixed(0);
+        }
+        if (rest_carbs > 1000) {
+            document.getElementById('g_rest_carbs').text = (rest_carbs/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_carbs').text = rest_carbs.toFixed(0);
+        }
+        if (rest_carbs_min > 1000) {
+            document.getElementById('g_rest_carbs_min').text = (rest_carbs_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_carbs_min').text = rest_carbs_min.toFixed(0);
+        }
+        // represent protein
+        if (wout_protein > 1000) {
+            document.getElementById('g_wout_protein').text = (wout_protein/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_protein').text = wout_protein.toFixed(0);
+        }
+        if (wout_protein_min > 1000) {
+            document.getElementById('g_wout_protein_min').text = (wout_protein_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_protein_min').text = wout_protein_min.toFixed(0);
+        }
+        if (rest_protein > 1000) {
+            document.getElementById('g_rest_protein').text = (rest_protein/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_protein').text = rest_protein.toFixed(0);
+        }
+        if (rest_protein_min > 1000) {
+            document.getElementById('g_rest_protein_min').text = (rest_protein_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_protein_min').text = rest_protein_min.toFixed(0);
+        }
+        // represent fat
+        if (wout_fat > 1000) {
+            document.getElementById('g_wout_fat').text = (wout_fat/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_fat').text = wout_fat.toFixed(0);
+        }
+        if (wout_cals_min > 1000) {
+            document.getElementById('g_wout_fat_min').text = (wout_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_wout_fat_min').text = wout_cals_min.toFixed(0);
+        }
+        if (rest_fat > 1000) {
+            document.getElementById('g_rest_fat').text = (rest_fat/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_fat').text = rest_fat.toFixed(0);
+        }
+        if (rest_cals_min > 1000) {
+            document.getElementById('g_rest_fat_min').text = (rest_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_fat_min').text = rest_cals_min.toFixed(0);
+        }
+
+    }
+</script>
+
+
+<div class='client-summary'>
+	<div class="section cover">
+	<div class="spacer20"></div>
+	<img src="{{ STATIC_URL }}images/silhouette.jpeg" class="client-picture img-circle center" />
+	<div class="spacer20"></div>
+	<p class="client-name center">{{ invitation.name }}</p>
+	<p class="client-info center">{{ invitation.email }}</p>
+	<div class="spacer20"></div>
+        <p class="client-info center"><b>Hasn't signed up yet</b></p>
+	<p class="client-info center">Invite sent {{ delta }} days ago</p>
+</div>
+	<div class="spacer20"></div>
+	<div class="spacer20"></div>
+
+	<div class="section diet-goals sidebar-box">
+		<div class="header">
+			Diet Goals <a class="btn btn-default btn-edit" onclick="{ $('#modalInclude').show(); jQuery.noConflict(); $('#modalMacros').modal('show'); }">Add</a>
+
+			
+		</div>
+		<div class="goals-history" id="goals-history">
+			
+			<div class="macro-toggle">
+			    <button type="button" class="switch-training active">Training Days</button>
+			    <button type="button" class="switch-resting">Rest Days</button>
+			</div>
+			
+			{% with macro_goals as macro %}
+			<div class="training">
+				<div class="box">
+					<div class="title">
+						Calories
+					</div>
+					<div class="description info info-calories">
+			<a id="g_wout_cals_min">{{ macro.training_calories_min }}</a>-<a id="g_wout_cals">{{ macro.training_calories }}</a>
+					</div>
+				</div>
+			
+				<div class="box">
+					<div class="title">
+						Protein
+					</div>
+					<div class="description info info-protein">
+			<a id="g_wout_protein_min">{{ macro.training_protein_min }}</a>-<a id="g_wout_protein">{{ macro.training_protein }}</a>
+					</div>
+				</div>
+
+				<div class="box">
+					<div class="title">
+						Carbs
+					</div>
+					<div class="description info info-carbs">
+			<a id="g_wout_carbs_min">{{ macro.training_carbs_min }}</a>-<a id="g_wout_carbs">{{ macro.training_carbs }}</a>
+					</div>
+				</div>
+
+				<div class="box">
+					<div class="title">
+						Fat
+					</div>
+					<div class="description info info-fat">
+			<a id="g_wout_fat_min">{{ macro.training_fat_min }}</a>-<a id="g_wout_fat">{{ macro.training_fat }}</a>
+					</div>
+				</div>
+			</div> <!-- training -->
+			<div class="resting hidden">
+				<div class="box">
+					<div class="title">
+						Calories
+					</div>
+					<div class="description info info-calories">
+			<a id="g_rest_cals_min">{{ macro.rest_calories_min }}</a>-<a id="g_rest_cals">{{ macro.rest_calories }}</a>
+					</div>
+				</div>
+			
+				<div class="box">
+					<div class="title">
+						Protein
+					</div>
+					<div class="description info info-protein">
+			<a id="g_rest_protein_min">{{ macro.rest_protein_min }}</a>-<a id="g_rest_protein">{{ macro.rest_protein }}</a>
+					</div>
+				</div>
+
+				<div class="box">
+					<div class="title">
+						Carbs
+					</div>
+					<div class="description info info-carbs">
+			<a id="g_rest_carbs_min">{{ macro.rest_carbs_min }}</a>-<a id="g_rest_carbs">{{ macro.rest_carbs }}</a>
+					</div>
+				</div>
+
+				<div class="box">
+					<div class="title">
+						Fat
+					</div>
+					<div class="description info info-fat">
+			<a id="g_rest_fat_min">{{ macro.rest_fat_min }}</a>-<a id="g_rest_fat">{{ macro.rest_fat }}</a>
+					</div>
+				</div>
+			</div> <!-- resting -->
+			{% endwith %}
+
+			<div class="clearfix"></div>
+		</div>
+		<div class="spacer10"></div>
+	</div>
+
+	<div class="section sidebar-box diet-progress">
+		<!-- TODO: Remove .header element -->
+		<div class="header hidden">
+			Diet Progress
+			<select>
+				<option value='this_week'>This Week</option>
+			{% for week in macro_history %}
+				<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
+			{% endfor %}
+			</select>
+			<div class="weekSelector slide-select">
+				<ul>
+					<li class="arrow"> <a href="#"><span class="icon icon-chevron-left"></span></a> </li>
+					<li class="item active">This Week</li>
+					{% for week in macro_history %}
+						<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }} </li>
+					{% endfor %}
+					<li class="arrow"> <a href="#"><span class="icon icon-chevron-right"></span></a> </li>
+				</ul>
+			</div>
+		</div>
+		<div class="macro-history">
+			<div class="week-name">
+				Diet Progress
+				<select>
+					<option value='this_week'>This Week</option>
+				{% for week in macro_history %}
+					<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
+				{% endfor %}
+				</select>
+				<div class="weekSelector slide-select">
+					<ul>
+						<li class="arrow "> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
+						<li class="item active">This Week</li>
+						{% for week in macro_history %}
+							<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }}</li>
+						{% endfor %}
+						<li class="arrow right-arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
+					</ul>
+				</div>
+			</div>
+			{% for week in macro_history %}
+			<div class="week week-{{ week.week_number }} {% if not week.is_current %}hidden{%else%}current{% endif %}" data-week-number={{ week.week_number }}>
+				<!-- <div class="week-name">Week {{ week.week_number }}</div> -->
+				<div class="days">
+					<table>
+						<tr>
+							{% for day in week.macro_days %}
+							<td data-future="{{ day.in_future }}">
+								{% if day.in_future and not day.has_entry %}
+								<div class="macro-day-cell">
+									<span class="day-of-month">{{ day.day_of_month }}</span>
+								</div>
+								{% endif %}
+								{% if not day.in_future and not day.has_entry %}
+								<div class="macro-day-cell">
+									<i class="icon-question-sign unknown"></i>
+								</div>
+								{% endif %}
+								{% if day.all_pass %}
+								<div class="macro-day-cell">
+									<i class="icon-ok-sign pass"></i>
+								</div>
+								{% endif %}
+								{% if day.all_fail %}
+								<div class="macro-day-cell">
+									<i class="icon-remove-sign fail"></i>
+								</div>
+								{% endif %}
+								{% if day.has_entry and not day.all_pass and not day.all_fail %}
+								<div class="macro-day-cell">
+									<div class="macro-combo">
+										<div class="letter calories {% if day.calories %}calories-pass{% else %}letter-fail{% endif %}"  title="Calories"></div>
+										<div class="letter protein {% if day.protein %}protein-pass{% else %}letter-fail{% endif %}"  title="Protein"></div>
+										<div class="letter carbs {% if day.carbs %}carbs-pass{% else %}letter-fail{% endif %}"  title="Carbs"></div>
+										<div class="letter fat {% if day.fat %}fat-pass{% else %}letter-fail{% endif %}"  title="Fat"></div>
+									</div>
+								</div>
+								{% endif %}
+							</td>
+							{% endfor %}
+						</tr>
+					</table>
+				</div>
+			</div>
+			{% endfor %}
+		</div> <!--/ macro-history -->
+		<div class="spacer10"></div>
+	</div>
+
+	<div class="section sidebar-box workout-plan">
+		<div class="header">
+			<span class="sidebar-box-title">Workout Plan</span>
+				<a class="btn btn-default btn-edit" onclick='{ document.getElementById("plan_name").text="{{ client.get_blitz.workout_plan.name }}"; document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; $("#modalInclude").show(); jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
+					Edit
+				</a>
+		</div>
+
+
+		<div class="spacer10"></div>
 	</div>
 </div>
-

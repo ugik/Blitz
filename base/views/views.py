@@ -646,6 +646,7 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
 
     return
 
+
 # handle trainer uploading documents
 # url: /upload
 @login_required
@@ -1290,9 +1291,10 @@ def client_summary(request, pk):
 
 def invitee_summary(request, pk):
     invitation = get_object_or_404(BlitzInvitation, pk=int(pk) )
-     
+    now = datetime.datetime.now().date()
+    delta = (now - invitation.date_created).days
     res = {
-        'html': get_invitee_summary_html(invitation)
+        'html': get_invitee_summary_html(invitation, delta)
     }
     return JSONResponse(res)
 
@@ -1951,6 +1953,17 @@ def blitz_macros_save(request):
 
     if 'formula' in request.POST:
         blitz_macros_set(blitz, request.POST.get('formula'))
+
+    return JSONResponse({'is_error': False})
+
+@login_required
+@csrf_exempt
+def invitee_macros_save(request):
+    invitation = get_object_or_404(BlitzInvitation, pk=int(request.POST.get('invitation')))
+
+    if 'formula' in request.POST:
+        invitation.macro_formula = request.POST.get('formula')
+        invitation.save()
 
     return JSONResponse({'is_error': False})
 
