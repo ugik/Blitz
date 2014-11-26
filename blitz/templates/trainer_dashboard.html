@@ -93,13 +93,14 @@
 				{% endfor %}
 
                             {% endif %} 
-                                {% for invitee in invitees %}
+
+                            {% for invitee in invitees %}
 <li class='item solo-client' data-object-pk="{{ invitee.pk }}" data-scope='invitee'>
-					<div class="item-inner">
-		                    {{ invitee.name }} <i>(pending)</i>
-					</div>
-				    </li>
-                                {% endfor %}
+				<div class="item-inner">
+		                   {{ invitee.name }} <i>(pending)</i>
+				</div>
+				</li>
+                            {% endfor %}
    			</ul>
 			{% else %}
 			<div class="new-trainer-experience">

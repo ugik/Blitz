@@ -2331,6 +2331,7 @@ def trainer_dashboard(request):
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
             'trainer': trainer,
+            'invitees': trainer.invitees(),
             'show_intro': show_intro,
             'shown_intro': show_intro
         })
