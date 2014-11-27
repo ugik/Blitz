@@ -2301,6 +2301,12 @@ def client_survey(request):
 def trainer_survey(request):
     return render(request, 'trainer_intake_survey.html', {})
 
+# open misc
+def organized_disruption(request):
+    if 'page' in request.GET:
+        page = request.GET.get('page')
+    return render(request, 'od.html', {})
+
 # trainer dashboard
 # url: /dashboard
 @login_required
