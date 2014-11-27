@@ -1566,7 +1566,7 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula)
+            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
             
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
@@ -1892,7 +1892,7 @@ def payment_hook(request, pk):
         else:
             # invitation may have custom workoutplan and price
             if invitation:
-                utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price)
+                utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price, None, None, invitation)
             else:
                 utils.add_client_to_blitz(blitz, client)
 

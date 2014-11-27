@@ -1,4 +1,4 @@
-from base.models import Trainer, Client, BlitzMember, Comment, FeedItem, CompletedSet, GymSession, SalesPageContent
+from base.models import Trainer, Client, BlitzMember, BlitzInvitation, Comment, FeedItem, CompletedSet, GymSession, SalesPageContent
 from base.new_content import finalize_gym_session
 
 from django.contrib.auth.models import User
@@ -95,7 +95,7 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     return content
 
 #TODO handle macro_formula optional param
-def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=None, macro_formula=None):
+def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=None, macro_formula=None, invitation=None):
 
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
@@ -113,6 +113,11 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
         start_date = client.current_datetime().date()
 
     membership = BlitzMember.objects.create(blitz=blitz, client=client, date_created=start_date)
+
+    # remove invitation if applicable
+    if invitation:
+        invitation.delete()
+
     return membership
 
 # TODO: should be instance method of GymSession
