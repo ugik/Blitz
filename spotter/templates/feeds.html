@@ -1,0 +1,16 @@
+{% extends "spotter_base.html" %}
+
+{% block morehead %}
+    <script type='text/javascript' src='{{ STATIC_URL }}js/homepage.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+{% endblock %}
+
+
+{% block main %}
+
+<div class="span8">
+
+{% include "main_feed.html" %}
+
+
+{% endblock %}

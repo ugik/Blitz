@@ -303,6 +303,13 @@ def spotter_workoutplan(request):
                               RequestContext(request))
 
 @login_required
+def spotter_feed(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    return render_to_response('feeds.html', {}, RequestContext(request))
+
+@login_required
 def spotter_exercise(request):
     if not request.user.is_staff:
         return redirect('home')

@@ -1160,7 +1160,17 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:
         if feed_scope == 'all':
-            if request.user.is_trainer:
+            if request.user.email == 'spotter@example.com':    # spotter all feeds
+                blitzes = Blitz.objects.all()
+                feed_items = FeedItem.objects.get_empty_query_set()
+
+                for blitz in blitzes:
+                    feed_items |= FeedItem.objects.filter(blitz=blitz)
+
+                feed_items = feed_items.order_by('-pub_date')
+                import pdb; pdb.set_trace()
+
+            elif request.user.is_trainer:
                 blitzes = request.user.trainer.active_blitzes()
 
                 feed_items = FeedItem.objects.get_empty_query_set()
@@ -1199,10 +1209,16 @@ def blitz_feed(request):
     }
 
     for feed_item in feed_items:
-        ret['feeditems'].append({
-            'date': feed_item.pub_date.isoformat(),
-            'html': get_feeditem_html(feed_item, request.user)
-        })
+        if request.user.email == "spotter@example.com":    # show all feeds
+            ret['feeditems'].append({
+                'date': feed_item.pub_date.isoformat(),
+                'html': get_feeditem_html(feed_item, None)
+            })
+        else:
+            ret['feeditems'].append({
+                'date': feed_item.pub_date.isoformat(),
+                'html': get_feeditem_html(feed_item, request.user)
+            })
 
     return JSONResponse(ret)
 
