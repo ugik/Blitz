@@ -32,7 +32,6 @@ function UpdateViewedFeedsCount(clickedFilter) {
             'feed_items': JSON.stringify(unviewedItems)
         }, function(data) {
             if (clickedFilter) {
-                console.log(clickedFilter);
                 var unviewedItemsCount = clickedFilter.find('.results-count .inner').html() - data.viewed_count;
 
                 // Updates count indicator
@@ -257,7 +256,7 @@ $(document).ready(function() {
 
     // On Windows Resize
     $(window).resize(function() {
-        $('.feeds').width( $('.content-wrapper').width()-(330+20) );
+        $('.feeds').width( $('.content-wrapper').width()-(330+35) );
     });
     $(window).trigger('resize');
     // END
@@ -290,11 +289,11 @@ $(document).ready(function() {
 
                 // Clear feed container
                 if ( $mainFeed.html() ) {
-                    $mainFeed.html('');
+                    $mainFeed.empty();
                 }
 
                 if ( $inboxContainer.html() ) {
-                    $inboxContainer.html('');
+                    $inboxContainer.empty();
                 }
                 // Abort ajax requests
                 if (xhr) {
@@ -431,16 +430,16 @@ $(document).ready(function() {
         SEARCH_TEXT = '';
 
         // Hide and clear client summary
-        $summary.html('');
+        $summary.empty();
         // END
 
         // Clear feed container
         var clearFeed = function() {
             if ( $mainFeed.html() ) {
-                $mainFeed.html('');
+                $mainFeed.empty();
             }
             if ( $inboxContainer.html() ) {
-                $inboxContainer.html('');
+                $inboxContainer.empty();
             }
             $('.feeds-filter').removeClass('hidden');
             $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
@@ -450,7 +449,7 @@ $(document).ready(function() {
 
         // Hide and clear blitz group header
         if (SCOPE_CHANGED == true ) {
-            $('.group').html('');    
+            $('.group').empty();    
         }        
         // END
 
@@ -498,7 +497,7 @@ $(document).ready(function() {
                     });
                 }
             } else {
-                $summary.html('');
+                $summary.empty();
             }
 
             // Invitee
@@ -509,7 +508,7 @@ $(document).ready(function() {
                     });
                 }
             } else {
-                $summary.html('');
+                $summary.empty();
             }
 
             homepage_morefeed({clickedFilter: CLICKED_FILTER});
