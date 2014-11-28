@@ -16,7 +16,7 @@
                 <a href="{{ checkin.client.user.get_profile_url }}">{{ checkin.client.name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
                 <div class="feeditem-pub-date"><i class="icon-time"></i> {{ feed_item.pub_date|timesince }} ago</div>
             </div>
-
+            
             <div class="checkin-wrap">
                 <div class="checkin-weight">
                     {{ checkin.client.name }}'s latest weight is </strong>{{ checkin.weight }} lbs.</strong>
@@ -34,6 +34,7 @@
                 {% endif %}
                 </div>
             </div>
+            <div class="clearfix"></div>
 
             {% with checkin as parent %}
                 {% include "feeditems/feed_item_footer.html" %}
