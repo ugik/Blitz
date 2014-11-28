@@ -46,6 +46,7 @@ class TestClientUsage(unittest.TestCase):
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         # click | xpath=(//a[contains(text(),'Go log it now')])[4] | 
         driver.find_element_by_xpath("(//a[contains(text(),'Go log it now')])[4]").click()
+        time.sleep(3)
         # type | name=set-843-weight | 111
 #        driver.find_element_by_name("set-843-weight").clear()
 #        driver.find_element_by_name("set-843-weight").send_keys("111")
@@ -68,12 +69,10 @@ class TestClientUsage(unittest.TestCase):
         driver.find_element_by_css_selector("button.obtn.log-workout-submit").click()
         # Warning: assertTextPresent may require manual changes
         # assertTextPresent |  | Tayshaun Prince logged a workout. 
-
+        time.sleep(3)
+#        import pdb; pdb.set_trace()
         self.assertTrue("Tayshaun Prince</a> logged a workout." in driver.page_source, "Text not found")
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        # Warning: assertTextPresent may require manual changes
-        # assertTextPresent |  | 111 lbs 
-        self.assertTrue("111" in driver.page_source, "Text not found")
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         # click | id=add-comment | 
         driver.find_element_by_id("add-comment").click()

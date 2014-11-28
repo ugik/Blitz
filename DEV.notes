@@ -156,8 +156,12 @@ week of 11.17
 
 week of 11.24
 - cleanup client_summary and group_header renders
-- test cleanup and headless test setup
+- test cleanup, AssertText in tests, and headless test setup
 - CheckIn comments & likes
 - Trainer Invitee dashboard experience
+- Spotter all feeds
+- Trainer settings
++ Custom Sets created on Custom Exercise create
++ Alerts on top of "All Updates"
 
 

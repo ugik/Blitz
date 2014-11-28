@@ -102,6 +102,7 @@ urlpatterns += patterns(
     url(r'^trainer/dismiss-alert$', 'base.views.trainer_dismiss_alert', name='trainer_dismiss_alert'),
     url(r'^trainer/change-date$', 'base.views.trainer_change_date', name='trainer_change_date'),
     url(r'^trainer/spotter-edit$', 'base.views.spotter_edit', name='spotter_edit'),
+    url(r'^trainer/profile/(?P<pk>\d+)$', 'base.views.trainer_profile', name='trainer_profile'),
     url(r'^trainer/blitz-macros-save$', 'base.views.blitz_macros_save', name='blitz_macros_save'),
     url(r'^trainer/client-macros-save$', 'base.views.client_macros_save', name='client_macros_save'),
     url(r'^trainer/invitee-macros-save$', 'base.views.invitee_macros_save', name='invitee_macros_save'),

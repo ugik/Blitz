@@ -1167,8 +1167,7 @@ def blitz_feed(request):
                 for blitz in blitzes:
                     feed_items |= FeedItem.objects.filter(blitz=blitz)
 
-                feed_items = feed_items.order_by('-pub_date')
-                import pdb; pdb.set_trace()
+                feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
 
             elif request.user.is_trainer:
                 blitzes = request.user.trainer.active_blitzes()
@@ -1556,6 +1555,43 @@ def trainer_signup_uploads(request, pk):
     return render(request, 'trainer_register_uploads.html', { 
              'trainer': trainer, 'blitz': trainer.get_blitz(), 
              'salespage': trainer.get_blitz().sales_page_content, 'document': document })
+
+# trainer registration uploads
+# url: /register-trainer-uploads/(?P<pk>\d+)
+def trainer_profile(request, pk):
+    trainer = get_object_or_404(Trainer, pk=int(pk))
+    blitz = trainer.get_blitz()
+    salespage = blitz.sales_page_content
+    document = ''
+
+    if request.method == 'POST':
+        form = TrainerUploadsForm(request.POST, request.FILES)
+
+        if form.is_valid() and form.is_multipart():
+
+            if form.cleaned_data['headshot_image']:
+                trainer.headshot = form.cleaned_data['headshot_image']
+                trainer.save()
+                trainer.headshot_from_image(settings.MEDIA_ROOT+'/'+trainer.headshot.name)
+
+            if form.cleaned_data['logo_image']:
+                salespage.logo = form.cleaned_data['logo_image']
+                salespage.save()
+
+            if form.cleaned_data['document']:
+                save_file(request.FILES['document'], trainer.pk)
+                document = True
+
+                return redirect('home')
+        else:
+                return redirect('home')
+    else:
+        form = TrainerUploadsForm()
+
+    return render(request, 'trainer_profile.html', { 
+             'trainer': trainer, 'blitz': trainer.get_blitz(), 
+             'salespage': trainer.get_blitz().sales_page_content, 'document': document })
+
 
 # client signup
 # url: /client-signup ?signup_key

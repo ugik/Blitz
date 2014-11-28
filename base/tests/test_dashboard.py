@@ -29,7 +29,6 @@ class TestDashboard(unittest.TestCase):
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         self.assertTrue("Hey boys" in driver.page_source, "Text not found")
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        time.sleep(2)
         self.assertTrue("Joe Johnson</a> logged a workout" in driver.page_source, "Text not found")
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_css_selector("div.item-inner").click()
