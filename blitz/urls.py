@@ -156,7 +156,7 @@ urlpatterns += patterns(
     url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/signup$', 'base.views.default_blitz_signup', name="default_blitz_signup"),
     url(r'^signup-complete$', 'base.views.blitz_signup_done', name='blitz_signup_done'),
 
-    url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/$', 'base.views.default_blitz_page', name="default_blitz_page"),
+    url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)$', 'base.views.default_blitz_page', name="default_blitz_page"),
     url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)$', 'base.views.blitz_page', name="blitz_page"),
 
 #----------------------------------------
