@@ -78,6 +78,10 @@ function homepage_morefeed(options) {
     if (xhr) {
         xhr.abort();
     }
+    // show alerts on top of All Updates feed
+    if (OBJECT_ID === false && FEEDITEM_OFFSET === 0) {
+            $('.alerts-wrapper').removeClass('hidden');
+        } 
     xhr = $.get('/api/blitz_feed',
         {'offset': FEEDITEM_OFFSET,
          'feed_scope': FEED_SCOPE,
@@ -201,6 +205,7 @@ $(document).ready(function() {
     //     var $leftSidebar = $('');
     //     alert( $(this).scrollTop() );
     // });
+   $('.alerts-wrapper').removeClass('hidden');
 
     var summaryXHR;
 
@@ -460,8 +465,7 @@ $(document).ready(function() {
 
         if (FEED_SCOPE === 'all') {
             OBJECT_ID = false;
-            
-            // Reset Seearch Input
+            // Reset Search Input
             $searchInput.val('')
                 .trigger('input');
             homepage_morefeed({clickedFilter: CLICKED_FILTER});
