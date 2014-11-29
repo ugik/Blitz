@@ -5,15 +5,15 @@
 {% block morehead %} {{ super }}
 
 {% if user.blitz and user.blitz.members %}
-	<script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
 {% else %}
-{% if invitees %}
-    <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
+    {% if invitees %}
+        <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
+    {% endif %}
 {% endif %}
 
-{% endif %}
 <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
 
 <script type="text/javascript">
@@ -22,9 +22,11 @@
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
 <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+
 <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
+<script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
 {% endblock %}
 

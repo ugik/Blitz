@@ -163,6 +163,7 @@ week of 11.24
 - Trainer settings
 - Trainer cc'd on client invite
 - Alerts on top of "All Updates"
+- fix jquery.noConflict() issues
 + Modal showing checkin pictures without leaving dashboard
 + Trainer picture in emails
 + Custom Sets created on Custom Exercise create
