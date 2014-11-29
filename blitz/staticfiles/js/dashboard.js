@@ -75,7 +75,7 @@ function GetViewedFeedsCount() {
             } else {
                 filter.find('.results-count').show('fast');
                 filter.find('.results-count .inner').html(filterData.count);
-                // TODO: If '.results-count' don't exists create the DOM from jQuery
+                // TODO: If '.results-count' don't exists then create the DOM from jQuery
             }
         });
     });
@@ -182,23 +182,46 @@ function renderSummary(html) {
 
     // TODO: append widget from jQuery
     var $weekSelectWidget = $('.weekSelector.slide-select');
+    var $weekSelectWidgetOptions = $('.weekSelector.slide-select li.item').not('li.arrow'),
+        pointer = 0,
+        max = $weekSelectWidgetOptions.length-1;
 
     // When left/righ arrows are clicked
     $weekSelectWidget.on('click', '.right-arrow, .left-arrow', function(e) {
         e.preventDefault();
-        var currentActive = $('.weekSelector.slide-select li.item.active').not('li.arrow');
-        if (currentActive) {
+        var $currentActive = $('.weekSelector.slide-select li.item.active').not('li.arrow');
+        if ($currentActive) {
+            // On Right Arrow
             if ($(this).hasClass('right-arrow')) {
-                var nextActive = currentActive.next();
+                if (pointer < max) {
+                    pointer+= 1;
+                } else {
+                    pointer = 0;
+                }
             }
-            if ($(this).hasClass('left-arrow')) {
-                var nextActive = currentActive.prev();
+            
+            // On Left Arrow
+            else if ($(this).hasClass('left-arrow')) {
+                if (pointer > 0) {
+                    pointer-= 1;
+                } else {
+                    pointer = max;
+                }                
             }
-            if ( nextActive && nextActive.hasClass('item') && currentActive.hasClass('item') ) {
-                nextActive.addClass('active');
-                currentActive.removeClass('active');
-                var weekNum = nextActive.data('week-num');
-                $('.diet-progress select').val(weekNum).trigger('change');
+
+            // Move to next Option
+            var $nextActive = $weekSelectWidgetOptions.eq(pointer);
+            if ( $nextActive && $nextActive.hasClass('item') && $currentActive.hasClass('item') ) {
+                $nextActive.addClass('active');
+                $currentActive.removeClass('active');
+
+                // Get next week number
+                var weekNum = $nextActive.data('week-num');
+
+                // Select next week
+                $('.diet-progress select')
+                    .val(weekNum)
+                    .trigger('change');
             }
         } else {
             $weekSelectWidget

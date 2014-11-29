@@ -265,16 +265,6 @@
 				<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
 			{% endfor %}
 			</select>
-			<div class="weekSelector slide-select">
-				<ul>
-					<li class="arrow"> <a href="#"><span class="icon icon-chevron-left"></span></a> </li>
-					<li class="item active">This Week</li>
-					{% for week in macro_history %}
-						<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }} </li>
-					{% endfor %}
-					<li class="arrow"> <a href="#"><span class="icon icon-chevron-right"></span></a> </li>
-				</ul>
-			</div>
 		</div>
 		<div class="macro-history">
 			<div class="week-name">
