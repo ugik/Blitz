@@ -83,7 +83,9 @@ class TestBasic(unittest.TestCase):
         driver.get(self.base_url + "/profile/c/8/progress")
         # assertTextPresent |  | Lat Pulldown
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        self.assertTrue("Lat Pulldown" in driver.page_source, "Text not found")
+
+#        import pdb; pdb.set_trace()
+        self.assertTrue("Deadlift" in driver.page_source, "Text not found")
         # open | /profile/c/8/checkins | 
         driver.get(self.base_url + "/profile/c/8/checkins")
         # assertTextPresent |  | hasn't completed any

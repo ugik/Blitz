@@ -646,6 +646,7 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
 
     return
 
+
 # handle trainer uploading documents
 # url: /upload
 @login_required
@@ -1159,7 +1160,16 @@ def blitz_feed(request):
         feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:
         if feed_scope == 'all':
-            if request.user.is_trainer:
+            if request.user.email == 'spotter@example.com':    # spotter all feeds
+                blitzes = Blitz.objects.all()
+                feed_items = FeedItem.objects.get_empty_query_set()
+
+                for blitz in blitzes:
+                    feed_items |= FeedItem.objects.filter(blitz=blitz)
+
+                feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
+
+            elif request.user.is_trainer:
                 blitzes = request.user.trainer.active_blitzes()
 
                 feed_items = FeedItem.objects.get_empty_query_set()
@@ -1198,10 +1208,16 @@ def blitz_feed(request):
     }
 
     for feed_item in feed_items:
-        ret['feeditems'].append({
-            'date': feed_item.pub_date.isoformat(),
-            'html': get_feeditem_html(feed_item, request.user)
-        })
+        if request.user.email == "spotter@example.com":    # show all feeds
+            ret['feeditems'].append({
+                'date': feed_item.pub_date.isoformat(),
+                'html': get_feeditem_html(feed_item, None)
+            })
+        else:
+            ret['feeditems'].append({
+                'date': feed_item.pub_date.isoformat(),
+                'html': get_feeditem_html(feed_item, request.user)
+            })
 
     return JSONResponse(ret)
 
@@ -1286,9 +1302,10 @@ def client_summary(request, pk):
 
 def invitee_summary(request, pk):
     invitation = get_object_or_404(BlitzInvitation, pk=int(pk) )
-     
+    now = datetime.datetime.now().date()
+    delta = (now - invitation.date_created).days
     res = {
-        'html': get_invitee_summary_html(invitation)
+        'html': get_invitee_summary_html(invitation, delta)
     }
     return JSONResponse(res)
 
@@ -1535,6 +1552,43 @@ def trainer_signup_uploads(request, pk):
              'trainer': trainer, 'blitz': trainer.get_blitz(), 
              'salespage': trainer.get_blitz().sales_page_content, 'document': document })
 
+# trainer registration uploads
+# url: /register-trainer-uploads/(?P<pk>\d+)
+def trainer_profile(request, pk):
+    trainer = get_object_or_404(Trainer, pk=int(pk))
+    blitz = trainer.get_blitz()
+    salespage = blitz.sales_page_content
+    document = ''
+
+    if request.method == 'POST':
+        form = TrainerUploadsForm(request.POST, request.FILES)
+
+        if form.is_valid() and form.is_multipart():
+
+            if form.cleaned_data['headshot_image']:
+                trainer.headshot = form.cleaned_data['headshot_image']
+                trainer.save()
+                trainer.headshot_from_image(settings.MEDIA_ROOT+'/'+trainer.headshot.name)
+
+            if form.cleaned_data['logo_image']:
+                salespage.logo = form.cleaned_data['logo_image']
+                salespage.save()
+
+            if form.cleaned_data['document']:
+                save_file(request.FILES['document'], trainer.pk)
+                document = True
+
+                return redirect('home')
+        else:
+                return redirect('home')
+    else:
+        form = TrainerUploadsForm()
+
+    return render(request, 'trainer_profile.html', { 
+             'trainer': trainer, 'blitz': trainer.get_blitz(), 
+             'salespage': trainer.get_blitz().sales_page_content, 'document': document })
+
+
 # client signup
 # url: /client-signup ?signup_key
 def client_signup(request):
@@ -1560,7 +1614,7 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula)
+            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
             
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
@@ -1886,7 +1940,7 @@ def payment_hook(request, pk):
         else:
             # invitation may have custom workoutplan and price
             if invitation:
-                utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price)
+                utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price, None, None, invitation)
             else:
                 utils.add_client_to_blitz(blitz, client)
 
@@ -1947,6 +2001,17 @@ def blitz_macros_save(request):
 
     if 'formula' in request.POST:
         blitz_macros_set(blitz, request.POST.get('formula'))
+
+    return JSONResponse({'is_error': False})
+
+@login_required
+@csrf_exempt
+def invitee_macros_save(request):
+    invitation = get_object_or_404(BlitzInvitation, pk=int(request.POST.get('invitation')))
+
+    if 'formula' in request.POST:
+        invitation.macro_formula = request.POST.get('formula')
+        invitation.save()
 
     return JSONResponse({'is_error': False})
 
@@ -2284,6 +2349,12 @@ def client_survey(request):
 def trainer_survey(request):
     return render(request, 'trainer_intake_survey.html', {})
 
+# open misc
+def organized_disruption(request):
+    if 'page' in request.GET:
+        page = request.GET.get('page')
+    return render(request, 'od.html', {})
+
 # trainer dashboard
 # url: /dashboard
 @login_required
@@ -2314,6 +2385,7 @@ def trainer_dashboard(request):
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
             'trainer': trainer,
+            'invitees': trainer.invitees(),
             'show_intro': show_intro,
             'shown_intro': show_intro
         })

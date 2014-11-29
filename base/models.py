@@ -752,6 +752,7 @@ class BlitzInvitation(models.Model):
     workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
 
     macro_formula = models.CharField(max_length=10, choices=MACROS_CHOICES, default='DEFAULT')
+    date_created = models.DateField(default=datetime.date.today)
 
     objects = GetOrNoneManager()
 
