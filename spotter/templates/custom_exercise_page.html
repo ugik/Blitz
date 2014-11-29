@@ -19,7 +19,7 @@
         <select name="client" id="client">
         {% for member in members %}
             <option value="{{member.client.pk}}"
-        {% if member.client.pk == workoutset.client.pk %}selected{% endif %}>
+        {% if member.client.pk == client.pk %}selected{% endif %}>
             {{member.client.name}}</option>
         {% endfor %}
         </select>
