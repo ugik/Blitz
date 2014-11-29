@@ -24,7 +24,7 @@ function UpdateViewedFeedsCount(clickedFilter) {
         unviewedItems.push({
             'content_type': $FeedItems.eq(i).data('content_type'),
             'object_pk': $FeedItems.eq(i).data('object_pk')
-        })        
+        })
     }
 
     if (unviewedItems) {
@@ -48,25 +48,39 @@ function UpdateViewedFeedsCount(clickedFilter) {
 }
 
 function GetViewedFeedsCount() {
-    var feedFilters = $('ul.filters.scopes li.item');
+    var $feedFilters = $('ul.filters.scopes li.item'),
+        filtersData = [];
 
-    $.each(feedFilters, function(e) {
+    $.each($feedFilters, function(e) {
         var filter = $(this);
-
-        $.post('/api/blitz_feed/count', {
+        filtersData.push({
             'feed_scope': filter.data('scope'),
             'object_pk':  filter.data('object-pk')
-        }, function(data) {
-            if (data.count < 1) {
+        });
+    });
+
+    $.ajax({
+        url: '/api/blitz_feed/count',
+        type: 'POST',
+        headers:{'filters': JSON.stringify(filtersData)},
+        processData: false,
+        contentType: false,
+    }).then(function(data) {
+        $.each(data, function(e) {
+            var filterData = $(this)[0],
+                filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+
+            if (filterData.count < 1) {
                 filter.find('.results-count').hide('fast');
             } else {
                 filter.find('.results-count').show('fast');
-                filter.find('.results-count .inner').html(data.count);
+                filter.find('.results-count .inner').html(filterData.count);
                 // TODO: If '.results-count' don't exists create the DOM from jQuery
-            }            
+            }
         });
     });
 }
+
 
 function homepage_morefeed(options) {
     var options = options || {};
@@ -255,11 +269,11 @@ $(document).ready(function() {
 
 
     // On Windows Resize
-    $(window).resize(function() {
-        $('.feeds').width( $('.content-wrapper').width()-(330+35) );
-    });
-    $(window).trigger('resize');
-    // END
+    // $(window).resize(function() {
+    //     $('.feeds').width( $('.content-wrapper').width()-(330+35) );
+    // });
+    // $(window).trigger('resize');
+    // // END
 
     $('#homepage-loadmore').on('click', function(e) {
         homepage_morefeed({clickedFilter: CLICKED_FILTER});
