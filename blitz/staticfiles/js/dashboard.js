@@ -297,11 +297,11 @@ $(document).ready(function() {
 
 
     // On Windows Resize
-    // $(window).resize(function() {
-    //     $('.feeds').width( $('.content-wrapper').width()-(330+35) );
-    // });
-    // $(window).trigger('resize');
-    // // END
+    $(window).resize(function() {
+        $('.feeds').width( $('.content-wrapper').width()-(330+35) );
+    });
+    $(window).trigger('resize');
+    // END
 
     $('#homepage-loadmore').on('click', function(e) {
         homepage_morefeed({clickedFilter: CLICKED_FILTER});
