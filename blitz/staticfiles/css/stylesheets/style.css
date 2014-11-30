@@ -6594,3 +6594,38 @@ a#logo2.branding {
 #main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
   max-width: 500px;
 }
+
+/* line 5571, ../sass/style.scss */
+.week-performance {
+  margin-bottom: 0px;
+}
+
+/* line 5575, ../sass/style.scss */
+#summary .cover img.client-picture {
+  height: 125px;
+}
+
+/* line 5579, ../sass/style.scss */
+.week-performance > .description li {
+  line-height: 20px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+/* line 5585, ../sass/style.scss */
+.macro-history table td {
+  font-family: 'metanormal_caps';
+  font-size: 12px;
+  color: #9b999c;
+  padding-top: 5px;
+}
+
+/* line 5592, ../sass/style.scss */
+.macro-day-cell {
+  padding: 0px 0px 15px 0px;
+}
+
+/* line 5596, ../sass/style.scss */
+#summary .cover {
+  height: 245px;
+}

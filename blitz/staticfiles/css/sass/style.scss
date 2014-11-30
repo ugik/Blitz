@@ -5568,18 +5568,35 @@ a#logo2.branding {
   max-width: 500px
 }
 
-// .textareaClone {
-//   margin-top: -10px !important;
-//   float: left;
-//   top: 0;
-//   left: 0;
-//   position: relative;
-//   z-index: -9999;
-//   position: absolute;
-// }
+.week-performance {
+  margin-bottom: 0px;
+}
 
-// .expandingText {
-//   float: left;
-//   z-index: 999;
-//   height: 100%;
+#summary .cover img.client-picture {
+  height: 125px;
+}
+
+.week-performance > .description li {
+  line-height: 20px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.macro-history table td {
+  @include meta();
+  font-size: 12px;
+  color: #9b999c;
+  padding-top: 5px;
+}
+
+.macro-day-cell {
+  padding: 0px 0px 15px 0px;
+}
+
+#summary .cover {
+  height: 245px;
+}
+
+// .macro-history .week-name {
+//   padding: 5px 10px;
 // }
