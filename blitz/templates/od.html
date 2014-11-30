@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block body_extras %}class="login-page"{% endblock %}
+
+{% block outer_content %}
+<div class="container">
+    <div class="row">
+        <div class="span4 offset4">
+            <div class="blitz-login">
+                <img src="{{ STATIC_URL }}images/prometheus.gif" style="width:1000px;"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6 offset3">
+            <div class="serverpage">
+                <h1>Organized Disruption</h1>
+                <p>
+                    It's inevitable.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% block formpage_content %}{% endblock %}
+</div>
+{% endblock outer_content %}

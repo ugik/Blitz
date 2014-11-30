@@ -388,6 +388,14 @@ ul.filters li.item:hover {
     margin-bottom: 0px;
 }
 
+#summary .macro-day-cell {
+    height: 10px;
+}
+
+#summary .days .current {
+    background: #d2e2f5 !important;
+}
+
 #summary .btn-edit {
     float: right;
     border: 2px solid #7ab2ea;

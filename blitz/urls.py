@@ -102,8 +102,10 @@ urlpatterns += patterns(
     url(r'^trainer/dismiss-alert$', 'base.views.trainer_dismiss_alert', name='trainer_dismiss_alert'),
     url(r'^trainer/change-date$', 'base.views.trainer_change_date', name='trainer_change_date'),
     url(r'^trainer/spotter-edit$', 'base.views.spotter_edit', name='spotter_edit'),
+    url(r'^trainer/profile/(?P<pk>\d+)$', 'base.views.trainer_profile', name='trainer_profile'),
     url(r'^trainer/blitz-macros-save$', 'base.views.blitz_macros_save', name='blitz_macros_save'),
     url(r'^trainer/client-macros-save$', 'base.views.client_macros_save', name='client_macros_save'),
+    url(r'^trainer/invitee-macros-save$', 'base.views.invitee_macros_save', name='invitee_macros_save'),
 
     # todo: intro views namespaced as intro/[slug]
     url(r'^intro-data-1$', 'base.views.set_intro_1', name='set_intro_1'),
@@ -141,7 +143,6 @@ urlpatterns += patterns(
     url(r'^blitz/(?P<pk>\d+)/([\w|-]+)/payment_hook', 'base.views.payment_hook', name='payment_hook'),
 
     url(r'^blitz-setup$', 'base.views.blitz_setup', name='blitz_setup'),
-    url(r'^blitz-setup2$', 'base.views.blitz_setup2', name='blitz_setup2'),
 
     url(r'^blitz_macros/(?P<pk>\d+)$', 'base.views.blitz_macros', name='blitz_macros'),
     url(r'^client_macros/(?P<pk>\d+)$', 'base.views.client_macros', name='client_macros'),
@@ -155,8 +156,11 @@ urlpatterns += patterns(
     url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/signup$', 'base.views.default_blitz_signup', name="default_blitz_signup"),
     url(r'^signup-complete$', 'base.views.blitz_signup_done', name='blitz_signup_done'),
 
-    url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/$', 'base.views.default_blitz_page', name="default_blitz_page"),
+    url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)$', 'base.views.default_blitz_page', name="default_blitz_page"),
     url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)$', 'base.views.blitz_page', name="blitz_page"),
+
+#----------------------------------------
+    url(r'^organized-disruption$', 'base.views.organized_disruption', name='organized_disruption'),
 
 )
 

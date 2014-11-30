@@ -35,6 +35,7 @@
         var rest_carbs_min = rest_carbs * min_factor;
         var rest_protein_min = rest_protein * min_factor;
         var rest_fat_min = rest_fat * min_factor;
+
         // represent calories
         if (wout_cals > 1000) {
             document.getElementById('g_wout_cals').text = (wout_cals/1000).toFixed(1);
@@ -45,6 +46,16 @@
             document.getElementById('g_wout_cals_min').text = (wout_cals_min/1000).toFixed(1);
         } else {
             document.getElementById('g_wout_cals_min').text = wout_cals_min.toFixed(0);
+        }
+        if (rest_cals > 1000) {
+            document.getElementById('g_rest_cals').text = (rest_cals/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_cals').text = rest_cals.toFixed(0);
+        }
+        if (rest_cals_min > 1000) {
+            document.getElementById('g_rest_cals_min').text = (rest_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_cals_min').text = rest_cals_min.toFixed(0);
         }
         // represent carbs
         if (wout_carbs > 1000) {
@@ -57,6 +68,16 @@
         } else {
             document.getElementById('g_wout_carbs_min').text = wout_carbs_min.toFixed(0);
         }
+        if (rest_carbs > 1000) {
+            document.getElementById('g_rest_carbs').text = (rest_carbs/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_carbs').text = rest_carbs.toFixed(0);
+        }
+        if (rest_carbs_min > 1000) {
+            document.getElementById('g_rest_carbs_min').text = (rest_carbs_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_carbs_min').text = rest_carbs_min.toFixed(0);
+        }
         // represent protein
         if (wout_protein > 1000) {
             document.getElementById('g_wout_protein').text = (wout_protein/1000).toFixed(1);
@@ -68,6 +89,16 @@
         } else {
             document.getElementById('g_wout_protein_min').text = wout_protein_min.toFixed(0);
         }
+        if (rest_protein > 1000) {
+            document.getElementById('g_rest_protein').text = (rest_protein/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_protein').text = rest_protein.toFixed(0);
+        }
+        if (rest_protein_min > 1000) {
+            document.getElementById('g_rest_protein_min').text = (rest_protein_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_protein_min').text = rest_protein_min.toFixed(0);
+        }
         // represent fat
         if (wout_fat > 1000) {
             document.getElementById('g_wout_fat').text = (wout_fat/1000).toFixed(1);
@@ -75,9 +106,19 @@
             document.getElementById('g_wout_fat').text = wout_fat.toFixed(0);
         }
         if (wout_cals_min > 1000) {
-            document.getElementById('g_wout_cals_min').text = (wout_cals_min/1000).toFixed(1);
+            document.getElementById('g_wout_fat_min').text = (wout_cals_min/1000).toFixed(1);
         } else {
-            document.getElementById('g_wout_cals_min').text = wout_cals_min.toFixed(0);
+            document.getElementById('g_wout_fat_min').text = wout_cals_min.toFixed(0);
+        }
+        if (rest_fat > 1000) {
+            document.getElementById('g_rest_fat').text = (rest_fat/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_fat').text = rest_fat.toFixed(0);
+        }
+        if (rest_cals_min > 1000) {
+            document.getElementById('g_rest_fat_min').text = (rest_cals_min/1000).toFixed(1);
+        } else {
+            document.getElementById('g_rest_fat_min').text = rest_cals_min.toFixed(0);
         }
 
     }
@@ -163,7 +204,7 @@
 
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" onclick="{ $('#modalInclude').show(); jQuery.noConflict(); $('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
+			Diet Goals <a class="btn btn-default btn-edit" onclick="{ $('#modalInclude').show(); $('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
 			
 		</div>
 		<div class="goals-history" id="goals-history">
@@ -265,16 +306,6 @@
 				<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
 			{% endfor %}
 			</select>
-			<div class="weekSelector slide-select">
-				<ul>
-					<li class="arrow"> <a href="#"><span class="icon icon-chevron-left"></span></a> </li>
-					<li class="item active">This Week</li>
-					{% for week in macro_history %}
-						<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }} </li>
-					{% endfor %}
-					<li class="arrow"> <a href="#"><span class="icon icon-chevron-right"></span></a> </li>
-				</ul>
-			</div>
 		</div>
 		<div class="macro-history">
 			<div class="week-name">
@@ -287,12 +318,12 @@
 				</select>
 				<div class="weekSelector slide-select">
 					<ul>
-						<li class="arrow "> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
+						<li class="arrow"> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
 						<li class="item active">This Week</li>
 						{% for week in macro_history %}
 							<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }}</li>
 						{% endfor %}
-						<li class="arrow right-arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
+						<li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
 					</ul>
 				</div>
 			</div>
@@ -303,29 +334,30 @@
 					<table>
 						<tr>
 							{% for day in week.macro_days %}
-							<td data-future="{{ day.in_future }}">
+							<td class="{% if day.current %}current{% endif %}" data-future="{{ day.in_future }}">
+								{{ day.day_str|slice:"3" }}
 								{% if day.in_future and not day.has_entry %}
-								<div class="macro-day-cell">
-									<span class="day-of-month">{{ day.day_of_month }}</span>
+								<div class="macro-day-cell {% if day.current %}current{% endif %}">
+									{# <span class="day-of-month">{{ day.day_of_month }}</span> #}
 								</div>
 								{% endif %}
 								{% if not day.in_future and not day.has_entry %}
-								<div class="macro-day-cell">
+								<div class="macro-day-cell {% if day.current %}current{% endif %}">
 									<i class="icon-question-sign unknown"></i>
 								</div>
 								{% endif %}
 								{% if day.all_pass %}
-								<div class="macro-day-cell">
+								<div class="macro-day-cell {% if day.current %}current{% endif %}">
 									<i class="icon-ok-sign pass"></i>
 								</div>
 								{% endif %}
 								{% if day.all_fail %}
-								<div class="macro-day-cell">
+								<div class="macro-day-cell {% if day.current %}current{% endif %}">
 									<i class="icon-remove-sign fail"></i>
 								</div>
 								{% endif %}
 								{% if day.has_entry and not day.all_pass and not day.all_fail %}
-								<div class="macro-day-cell">
+								<div class="macro-day-cell {% if day.current %}current{% endif %}">
 									<div class="macro-combo">
 										<div class="letter calories {% if day.calories %}calories-pass{% else %}letter-fail{% endif %}"  title="Calories"></div>
 										<div class="letter protein {% if day.protein %}protein-pass{% else %}letter-fail{% endif %}"  title="Protein"></div>
@@ -348,7 +380,7 @@
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
 			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" onclick='{ document.getElementById("plan_name").text="{{ client.get_blitz.workout_plan.name }}"; document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; $("#modalInclude").show(); jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
+				<a class="btn btn-default btn-edit" onclick='{ document.getElementById("plan_name").text="{{ client.get_blitz.workout_plan.name }}"; document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; $("#modalInclude").show(); $("#modalSpotterEdit").modal("show"); }'>
 					Edit
 				</a>
 		</div>

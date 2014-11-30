@@ -100,7 +100,11 @@
                             <div class="logout"><a href="/logout"><i class="icon-signout"></i> Logout</a></div>
                         </div>
                         <div class="headshot-container">
-                            <img src="{{ user.headshot_url }}" />
+                            {% if user.is_trainer %}
+                            <a href="/trainer/profile/{{ user.trainer.pk}}"> <img src="{{ user.headshot_url }}" /></a>
+                            {% else %}
+                               <img src="{{ user.headshot_url }}" />
+                            {% endif %}
                         </div>
                     </div>
                 </div>

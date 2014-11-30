@@ -68,8 +68,7 @@
                             x = show_macros(1);
                         }) 
                         $(document).ready(function(e) {
-
-                        $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                            $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
                            });
                         $('select.selectpicker').on('change', function(){
                            var selected = $('.selectpicker option:selected').val();
@@ -188,8 +187,8 @@
                   </div>
                   
                 </div>
-                
-                 <button class="obtn full-width" onclick="{ save_blitz_macros(); return false; }" class="close" data-dismiss="modal" style="margin-left: 10px;">Set Macros</button>
+
+                 <button class="obtn full-width" onclick="{ save_blitz_macros(); update_summary_macros(); return false; }" class="close" data-dismiss="modal" style="margin-left: 10px;">Set Macros</button>
               </form>
 
            </div>

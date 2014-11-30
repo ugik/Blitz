@@ -24,7 +24,7 @@ function UpdateViewedFeedsCount(clickedFilter) {
         unviewedItems.push({
             'content_type': $FeedItems.eq(i).data('content_type'),
             'object_pk': $FeedItems.eq(i).data('object_pk')
-        })        
+        })
     }
 
     if (unviewedItems) {
@@ -32,7 +32,6 @@ function UpdateViewedFeedsCount(clickedFilter) {
             'feed_items': JSON.stringify(unviewedItems)
         }, function(data) {
             if (clickedFilter) {
-                console.log(clickedFilter);
                 var unviewedItemsCount = clickedFilter.find('.results-count .inner').html() - data.viewed_count;
 
                 // Updates count indicator
@@ -49,25 +48,39 @@ function UpdateViewedFeedsCount(clickedFilter) {
 }
 
 function GetViewedFeedsCount() {
-    var feedFilters = $('ul.filters.scopes li.item');
+    var $feedFilters = $('ul.filters.scopes li.item'),
+        filtersData = [];
 
-    $.each(feedFilters, function(e) {
+    $.each($feedFilters, function(e) {
         var filter = $(this);
-
-        $.post('/api/blitz_feed/count', {
+        filtersData.push({
             'feed_scope': filter.data('scope'),
             'object_pk':  filter.data('object-pk')
-        }, function(data) {
-            if (data.count < 1) {
+        });
+    });
+
+    $.ajax({
+        url: '/api/blitz_feed/count',
+        type: 'POST',
+        headers:{'filters': JSON.stringify(filtersData)},
+        processData: false,
+        contentType: false,
+    }).then(function(data) {
+        $.each(data, function(e) {
+            var filterData = $(this)[0],
+                filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+
+            if (filterData.count < 1) {
                 filter.find('.results-count').hide('fast');
             } else {
                 filter.find('.results-count').show('fast');
-                filter.find('.results-count .inner').html(data.count);
-                // TODO: If '.results-count' don't exists create the DOM from jQuery
-            }            
+                filter.find('.results-count .inner').html(filterData.count);
+                // TODO: If '.results-count' don't exists then create the DOM from jQuery
+            }
         });
     });
 }
+
 
 function homepage_morefeed(options) {
     var options = options || {};
@@ -78,6 +91,10 @@ function homepage_morefeed(options) {
     if (xhr) {
         xhr.abort();
     }
+    // show alerts on top of All Updates feed
+    if (OBJECT_ID === false && FEEDITEM_OFFSET === 0) {
+            $('.alerts-wrapper').removeClass('hidden');
+        } 
     xhr = $.get('/api/blitz_feed',
         {'offset': FEEDITEM_OFFSET,
          'feed_scope': FEED_SCOPE,
@@ -169,23 +186,46 @@ function renderSummary(html) {
 
     // TODO: append widget from jQuery
     var $weekSelectWidget = $('.weekSelector.slide-select');
+    var $weekSelectWidgetOptions = $('.weekSelector.slide-select li.item').not('li.arrow'),
+        pointer = 0,
+        max = $weekSelectWidgetOptions.length-1;
 
     // When left/righ arrows are clicked
     $weekSelectWidget.on('click', '.right-arrow, .left-arrow', function(e) {
         e.preventDefault();
-        var currentActive = $('.weekSelector.slide-select li.item.active').not('li.arrow');
-        if (currentActive) {
+        var $currentActive = $('.weekSelector.slide-select li.item.active').not('li.arrow');
+        if ($currentActive) {
+            // On Right Arrow
             if ($(this).hasClass('right-arrow')) {
-                var nextActive = currentActive.next();
+                if (pointer < max) {
+                    pointer+= 1;
+                } else {
+                    pointer = 0;
+                }
             }
-            if ($(this).hasClass('left-arrow')) {
-                var nextActive = currentActive.prev();
+            
+            // On Left Arrow
+            else if ($(this).hasClass('left-arrow')) {
+                if (pointer > 0) {
+                    pointer-= 1;
+                } else {
+                    pointer = max;
+                }                
             }
-            if ( nextActive && nextActive.hasClass('item') && currentActive.hasClass('item') ) {
-                nextActive.addClass('active');
-                currentActive.removeClass('active');
-                var weekNum = nextActive.data('week-num');
-                $('.diet-progress select').val(weekNum).trigger('change');
+
+            // Move to next Option
+            var $nextActive = $weekSelectWidgetOptions.eq(pointer);
+            if ( $nextActive && $nextActive.hasClass('item') && $currentActive.hasClass('item') ) {
+                $nextActive.addClass('active');
+                $currentActive.removeClass('active');
+
+                // Get next week number
+                var weekNum = $nextActive.data('week-num');
+
+                // Select next week
+                $('.diet-progress select')
+                    .val(weekNum)
+                    .trigger('change');
             }
         } else {
             $weekSelectWidget
@@ -201,6 +241,7 @@ $(document).ready(function() {
     //     var $leftSidebar = $('');
     //     alert( $(this).scrollTop() );
     // });
+   $('.alerts-wrapper').removeClass('hidden');
 
     var summaryXHR;
 
@@ -256,11 +297,11 @@ $(document).ready(function() {
 
 
     // On Windows Resize
-    $(window).resize(function() {
-        $('.feeds').width( $('.content-wrapper').width()-(330+20) );
-    });
-    $(window).trigger('resize');
-    // END
+    // $(window).resize(function() {
+    //     $('.feeds').width( $('.content-wrapper').width()-(330+35) );
+    // });
+    // $(window).trigger('resize');
+    // // END
 
     $('#homepage-loadmore').on('click', function(e) {
         homepage_morefeed({clickedFilter: CLICKED_FILTER});
@@ -290,11 +331,11 @@ $(document).ready(function() {
 
                 // Clear feed container
                 if ( $mainFeed.html() ) {
-                    $mainFeed.html('');
+                    $mainFeed.empty();
                 }
 
                 if ( $inboxContainer.html() ) {
-                    $inboxContainer.html('');
+                    $inboxContainer.empty();
                 }
                 // Abort ajax requests
                 if (xhr) {
@@ -431,16 +472,16 @@ $(document).ready(function() {
         SEARCH_TEXT = '';
 
         // Hide and clear client summary
-        $summary.html('');
+        $summary.empty();
         // END
 
         // Clear feed container
         var clearFeed = function() {
             if ( $mainFeed.html() ) {
-                $mainFeed.html('');
+                $mainFeed.empty();
             }
             if ( $inboxContainer.html() ) {
-                $inboxContainer.html('');
+                $inboxContainer.empty();
             }
             $('.feeds-filter').removeClass('hidden');
             $('#main-feed-controls, .formpage-block-form').removeClass('hidden');
@@ -450,7 +491,7 @@ $(document).ready(function() {
 
         // Hide and clear blitz group header
         if (SCOPE_CHANGED == true ) {
-            $('.group').html('');    
+            $('.group').empty();    
         }        
         // END
 
@@ -460,8 +501,7 @@ $(document).ready(function() {
 
         if (FEED_SCOPE === 'all') {
             OBJECT_ID = false;
-            
-            // Reset Seearch Input
+            // Reset Search Input
             $searchInput.val('')
                 .trigger('input');
             homepage_morefeed({clickedFilter: CLICKED_FILTER});
@@ -498,7 +538,7 @@ $(document).ready(function() {
                     });
                 }
             } else {
-                $summary.html('');
+                $summary.empty();
             }
 
             // Invitee
@@ -509,7 +549,7 @@ $(document).ready(function() {
                     });
                 }
             } else {
-                $summary.html('');
+                $summary.empty();
             }
 
             homepage_morefeed({clickedFilter: CLICKED_FILTER});

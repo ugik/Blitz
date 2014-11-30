@@ -5,10 +5,15 @@
 {% block morehead %} {{ super }}
 
 {% if user.blitz and user.blitz.members %}
-<script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
-<script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
-
+    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+{% else %}
+    {% if invitees %}
+        <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
+    {% endif %}
 {% endif %}
+
 <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
 
 <script type="text/javascript">
@@ -17,11 +22,11 @@
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
 <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
-<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
+<script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
 {% endblock %}
 
@@ -37,66 +42,69 @@
 	<div class="sidebar-left">
 		<div class="inner">
 			{% if clients or blitzes or invitees %}
-			<div class="search-input">
-				<input type='text' class="search-text" placeholder="  Search for a client or program...">
-			</div>
-			<ul class='filters scopes'>
-				<li class='item' data-scope='alerts'>
+
+		    	        <div class="search-input">
+                                    {% if clients or blitzes %}
+	   			        <input type='text' class="search-text" placeholder="  Search for a client or program...">
+                                    {% endif %}
+  			        </div>
+			        <ul class='filters scopes'>
+                            {% if clients or blitzes %}
+
+<!--
+				    <li class='item' data-scope='alerts'>
 					<div class="item-inner">
 						Alerts
 					</div>
 					{% if alerts_count %}
 					<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
 					{% endif %}
-				</li>
-				<li class="item active" data-scope='all'>
+				    </li> -->
+
+				    <li class="item active" data-scope='all'>
 					<div class="item-inner">
 						All Updates
 					</div>
 					{% if updates_count %}
 					<span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
-				</li>				
-				<div class="separator">
-				</div>
+				    </li>				
+				    <div class="separator"></div>
 
 				{% if blitzes %}
-					{% for blitz in blitzes %}
-	                    {% if not blitz.provisional and not blitz.recurring %}
-						<li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
-							<div class="item-inner">
-		  			            {{ blitz.title }}
-							</div>
-							{% if blitz.unviewed_feeds_count %}
-							<span class="results-count"><span class="inner"> - </span></span>
-							{% endif %}
-						</li>
-	                    {% endif %}
-					{% endfor %}
+				    {% for blitz in blitzes %}
+	                                {% if not blitz.provisional and not blitz.recurring %}
+					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
+						<div class="item-inner">{{ blitz.title }}</div>
+						    {% if blitz.unviewed_feeds_count %}
+						        <span class="results-count"><span class="inner"> - </span></span>
+						    {% endif %}
+					    </li>
+	                                {% endif %}
+				    {% endfor %}
 
-					<div class="separator">
-					</div>
+				    <div class="separator"></div>
 				{% endif %}
 
 				{% for client in clients %}
 				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
-					<div class="item-inner">
-		                {{ client.name }}
-					</div>
+				    <div class="item-inner">{{ client.name }}</div>
 					{% if client.unviewed_feeds_count %}
-					<span class="results-count"><span class="inner"> - </span></span>
+					    <span class="results-count"><span class="inner"> - </span></span>
 					{% endif %}
 				</li>
 				{% endfor %}
- 
-                                {% for invitee in invitees %}
+
+                            {% endif %} 
+
+                            {% for invitee in invitees %}
 <li class='item solo-client' data-object-pk="{{ invitee.pk }}" data-scope='invitee'>
-					<div class="item-inner">
-		                {{ invitee.name }} <i>(pending)</i>
-					</div>
+				<div class="item-inner">
+		                   {{ invitee.name }} <i>(pending)</i>
+				</div>
 				</li>
-                                {% endfor %}
-			</ul>
+                            {% endfor %}
+   			</ul>
 			{% else %}
 			<div class="new-trainer-experience">
 				<div>
@@ -161,25 +169,32 @@
 
 		        	{% include "main_feed.html" %}
                 {% else %}
+                    {% if invitees %}
+                	<div id="main-feed">
+		                {% include "dashboard/invitee_feed.html" %}
+		                {% include "dashboard/_dummy_comment_feed.html" %}
+	                </div>
+                    {% else %}
                 	<div id="main-feed">
 		                {% include "dashboard/_dummy_gym_session_feed.html" %}
 		                {% include "dashboard/_dummy_comment_feed.html" %}
 	                </div>
-		        {% endif %}
-			</div> <!--/ feeds -->
+                    {% endif %}
+	        {% endif %}
 
-			<!-- Summary -->
-			<div id="summary">
-				{% if not clients and not blitzes %}
-					{% include "dashboard/_dummy_client_summary.html" %}
-				{% endif %}
-			</div>
+		</div> <!--/ feeds -->
 
-			<div class="clearfix">
-			</div>
+		<!-- Summary -->
+		<div id="summary">
+			{% if not clients and not blitzes %}
+				{% include "dashboard/_dummy_client_summary.html" %}
+			{% endif %}
 		</div>
+
+		<div class="clearfix"></div>
+	    </div>
 	</div> <!--/ content -->
-</div>
+    </div>
 
 <div id="modalInclude">
 	<!-- include modals -->

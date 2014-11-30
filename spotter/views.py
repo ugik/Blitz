@@ -303,6 +303,13 @@ def spotter_workoutplan(request):
                               RequestContext(request))
 
 @login_required
+def spotter_feed(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    return render_to_response('feeds.html', {}, RequestContext(request))
+
+@login_required
 def spotter_exercise(request):
     if not request.user.is_staff:
         return redirect('home')
@@ -368,6 +375,7 @@ def spotter_custom_exercise(request):
 
     exercise_id = request.GET.get('id', None)
     exercise_custom_id = request.GET.get('custom_id', None)
+    client = None
 
     if request.method == 'POST':
         if 'client' in request.POST:
@@ -384,6 +392,21 @@ def spotter_custom_exercise(request):
             exe.client = client
             exe.save()
 
+            # create commensurate custom sets for lift redundancy in [Exercise, WorkoutSet]
+            exercise = exe.exercise
+            sets = WorkoutSet.objects.filter(exercise=exercise, workout=exercise.workout)
+            for set in sets:
+                custom_sets = WorkoutSetCustom.objects.filter(workoutset=set, client=client)
+                if not custom_sets:
+                    custom_set = WorkoutSetCustom(workoutset=set)
+                else:
+                    custom_set = custom_sets[0]
+
+                custom_set.num_reps = set.num_reps
+                custom_set.client = client
+                custom_set.lift = exe.lift
+                custom_set.save()
+
             response = redirect('/spotter/exercise_page')
             response['Location'] += '?workout=%s' % exe.exercise.workout.slug
             return response
@@ -395,6 +418,7 @@ def spotter_custom_exercise(request):
         # use custom exercise if provided
             exercise = ExerciseCustom.objects.get(pk=exercise_custom_id)
             members = []
+            client = exercise.client
             for blitz in exercise.exercise.workout.workoutplanday_set.all()[0].workout_plan_week.workout_plan.blitz_set.all():
                 members += blitz.blitzmember_set.all()
         else:
@@ -404,7 +428,7 @@ def spotter_custom_exercise(request):
                 members += blitz.blitzmember_set.all()
     
         return render_to_response('custom_exercise_page.html', 
-                  {'exercise' : exercise,
+                  {'exercise' : exercise, 'client' : client, 
                    'members' : members, 'lifts' : Lift.objects.all()},
                    RequestContext(request))
 

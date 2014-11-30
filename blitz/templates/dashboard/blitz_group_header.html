@@ -23,17 +23,17 @@
 
 </div>
 
-
 <script>
-$(document).ready(function() {
+var $j = jQuery.noConflict();
+$j(document).ready(function() {
     document.getElementById('title').text="{{ blitz.title|safe }}";
-    $( "#datepicker" ).datepicker();
-    $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
+    $j( "#datepicker" ).datepicker();
+    $j( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
 
-    $('#datep').click(function() {
+    $j('#datep').click(function() {
         $('#datepicker').datepicker('show');
     });
-    $('#datep').change(function() {
+    $j('#datep').change(function() {
         $.ajax({
                 url: '/trainer/change-date',
                 type: 'POST',
@@ -59,6 +59,8 @@ function save_blitz_macros() {
         formula: document.getElementById('formula-select').value },
       })
  }
+
+    function update_summary_macros() {}
 
 </script>
 
