@@ -6645,8 +6645,8 @@ a#logo2.branding {
 }
 
 /* line 5614, ../sass/style.scss */
-.week, .days {
-  position: inherit;
+.macro-history .weekSelector .icon {
+  text-decoration: none;
 }
 
 /* line 5618, ../sass/style.scss */
@@ -6690,4 +6690,15 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   float: right;
   padding-right: 20px;
   padding-left: 5px;
+}
+
+/* line 5655, ../sass/style.scss */
+#summary > div > div.section.sidebar-box.workout-plan > div.header {
+  margin-bottom: 0px;
+}
+
+/* line 5659, ../sass/style.scss */
+#summary > div > div.section.sidebar-box.workout-plan > div.description {
+  font-size: 1.3em;
+  font-family: 'proxima_novalight';
 }

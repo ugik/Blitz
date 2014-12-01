@@ -5611,8 +5611,8 @@ a#logo2.branding {
     width: 93.5%;
  }
 
-.week, .days {
-  position: inherit;
+.macro-history .weekSelector .icon {
+  text-decoration: none;
 }
 
 a#name, a#plan_name, a#client_name {
@@ -5650,4 +5650,13 @@ a#name, a#plan_name, a#client_name {
   float: right;
   padding-right: 20px;
   padding-left: 5px;
+}
+
+#summary > div > div.section.sidebar-box.workout-plan > div.header {
+  margin-bottom: 0px;
+}
+
+#summary > div > div.section.sidebar-box.workout-plan > div.description {
+  font-size: 1.3em;
+  @include lightfont();
 }
