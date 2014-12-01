@@ -67,9 +67,13 @@ function GetViewedFeedsCount() {
         contentType: false,
     }).then(function(data) {
         $.each(data, function(e) {
-            var filterData = $(this)[0],
-                filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+            var filterData = $(this)[0];
 
+            if (filterData.feed_scope != 'all') {
+                var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+            } else {
+                var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']');
+            }
             if (filterData.count < 1) {
                 filter.find('.results-count').hide('fast');
             } else {
@@ -237,10 +241,6 @@ function renderSummary(html) {
 
 
 $(document).ready(function() {
-    // $(window).on('scroll', function(e) {
-    //     var $leftSidebar = $('');
-    //     alert( $(this).scrollTop() );
-    // });
    $('.alerts-wrapper').removeClass('hidden');
 
     var summaryXHR;
