@@ -15,7 +15,7 @@
            <img class="profile-headshot img-circle" id='headshot' src="{{ client.get_headshot_url }}" />
            <h3>Let's tweak macros for <a id='name' ></a></h3>
            For reference <a id='blurb'></a>
-           <p class="macroblurb">You can use one of our preset formulas to give a rough calculation, but whatever you type below that will override it. So you can set <a id='name' ></a>'s macros however you want.</>
+           <p class="macroblurb">You can use one of our preset formulas to give a rough calculation, but whatever you type below that will override it. So you can set {{ client.name }}'s macros however you want.</p>
            <div class="formpage-block">
               <form method="post" name="client_macros"> {% csrf_token %}
 

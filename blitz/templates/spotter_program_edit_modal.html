@@ -9,16 +9,16 @@
          <div class="modal-body">
             <div class="row">
                <div class="span6" style="float: none; margin: 0 auto;">
-                  <h3>Tell a spotter how you would like to modify <a id="plan_name">{{ workoutplan.name }}</a> for <a id="client_name">{{ client.name }}</a>: </h3>
+                  <h3>Tell us how you would like to modify <a id="client_name">{{ client.name }}</a>'s program: </h3>
                   <div class="formpage-block">
                      <form method="post" name="spotter_program_edit"> {% csrf_token %}
                         <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">{{ edit }}</textarea>
 
                      {% if url_return %} <!-- coming from dashboard so handle inline modal   -->
-                        <button class="obtn btn" onclick="{ save_spotter_edit(); return false; }" class="close" data-dismiss="modal">Send Edit Instructions</button>
+                        <button class="obtn full-width" onclick="{ save_spotter_edit(); return false; }" class="close" data-dismiss="modal">Send Edit Instructions</button>
                      {% else %} <!-- coming from programs page so handle as post -->
                         <input type="hidden" name="workoutplan_pk" value="{{ workoutplan }}">
-                        <button class="obtn btn" type='submit'>Send Edit Instructions</button>
+                        <button class="obtn full-width" type='submit'>Send Edit Instructions</button>
                      {% endif %}
                      </form>
                   </div>

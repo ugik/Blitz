@@ -5602,3 +5602,13 @@ a#logo2.branding {
 // .macro-history .week-name {
 //   padding: 5px 10px;
 // }
+
+a#name, a#plan_name, a#client_name {
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+  }
+  color: white;
+  //@include boldfont();
+}
+
