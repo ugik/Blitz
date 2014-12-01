@@ -143,6 +143,7 @@ urlpatterns += patterns(
     url(r'^blitz/(?P<pk>\d+)/([\w|-]+)/payment_hook', 'base.views.payment_hook', name='payment_hook'),
 
     url(r'^blitz-setup$', 'base.views.blitz_setup', name='blitz_setup'),
+    url(r'^blitz-setup2$', 'base.views.blitz_setup2', name='blitz_setup2'),
 
     url(r'^blitz_macros/(?P<pk>\d+)$', 'base.views.blitz_macros', name='blitz_macros'),
     url(r'^client_macros/(?P<pk>\d+)$', 'base.views.client_macros', name='client_macros'),

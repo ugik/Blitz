@@ -22,18 +22,16 @@
   /*]]>*/
   </script>
 
-  <script src="/static/js/jquery-1.9.1.min.js"></script>
-  <script src="/static/js/jquery-ui.min.js"></script>
-  <link rel="stylesheet" href="/static/css/jquery-ui.css">
-  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
-  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
+<script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
   <script>
-  $(function() {
+  var $j = jQuery.noConflict();
+  $j(document).ready(function() {
     var reentry = "{{ reentry }}";
     if (reentry != "False") {
-        jQuery.noConflict(); $('#modalAddProgram').modal('show');
-
         var newscript = document.createElement('script');
         newscript.type = 'text/javascript';
         newscript.async = true;
@@ -47,10 +45,12 @@
         document.getElementsByTagName('body')[0].appendChild(newscript);
         newscript.src = '/static/css/bootstrap-select.css';
         document.getElementsByTagName('body')[0].appendChild(newscript);
+        alert('loaded dynamic js+css');
     }
-    $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
-    $( "#datepicker" ).datepicker();
-    $( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" );
+    $j('#modalAddProgram').modal('show');
+    $j('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+    $j( "#datepicker" ).datepicker();
+    $j( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
   });
   </script>
 {% endblock %}
@@ -60,7 +60,7 @@
 {% if reentry %}
 <form>
 <div >
-    <button type='button' class='btn-outline-trans fullwidth' onclick="jQuery.noConflict(); $('#modalAddProgram').modal('show'); return false;">+ Add Group Modal</button><br>
+    <button type='button' class='btn-outline-trans fullwidth' onclick="$('#modalAddProgram').modal('show'); return false;">+ Add Group Modal</button><br>
 </div>
 </form>
 {% endif %}

@@ -1,0 +1,112 @@
+<div class="modal-full fade" id="modalTrainerProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog-full">
+      <div class="modal-content-full">
+         <div class="modal-header">
+            <button type="button" onclick="window.location={% if url_return %} '{{ url_return }}'{% else %}'/program'{% endif %}; return false;" class="close" data-dismiss="modal">
+               <span aria-hidden="true">× Close</span>
+            </button>
+         </div>
+         <div class="modal-body">
+
+            <div class="row">
+                <div class="span6" style="float: none; margin: 0 auto;">
+
+                <form name="uploadsForm" id="uploadsForm" enctype="multipart/form-data" action="" method="post">
+                    <div class="header">Profile</div>
+                    <p class="info-text">Change your stuff... </p>
+
+                    {% csrf_token %}
+        </div>
+    </div>
+    <div class="span8 offset2" style="margin-top: -50px;">
+        <div class="formpage-block">
+            <div class="row uploads-row">
+                <div class="span6 trainer-uploads-left">
+                    <div class="uploads-top">Your profile photo</div>
+                    <div class="uploads-bottom">This should be square-ish and at least 150x150 px.</div>
+                </div>
+                <div class="span2 trainer-uploads-right">
+                    <input type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
+                    <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline"/>
+                        + Photo
+                    </label>
+                    {% if trainer.headshot %}
+                    <input type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
+                    <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline"/>
+                        <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" />
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row uploads-row">
+                <div class="span6 trainer-uploads-left">
+                    <div class="uploads-top">Your logo</div>
+                    <div class="uploads-bottom">Clients will see your logo on the site (or just your name, if you don't have one).</div>
+                </div>
+                <div class="span2 trainer-uploads-right">
+                    <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
+                    <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline"/>
+                        + Logo
+                    </label>
+                    {% if salespage.logo %}
+                    <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
+                    <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline"/>
+                        <img src="{{ MEDIA_URL }}{{ salespage.logo }}" />
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row uploads-row">
+                <div class="span6 trainer-uploads-left">
+                    <div class="uploads-top">Upload program documents</div>
+                    <div class="uploads-bottom">Files that illustrate your fitness/diet programs. Excel, PDF, whatever.</div>
+                </div>
+                <div class="span2 trainer-uploads-right">
+                    <input type="file" name="document" id="id_document" style="height:0; display:none;"/>
+                    <label id="label_document" name="label_document" for="id_document" class="btn-outline"/>
+                        + Files
+                    </label>
+                    {% if document %}
+                        Document Received 
+                    {% endif %}
+                </div>
+            </div>
+
+        <input type="hidden" id="done" name="done" value="" />
+ 
+        <a onclick="window.location='/'; return false;" type="submit" class="gbtn full-width" style="margin-top: 30px;">
+            Done
+        </a>
+        </form>
+            <script type="text/javascript">
+                var label_headshot_image = '{{ trainer.headshot }}';
+                var label_logo_image = '{{ salespage.logo }}';
+                var label_document = '{{ document }}';
+
+                if (/^\s*$/.test(label_headshot_image)){ }
+                else { document.getElementById("label_headshot_image").style.display="none"; }
+                if (/^\s*$/.test(label_logo_image)){ }
+                else { document.getElementById("label_logo_image").style.display="none"; }
+                if (/^\s*$/.test(label_document)){ }
+                else { document.getElementById("label_document").style.display="none"; }
+
+                $('input[type=file]').change(function(e) { document.uploadsForm.submit(); });
+
+                $(document).ready(function() { 
+                $('#done_action').click(function() {
+                    document.getElementById("done").value = "1";
+                    document.uploadsForm.submit();
+                });
+
+                });
+            </script>                  
+
+
+                </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+

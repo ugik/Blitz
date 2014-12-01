@@ -24,7 +24,7 @@
 <div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
 
 {% if clients %}
-{% for client in clients|dictsortreversed:"months" %}
+{% for client in clients|dictsortreversed:"due" %}
   <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
      <div style="text-align: left;" class="spotterheader">
      <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.date_start }} ({{ client.months }} months)</li>  {% if not client.blitz.recurring %} <li> Blitz:{{ client.blitz.title }} {% endif %}
