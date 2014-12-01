@@ -1,9 +1,9 @@
 <div class="feed-item" data-object_pk="{{ gym_session.pk }}" data-content_type="gym session" data-viewed="{% if feed_item.is_viewed == True %}true{% else %}false{% endif %}">
 
-    <div class="parent-headshot">
-        <img src="{{ gym_session.client.user.headshot_url }}" class="img-circle" />
-    </div>
     <div class="feed-item-content">
+        <div class="parent-headshot">
+            <img src="{{ gym_session.client.user.headshot_url }}" class="img-circle" />
+        </div>
         {% comment %}
         <a class="feed-permalink" href="{% url "single_post_gym" feed_item.pk %}"><i class="icon-link"></i></a>
         {% endcomment %}

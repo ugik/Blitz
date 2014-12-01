@@ -29,20 +29,22 @@
     {% for comment in parent.comments %}
         <div class="child-comment comment{% if comment.user.is_trainer %} trainer-comment{% endif %}" data-object_pk="{{ comment.pk }}" >
             <img class="img-circle headshot" src="{{ comment.user.headshot_url }}" />
-            <a href="{{ comment.user.get_profile_url }}" class="name">{{ comment.user.display_name }}</a> {{ comment.text|urlize|linebreaksbr }}
-            <div class="comment-date">
-                <i class="icon-time"></i> {{ comment.date_and_time|timesince }} ago
-                {% if comment.has_likes %}
-                <span class="num-likes"
-                      data-toggle="tooltip"
-                      title="{% for u in comment.users_that_like %}{{ u.display_name }}{% if not forloop.last %} and {% endif %}{% endfor %} like{{ comment.users_that_like|pluralize:"s," }} this."
-                    ><i class="icon-thumbs-up"></i> {{ comment.users_that_like|length }}</span>
-                {% endif %}
-                {% if comment|liked_by_user:user %}
-                <a class="unlike-link">Unlike</a>
-                {% else %}
-                <a class="like-link">Like</a>
-                {% endif %}
+            <div class="reply">
+                <a href="{{ comment.user.get_profile_url }}" class="name">{{ comment.user.display_name }}</a> {{ comment.text|urlize|linebreaksbr }}
+                <div class="comment-date">
+                    <i class="icon-time"></i> {{ comment.date_and_time|timesince }} ago
+                    {% if comment.has_likes %}
+                    <span class="num-likes"
+                          data-toggle="tooltip"
+                          title="{% for u in comment.users_that_like %}{{ u.display_name }}{% if not forloop.last %} and {% endif %}{% endfor %} like{{ comment.users_that_like|pluralize:"s," }} this."
+                        ><i class="icon-thumbs-up"></i> {{ comment.users_that_like|length }}</span>
+                    {% endif %}
+                    {% if comment|liked_by_user:user %}
+                    <a class="unlike-link">Unlike</a>
+                    {% else %}
+                    <a class="like-link">Like</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     {% endfor %}

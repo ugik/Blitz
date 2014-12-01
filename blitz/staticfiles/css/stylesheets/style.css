@@ -6702,3 +6702,52 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   font-size: 1.3em;
   font-family: 'proxima_novalight';
 }
+
+/* line 5664, ../sass/style.scss */
+.feed-item .parent-headshot {
+  position: relative;
+  float: left;
+  margin-left: 15px;
+  margin-top: 10px;
+  margin-right: 15px;
+}
+
+/* line 5672, ../sass/style.scss */
+.feed-item .parent-headshot img {
+  width: 50px;
+}
+
+/* line 5676, ../sass/style.scss */
+#dashboard .feeds .feed-item .feed-item-content, #main-feed > .feed-item-content, .feed-item .feed-item-content {
+  margin-left: 0px;
+}
+
+/* line 5680, ../sass/style.scss */
+.feed-item-footer .child-comment img.headshot {
+  position: relative;
+  top: 6px;
+  left: 0;
+}
+
+/* line 5686, ../sass/style.scss */
+.reply {
+  display: inline-table;
+  width: 91%;
+}
+@media (max-width: 480px) {
+  /* line 5686, ../sass/style.scss */
+  .reply {
+    width: 84%;
+    margin-left: 10px;
+  }
+}
+
+/* line 5695, ../sass/style.scss */
+.feed-item-footer .child-comment {
+  padding: 12px 16px 12px 16px;
+}
+
+/* line 5699, ../sass/style.scss */
+.feed-item-footer .child-comment .comment-date {
+  padding: 5px 0 5px;
+}
