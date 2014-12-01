@@ -5124,7 +5124,7 @@ h3 a#name, a#blurb {
   white-space: nowrap;
   vertical-align: middle;
   margin-bottom: 15px;
-  height: 30px;
+  height: 20px;
   a {
     outline: none;
   }
@@ -5143,6 +5143,7 @@ h3 a#name, a#blurb {
   @include meta();
   width: 50%;
   float: left;
+  line-height: 15px;
   a {
     outline: none;
   }
@@ -5168,6 +5169,7 @@ h3 a#name, a#blurb {
   @include meta();
   width: 50%;
   float: left;
+  line-height: 15px;
   a {
     outline: none;
   }
