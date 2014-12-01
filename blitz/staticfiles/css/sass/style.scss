@@ -5582,6 +5582,8 @@ a#logo2.branding {
   line-height: 20px;
   margin-top: -10px;
   margin-bottom: 20px;
+  font-size: 0.9em;
+  //letter-spacing: -1px;
 }
 
 .macro-history table td {
@@ -5599,9 +5601,19 @@ a#logo2.branding {
   height: 245px;
 }
 
-// .macro-history .week-name {
-//   padding: 5px 10px;
-// }
+ .macro-history .week-name {
+   padding: 5px 10px;
+    text-align: left;
+    margin-bottom: 0px !important;
+    display: block;
+    float: left;
+    height: 20px;
+    width: 93.5%;
+ }
+
+.week, .days {
+  position: inherit;
+}
 
 a#name, a#plan_name, a#client_name {
   text-decoration: none;
