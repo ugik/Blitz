@@ -6641,3 +6641,8 @@ a#name, a#plan_name, a#client_name {
 a#name :hover, a#plan_name :hover, a#client_name :hover {
   text-decoration: none;
 }
+
+/* line 5615, ../sass/style.scss */
+.top10 {
+  margin-top: 10%;
+}
