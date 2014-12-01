@@ -6646,3 +6646,22 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 .top10 {
   margin-top: 10%;
 }
+
+/* line 5619, ../sass/style.scss */
+.trainersettings > .formpage-block, .trainersettings {
+  color: #515352;
+}
+
+/* line 5623, ../sass/style.scss */
+.trainersettings > .formpage-block > .uploads-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* line 5627, ../sass/style.scss */
+.settingsheader {
+  color: #515352;
+  font-family: 'proxima_novabold';
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 20px;
+}

@@ -9,17 +9,17 @@
 {% block main %}
 
 <div class="row">
-    <div class="span6 offset3" style="">
+    <div class="span6 offset3 trainersettings" style="">
         <div class="formpage-block">
 
                 <form name="uploadsForm" id="uploadsForm" enctype="multipart/form-data" action="" method="post">
-                    <div class="header">Profile</div>
-                    <p class="info-text">Change your stuff... </p>
+                    <div class="settingsheader">Settings</div>
+                    <p class="info-text">Update your info here.</p>
 
                     {% csrf_token %}
         </div>
     </div>
-    <div class="span8 offset2" style="margin-top: -50px;">
+    <div class="span8 offset2 trainersettings" style="margin-top: -50px;">
         <div class="formpage-block">
             <div class="row uploads-row">
                 <div class="span6 trainer-uploads-left">
@@ -76,7 +76,7 @@
         <input type="hidden" id="done" name="done" value="" />
  
         <a onclick="window.location='/'; return false;" type="submit" class="gbtn full-width" style="margin-top: 30px;">
-            Done
+            Save changes
         </a>
         </form>
             <script type="text/javascript">

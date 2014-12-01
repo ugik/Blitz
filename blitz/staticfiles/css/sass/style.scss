@@ -5615,3 +5615,19 @@ a#name, a#plan_name, a#client_name {
 .top10 {
   margin-top: 10%;
 }
+
+.trainersettings > .formpage-block, .trainersettings {
+  color: $mainfontcolor ;
+}
+
+.trainersettings > .formpage-block > .uploads-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.settingsheader {
+  color: $mainfontcolor ;
+  @include boldfont();
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 20px;
+}
