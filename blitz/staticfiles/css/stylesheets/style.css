@@ -6665,3 +6665,12 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   text-align: center;
   margin-bottom: 20px;
 }
+
+/* line 5635, ../sass/style.scss */
+.settings {
+  font-size: 0.8em;
+  text-align: right;
+  float: right;
+  padding-right: 20px;
+  padding-left: 5px;
+}

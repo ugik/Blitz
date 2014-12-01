@@ -98,13 +98,13 @@
                         <div class="name-container">
                             <div class="name">{{ user.display_name }}</div>
                             <div class="logout"><a href="/logout"><i class="icon-signout"></i> Logout</a></div>
+                            {% if user.is_trainer %}
+                              <div class="settings"><a href="/trainer/profile/{{ user.trainer.pk}}"><i class="icon-settings"></i> Settings</a></div>
+                            {% else %}  
+                            {% endif %}
                         </div>
                         <div class="headshot-container">
-                            {% if user.is_trainer %}
-                            <a href="/trainer/profile/{{ user.trainer.pk}}"> <img src="{{ user.headshot_url }}" /></a>
-                            {% else %}
                                <img src="{{ user.headshot_url }}" />
-                            {% endif %}
                         </div>
                     </div>
                 </div>
