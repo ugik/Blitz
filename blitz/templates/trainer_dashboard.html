@@ -66,7 +66,7 @@
 						All Updates
 					</div>
 					{% if updates_count %}
-					<span class="results-count"><span class="inner"> - </span></span>
+					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
 					{% endif %}
 				    </li>				
 				    <div class="separator"></div>
@@ -77,7 +77,7 @@
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
-						        <span class="results-count"><span class="inner"> - </span></span>
+						        <span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
 						    {% endif %}
 					    </li>
 	                                {% endif %}
@@ -90,7 +90,7 @@
 				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
 				    <div class="item-inner">{{ client.name }}</div>
 					{% if client.unviewed_feeds_count %}
-					    <span class="results-count"><span class="inner"> - </span></span>
+					    <span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
 					{% endif %}
 				</li>
 				{% endfor %}
@@ -151,7 +151,7 @@
 							<li data-scope-filter="checkins">Check-Ins</li>
 						</ul>
 					</div>
-					
+
 					<div id="add-comment-container">
 						<form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 						    <table><tr><td width="97%">

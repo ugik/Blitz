@@ -30,18 +30,7 @@ function UpdateViewedFeedsCount(clickedFilter) {
     if (unviewedItems) {
         $.post('/api/blitz_feed/viewed/mark', {
             'feed_items': JSON.stringify(unviewedItems)
-        }, function(data) {
-            if (clickedFilter) {
-                var unviewedItemsCount = clickedFilter.find('.results-count .inner').html() - data.viewed_count;
-
-                // Updates count indicator
-                clickedFilter.find('.results-count .inner').html(unviewedItemsCount);
-
-                // Hides count indicator if not unviewed items
-                if (unviewedItemsCount < 1) {
-                    clickedFilter.find('.results-count').hide();
-                }
-            }
+        }, function(data) {            
             $FeedItems.attr('data-viewed', 'true');
         });
     }
@@ -67,9 +56,13 @@ function GetViewedFeedsCount() {
         contentType: false,
     }).then(function(data) {
         $.each(data, function(e) {
-            var filterData = $(this)[0],
-                filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+            var filterData = $(this)[0];
 
+            if (filterData.feed_scope != 'all') {
+                var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+            } else {
+                var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']');
+            }
             if (filterData.count < 1) {
                 filter.find('.results-count').hide('fast');
             } else {
@@ -237,10 +230,6 @@ function renderSummary(html) {
 
 
 $(document).ready(function() {
-    // $(window).on('scroll', function(e) {
-    //     var $leftSidebar = $('');
-    //     alert( $(this).scrollTop() );
-    // });
    $('.alerts-wrapper').removeClass('hidden');
 
     var summaryXHR;
@@ -429,6 +418,8 @@ $(document).ready(function() {
      * Filters
      */ 
     $('.filters, .feeds-filter').on('click', 'li', function(event) {
+        // ScrollUp to very top
+        $(document).scrollTop(0);
 
         // Detects Changes
         // TODO: Watch FEED_SCOPE and OBJECT_ID vars

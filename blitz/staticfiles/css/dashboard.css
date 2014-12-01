@@ -374,6 +374,7 @@ ul.filters li.item:hover {
 #summary .section {
     border-top: 1px solid #c1c0c3;
     border-radius: none;
+    width: 326px;
 }
 
 #summary .section:last-child {
