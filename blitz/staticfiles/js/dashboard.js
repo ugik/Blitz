@@ -30,18 +30,7 @@ function UpdateViewedFeedsCount(clickedFilter) {
     if (unviewedItems) {
         $.post('/api/blitz_feed/viewed/mark', {
             'feed_items': JSON.stringify(unviewedItems)
-        }, function(data) {
-            if (clickedFilter) {
-                var unviewedItemsCount = clickedFilter.find('.results-count .inner').html() - data.viewed_count;
-
-                // Updates count indicator
-                clickedFilter.find('.results-count .inner').html(unviewedItemsCount);
-
-                // Hides count indicator if not unviewed items
-                if (unviewedItemsCount < 1) {
-                    clickedFilter.find('.results-count').hide();
-                }
-            }
+        }, function(data) {            
             $FeedItems.attr('data-viewed', 'true');
         });
     }
@@ -429,6 +418,8 @@ $(document).ready(function() {
      * Filters
      */ 
     $('.filters, .feeds-filter').on('click', 'li', function(event) {
+        // ScrollUp to very top
+        $(document).scrollTop(0);
 
         // Detects Changes
         // TODO: Watch FEED_SCOPE and OBJECT_ID vars
