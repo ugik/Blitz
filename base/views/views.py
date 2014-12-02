@@ -2463,7 +2463,11 @@ def trainer_dashboard(request):
             'macro_history': [],
             'invitees': trainer.invitees(),
             'blitz': blitz,
-            'workoutplans': workoutplans
+            'workoutplans': workoutplans,
+            'blitz': blitz,
+            'workoutplans': workoutplans,
+            'invite_url': invite_url,
+            'signup_key': signup_key
         })
     else:
         return render(request, 'trainer_dashboard.html', {
@@ -2477,6 +2481,8 @@ def trainer_dashboard(request):
             'shown_intro': show_intro,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else [],
             'blitz': blitz,
-            'workoutplans': workoutplans
+            'workoutplans': workoutplans,
+            'invite_url': invite_url,
+            'signup_key': signup_key
         })
 
