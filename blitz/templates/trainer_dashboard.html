@@ -34,6 +34,7 @@ function save_client_setup() {
     document.getElementById('error_name').text = '';
     document.getElementById('error_email').text = '';
     document.getElementById('error_price').text = '';
+    document.getElementById('invite-loading').style="display:block;"
 
     $.ajax({
         url: '/trainer/client-setup',
@@ -54,6 +55,8 @@ function save_client_setup() {
                }
         }
     })
+    document.getElementById('invite-loading').style="display:none;"
+
 }
 </script>
 
