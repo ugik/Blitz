@@ -6737,7 +6737,7 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 @media (max-width: 480px) {
   /* line 5686, ../sass/style.scss */
   .reply {
-    width: 83%;
+    width: 82%;
     margin-left: 10px;
   }
 }
@@ -6750,4 +6750,19 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 /* line 5699, ../sass/style.scss */
 .feed-item-footer .child-comment .comment-date {
   padding: 5px 0 5px;
+}
+
+/* line 5703, ../sass/style.scss */
+#add-comment-container #add-comment, .textareaClone {
+  padding: 10px 20px;
+}
+
+/* line 5714, ../sass/style.scss */
+.photobuttonlabel {
+  margin-right: 0px;
+  padding: 5px 20px 0px 20px;
+  height: 53.5px;
+  margin-top: 4px;
+  border-radius: 5px;
+  margin-left: 10px;
 }

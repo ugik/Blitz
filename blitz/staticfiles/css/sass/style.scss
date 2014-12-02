@@ -5687,7 +5687,7 @@ a#name, a#plan_name, a#client_name {
   display: inline-table;
   width: 91%;
   @include mobile-only {
-    width: 83%;
+    width: 82%;
     margin-left: 10px;
   }
 }
@@ -5698,4 +5698,24 @@ a#name, a#plan_name, a#client_name {
 
 .feed-item-footer .child-comment .comment-date {
   padding: 5px 0 5px;
+}
+
+#add-comment-container #add-comment, .textareaClone {
+  padding: 10px 20px;
+}
+
+.photobutton {
+  // margin: 0px 0px 0px 0px;
+  // padding: 5px 20px;
+  // height: 52.5px;
+  // border-radius: 5px;
+}
+
+  .photobuttonlabel {
+  margin-right: 0px;
+  padding: 5px 20px 0px 20px;
+  height: 53.5px;
+  margin-top: 4px;
+  border-radius: 5px;
+  margin-left: 10px;
 }
