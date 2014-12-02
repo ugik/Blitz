@@ -6737,7 +6737,7 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 @media (max-width: 480px) {
   /* line 5686, ../sass/style.scss */
   .reply {
-    width: 84%;
+    width: 83%;
     margin-left: 10px;
   }
 }
