@@ -47,8 +47,10 @@ function save_client_setup() {
                   }
                } else 
                {
-                  jQuery.noConflict(); $('#ClientSetupDoneModal').modal('show');
                   jQuery.noConflict(); $('#modal').modal('hide');
+                  document.getElementById('invitee_name').text = document.getElementById('invitation_name').value;
+                  document.getElementById('invitee_name2').text = document.getElementById('invitation_name').value;
+                  jQuery.noConflict(); $('#ClientSetupDoneModal').modal('show');
                }
         }
     })

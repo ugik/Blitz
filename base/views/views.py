@@ -2008,19 +2008,23 @@ def client_setup(request):
         invite_url = form.data.get('invite_url', None)
         macro_formula = form.data.get('formulas', None)
 
-###################
-        return JSONResponse({'is_error': None})
+        blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
+        if not blitzes:  # shouldn't happen since every trainer has provisional blitz
+            print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
+            return redirect('/')
+        else:
+            blitz = blitzes[0]
 
         invitation = BlitzInvitation.objects.create(
             blitz =  blitz, email = form.data.get('email',None), 
             name = form.data.get('name', None), signup_key = signup_key, macro_formula = macro_formula)
 
-        invitation.free = True if mode == "free" else False
+        invitation.free = False
 
         # override Blitz price and workoutplan if invitation specifies either
-        if 'price' in form.cleaned_data and form.data.get('price', None):
-            invitation.price = form.data.get('price', None)
-        if 'workoutplan_id' in form.cleaned_data and form.data.get('workoutplan_id', None):
+        invitation.price = form.data.get('price', None)
+        workoutplan_id = form.data.get('workoutplan_id', None)
+        if workoutplan_id:
             workoutplan = get_object_or_404(WorkoutPlan, id=form.data.get('workoutplan_id', None) )
             invitation.workout_plan = workoutplan
 

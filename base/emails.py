@@ -82,8 +82,7 @@ def signup_confirmation(client):
     text_template = 'emails/signup_confirmation.txt'
     html_template = 'emails/signup_confirmation.html'
     context = { 'client': client, 'blitz': client.get_blitz() }
-    send_email(from_email, to_email, subject, text_template, html_template, context, 
-               cc_mail=[trainer.user.email] )
+    send_email(from_email, to_email, subject, text_template, html_template, context )
 
 def client_invite(trainer, client_email, invite_url, blitz=None):
 

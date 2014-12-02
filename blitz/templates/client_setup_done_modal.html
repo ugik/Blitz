@@ -2,7 +2,7 @@
    <div class="modal-dialog-full">
       <div class="modal-content-full">
          <div class="modal-header">
-            <button type="button" onclick="window.location={% if url_return %} '/{{ url_return }}'{% else %}'/salespage'{% endif %}; return false;" class="close" data-dismiss="modal">
+            <button type="button" onclick="window.location='/'; return false;" class="close" data-dismiss="modal">
                <span aria-hidden="true">× Close</span>
             </button>
          </div>
@@ -11,7 +11,7 @@
 <div class="row">
     <div class="span6 offset3">
         <div class="formpage-block">
-            <div class="header">Awesome, we've sent {{ form.name.value }} an invite.</div>
+            <div class="header">Awesome, we've sent <a id="invitee_name"></a> an invite.</div>
             <div class="content">
                 <image src="/static/images/bigcheckmark.png" style="width: 30%; display: none; alignment-baseline: central; margin: 0% 0% 20px 35%;">
                 <p style="margin-bottom: 20px;">
@@ -19,7 +19,7 @@
                     If we don't see a signup after a week has passed, or if the invite email bounces, we'll let you know. <br>
                 </p>
                 <p>
-                    If you need to modify {{ form.name.value }}'s plan or macros before they show up, you can do that on the right column after you close this message.
+                    If you need to modify <a id="invitee_name2"></a>'s plan or macros before they show up, you can do that on the right column after you close this message.
                 </p>
                 <a href="/" class="obtn obtn-comment" style="margin-top: 30px;">Continue →</a>
             </div>

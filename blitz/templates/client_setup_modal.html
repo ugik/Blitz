@@ -33,7 +33,7 @@
  
                         {% csrf_token %}
                      <div id="ajaxwrapper">
-                        <input type="text" name="name" placeholder="Name" />
+                        <input type="text" name="name" id="invitation_name" placeholder="Name" />
                         <a id='error_name' style="color: #ff0000;">{% include "error_field.html" with param='name' %}</a>
                         <input type="text" name="email" placeholder="Email" />
                         {% include "error_field.html" with param='email' %}
@@ -94,12 +94,14 @@
                         {% endif %}
                      </div>
                     </form>
+<div id="invite-loading" style="display:none; text-align: center; padding: 5px; "><img src="/static/images/squareloader.gif" alt="Loading..."/></div>
                   </div>
                </div>
             </div>
          </div>
        </div>
    </div>
+</div>
 </div>
 
 

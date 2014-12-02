@@ -765,6 +765,9 @@ class BlitzMember(models.Model):
     blitz = models.ForeignKey(Blitz)
     date_created = models.DateField(default=datetime.date.today)
 
+    # (optional for 1:1 Blitz) price carried in membership so we can delete invitation 
+    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+
     def __unicode__(self):
         return "%s enrolled in %s" % (str(self.client), str(self.blitz))
 
