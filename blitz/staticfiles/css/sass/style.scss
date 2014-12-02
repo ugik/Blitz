@@ -2097,7 +2097,7 @@ a:focus {
 
 .alert a {
   @include meta();
-  @include blitz-gradient();
+  background: $linkcolor:
   color: white;
   padding: 10px;
   border-radius: 5px;
@@ -2113,19 +2113,11 @@ a:focus {
   };
   }
   .alert a:hover {
-    background-image: -o-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-    background-image: -moz-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-    background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-    background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
-    background: #94c1ee;
+    background: $linkcolorhover;
     @include animation('btnpulsate .75s infinite');
   }
   .alert a:active {
-    background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-    background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-    background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-    background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
-    background: #69a1d9;
+    background: $linkcolorhover;
     //background-repeat: repeat-x;
     border-top: 1px solid rgba(0,0,0,0.2);
     margin-top: 2px;
