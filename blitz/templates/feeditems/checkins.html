@@ -1,8 +1,8 @@
 <div class="feed-item" data-object_pk="{{ checkin.pk }}" data-content_type="check in">
+    <div class="feed-item-content">
     <div class="parent-headshot">
         <img src="{{ checkin.client.user.headshot_url }}" class="img-circle" />
     </div>
-    <div class="feed-item-content">
         {% comment %}
         <a class="feed-permalink" href="{% url " single_post_gym " feed_item.pk %}"><i class="icon-link"></i></a>
         {% endcomment %}

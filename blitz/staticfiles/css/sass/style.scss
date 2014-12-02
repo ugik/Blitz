@@ -1130,8 +1130,9 @@ h3 {@include lightfont();}
   .parent-comment {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    padding: $parentpadding;
+    padding: 18px 12px 12px 80px;
     font-size: 18px;
+    line-height: 1.4;
     @include mobile-only {
       border-top-right-radius: 4px;
       border-top-left-radius: 4px;
@@ -5678,8 +5679,13 @@ a#name, a#plan_name, a#client_name {
 .reply {
   display: inline-table;
   width: 91%;
+  line-height: 1.4;
+  @include tablet-portrait-and-below {
+    width: 88%;
+    margin-left: 10px;
+  }
   @include mobile-only {
-    width: 82%;
+    width: 81%;
     margin-left: 10px;
   }
 }
