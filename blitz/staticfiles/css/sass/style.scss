@@ -2097,7 +2097,7 @@ a:focus {
 
 .alert a {
   @include meta();
-  background: $linkcolor:
+  background: $linkcolor;
   color: white;
   padding: 10px;
   border-radius: 5px;
