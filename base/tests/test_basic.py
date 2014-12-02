@@ -160,7 +160,8 @@ class TestBasic(unittest.TestCase):
         # open | /client-setup/7?modalInvite&free | 
         driver.get(self.base_url + "/client-setup/7?modalInvite&free")
         # click | //form/button | 
-        driver.find_element_by_xpath("//form/button").click()
+#        import pdb; pdb.set_trace()
+        driver.find_element_by_id("invite-client").click()
         # assertTextPresent |  | This field is required.
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         self.assertTrue("This field is required." in driver.page_source, "Text not found")

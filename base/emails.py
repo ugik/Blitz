@@ -94,11 +94,7 @@ def client_invite(trainer, client_email, invite_url, blitz=None):
     html_template = 'emails/client_invitation.html'
     context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz }
     send_email(from_email, to_email, subject, text_template, html_template, context, 
-<<<<<<< Updated upstream
-               cc_mail=[trainer.user.email] )
-=======
                cc_mail=[trainer.user.email])
->>>>>>> Stashed changes
 
 
 def forgot_password(user):
