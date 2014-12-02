@@ -1995,6 +1995,44 @@ def spotter_edit(request):
 
 @login_required
 @csrf_exempt
+def client_setup(request):
+    from urlparse import urlparse
+    trainer = request.user.trainer
+
+    form = NewClientForm(request.GET)
+
+    if form.is_valid() and request.is_ajax():
+
+        invite = form.data.get('invite', None)
+        signup_key = form.data.get('signup_key', None)
+        invite_url = form.data.get('invite_url', None)
+        macro_formula = form.data.get('formulas', None)
+
+###################
+        return JSONResponse({'is_error': None})
+
+        invitation = BlitzInvitation.objects.create(
+            blitz =  blitz, email = form.data.get('email',None), 
+            name = form.data.get('name', None), signup_key = signup_key, macro_formula = macro_formula)
+
+        invitation.free = True if mode == "free" else False
+
+        # override Blitz price and workoutplan if invitation specifies either
+        if 'price' in form.cleaned_data and form.data.get('price', None):
+            invitation.price = form.data.get('price', None)
+        if 'workoutplan_id' in form.cleaned_data and form.data.get('workoutplan_id', None):
+            workoutplan = get_object_or_404(WorkoutPlan, id=form.data.get('workoutplan_id', None) )
+            invitation.workout_plan = workoutplan
+
+        invitation.save()
+        client_invite(trainer, [form.data.get('email', None)], invite_url, blitz)
+
+        return JSONResponse({'is_error': None})
+    else:
+        return JSONResponse({'is_error': True, 'errors': form.errors})
+
+@login_required
+@csrf_exempt
 def blitz_macros_save(request):
     trainer = request.user.trainer
     blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
@@ -2362,6 +2400,21 @@ def trainer_dashboard(request):
     user_id = request.user.pk
     trainer = request.user.trainer
 
+    # context for client_setup_modal
+    blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
+    if not blitzes:  # shouldn't happen since every trainer has provisional blitz
+        print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
+        return redirect('/')
+    else:
+        blitz = blitzes[0]
+
+    workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
+    signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
+
+    uri = domain(request)
+    invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
+    # end of client_setup_modal context
+
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
@@ -2387,7 +2440,11 @@ def trainer_dashboard(request):
             'trainer': trainer,
             'invitees': trainer.invitees(),
             'show_intro': show_intro,
-            'shown_intro': show_intro
+            'shown_intro': show_intro,
+            'blitz': blitz,
+            'workoutplans': workoutplans,
+            'invite_url': invite_url,
+            'signup_key': signup_key
         })
     elif trainer.invitees():
         return render(request, 'trainer_dashboard.html', {
@@ -2400,7 +2457,9 @@ def trainer_dashboard(request):
             'show_intro': show_intro,
             'shown_intro': show_intro,
             'macro_history': [],
-            'invitees': trainer.invitees()
+            'invitees': trainer.invitees(),
+            'blitz': blitz,
+            'workoutplans': workoutplans
         })
     else:
         return render(request, 'trainer_dashboard.html', {
@@ -2412,5 +2471,8 @@ def trainer_dashboard(request):
             'user_id': user_id,
             'show_intro': show_intro,
             'shown_intro': show_intro,
-            'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else []
+            'macro_history':  macro_utils.get_full_macro_history(clients[0]) if len(clients) > 0 else [],
+            'blitz': blitz,
+            'workoutplans': workoutplans
         })
+

@@ -43,7 +43,7 @@ class TestDashboard(unittest.TestCase):
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_link_text("Edit Program").click()
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        self.assertTrue("Tell a spotter how you" in driver.page_source, "Text not found")
+        self.assertTrue("Tell us how you" in driver.page_source, "Text not found")
         driver.find_element_by_css_selector("button.close").click()
         driver.find_element_by_link_text("Edit Macros").click()
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")

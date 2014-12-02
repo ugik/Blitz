@@ -8,7 +8,7 @@
          </div>
          <div class="modal-body">
             <div class="row">
-               <div class="span6 offset3">
+               <div class="span4 offset4">
                   <div class="formpage-block">
                      <div class="header">
                         Invite a client
@@ -24,16 +24,20 @@
                         {% if mode = "free" %}
                            <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modalInvite&free" method="post" name="client-setup">
                         {% else %}
-                           <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modalInvite" method="post" name="client-setup">
+                           {% if url_return = '#' %}
+                               <form class="modal-form" id="client_setup_form" action="javascript:save_client_setup();">
+                           {% else %}
+                               <form class="modal-form" action="/client-setup/{{ blitz.pk }}?modalInvite" method="post" name="client-setup">
+                           {% endif %}
                         {% endif %}
  
                         {% csrf_token %}
-
+                     <div id="ajaxwrapper">
                         <input type="text" name="name" placeholder="Name" />
-                        {% include "error_field.html" with param='name' %}
+                        <a id='error_name' style="color: #ff0000;">{% include "error_field.html" with param='name' %}</a>
                         <input type="text" name="email" placeholder="Email" />
                         {% include "error_field.html" with param='email' %}
-
+                        <a id='error_email' style="color: #ff0000;">{% include "error_field.html" with param='name' %}</a>
 
                         {% if blitz.recurring and workoutplans %}
                            <div class="input-row-fw" style="text-align: center;">
@@ -67,14 +71,14 @@
                            
                            <div class="input-row-fw">
                               <div class="form-input">
-                                 <input type="text" name="price" placeholder="Price" value="{{ blitz.price }}"/>
+                                 <input type="text" name="price" placeholder="Price" value="{{ blitz.price }}" style="width:100px;"/>
                               </div>
+                           <a id="error_price" style="color: #ff0000;"> {% include "error_field.html" with param='price' %}</a>
+
                               <div class="field-label">
                                  $ &nbsp; / &nbsp; month
                               </div>                               
                            </div>
-
-                           {% include "error_field.html" with param='price' %}
                         {% endif %}
 
 <!--                        <textarea name="invite" class="full-width" rows="8" style="width:450px;">{{ invite|safe }}</textarea></td>
@@ -82,8 +86,14 @@
                         <br>
                         <input type="hidden" name="signup_key" value="{{ signup_key }}">
                         <input type="hidden" name="invite_url" value="{{ invite_url }}">
+
+                        {% if url_return = '#' %}
                         <button class="obtn full-width">Invite client</button>
+                        {% else %}
+                        <button class="obtn full-width">Invite client</button>
+                        {% endif %}
                      </div>
+                    </form>
                   </div>
                </div>
             </div>

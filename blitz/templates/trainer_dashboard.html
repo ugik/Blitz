@@ -28,6 +28,33 @@
 <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
+<script>
+function save_client_setup() {
+    // clear out errors
+    document.getElementById('error_name').text = '';
+    document.getElementById('error_email').text = '';
+    document.getElementById('error_price').text = '';
+
+    $.ajax({
+        url: '/trainer/client-setup',
+        method: 'GET',
+        data: $('#client_setup_form').serialize(),
+        success: function(response) {
+            if (response['is_error'] === true) {  // if there are errors
+               var error_keys = Object.keys(response['errors']);  // array of error keys
+               for (var i in error_keys) {  // for each error key set corresponding text
+                  document.getElementById('error_'+error_keys[i]).text = response['errors'][error_keys[i]];
+                  }
+               } else 
+               {
+                  jQuery.noConflict(); $('#ClientSetupDoneModal').modal('show');
+                  jQuery.noConflict(); $('#modal').modal('hide');
+               }
+        }
+    })
+}
+</script>
+
 {% endblock %}
 
 {% block outer_content %}
@@ -118,7 +145,8 @@
 			</div>
 			{% endif %}
 			<div class="actions">
-				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button>
+<!--				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button> -->
+				<button type='button' class='obtn fullwidth' onclick="jQuery.noConflict(); $('#modal').modal('show');">+ Add Client</button>
 				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
 
 			</div>
@@ -202,6 +230,8 @@
 	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+	{% include "client_setup_modal.html" with trainer=trainer blitz=blitz url_return='#' signup_key=signup_key workoutplans=workoutplans invite_url=invite_url %}
+	{% include "client_setup_done_modal.html" %}
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
 	{% include "onboarding_content_trainer.html" with trainer=trainer %}
