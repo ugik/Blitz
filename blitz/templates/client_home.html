@@ -92,14 +92,21 @@
         <div id="add-comment-container">
 
         <form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
-            <table><tr><td width="97%">
-            <textarea id="add-comment" name="comment" class="expanding" placeholder="Do you even lift?" rows="1" ></textarea> </td><td>
-
-            <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
-            <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
-            <label id="id_label" name="picture" class="gbtn" for="id_picture"/>
-                <i class="icon-camera"></i>
-            </label></td></tr></table>
+            <table>
+                <tr>
+                    <td width="97%">
+                        <textarea id="add-comment" name="comment" class="expanding" placeholder="Do you even lift?" rows="1" >
+                        </textarea> 
+                    </td>
+                    <td class="photobutton">
+                        <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
+                        <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+                        <label id="id_label" name="picture" class="gbtn photobuttonlabel" for="id_picture"/>
+                            <i class="icon-camera"></i>
+                        </label>
+                    </td>
+                </tr>
+            </table>
         </form>
 
         <a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>

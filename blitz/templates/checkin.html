@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="span12">
                         <div class="content">
-                            <div class="title">Check-in time!</div>
+                            <div class="title" style="text-align: center;">Check-in time!</div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
 {% endblock %}
 
 {% block main %}
-    <div class="span8">
+    <div class="span6 offset3">
         <div class="overview-top-content overview-block">
         <div class="content">
 
@@ -46,7 +46,7 @@
     <form name="pictureForm" id="pictureForm" enctype="multipart/form-data" action="" method="post">
     {% csrf_token %}
 
-
+                <b>Current weight: </b>
                 <input type="text" name="weight" placeholder="weight 
                  {% if client.units == "M" %}(kg){% else %}(lbs) {% endif %}"
                 value="{{ checkin.weight|lbs_conversion:client }}"/> {{ client.units|weight_label }}

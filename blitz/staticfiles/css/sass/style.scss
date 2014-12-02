@@ -1130,8 +1130,9 @@ h3 {@include lightfont();}
   .parent-comment {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    padding: $parentpadding;
+    padding: 18px 12px 12px 80px;
     font-size: 18px;
+    line-height: 1.4;
     @include mobile-only {
       border-top-right-radius: 4px;
       border-top-left-radius: 4px;
@@ -1257,7 +1258,7 @@ h3 {@include lightfont();}
     border-top-left-radius: 4px;
     color: white;
     //@include blitz-gradient();
-    background: #EAC17A;
+    background: $blitz-orange;
     padding: $parentpadding;
     border-bottom: $border;
     font-size: 18px;
@@ -2097,7 +2098,7 @@ a:focus {
 
 .alert a {
   @include meta();
-  @include blitz-gradient();
+  background: $linkcolor;
   color: white;
   padding: 10px;
   border-radius: 5px;
@@ -2113,19 +2114,11 @@ a:focus {
   };
   }
   .alert a:hover {
-    background-image: -o-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-    background-image: -moz-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-    background-image: -ms-linear-gradient(-65deg, #61BCEC 0%, #98BAFE 100%);
-    background-image: linear-gradient(-155deg, #61BCEC 0%, #98BAFE 100%);
-    background: #94c1ee;
+    background: $linkcolorhover;
     @include animation('btnpulsate .75s infinite');
   }
   .alert a:active {
-    background-image: -o-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-    background-image: -moz-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-    background-image: -ms-linear-gradient(-65deg, #58ACD9 0%, #7BA8FF 100%);
-    background-image: linear-gradient(-155deg, #58ACD9 0%, #7BA8FF 100%);
-    background: #69a1d9;
+    background: $linkcolorhover;
     //background-repeat: repeat-x;
     border-top: 1px solid rgba(0,0,0,0.2);
     margin-top: 2px;
@@ -4959,8 +4952,6 @@ a.ui-state-default :hover {
 }
 
 .check-in-feed-item {
-  float: left;
-  margin-bottom: 30px;
   max-width: 100%;
 }
 
@@ -5686,8 +5677,13 @@ a#name, a#plan_name, a#client_name {
 .reply {
   display: inline-table;
   width: 91%;
+  line-height: 1.4;
+  @include tablet-portrait-and-below {
+    width: 88%;
+    margin-left: 10px;
+  }
   @include mobile-only {
-    width: 84%;
+    width: 81%;
     margin-left: 10px;
   }
 }
@@ -5698,4 +5694,24 @@ a#name, a#plan_name, a#client_name {
 
 .feed-item-footer .child-comment .comment-date {
   padding: 5px 0 5px;
+}
+
+#add-comment-container #add-comment, .textareaClone {
+  padding: 10px 20px;
+}
+
+.photobutton {
+  // margin: 0px 0px 0px 0px;
+  // padding: 5px 20px;
+  // height: 52.5px;
+  // border-radius: 5px;
+}
+
+  .photobuttonlabel {
+  margin-right: 0px;
+  padding: 5px 20px 0px 20px;
+  height: 53.5px;
+  margin-top: 4px;
+  border-radius: 5px;
+  margin-left: 10px;
 }
