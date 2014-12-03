@@ -18,7 +18,6 @@ def create_new_parent_comment(user, comment_text, pub_date, image=None, blitz=No
         feeditem = FeedItem.objects.create(blitz=user.blitz, content_object=comment, pub_date=pub_date)
     else:
         feeditem = FeedItem.objects.create(blitz=blitz, content_object=comment, pub_date=pub_date)
-        print "Feed item for Blitz: %s" % blitz
 
     return comment, feeditem
 

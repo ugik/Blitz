@@ -448,8 +448,21 @@ class Client(models.Model):
         if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
 #            for q in Comment.objects.filter(user=self.user).all():
 #                feeditems |= q.feeditems.all()
+#            feeditems |= FeedItem.objects.filter(blitz=self.get_blitz())
 
-            feeditems |= FeedItem.objects.filter(blitz=self.get_blitz())
+            show_items = set()    # collect pk's for FeedItems from client or trainer
+            for fi in FeedItem.objects.filter(blitz=self.get_blitz()):
+                if fi.content_type.name == 'comment':
+                    if not fi.content_object.user.is_trainer:
+                        if fi.content_object.user.client == self:
+                            show_items.add(fi.pk)
+                    else:   # include trainer comments
+                        show_items.add(fi.pk)
+                elif fi.content_type.name in ['gym session', 'check in']:
+                    if fi.content_object.client == self:
+                        show_items.add(fi.pk)
+
+            feeditems |= FeedItem.objects.filter(pk__in=show_items)
 
         # Adds client related Check-Ins to the feeditems query set
         if filter_by == 'check in' or filter_by == 'all' or filter_by == '':
