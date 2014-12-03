@@ -7,7 +7,7 @@ var CLICKED_FILTER;
 
 // TODO: Watch FEED_SCOPE and OBJECT_ID vars
 var SCOPE_CHANGED = false;
-
+var SELECTED_ITEM;
 var xhr;
 
 function homepage_setLoading() {
@@ -271,17 +271,24 @@ $(document).ready(function() {
             return;
         }
         $addCommentSubmit.hide(300);
-        $.post('/api/new-comment', {
-            'comment_text': comment_text,
-        }, function(data) {
-            if (data.is_error) {
 
-            } else {
-                var el = $(data.comment_html);
-                $mainFeed.prepend(el);
-                $addComment.val('');
-            }
-        });
+        if (SELECTED_ITEM === 'invitee') {
+             alert("This feed will be happening once the client signs up");
+        } else {
+            $.post('/api/new-comment', {
+                'comment_text': comment_text,
+                'object_id': OBJECT_ID,
+                'selected_item': SELECTED_ITEM
+            }, function(data) {
+                if (data.is_error) {
+
+                } else {
+                    var el = $(data.comment_html);
+                    $mainFeed.prepend(el);
+                    $addComment.val('');
+                }
+            });
+        }
     });
 
 
@@ -490,6 +497,8 @@ $(document).ready(function() {
         $('.alerts-wrapper').addClass('hidden');
         // END
 
+        SELECTED_ITEM = '';
+        SELECTED_OBJECT = 0;
         if (FEED_SCOPE === 'all') {
             OBJECT_ID = false;
             // Reset Search Input
@@ -516,6 +525,7 @@ $(document).ready(function() {
 
             // Blitz
             if (FEED_SCOPE === 'blitz') {
+                SELECTED_ITEM = 'blitz';
                 $.get('/api/blitz/' + OBJECT_ID, function(data) {
                     $('.group').html(data.html);                
                 });
@@ -523,6 +533,7 @@ $(document).ready(function() {
 
             // Client
             if (FEED_SCOPE === 'client') {
+                SELECTED_ITEM = 'client';
                 if (OBJECT_ID) {
                     summaryXHR = $.get('/api/client_summary/' + OBJECT_ID, function(data) {
                         renderSummary(data.html);
@@ -535,6 +546,7 @@ $(document).ready(function() {
             // Invitee
             if (FEED_SCOPE === 'invitee') {
                 if (OBJECT_ID) {
+                    SELECTED_ITEM = 'invitee';
                     summaryXHR = $.get('/api/invitee_summary/' + OBJECT_ID, function(data) {
                         renderSummary(data.html);
                     });

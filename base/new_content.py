@@ -10,11 +10,15 @@ from django.db.models.signals import post_save
 
 import datetime
 
-def create_new_parent_comment(user, comment_text, pub_date, image=None):
+def create_new_parent_comment(user, comment_text, pub_date, image=None, blitz=None):
     # Create a new parent comment, this implies creating a feed item too
 
     comment = Comment.objects.create(user=user, text=comment_text, date_and_time=pub_date, image=image)
-    feeditem = FeedItem.objects.create(blitz=user.blitz, content_object=comment, pub_date=pub_date)
+    if not blitz:
+        feeditem = FeedItem.objects.create(blitz=user.blitz, content_object=comment, pub_date=pub_date)
+    else:
+        feeditem = FeedItem.objects.create(blitz=blitz, content_object=comment, pub_date=pub_date)
+        print "Feed item for Blitz: %s" % blitz
 
     return comment, feeditem
 

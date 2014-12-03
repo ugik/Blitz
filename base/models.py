@@ -446,8 +446,10 @@ class Client(models.Model):
 
         # Adds client related Comments to the feeditems query set
         if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
-            for q in Comment.objects.filter(user=self.user).all():
-                feeditems |= q.feeditems.all()
+#            for q in Comment.objects.filter(user=self.user).all():
+#                feeditems |= q.feeditems.all()
+
+            feeditems |= FeedItem.objects.filter(blitz=self.get_blitz())
 
         # Adds client related Check-Ins to the feeditems query set
         if filter_by == 'check in' or filter_by == 'all' or filter_by == '':
