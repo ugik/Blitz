@@ -106,6 +106,7 @@ urlpatterns += patterns(
     url(r'^trainer/blitz-macros-save$', 'base.views.blitz_macros_save', name='blitz_macros_save'),
     url(r'^trainer/client-macros-save$', 'base.views.client_macros_save', name='client_macros_save'),
     url(r'^trainer/invitee-macros-save$', 'base.views.invitee_macros_save', name='invitee_macros_save'),
+    url(r'^trainer/client-setup$', 'base.views.client_setup', name='client_setup'),
 
     # todo: intro views namespaced as intro/[slug]
     url(r'^intro-data-1$', 'base.views.set_intro_1', name='set_intro_1'),

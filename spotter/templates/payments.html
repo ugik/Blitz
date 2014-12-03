@@ -28,7 +28,7 @@
   <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
      <div style="text-align: left;" class="spotterheader">
      <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.date_start }} ({{ client.months }} months)</li>  {% if not client.blitz.recurring %} <li> Blitz:{{ client.blitz.title }} {% endif %}
-     {% if client.invitation.price %}Invited Price: ${{ client.invitation.price|stringformat:"0.2f" }}
+     {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
      {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
 <br>
      Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
