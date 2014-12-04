@@ -239,12 +239,13 @@
 			{% for week in macro_history %}
 			<div class="week week-{{ week.week_number }} {% if not week.is_current %}hidden{%else%}current{% endif %}" data-week-number={{ week.week_number }}>
 				<!-- <div class="week-name">Week {{ week.week_number }}</div> -->
+				<div class="clearfix"></div>
 				<div class="days">
 					<table>
 						<tr>
 							{% for day in week.macro_days %}
 							<td class="{% if day.current %}current{% endif %}" data-future="{{ day.in_future }}">
-								{{ day.day_str|slice:"3" }}
+								<p>{{ day.day_str|slice:"3" }}</p>
 								{% if day.in_future and not day.has_entry %}
 								<div class="macro-day-cell {% if day.current %}current{% endif %}">
 									{# <span class="day-of-month">{{ day.day_of_month }}</span> #}
