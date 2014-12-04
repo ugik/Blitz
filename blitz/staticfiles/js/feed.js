@@ -4,7 +4,7 @@
     jQuery(document).ready(function($) {
         // expanding textareas
         $(document).on('DOMSubtreeModified', function() {
-    //        $('.add-child-comment-container textarea').expandingTextarea().css('position', 'relative');
+           $('.add-child-comment-container textarea').expandingTextarea();
         });
 
         // todo: abstract here
