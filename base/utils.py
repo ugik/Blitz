@@ -113,9 +113,10 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
         start_date = client.current_datetime().date()
 
     membership = BlitzMember.objects.create(blitz=blitz, client=client, date_created=start_date)
-
-    # remove invitation if applicable
+    # remove invitation if applicable and transfer price to new membership
     if invitation:
+        membership.price = invitation.price
+        membership.save()
         invitation.delete()
 
     return membership

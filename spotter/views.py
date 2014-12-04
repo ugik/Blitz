@@ -51,23 +51,18 @@ def spotter_payments(request):
         if not test and client.balanced_account_uri == '':
             continue
 
-        invitation = blitz.blitzinvitation_set.all()
+        membership = client.blitzmember_set.all()
 
-        if blitz.blitzmember_set.all():
-            start_date = blitz.blitzmember_set.all()[0].date_created
+        if membership:  # this should never be missing
+            start_date = membership[0].date_created
         else:
             start_date = date.today()
         months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
 
-        if not invitation:
-            invitation = BlitzInvitation()
+        if not membership[0].price:   # if there was no special invitation price
             total_cost = months * blitz.price
         else:
-            invitation = invitation[0]
-            if invitation.price:
-                total_cost = months * invitation.price
-            else:
-                total_cost = months * blitz.price
+            total_cost = months * membership[0].price
 
         debits = debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
         if debits:
@@ -77,7 +72,7 @@ def spotter_payments(request):
                          'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
                     total_paid += debit.amount/100
 
-        clients.append({'client':client, 'blitz': blitz, 'invitation': invitation,
+        clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
                         'start':start_date, 'months': months, 'payments': payments,
                         'total_cost':total_cost, 'total_paid':total_paid, 'due':total_cost-total_paid})
 

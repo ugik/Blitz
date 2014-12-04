@@ -1,21 +1,24 @@
-$(document).ready(function() {
+'use strict';
 
-    window.app = {};
+(function() {
+    jQuery(document).ready(function($) {
 
-    app.modal = undefined;
-    app.showIntro = function() {
-        jQuery.noConflict();
-        app.modal = $('#intro-modal').modal({
-            'backdrop': 'static',
-            'keyboard': false,
-        });
-    }
+        window.app = {};
 
-    $('.intro-modal-close').click(function() { app.modal.modal('hide') });
+        app.modal = undefined;
+        app.showIntro = function() {
+            jQuery.noConflict();
+            app.modal = $('#intro-modal').modal({
+                'backdrop': 'static',
+                'keyboard': false,
+            });
+        }
 
-    if (SHOW_INTRO) {
-        app.showIntro();
-    }
+        $('.intro-modal-close').click(function() { app.modal.modal('hide') });
 
-});
+        if (SHOW_INTRO) {
+            app.showIntro();
+        }
 
+    });
+})();

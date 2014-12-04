@@ -62,7 +62,7 @@
 
     <script type="text/javascript">
     // this is the fastclick.js code
-        $(document).ready(function() {
+        jQuery(document).ready(function($) {
             if ($('#footer-container').length) {
                 var diff = $(window).height() - $('#footer-container').position().top;
                 if (diff > 60) {
@@ -147,7 +147,7 @@ function logError(details) {
         details: details,
     }
     data.user = "{{ user }}";
-  $.post('/errorlog', data, function(d) {
+  jQuery.post('/errorlog', data, function(d) {
   });
 }
 

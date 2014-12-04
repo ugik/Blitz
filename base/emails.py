@@ -17,7 +17,7 @@ SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
 
 # email wrapper, note parameters: images[] context{}
-def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=None):  
+def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=[]):  
 
     silent = False if settings.DEBUG else True
 
@@ -34,10 +34,10 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
         to_email = override
     if isinstance(to_email, list):
         msg = EmailMultiAlternatives(subject, text_content, 
-                                     from_email, to_email, cc=[cc_mail], bcc=[from_email])
+                                     from_email, to_email, cc=cc_mail, bcc=[from_email])
     else:
         msg = EmailMultiAlternatives(subject, text_content, 
-                                     from_email, [to_email], cc=[cc_mail], bcc=[from_email])
+                                     from_email, [to_email], cc=cc_mail, bcc=[from_email])
 
     msg.attach_alternative(html_content, "text/html")
     msg.mixed_subtype = 'related'
@@ -82,8 +82,7 @@ def signup_confirmation(client):
     text_template = 'emails/signup_confirmation.txt'
     html_template = 'emails/signup_confirmation.html'
     context = { 'client': client, 'blitz': client.get_blitz() }
-    send_email(from_email, to_email, subject, text_template, html_template, context, 
-               cc_mail=trainer.user.email )
+    send_email(from_email, to_email, subject, text_template, html_template, context )
 
 def client_invite(trainer, client_email, invite_url, blitz=None):
 
@@ -94,7 +93,7 @@ def client_invite(trainer, client_email, invite_url, blitz=None):
     html_template = 'emails/client_invitation.html'
     context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz }
     send_email(from_email, to_email, subject, text_template, html_template, context, 
-               cc_mail=trainer.user.email)
+               cc_mail=[trainer.user.email])
 
 
 def forgot_password(user):

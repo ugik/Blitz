@@ -28,6 +28,38 @@
 <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
+<script>
+function save_client_setup() {
+    // clear out errors
+    document.getElementById('error_name').text = '';
+    document.getElementById('error_email').text = '';
+    document.getElementById('error_price').text = '';
+    document.getElementById('invite-loading').style="display:block;"
+
+    $.ajax({
+        url: '/trainer/client-setup',
+        method: 'GET',
+        data: $('#client_setup_form').serialize(),
+        success: function(response) {
+            if (response['is_error'] === true) {  // if there are errors
+               var error_keys = Object.keys(response['errors']);  // array of error keys
+               for (var i in error_keys) {  // for each error key set corresponding text
+                  document.getElementById('error_'+error_keys[i]).text = response['errors'][error_keys[i]];
+                  }
+               } else 
+               {
+                  jQuery.noConflict(); $('#modal').modal('hide');
+                  document.getElementById('invitee_name').text = document.getElementById('invitation_name').value;
+                  document.getElementById('invitee_name2').text = document.getElementById('invitation_name').value;
+                  jQuery.noConflict(); $('#ClientSetupDoneModal').modal('show');
+               }
+        }
+    })
+    document.getElementById('invite-loading').style="display:none;"
+
+}
+</script>
+
 {% endblock %}
 
 {% block outer_content %}
@@ -66,7 +98,7 @@
 						All Updates
 					</div>
 					{% if updates_count %}
-					<span class="results-count"><span class="inner"> - </span></span>
+					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
 					{% endif %}
 				    </li>				
 				    <div class="separator"></div>
@@ -77,7 +109,7 @@
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
-						        <span class="results-count"><span class="inner"> - </span></span>
+						        <span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
 						    {% endif %}
 					    </li>
 	                                {% endif %}
@@ -90,7 +122,7 @@
 				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
 				    <div class="item-inner">{{ client.name }}</div>
 					{% if client.unviewed_feeds_count %}
-					    <span class="results-count"><span class="inner"> - </span></span>
+					    <span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
 					{% endif %}
 				</li>
 				{% endfor %}
@@ -118,7 +150,8 @@
 			</div>
 			{% endif %}
 			<div class="actions">
-				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button>
+<!--				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button> -->
+				<button type='button' class='obtn fullwidth' onclick="jQuery.noConflict(); $('#modal').modal('show');">+ Add Client</button>
 				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
 
 			</div>
@@ -151,7 +184,7 @@
 							<li data-scope-filter="checkins">Check-Ins</li>
 						</ul>
 					</div>
-					
+
 					<div id="add-comment-container">
 						<form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 						    <table><tr><td width="97%">
@@ -202,6 +235,8 @@
 	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
 	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
 	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+	{% include "client_setup_modal.html" with trainer=trainer blitz=blitz url_return='#' signup_key=signup_key workoutplans=workoutplans invite_url=invite_url %}
+	{% include "client_setup_done_modal.html" %}
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
 	{% include "onboarding_content_trainer.html" with trainer=trainer %}

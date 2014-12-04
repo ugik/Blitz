@@ -296,7 +296,7 @@ class Trainer(models.Model):
     def _all_clients(self):
         clients = Client.objects.get_empty_query_set()
 
-        for b in self.active_blitzs():
+        for b in self.active_blitzes():
             clients |= b._members()
 
         return clients
@@ -446,8 +446,23 @@ class Client(models.Model):
 
         # Adds client related Comments to the feeditems query set
         if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
-            for q in Comment.objects.filter(user=self.user).all():
-                feeditems |= q.feeditems.all()
+#            for q in Comment.objects.filter(user=self.user).all():
+#                feeditems |= q.feeditems.all()
+#            feeditems |= FeedItem.objects.filter(blitz=self.get_blitz())
+
+            show_items = set()    # collect pk's for FeedItems from client or trainer
+            for fi in FeedItem.objects.filter(blitz=self.get_blitz()):
+                if fi.content_type.name == 'comment':
+                    if not fi.content_object.user.is_trainer:
+                        if fi.content_object.user.client == self:
+                            show_items.add(fi.pk)
+                    else:   # include trainer comments
+                        show_items.add(fi.pk)
+                elif fi.content_type.name in ['gym session', 'check in']:
+                    if fi.content_object.client == self:
+                        show_items.add(fi.pk)
+
+            feeditems |= FeedItem.objects.filter(pk__in=show_items)
 
         # Adds client related Check-Ins to the feeditems query set
         if filter_by == 'check in' or filter_by == 'all' or filter_by == '':
@@ -764,6 +779,9 @@ class BlitzMember(models.Model):
     client = models.ForeignKey(Client)
     blitz = models.ForeignKey(Blitz)
     date_created = models.DateField(default=datetime.date.today)
+
+    # (optional for 1:1 Blitz) price carried in membership so we can delete invitation 
+    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
 
     def __unicode__(self):
         return "%s enrolled in %s" % (str(self.client), str(self.blitz))

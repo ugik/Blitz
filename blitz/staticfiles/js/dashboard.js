@@ -7,7 +7,7 @@ var CLICKED_FILTER;
 
 // TODO: Watch FEED_SCOPE and OBJECT_ID vars
 var SCOPE_CHANGED = false;
-
+var SELECTED_ITEM;
 var xhr;
 
 function homepage_setLoading() {
@@ -30,18 +30,7 @@ function UpdateViewedFeedsCount(clickedFilter) {
     if (unviewedItems) {
         $.post('/api/blitz_feed/viewed/mark', {
             'feed_items': JSON.stringify(unviewedItems)
-        }, function(data) {
-            if (clickedFilter) {
-                var unviewedItemsCount = clickedFilter.find('.results-count .inner').html() - data.viewed_count;
-
-                // Updates count indicator
-                clickedFilter.find('.results-count .inner').html(unviewedItemsCount);
-
-                // Hides count indicator if not unviewed items
-                if (unviewedItemsCount < 1) {
-                    clickedFilter.find('.results-count').hide();
-                }
-            }
+        }, function(data) {            
             $FeedItems.attr('data-viewed', 'true');
         });
     }
@@ -67,9 +56,13 @@ function GetViewedFeedsCount() {
         contentType: false,
     }).then(function(data) {
         $.each(data, function(e) {
-            var filterData = $(this)[0],
-                filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+            var filterData = $(this)[0];
 
+            if (filterData.feed_scope != 'all') {
+                var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+            } else {
+                var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']');
+            }
             if (filterData.count < 1) {
                 filter.find('.results-count').hide('fast');
             } else {
@@ -237,10 +230,6 @@ function renderSummary(html) {
 
 
 $(document).ready(function() {
-    // $(window).on('scroll', function(e) {
-    //     var $leftSidebar = $('');
-    //     alert( $(this).scrollTop() );
-    // });
    $('.alerts-wrapper').removeClass('hidden');
 
     var summaryXHR;
@@ -282,17 +271,24 @@ $(document).ready(function() {
             return;
         }
         $addCommentSubmit.hide(300);
-        $.post('/api/new-comment', {
-            'comment_text': comment_text,
-        }, function(data) {
-            if (data.is_error) {
 
-            } else {
-                var el = $(data.comment_html);
-                $mainFeed.prepend(el);
-                $addComment.val('');
-            }
-        });
+        if (SELECTED_ITEM === 'invitee') {
+             alert("This feed will be happening once the client signs up");
+        } else {
+            $.post('/api/new-comment', {
+                'comment_text': comment_text,
+                'object_id': OBJECT_ID,
+                'selected_item': SELECTED_ITEM
+            }, function(data) {
+                if (data.is_error) {
+
+                } else {
+                    var el = $(data.comment_html);
+                    $mainFeed.prepend(el);
+                    $addComment.val('');
+                }
+            });
+        }
     });
 
 
@@ -429,6 +425,8 @@ $(document).ready(function() {
      * Filters
      */ 
     $('.filters, .feeds-filter').on('click', 'li', function(event) {
+        // ScrollUp to very top
+        $(document).scrollTop(0);
 
         // Detects Changes
         // TODO: Watch FEED_SCOPE and OBJECT_ID vars
@@ -499,6 +497,8 @@ $(document).ready(function() {
         $('.alerts-wrapper').addClass('hidden');
         // END
 
+        SELECTED_ITEM = '';
+        SELECTED_OBJECT = 0;
         if (FEED_SCOPE === 'all') {
             OBJECT_ID = false;
             // Reset Search Input
@@ -525,6 +525,7 @@ $(document).ready(function() {
 
             // Blitz
             if (FEED_SCOPE === 'blitz') {
+                SELECTED_ITEM = 'blitz';
                 $.get('/api/blitz/' + OBJECT_ID, function(data) {
                     $('.group').html(data.html);                
                 });
@@ -532,6 +533,7 @@ $(document).ready(function() {
 
             // Client
             if (FEED_SCOPE === 'client') {
+                SELECTED_ITEM = 'client';
                 if (OBJECT_ID) {
                     summaryXHR = $.get('/api/client_summary/' + OBJECT_ID, function(data) {
                         renderSummary(data.html);
@@ -544,6 +546,7 @@ $(document).ready(function() {
             // Invitee
             if (FEED_SCOPE === 'invitee') {
                 if (OBJECT_ID) {
+                    SELECTED_ITEM = 'invitee';
                     summaryXHR = $.get('/api/invitee_summary/' + OBJECT_ID, function(data) {
                         renderSummary(data.html);
                     });
