@@ -185,7 +185,7 @@
 <div class='client-summary'>
 	<div class="section cover">
 	<div class="spacer20"></div>
-		<a href="{% url 'client_profile' client.pk %}"><img src="{{ MEDIA_URL }}{{ client.headshot }}" class="client-picture img-circle center" /></a>
+		<a href="{% url 'client_profile' client.pk %}"><img src="{{ client.get_headshot_url }}" class="client-picture img-circle center" /></a>
 		<div class="spacer20"></div>
 		<p class="client-name center">{{ client.name }}</p>
 		<p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>

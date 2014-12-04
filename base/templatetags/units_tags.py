@@ -53,14 +53,14 @@ def m_conversion(value, client):
 @register.filter
 def cm_conversion(value, client):
 # converts cm value to inches according to client.units setting
-    if value:
+    if value>0:
         RATIO = .3937
         if client.units == "M":
             return "{:3.2f}".format(value * RATIO)
         else:
             return str(value)
     else:
-        return None
+        return '0'
 
 @register.filter
 def weight_label(value):
