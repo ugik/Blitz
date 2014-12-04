@@ -1,5 +1,7 @@
 {% load messaging_tags %}
 
+{% if user.email %}
+
 <div class="span12" id="header">
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
@@ -17,7 +19,6 @@
                       <a class="branding" href="/" id="logo2"> 
                          {{ user.client.get_blitz.trainer.name }}
                       </a>
-
                    {% endif %}
                 {% endif %}
 
@@ -103,13 +104,17 @@
                             {% else %}  
                             {% endif %}
                         </div>
+                        {% if user.headshot_url %}
                         <div class="headshot-container">
                                <img src="{{ user.headshot_url }}" />
                         </div>
-                    </div>
+                        {% endif %}
+                     </div>
                 </div>
             </div>
             <div class="colorstripe"></div>
         </div>
     </div>
 </div>
+{% endif %}
+

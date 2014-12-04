@@ -78,7 +78,7 @@ def gym_session_comment(user, commenter, comment):
     context = { 'commenter': commenter, 'comment': comment  }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
-def signup_confirmation(client):
+def signup_confirmation(client, trainer):
 
     from_email, to_email = SOURCE_EMAIL, client.user.email
     subject = "Welcome to Blitz.us!"
@@ -86,7 +86,8 @@ def signup_confirmation(client):
     text_template = 'emails/signup_confirmation.txt'
     html_template = 'emails/signup_confirmation.html'
     context = { 'client': client, 'blitz': client.get_blitz() }
-    send_email(from_email, to_email, subject, text_template, html_template, context )
+    send_email(from_email, to_email, subject, text_template, html_template, context,
+               cc_mail=[trainer.user.email] )
 
 def client_invite(trainer, client_email, invite_url, blitz=None):
 

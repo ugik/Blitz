@@ -1953,12 +1953,12 @@ def payment_hook(request, pk):
             # invitation may have custom workoutplan and price
             if invitation:
                 utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price, None, None, invitation)
+                mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
             else:
                 utils.add_client_to_blitz(blitz, client)
+                mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
 
-            emails.signup_confirmation(client)
-
-            mail_admins('We got a signup bitches!', '%s signed up for %s' % (str(client), str(blitz)))
+            emails.signup_confirmation(client, blitz.trainer)
 
             user = authenticate(username=client.user.username, password=request.session['password'])
             login(request, user)

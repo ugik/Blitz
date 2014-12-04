@@ -4,15 +4,8 @@
 
 {% block morehead %} {{ super }}
 
-{% if user.blitz and user.blitz.members %}
-    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
-    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
-{% else %}
-    {% if invitees %}
-        <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
-    {% endif %}
-{% endif %}
-
+<script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+<script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
 <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
 <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
 
