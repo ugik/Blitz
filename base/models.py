@@ -268,7 +268,7 @@ class Trainer(models.Model):
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
 
-        create_2X_image(image_path, width=150, suffix="@2X")
+        create_2X_image(image_path, width=300, suffix="@2X")
 
     def get_timezone(self):
         return timezone(self.timezone)
@@ -424,7 +424,7 @@ class Client(models.Model):
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
 
-        create_2X_image(image_path, width=150, suffix="@2X")
+        create_2X_image(image_path, width=300, suffix="@2X")
 
     def get_gym_sessions(self):
         """

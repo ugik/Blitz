@@ -171,5 +171,7 @@ week of 12.1
 - bank account
 - ClientSetup modal w/Ajax
 - fix dashboard posts
+- avoid sending @example.com emails
+- bug fixing
 
 
