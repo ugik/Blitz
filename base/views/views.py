@@ -1145,7 +1145,7 @@ def blitz_feed(request):
 
     if search_text and len(search_text) > 0:
         clients = request.user.trainer._all_clients().filter(name__icontains=search_text)
-        # blitzs = request.user.trainer.active_blitzs().filter(title__icontains=search_text)
+        blitzs = request.user.trainer.active_blitzes().filter(title__icontains=search_text)
 
         feed_items = FeedItem.objects.get_empty_query_set()
 
@@ -1153,9 +1153,9 @@ def blitz_feed(request):
         for client in clients:
             feed_items |= client.get_feeditems()
 
-        # Adds client related feeds
-        # for blitz in blitzs:
-        #     feed_items |= blitz.get_feeditems()
+        # Adds blitz related feeds
+        for blitz in blitzs:
+            feed_items |= blitz.get_feeditems()
 
         feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
     else:

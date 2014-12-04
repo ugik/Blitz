@@ -1,5 +1,9 @@
-$(document).ready(function() {
+'use strict';
 
-    $('.basic-tooltip').tooltip();
+(function() {
+	$(document).ready(function() {
 
-});
+	    $('.basic-tooltip').tooltip();
+
+	});
+})();

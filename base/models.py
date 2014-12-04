@@ -296,7 +296,7 @@ class Trainer(models.Model):
     def _all_clients(self):
         clients = Client.objects.get_empty_query_set()
 
-        for b in self.active_blitzs():
+        for b in self.active_blitzes():
             clients |= b._members()
 
         return clients
