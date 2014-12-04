@@ -4,14 +4,16 @@
 {% for week in macro_history %}
     <div class="week">
         <div class="week-name">Week {{ week.week_number }}</div>
-        <div class="days">
+        <div class="clearfix"></div>
+        <div class="days" style="width: 365px;">
             <table>
                 <tr>
                 {% for day in week.macro_days %}
                     <td>
+                        <p>{{ day.day_str|slice:"3" }}</p>
                         {% if day.in_future and not day.has_entry %}
                         <div class="macro-day-cell">
-                            <span class="day-of-month">{{ day.day_of_month }}</span>
+                            {# <span class="day-of-month">{{ day.day_of_month }}</span> #}
                         </div>
                         {% endif %}
                         {% if not day.in_future and not day.has_entry %}
