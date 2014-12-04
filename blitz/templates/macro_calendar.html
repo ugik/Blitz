@@ -4,7 +4,8 @@
 {% for week in macro_history %}
     <div class="week">
         <div class="week-name">Week {{ week.week_number }}</div>
-        <div class="days">
+        <div class="clearfix"></div>
+        <div class="days" style="width: 365px;">
             <table>
                 <tr>
                 {% for day in week.macro_days %}
