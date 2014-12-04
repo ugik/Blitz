@@ -925,7 +925,7 @@ textarea,textarea:focus {
  }
 
 .row .rightrow {
- .margin-top: 70px; 
+ margin-top: 70px; 
 }
 
  #main-content-container .container .rightrow {
@@ -2312,6 +2312,7 @@ background-position: 0 -30px;
 
 .macro-day-cell {
   padding: 10px 0;
+  height: 10px;
   i {
     font-size: 20px;
   }
