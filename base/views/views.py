@@ -434,10 +434,8 @@ def client_blitz_setup(request, pk):
 
         uri = domain(request)
 
-        if mode == 'free':
-            invite_url = uri+'/client-signup?signup_key='+signup_key
-        else:
-            invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
+        invite_url = uri+'/client-signup?signup_key='+signup_key
+#        invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
         if modalInvite:
             return render(request, 'trainer_salespages.html', {
@@ -1998,13 +1996,18 @@ def trainer_dismiss_alert(request):
 @login_required
 @csrf_exempt
 def spotter_edit(request):
-    trainer = request.user.trainer
-    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+#TODO handle invitation spotter edit better, using invitation workoutplan reference
+    if 'blitz' not in request.POST:  # handle spotter edit for invitee (no Blitz yet)
+        workout_plan = None
+    else:
+        trainer = request.user.trainer
+        blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+        workout_plan = blitz.workout_plan.pk
 
     if 'spotter_text' in request.POST:
         if len(request.POST.get('spotter_text'))>1:
-            email_spotter_program_edit(blitz.workout_plan.pk, request.POST.get('spotter_text'))
-    
+            email_spotter_program_edit(workout_plan, request.POST.get('spotter_text'))
+
     return JSONResponse({'is_error': False})
 
 @login_required
@@ -2430,7 +2433,7 @@ def trainer_dashboard(request):
     signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
 
     uri = domain(request)
-    invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
+    invite_url = uri+'/client-signup?signup_key='+signup_key
     # end of client_setup_modal context
 
     blitzes = request.user.trainer.active_blitzes()

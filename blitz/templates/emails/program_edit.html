@@ -2,7 +2,11 @@
 
 {% block email_content %}
 
+{% if workoutplan %}
 <p>You received a new message from {{ workoutplan.trainer.name|safe }} about program: {{ workoutplan.name }}:</p>
+{% else %}
+<p>You received a new spotter edit message about a new invitee</p> 
+{% endif %}
 
 <p>"{{ message|safe }}"</p>
 

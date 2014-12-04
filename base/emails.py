@@ -21,6 +21,10 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
 
     silent = False if settings.DEBUG else True
 
+    if [i for i in to_email if 'example.com' in i]:
+        print 'example.com address, no email sent'
+        return
+
     if len(images) == 0:
         images = ['emailheader.png']
         dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
@@ -120,15 +124,21 @@ def message_received(user, message):
 
 
 def email_spotter_program_edit(pk, message):
-    workoutplan = WorkoutPlan.objects.filter(pk=int(pk))
-    if workoutplan:
-        from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL
-        subject = "Program Edit ask from %s" % workoutplan[0].trainer.name
+    from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL
+    text_template = 'emails/program_edit.txt'
+    html_template = 'emails/program_edit.html'
 
-        text_template = 'emails/program_edit.txt'
-        html_template = 'emails/program_edit.html'
-        context = { 'workoutplan': workoutplan[0], 'message': message }
+    if pk:
+        workoutplan = WorkoutPlan.objects.filter(pk=int(pk))
+        if workoutplan:
+            subject = "Program Edit ask from %s" % workoutplan[0].trainer.name
+            context = { 'workoutplan': workoutplan[0], 'message': message }
+            send_email(from_email, to_email, subject, text_template, html_template, context )
+    else:
+        subject = "Program Edit ask"
+        context = { 'message': message }
         send_email(from_email, to_email, subject, text_template, html_template, context )
+
 
 def usage_digest(days=0):
     from django.core.mail import EmailMultiAlternatives
