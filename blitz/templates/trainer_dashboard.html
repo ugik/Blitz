@@ -179,7 +179,7 @@ function save_client_setup() {
 					</div>
 
 					<div id="add-comment-container">
-						<form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+						<form class="hidden" name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 						    <table><tr><td width="97%">
 						    <textarea id="add-comment" name="comment" class="expanding" placeholder="Post a comment..." rows="1" ></textarea> </td>
 						    <td class="photobutton">

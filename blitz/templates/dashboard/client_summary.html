@@ -228,9 +228,13 @@
 				<div class="weekSelector slide-select">
 					<ul>
 						<li class="arrow"> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
-						<li class="item active">This Week</li>
 						{% for week in macro_history %}
-							<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }}</li>
+							{% if week.is_current %}
+								<li class="item active" data-week-num="{{ week.week_number }}">This Week</li>
+							{% endif %}
+						{% endfor %}
+						{% for week in macro_history %}
+							<li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}>Week {{ week.week_number }}</li>
 						{% endfor %}
 						<li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
 					</ul>
