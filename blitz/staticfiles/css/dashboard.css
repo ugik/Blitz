@@ -548,6 +548,7 @@ ul.filters li.item:hover {
 
  .slide-select {
     font-size: 12px;
+    width: 120px;
  }
 
 .slide-select ul {
@@ -564,6 +565,18 @@ ul.filters li.item:hover {
 .slide-select ul li.active {
     display: inline-block;
 }
+
+/*.slide-select ul li.active {
+    display: table;
+    margin: 0 auto;
+}*/
+
+/*.slide-select ul li.arrow:first-child() {
+    float: left;
+}
+.slide-select ul li.arrow:last-child() {
+    float: right;
+}*/
 
 /* TODO: Move to the correct place */
 .macro-history {
