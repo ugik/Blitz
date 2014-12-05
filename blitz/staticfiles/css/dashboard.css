@@ -36,6 +36,12 @@ body {
     height: 100% !important
 }
 
+#modalInclude, #modal, #ClientSetupDoneModal {
+    position: absolute;
+    top: 0;
+    width: 0px;
+}
+
 #header .container {
     width: 100%;
 }
