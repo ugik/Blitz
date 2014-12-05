@@ -52,6 +52,7 @@ class NewTrainerForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'render_value' : False}),max_length=100)
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'render_value' : False}),max_length=100)
     timezone  = forms.CharField(max_length=40)
+    price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Monthly $'}))
 
     def clean_short_name(self):
         short_name = self.cleaned_data.get('short_name')

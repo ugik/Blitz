@@ -1506,7 +1506,7 @@ def trainer_signup(request):
                           begin_date = trainer.current_datetime())
             blitz.sales_page_content = content
             blitz.url_slug = trainer.short_name
-            blitz.price = 0
+            blitz.price = form.cleaned_data['price']
             blitz.save()
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])

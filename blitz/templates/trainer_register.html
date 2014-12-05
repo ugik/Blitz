@@ -49,13 +49,17 @@
                         </script>
                     
                         <div class="fieldWrapper">
-                        <p class="info-text">What vanity URL would you like? </p>
+                        <p class="info-text">What vanity URL would you like? &nbsp; &nbsp; &nbsp; &nbsp; Default monthly program price?</p>
                         <div style="width: 37%; float: left; font-size: 30px; font-family: 'metanormal_caps'; padding-top: 8px;text-align: center;">
                             blitz.us/
                         </div>
-                        <div style="width: 63%; float: left;">
+                        <div style="width: 30%; float: left;">
                             {{ form.short_name }}<br>
                             {{ form.short_name.errors.as_text }}</div>
+                        </div>
+                        <div style="width: 20%; float: right;">
+                            {{ form.price }}
+                            {{ form.price.errors.as_text }}</div>
                         </div>
 
                     <button class="obtn full-width">Complete Signup</button>
