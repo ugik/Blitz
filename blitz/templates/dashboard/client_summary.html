@@ -234,7 +234,7 @@
 							{% endif %}
 						{% endfor %}
 						{% for week in macro_history %}
-							<li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}>Week {{ week.week_number }}</li>
+							<li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}>{{ week.month_str|slice:"3" }} {{ week.first_day }} - {{ week.last_day }} </li>
 						{% endfor %}
 						<li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
 					</ul>
