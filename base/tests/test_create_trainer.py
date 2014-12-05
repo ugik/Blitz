@@ -43,9 +43,12 @@ class TestCreateTrainer(unittest.TestCase):
         driver.find_element_by_id("id_password1").send_keys("asdf")
         driver.find_element_by_id("id_password2").clear()
         driver.find_element_by_id("id_password2").send_keys("asdf")
+        driver.find_element_by_id("id_price").clear()
+        driver.find_element_by_id("id_price").send_keys("49.95")
         driver.find_element_by_xpath("//button").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+#        import pdb; pdb.set_trace()
         driver.find_element_by_id("done_action").click()
         driver.get(self.base_url + "")
     

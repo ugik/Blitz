@@ -7,8 +7,8 @@ Each T defines a unique top-level URL, eg. Blitz.us/jc-deen
 
 Sales Pages:
 Each S is either for 1:1 "individual" Client (C) or Group of Clients, we'll refer to these as Si and Sg
-Each Si has exactly one individual Blitz (Bi), it is copied onto each new C upon signup
-An individual Bi instance that is copied is called the 'provisional' Blitz
+Each Si has one individual Blitz (Bi), it is copied onto each new Client (C) upon signup
+An individual Blitz (Bi) instance that is copied is called the 'provisional' Blitz
 Each Sg has (1-n) Group Blitz(es) (Bg), each Bg is shared by C's in the group
 Each S defines a trainer-unique 2nd-level URL, eg. Blitz.us/jc-deen/ripped
 

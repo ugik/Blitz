@@ -54,6 +54,16 @@ class NewTrainerForm(forms.Form):
     timezone  = forms.CharField(max_length=40)
     price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Monthly $'}))
 
+    def clean_price(self):
+        try:
+            price = float(self.cleaned_data.get('price'))
+            if price < float(0.01):
+                raise forms.ValidationError("Please enter a valid price.")
+
+        except:
+            raise forms.ValidationError("Please enter a valid price.")
+        return str(price)
+
     def clean_short_name(self):
         short_name = self.cleaned_data.get('short_name')
 

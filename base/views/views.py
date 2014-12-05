@@ -1098,7 +1098,7 @@ def save_sets(request):
 @login_required
 @csrf_exempt
 def blitz_feed(request):
-    FEED_SIZE = 5
+    FEED_SIZE = 10
 
     # Alias for Content Types
     content_types = {
@@ -1930,7 +1930,8 @@ def payment_hook(request, pk):
                 )
             client.balanced_account_uri = card.href
             client.save()
-            meta = {"client_id": client.pk, "blitz_id": blitz.pk, "invitation_id": invitation.pk}
+            meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
+                    "email": client.user.email, "invitation_id": invitation.pk}
 
             try:
                 debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
@@ -1952,13 +1953,20 @@ def payment_hook(request, pk):
         else:
             # invitation may have custom workoutplan and price
             if invitation:
-                utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price, None, None, invitation)
+                utils.add_client_to_blitz(blitz, client, workoutplan=invitation.workout_plan, price=invitation.price, invitation=invitation)
+
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
+                blitz_macros_set(None, invitation.macro_formula, client)   # set blitz for specific client
             else:
                 utils.add_client_to_blitz(blitz, client)
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
 
             emails.signup_confirmation(client, blitz.trainer)
+
+            # alert trainer of new client signup
+            alert = TrainerAlert.objects.create(
+                       trainer=blitz.trainer, text="New client registration.",
+                       client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
             user = authenticate(username=client.user.username, password=request.session['password'])
             login(request, user)
