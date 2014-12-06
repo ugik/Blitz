@@ -600,9 +600,10 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
         clients = blitz.members()
 
     for client in clients:
-        age = float(client.age)
-        kg = float(client.weight_in_lbs * 0.45359237)
-        cm = float(units_tags.feet_conversion(client, True))
+        # for invitee we'll use sample biometrics
+        age = float(30) if not client.age else float(client.age)
+        kg = float(100) if not client.weight_in_lbs else float(client.weight_in_lbs * 0.45359237)
+        cm = float(180) if not client.height_feet else float(units_tags.feet_conversion(client, True))
         wkout_factor = float(1.15)   # % workout day above rest day
         min_factor = float(0.8)      # % min below
 
@@ -2482,7 +2483,7 @@ def trainer_dashboard(request):
             'alerts': None,
             'alerts_count': 0,
             'updates_count': 0,
-            'blitzes': None,
+            'blitzes': blitzes,
             'user_id': user_id,
             'show_intro': show_intro,
             'shown_intro': show_intro,

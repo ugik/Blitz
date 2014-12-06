@@ -15,9 +15,12 @@
     $(window).load(function(){
         var modalInvite = '{{ modalInvite }}';
         var modalBlitz = '{{ modalBlitz }}';
-        if (modalInvite == 'True' || modalBlitz == 'True' ) {
+        if (modalInvite == 'True') {
             jQuery.noConflict();
-            $('#modal').modal('show'); }
+            $('#ClientSetupModal').modal('show'); }
+        if (modalBlitz == 'True') {
+            jQuery.noConflict();
+            $('#BlitzSetupModal').modal('show'); }
     });
     $(function() {
         $( "#datepicker" ).datepicker();

@@ -172,8 +172,10 @@ week of 12.1
 - ClientSetup modal w/Ajax
 - fix dashboard posts
 - avoid sending @example.com emails
-- bug fixing
 - add recurring program price to trainer register
 - set invitee macros on signup
+- add programs to CT in test_env
+- improve new trainer invitee experience
+- bug fixing
 
 
