@@ -144,7 +144,7 @@ function save_client_setup() {
 			{% endif %}
 			<div class="actions">
 <!--				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button> -->
-				<button type='button' class='obtn fullwidth' onclick="jQuery.noConflict(); $('#ClientSetupModal').modal('show');">+ Add Client</button>
+				<button type='button' id="add_client" class='obtn fullwidth' onclick="jQuery.noConflict(); $('#ClientSetupModal').modal('show');">+ Add Client</button>
 				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
 
 			</div>
@@ -227,17 +227,15 @@ function save_client_setup() {
 	</div> <!--/ content -->
     </div>
 
-<div id="modalInclude">
-	<!-- include modals -->
-	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
-	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
-	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
-	{% include "client_setup_modal.html" with trainer=trainer blitz=blitz url_return='#' signup_key=signup_key workoutplans=workoutplans invite_url=invite_url %}
-	{% include "client_setup_done_modal.html" %}
+<!-- include modals -->
+{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
+{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
+{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+{% include "client_setup_modal.html" with trainer=trainer blitz=blitz url_return='#' signup_key=signup_key workoutplans=workoutplans invite_url=invite_url %}
+{% include "client_setup_done_modal.html" %}
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
-	{% include "onboarding_content_trainer.html" with trainer=trainer %}
-</div>
+    {% include "onboarding_content_trainer.html" with trainer=trainer %}
 </div>
 
 {% endblock content %}

@@ -182,7 +182,7 @@
 
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" onclick="{ document.getElementById('title').text='{{ invitation.name|safe }}'; $('#modalInclude').show(); jQuery.noConflict(); $('#modalMacros').modal('show'); }">Add</a>
+			Diet Goals <a class="btn btn-default btn-edit" onclick="{ document.getElementById('title').text='{{ invitation.name|safe }}'; jQuery.noConflict(); $('#modalMacros').modal('show'); }">Add</a>
 
 			
 		</div>
@@ -368,7 +368,7 @@
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
 			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('client_name').text='{{ invitation.name }}'; document.getElementById('edit_request').value='Help me improve the {{ invitation.workout_plan.name }} program for {{ invitation.name|safe }}.'; $('#modalInclude').show(); jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
+				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('client_name').text='{{ invitation.name }}'; document.getElementById('edit_request').value='Help me improve the {{ invitation.workout_plan.name }} program for {{ invitation.name|safe }}.'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
 					Edit
 				</a>
 		</div>
