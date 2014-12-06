@@ -15,6 +15,7 @@
     var xhr;
 
     $(document).ready(function() {
+
         function homepage_setLoading() {
             $('#homepage-loadmore').hide();
             $('#homepage-loading').show();
