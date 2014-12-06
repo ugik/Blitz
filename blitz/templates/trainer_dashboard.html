@@ -24,10 +24,11 @@ var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
 <script>
 function save_client_setup() {
     // clear out errors
+    document.getElementById('invite-client').disabled=true;
+    document.getElementById('invite-loading').style="display:block";
     document.getElementById('error_name').text = '';
     document.getElementById('error_email').text = '';
     document.getElementById('error_price').text = '';
-    document.getElementById('invite-loading').style="display:block;"
 
     $.ajax({
         url: '/trainer/client-setup',
@@ -41,14 +42,15 @@ function save_client_setup() {
                   }
                } else 
                {
-                  jQuery.noConflict(); $('#modal').modal('hide');
+                  jQuery.noConflict(); $('#ClientSetupModal').modal('hide');
                   document.getElementById('invitee_name').text = document.getElementById('invitation_name').value;
                   document.getElementById('invitee_name2').text = document.getElementById('invitation_name').value;
                   jQuery.noConflict(); $('#ClientSetupModalDone').modal('show');
                }
         }
     })
-    document.getElementById('invite-loading').style="display:none;"
+    document.getElementById('invite-loading').style="display:none";
+    document.getElementById('invite-client').disabled=false;
 
 }
 </script>
@@ -175,7 +177,6 @@ function save_client_setup() {
 							<li class="active" data-scope-filter="all">Everything</li>
 							<li data-scope-filter="workouts">Workouts</li>
 							<li data-scope-filter="checkins">Check-Ins</li>
-						</ul>
 					</div>
 
 					<div id="add-comment-container">
@@ -215,7 +216,7 @@ function save_client_setup() {
 		<div id="summary">
 			{% if not clients and not blitzes %}
                             {% if invitees %}
-                                {% include "dashboard/invitee_summary.html" with invitation=invitees.0 delta=0 STATIC_URL=STATIC_URL %}
+                                {% include "dashboard/invitee_summary.html" with invitation=invitees|last delta=0 STATIC_URL=STATIC_URL %}
                             {% else %}
     		                {% include "dashboard/_dummy_client_summary.html" %}
 			    {% endif %}
@@ -233,6 +234,7 @@ function save_client_setup() {
 {% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
 {% include "client_setup_modal.html" with trainer=trainer blitz=blitz url_return='#' signup_key=signup_key workoutplans=workoutplans invite_url=invite_url %}
 {% include "client_setup_done_modal.html" %}
+
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
     {% include "onboarding_content_trainer.html" with trainer=trainer %}
