@@ -198,7 +198,7 @@ function save_client_setup() {
                 {% else %}
                     {% if invitees %}
                 	<div id="main-feed">
-		                {% include "dashboard/invitee_feed.html" %}
+		                {% include "dashboard/invitee_feed.html" with invitee=invitees.0 %}
 		                {% include "dashboard/_dummy_comment_feed.html" %}
 	                </div>
                     {% else %}
@@ -214,7 +214,11 @@ function save_client_setup() {
 		<!-- Summary -->
 		<div id="summary">
 			{% if not clients and not blitzes %}
-				{% include "dashboard/_dummy_client_summary.html" %}
+                            {% if invitees %}
+                                {% include "dashboard/invitee_summary.html" with invitation=invitees.0 delta=0 STATIC_URL=STATIC_URL %}
+                            {% else %}
+    		                {% include "dashboard/_dummy_client_summary.html" %}
+			    {% endif %}
 			{% endif %}
 		</div>
 

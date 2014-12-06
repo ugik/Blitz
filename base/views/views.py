@@ -1957,6 +1957,7 @@ def payment_hook(request, pk):
 
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
                 blitz_macros_set(None, invitation.macro_formula, client)   # set blitz for specific client
+
             else:
                 utils.add_client_to_blitz(blitz, client)
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
