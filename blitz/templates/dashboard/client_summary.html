@@ -291,11 +291,9 @@
 		<div class="spacer10"></div>
 	</div>
 
-
-
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" onclick="{ jQuery.noConflict();$('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
+			Diet Goals <a class="btn btn-default btn-edit" id="edit_macros" onclick="{ jQuery.noConflict();$('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
 			
 		</div>
 		<div class="goals-history" id="goals-history">
@@ -392,7 +390,7 @@
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
 			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
+				<a class="btn btn-default btn-edit" id="edit_program" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
 					Edit
 				</a>
 		</div>
