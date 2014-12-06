@@ -70,14 +70,6 @@ class Command(BaseCommand):
         jc.short_name = "jc-deen"
         jc.save()
 
-        ct_plan = workout_utils.load_workout_plan_from_fileset_2(
-            "IYMFS",
-            settings.DATA_DIR + '/jc/jc-workout-meta.csv',
-            settings.DATA_DIR + '/jc/jc-workouts.csv',
-            settings.DATA_DIR + '/jc/jc-plan.csv',
-            jc,            
-        )
-
         joy = create_trainer("Joy Victoria", "joy@example.com", "asdf")
         joy.headshot_from_image(settings.TEST_MEDIA_DIR + '/joy.png')
         joy.short_name = "Joy"
@@ -167,7 +159,23 @@ class Command(BaseCommand):
         # sales page for CT
         content = create_salespagecontent("Posting and Toasting", ct)
 
-        blitz = Blitz.objects.create(trainer=ct, workout_plan=roglaw_plan,
+        ct_plan = workout_utils.load_workout_plan_from_fileset_2(
+            "IYMFS",
+            settings.DATA_DIR + '/jc/jc-workout-meta.csv',
+            settings.DATA_DIR + '/jc/jc-workouts.csv',
+            settings.DATA_DIR + '/jc/jc-plan.csv',
+            ct,            
+        )
+
+        ct_plan2 = workout_utils.load_workout_plan_from_fileset_2(
+            "Grow",
+            settings.DATA_DIR + '/perryman/workout-meta.csv',
+            settings.DATA_DIR + '/perryman/workouts.csv',
+            settings.DATA_DIR + '/perryman/plan.csv',
+            ct,
+        )
+
+        blitz = Blitz.objects.create(trainer=ct, workout_plan=ct_plan,
             title="Posting and Toasting", begin_date=blitz_start_date, url_slug="CT")
         blitz.sales_page_content = content
         blitz.uses_macros = True
