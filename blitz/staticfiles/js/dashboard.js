@@ -120,7 +120,8 @@
                     if (FEED_SCOPE !== 'all') {
                         $postForm.removeClass('hidden');
                         $postFormContainer.append($postForm);
-                    }                    
+                        bindPostForm();
+                    }
                 }
             );
         }
@@ -253,62 +254,57 @@
             $mainFeed = $('#main-feed'),
             $feeds = $('.feeds'),
             $inboxContainer = $('.inbox-container'),
-            $addCommentSubmit = $('#add-comment-submit'),
-            $addComment = $('#add-comment'),
             $searchInput = $('.search-input input'),
             $trainerAlertBox = $('#trainer-alert-box'),
             $alertsCount = $('li[data-scope=alerts] .results-count .inner'),
             $postFormContainer = $('#add-comment-container'),
-            $postForm = $('#add-comment-container form');
-
-        // Removes Post Form (will be added when the selected filter is not "All Updates")
-        var removePostForm = function() {
-            $postFormContainer.empty();
-        }
-        removePostForm();
+            $postForm = $( $('#add-comment-container').html() );
 
         var reduceAlertsCount = function() {
             $alertsCount.html( $alertsCount.html()-1 );
         }
 
-        // Add comment button show/hide
-        $addComment.on('focus', function() {
-            $addCommentSubmit.show(300);
-        });
-        $addComment.on('blur', function() {
-            if ($(this).val() === "") {
-                $addCommentSubmit.hide(300);
-            }
-        });
+        var bindPostForm = function () {
+            // Add comment button show/hide
+            $('#add-comment').on('focus', function() {
+                $('#add-comment-submit').show(300);
+            });
+            $('#add-comment').on('blur', function() {
+                if ($(this).val() === "") {
+                    $('#add-comment-submit').hide(300);
+                }
+            });
 
-        // Add comment submit
-        $addCommentSubmit.on('click', function(e) {
-            e.preventDefault();
-            var comment_text = $addComment.val();
-            if (comment_text === "") {
-                alert("Why would you post nothing?");
-                return;
-            }
-            $addCommentSubmit.hide(300);
+            // Add comment submit
+            $('#add-comment-submit').on('click', function(e) {
+                e.preventDefault();
+                var comment_text = $('#add-comment').val();
+                if (comment_text === "") {
+                    alert("Why would you post nothing?");
+                    return;
+                }
+                $('#add-comment-submit').hide(300);
 
-            if (SELECTED_ITEM === 'invitee') {
-                 alert("This feed will be happening once the client signs up");
-            } else {
-                $.post('/api/new-comment', {
-                    'comment_text': comment_text,
-                    'object_id': OBJECT_ID,
-                    'selected_item': SELECTED_ITEM
-                }, function(data) {
-                    if (data.is_error) {
+                if (SELECTED_ITEM === 'invitee') {
+                     alert("This feed will be happening once the client signs up");
+                } else {
+                    $.post('/api/new-comment', {
+                        'comment_text': comment_text,
+                        'object_id': OBJECT_ID,
+                        'selected_item': SELECTED_ITEM
+                    }, function(data) {
+                        if (data.is_error) {
 
-                    } else {
-                        var el = $(data.comment_html);
-                        $mainFeed.prepend(el);
-                        $addComment.val('');
-                    }
-                });
-            }
-        });
+                        } else {
+                            var el = $(data.comment_html);
+                            $('#main-feed').prepend(el);
+                            $('#add-comment').val('');
+                        }
+                    });
+                }
+            });
+        };
+        bindPostForm();
 
 
         // On Windows Resize
@@ -588,6 +584,16 @@
         });
         // End Filters
 
+        // Removes Post Form (will be added when the selected filter is not "All Updates")
+        var removePostForm = function() {
+            $postFormContainer.empty();
+        }
+        if (FEED_SCOPE === 'all') {
+            removePostForm();    
+        }
+        // END
+
+        // Loads the firsts feeds
         homepage_morefeed();
     });
 })(jQuery);
