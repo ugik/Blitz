@@ -48,7 +48,6 @@ class TestCreateTrainer(unittest.TestCase):
         driver.find_element_by_xpath("//button").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-#        import pdb; pdb.set_trace()
         driver.find_element_by_id("done_action").click()
         driver.get(self.base_url + "")
     

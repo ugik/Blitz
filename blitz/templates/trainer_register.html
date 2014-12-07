@@ -13,7 +13,8 @@
         <div class="formpage-block">
 
                 <form  action="#" method="post">
-                    <div class="header">Registration</div>
+                    <div class="header">Registration
+                        {% if referral %} <br><small>(referral from {{ referral.name }})</small> {% endif %}</div>
                     <p class="info-text">You've been chosen as one of the elite few to get early access to Blitz. Now, tell us a little bit about yourself. </p>
 
                     {% csrf_token %}

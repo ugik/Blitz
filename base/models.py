@@ -232,6 +232,7 @@ class Trainer(models.Model):
     # HACK - move to session var
     currently_viewing_blitz = models.ForeignKey('base.Blitz', null=True, blank=True, related_name="currently_viewing_trainer")
 
+    referral = models.ForeignKey('base.Scout', null=True, blank=True)
     objects = GetOrNoneManager()
 
     def __unicode__(self):
@@ -1133,4 +1134,16 @@ class Heading(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.saying, self.author)
+
+class Scout(models.Model):
+    name = models.CharField(max_length=50, default="")
+    url_slug = models.CharField(max_length=5, default="")
+    email = models.EmailField(blank=True, null=True)
+    desc = models.CharField(max_length=50, blank=True, null=True, default="")
+
+    objects = GetOrNoneManager()
+
+    def __unicode__(self):
+        return "%s - %s" % (self.name, self.url_slug)
+
 

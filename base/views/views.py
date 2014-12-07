@@ -23,7 +23,7 @@ from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_s
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
-from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading
+from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
 from workouts.models import WorkoutPlan, WorkoutPlanDay
 
 from base.templatetags import units_tags
@@ -1496,6 +1496,9 @@ def trainer_signup(request):
                 form.cleaned_data['timezone'],
                 form.cleaned_data['short_name']
             )
+            trainer.referral = Scout.objects.get_or_none(url_slug=request.GET.get('referral', None))
+            trainer.save()
+
             # create initial SalesPageContent for initial Blitz
             name = trainer.name+"'s" if trainer.name[-1] != 's' else trainer.name+"'"
 
@@ -1522,6 +1525,7 @@ def trainer_signup(request):
             'timezones': pytz.common_timezones,
             'errors' : form.errors,
             'form' : form,
+            'referral' : Scout.objects.get_or_none(url_slug=request.GET.get('referral', None)),
            }
 
     return render(request, 'trainer_register.html', args)
