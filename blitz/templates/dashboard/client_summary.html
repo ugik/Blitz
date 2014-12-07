@@ -106,20 +106,20 @@
         } else {
             document.getElementById('g_wout_fat').text = wout_fat.toFixed(0);
         }
-        if (wout_cals_min > 1000) {
-            document.getElementById('g_wout_fat_min').text = (wout_cals_min/1000).toFixed(1);
+        if (wout_fat_min > 1000) {
+            document.getElementById('g_wout_fat_min').text = (wout_fat_min/1000).toFixed(1);
         } else {
-            document.getElementById('g_wout_fat_min').text = wout_cals_min.toFixed(0);
+            document.getElementById('g_wout_fat_min').text = wout_fat_min.toFixed(0);
         }
         if (rest_fat > 1000) {
             document.getElementById('g_rest_fat').text = (rest_fat/1000).toFixed(1);
         } else {
             document.getElementById('g_rest_fat').text = rest_fat.toFixed(0);
         }
-        if (rest_cals_min > 1000) {
-            document.getElementById('g_rest_fat_min').text = (rest_cals_min/1000).toFixed(1);
+        if (rest_fat_min > 1000) {
+            document.getElementById('g_rest_fat_min').text = (rest_fat_min/1000).toFixed(1);
         } else {
-            document.getElementById('g_rest_fat_min').text = rest_cals_min.toFixed(0);
+            document.getElementById('g_rest_fat_min').text = rest_fat_min.toFixed(0);
         }
 
     }
@@ -185,7 +185,7 @@
 <div class='client-summary'>
 	<div class="section cover">
 	<div class="spacer20"></div>
-		<a href="{% url 'client_profile' client.pk %}"><img src="{{ MEDIA_URL }}{{ client.headshot }}" class="client-picture img-circle center" /></a>
+		<a href="{% url 'client_profile' client.pk %}"><img src="{{ client.get_headshot_url }}" class="client-picture img-circle center" /></a>
 		<div class="spacer20"></div>
 		<p class="client-name center">{{ client.name }}</p>
 		<p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>
@@ -228,9 +228,12 @@
 				<div class="weekSelector slide-select">
 					<ul>
 						<li class="arrow"> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
-						<li class="item active">This Week</li>
 						{% for week in macro_history %}
-							<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }}</li>
+							{% if week.is_current %}
+							<li class="item active" data-week-num="{{ week.week_number }}">This Week</li>
+							{% else %}
+							<li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}>{{ week.month_str|slice:"3" }} {{ week.first_day }} - {{ week.last_day }} </li>
+							{% endif %}
 						{% endfor %}
 						<li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
 					</ul>
@@ -287,11 +290,9 @@
 		<div class="spacer10"></div>
 	</div>
 
-
-
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" onclick="{ jQuery.noConflict();$('#modalInclude').show(); $('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
+			Diet Goals <a class="btn btn-default btn-edit" id="edit_macros" onclick="{ jQuery.noConflict();$('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
 			
 		</div>
 		<div class="goals-history" id="goals-history">
@@ -388,7 +389,7 @@
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
 			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; jQuery.noConflict(); $("#modalInclude").show(); $("#modalSpotterEdit").modal("show"); }'>
+				<a class="btn btn-default btn-edit" id="edit_program" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
 					Edit
 				</a>
 		</div>

@@ -21,6 +21,10 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
 
     silent = False if settings.DEBUG else True
 
+    if [i for i in to_email if 'example.com' in i]:
+        print 'example.com address, no email sent'
+        return
+
     if len(images) == 0:
         images = ['emailheader.png']
         dirs = [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
@@ -74,7 +78,7 @@ def gym_session_comment(user, commenter, comment):
     context = { 'commenter': commenter, 'comment': comment  }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
-def signup_confirmation(client):
+def signup_confirmation(client, trainer):
 
     from_email, to_email = SOURCE_EMAIL, client.user.email
     subject = "Welcome to Blitz.us!"
@@ -82,7 +86,8 @@ def signup_confirmation(client):
     text_template = 'emails/signup_confirmation.txt'
     html_template = 'emails/signup_confirmation.html'
     context = { 'client': client, 'blitz': client.get_blitz() }
-    send_email(from_email, to_email, subject, text_template, html_template, context )
+    send_email(from_email, to_email, subject, text_template, html_template, context,
+               cc_mail=[trainer.user.email] )
 
 def client_invite(trainer, client_email, invite_url, blitz=None):
 
@@ -120,15 +125,21 @@ def message_received(user, message):
 
 
 def email_spotter_program_edit(pk, message):
-    workoutplan = WorkoutPlan.objects.filter(pk=int(pk))
-    if workoutplan:
-        from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL
-        subject = "Program Edit ask from %s" % workoutplan[0].trainer.name
+    from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL
+    text_template = 'emails/program_edit.txt'
+    html_template = 'emails/program_edit.html'
 
-        text_template = 'emails/program_edit.txt'
-        html_template = 'emails/program_edit.html'
-        context = { 'workoutplan': workoutplan[0], 'message': message }
+    if pk:
+        workoutplan = WorkoutPlan.objects.filter(pk=int(pk))
+        if workoutplan:
+            subject = "Program Edit ask from %s" % workoutplan[0].trainer.name
+            context = { 'workoutplan': workoutplan[0], 'message': message }
+            send_email(from_email, to_email, subject, text_template, html_template, context )
+    else:
+        subject = "Program Edit ask"
+        context = { 'message': message }
         send_email(from_email, to_email, subject, text_template, html_template, context )
+
 
 def usage_digest(days=0):
     from django.core.mail import EmailMultiAlternatives

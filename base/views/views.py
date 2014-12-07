@@ -23,7 +23,7 @@ from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_s
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
-from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading
+from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
 from workouts.models import WorkoutPlan, WorkoutPlanDay
 
 from base.templatetags import units_tags
@@ -434,10 +434,8 @@ def client_blitz_setup(request, pk):
 
         uri = domain(request)
 
-        if mode == 'free':
-            invite_url = uri+'/client-signup?signup_key='+signup_key
-        else:
-            invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
+        invite_url = uri+'/client-signup?signup_key='+signup_key
+#        invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
         if modalInvite:
             return render(request, 'trainer_salespages.html', {
@@ -602,9 +600,10 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
         clients = blitz.members()
 
     for client in clients:
-        age = float(client.age)
-        kg = float(client.weight_in_lbs * 0.45359237)
-        cm = float(units_tags.feet_conversion(client, True))
+        # for invitee we'll use sample biometrics
+        age = float(30) if not client.age else float(client.age)
+        kg = float(100) if not client.weight_in_lbs else float(client.weight_in_lbs * 0.45359237)
+        cm = float(180) if not client.height_feet else float(units_tags.feet_conversion(client, True))
         wkout_factor = float(1.15)   # % workout day above rest day
         min_factor = float(0.8)      # % min below
 
@@ -1100,7 +1099,7 @@ def save_sets(request):
 @login_required
 @csrf_exempt
 def blitz_feed(request):
-    FEED_SIZE = 5
+    FEED_SIZE = 10
 
     # Alias for Content Types
     content_types = {
@@ -1497,6 +1496,9 @@ def trainer_signup(request):
                 form.cleaned_data['timezone'],
                 form.cleaned_data['short_name']
             )
+            trainer.referral = Scout.objects.get_or_none(url_slug=request.GET.get('referral', None))
+            trainer.save()
+
             # create initial SalesPageContent for initial Blitz
             name = trainer.name+"'s" if trainer.name[-1] != 's' else trainer.name+"'"
 
@@ -1508,7 +1510,7 @@ def trainer_signup(request):
                           begin_date = trainer.current_datetime())
             blitz.sales_page_content = content
             blitz.url_slug = trainer.short_name
-            blitz.price = 0
+            blitz.price = form.cleaned_data['price']
             blitz.save()
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
@@ -1523,6 +1525,7 @@ def trainer_signup(request):
             'timezones': pytz.common_timezones,
             'errors' : form.errors,
             'form' : form,
+            'referral' : Scout.objects.get_or_none(url_slug=request.GET.get('referral', None)),
            }
 
     return render(request, 'trainer_register.html', args)
@@ -1932,7 +1935,8 @@ def payment_hook(request, pk):
                 )
             client.balanced_account_uri = card.href
             client.save()
-            meta = {"client_id": client.pk, "blitz_id": blitz.pk, "invitation_id": invitation.pk}
+            meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
+                    "email": client.user.email, "invitation_id": invitation.pk}
 
             try:
                 debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
@@ -1954,13 +1958,21 @@ def payment_hook(request, pk):
         else:
             # invitation may have custom workoutplan and price
             if invitation:
-                utils.add_client_to_blitz(blitz, client, invitation.workout_plan, invitation.price, None, None, invitation)
+                utils.add_client_to_blitz(blitz, client, workoutplan=invitation.workout_plan, price=invitation.price, invitation=invitation)
+
+                mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
+                blitz_macros_set(None, invitation.macro_formula, client)   # set blitz for specific client
+
             else:
                 utils.add_client_to_blitz(blitz, client)
+                mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
 
-            emails.signup_confirmation(client)
+            emails.signup_confirmation(client, blitz.trainer)
 
-            mail_admins('We got a signup bitches!', '%s signed up for %s' % (str(client), str(blitz)))
+            # alert trainer of new client signup
+            alert = TrainerAlert.objects.create(
+                       trainer=blitz.trainer, text="New client registration.",
+                       client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
             user = authenticate(username=client.user.username, password=request.session['password'])
             login(request, user)
@@ -1998,13 +2010,18 @@ def trainer_dismiss_alert(request):
 @login_required
 @csrf_exempt
 def spotter_edit(request):
-    trainer = request.user.trainer
-    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+#TODO handle invitation spotter edit better, using invitation workoutplan reference
+    if 'blitz' not in request.POST:  # handle spotter edit for invitee (no Blitz yet)
+        workout_plan = None
+    else:
+        trainer = request.user.trainer
+        blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+        workout_plan = blitz.workout_plan.pk
 
     if 'spotter_text' in request.POST:
         if len(request.POST.get('spotter_text'))>1:
-            email_spotter_program_edit(blitz.workout_plan.pk, request.POST.get('spotter_text'))
-    
+            email_spotter_program_edit(workout_plan, request.POST.get('spotter_text'))
+
     return JSONResponse({'is_error': False})
 
 @login_required
@@ -2430,7 +2447,7 @@ def trainer_dashboard(request):
     signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
 
     uri = domain(request)
-    invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
+    invite_url = uri+'/client-signup?signup_key='+signup_key
     # end of client_setup_modal context
 
     blitzes = request.user.trainer.active_blitzes()
@@ -2470,7 +2487,7 @@ def trainer_dashboard(request):
             'alerts': None,
             'alerts_count': 0,
             'updates_count': 0,
-            'blitzes': None,
+            'blitzes': blitzes,
             'user_id': user_id,
             'show_intro': show_intro,
             'shown_intro': show_intro,

@@ -4,24 +4,17 @@
 
 {% block morehead %} {{ super }}
 
-{% if user.blitz and user.blitz.members %}
-    <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
-    <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
-    <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
-{% else %}
-    {% if invitees %}
-        <script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
-    {% endif %}
-{% endif %}
-
+<script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
+<script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
+<script type='text/javascript' src='{{ STATIC_URL }}js/dashboard.js'></script>
 <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
 
 <script type="text/javascript">
-  var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
+var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
 </script>
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
-<link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheets/style.css"/>
 
 <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
@@ -31,10 +24,11 @@
 <script>
 function save_client_setup() {
     // clear out errors
+    document.getElementById('invite-client').disabled=true;
+    document.getElementById('invite-loading').style="display:block";
     document.getElementById('error_name').text = '';
     document.getElementById('error_email').text = '';
     document.getElementById('error_price').text = '';
-    document.getElementById('invite-loading').style="display:block;"
 
     $.ajax({
         url: '/trainer/client-setup',
@@ -48,14 +42,15 @@ function save_client_setup() {
                   }
                } else 
                {
-                  jQuery.noConflict(); $('#modal').modal('hide');
+                  jQuery.noConflict(); $('#ClientSetupModal').modal('hide');
                   document.getElementById('invitee_name').text = document.getElementById('invitation_name').value;
                   document.getElementById('invitee_name2').text = document.getElementById('invitation_name').value;
-                  jQuery.noConflict(); $('#ClientSetupDoneModal').modal('show');
+                  jQuery.noConflict(); $('#ClientSetupModalDone').modal('show');
                }
         }
     })
-    document.getElementById('invite-loading').style="display:none;"
+    document.getElementById('invite-loading').style="display:none";
+    document.getElementById('invite-client').disabled=false;
 
 }
 </script>
@@ -151,8 +146,8 @@ function save_client_setup() {
 			{% endif %}
 			<div class="actions">
 <!--				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button> -->
-				<button type='button' class='obtn fullwidth' onclick="jQuery.noConflict(); $('#modal').modal('show');">+ Add Client</button>
-				<button type='button' class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
+				<button type='button' id="add_client" class='obtn fullwidth' onclick="jQuery.noConflict(); $('#ClientSetupModal').modal('show');">+ Add Client</button>
+				<button type='button' id="add_group" class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
 
 			</div>
 		</div> <!-- inner -->
@@ -182,11 +177,10 @@ function save_client_setup() {
 							<li class="active" data-scope-filter="all">Everything</li>
 							<li data-scope-filter="workouts">Workouts</li>
 							<li data-scope-filter="checkins">Check-Ins</li>
-						</ul>
 					</div>
 
 					<div id="add-comment-container">
-						<form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+						<form class="hidden" name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 						    <table><tr><td width="97%">
 						    <textarea id="add-comment" name="comment" class="expanding" placeholder="Post a comment..." rows="1" ></textarea> </td>
 						    <td class="photobutton" valign="top">
@@ -205,7 +199,7 @@ function save_client_setup() {
                 {% else %}
                     {% if invitees %}
                 	<div id="main-feed">
-		                {% include "dashboard/invitee_feed.html" %}
+		                {% include "dashboard/invitee_feed.html" with invitee=invitees.0 %}
 		                {% include "dashboard/_dummy_comment_feed.html" %}
 	                </div>
                     {% else %}
@@ -221,7 +215,11 @@ function save_client_setup() {
 		<!-- Summary -->
 		<div id="summary">
 			{% if not clients and not blitzes %}
-				{% include "dashboard/_dummy_client_summary.html" %}
+                            {% if invitees %}
+                                {% include "dashboard/invitee_summary.html" with invitation=invitees|last delta=0 STATIC_URL=STATIC_URL %}
+                            {% else %}
+    		                {% include "dashboard/_dummy_client_summary.html" %}
+			    {% endif %}
 			{% endif %}
 		</div>
 
@@ -230,17 +228,16 @@ function save_client_setup() {
 	</div> <!--/ content -->
     </div>
 
-<div id="modalInclude">
-	<!-- include modals -->
-	{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
-	{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
-	{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
-	{% include "client_setup_modal.html" with trainer=trainer blitz=blitz url_return='#' signup_key=signup_key workoutplans=workoutplans invite_url=invite_url %}
-	{% include "client_setup_done_modal.html" %}
+<!-- include modals -->
+{% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
+{% include "blitz_macros_modal.html" with trainer=trainer blitz=blitz url_return='#' %}
+{% include "client_macros_modal.html" with trainer=trainer client=client url_return='#' %}
+{% include "client_setup_modal.html" with trainer=trainer blitz=blitz url_return='#' signup_key=signup_key workoutplans=workoutplans invite_url=invite_url %}
+{% include "client_setup_done_modal.html" %}
+
 
 <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
-	{% include "onboarding_content_trainer.html" with trainer=trainer %}
-</div>
+    {% include "onboarding_content_trainer.html" with trainer=trainer %}
 </div>
 
 {% endblock content %}

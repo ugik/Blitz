@@ -52,6 +52,17 @@ class NewTrainerForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'render_value' : False}),max_length=100)
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'render_value' : False}),max_length=100)
     timezone  = forms.CharField(max_length=40)
+    price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Monthly $'}))
+
+    def clean_price(self):
+        try:
+            price = float(self.cleaned_data.get('price'))
+            if price < float(0.01):
+                raise forms.ValidationError("Please enter a valid price.")
+
+        except:
+            raise forms.ValidationError("Please enter a valid price.")
+        return str(price)
 
     def clean_short_name(self):
         short_name = self.cleaned_data.get('short_name')
@@ -112,7 +123,7 @@ class BlitzSetupForm(forms.Form):
     url_slug = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'placeholder': 'url'}))
     start_day = forms.DateField(initial=datetime.date.today,
                                 widget=forms.DateInput(attrs= {'class': 'datepicker', 'id':'datepicker', 'placeholder': 'Start Date'} ))
-    charge = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'class':'form-control','placeholder': '99'}))
+    charge = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'class':'form-control','placeholder': '$$$'}))
     blitz_type = forms.ChoiceField(widget=forms.RadioSelect, choices=BLITZ_TYPE_CHOICES, required=False)
 
     trainer = Trainer()

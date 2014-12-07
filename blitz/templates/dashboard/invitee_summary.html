@@ -1,6 +1,7 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+         document.getElementById('formula-select').value = '{{ invitation.macro_formula }}'
          var selected = document.getElementById('formula-select').value;
          if (selected == 'DEFAULT') { x = show_macros(1); } 
          else if (selected == 'BULK') { x = show_macros(1.1); }
@@ -9,7 +10,6 @@
 
          update_summary_macros();
     }) 
-
 
     function save_spotter_edit() { 
          $.ajax({
@@ -146,20 +146,20 @@
         } else {
             document.getElementById('g_wout_fat').text = wout_fat.toFixed(0);
         }
-        if (wout_cals_min > 1000) {
-            document.getElementById('g_wout_fat_min').text = (wout_cals_min/1000).toFixed(1);
+        if (wout_fat_min > 1000) {
+            document.getElementById('g_wout_fat_min').text = (wout_fat_min/1000).toFixed(1);
         } else {
-            document.getElementById('g_wout_fat_min').text = wout_cals_min.toFixed(0);
+            document.getElementById('g_wout_fat_min').text = wout_fat_min.toFixed(0);
         }
         if (rest_fat > 1000) {
             document.getElementById('g_rest_fat').text = (rest_fat/1000).toFixed(1);
         } else {
             document.getElementById('g_rest_fat').text = rest_fat.toFixed(0);
         }
-        if (rest_cals_min > 1000) {
-            document.getElementById('g_rest_fat_min').text = (rest_cals_min/1000).toFixed(1);
+        if (rest_fat_min > 1000) {
+            document.getElementById('g_rest_fat_min').text = (rest_fat_min/1000).toFixed(1);
         } else {
-            document.getElementById('g_rest_fat_min').text = rest_cals_min.toFixed(0);
+            document.getElementById('g_rest_fat_min').text = rest_fat_min.toFixed(0);
         }
 
     }
@@ -171,7 +171,7 @@
 	<div class="spacer20"></div>
 	<img src="{{ STATIC_URL }}images/silhouette.jpeg" class="client-picture img-circle center" />
 	<div class="spacer20"></div>
-	<p class="client-name center">{{ invitation.name }}</p>
+	<p class="client-name center">{{ invitation.name|safe }}</p>
 	<p class="client-info center">{{ invitation.email }}</p>
 	<div class="spacer20"></div>
         <p class="client-info center"><b>Hasn't signed up yet</b></p>
@@ -182,7 +182,7 @@
 
 	<div class="section diet-goals sidebar-box">
 		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" onclick="{ $('#modalInclude').show(); jQuery.noConflict(); $('#modalMacros').modal('show'); }">Add</a>
+			Diet Goals <a class="btn btn-default btn-edit" onclick="{ document.getElementById('title').text='{{ invitation.name|safe }}'; jQuery.noConflict(); $('#modalMacros').modal('show'); }">Add</a>
 
 			
 		</div>
@@ -368,7 +368,7 @@
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
 			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('plan_name').text='{{ invitation.workout_plan.name }}'; document.getElementById('client_name').text='{{ invitation.name }}'; document.getElementById('edit_request').value='Help me improve the {{ invitation.workout_plan.name }} program for {{ invitation.name }}.'; $('#modalInclude').show(); jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
+				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('client_name').text='{{ invitation.name }}'; document.getElementById('edit_request').value='Help me improve the {{ invitation.workout_plan.name }} program for {{ invitation.name|safe }}.'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
 					Edit
 				</a>
 		</div>

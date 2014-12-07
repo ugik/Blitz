@@ -36,6 +36,12 @@ body {
     height: 100% !important
 }
 
+#modalInclude, #modal, #ClientSetupDoneModal {
+    position: absolute;
+    top: 0;
+    width: 0px;
+}
+
 #header .container {
     width: 100%;
 }
@@ -542,10 +548,13 @@ ul.filters li.item:hover {
 
  .slide-select {
     font-size: 12px;
+    min-width: 95px;
  }
 
 .slide-select ul {
     list-style: none;
+    margin: 0px;
+
 }
 
 .slide-select ul li {
@@ -557,6 +566,18 @@ ul.filters li.item:hover {
 .slide-select ul li.arrow,
 .slide-select ul li.active {
     display: inline-block;
+}
+
+.slide-select ul li.active {
+    display: inline-table;
+    margin: 0 auto;
+}
+
+.slide-select ul li.arrow:first-child {
+    float: left;
+}
+.slide-select ul li.arrow:last-child {
+    float: right;
 }
 
 /* TODO: Move to the correct place */

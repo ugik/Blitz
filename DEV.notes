@@ -168,8 +168,14 @@ week of 11.24
 - Custom Sets create/update on Custom Exercise create/update
 
 week of 12.1
-- bank account
+- bank account setup
 - ClientSetup modal w/Ajax
 - fix dashboard posts
+- avoid sending @example.com emails
+- add recurring program price to trainer register
+- set invitee macros on signup
+- add programs to CT in test_env
+- improve new trainer invitee experience
+- bug fixing
 
 

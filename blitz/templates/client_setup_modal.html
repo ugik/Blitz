@@ -1,4 +1,4 @@
-<div class="modal-full fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-full fade" id="ClientSetupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog-full">
       <div class="modal-content-full">
          <div class="modal-header">
@@ -71,7 +71,7 @@
                            
                            <div class="input-row-fw">
                               <div class="form-input">
-                                 <input type="text" name="price" placeholder="Price" value="{{ blitz.price }}" style="width:100px;"/>
+                                 <input type="text" name="price" placeholder="Price" {% if blitz.price = 0 %}value="$$$"{% else %}value="{{ blitz.price }}"{% endif %} style="width:100px;"/>
                               </div>
                            <a id="error_price" style="color: #ff0000;"> {% include "error_field.html" with param='price' %}</a>
 
@@ -87,11 +87,7 @@
                         <input type="hidden" name="signup_key" value="{{ signup_key }}">
                         <input type="hidden" name="invite_url" value="{{ invite_url }}">
 
-                        {% if url_return = '#' %}
                         <button class="obtn full-width" id="invite-client">Invite client</button>
-                        {% else %}
-                        <button class="obtn full-width" id="invite-client">Invite client</button>
-                        {% endif %}
                      </div>
 <div id="invite-loading" style="display:none; text-align: center; padding: 5px; "><img src="/static/images/squareloader.gif" alt="Loading..."/></div>
                     </form>
@@ -101,6 +97,8 @@
          </div>
        </div>
    </div>
+</div>
+</div>
 </div>
 </div>
 

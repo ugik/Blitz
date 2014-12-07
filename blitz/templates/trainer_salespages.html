@@ -15,9 +15,12 @@
     $(window).load(function(){
         var modalInvite = '{{ modalInvite }}';
         var modalBlitz = '{{ modalBlitz }}';
-        if (modalInvite == 'True' || modalBlitz == 'True' ) {
+        if (modalInvite == 'True') {
             jQuery.noConflict();
-            $('#modal').modal('show'); }
+            $('#ClientSetupModal').modal('show'); }
+        if (modalBlitz == 'True') {
+            jQuery.noConflict();
+            $('#BlitzSetupModal').modal('show'); }
     });
     $(function() {
         $( "#datepicker" ).datepicker();
@@ -43,7 +46,7 @@
                action="upload" class="formpage-block-form">
                  {% csrf_token %}
                  <div class="submit-container">
-                    <button onclick="window.location='/blitz-setup?modalBlitz'; return false;" class='obtn obtn-comment-grn' type='submit'>  + Create New Program
+                    <button id="add_group" onclick="window.location='/blitz-setup?modalBlitz'; return false;" class='obtn obtn-comment-grn' type='submit'>  + Create New Program
                     </button>
                  </div>
               </form>
@@ -87,9 +90,9 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
 
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite">Invite paid client</a></li>
+                  <li role="presentation"><a role="menuitem" id="invite_client" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite">Invite paid client</a></li>
                   <li role="presentation" class="divider"></li>
-                  <li role="presentation"><a role="menuitem" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite&free">Invite free client</a></li>
+                  <li role="presentation"><a role="menuitem" id="invite_free" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite&free">Invite free client</a></li>
                   </ul>
                  </div></td>
 

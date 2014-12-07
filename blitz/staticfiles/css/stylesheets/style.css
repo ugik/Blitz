@@ -1,46 +1,41 @@
-/**
-Full font specs
-**/
-/* used on accordion header */
-/* Example @include keyframes( incrediblehulk )
-{
-    0% {
-        color: #f8d2c0;
-        // you can also use mixins inside this mixin!
-        @include transform( scale(1) );
-    }
-
-    100% {
-        color: #0f0;
-        @include transform( scale(3) );
-    }
-}
-*/
 /*
+Error: Invalid CSS after "...Stashed changes": expected "{", was ""
+        on line 5638 of /Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss
 
-Example @include keyframes
+5633: 
+5634: .macro-history .week-name {
+5635:   padding: 5px 10px;
+5636: }
+5637: >>>>>>> Stashed changes
 
-  @include keyframes(move-the-object) {
-    0%   { left: 100px; }
-    100% { left: 200px; }
-  }
-
-  .object-to-animate {
-    @include animation('move-the-object .5s 1', 'move-the-object-again .5s 1 .5s');
-  } 
-
+Backtrace:
+/Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss:5638
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:1163:in `expected'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:1099:in `expected'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:1094:in `tok!'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:641:in `block'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:635:in `ruleset'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:660:in `block_child'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:653:in `block_contents'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:117:in `stylesheet'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/scss/parser.rb:42:in `parse'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/engine.rb:393:in `_to_tree'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/engine.rb:268:in `render'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/plugin/compiler.rb:491:in `update_stylesheet'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/plugin/compiler.rb:209:in `each'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/plugin/compiler.rb:469:in `on_file_changed'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/lib/sass/plugin/compiler.rb:328:in `block in watch'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/vendor/listen/lib/listen/listener.rb:252:in `call'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/vendor/listen/lib/listen/listener.rb:252:in `on_change'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/vendor/listen/lib/listen/adapter.rb:254:in `call'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/vendor/listen/lib/listen/adapter.rb:254:in `report_changes'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/vendor/listen/lib/listen/adapter.rb:323:in `poll_changed_directories'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.5/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
 */
-/* html {
-      -webkit-animation: fadein 0.25s; 
-       -moz-animation: fadein 0.25s; 
-        -ms-animation: fadein 0.25s; 
-         -o-animation: fadein 0.25s; 
-            animation: fadein 0.25s; 
-      background: black; }
-
-^^ global fade shit
-
-*/
+<<<<<<< Updated upstream
 .fadein {
   -webkit-animation: fadein 0.25s;
   /* Safari, Chrome and Opera > 12.1 */
@@ -4813,3 +4808,9 @@ a#name, a#plan_name, a#client_name {
   margin-top: 0px;
   border-radius: 5px;
   margin-left: 10px; }
+=======
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"...Stashed changes\": expected \"{\", was \"\"\A         on line 5638 of /Users/Chris 2/Blitz/blitz/staticfiles/css/sass/style.scss\A \A 5633: \A 5634: .macro-history .week-name {\A 5635:   padding: 5px 10px;\A 5636: }\A 5637: >>>>>>> Stashed changes"; }
+>>>>>>> Stashed changes

@@ -7,8 +7,8 @@ Each T defines a unique top-level URL, eg. Blitz.us/jc-deen
 
 Sales Pages:
 Each S is either for 1:1 "individual" Client (C) or Group of Clients, we'll refer to these as Si and Sg
-Each Si has exactly one individual Blitz (Bi), it is copied onto each new C upon signup
-An individual Bi instance that is copied is called the 'provisional' Blitz
+Each Si has one individual Blitz (Bi), it is copied onto each new Client (C) upon signup
+An individual Blitz (Bi) instance that is copied is called the 'provisional' Blitz
 Each Sg has (1-n) Group Blitz(es) (Bg), each Bg is shared by C's in the group
 Each S defines a trainer-unique 2nd-level URL, eg. Blitz.us/jc-deen/ripped
 
@@ -232,6 +232,7 @@ class Trainer(models.Model):
     # HACK - move to session var
     currently_viewing_blitz = models.ForeignKey('base.Blitz', null=True, blank=True, related_name="currently_viewing_trainer")
 
+    referral = models.ForeignKey('base.Scout', null=True, blank=True)
     objects = GetOrNoneManager()
 
     def __unicode__(self):
@@ -268,7 +269,7 @@ class Trainer(models.Model):
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
 
-        create_2X_image(image_path, width=150, suffix="@2X")
+        create_2X_image(image_path, width=300, suffix="@2X")
 
     def get_timezone(self):
         return timezone(self.timezone)
@@ -424,7 +425,7 @@ class Client(models.Model):
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
 
-        create_2X_image(image_path, width=150, suffix="@2X")
+        create_2X_image(image_path, width=300, suffix="@2X")
 
     def get_gym_sessions(self):
         """
@@ -448,21 +449,24 @@ class Client(models.Model):
         if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
 #            for q in Comment.objects.filter(user=self.user).all():
 #                feeditems |= q.feeditems.all()
-#            feeditems |= FeedItem.objects.filter(blitz=self.get_blitz())
 
-            show_items = set()    # collect pk's for FeedItems from client or trainer
-            for fi in FeedItem.objects.filter(blitz=self.get_blitz()):
-                if fi.content_type.name == 'comment':
-                    if not fi.content_object.user.is_trainer:
-                        if fi.content_object.user.client == self:
+            if self.get_blitz().recurring:  # recurring blitz allows shortcut
+                feeditems |= FeedItem.objects.filter(blitz=self.get_blitz())
+
+            else:  # client in a group requires careful dissection of feeditems
+                show_items = set()    # collect pk's for FeedItems from client or trainer
+                for fi in FeedItem.objects.filter(blitz=self.get_blitz()):
+                    if fi.content_type.name == 'comment':
+                        if not fi.content_object.user.is_trainer:
+                            if fi.content_object.user.client == self:
+                                show_items.add(fi.pk)
+                        else:   # include trainer comments
                             show_items.add(fi.pk)
-                    else:   # include trainer comments
-                        show_items.add(fi.pk)
-                elif fi.content_type.name in ['gym session', 'check in']:
-                    if fi.content_object.client == self:
-                        show_items.add(fi.pk)
+                    elif fi.content_type.name in ['gym session', 'check in']:
+                        if fi.content_object.client == self:
+                            show_items.add(fi.pk)
 
-            feeditems |= FeedItem.objects.filter(pk__in=show_items)
+                feeditems |= FeedItem.objects.filter(pk__in=show_items)
 
         # Adds client related Check-Ins to the feeditems query set
         if filter_by == 'check in' or filter_by == 'all' or filter_by == '':
@@ -1130,4 +1134,16 @@ class Heading(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.saying, self.author)
+
+class Scout(models.Model):
+    name = models.CharField(max_length=50, default="")
+    url_slug = models.CharField(max_length=5, default="")
+    email = models.EmailField(blank=True, null=True)
+    desc = models.CharField(max_length=50, blank=True, null=True, default="")
+
+    objects = GetOrNoneManager()
+
+    def __unicode__(self):
+        return "%s - %s" % (self.name, self.url_slug)
+
 

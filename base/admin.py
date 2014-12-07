@@ -1,5 +1,5 @@
 from django.contrib import admin
-from base.models import Trainer, Client, Blitz, BlitzMember, BlitzInvitation, GymSession, CompletedSet, Comment, CommentLike, FeedItem, TrainerAlert, MacroDay, SalesPageContent, CheckIn, Heading
+from base.models import Trainer, Client, Blitz, BlitzMember, BlitzInvitation, GymSession, CompletedSet, Comment, CommentLike, FeedItem, TrainerAlert, MacroDay, SalesPageContent, CheckIn, Heading, Scout
 
 admin.site.register(Trainer)
 admin.site.register(Client)
@@ -16,4 +16,5 @@ admin.site.register(MacroDay)
 admin.site.register(SalesPageContent)
 admin.site.register(CheckIn)
 admin.site.register(Heading)
+admin.site.register(Scout)
 

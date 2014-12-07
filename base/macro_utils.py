@@ -25,11 +25,12 @@ def get_macro_meta_for_day(client, week, day_index):
         d = {}
         d['has_entry'] = False
 
+    d['month_str'] = date.strftime("%B")
     d['day_str'] = date.strftime("%A") + ' %d/%d' % (date.month, date.day)
     d['week'] = week
     d['day_index'] = day_index
     d['targets'] = client.macro_target_for_date(date)
-    d['day_of_month'] = date.day
+    d['day_of_month'] = date.day    
     d['in_future'] = date > client.current_datetime().date()
     return d
 
@@ -56,6 +57,9 @@ def get_full_macro_history(client):
         one_week = {
             'week_number': i,
             'macro_days': [],
+            'month_str': get_macro_meta_for_day(client, i, 0).get('month_str'),
+            'first_day': get_macro_meta_for_day(client, i, 0).get('day_of_month'),
+            'last_day': get_macro_meta_for_day(client, i, 6).get('day_of_month'),
             'is_current': False
         }
         dayBefore = None
@@ -79,4 +83,5 @@ def get_full_macro_history(client):
             dayBefore = day
 
         weeks.append(one_week)
+    
     return weeks

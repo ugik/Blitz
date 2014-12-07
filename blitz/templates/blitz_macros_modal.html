@@ -13,7 +13,7 @@
    <div class="modal-dialog-full">
       <div class="modal-content-full">
          <div class="modal-header">
-            <button type="button" onclick="window.location={% if url_return %} '{{ url_return }}'{% else %}'/program'{% endif %}; return false; document.getElementById('modalInclude').style.display = 'none';" class="close" data-dismiss="modal">
+            <button type="button" onclick="window.location={% if url_return %} '{{ url_return }}'{% else %}'/program'{% endif %}; return false;" class="close" data-dismiss="modal">
                <span aria-hidden="true">× Close</span>
             </button>
          </div>
@@ -26,9 +26,9 @@
            <h3 class="mformh3">Set macros for <a id='title' ></a></h3>
 
            <div class="formpage-block" style="padding: 0px;">
-              <form method="post" name="blitz_macros"> {% csrf_token %}
+              <form method="post" name="blitz_macros id="blitz_macros"> {% csrf_token %}
 
-                    <select name="formulas" id="formula-select" class="selectpicker">
+                    <select name="formulas" id="formula-select" class="formula-select">
                         <option value="DEFAULT">Standard Macro Formula</option>
                         <option value="BULK">Bulking (+10%)</option>
                         <option value="BEAST">Beast Mode (+15%)</option>
@@ -68,7 +68,7 @@
                             x = show_macros(1);
                         }) 
                         $(document).ready(function(e) {
-                            $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                            $('.formula-select').selectpicker({ style: 'btn-info', size: "auto", });
                            });
                         $('select.selectpicker').on('change', function(){
                            var selected = $('.selectpicker option:selected').val();
