@@ -230,11 +230,10 @@
 						<li class="arrow"> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
 						{% for week in macro_history %}
 							{% if week.is_current %}
-								<li class="item active" data-week-num="{{ week.week_number }}">This Week</li>
-							{% endif %}
-						{% endfor %}
-						{% for week in macro_history %}
+							<li class="item active" data-week-num="{{ week.week_number }}">This Week</li>
+							{% else %}
 							<li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}>{{ week.month_str|slice:"3" }} {{ week.first_day }} - {{ week.last_day }} </li>
+							{% endif %}
 						{% endfor %}
 						<li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
 					</ul>

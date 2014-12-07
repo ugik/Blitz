@@ -172,7 +172,7 @@
             // END Filter Diet Goals
             // END TODO
 
-            // Switchs Weeks
+            // Switchs Weeks from Select list
             var $weekSelect = $('.diet-progress select');
             $weekSelect.on('change', function(e) {
                 var weekNum = $(this).val();
@@ -192,7 +192,7 @@
             // TODO: append widget from jQuery
             var $weekSelectWidget = $('.weekSelector.slide-select');
             var $weekSelectWidgetOptions = $('.weekSelector.slide-select li.item').not('li.arrow'),
-                pointer = 0,
+                pointer = $('.weekSelector.slide-select li.item.active').not('li.arrow').data('week-num')-1,
                 max = $weekSelectWidgetOptions.length-1;
 
             // When left/righ arrows are clicked
@@ -208,14 +208,14 @@
                             pointer = 0;
                         }
                     }
-                    
+
                     // On Left Arrow
                     else if ($(this).hasClass('left-arrow')) {
                         if (pointer > 0) {
                             pointer-= 1;
                         } else {
                             pointer = max;
-                        }                
+                        }
                     }
 
                     // Move to next Option
@@ -521,7 +521,7 @@
                 $searchInput.val('')
                     .trigger('input');
                 homepage_morefeed({clickedFilter: CLICKED_FILTER});
-                
+
                 // Removes New Post Form
                 removePostForm();
             } else if (FEED_SCOPE === 'alerts') { // Alerts
@@ -588,6 +588,8 @@
         var removePostForm = function() {
             $postFormContainer.empty();
         }
+
+        // Removes Post form in "All Updates" filter
         if (FEED_SCOPE === 'all') {
             removePostForm();    
         }

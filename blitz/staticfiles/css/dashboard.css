@@ -548,11 +548,13 @@ ul.filters li.item:hover {
 
  .slide-select {
     font-size: 12px;
-    width: 120px;
+    min-width: 95px;
  }
 
 .slide-select ul {
     list-style: none;
+    margin: 0px;
+
 }
 
 .slide-select ul li {
@@ -566,17 +568,17 @@ ul.filters li.item:hover {
     display: inline-block;
 }
 
-/*.slide-select ul li.active {
-    display: table;
+.slide-select ul li.active {
+    display: inline-table;
     margin: 0 auto;
-}*/
+}
 
-/*.slide-select ul li.arrow:first-child() {
+.slide-select ul li.arrow:first-child {
     float: left;
 }
-.slide-select ul li.arrow:last-child() {
+.slide-select ul li.arrow:last-child {
     float: right;
-}*/
+}
 
 /* TODO: Move to the correct place */
 .macro-history {
