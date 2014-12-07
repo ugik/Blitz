@@ -366,7 +366,7 @@
          * Trainer Alerts
          */ 
         $trainerAlertBox.on('click', 'button[data-action=leave-message]', function(e) {
-            var targetId = $(this).data('target-id')
+            var targetId = $(this).data('target-id'),
                 MessageForm = $('#'+targetId).find('form'),
                 toggleButton = $(this);
 
