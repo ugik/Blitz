@@ -36,7 +36,7 @@ body {
     height: 100% !important
 }
 
-#modalInclude, #modal, #ClientSetupDoneModal {
+.modal-full {
     position: absolute;
     top: 0;
     width: 0px;
