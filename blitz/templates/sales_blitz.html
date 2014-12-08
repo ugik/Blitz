@@ -5,12 +5,13 @@ class="sales-page"
 {% endblock %}
 
 {% block morehead %}
+  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
-  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
-  <script>
+
+<script>
   $(function() {
     $( "#datepicker" ).datepicker();
     $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
@@ -19,8 +20,7 @@ class="sales-page"
         $('#success-alert').show();
         setTimeout(function(){ $('#success-alert').hide(); }, 2000); }
   });
-
-  </script>
+</script>
 {% endblock %}
 
 {% block outer_content %}
@@ -125,7 +125,14 @@ class="sales-page"
         {% if blitz.price_model == "O" %}
             <br />Begins
             {% if debug_mode %}
-                <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}"> 
+                <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}">
+            <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+            <script type="text/javascript">
+              $(document).ready(function(e) {
+                  $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                });
+            </script>
+
                 <small><i>(Programs always start on Monday)</i></small>
             {% else %}
                 {{ blitz.begin_date }}
