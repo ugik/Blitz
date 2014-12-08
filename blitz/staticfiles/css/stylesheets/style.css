@@ -1146,7 +1146,7 @@ a.edit-workout-link {
     transition: background 0.5s ease; }
     @media (max-width: 480px) {
       .feeditem-actions-container .anchor-container {
-        width: 49.46%; } }
+        width: 48.46%; } }
     .feeditem-actions-container .anchor-container a {
       display: block;
       padding: 8px 0;
