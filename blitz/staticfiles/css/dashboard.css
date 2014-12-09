@@ -702,7 +702,7 @@ ul.filters li.item:hover {
 
 .trainer-alert form textarea,
 .trainer-alert form button {
-    width: 571px;
+    width: 100%;
 }
 
 .trainer-alert form .btn {
