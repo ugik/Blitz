@@ -155,6 +155,7 @@ class TestBasic(unittest.TestCase):
         driver.get(self.base_url + "/client-setup/7?modalInvite&free")
         # click | //form/button | 
 #        import pdb; pdb.set_trace()
+        time.sleep(2)
         driver.find_element_by_id("invite-client").click()
         # assertTextPresent |  | This field is required.
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
