@@ -1579,7 +1579,7 @@ a.edit-workout-link {
   .anchor-container {
     width: 33%;
     display: inline-block;
-    @include mobile-only { width: 49.46%; };
+    @include mobile-only { width: 48.46%; };
     //float: left;
     a {
       display: block;
