@@ -122,7 +122,7 @@ class="sales-page"
            {{ sales_page.program_introduction }}
         {% endif %}
 
-        {% if blitz.price_model == "O" %}
+        {% if not blitz.recurring %}
             <br />Begins
             {% if debug_mode %}
                 <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}">
