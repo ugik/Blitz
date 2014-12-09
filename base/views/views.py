@@ -736,7 +736,7 @@ def client_home(request, **kwargs):
         'shown_intro': show_intro,
         'days_since_checkin' : days_since_checkin,
         'days_since_blitz' : days_since_blitz,
-        'missed_workouts': client.get_missed_workouts(),
+        'missed_workouts': client.get_missed_workouts(limit=3),
         }, context_instance=RequestContext(request))
 
 # client profile

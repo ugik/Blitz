@@ -203,6 +203,9 @@ def usage_trainer(trainer):
         if not client.user.is_trainer and client.get_blitz().trainer == trainer:
             users.append(client.user)
 
+    if not users:
+        return
+
     login_users = []
     laggard_users = []
     for user in users:
@@ -211,6 +214,9 @@ def usage_trainer(trainer):
     for user in users:
         if timezone.normalize(user.last_login).date() <= laggard:
             laggard_users.append(user)
+
+    if not login_users and not laggard_users:
+        return
 
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'

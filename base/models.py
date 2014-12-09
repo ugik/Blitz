@@ -395,7 +395,7 @@ class Client(models.Model):
                 return workout_date, workout_plan_day
         return None, None
 
-    def get_missed_workouts(self, timezone=None):
+    def get_missed_workouts(self, timezone=None, limit=None):
         if not self.get_blitz().workout_plan:
             return []
         if timezone is None:
@@ -407,7 +407,10 @@ class Client(models.Model):
                 ret.append( (workout_date, workout_plan_day) )
             elif workout_date >= today:
                 break
-        return ret
+        if not limit:
+            return ret
+        else:
+            return ret[-limit:]   # return the most recent items in array
 
     def has_workout_today(self, timezone=None):
         return self.get_todays_workout(timezone) is not None
