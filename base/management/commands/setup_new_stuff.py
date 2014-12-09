@@ -140,11 +140,31 @@ class Command(BaseCommand):
                 alerts.create_alerts_for_day(client, date)
 
 
+
+        lorem = []
+        lorem.append("Vestibulum nec convallis tortor. Etiam ipsum nisl, fermentum a tristique ac, mollis eget arcu. Maecenas malesuada augue arcu, quis aliquam sapien consequat vel. In sit amet bibendum libero. Nunc nec odio facilisis turpis faucibus egestas. Aliquam pulvinar, nulla a suscipit consectetur, tortor metus cursus arcu, in sollicitudin dolor lorem ac magna. Quisque porttitor, dolor in luctus lobortis, magna orci sagittis magna, eu dictum tortor elit in neque. Pellentesque dignissim euismod metus, nec mattis arcu consectetur eget. Pellentesque nec elit sed est suscipit sagittis id sit amet diam. Ut nisl leo, ultricies ut bibendum in, fringilla ac mi.")
+
+        lorem.append("Proin nisi odio, convallis id purus a, venenatis gravida ipsum. Duis molestie orci quis aliquam sagittis. Morbi suscipit massa gravida elit porta suscipit. Donec hendrerit rhoncus mattis. Morbi commodo non enim eget tincidunt. Vestibulum pulvinar magna id ipsum venenatis, in aliquam sem facilisis. Maecenas a libero libero. Vivamus bibendum, leo nec porttitor sagittis, nibh dolor semper mi, eu faucibus odio leo vel tortor. Aliquam sit amet diam sit amet nunc ultricies posuere. Nulla pharetra mi in tincidunt consequat. In sed laoreet sapien. Morbi posuere imperdiet est eget laoreet. Quisque maximus turpis id consectetur posuere. Maecenas ac vehicula velit, vel scelerisque ligula.")
+
+        lorem.append("Curabitur congue mattis rutrum. Suspendisse elit lorem, tristique sed felis quis, sodales accumsan velit. Mauris tellus nibh, posuere eu massa in, pellentesque dictum tellus. Nulla facilisi. Nulla nec enim ultricies, consectetur augue a, pretium odio. Vivamus ex massa, blandit at risus ut, lacinia lacinia est. Aliquam at tellus eu libero finibus feugiat eu et orci. Nulla mattis in nibh et imperdiet. Nam ornare dignissim justo a vehicula. Praesent urna libero, scelerisque sit amet felis eget, scelerisque consectetur nisl.")
+
+        lorem.append("Ut vel nisi metus. Integer porta nulla at mi semper gravida. Integer ipsum nibh, finibus vitae ipsum in, ullamcorper tempor risus. Etiam velit augue, hendrerit ac tortor sit amet, sodales tempor elit. Vestibulum ac nisi erat. Nullam id libero nec lectus hendrerit rhoncus tristique ac sem. Morbi at consequat metus, id ultrices orci. Suspendisse cursus tincidunt odio. Vivamus augue dui, gravida in accumsan sed, ornare quis purus. Aliquam erat volutpat. Aenean a leo mollis, accumsan arcu sit amet, pellentesque nisi. Maecenas laoreet quis arcu sit amet ultricies. In luctus faucibus gravida. Donec tincidunt justo quis eros dapibus finibus non ac mauris.")
+
+        lorem.append("Maecenas vel sem at est viverra pulvinar. Donec sollicitudin tincidunt dui, vel luctus massa. Fusce efficitur rhoncus odio et ultricies. Maecenas convallis, quam in dictum lobortis, ligula velit pulvinar urna, ac tristique turpis lacus id risus. Sed vitae libero vel tellus semper dignissim vitae a nulla. Curabitur diam enim, tincidunt facilisis congue sed, lobortis eu justo. Curabitur aliquam odio ac lorem efficitur malesuada. Suspendisse eu magna nec leo venenatis volutpat non sed enim. Maecenas vestibulum nunc id velit finibus pellentesque. Fusce egestas velit vestibulum ipsum lacinia pulvinar.")
+
+        lorem.append("Donec vel arcu dignissim, varius lacus id, cursus nibh. Nam tincidunt arcu quis faucibus accumsan. Pellentesque id ex et turpis lobortis malesuada id eget risus. Aliquam et posuere massa. Sed imperdiet elit ut viverra vehicula. Phasellus dignissim euismod lectus a consequat. Duis interdum orci quis turpis congue ultrices. Nam in faucibus orci, sit amet pellentesque velit. Pellentesque venenatis metus non purus volutpat, non fringilla massa ultrices. Sed aliquam sem id magna tristique, sed cursus massa ornare. Suspendisse mattis rutrum erat, eget imperdiet enim placerat vitae. Vivamus libero erat, luctus ut tristique ac, porta quis urna. Nunc lacinia justo sed ligula pharetra, eu egestas massa placerat.")
+
+        lorem.append("Duis pretium et tellus et semper. Duis dictum odio in mi maximus luctus. Nulla vitae felis faucibus diam molestie mattis. Etiam sit amet dui nulla. Quisque feugiat massa at erat sagittis, vel euismod nibh tempus. Fusce posuere egestas elementum. Nulla est magna, tincidunt ac ipsum nec, sollicitudin finibus magna. Pellentesque sed tincidunt purus. Integer ut pulvinar nunc. Pellentesque laoreet mauris vel massa aliquet, vel iaculis nisl accumsan. Vivamus ac odio sit amet augue scelerisque malesuada a tincidunt risus. Ut at enim scelerisque, faucibus felis sit amet, fringilla mi.")
+
         # comments
         lukeburr = create_new_parent_comment(luke.user, "Who wants to go get a burrito?", timezone_now())[0]
         add_like_to_comment(lukeburr, tay.user, timezone_now())
 
         mrcomment = create_new_parent_comment(mikerashid.user, "Hey boys", timezone_now())[0]
+
+        postdate = date.today() - timedelta(days = randint(50,1500))
+        for x in range(0, 1500):   # tons of comments
+            mrcomment = create_new_parent_comment(mikerashid.user, lorem[randint(0,6)], postdate)[0]
 
         add_child_to_comment(lukeburr, luke.user, "Sure buddy", timezone_now())
         noburr = add_child_to_comment(lukeburr, mikerashid.user,
