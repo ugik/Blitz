@@ -1819,35 +1819,36 @@ a:focus {
   text-align: center;
   padding-top: 10px; }
 
-.macro-combo .letter {
-  font-size: 0.7em;
-  height: 24px;
-  width: 17%;
-  overflow: hidden;
-  float: left;
-  margin: -23% 4%; }
-  @media only screen and (min-width: 481px) and (max-width: 1024px) {
-    .macro-combo .letter {
-      margin: -11% 4%; } }
-.macro-combo .carbs-pass {
-  color: #57c6b9;
-  background-color: #57c6b9; }
-.macro-combo .protein-pass {
-  color: #e8748e;
-  background-color: #e8748e; }
-.macro-combo .fat-pass {
-  color: #eea463;
-  background-color: #eea463; }
-.macro-combo .calories-pass {
-  color: #9b8ddb;
-  background-color: #9b8ddb; }
-.macro-combo .letter-fail {
-  color: #ccc;
-  background-color: #ccc; }
+.macro-combo {
+  margin-top: 15px; }
+  .macro-combo .letter {
+    font-size: 0.7em;
+    height: 24px;
+    width: 17%;
+    overflow: hidden;
+    float: left;
+    margin: -23% 4%; }
+    @media only screen and (min-width: 481px) and (max-width: 1024px) {
+      .macro-combo .letter {
+        margin: -11% 4%; } }
+  .macro-combo .carbs-pass {
+    color: #57c6b9;
+    background-color: #57c6b9; }
+  .macro-combo .protein-pass {
+    color: #e8748e;
+    background-color: #e8748e; }
+  .macro-combo .fat-pass {
+    color: #eea463;
+    background-color: #eea463; }
+  .macro-combo .calories-pass {
+    color: #9b8ddb;
+    background-color: #9b8ddb; }
+  .macro-combo .letter-fail {
+    color: #ccc;
+    background-color: #ccc; }
 
 .macro-day-cell {
-  padding: 10px 0;
-  height: 10px; }
+  height: 20px; }
   .macro-day-cell i {
     font-size: 20px; }
   .macro-day-cell i.pass {
@@ -4711,9 +4712,6 @@ a#logo2.branding {
   font-size: 12px;
   color: #9b999c;
   padding-top: 5px; }
-
-.macro-day-cell {
-  padding: 0px 0px 15px 0px; }
 
 #summary .cover {
   height: 245px; }
