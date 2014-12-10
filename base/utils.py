@@ -116,8 +116,11 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
     # remove invitation if applicable and transfer price to new membership
     if invitation:
         membership.price = invitation.price
-        membership.save()
         invitation.delete()
+    else:
+        membership.price = price
+
+    membership.save()
 
     return membership
 

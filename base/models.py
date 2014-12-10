@@ -551,6 +551,18 @@ class Client(models.Model):
         else:
             return self.weight_in_lbs
 
+    def needs_to_update_cc(self):
+        if len(self.balanced_account_uri)<10:    # no CC reference on file
+            if self.blitzmember_set:
+                member_price = self.blitzmember_set.all()[0].price
+                print member_price
+                if member_price == None or member_price == 0:
+                    return False
+                else:
+                    return True
+        return False
+
+
 MACRO_STRATEGIES = (
     ('M', 'Macros Only'),
     ('C', 'Calories Only'),

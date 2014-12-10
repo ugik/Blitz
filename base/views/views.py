@@ -693,6 +693,8 @@ def client_home(request, **kwargs):
         return redirect('home')
 
     client = request.user.client
+    if client.needs_to_update_cc():
+        return redirect('/%s/%s/signup' % (client.get_blitz().trainer.short_name, client.get_blitz().url_slug))
 
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
@@ -1387,8 +1389,6 @@ def comment_unlike(request):
 @csrf_exempt
 def new_comment(request):
 
-#    import pdb; pdb.set_trace()
-
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
         object_id = request.POST.get('object_id')
         selected_item = request.POST.get('selected_item')
@@ -1849,10 +1849,15 @@ def blitz_signup(request, short_name, url_slug):
     blitz = get_object_or_404(Blitz, trainer=trainer, url_slug=url_slug)
     next_url = '/signup-complete?pk='+str(blitz.pk)
 
+    existing_user = None
+    if request.user.is_authenticated() and not request.user.is_trainer: # deal with client re-entering CC info
+        next_url = '/'
+        existing_user = {'name': request.user.client.name, 'email': request.user.email}
+
     return render(request, 'blitz_signup.html', {
         'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
         'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
-        'next_url': next_url,
+        'next_url': next_url, 'existing_user': existing_user
     })
 
 # completion of Blitz signup
@@ -1890,7 +1895,8 @@ def create_account_hook(request, pk):
 
     return JSONResponse(ret)
 
-# utility method for creation of payment
+# utility method for creation of payment, either new client or existing client updating CC info
+# note: existing client updating info assumes blitz.price rather than client.blitzmember.price
 @csrf_exempt
 def payment_hook(request, pk):
 
@@ -1900,9 +1906,16 @@ def payment_hook(request, pk):
     error = ""
     if form.is_valid():
 
-        # process payment w/balanced 1.1 API
-        client = Client()        
+        existing_user = None
+        if request.user.is_authenticated() and not request.user.is_trainer: # deal with client re-entering CC info
+            client = request.user.client
+            new_client = False
+        else:
+            client = Client()
+            new_client = True
+
         invitation = BlitzInvitation()
+        # process payment w/balanced 1.1 API
         marketplace = balanced.Marketplace.query.one()
         
         # find invitation record if applicable
@@ -1927,12 +1940,14 @@ def payment_hook(request, pk):
             else:
                 debit_amount_str = "0"
 
-            # create client so we have debit meta info
-            client = utils.get_or_create_client(
-                request.session['name'],
-                request.session['email'].lower(),
-                request.session['password']
-                )
+            # create (or update) client so we have debit meta info
+            if new_client:
+                client = utils.get_or_create_client(
+                    request.session['name'],
+                    request.session['email'].lower(),
+                    request.session['password']
+                    )
+
             client.balanced_account_uri = card.href
             client.save()
             meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
@@ -1953,36 +1968,43 @@ def payment_hook(request, pk):
 
         if error:
             has_error = True
-            if client:    # delete user+client if they were created with failed card
+            if client and new_client:    # delete user+ new client if they were created with failed card
                 client.user.delete()
         else:
+
             # invitation may have custom workoutplan and price
-            if invitation:
+            if invitation.id:
                 utils.add_client_to_blitz(blitz, client, workoutplan=invitation.workout_plan, price=invitation.price, invitation=invitation)
 
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
                 blitz_macros_set(None, invitation.macro_formula, client)   # set blitz for specific client
 
-            else:
+            elif new_client:   # if this is not existing client re-entering CC info
                 utils.add_client_to_blitz(blitz, client)
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
 
-            emails.signup_confirmation(client, blitz.trainer)
+            if new_client:
+                emails.signup_confirmation(client, blitz.trainer)
 
-            # alert trainer of new client signup
-            alert = TrainerAlert.objects.create(
-                       trainer=blitz.trainer, text="New client registration.",
-                       client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+                # alert trainer of new client signup
+                alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="New client registration.",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
-            user = authenticate(username=client.user.username, password=request.session['password'])
-            login(request, user)
-            request.session['show_intro'] = True
-            if 'name' in request.session:
-                request.session.pop('name')
-            if 'email' in request.session:
-                request.session.pop('email')
-            if 'password' in request.session:
-                request.session.pop('password')
+                user = authenticate(username=client.user.username, password=request.session['password'])
+                login(request, user)
+                request.session['show_intro'] = True
+                if 'name' in request.session:
+                    request.session.pop('name')
+                if 'email' in request.session:
+                    request.session.pop('email')
+                if 'password' in request.session:
+                    request.session.pop('password')
+            else:
+                # alert trainer of client re-up
+                alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="Client updated CC info.",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
     else:
         has_error = True

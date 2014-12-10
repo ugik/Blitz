@@ -7,36 +7,43 @@
 <div class="row">
     <div class="span4 offset4">
         <div class="formpage-block">
-            <div class="header">Sign up</div>
+            <div class="header">{% if existing_user %}Update CC info{% else %}Sign up{% endif %}</div>
             <p class="info-text">
+               {% if existing_user %}
+               Please update credit-card information.
+               {% else %}
                You're seconds away from taking your fitness to the next level with {{ trainer.short_name }}.
+               {% endif %}
             </p>
             <div class="content">
                 <form action="#" method="POST" id="blitz-signup-form" class="formpage-block-form">
 
                     <div class="form-error error-user-name"></div>
-                    <div class="input-container">
+                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
                         <input type="text"
                                autocomplete="off"
                                placeholder="Name (first and last)"
                                class="user-name"
-                               value="{{ invitation.name }}">
+                               {% if existing_user %}value="{{ existing_user.name }}"{% else %}
+                               value="{{ invitation.name }}"{% endif %}>
                     </div>
 
                     <div class="form-error error-user-email"></div>
-                    <div class="input-container">
+                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
                         <input type="text"
                                placeholder="Email"
                                class="user-email"
-                               value="{{ invitation.email }}">
+                               {% if existing_user %}value="placeholder@example.com"{% else %}
+                               value="{{ invitation.email }}"{% endif %}>
                     </div>
 
                     <div class="form-error error-user-password"></div>
-                    <div class="input-container">
+                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
                         <input type="password"
                                autocomplete="off"
                                placeholder="Create password"
-                               class="user-password">
+                               class="user-password"
+                               {% if existing_user %}value="placeholder"{% endif %}>
                     </div>
 
                     <div class="form-sep"></div>
@@ -146,7 +153,7 @@ $(document).ready(function() {
     var blitz_key = '{{ blitz.pk }}';
     var invitation_key = '{{ invitation.pk }}';
     var $form = $('#blitz-signup-form');
-
+    var existing_user = '{{ existing_user.name }}';
     var marketplaceUri = "{{ marketplace_uri }}";
     balanced.init(marketplaceUri);
 
@@ -259,15 +266,15 @@ $(document).ready(function() {
         $.post('/blitz/' + blitz_key + '/_/create_account', accountData, function(data) {
             resetErrors();
             if (data.has_error) {
-                if (data.errors.name) {
+                if (data.errors.name && existing_user=='') {
                     $form.find('.error-user-name').html(data.errors.name[0]);
                     $form.find('.error-user-name').show();
                 }
-                if (data.errors.email) {
+                if (data.errors.email && existing_user=='') {
                     $form.find('.error-user-email').html(data.errors.email[0]);
                     $form.find('.error-user-email').show();
                 }
-                if (data.errors.password) {
+                if (data.errors.password && existing_user=='') {
                     $form.find('.error-user-password').html(data.errors.password[0]);
                     $form.find('.error-user-password').show();
                 }
