@@ -65,6 +65,27 @@ def get_full_macro_history(client):
         dayBefore = None
         for j in range(7):
             day = get_macro_meta_for_day(client, i, j)
+
+            # Diet Goal Stats
+            diet_facts = ['calories', 'carbs', 'protein', 'fat']
+            diet_goal_stats_legend = []
+            goal_count = 0
+
+            for diet_fact in diet_facts:
+                if day.get(diet_fact) and day.get(diet_fact) == True:
+                    goal_count+= 1
+                    diet_goal_stats_legend.append('hit %s'%diet_fact)
+                else:
+                    diet_goal_stats_legend.append('missed %s'%diet_fact)
+
+
+            day['diet_goal_stats'] = '{completed}/{goal}'.format(
+                completed = goal_count,
+                goal = len(diet_facts)
+            )
+
+            day['diet_goal_stats_legend'] = ', '.join(diet_goal_stats_legend).capitalize()
+
             #dayBefore = ( get_macro_meta_for_day(client, i, j-1))# if (j > 0) else get_macro_meta_for_day(client, -i, 7) )
             one_week['macro_days'].append(day)
 
