@@ -91,7 +91,7 @@
                     <div class="form-sep"></div>
 
                     <div class="submit-container">
-                        <a id="blitz-signup-submit" class="obtn obtn-comment">Complete Signup →</a>
+                        <a id="blitz-signup-submit" class="obtn obtn-comment">{% if existing_user %}Complete Update →{% else %}Complete Signup →{% endif %}</a>
                         <div id="signup-loading" style="display:none; text-align: center; padding: 5px; "><img src="/static/images/squareloader.gif" alt="Loading..."/></div>
                     </div>
                     <div id="sslbadge">

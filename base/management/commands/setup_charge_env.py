@@ -67,6 +67,6 @@ class Command(BaseCommand):
             debit = cc.debit(appears_on_statement_as = 'Blitz.us test', amount = payment, 
                              description='Blitz.us test', meta = meta)
 
-            print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), " Start:"+str(d['start']), " # months"+str(m), "Charge: $"+str(payment)
+            print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), " Start:"+str(d['start']), " # months"+str(m), "Charge: (cents)"+str(payment)
 
 

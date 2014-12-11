@@ -222,10 +222,8 @@ def usage_trainer(trainer):
     template_text = 'usage_email.txt'
     context = {'days':days, 'trainer':trainer, 'login_users':login_users,
                'laggard_users':laggard_users }
-    to_mail = ['georgek@gmail.com']
+    to_mail = [trainer.user.email]
 
-######################################################################
-# Note usage_trainer() using my gmail account as to_ address 
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
 

@@ -113,6 +113,9 @@ class Command(BaseCommand):
             luke = create_client("Luke Walton", "luke@example.com", "asdf", 29, 230, 6, 10, 'M')
             luke.headshot_from_image(settings.TEST_MEDIA_DIR + '/luke_walton.jpg')
             add_client_to_blitz(blitz, luke)
+            membership = luke.blitzmember_set.all()[0]   # set membership price to test cc update pay-wall
+            membership.price = 99
+            membership.save()
 
         tay = Client
         try:
