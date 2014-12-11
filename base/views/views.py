@@ -1632,7 +1632,9 @@ def client_signup(request):
             )
             # add new client to Blitz
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
-            
+
+            blitz_macros_set(None, invitation.macro_formula, client)   # set blitz for specific client            
+
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
                        trainer=invitation.blitz.trainer, text="New client registration.",
