@@ -78,11 +78,12 @@ def get_full_macro_history(client):
                 else:
                     diet_goal_stats_legend.append('missed %s'%diet_fact)
 
-
-            day['diet_goal_stats'] = '{completed}/{goal}'.format(
-                completed = goal_count,
-                goal = len(diet_facts)
-            )
+            # day['diet_goal_stats'] = '{completed}/{goal}'.format(
+            #     completed = goal_count,
+            #     goal = len(diet_facts)
+            # )
+            day['diet_goal_max'] = len(diet_facts)
+            day['diet_goal_done'] = goal_count
 
             day['diet_goal_stats_legend'] = ', '.join(diet_goal_stats_legend).capitalize()
 

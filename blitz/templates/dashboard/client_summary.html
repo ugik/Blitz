@@ -285,9 +285,13 @@
 										<div class="letter fat {% if day.fat %}fat-pass{% else %}letter-fail{% endif %}"  title="Fat"></div>
 									</div>
 									{% endcomment %}
-
+									
+									{% if day.diet_goal_done > 0 %}
 									<span class="diet-progress-stats" title="{{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
-{{ day.diet_goal_stats_legend }}.">{{ day.diet_goal_stats }}</span>
+{{ day.diet_goal_stats_legend }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}</span>
+									{% else %}
+									<i class="icon-remove-sign fail"></i> 
+									{% endif %}
 								</div>
 								{% endif %}
 							</td>
