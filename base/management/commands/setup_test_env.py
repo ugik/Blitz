@@ -264,14 +264,14 @@ class Command(BaseCommand):
             carbs = True if randint(0,1)==0 else False
             macro.save()
             macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
-            protein = True if randint(0,1)==0 else False
-            fat = True if randint(0,1)==0 else False
-            carbs = True if randint(0,1)==0 else False
+            macro.protein = True if randint(0,1)==0 else False
+            macro.fat = True if randint(0,1)==0 else False
+            macro.carbs = True if randint(0,1)==0 else False
             macro.save()
             macro, _ = MacroDay.objects.get_or_create(client=amare, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
-            protein = True if randint(0,1)==0 else False
-            fat = True if randint(0,1)==0 else False
-            carbs = True if randint(0,1)==0 else False
+            macro.protein = True if randint(0,1)==0 else False
+            macro.fat = True if randint(0,1)==0 else False
+            macro.carbs = True if randint(0,1)==0 else False
             macro.save()
 
 

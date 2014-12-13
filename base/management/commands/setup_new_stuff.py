@@ -176,20 +176,20 @@ class Command(BaseCommand):
         # Macros
         for x in range(0, 25):
             macro, _ = MacroDay.objects.get_or_create(client=tay, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
-            protein = True if randint(0,1)==0 else False
-            fat = True if randint(0,1)==0 else False
-            carbs = True if randint(0,1)==0 else False
+            macro.protein = True if randint(0,1)==0 else False
+            macro.fat = True if randint(0,1)==0 else False
+            macro.carbs = True if randint(0,1)==0 else False
             macro.save()
             macro, _ = MacroDay.objects.get_or_create(client=luke, day=blitz.get_date_for_day_index(randint(0,blitz.num_weeks()-1), randint(0,7)))
-            protein = True if randint(0,1)==0 else False
-            fat = True if randint(0,1)==0 else False
-            carbs = True if randint(0,1)==0 else False
+            macro.protein = True if randint(0,1)==0 else False
+            macro.fat = True if randint(0,1)==0 else False
+            macro.carbs = True if randint(0,1)==0 else False
             macro.save()
         for x in range(0, 100):   # extra diet entries for JJ over 40-week period
             macro, _ = MacroDay.objects.get_or_create(client=joe, day=blitz.get_date_for_day_index(randint(0,40), randint(0,7)))
-            protein = True if randint(0,1)==0 else False
-            fat = True if randint(0,1)==0 else False
-            carbs = True if randint(0,1)==0 else False
+            macro.protein = True if randint(0,1)==0 else False
+            macro.fat = True if randint(0,1)==0 else False
+            macro.carbs = True if randint(0,1)==0 else False
             macro.save()
 
 
