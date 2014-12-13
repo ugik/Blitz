@@ -276,7 +276,8 @@
             });
 
             // Add comment submit
-            $('#add-comment-submit').on('click', function(e) {
+
+            $('#add-comment-submit').unbind().on('click', function(e) {
                 e.preventDefault();
                 var comment_text = $('#add-comment').val();
                 if (comment_text === "") {
