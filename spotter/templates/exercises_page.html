@@ -12,7 +12,7 @@
 
 {% regroup workoutset by exercise.lift.name as lift_list %}
 {% for lift in lift_list %}
-<ul><li> {{ lift.grouper }}</li>
+<ul><li> <h3>{{ lift.grouper }}</h3></li>
     <table>
     {% regroup lift.list by exercise.sets_display as set_list %}
     {% for workoutset in set_list %}
