@@ -101,26 +101,30 @@
                  'search_text': SEARCH_TEXT
                 },
                 function(data) {
-                    for (var i=0; i<data.feeditems.length; i++) {
-                        var item = data.feeditems[i];
-                        var el = $(item.html);
-                        $('#main-feed').append(el);
-                    }
-                    FEEDITEM_OFFSET = data.offset;
-                    $('#homepage-loadmore').show();
-                    $('#homepage-loading').hide();
+                    if (data.feeditems) {
+                        for (var i=0; i<data.feeditems.length; i++) {
+                            var item = data.feeditems[i];
+                            var $el = $(item.html);
+                            $('#main-feed').append($el);
+                        }
+                        FEEDITEM_OFFSET = data.offset;
+                        $('#homepage-loadmore').show();
+                        $('#homepage-loading').hide();
 
-                    // Mark loaded feed items as viewed
-                    UpdateViewedFeedsCount(clickedFilter);
+                        // Mark loaded feed items as viewed
+                        UpdateViewedFeedsCount(clickedFilter);
 
-                    // Updates Filters Counter
-                    GetViewedFeedsCount();
+                        // Updates Filters Counter
+                        GetViewedFeedsCount();
 
-                    // Enable Post if not "all" scope
-                    if (FEED_SCOPE !== 'all') {
-                        $postForm.removeClass('hidden');
-                        $postFormContainer.append($postForm);
-                        bindPostForm();
+                        // Enable Post if not "all" scope
+                        if (FEED_SCOPE !== 'all') {
+                            $postForm.removeClass('hidden');
+                            $postFormContainer.append($postForm);
+                            bindPostForm();
+                        }    
+                    } else {
+                        return false;
                     }
                 }
             );

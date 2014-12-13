@@ -2302,6 +2302,7 @@ background-position: 0 -30px;
 }
 
 .macro-combo {
+  margin-top: 15px;
   .letter { font-size: 0.7em; height: 24px; width: 17%; overflow: hidden; float: left; margin: -23% 4%; @include tablet-only {margin: -11% 4%;};};
   .carbs-pass {color: $blitz-green; background-color: $blitz-green; }
   .protein-pass {color: $blitz-red; background-color: $blitz-red; }
@@ -2311,8 +2312,7 @@ background-position: 0 -30px;
 }
 
 .macro-day-cell {
-  padding: 10px 0;
-  height: 10px;
+  height: 20px;
   i {
     font-size: 20px;
   }
@@ -5583,10 +5583,6 @@ a#logo2.branding {
   font-size: 12px;
   color: #9b999c;
   padding-top: 5px;
-}
-
-.macro-day-cell {
-  padding: 0px 0px 15px 0px;
 }
 
 #summary .cover {

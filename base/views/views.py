@@ -1115,7 +1115,7 @@ def blitz_feed(request):
     feed_scope_filter = (content_types.get(request.GET.get('feed_scope_filter')) if request.GET.get('feed_scope_filter') else 'all')
 
     search_text = request.GET.get('search_text')
-    feed_items = []
+    feed_items = FeedItem.objects.get_empty_query_set()
 
     if 'object_id' in request.GET and request.GET.get('object_id').isdigit():
         obj_id = int( request.GET.get('object_id') )
@@ -1148,8 +1148,6 @@ def blitz_feed(request):
         clients = request.user.trainer._all_clients().filter(name__icontains=search_text)
         blitzs = request.user.trainer.active_blitzes().filter(title__icontains=search_text)
 
-        feed_items = FeedItem.objects.get_empty_query_set()
-
         # Adds client related feeds
         for client in clients:
             feed_items |= client.get_feeditems()
@@ -1163,7 +1161,6 @@ def blitz_feed(request):
         if feed_scope == 'all':
             if request.user.email == 'spotter@example.com':    # spotter all feeds
                 blitzes = Blitz.objects.all()
-                feed_items = FeedItem.objects.get_empty_query_set()
 
                 for blitz in blitzes:
                     feed_items |= FeedItem.objects.filter(blitz=blitz)
@@ -1173,10 +1170,8 @@ def blitz_feed(request):
             elif request.user.is_trainer:
                 blitzes = request.user.trainer.active_blitzes()
 
-                feed_items = FeedItem.objects.get_empty_query_set()
-
                 for blitz in blitzes:
-                    if feed_scope_filter != 'all':
+                    if feed_scope_filter and feed_scope_filter != 'all':
                         feed_items |= FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter)
                     else:
                         feed_items |= FeedItem.objects.filter(blitz=blitz)
@@ -1184,25 +1179,25 @@ def blitz_feed(request):
                 feed_items = feed_items.order_by('-pub_date')[offset:offset+FEED_SIZE]
 
             else:
-                if feed_scope_filter != 'all':
+                if feed_scope_filter and feed_scope_filter != 'all':
                     feed_items = FeedItem.objects.filter(blitz=blitz, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
                 else:
                     feed_items = FeedItem.objects.filter(blitz=request.user.client.get_blitz() ).order_by('-pub_date')[offset:offset+FEED_SIZE]
 
         elif feed_scope == 'blitz':
-            if feed_scope_filter != 'all':
+            if feed_scope_filter and feed_scope_filter != 'all':
                 feed_items = FeedItem.objects.filter(blitz_id=obj_id, content_type__name=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
                 feed_items = FeedItem.objects.filter(blitz_id=obj_id).order_by('-pub_date')[offset:offset+FEED_SIZE]
 
-        elif feed_scope == 'client':
+        elif  feed_scope == 'client':
             client = Client.objects.get(pk=obj_id)
 
-            if feed_scope_filter != 'all':
+            if feed_scope_filter and feed_scope_filter != 'all':
                 feed_items = client.get_feeditems(filter_by=feed_scope_filter).order_by('-pub_date')[offset:offset+FEED_SIZE]
             else:
                 feed_items = client.get_feeditems().order_by('-pub_date')[offset:offset+FEED_SIZE]
-        
+
     ret = {
         'feeditems': [],
         'offset': offset+FEED_SIZE,
@@ -2487,12 +2482,20 @@ def trainer_dashboard(request):
     if request.session.get('shown_intro') is True:
         request.session.pop('shown_intro')
 
+
     if blitzes and clients:
+        """Get count of all unviewed feeds"""
+        all_unviewed_count = 0
+    
+        for client in clients:
+            all_unviewed_count+= client.unviewed_feeds_count()
+        """ END """
+
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).order_by('-pub_date').count(),
+            'updates_count': all_unviewed_count, #FeedItem.objects.filter(blitz=request.user.blitz).exclude(is_viewed = True).count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
@@ -2540,4 +2543,3 @@ def trainer_dashboard(request):
             'invite_url': invite_url,
             'signup_key': signup_key
         })
-

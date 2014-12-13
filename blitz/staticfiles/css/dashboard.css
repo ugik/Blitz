@@ -396,7 +396,30 @@ ul.filters li.item:hover {
 }
 
 #summary .macro-day-cell {
-    height: 10px;
+    font-weight: bold;
+    height: 30px;
+}
+
+#summary .macro-history .week p {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* TODO: Replace with Font Awesome Icon */
+#summary .macro-day-cell .icon-ok-sign,
+#summary .macro-day-cell .icon-remove-sign,
+#summary .macro-day-cell .icon-question-sign {
+    font-size: 25px;
+}
+
+#summary .diet-progress-stats {
+    background: none repeat scroll 0% 0% #7AB2EA;
+    margin: 0px auto;
+    display: block;
+    width: 25px;
+    height: 25px;
+    color: #FFF;
+    border-radius: 25px;
 }
 
 #summary .days .current {
@@ -525,19 +548,19 @@ ul.filters li.item:hover {
 }
 
 
-.macro-combo .calories {
+.macro-combo .calories-pass {
     background: #9b8ddb !important;
 }
 
-.macro-combo .fat {
+.macro-combo .fat-pass {
     background: #eea463 !important;
 }
 
-.macro-combo .carbs {
+.macro-combo .carbs-pass {
     background: #57c6b9 !important;
 }
 
-.macro-combo .protein {
+.macro-combo .protein-pass {
     background: #e8748e !important;
 }
 
@@ -548,7 +571,7 @@ ul.filters li.item:hover {
 
  .slide-select {
     font-size: 12px;
-    min-width: 95px;
+    min-width: 140px;
  }
 
 .slide-select ul {
