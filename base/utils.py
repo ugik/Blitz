@@ -106,6 +106,7 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
         blitz.workout_plan = workoutplan
         blitz.price = price
         blitz.url_slug = ''
+        blitz.uses_macros = True
         blitz.macro_strategy = macro_formula if macro_formula else 'DEFAULT'
         blitz.save()
 
