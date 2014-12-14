@@ -100,7 +100,7 @@ function save_client_setup() {
 
 				{% if blitzes %}
 				    {% for blitz in blitzes %}
-	                                {% if not blitz.provisional and not blitz.recurring %}
+	                    {% if not blitz.provisional and not blitz.recurring %}
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
@@ -109,6 +109,7 @@ function save_client_setup() {
 					    </li>
    			                    <div class="separator"></div>
 	                                {% endif %}
+
 				    {% endfor %}
 
 				{% endif %}
