@@ -1240,9 +1240,11 @@ def blitz_feed_viewed(request):
         return JSONResponse({'error': 'Use a POST method AJAX request'})
 
 @csrf_exempt
-def get_viewed_count(request):
+def get_unviewed_count(request):
     if request.is_ajax and request.method == 'POST':
         filters = json.loads( request.META.get('HTTP_FILTERS') ) if request.META.get('HTTP_FILTERS') else []
+
+        clients = request.user.trainer.all_clients()
 
         for id, feed_filter in enumerate(filters):
             feed_scope = feed_filter.get('feed_scope')
@@ -1250,14 +1252,23 @@ def get_viewed_count(request):
             count = 0
 
             if feed_scope == 'all':
-                count = FeedItem.objects.filter(blitz=request.user.blitz, is_viewed=False).count()
+                # count+= FeedItem.objects.filter(blitz=request.user.blitz).exclude(is_viewed=True).count()
+
+                """Get count of all unviewed feeds"""
+                all_unviewed_count = 0
+
+                for client in clients:
+                    all_unviewed_count+= client.unviewed_feeds_count()
+                """ END """
+
+                count += all_unviewed_count
 
             elif feed_scope == 'blitz':
-                count = FeedItem.objects.filter(blitz_id=object_pk, is_viewed=False).count()
+                count = FeedItem.objects.filter(blitz_id=object_pk).exclude(is_viewed=True).count()
 
             elif feed_scope == 'client':
                 client = Client.objects.get(pk=object_pk)
-                count = client.get_feeditems(filter_by='all').filter(is_viewed=False).count()
+                count = client.get_feeditems(filter_by='all').exclude(is_viewed=True).count()
 
             if 'count' in locals():
                 filters[id]['count'] = count
