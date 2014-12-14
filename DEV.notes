@@ -180,7 +180,11 @@ week of 12.1
 - bug fixing
 
 week of 12.8
-- client cc update processing
+- client cc update processing and paywall
 - fix trainer_usage email
-- setup balanced production account
+- limit "missed workout" to most recent 3 notifications
+- fix Provision Blitz macro setting
+- fix dashboard post echo
+- bug fixing
+
 

@@ -42,10 +42,11 @@ class TestDashboard(unittest.TestCase):
         self.assertTrue("D!" in driver.page_source, "Text not found")
 
         driver.find_element_by_xpath("//li[1]/div").click()
-        time.sleep(1)
-#        import pdb; pdb.set_trace()
+        time.sleep(3)
         self.assertTrue("Everything" in driver.page_source, "Text not found")
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+
+#        import pdb; pdb.set_trace()
         self.assertTrue("Hey boys" in driver.page_source, "Text not found")
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         time.sleep(2)
