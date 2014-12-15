@@ -292,7 +292,8 @@
 
                                     {% if day.diet_goal_done > 0 %}
                                     <span class="diet-progress-stats" title="{{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
-{{ day.diet_goal_stats_legend }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}</span>
+Missed: {{ day.diet_goal_missed }}.
+Hit: {{ day.diet_goal_hit }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}</span>
 
                                     {% comment %}
                                     <div class="legend-tooltip hidden">
