@@ -22,6 +22,25 @@ var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
 <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
 <script>
+	$(function() {
+        $(document).tooltip({
+            position: {
+                my: "center bottom-20",
+                at: "center top",
+                using: function(position, feedback) {
+                    $(this).css(position);
+                    $("<div>")
+                        .addClass("arrow")
+                        .addClass(feedback.vertical)
+                        .addClass(feedback.horizontal)
+                        .appendTo(this);
+                }
+            }
+        });
+    });
+</script>
+
+<script>
 function save_client_setup() {
     // clear out errors
     document.getElementById('invite-client').disabled=true;

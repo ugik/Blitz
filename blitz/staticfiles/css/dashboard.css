@@ -1,3 +1,7 @@
+/**
+ * Utils
+ */
+
 .center {
     display: table;
     position: relative;
@@ -409,18 +413,31 @@ ul.filters li.item:hover {
 #summary .macro-day-cell .icon-ok-sign,
 #summary .macro-day-cell .icon-remove-sign,
 #summary .macro-day-cell .icon-question-sign {
-    font-size: 25px;
+    font-size: 29px;
 }
 
 #summary .diet-progress-stats {
     background: none repeat scroll 0% 0% #7AB2EA;
+    padding-top: 3px;
     margin: 0px auto;
     display: block;
-    width: 25px;
+    width: 29px;
     height: 25px;
     color: #FFF;
-    border-radius: 25px;
+    border-radius: 28px;
 }
+
+/*#summary .macro-day-cell .legend-tooltip {
+    background: #3d3b48;
+    border-radius: 12px;
+    color: #fff;
+    position: fixed;
+    z-index: 1;
+}*/
+
+/*#summary .macro-day-cell .legend-tooltip .legend-tooltip-header {
+    color: #a3a2a8;
+}*/
 
 #summary .days .current {
     background: #d2e2f5 !important;
@@ -772,4 +789,52 @@ ul.filters li.item:hover {
     #summary {
         display: none !important;
     }
+}
+
+/**
+ * jQuery UI Tooltip
+ */
+.ui-tooltip, .arrow:after {
+    background: black;
+    border: 2px solid white;
+}
+.ui-tooltip {
+    padding: 10px 20px;
+    color: white;
+    border-radius: 20px;
+    font: bold 14px "Helvetica Neue", Sans-Serif;
+    text-transform: uppercase;
+    box-shadow: 0 0 7px black;
+}
+.ui-tooltip .arrow {
+    width: 70px;
+    height: 16px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    margin-left: -35px;
+    bottom: -16px;
+}
+.ui-tooltip .arrow.top {
+    top: -16px;
+    bottom: auto;
+}
+.ui-tooltip .arrow.left {
+    left: 20%;
+}
+.ui-tooltip .arrow:after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 25px;
+    height: 25px;
+    box-shadow: 6px 5px 9px -9px black;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.ui-tooltip .arrow.top:after {
+    bottom: -20px;
+    top: auto;
 }
