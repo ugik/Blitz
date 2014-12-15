@@ -8,53 +8,44 @@
     margin: 0 auto;
     float: none !important
 }
-
 .spacer20 {
     padding-top: 20px
 }
-
 .max-height {
     height: 100% !important
 }
-
 .separator {
     height: 1px;
     background: #666564;
     width: 90%;
     margin: 16px auto
 }
-
 .disable {
     position: absolute;
-    background: rgba(255,255,255,0.6);
+    background: rgba(255, 255, 255, 0.6);
     height: 100%;
     z-index: 3;
     width: 100%;
 }
-
-
 /**
  * Overwrites
  */
+
 body {
     height: 100% !important
 }
-
 .modal-full {
     position: absolute;
     top: 0;
     width: 0px;
 }
-
 #header .container {
     width: 100%;
 }
-
 #header #logo {
     width: 270px;
     margin: 0px 20px 0px 20px;
 }
-
 /*#header .results-count {
     float: left;
     width: 25px;
@@ -75,7 +66,6 @@ img.headshot {
     border: 3px solid white;
     margin-right: 10px
 }
-
 .icon.headshot {
     top: 12px;
     left: -20px;
@@ -84,75 +74,61 @@ img.headshot {
     margin-right: 15px;
     padding: 5px
 }
-
 .circle {
     -moz-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
     -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.1)
 }
-
 .comment-feed-item {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0
 }
-
 .feeditem-actions-container {
     background: #f0f3f3;
     height: 35px;
     overflow: hidden
 }
-
 .sidebar-box {
     padding: 0 10px;
     box-shadow: none !important;
 }
-
 .sidebar-box .header {
     text-align: left;
     font-weight: bold;
     margin-bottom: 10px
 }
-
 #account-block {
     margin-right: 23px;
 }
-
 /**
  * Boxes
  */
+
 .box {
     float: left;
     border-left: 1px solid #eaeaea;
 }
-
 .box:first-child {
     border-left: none;
 }
-
-
 .box .title {
     border-radius: 6px 6px 0px 0px;
     color: #9b999c !important;
     margin-bottom: 0px !important;
 }
-
 .box.box-orange .title {
     background: #e8a060
 }
-
 .box.box-purple .title {
     background: #663440
 }
-
 .box.box-green .title {
     background: #57c6b9
 }
-
 .box.box-blue .title {
     background: #9b8ddb
 }
-
 .box .title {
     width: 100%;
     margin-bottom: 15px;
@@ -160,14 +136,13 @@ img.headshot {
     font-weight: bold;
     text-align: center
 }
-
 .box .description {
     padding: 0 0px 0px 10px
 }
-
 /**
  * Dashboard
  */
+
 #dashboard {
     background: #fbfcfe;
     height: 100%;
@@ -175,7 +150,6 @@ img.headshot {
     position: relative;
     display: table
 }
-
 #header {
     background: #343434;
     width: 100%;
@@ -183,21 +157,21 @@ img.headshot {
     position: fixed;
     z-index: 9;
 }
-
 #header p {
     color: #a6a6a8;
     text-shadow: 0 0 2px #000
 }
-
 /**
  * Left sidebar
  */
+
 .sidebar-left {
     background: url('../images/sidebar_background.png') #252322;
     height: 100vh;
     width: 310px;
     /*custom*/
     /*position: absolute;*/
+    
     position: fixed;
     top: 0;
     left: 0;
@@ -207,32 +181,25 @@ img.headshot {
     overflow-y: hidden;
     z-index: 1;
 }
-
 .sidebar-left .new-trainer-experience {
     margin: 0px 25px 34px 25px;
 }
-
 .sidebar-left .new-trainer-experience p {
     color: #fff;
 }
-
 .sidebar-left:hover {
     overflow-y: auto;
 }
-
 .sidebar-left .header {
     background: #353535;
     height: 69px !important
 }
-
 .sidebar-left #logo {
     margin: 0 !important
 }
-
 .sidebar-left .brand {
     width: 100%
 }
-
 .sidebar-left .brand img {
     display: table !important;
     position: relative !important;
@@ -240,12 +207,10 @@ img.headshot {
     float: none !important;
     height: 40px !important
 }
-
 .sidebar-left .search-input {
     margin-top: 10px;
     padding: 0 10px
 }
-
 .sidebar-left .search-input input.search-text {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
@@ -254,52 +219,42 @@ img.headshot {
     width: 100%;
     padding: 0;
 }
-
 ul.filters {
     margin: 0 !important
 }
-
 ul.filters li.item {
     height: 40px;
     list-style: none;
     font-size: 22px;
     color: #9d9ea3
 }
-
 ul.filters li.item:hover {
     cursor: pointer;
     background: #4a4c55
 }
-
 ul.filters li.item .item-inner {
     margin: 10px 10px 0 30px;
     position: absolute
 }
-
 ul.filters li.item:last-child {
     margin-bottom: 10px
 }
-
 ul.filters li.item.active {
     background: #4a4c55;
     border-left: 13px solid #7fb5f0;
     color: #fff;
     z-index: -1
 }
-
 ul.filters li.item.active .item-inner {
     margin: 10px 10px 0 17px !important
 }
-
 ul.filters li.item:hover {
     background: #4a4c55
 }
-
 .sidebar-left .actions {
     height: 155px;
     padding: 0 10px
 }
-
 .sidebar-left .actions button {
     display: table;
     width: 100%;
@@ -308,26 +263,23 @@ ul.filters li.item:hover {
     width: 261px;
     margin-bottom: 8px;
 }
-
 .sidebar-left .actions button:not(:first-child) {
     background: none;
     border: 2px solid #fff;
 }
-
 /**
  * Content
  */
+
 .content-wrapper {
     margin-left: 311px;
     position: relative;
     margin-top: 69px;
 }
-
 .content {
     position: relative;
     height: 100%
 }
-
 .feeds {
     width: 595px;
     float: left;
@@ -336,23 +288,23 @@ ul.filters li.item:hover {
     padding: 0px 0px 0px 10px;
     margin-right: 10px
 }
-
 .inbox-container {
     padding: 0 20px
 }
-
 /**
  * Right sidebar
  */
+
 #summary {
     /*position: absolute;*/
+    
     right: 0px;
     background: #fafafb;
     height: 100%;
     border-left: 1px solid #adadad;
     width: 330px;
     /*float: right;*/
-
+    
     position: fixed;
     top: 0;
     right: 0;
@@ -362,15 +314,12 @@ ul.filters li.item:hover {
     overflow-y: hidden;
     z-index: 1;
 }
-
 #summary .client-summary {
     overflow-y: hidden;
 }
-
 #summary .client-summary:hover {
     overflow-y: auto;
 }
-
 #summary .text-overlay {
     position: absolute;
     background: #747678;
@@ -380,42 +329,33 @@ ul.filters li.item:hover {
     color: #f2f2d6;
     top: 227px;
 }
-
 #summary .section {
     border-top: 1px solid #c1c0c3;
     border-radius: none;
     width: 326px;
 }
-
 #summary .section:last-child {
     border-bottom: 1px solid #c1c0c3;
 }
-
 #summary .diet-goals {
     color: #9b999c;
 }
-
 #summary .diet-goals .header {
     margin-bottom: 0px;
 }
-
 #summary .macro-day-cell {
     font-weight: bold;
     height: 30px;
 }
-
 #summary .macro-history .week p {
     margin: 0px;
     padding: 0px;
 }
-
 /* TODO: Replace with Font Awesome Icon */
-#summary .macro-day-cell .icon-ok-sign,
-#summary .macro-day-cell .icon-remove-sign,
-#summary .macro-day-cell .icon-question-sign {
+
+#summary .macro-day-cell .icon-ok-sign, #summary .macro-day-cell .icon-remove-sign, #summary .macro-day-cell .icon-question-sign {
     font-size: 29px;
 }
-
 #summary .diet-progress-stats {
     background: none repeat scroll 0% 0% #7AB2EA;
     padding-top: 3px;
@@ -426,7 +366,6 @@ ul.filters li.item:hover {
     color: #FFF;
     border-radius: 28px;
 }
-
 /*#summary .macro-day-cell .legend-tooltip {
     background: #3d3b48;
     border-radius: 12px;
@@ -434,7 +373,6 @@ ul.filters li.item:hover {
     position: fixed;
     z-index: 1;
 }*/
-
 /*#summary .macro-day-cell .legend-tooltip .legend-tooltip-header {
     color: #a3a2a8;
 }*/
@@ -442,7 +380,6 @@ ul.filters li.item:hover {
 #summary .days .current {
     background: #d2e2f5 !important;
 }
-
 #summary .btn-edit {
     float: right;
     border: 2px solid #7ab2ea;
@@ -450,100 +387,81 @@ ul.filters li.item:hover {
     color: #7ab2ea;
     margin-right: 10px;
 }
-
 #summary .btn-edit:last-child {
     margin-right: 0px;
 }
-
-
 #summary .diet-goals .btn-group {
     width: 100%;
     background: #fff;
     border-radius: 8px 8px 0px 0px;
 }
-
 #summary .diet-goals .btn-group button {
     width: 50%;
     background: #fff;
     height: 25px;
     padding: 0px;
 }
-
 #summary .diet-goals .btn-group button:first-child() {
 }
 
 #summary .diet-goals .btn-group button {
-}
 
+}
 #summary .diet-goals .btn-group button.active {
     background: #7ab2ea;
     color: #fff;
 }
-
 #summary .workout-plan .btn-group {
     display: inline-block;
     float: right;
 }
-
 #summary .workout-plan .btn-group .btn-edit {
     border-radius: 8px;
     float: none;
 }
-
 #summary .workout-plan h4 {
     color: #7ab2ea;
 }
-
 #summary .cover {
     height: 280px;
     color: #757476
 }
-
 #summary .cover img.client-picture {
     height: 150px;
     border: 5px solid #75abf5;
 }
-
 #summary .client-name {
     font-size: 22px;
     margin-bottom: 10px;
     font-weight: bold
 }
-
 #summary .sidebar-box .header {
     padding: 13px 0 !important;
     border-bottom: none !important;
 }
-
 #summary .sidebar-box .goals-history {
     border: 1px solid #c3c2c3;
     border-radius: 8px;
 }
-
 #summary .sidebar-box .goals-history .box {
     margin-bottom: 10px;
     padding: 0px 7px;
 }
-
 #summary .sidebar-box .goals-history .box .title {
     font-size: 14px
 }
-
 #summary .sidebar-box .goals-history .box .info {
     font-size: 11px;
     /*margin: 0px 5px 0px 5px*/
 }
-
 .edit-diet-goal {
     font-size: 14px;
     color: #4c9ad6
 }
-
 #summary .diet-progress select {
     width: 110px;
     float: right
 }
-
 .trainer-info {
     border-top: 1px solid #fff;
     margin-top: 80px;
@@ -551,101 +469,80 @@ ul.filters li.item:hover {
     width: 100%;
     color: #b7b8bb
 }
-
 .trainer-info a {
     color: #b7b8bb
 }
-
 .trainer-info a:hover {
     color: #fff
 }
-
 .trainer-info .inner {
     margin-top: 15px
 }
-
-
 .macro-combo .calories-pass {
     background: #9b8ddb !important;
 }
-
 .macro-combo .fat-pass {
     background: #eea463 !important;
 }
-
 .macro-combo .carbs-pass {
     background: #57c6b9 !important;
 }
-
 .macro-combo .protein-pass {
     background: #e8748e !important;
 }
-
-
 /**
  * Widgets
  */
 
- .slide-select {
+.slide-select {
     font-size: 12px;
     min-width: 140px;
- }
-
+}
 .slide-select ul {
     list-style: none;
     margin: 0px;
-
 }
-
 .slide-select ul li {
     display: none;
     margin: 0px;
     padding: 0px;
 }
-
-.slide-select ul li.arrow,
-.slide-select ul li.active {
+.slide-select ul li.arrow, .slide-select ul li.active {
     display: inline-block;
 }
-
 .slide-select ul li.active {
     display: inline-table;
     margin: 0 auto;
 }
-
 .slide-select ul li.arrow:first-child {
     float: left;
 }
 .slide-select ul li.arrow:last-child {
     float: right;
 }
-
 /* TODO: Move to the correct place */
+
 .macro-history {
     margin-top: 10px;
 }
-
 .macro-history .weekSelector {
     float: right;
 }
-
 .macro-history .weekSelector .icon {
     color: #fff;
     font-weight: bold;
 }
-
 /* TODO: Move to the correct place */
+
 .feeds-filter {
     width: 100%;
     margin-bottom: 25px;
 }
-
 .feeds-filter ul {
     border-bottom: 1px solid #cacacc;
     list-style: none;
     margin: 0px auto 14px auto;
 }
-
 .feeds-filter ul li {
     height: 32px;
     color: #7ab2ea;
@@ -653,38 +550,33 @@ ul.filters li.item:hover {
     margin-right: 34px;
     cursor: pointer;
 }
-
 .feeds-filter ul li.active {
     color: #545454;
     border-bottom: 3px solid #95c0f4;
 }
-
 /* TODO: Move to the correct place */
 /**
  * Group
  */
+
 .group {
     background: #fff;
     color: #767577;
     border-bottom: #d9d9d9;
     margin-bottom: 40px;
 }
-
 .group .members {
     margin-bottom: 17px;
 }
-
 .group .members img.headshot {
     width: 45px;
     height: 45px;
     border: 2px solid #70b3e9;
     margin: 0px 10px 10px 0px;
 }
-
 .group .actions {
     margin-bottom: 17px;
 }
-
 .group .actions .btn {
     background: none transparent;
     padding: 14px 10px;
@@ -693,20 +585,16 @@ ul.filters li.item:hover {
     margin-right: 18px;
     transition: all 0.2s;
 }
-
 .group .actions .btn:hover {
     background: #84aeff;
     color: #fff;
 }
-
 .group img.headshot h3 {
     display: inline-block;
 }
-
 .group img.headshot:last-child {
     margin-right: 0px;
 }
-
 /*Alerts*/
 /*.alerts-wrapper {
     
@@ -721,68 +609,56 @@ ul.filters li.item:hover {
     transition: all 0.2s;
     display: inline-block;
 }
-
 .trainer-alert i.icon-remove-sign {
     color: #cecece;
 }
-
 .trainer-alert .btn:hover {
     background: #84aeff;
     color: #fff;
 }
-
 .trainer-alert .actions {
     display: inline-block;
     float: right;
 }
-
 .trainer-alert form {
     margin-top: 25px;
 }
-
-.trainer-alert form textarea,
-.trainer-alert form button {
+.trainer-alert form textarea, .trainer-alert form button {
     width: 100%;
 }
-
 .trainer-alert form .btn {
     background: #73b9df;
     color: #FFF;
 }
-
 .trainer-alert form .btn:hover {
     background: #427996;
 }
-
-
 /**
  * New User Experience Use
- */ 
+ */
+
 #welcome-text {
     font-size: 19px;
     color: #545454;
 }
 /*END*/
 
-@media only screen and (max-width:1280px) {
+@media only screen and (max-width: 1280px) {
     .feeds {
         width: 62% !important;
     }
 }
-
-@media only screen and (max-width:1235px) {
+@media only screen and (max-width: 1235px) {
     .feeds {
         width: 59% !important;
     }
 }
-
-@media only screen and (max-width:1182px) {
+@media only screen and (max-width: 1182px) {
     .feeds {
         width: 55% !important;
     }
 }
-
-@media only screen and (max-width:1094px) {
+@media only screen and (max-width: 1094px) {
     .feeds {
         width: 97% !important;
     }
@@ -790,10 +666,10 @@ ul.filters li.item:hover {
         display: none !important;
     }
 }
-
 /**
  * jQuery UI Tooltip
  */
+
 .ui-tooltip, .arrow:after {
     background: black;
     border: 2px solid white;

@@ -293,12 +293,16 @@
                                     {% if day.diet_goal_done > 0 %}
                                     <span class="diet-progress-stats" title="{{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
 {{ day.diet_goal_stats_legend }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}</span>
-                  <div class="legend-tooltip hidden">
-                    <div class="legend-tooltip-header">
-                      {{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
-                    </div>
-                    <p>{{ day.diet_goal_stats_legend }}.</p>
-                  </div>
+
+                                    {% comment %}
+                                    <div class="legend-tooltip hidden">
+                                        <div class="legend-tooltip-header">
+                                        {{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
+                                        </div>
+                                        <p>{{ day.diet_goal_stats_legend }}.</p>
+                                    </div>
+                                    {% endcomment %}
+
                                     {% else %}
                                     <i class="icon-remove-sign fail"></i> 
                                     {% endif %}
