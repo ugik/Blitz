@@ -298,4 +298,68 @@ def get_workout_info(client, days=7):
 
     return missed_workouts
 
+# utility method for upload_page
+def save_file(file, pk_value=0, path='/documents/'):
+    filename = file._get_name()
+
+    now = datetime.datetime.now()
+    output_file = "%d__%02d%02d%02d%02d%02d%02d" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second)
+    fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + output_file), 'wb')
+    for chunk in file.chunks():
+        fd.write(chunk)
+    fd.close()
+
+
+# given a macro formula, set macros for specified blitz and all or (optional) specified client
+def blitz_macros_set(blitz, formula, client=None, macros_data=None):
+    if client:
+        clients = [client]
+    else:
+        clients = blitz.members()
+
+    for client in clients:
+        # for invitee we'll use sample biometrics
+        age = float(30) if not client.age else float(client.age)
+        kg = float(100) if not client.weight_in_lbs else float(client.weight_in_lbs * 0.45359237)
+        cm = float(180) if not client.height_feet else float(units_tags.feet_conversion(client, True))
+        wkout_factor = float(1.15)   # % workout day above rest day
+        min_factor = float(0.8)      # % min below
+
+        if formula == 'BULK':
+            factor = float(1.1)
+        elif formula == 'CUT':
+            factor = float(0.9)
+        elif formula == 'BEAST':
+            factor = float(1.15)
+        else:
+            factor = float(1.0)
+
+        if client.gender == 'F':
+            r_cals = float((10 * kg + 6.25 * cm - 5 * age - 161) * factor)
+        else:
+            r_cals = float((10 * kg + 6.25 * cm - 5 * age + 5) * factor)
+
+        r_protein = (0.9 * kg * 2.2) * factor
+        r_fat = (0.4 * kg * 2.2) * factor
+        r_carbs = (r_cals - r_protein - r_fat) / 4 * factor
+        w_cals = r_cals * wkout_factor
+        w_protein = r_protein * wkout_factor
+        w_fat = r_fat * wkout_factor
+        w_carbs = r_carbs * wkout_factor
+
+        if macros_data:   # overwrite formula if client macros entered
+            r_cals = float(macros_data['c_rest_cals'])
+            r_protein = float(macros_data['c_rest_protein'])
+            r_fat = float(macros_data['c_rest_fat'])
+            r_carbs = float(macros_data['c_rest_carbs'])
+            w_cals = float(macros_data['c_wout_cals'])
+            w_protein = float(macros_data['c_wout_protein'])
+            w_fat = float(macros_data['c_wout_fat'])
+            w_carbs = float(macros_data['c_wout_carbs'])
+
+        client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
+
+        client.save()
+
+    return
 

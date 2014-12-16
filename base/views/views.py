@@ -19,7 +19,7 @@ import balanced
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float
+from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, save_file
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
 
@@ -40,9 +40,11 @@ import pytz
 import logging
 import os 
 
-from cStringIO import StringIO
+# from cStringIO import StringIO
 from PIL import Image
 import urllib2
+
+#    import pdb; pdb.set_trace()
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
@@ -55,8 +57,6 @@ def mark_feeds_as_viewed(feed_items):
     for feed_item in feed_items:
         feed_item.is_viewed = True
         feed_item.save()
-
-
 
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
@@ -113,57 +113,25 @@ def get_pending_documents(path, trainer_pk):
             numdocs += 1
     return numdocs
 
-# trainer home
-@login_required
-def trainer_home(request):
-    # check for incongruency
-    if not request.user.is_trainer:
-        return redirect('home')
-
-    # deal with new trainer with pending documents
-    trainer = request.user.trainer
-    numdocs = get_pending_documents('/documents', trainer.pk)
-
-    # deal with new trainer without blitz but with new program setup
-    new_programs = WorkoutPlan.objects.filter(trainer=trainer.pk)
-    if new_programs:
-        new_program_name = new_programs[0].name
-    else:
-        new_program_name = None
-
-    if request.method == 'POST':
-        # post of feed comment and/or picture
-        form = CommentForm(request.POST, request.FILES)
-
-        if form.is_valid() and form.is_multipart():
-            new_content.create_new_parent_comment(request.user, 
-                      form.cleaned_data['comment'], 
-                      timezone_now(),
-                      form.cleaned_data['picture'])
-
-    return render(request, 'trainer_home.html', {
-        'trainer' : trainer,
-        'alerts': trainer.get_alerts(),
-        'docs' : numdocs,
-        'new_programs' : len(new_programs),
-        'new_program_name' : new_program_name,
-    })
-
-
 # url: /blitz-setup
+# create new program (individual or group)
 @login_required
 def blitz_setup(request):
     # check for incongruency
     if not request.user.is_trainer:
         return redirect('home')
 
-    modalBlitz = True if 'modalBlitz' in request.GET else False
-    forceGroup = True if 'group' in request.GET else None
-
     trainer = request.user.trainer
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
-    # load salespages template data
+
+    # handle re-entrant modal
+    modalBlitz = True if 'modalBlitz' in request.GET else False
+    # if called from trainer dashboard then we force group setup
+    forceGroup = True if 'group' in request.GET else None
+
+    # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
+    # list of blitzes for salespages does not include recurring blitzes assigned to clients
     blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
 
     if request.method == 'POST':
@@ -179,16 +147,21 @@ def blitz_setup(request):
         else:
             errors.append("No title")
 
-        charge = form.data['charge']
+        if 'charge' in form.data:
+            charge = form.data['charge']
+            if not try_float(charge):
+                errors.append("CHARGE $ must be a value")
+        else:
+            errors.append("No price")
 
-        start = form.data['start_day']
-        try:
-            datetime.datetime.strptime(start, '%m/%d/%Y')
-        except ValueError:
-            errors.append("Incorrect DATE format, should be mm/dd/yy format")
-
-        if not try_float(charge):
-            errors.append("CHARGE $ must be a value")
+        if 'start_day' in form.data:
+            start = form.data['start_day']
+            try:
+                datetime.datetime.strptime(start, '%m/%d/%Y')
+            except ValueError:
+                errors.append("Incorrect DATE format, should be mm/dd/yy format")
+        else:
+            errors.append("No start date")
 
 # TODO setup default macro formula for new blitz
 
@@ -200,7 +173,7 @@ def blitz_setup(request):
             else:
                 plan = None
 
-            content = create_salespagecontent(form.data['title'], trainer, key=None, title=None)
+            content = create_salespagecontent(name=form.data['title'], trainer=trainer)
 
             if not plan: # blitz w/workoutplan pending
                 blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'))
@@ -249,102 +222,10 @@ def blitz_setup(request):
                  {'form': form, 'trainer' : trainer, 'group' : forceGroup, 
                   'programs' : programs}, RequestContext(request))
 
-
-# url: /blitz-setup2
-@login_required
-def blitz_setup2(request):
-    # check for incongruency
-    if not request.user.is_trainer:
-        return redirect('home')
-
-    modalBlitz = True if 'modalBlitz' in request.GET else False
-    forceGroup = True if 'group' in request.GET else None
-
-    trainer = request.user.trainer
-    programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
-    # load salespages template data
-    salespages = SalesPageContent.objects.filter(trainer=trainer)
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
-
-    if request.method == 'POST':
-
-        form = BlitzSetupForm(request.POST, trainer=trainer)
-        errors = []
-
-        print form.data
-
-        # resolve title
-        if 'title' in form.data:
-            title = form.data['title']
-            if len(title)<5:
-                errors.append("Title too short")
-        else:
-            errors.append("No title")
-
-        if 'charge' in form.data:
-            charge = form.data['charge']
-            if not try_float(charge):
-                errors.append("CHARGE $ must be a value")
-        else:
-            errors.append("No $ charge")
-
-        start = form.data['start_day']
-        try:
-            datetime.datetime.strptime(start, '%m/%d/%Y')
-        except ValueError:
-            errors.append("Incorrect DATE format, should be mm/dd/yy format")
-
-# TODO setup default macro formula for new blitz
-
-        if not errors and form.is_valid():
-
-            if 'program' in form.data:
-                program_pk = form.data['program']
-                plan = WorkoutPlan.objects.get(pk=program_pk)
-            else:
-                plan = None
-
-            content = create_salespagecontent(form.data['title'], trainer, key=None, title=None)
-
-            if not plan: # blitz w/workoutplan pending
-                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'))
-            else:  # blitz w/workoutplan selected
-                blitz = Blitz.objects.create(trainer = trainer, begin_date = datetime.datetime.strptime(start, '%m/%d/%Y'), workout_plan = plan)
-
-            blitz.title = form.data['title']
-            blitz.sales_page_content = content
-            blitz.url_slug = form.data['url_slug']
-            blitz.price = charge
-            blitz.uses_macros = True
-            blitz.macro_strategy = 'M'
-            blitz.recurring = False if forceGroup or form.data['blitz_type'] == "GRP" else True
-            blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"
-            blitz.provisional = True if blitz.recurring else False
-            blitz.save()
-
-            if request.is_ajax():
-                return JSONResponse({'continue': '/'})
-                
-            return render_to_response('blitz_setup_done.html', 
-                              {'form': form, 'trainer' : trainer}, 
-                              RequestContext(request))
-
-        else:
-
-            return render_to_response('blitz_setup4.html', 
-                         {'form': form, 'trainer': trainer, 'errors': errors, 'group': forceGroup,
-                          'programs': programs }, RequestContext(request))
-
-    else:
-        form = BlitzSetupForm(None, trainer=trainer)
-
-        return render_to_response('blitz_setup4.html', 
-                 {'form': form, 'trainer': trainer, 'group': forceGroup, 
-                  'programs': programs, 'reentry': "False"}, RequestContext(request))
-
-
+#TODO remove if not needed #########################
 # client setup
 # url: /client-setup
+# invite a client
 @login_required
 def client_setup(request):
     return client_blitz_setup(request, 0)
@@ -357,29 +238,29 @@ def client_blitz_setup(request, pk):
     if not request.user.is_trainer:
         return redirect('home')
 
-    # handle where modal returns to
-    url_return = None
-    if 'url_return' in request.GET:
-        url_return = request.GET.get('url_return')
-
-    mode = "free" if 'free' in request.GET else None
-    modalInvite = True if 'modalInvite' in request.GET else False
-
     trainer = request.user.trainer
+
+    # handle where modal returns to
+    url_return = request.GET.get('url_return') if 'url_return' in request.GET else None
+    # handle free option
+    mode = "free" if 'free' in request.GET else None
+    # handle re-rentrant modal in salespages page
+    modalInvite = True if 'modalInvite' in request.GET else False
 
     if pk != 0:
         blitz = get_object_or_404(Blitz, pk=int(pk) )
     else:  # 0 blitz if we were sent here without a specific blitz, find existing provisional
         blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
         if not blitzes:  # shouldn't happen since every trainer has provisional blitz
-            print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
+            print "UNEXPECTED ERROR: Cannot find any Provisional Blitz for trainer: %s!" % trainer
             return redirect('/')
         else:
+            # use first provisional blitz for this trainer
             blitz = blitzes[0]
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
-    # load salespages template data
+    # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
     blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
 
@@ -435,7 +316,6 @@ def client_blitz_setup(request, pk):
         uri = domain(request)
 
         invite_url = uri+'/client-signup?signup_key='+signup_key
-#        invite_url = uri+'/'+trainer.short_name+'/'+blitz.url_slug
 
         if modalInvite:
             return render(request, 'trainer_salespages.html', {
@@ -463,7 +343,6 @@ def spotter_program_edit(request, pk):
     if not request.user.is_trainer:
         return redirect('home')
 
-#    import pdb; pdb.set_trace()
     trainer = request.user.trainer
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
     workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
@@ -471,18 +350,10 @@ def spotter_program_edit(request, pk):
     modalSpotter = True if 'modalSpotter' in request.GET else False
     modalSpotterDashboard = True if 'modalSpotterDashboard' in request.GET else False
 
-    # if trainer has exactly 1 Blitz or trainer.currently_viewing_blitz is None then pick first Blitz
-    # this handles both cases where .currently_viewing_blitz is inoperable
-    if len(trainer.blitz_set.all()) == 1 or not trainer.currently_viewing_blitz:
-        blitz = trainer.blitz_set.all()[0]
-    else:                                   
-        blitz = trainer.currently_viewing_blitz
-
     if request.method == 'POST':
         form = SpotterProgramEditForm(request.POST)
 
         if form.is_valid():
-            print "SPOTTER PROGRAM EDIT"
             email_spotter_program_edit(pk, form.cleaned_data['edit_request'])
 
             return redirect('my_blitz_program')
@@ -530,7 +401,7 @@ def blitz_macros(request, pk):
 
         if form.is_valid():
             formula = form.cleaned_data['formulas']
-            blitz_macros_set(blitz, formula)
+            blitz_macros_set(blitz=blitz, formula=formula)
             return redirect('home')
         else:
             if 'modalMacros' in request.GET:
@@ -569,7 +440,7 @@ def client_macros(request, pk):
 
         if form.is_valid():
             formula = form.cleaned_data['formulas']
-            blitz_macros_set(None, formula, client)   # set blitz for specific client
+            blitz_macros_set(blitz=None, formula=formula, client=client)   # set blitz for specific client
             return redirect('home')
         else:
             if 'modalMacros' in request.GET:
@@ -591,59 +462,6 @@ def client_macros(request, pk):
             return render_to_response('client_macros.html', 
                 {'trainer' : trainer, 'client' : client, 'errors' : form.errors}, 
                  RequestContext(request))
-
-# given a macro formula, set macros for specified blitz and all or (optional) specified client
-def blitz_macros_set(blitz, formula, client=None, macros_data=None):
-    if client:
-        clients = [client]
-    else:
-        clients = blitz.members()
-
-    for client in clients:
-        # for invitee we'll use sample biometrics
-        age = float(30) if not client.age else float(client.age)
-        kg = float(100) if not client.weight_in_lbs else float(client.weight_in_lbs * 0.45359237)
-        cm = float(180) if not client.height_feet else float(units_tags.feet_conversion(client, True))
-        wkout_factor = float(1.15)   # % workout day above rest day
-        min_factor = float(0.8)      # % min below
-
-        if formula == 'BULK':
-            factor = float(1.1)
-        elif formula == 'CUT':
-            factor = float(0.9)
-        elif formula == 'BEAST':
-            factor = float(1.15)
-        else:
-            factor = float(1.0)
-
-        if client.gender == 'F':
-            r_cals = float((10 * kg + 6.25 * cm - 5 * age - 161) * factor)
-        else:
-            r_cals = float((10 * kg + 6.25 * cm - 5 * age + 5) * factor)
-
-        r_protein = (0.9 * kg * 2.2) * factor
-        r_fat = (0.4 * kg * 2.2) * factor
-        r_carbs = (r_cals - r_protein - r_fat) / 4 * factor
-        w_cals = r_cals * wkout_factor
-        w_protein = r_protein * wkout_factor
-        w_fat = r_fat * wkout_factor
-        w_carbs = r_carbs * wkout_factor
-
-        if macros_data:   # overwrite formula if client macros entered
-            r_cals = float(macros_data['c_rest_cals'])
-            r_protein = float(macros_data['c_rest_protein'])
-            r_fat = float(macros_data['c_rest_fat'])
-            r_carbs = float(macros_data['c_rest_carbs'])
-            w_cals = float(macros_data['c_wout_cals'])
-            w_protein = float(macros_data['c_wout_protein'])
-            w_fat = float(macros_data['c_wout_fat'])
-            w_carbs = float(macros_data['c_wout_carbs'])
-
-        client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
-
-        client.save()
-
-    return
 
 
 # handle trainer uploading documents
@@ -671,18 +489,6 @@ def upload_page(request):
     return render_to_response('upload_page.html', 
                               {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
                               RequestContext(request))
-
-
-# utility method for upload_page
-def save_file(file, pk_value=0, path='/documents/'):
-    filename = file._get_name()
-
-    now = datetime.datetime.now()
-    output_file = "%d__%02d%02d%02d%02d%02d%02d" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second)
-    fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + output_file), 'wb')
-    for chunk in file.chunks():
-        fd.write(chunk)
-    fd.close()
 
 
 # called by home(request)
@@ -765,7 +571,7 @@ def client_profile_progress(request, pk):
     session_list = [ (gym_session, grouped_sets_with_user_data(gym_session)) for gym_session in gym_sessions ]
 
     lift_history_maxes = get_lift_history_maxes(client)
-    # reduce the lifts to 10 weeks history (especially in recurring programs)
+    # reduce the lifts to 10 weeks history (to handle long-running recurring programs)
     NUM_LIFTS = 10
     reduction = False
     for key in lift_history_maxes.keys():
@@ -874,19 +680,6 @@ def view_program(request, pk):
 def my_blitz_program(request):
     blitz = request.user.blitz
     return blitz_program(request, blitz.pk)
-
-'''
-@login_required
-def blitz_program(request, pk):
-    blitz = get_object_or_404(Blitz, pk=int(pk) )
-
-    if request.user.is_trainer:
-        return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'trainer': request.user.trainer, 'SITE_URL' : settings.SITE_URL })
-    else:
-        return render(request, 'blitz_program.html', {
-            'blitz': blitz, 'client': request.user.client, 'SITE_URL' : settings.SITE_URL })
-'''
 
 # lists Blitz members
 # url: /program/members
@@ -1639,7 +1432,8 @@ def client_signup(request):
             # add new client to Blitz
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
 
-            blitz_macros_set(None, invitation.macro_formula, client)   # set blitz for specific client            
+            # set blitz for specific client            
+            blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client)   
 
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
@@ -1811,7 +1605,6 @@ def sales_blitz(request):
         blitz.sales_page_content.save()
         blitz.save()
 
-        print "Saved=%s" % saved
         return render(request, "sales_blitz.html", {
             'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
             'saved': saved })
@@ -1819,25 +1612,6 @@ def sales_blitz(request):
         return render(request, "sales_blitz.html", {
             'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
             })
-
-
-# old sales page views
-def sales_page(request, plan_slug):
-
-    blitz = get_object_or_404(Blitz, url_slug=plan_slug)
-    template = 'sales_pages/%s.html' % plan_slug.lower()
-
-    return render(request, template, { 'blitz': blitz })
-
-def sales_page_2(request, urlkey):
-
-    blitz = get_object_or_404(Blitz, urlkey=urlkey)
-    template = 'sales_page.html'
-
-    return render(request, template, {
-        'blitz': blitz,
-        'sales_content': blitz.sales_page_content,
-    })
 
 # Blitz signup page
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/signup
@@ -1985,7 +1759,8 @@ def payment_hook(request, pk):
                 utils.add_client_to_blitz(blitz, client, workoutplan=invitation.workout_plan, price=invitation.price, invitation=invitation)
 
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
-                blitz_macros_set(None, invitation.macro_formula, client)   # set blitz for specific client
+                # set blitz for specific client
+                blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client)   
 
             elif new_client:   # if this is not existing client re-entering CC info
                 utils.add_client_to_blitz(blitz, client)
@@ -2056,6 +1831,7 @@ def spotter_edit(request):
 
 @login_required
 @csrf_exempt
+# Ajax handler for modal client invite
 def client_setup(request):
     from urlparse import urlparse
     trainer = request.user.trainer
@@ -2103,7 +1879,7 @@ def blitz_macros_save(request):
     blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
 
     if 'formula' in request.POST:
-        blitz_macros_set(blitz, request.POST.get('formula'))
+        blitz_macros_set(blitz=blitz, formula=request.POST.get('formula'))
 
     return JSONResponse({'is_error': False})
 
@@ -2135,7 +1911,7 @@ def client_macros_save(request):
                         "c_wout_protein" : request.POST.get('c_wout_protein'),
                         "c_wout_carbs" : request.POST.get('c_wout_carbs') }
 
-        blitz_macros_set(None, request.POST.get('formula'), client, macros_data )
+        blitz_macros_set(blitz=None, formula=request.POST.get('formula'), client=client, macros_data=macros_data )
 
     return JSONResponse({'is_error': False})
 
@@ -2178,7 +1954,7 @@ def set_up_profile_basic(request):
             # set macros if provided
             invite = BlitzInvitation.objects.get_or_none(email = request.user.email)
             if invite:
-                blitz_macros_set(None, invite.macro_formula, client)
+                blitz_macros_set(blitz=None, formula=invite.macro_formula, client=client)
 
             request.session['intro_stage'] = 'photo'
             return redirect('set_up_profile')
@@ -2360,11 +2136,14 @@ def set_client_macros(request, pk):
     })
 
 # ERROR handling
+# TODO check if needed ########################
 def page404(request):
     return render(request, '404.html')
 
+# TODO check if needed ########################
 def page500(request):
     return render(request, '500.html')
+
 
 def not_found_error(request, template_name='404.html'):
 
