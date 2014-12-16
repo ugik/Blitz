@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.mail import send_mail, EmailMessage
 from workouts import utils as workout_utils
 from workouts.models import WorkoutSet, Lift, Workout, ExerciseCustom
+from base.templatetags import units_tags
 
 import hashlib
 import datetime

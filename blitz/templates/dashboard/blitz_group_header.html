@@ -31,14 +31,14 @@ $j(document).ready(function() {
     $j( "#datepicker" ).datepicker( "option", "dateFormat", "mm/dd/yy" )
 
     $j('#datep').click(function() {
-        $('#datepicker').datepicker('show');
+        $j('#datepicker').datepicker('show');
     });
     $j('#datep').change(function() {
         $.ajax({
                 url: '/trainer/change-date',
                 type: 'POST',
                 data: {blitz: {{ blitz.pk }},
-                       begin_date: $("#datepicker").datepicker('getDate')},
+                       begin_date: $j("#datepicker").datepicker('getDate')},
             })
     })
 })
