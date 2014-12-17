@@ -122,4 +122,7 @@ def get_full_macro_history(client):
 
         weeks.append(one_week)
 
-    return weeks
+    if not len(weeks):
+        return None
+    else:
+        return weeks
