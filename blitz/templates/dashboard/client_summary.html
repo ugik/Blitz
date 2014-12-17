@@ -220,6 +220,7 @@
             {% endfor %}
             </select>
         </div>
+        {% if macro_history %}
         <div class="macro-history">
             <div class="week-name">
                 Diet Progress
@@ -318,6 +319,7 @@ Hit: {{ day.diet_goal_hit }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}<
             </div>
             {% endfor %}
         </div> <!--/ macro-history -->
+        {% endif %}
         <div class="spacer10"></div>
     </div>
 
