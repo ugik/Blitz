@@ -19,6 +19,7 @@
         function homepage_setLoading() {
             $('#homepage-loadmore').hide();
             $('#homepage-loading').show();
+            $('html, body').animate({ scrollTop: $(document).height() }, 600);
         }
 
         function UpdateViewedFeedsCount(clickedFilter) {
