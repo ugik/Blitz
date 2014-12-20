@@ -28,6 +28,9 @@ class TestMacros(unittest.TestCase):
         driver.find_element_by_xpath("//li[2]/div").click()
         driver.find_element_by_id("edit_macros").click()
         driver.find_element_by_xpath("(//button[@type='button'])[24]").click()
+
+#        import pdb; pdb.set_trace()
+        time.sleep(2)
         driver.find_element_by_link_text("Beast Mode (+15%)").click()
         self.assertTrue("101" in driver.page_source, "Text not found")
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")

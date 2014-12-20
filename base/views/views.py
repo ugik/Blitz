@@ -2232,10 +2232,10 @@ def trainer_survey(request):
     return render(request, 'trainer_intake_survey.html', {})
 
 # open misc
-def organized_disruption(request):
+def about(request):
     if 'page' in request.GET:
         page = request.GET.get('page')
-    return render(request, 'od.html', {})
+    return render(request, 'about.html', {})
 
 # trainer dashboard
 # url: /dashboard

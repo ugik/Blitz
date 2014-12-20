@@ -38,6 +38,7 @@ urlpatterns += patterns(
 
     # url(r'^$', 'base.views.home', name='home'),
     url(r'^$', 'base.views.home', name='home'),
+    url(r'^about$', 'base.views.about', name='about'),
 
     url(r'^profile$', 'base.views.my_profile', name='my_profile'),
     url(r'^profile/c/(?P<pk>\d+)$', 'base.views.client_profile', name='client_profile'),
