@@ -33,13 +33,14 @@ def backup():
     if len(c) > 0:
         os.system("bash ~/Blitz/backup.sh")
 
-@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="23", minute="58", day_of_week="*"))  
 def usage(): 
     usage_digest()
 
-#@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
-#def email_test(): 
-#    send_mail('Celery email test', 'Daily test email celery', 'team@blitz.us', ['georgek@gmail.com'])
+@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
+def trainer_digests():
+    for trainer in Trainer.objects.all():
+        usage_trainer(trainer)
 
 @periodic_task(run_every=crontab(hour="*", minute="1", day_of_week="*"))  
 def trainer_alerts():
@@ -54,12 +55,6 @@ def trainer_alerts():
 
         yesterday = client.current_datetime().date() + datetime.timedelta(days=-1)
         create_alerts_for_day(client, yesterday)
-
-
-@periodic_task(run_every=crontab(hour="*", minute="2", day_of_week="*"))  
-def trainer_digests():
-    for trainer in Trainer.objects.all():
-        usage_trainer(trainer)
 
 
 @periodic_task(run_every=crontab(hour="*", minute="3", day_of_week="*"))  

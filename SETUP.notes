@@ -2,12 +2,12 @@
 
 #http://roundhere.net/journal/virtualenv-ubuntu-12-10/
 #virtualenv wrapper:
-mkvirtualenv fitFlame
+mkvirtualenv Blitz
 deactivate
-workon fitFlame
+workon Blitz
 
 #pagekite
-pagekite.py 8000 fitflame.pagekite.me
+pagekite.py 8000 blitz.pagekite.me
 
 #replace string
 grep -r --include=*.py "Foo" .

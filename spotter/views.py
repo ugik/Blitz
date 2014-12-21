@@ -305,6 +305,14 @@ def spotter_feed(request):
     return render_to_response('feeds.html', {}, RequestContext(request))
 
 @login_required
+def spotter_invites(request):
+    if not request.user.is_staff:
+        return redirect('home')
+    
+    invites = BlitzInvitation.objects.all()
+    return render_to_response('invites.html', { 'invites': invites }, RequestContext(request))
+
+@login_required
 def spotter_exercise(request):
     if not request.user.is_staff:
         return redirect('home')

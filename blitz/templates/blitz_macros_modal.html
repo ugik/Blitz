@@ -65,18 +65,16 @@
                             return 0;
                         }
                         $(document).ready(function(){
+                            $('.formula-select').selectpicker({ style: 'btn-info', size: "auto", });
                             x = show_macros(1);
                         }) 
-                        $(document).ready(function(e) {
-                            $('.formula-select').selectpicker({ style: 'btn-info', size: "auto", });
+                        $('.formula-select').on('change', function(){
+                           var selected = $('.formula-select option:selected').val();
+                              if (selected == 'DEFAULT') { x = show_macros(1); } 
+                              else if (selected == 'BULK') { x = show_macros(1.1); }
+                              else if (selected == 'CUT') { x = show_macros(0.9); }
+                              else if (selected == 'BEAST') { x = show_macros(1.15); }
                            });
-                        $('select.selectpicker').on('change', function(){
-                           var selected = $('.selectpicker option:selected').val();
-                             if (selected == 'DEFAULT') { x = show_macros(1); } 
-                             else if (selected == 'BULK') { x = show_macros(1.1); }
-                             else if (selected == 'CUT') { x = show_macros(0.9); }
-                             else if (selected == 'BEAST') { x = show_macros(1.15); }
-                         });
                     </script>
                  <br>
                  

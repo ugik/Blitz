@@ -69,10 +69,22 @@
                  <td colspan="2">
                  <div class="wellheadline">{{ blitz.sales_page_content.program_title }}</div>
 
-                 <p style="linktag">Page link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}">
-                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }} </a></p>
+                 {% if trainer.short_name == blitz.url_slug %}
+                 <p style="linktag">Page link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}">
+                    {{ SITE_URL }}/{{ trainer.short_name }}
+                 {% else %}
+                 <p style="linktag">Page link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}">                 
+                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }} 
+                 {% endif %}
+
+                 </a></p>
                  <p style="linktag">Quick signup link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup">
-                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup </a></p>
+                 {% if trainer.short_name == blitz.url_slug %}
+                    {{ SITE_URL }}/{{ trainer.short_name }}/signup
+                 {% else %}
+                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup
+                 {% endif %}
+                 </a></p>
                  </td></tr>
                  <tr><td>
                  <td><form method="post" 

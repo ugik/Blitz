@@ -183,13 +183,17 @@
 
 
 <div class='client-summary'>
-	<div class="section cover">
-	<div class="spacer20"></div>
-		<a href="{% url 'client_profile' client.pk %}"><img src="{{ client.get_headshot_url }}" class="client-picture img-circle center" /></a>
-		<div class="spacer20"></div>
-		<p class="client-name center">{{ client.name }}</p>
-		<p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>
-	</div>
+    <div class="section cover">
+    <div class="spacer20"></div>
+        <a href="{% url 'client_profile' client.pk %}"><img src="{{ client.get_headshot_url }}" class="client-picture img-circle center" /></a>
+        <div class="spacer20"></div>
+        <p class="client-name center">{{ client.name }}</p>
+        <p class="client-info center"><span class="client-height"> {{ client.height_feet }}'{{client.height_inches }}" | </span><span class="client-weight">{{ client.weight_in_lbs }} lbs. | </span><span class="client-age">{{ client.age }} yrs old</span></p>
+
+        {% if client.needs_to_update_cc %}
+        <p class="client-info center" style="color:red;"><b>*Needs to update CC info</b></p>
+        {% endif %}
+    </div>
         {% if workout_info %}
         <div class="section week-performance sidebar-box">
             <div class="header">
@@ -205,206 +209,235 @@
 
 
 
-	<div class="section sidebar-box diet-progress">
-		<!-- TODO: Remove .header element -->
-		<div class="header hidden">
-			Diet Progress
-			<select>
-				<option value='this_week'>This Week</option>
-			{% for week in macro_history %}
-				<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
-			{% endfor %}
-			</select>
-		</div>
-		<div class="macro-history">
-			<div class="week-name">
-				Diet Progress
-				<select>
-					<option value='this_week'>This Week</option>
-				{% for week in macro_history %}
-					<option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
-				{% endfor %}
-				</select>
-				<div class="weekSelector slide-select">
-					<ul>
-						<li class="arrow"> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
-						{% for week in macro_history %}
-							{% if week.is_current %}
-							<li class="item active" data-week-num="{{ week.week_number }}">This Week</li>
-							{% else %}
-							<li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}>{{ week.month_str|slice:"3" }} {{ week.first_day }} - {{ week.last_day }} </li>
-							{% endif %}
-						{% endfor %}
-						<li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
-					</ul>
-				</div>
-			</div>
-			{% for week in macro_history %}
-			<div class="week week-{{ week.week_number }} {% if not week.is_current %}hidden{%else%}current{% endif %}" data-week-number={{ week.week_number }}>
-				<!-- <div class="week-name">Week {{ week.week_number }}</div> -->
-				<div class="clearfix"></div>
-				<div class="days">
-					<table>
-						<tr>
-							{% for day in week.macro_days %}
-							<td class="{% if day.current %}current{% endif %}" data-future="{{ day.in_future }}">
-								<p>{{ day.day_str|slice:"3" }}</p>
-								{% if day.in_future and not day.has_entry %}
-								<div class="macro-day-cell {% if day.current %}current{% endif %}">
-									{# <span class="day-of-month">{{ day.day_of_month }}</span> #}
-								</div>
-								{% endif %}
-								{% if not day.in_future and not day.has_entry %}
-								<div class="macro-day-cell {% if day.current %}current{% endif %}">
-									<i class="icon-question-sign unknown"></i>
-								</div>
-								{% endif %}
-								{% if day.all_pass %}
-								<div class="macro-day-cell {% if day.current %}current{% endif %}">
-									<i class="icon-ok-sign pass"></i>
-								</div>
-								{% endif %}
-								{% if day.all_fail %}
-								<div class="macro-day-cell {% if day.current %}current{% endif %}">
-									<i class="icon-remove-sign fail"></i>
-								</div>
-								{% endif %}
-								{% if day.has_entry and not day.all_pass and not day.all_fail %}
-								<div class="macro-day-cell {% if day.current %}current{% endif %}">
-									<div class="macro-combo">
-										<div class="letter calories {% if day.calories %}calories-pass{% else %}letter-fail{% endif %}"  title="Calories"></div>
-										<div class="letter protein {% if day.protein %}protein-pass{% else %}letter-fail{% endif %}"  title="Protein"></div>
-										<div class="letter carbs {% if day.carbs %}carbs-pass{% else %}letter-fail{% endif %}"  title="Carbs"></div>
-										<div class="letter fat {% if day.fat %}fat-pass{% else %}letter-fail{% endif %}"  title="Fat"></div>
-									</div>
-								</div>
-								{% endif %}
-							</td>
-							{% endfor %}
-						</tr>
-					</table>
-				</div>
-			</div>
-			{% endfor %}
-		</div> <!--/ macro-history -->
-		<div class="spacer10"></div>
-	</div>
+    <div class="section sidebar-box diet-progress">
+        <!-- TODO: Remove .header element -->
+        <div class="header hidden">
+            Diet Progress
+            <select>
+                <option value='this_week'>This Week</option>
+            {% for week in macro_history %}
+                <option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        {% if macro_history %}
+        <div class="macro-history">
+            <div class="week-name">
+                Diet Progress
+                <select>
+                    <option value='this_week'>This Week</option>
+                {% for week in macro_history %}
+                    <option value="{{ week.week_number }}">Week {{ week.week_number }}</option>
+                {% endfor %}
+                </select>
+                <div class="weekSelector slide-select">
+                    <ul>
+                        <li class="arrow"> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
+                        {% for week in macro_history %}
+                            {% if week.is_current %}
+                            <li class="item active" data-week-num="{{ week.week_number }}">This Week</li>
+                            {% else %}
+                            <li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}> Week of {{ week.month_str|slice:"3" }} {{ week.first_day }} - {{ week.last_day }} </li>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
+                    </ul>
+                </div>
+            </div>
+            {% for week in macro_history %}
+            <div class="week week-{{ week.week_number }} {% if not week.is_current %}hidden{%else%}current{% endif %}" data-week-number={{ week.week_number }}>
+                <!-- <div class="week-name">Week {{ week.week_number }}</div> -->
+                <div class="clearfix"></div>
+                <div class="days">
+                    <table>
+                        <tr>
+                            {% for day in week.macro_days %}
+                            <td class="{% if day.current %}current{% endif %}" data-future="{{ day.in_future }}">
+                                <p>{{ day.day_str|slice:"3" }}</p>
+                                {% if day.in_future and not day.has_entry %}
+                                <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                                    {# <span class="day-of-month">{{ day.day_of_month }}</span> #}
+                                </div>
+                                {% endif %}
 
-	<div class="section diet-goals sidebar-box">
-		<div class="header">
-			Diet Goals <a class="btn btn-default btn-edit" id="edit_macros" onclick="{ jQuery.noConflict();$('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
-			
-		</div>
-		<div class="goals-history" id="goals-history">
-			
-			<div class="macro-toggle">
-			    <button type="button" class="switch-training active">Training Days</button>
-			    <button type="button" class="switch-resting">Rest Days</button>
-			</div>
-			
-			{% with macro_goals as macro %}
-			<div class="training">
-				<div class="box">
-					<div class="title">
-						Calories
-					</div>
-					<div class="description info info-calories">
-			<a id="g_wout_cals_min">{{ macro.training_calories_min }}</a>-<a id="g_wout_cals">{{ macro.training_calories }}</a>
-					</div>
-				</div>
-			
-				<div class="box">
-					<div class="title">
-						Protein
-					</div>
-					<div class="description info info-protein">
-			<a id="g_wout_protein_min">{{ macro.training_protein_min }}</a>-<a id="g_wout_protein">{{ macro.training_protein }}</a>
-					</div>
-				</div>
+                                {% if not day.in_future and not day.has_entry %}
+                                <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                                    <i class="icon-question-sign unknown"></i>
+                                </div>
+                                {% endif %}
 
-				<div class="box">
-					<div class="title">
-						Carbs
-					</div>
-					<div class="description info info-carbs">
-			<a id="g_wout_carbs_min">{{ macro.training_carbs_min }}</a>-<a id="g_wout_carbs">{{ macro.training_carbs }}</a>
-					</div>
-				</div>
+                                {% if day.all_pass %}
+                                <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                                    <i class="icon-ok-sign pass"></i> 
+                                    {# <i class="fa fa-check-circle pass"></i> #}
+                                </div>
+                                {% endif %}
 
-				<div class="box">
-					<div class="title">
-						Fat
-					</div>
-					<div class="description info info-fat">
-			<a id="g_wout_fat_min">{{ macro.training_fat_min }}</a>-<a id="g_wout_fat">{{ macro.training_fat }}</a>
-					</div>
-				</div>
-			</div> <!-- training -->
-			<div class="resting hidden">
-				<div class="box">
-					<div class="title">
-						Calories
-					</div>
-					<div class="description info info-calories">
-			<a id="g_rest_cals_min">{{ macro.rest_calories_min }}</a>-<a id="g_rest_cals">{{ macro.rest_calories }}</a>
-					</div>
-				</div>
-			
-				<div class="box">
-					<div class="title">
-						Protein
-					</div>
-					<div class="description info info-protein">
-			<a id="g_rest_protein_min">{{ macro.rest_protein_min }}</a>-<a id="g_rest_protein">{{ macro.rest_protein }}</a>
-					</div>
-				</div>
+                                {% if day.all_fail %}
+                                <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                                    <i class="icon-remove-sign fail"></i> 
+                                    {#<i class="fa fa-times-circle fail"></i> #}
+                                </div>
+                                {% endif %}
 
-				<div class="box">
-					<div class="title">
-						Carbs
-					</div>
-					<div class="description info info-carbs">
-			<a id="g_rest_carbs_min">{{ macro.rest_carbs_min }}</a>-<a id="g_rest_carbs">{{ macro.rest_carbs }}</a>
-					</div>
-				</div>
+                                {% if day.has_entry and not day.all_pass and not day.all_fail %}
+                                <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                                    {% comment %}
+                                    <div class="macro-combo">
+                                        <div class="letter calories {% if day.calories %}calories-pass{% else %}letter-fail{% endif %}"  title="Calories">{% if day.calories %}True{% endif %}</div>
+                                        <div class="letter protein {% if day.protein %}protein-pass{% else %}letter-fail{% endif %}"  title="Protein"></div>
+                                        <div class="letter carbs {% if day.carbs %}carbs-pass{% else %}letter-fail{% endif %}"  title="Carbs"></div>
+                                        <div class="letter fat {% if day.fat %}fat-pass{% else %}letter-fail{% endif %}"  title="Fat"></div>
+                                    </div>
+                                    {% endcomment %}
 
-				<div class="box">
-					<div class="title">
-						Fat
-					</div>
-					<div class="description info info-fat">
-			<a id="g_rest_fat_min">{{ macro.rest_fat_min }}</a>-<a id="g_rest_fat">{{ macro.rest_fat }}</a>
-					</div>
-				</div>
-			</div> <!-- resting -->
-			{% endwith %}
+                                    {% if day.diet_goal_done > 0 %}
+                                    <span class="diet-progress-stats" title="{{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
+Missed: {{ day.diet_goal_missed }}.
+Hit: {{ day.diet_goal_hit }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}</span>
 
-			<div class="clearfix"></div>
-		</div>
-		<div class="spacer10"></div>
-	</div>
+                                    {% comment %}
+                                    <div class="legend-tooltip hidden">
+                                        <div class="legend-tooltip-header">
+                                        {{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
+                                        </div>
+                                        <p>{{ day.diet_goal_stats_legend }}.</p>
+                                    </div>
+                                    {% endcomment %}
+
+                                    {% else %}
+                                    <i class="icon-remove-sign fail"></i> 
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div> <!--/ macro-history -->
+        {% endif %}
+        <div class="spacer10"></div>
+    </div>
+
+    <div class="section diet-goals sidebar-box">
+        <div class="header">
+            Diet Goals <a class="btn btn-default btn-edit" id="edit_macros" onclick="{ jQuery.noConflict();$('#modalClientMacros').modal('show'); }">{% if macro_goals %}Edit{% else %}Add{% endif %}</a>
+            
+        </div>
+        <div class="goals-history" id="goals-history">
+            
+            <div class="macro-toggle">
+                <button type="button" class="switch-training active">Training Days</button>
+                <button type="button" class="switch-resting">Rest Days</button>
+            </div>
+            
+            {% with macro_goals as macro %}
+            <div class="training">
+                <div class="box">
+                    <div class="title">
+                        Calories
+                    </div>
+                    <div class="description info info-calories">
+            <a id="g_wout_cals_min">{{ macro.training_calories_min }}</a>-<a id="g_wout_cals">{{ macro.training_calories }}</a>
+                    </div>
+                </div>
+            
+                <div class="box">
+                    <div class="title">
+                        Protein
+                    </div>
+                    <div class="description info info-protein">
+            <a id="g_wout_protein_min">{{ macro.training_protein_min }}</a>-<a id="g_wout_protein">{{ macro.training_protein }}</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="title">
+                        Carbs
+                    </div>
+                    <div class="description info info-carbs">
+            <a id="g_wout_carbs_min">{{ macro.training_carbs_min }}</a>-<a id="g_wout_carbs">{{ macro.training_carbs }}</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="title">
+                        Fat
+                    </div>
+                    <div class="description info info-fat">
+            <a id="g_wout_fat_min">{{ macro.training_fat_min }}</a>-<a id="g_wout_fat">{{ macro.training_fat }}</a>
+                    </div>
+                </div>
+            </div> <!-- training -->
+            <div class="resting hidden">
+                <div class="box">
+                    <div class="title">
+                        Calories
+                    </div>
+                    <div class="description info info-calories">
+            <a id="g_rest_cals_min">{{ macro.rest_calories_min }}</a>-<a id="g_rest_cals">{{ macro.rest_calories }}</a>
+                    </div>
+                </div>
+            
+                <div class="box">
+                    <div class="title">
+                        Protein
+                    </div>
+                    <div class="description info info-protein">
+            <a id="g_rest_protein_min">{{ macro.rest_protein_min }}</a>-<a id="g_rest_protein">{{ macro.rest_protein }}</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="title">
+                        Carbs
+                    </div>
+                    <div class="description info info-carbs">
+            <a id="g_rest_carbs_min">{{ macro.rest_carbs_min }}</a>-<a id="g_rest_carbs">{{ macro.rest_carbs }}</a>
+                    </div>
+                </div>
+
+                <div class="box">
+                    <div class="title">
+                        Fat
+                    </div>
+                    <div class="description info info-fat">
+            <a id="g_rest_fat_min">{{ macro.rest_fat_min }}</a>-<a id="g_rest_fat">{{ macro.rest_fat }}</a>
+                    </div>
+                </div>
+            </div> <!-- resting -->
+            {% endwith %}
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="spacer10"></div>
+    </div>
 
 
 
-	<div class="section sidebar-box workout-plan">
-		<div class="header">
-			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" id="edit_program" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
-					Edit
-				</a>
-		</div>
+    <div class="section sidebar-box workout-plan">
+        <div class="header">
+            <span class="sidebar-box-title">Workout Plan</span>
+                <a class="btn btn-default btn-edit" id="edit_program" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Help me improve the {{ client.get_blitz.workout_plan.name }} program for my client {{ client.name|safe }}."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
+                    Edit
+                </a>
+        </div>
 
 
-		<div class="description">
-	            {{ client.get_blitz.workout_plan.name }}
+        <div class="description">
+                {{ client.get_blitz.workout_plan.name }}
                         {% if customizations %}(customized)<br><ul>
                             {% for custom in customizations %}
                                 <li>{{ custom }}</li>
                             {% endfor %}</ul>
                         {% endif %}
-		</div><br><br><br>
+        </div><br><br><br>
 
 
-		<div class="spacer10"></div>
-	</div>
+        <div class="spacer10"></div>
+    </div>
 </div>

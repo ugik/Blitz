@@ -1,0 +1,44 @@
+{% extends "spotter_base.html" %}
+
+{% block main %}
+
+<h3>Pending trainer invitations</h3>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+
+
+    <div class="span7 offset1" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+      <ul>
+      {% for invite in invites|dictsort:"date_created" %}
+           <li>{{ invite.date_created }} trainer: {{ invite.blitz.trainer.name }} <br>
+               <b>{{ invite }} ({{ invite.email }}) </b> <br>
+           {% if invite.workout_plan %} workout plan: {{ invite.workout_plan.name }} {% endif %}
+           {% if invite.macro_formula %} macros: {{ invite.macro_formula }} {% endif %}
+           {% if invite.price %} price: ${{ invite.price }} {% else %} (free) {% endif %}
+           </li><br>
+      {% endfor %}
+
+    </div>
+
+{% endblock %}
+
+
+    blitz = models.ForeignKey(Blitz, blank=True, null=True)
+    email = models.EmailField()
+    name = models.CharField(max_length=100)
+    signup_key = models.CharField(max_length=30, default="")
+
+    free = models.BooleanField(default=False) # free or paid invitation
+
+    # (optional for 1:1 Blitz) price transfers to Blitz if set specific to invitation  
+    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+
+    # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
+    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
+
+    macro_formula = models.CharField(max_length=10, choices=MACROS_CHOICES, default='DEFAULT')
+    date_created = models.DateField(default=datetime.date.today)
+

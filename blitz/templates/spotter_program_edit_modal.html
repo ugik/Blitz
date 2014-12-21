@@ -9,7 +9,10 @@
          <div class="modal-body">
             <div class="row">
                <div class="span6 top10">
-                  <h3>Tell us how you would like to modify <a id="client_name">{{ client.name }}</a>'s program: </h3>
+                  {% if workoutplan %}
+                      <h3>Tell us how you would like to modify {{ workoutplan.name }}</a>: </h3> 
+                  {% else %}
+                      <h3>Tell us how you would like to modify <a id="client_name">{{ client.name }}{{ workoutplan.name }}</a>'s program: </h3> {% endif %}
                   <div class="formpage-block">
                      <form method="post" name="spotter_program_edit"> {% csrf_token %}
                         <textarea name="edit_request" id="edit_request" class="input-xlarge" rows="9">{{ edit }}</textarea>

@@ -7,7 +7,7 @@
     var OBJECT_ID;
     var SEARCH_TEXT;
     var CLICKED_FILTER;
-    
+
     // TODO: Watch FEED_SCOPE and OBJECT_ID vars
     var SCOPE_CHANGED = false;
     var SELECTED_ITEM;
@@ -19,6 +19,7 @@
         function homepage_setLoading() {
             $('#homepage-loadmore').hide();
             $('#homepage-loading').show();
+            $('html, body').animate({ scrollTop: $(document).height() }, 600);
         }
 
         function UpdateViewedFeedsCount(clickedFilter) {
@@ -36,7 +37,7 @@
             if (unviewedItems) {
                 $.post('/api/blitz_feed/viewed/mark', {
                     'feed_items': JSON.stringify(unviewedItems)
-                }, function(data) {            
+                }, function(data) {
                     $FeedItems.attr('data-viewed', 'true');
                 });
             }
@@ -50,14 +51,16 @@
                 var filter = $(this);
                 filtersData.push({
                     'feed_scope': filter.data('scope'),
-                    'object_pk':  filter.data('object-pk')
+                    'object_pk': filter.data('object-pk')
                 });
             });
 
             $.ajax({
                 url: '/api/blitz_feed/count',
                 type: 'POST',
-                headers:{'filters': JSON.stringify(filtersData)},
+                headers: {
+                    'filters': JSON.stringify(filtersData)
+                },
                 processData: false,
                 contentType: false,
             }).then(function(data) {
@@ -65,9 +68,9 @@
                     var filterData = $(this)[0];
 
                     if (filterData.feed_scope != 'all') {
-                        var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']' + '[data-object-pk='+filterData.object_pk+']');
+                        var filter = $('ul.filters.scopes').find('li.item[data-scope=' + filterData.feed_scope + ']' + '[data-object-pk=' + filterData.object_pk + ']');
                     } else {
-                        var filter = $('ul.filters.scopes').find('li.item[data-scope='+filterData.feed_scope+']');
+                        var filter = $('ul.filters.scopes').find('li.item[data-scope=' + filterData.feed_scope + ']');
                     }
                     if (filterData.count < 1) {
                         filter.find('.results-count').hide('fast');
@@ -91,36 +94,40 @@
             }
             // show alerts on top of All Updates feed
             if (OBJECT_ID === false && FEEDITEM_OFFSET === 0) {
-                    $('.alerts-wrapper').removeClass('hidden');
-                } 
-            xhr = $.get('/api/blitz_feed',
-                {'offset': FEEDITEM_OFFSET,
-                 'feed_scope': FEED_SCOPE,
-                 'feed_scope_filter': FEED_SCOPE_FILTER,
-                 'object_id': OBJECT_ID,
-                 'search_text': SEARCH_TEXT
+                $('.alerts-wrapper').removeClass('hidden');
+            }
+            xhr = $.get('/api/blitz_feed', {
+                    'offset': FEEDITEM_OFFSET,
+                    'feed_scope': FEED_SCOPE,
+                    'feed_scope_filter': FEED_SCOPE_FILTER,
+                    'object_id': OBJECT_ID,
+                    'search_text': SEARCH_TEXT
                 },
                 function(data) {
-                    for (var i=0; i<data.feeditems.length; i++) {
-                        var item = data.feeditems[i];
-                        var el = $(item.html);
-                        $('#main-feed').append(el);
-                    }
-                    FEEDITEM_OFFSET = data.offset;
-                    $('#homepage-loadmore').show();
-                    $('#homepage-loading').hide();
+                    if (data.feeditems) {
+                        for (var i = 0; i < data.feeditems.length; i++) {
+                            var item = data.feeditems[i];
+                            var $el = $(item.html);
+                            $('#main-feed').append($el);
+                        }
+                        FEEDITEM_OFFSET = data.offset;
+                        $('#homepage-loadmore').show();
+                        $('#homepage-loading').hide();
 
-                    // Mark loaded feed items as viewed
-                    UpdateViewedFeedsCount(clickedFilter);
+                        // Mark loaded feed items as viewed
+                        UpdateViewedFeedsCount(clickedFilter);
 
-                    // Updates Filters Counter
-                    GetViewedFeedsCount();
+                        // Updates Filters Counter
+                        GetViewedFeedsCount();
 
-                    // Enable Post if not "all" scope
-                    if (FEED_SCOPE !== 'all') {
-                        $postForm.removeClass('hidden');
-                        $postFormContainer.append($postForm);
-                        bindPostForm();
+                        // Enable Post if not "all" scope
+                        if (FEED_SCOPE !== 'all') {
+                            $postForm.removeClass('hidden');
+                            $postFormContainer.append($postForm);
+                            bindPostForm();
+                        }
+                    } else {
+                        return false;
                     }
                 }
             );
@@ -156,7 +163,7 @@
 
             // TODO: Join this two similar events in a single function
             // Filter Diet Goals between Training Days or Resting Days
-            $('#summary .switch-training').on('click', function(e) {        
+            $('#summary .switch-training').on('click', function(e) {
                 $(this).addClass('active');
                 $('#summary .switch-resting').removeClass('active');
                 $('.goals-history .resting').addClass('hidden');
@@ -185,15 +192,15 @@
 
             /**
              * Weeks Switcher - Widget
-             */ 
+             */
             // Hide <select> element
             $weekSelect.hide();
 
             // TODO: append widget from jQuery
             var $weekSelectWidget = $('.weekSelector.slide-select');
             var $weekSelectWidgetOptions = $('.weekSelector.slide-select li.item').not('li.arrow'),
-                pointer = $('.weekSelector.slide-select li.item.active').not('li.arrow').data('week-num')-1,
-                max = $weekSelectWidgetOptions.length-1;
+                pointer = $('.weekSelector.slide-select li.item.active').not('li.arrow').data('week-num') - 1,
+                max = $weekSelectWidgetOptions.length - 1;
 
             // When left/righ arrows are clicked
             $weekSelectWidget.on('click', '.right-arrow, .left-arrow', function(e) {
@@ -203,7 +210,7 @@
                     // On Right Arrow
                     if ($(this).hasClass('right-arrow')) {
                         if (pointer < max) {
-                            pointer+= 1;
+                            pointer += 1;
                         } else {
                             pointer = 0;
                         }
@@ -212,7 +219,7 @@
                     // On Left Arrow
                     else if ($(this).hasClass('left-arrow')) {
                         if (pointer > 0) {
-                            pointer-= 1;
+                            pointer -= 1;
                         } else {
                             pointer = max;
                         }
@@ -220,7 +227,7 @@
 
                     // Move to next Option
                     var $nextActive = $weekSelectWidgetOptions.eq(pointer);
-                    if ( $nextActive && $nextActive.hasClass('item') && $currentActive.hasClass('item') ) {
+                    if ($nextActive && $nextActive.hasClass('item') && $currentActive.hasClass('item')) {
                         $nextActive.addClass('active');
                         $currentActive.removeClass('active');
 
@@ -235,7 +242,7 @@
                 } else {
                     $weekSelectWidget
                         .find('li').eq(0)
-                            .addClass('active');
+                        .addClass('active');
                 }
             });
         }
@@ -258,13 +265,13 @@
             $trainerAlertBox = $('#trainer-alert-box'),
             $alertsCount = $('li[data-scope=alerts] .results-count .inner'),
             $postFormContainer = $('#add-comment-container'),
-            $postForm = $( $('#add-comment-container').html() );
+            $postForm = $($('#add-comment-container').html());
 
         var reduceAlertsCount = function() {
-            $alertsCount.html( $alertsCount.html()-1 );
+            $alertsCount.html($alertsCount.html() - 1);
         }
 
-        var bindPostForm = function () {
+        var bindPostForm = function() {
             // Add comment button show/hide
             $('#add-comment').on('focus', function() {
                 $('#add-comment-submit').show(300);
@@ -276,7 +283,8 @@
             });
 
             // Add comment submit
-            $('#add-comment-submit').on('click', function(e) {
+
+            $('#add-comment-submit').unbind().on('click', function(e) {
                 e.preventDefault();
                 var comment_text = $('#add-comment').val();
                 if (comment_text === "") {
@@ -286,7 +294,7 @@
                 $('#add-comment-submit').hide(300);
 
                 if (SELECTED_ITEM === 'invitee') {
-                     alert("This feed will be happening once the client signs up");
+                    alert("This feed will be happening once the client signs up");
                 } else {
                     $.post('/api/new-comment', {
                         'comment_text': comment_text,
@@ -309,13 +317,15 @@
 
         // On Windows Resize
         $(window).resize(function() {
-            $('.feeds').width( $('.content-wrapper').width()-(330+35) );
+            $('.feeds').width($('.content-wrapper').width() - (330 + 35));
         });
         $(window).trigger('resize');
         // END
 
         $('#homepage-loadmore').on('click', function(e) {
-            homepage_morefeed({clickedFilter: CLICKED_FILTER});
+            homepage_morefeed({
+                clickedFilter: CLICKED_FILTER
+            });
         });
 
         // Search
@@ -323,7 +333,7 @@
         $searchInput.on('input', function(e) {
             var searchText = $(this).val();
             $.each($clientGroupFilters, function(index, value) {
-                if ( $(this).text().trim().toLowerCase().indexOf(searchText.toLowerCase()) === -1 ) {
+                if ($(this).text().trim().toLowerCase().indexOf(searchText.toLowerCase()) === -1) {
                     $(this).hide();
                 } else {
                     $(this).show();
@@ -341,11 +351,11 @@
                     OBJECT_ID = '';
 
                     // Clear feed container
-                    if ( $mainFeed.html() ) {
+                    if ($mainFeed.html()) {
                         $mainFeed.empty();
                     }
 
-                    if ( $inboxContainer.html() ) {
+                    if ($inboxContainer.html()) {
                         $inboxContainer.empty();
                     }
                     // Abort ajax requests
@@ -364,28 +374,28 @@
 
         /**
          * Trainer Alerts
-         */ 
+         */
         $trainerAlertBox.on('click', 'button[data-action=leave-message]', function(e) {
             var targetId = $(this).data('target-id'),
-                MessageForm = $('#'+targetId).find('form'),
+                MessageForm = $('#' + targetId).find('form'),
                 toggleButton = $(this);
 
             // Hide unfocused message box
-            $('button[data-action=leave-message]').not( toggleButton )
+            $('button[data-action=leave-message]').not(toggleButton)
                 .html('Message');
 
-            $('.message-entry').not( $('#'+targetId) )
+            $('.message-entry').not($('#' + targetId))
                 .addClass('hidden')
                 .find('textarea')
-                    .val('');
+                .val('');
 
             // Shows textarea for type a message
-            if ( $('#'+targetId).hasClass('hidden') ) {
+            if ($('#' + targetId).hasClass('hidden')) {
                 // Showing textarea
-                $('#'+targetId).removeClass('hidden');
+                $('#' + targetId).removeClass('hidden');
                 $(this).html('Close');
             } else {
-                $('#'+targetId).addClass('hidden');
+                $('#' + targetId).addClass('hidden');
                 $(this).html('Message');
             }
         });
@@ -401,9 +411,9 @@
 
             var $form = $(this),
                 $submitButton = $form.find('button[type="submit"]'),
-                formData = new FormData( this );
-            
-                $submitButton.hide();
+                formData = new FormData(this);
+
+            $submitButton.hide();
 
             // Submit form via AJAX
             var hrx = $.ajax({
@@ -418,7 +428,9 @@
                 $.ajax({
                     url: '/trainer/dismiss-alert',
                     type: 'POST',
-                    data:{alert_pk: $form.data('alert_pk')},
+                    data: {
+                        alert_pk: $form.data('alert_pk')
+                    },
                     alert_pk: $form.data('alert_pk')
                 }).then(function(data) {
                     $form.closest('.trainer-alert')
@@ -431,7 +443,7 @@
             }, function(error) {
                 // TODO: Show alert in the UI browser built-in alert
                 $submitButton.show();
-                alert( JSON.stringify(error) );
+                alert(JSON.stringify(error));
             });
         });
         // END Trainer alerts
@@ -439,14 +451,14 @@
 
         /**
          * Filters
-         */ 
+         */
         $('.filters, .feeds-filter').on('click', 'li', function(event) {
             // ScrollUp to very top
             $(document).scrollTop(0);
 
             // Detects Changes
             // TODO: Watch FEED_SCOPE and OBJECT_ID vars
-            if ( $(this).data('scope') && ( FEED_SCOPE !== $(this).data('scope') ) ) {
+            if ($(this).data('scope') && (FEED_SCOPE !== $(this).data('scope'))) {
                 SCOPE_CHANGED = true;
             } else {
                 SCOPE_CHANGED = false;
@@ -491,10 +503,10 @@
 
             // Clear feed container
             var clearFeed = function() {
-                if ( $mainFeed.html() ) {
+                if ($mainFeed.html()) {
                     $mainFeed.empty();
                 }
-                if ( $inboxContainer.html() ) {
+                if ($inboxContainer.html()) {
                     $inboxContainer.empty();
                 }
                 $('.feeds-filter').removeClass('hidden');
@@ -504,9 +516,9 @@
             // END
 
             // Hide and clear blitz group header
-            if (SCOPE_CHANGED == true ) {
+            if (SCOPE_CHANGED == true) {
                 $('.group').empty();
-            }        
+            }
             // END
 
             // Hide Alerts
@@ -520,7 +532,9 @@
                 // Reset Search Input
                 $searchInput.val('')
                     .trigger('input');
-                homepage_morefeed({clickedFilter: CLICKED_FILTER});
+                homepage_morefeed({
+                    clickedFilter: CLICKED_FILTER
+                });
 
                 // Removes New Post Form
                 removePostForm();
@@ -537,8 +551,7 @@
                     $.get('/api/inbox_feed', function(data) {
                         renderInbox(data.html);
                     });
-                }
-                else {
+                } else {
                     $inboxContainer.addClass('hidden');
                 }
 
@@ -546,7 +559,7 @@
                 if (FEED_SCOPE === 'blitz') {
                     SELECTED_ITEM = 'blitz';
                     $.get('/api/blitz/' + OBJECT_ID, function(data) {
-                        $('.group').html(data.html);                
+                        $('.group').html(data.html);
                     });
                 }
 
@@ -574,7 +587,9 @@
                     $summary.empty();
                 }
 
-                homepage_morefeed({clickedFilter: CLICKED_FILTER});
+                homepage_morefeed({
+                    clickedFilter: CLICKED_FILTER
+                });
             }
 
             // Sets 'active' class to clicked filter
@@ -591,7 +606,7 @@
 
         // Removes Post form in "All Updates" filter
         if (FEED_SCOPE === 'all') {
-            removePostForm();    
+            removePostForm();
         }
         // END
 

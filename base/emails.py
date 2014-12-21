@@ -203,6 +203,9 @@ def usage_trainer(trainer):
         if not client.user.is_trainer and client.get_blitz().trainer == trainer:
             users.append(client.user)
 
+    if not users:
+        return
+
     login_users = []
     laggard_users = []
     for user in users:
@@ -212,11 +215,15 @@ def usage_trainer(trainer):
         if timezone.normalize(user.last_login).date() <= laggard:
             laggard_users.append(user)
 
+    if not login_users and not laggard_users:
+        return
+
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
     context = {'days':days, 'trainer':trainer, 'login_users':login_users,
                'laggard_users':laggard_users }
-    to_mail = ['georgek@gmail.com']
+    to_mail = [trainer.user.email]
+
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
 

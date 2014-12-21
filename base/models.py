@@ -298,7 +298,7 @@ class Trainer(models.Model):
         clients = Client.objects.get_empty_query_set()
 
         for b in self.active_blitzes():
-            clients |= b._members()
+            clients|= b._members()
 
         return clients
 
@@ -395,7 +395,7 @@ class Client(models.Model):
                 return workout_date, workout_plan_day
         return None, None
 
-    def get_missed_workouts(self, timezone=None):
+    def get_missed_workouts(self, timezone=None, limit=None):
         if not self.get_blitz().workout_plan:
             return []
         if timezone is None:
@@ -407,7 +407,10 @@ class Client(models.Model):
                 ret.append( (workout_date, workout_plan_day) )
             elif workout_date >= today:
                 break
-        return ret
+        if not limit:
+            return ret
+        else:
+            return ret[-limit:]   # return the most recent items in array
 
     def has_workout_today(self, timezone=None):
         return self.get_todays_workout(timezone) is not None
@@ -443,15 +446,15 @@ class Client(models.Model):
         # Adds client related Gym Sessions to the feeditems query set
         if filter_by == 'gym session' or filter_by == 'all' or filter_by == '':
             for q in self.gymsession_set.all():
-                feeditems |= q.feeditems.all()
+                feeditems|= q.feeditems.all()
 
         # Adds client related Comments to the feeditems query set
         if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
-#            for q in Comment.objects.filter(user=self.user).all():
-#                feeditems |= q.feeditems.all()
+            # for q in Comment.objects.filter(user=self.user).all():
+            #     feeditems |= q.feeditems.all()
 
             if self.get_blitz().recurring:  # recurring blitz allows shortcut
-                feeditems |= FeedItem.objects.filter(blitz=self.get_blitz())
+                feeditems|= FeedItem.objects.filter(blitz=self.get_blitz())
 
             else:  # client in a group requires careful dissection of feeditems
                 show_items = set()    # collect pk's for FeedItems from client or trainer
@@ -466,12 +469,12 @@ class Client(models.Model):
                         if fi.content_object.client == self:
                             show_items.add(fi.pk)
 
-                feeditems |= FeedItem.objects.filter(pk__in=show_items)
+                feeditems|= FeedItem.objects.filter(pk__in=show_items)
 
         # Adds client related Check-Ins to the feeditems query set
         if filter_by == 'check in' or filter_by == 'all' or filter_by == '':
             for q in CheckIn.objects.filter(client=self).all():
-                feeditems |= q.feeditems.all()
+                feeditems|= q.feeditems.all()
 
         return feeditems
 
@@ -538,7 +541,7 @@ class Client(models.Model):
         return self.get_blitz().current_day_index(self.get_timezone())
 
     def unviewed_feeds_count(self):
-        count = self.get_feeditems().filter(is_viewed=False).count()
+        count = self.get_feeditems().exclude(is_viewed=True).count()
         return count
 
     def get_weight(self):
@@ -547,6 +550,18 @@ class Client(models.Model):
             return checkins[0].weight
         else:
             return self.weight_in_lbs
+
+    def needs_to_update_cc(self):
+        if len(self.balanced_account_uri)<10:    # no CC reference on file
+            if self.blitzmember_set:
+                member_price = self.blitzmember_set.all()[0].price
+                print member_price
+                if member_price == None or member_price == 0:
+                    return False
+                else:
+                    return True
+        return False
+
 
 MACRO_STRATEGIES = (
     ('M', 'Macros Only'),
@@ -665,7 +680,7 @@ class Blitz(models.Model):
     def _members(self):
         members = Client.objects.get_empty_query_set()
         for b in self.blitzmember_set.all():
-            members |= Client.objects.filter(pk=b.client.pk)
+            members|= Client.objects.filter(pk=b.client.pk)
 
         return members
 
@@ -743,12 +758,12 @@ class Blitz(models.Model):
         # Adds client related Gym Sessions to the feeditems query set
 #        if filter_by == 'gym session' or filter_by == 'all' or filter_by == '':
 #            for q in self.gymsession_set.all():
-#                feeditems |= q.feeditems.all()
+#                feeditems|= q.feeditems.all()
 
         # Adds client related Comments to the feeditems query set
 #        if filter_by == 'comment' or filter_by == 'all' or filter_by == '':
 #            for q in Comment.objects.filter(user=self.user).all():
-#                feeditems |= q.feeditems.all()
+#                feeditems|= q.feeditems.all()
 
         return feeditems
 
@@ -1145,5 +1160,3 @@ class Scout(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.name, self.url_slug)
-
-

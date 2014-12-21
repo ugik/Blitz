@@ -176,6 +176,15 @@ week of 12.1
 - set invitee macros on signup
 - add programs to CT in test_env
 - improve new trainer invitee experience
+- ideafit.com scraper
+- bug fixing
+
+week of 12.8
+- client cc update processing and paywall
+- fix trainer_usage email
+- limit "missed workout" to most recent 3 notifications
+- fix Provision Blitz macro setting
+- fix dashboard post echo
 - bug fixing
 
 
