@@ -2233,9 +2233,9 @@ def trainer_survey(request):
 
 # open misc
 def about(request):
-    if 'page' in request.GET:
-        page = request.GET.get('page')
-    return render(request, 'about.html', {})
+    
+    option = request.GET.get('option') if 'option' in request.GET else None
+    return render(request, 'about.html', { 'option': option })
 
 # trainer dashboard
 # url: /dashboard
