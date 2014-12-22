@@ -1721,9 +1721,9 @@ def payment_hook(request, pk):
             # charge card
             # invitation may have a custom price
             if invitation and invitation.price:
-                debit_amount_str = "%d00" % invitation.price
+                debit_amount_str = "%d" % (invitation.price * 100)
             elif blitz.price:
-                debit_amount_str = "%d00" % blitz.price
+                debit_amount_str = "%d" % (blitz.price * 100)
             else:
                 debit_amount_str = "0"
 
