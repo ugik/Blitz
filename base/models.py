@@ -463,8 +463,8 @@ class Client(models.Model):
                         if not fi.content_object.user.is_trainer:
                             if fi.content_object.user.client == self:
                                 show_items.add(fi.pk)
-                        else:   # include trainer comments
-                            show_items.add(fi.pk)
+#                        else:   # include trainer comments
+#                            show_items.add(fi.pk)
                     elif fi.content_type.name in ['gym session', 'check in']:
                         if fi.content_object.client == self:
                             show_items.add(fi.pk)

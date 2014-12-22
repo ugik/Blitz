@@ -187,4 +187,17 @@ week of 12.8
 - fix dashboard post echo
 - bug fixing
 
+week of 12.15
+- views.py code review, remove unused functions
+- fix blitz_summary jQuery conflict section
+- ideaFit scrape emails
+- about page
+- spotter list invites
+- bug fixing
+
+week of 12.22
+- fix handling of price decimals in payment processing
+- production BalancedPayments
+- remove trainer comments from group individual feeds in dashboard
+
 

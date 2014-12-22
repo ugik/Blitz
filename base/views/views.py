@@ -1694,9 +1694,9 @@ def payment_hook(request, pk):
     if form.is_valid():
 
         existing_user = None
+        new_client = False
         if request.user.is_authenticated() and not request.user.is_trainer: # deal with client re-entering CC info
             client = request.user.client
-            new_client = False
         else:
             client = Client()
             new_client = True
@@ -1713,9 +1713,12 @@ def payment_hook(request, pk):
         card_uri = form.cleaned_data['card_uri']
         card = balanced.Card.fetch(form.cleaned_data['card_uri'])
 
+#        import pdb; pdb.set_trace()
+
         # validate CVV
-        if card.cvv_match in ['no','unsupported']:
+        if card.cvv_match == 'no':
             has_error = True
+            new_client = False
             error = "Invalid CVV code. Please try another card. "
         else:
             # charge card
@@ -1755,7 +1758,7 @@ def payment_hook(request, pk):
 
         if error:
             has_error = True
-            if client and new_client:    # delete user+ new client if they were created with failed card
+            if new_client:    # delete user+ new client if they were created with failed card
                 client.user.delete()
         else:
 
