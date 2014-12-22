@@ -196,6 +196,7 @@ ALERTS_HOUR = 23
 MORNING_NOTIFICATIONS_HOUR = 5
 
 import balanced
+# Production settings for Balanced Marketplace
 balanced.configure('ak-test-2HbxysbHinoGa4nnmnLz63SluBiYiUQCV')
 BALANCED_MARKETPLACE_URI = '/v1/marketplaces/TEST-MP1tHThD8oovCyo9YnXXWImY'
 

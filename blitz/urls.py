@@ -161,7 +161,6 @@ urlpatterns += patterns(
     url(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)$', 'base.views.blitz_page', name="blitz_page"),
 
 #----------------------------------------
-    url(r'^organized-disruption$', 'base.views.organized_disruption', name='organized_disruption'),
 
 )
 
