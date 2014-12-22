@@ -19,49 +19,70 @@
 
                     {% csrf_token %}
 
-                    <div class="fieldWrapper">{{ form.name }}
-                    {{ form.name.errors.as_text }}</div>
-
-                    <div class="fieldWrapper">{{ form.email }}
-                    {{ form.email.errors.as_text }}</div>
+                    <div class="fieldWrapper">
+                        {{ form.name }}
+                        {{ form.name.errors.as_text }}
+                    </div>
 
                     <div class="fieldWrapper">
-                    {{ form.password1 }}
-                    {{ form.password1.errors.as_text }}</div>
+                        {{ form.email }}
+                        {{ form.email.errors.as_text }}
+                    </div>
 
                     <div class="fieldWrapper">
-                    {{ form.password2 }}
-                    {{ form.non_field_errors.as_text }}</div>
+                        {{ form.password1 }}
+                        {{ form.password1.errors.as_text }}
+                    </div>
 
-                    <select name="timezone" id="timezone-select" class="full-width">
-                        {% for tz in timezones %}
-                        {% if form.default_timezone %}
-                        <option value="{{ tz }}"{% if tz == form.default_timezone.value %} selected="selected"{% endif %}>{{ tz }}</option>
-                        {% else %}
-                        <option value="{{ tz }}"{% if tz == default_timezone %} selected="selected"{% endif %}>{{ tz }}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select></td>
+                    <div class="fieldWrapper">
+                        {{ form.password2 }}
+                        {{ form.non_field_errors.as_text }}
+                    </div>
+
+
+                    <div class="fieldWrapper full-width" style="float: left;">
+                        <select name="timezone" id="timezone-select" class="full-width" style="">
+                            {% for tz in timezones %}
+                            {% if form.default_timezone %}
+                            <option value="{{ tz }}"{% if tz == form.default_timezone.value %} selected="selected"{% endif %}>{{ tz }}</option>
+                            {% else %}
+                            <option value="{{ tz }}"{% if tz == default_timezone %} selected="selected"{% endif %}>{{ tz }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
                         <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
                         <script type="text/javascript">
                               $(document).ready(function(e) {
                                   $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", width: "350px" });
                               });
                         </script>
-                    
-                        <div class="fieldWrapper">
-                        <p class="info-text">What vanity URL would you like? &nbsp; &nbsp; &nbsp; &nbsp; Default monthly program price?</p>
+                    </div>
+
+
+                    <div class="fieldWrapper">
+                        <div style="width: 25%; float: left;">
+                            {{ form.price }}
+                            {{ form.price.errors.as_text }}
+                        </div>
+                        <div style="width: 5%; float: left;">
+                            &nbsp;
+                        </div>
+                        <div style="width: 70%; float: left;">
+                            <p class="smaller" style="margin-top: 8px;"> You can adjust this on a per-client basis, this is just a default.</p>
+                        </div>
+                    </div>
+
+                    <div class="fieldWrapper full-width" style="float: left;">
+                        <p class="info-text">What vanity URL would you like?
                         <div style="width: 37%; float: left; font-size: 30px; font-family: 'metanormal_caps'; padding-top: 8px;text-align: center;">
                             blitz.us/
                         </div>
-                        <div style="width: 30%; float: left;">
+                        <div style="width: 63%; float: left;">
                             {{ form.short_name }}<br>
-                            {{ form.short_name.errors.as_text }}</div>
+                            {{ form.short_name.errors.as_text }}
                         </div>
-                        <div style="width: 20%; float: right;">
-                            {{ form.price }}
-                            {{ form.price.errors.as_text }}</div>
-                        </div>
+                    </div>
+
 
                     <button class="obtn full-width">Complete Signup</button>
                  </form>

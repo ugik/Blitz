@@ -59,7 +59,7 @@ class="sales-page"
            </label>
         {% else %}
            {% if sales_page.logo %}
-            <a class="brand logoborder" href="/" id="secondary_logo">
+            <a class="brand" href="/" id="secondary_logo">
               <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
             </a>
             {% else %}
@@ -323,7 +323,7 @@ $('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });
   </div>
 
   <div class="sales-footer">
-      ©Blitz MMXIV
+      ©Blitz MMXV
   </div>
 
 {% if debug_mode %} 
