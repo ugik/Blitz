@@ -177,7 +177,7 @@ def usage_digest(days=0):
 
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
-    context = {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members,     
+    context = {'days':days+1, 'trainers':trainers, 'login_users':login_users, 'members':members,     
                'MRR':MRR, 'hosts':lines[0]}
     to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           

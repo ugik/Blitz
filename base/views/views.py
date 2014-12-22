@@ -1571,9 +1571,14 @@ def sales_blitz(request):
                 saved = "True"
 
         if 'price' in request.POST:
-            if request.POST.get('price').isdigit():
-                blitz.price = request.POST.get('price')
-                saved = "True"
+            try:
+                price = float(request.POST.get('price'))
+                if price > float(0.0):
+                    blitz.price = price
+                    saved = "True"
+            except:
+                pass
+
         if 'price_model' in request.POST:
             blitz.price_model = request.POST.get('price_model')
             saved = "True"
