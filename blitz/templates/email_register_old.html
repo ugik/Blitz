@@ -1,0 +1,97 @@
+{% extends "formpage.html" %}
+
+{% block morehead %}
+
+<div id="video-overlay">
+  <video autoplay loop poster="/static/images/background.png" id="bgvid" >
+      <source src="http://dl.dropbox.com/s/5cabtsa6v6xqvrh/deadliftbgvid.webmhd.webm?dl=0" type="video/webm">
+      <source src="http://dl.dropbox.com/s/kygs018hu4ptzqk/deadliftbgvid.mp4?dl=0" type="video/mp4">
+  </video>
+
+  <div class="container loginbutton">
+    <div class="row">
+      <div class="span2 offset10">
+        <a href="/login?standard">
+        <button class="btn-outline-trans">
+          Log in
+        </button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+      <style type="text/css">
+
+          body {
+            margin: 0;
+            background: transparent; 
+          }
+
+      @media only screen and (max-width: 750px) {
+          #video-overlay { background-color: rgba(0,0,0,0); }
+          #bgvid { display: none; }
+          #form-container {width: 80%; margin-left: 10%;}
+          #mc_embed_signup label {font-size: 48pximportant;}
+          .hook {font-size: 30px;}
+           #mc_embed_signup_scroll input {font-size: 48px;}
+          #mc_embed_signup input.button {font-size: 48px; padding: 20px 10px; height: auto!important;}
+        
+      }
+
+      </style>
+{% endblock %}
+
+{% block formpage_content %}
+
+    <div class="row">
+        <div class="span6 offset3">
+                <div class="formpage-block">
+                 <div class="header">
+                    The most advanced fitness coaching platform in the world.
+                  </div>
+                  <p class="info-text">
+                    If you want to train clients online, either 1-on-1 or in groups, we can help you build an amazing, branded experience around your coaching programs. If you're into that, and making tons of money doing it, drop us a line.
+                  </p>
+                  <div class="content">
+                    <!-- Begin MailChimp Signup Form -->
+                    <div id="mc_embed_signup">
+                    <form action="//blitz.us9.list-manage.com/subscribe/post?u=f21aa7b332100724453db9924&amp;id=ff869cf4af" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div id="mc_embed_signup_scroll">
+                      
+                    <div class="mc-field-group full-width">
+                      <label for="mce-EMAIL" style="display: none;">Email Address</label>
+                      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email address">
+                    </div>
+                      <div id="mce-responses" class="clear">
+                        <div class="response" id="mce-error-response" style="display:none"></div>
+                        <div class="response" id="mce-success-response" style="display:none"></div>
+                      </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;"><input type="text" name="b_f21aa7b332100724453db9924_ff869cf4af" tabindex="-1" value="">
+                        </div>
+                          <div class="clear">
+                            <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="obtn full-width">
+                              Join the elite
+                            </button>
+                          </div>
+                        </div>
+                    </form>
+                    </div>
+
+                    <!--End mc_embed_signup-->
+
+                </div>
+                </div>
+                
+                      
+                
+               
+          </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+

@@ -1046,7 +1046,7 @@ h3 {@include lightfont();}
 .feed-item {
   @include wordbreak();
   @include lightfont();
-  margin-bottom: 45px;
+  margin-bottom: 20px;
   position: relative;
   .feed-item-content {
     //background: $commentbg;
@@ -1364,10 +1364,15 @@ a.edit-workout-link {
 }
 
 .log-workout-page {
+  p {
+    text-align: center;
+  }
   background: white;
   padding: 20px;
   h2 {
     @include header1();
+    text-align: center;
+    line-height: 1.3;
   }
   .accordion-group {
     margin-bottom: 20px;
@@ -1375,6 +1380,7 @@ a.edit-workout-link {
   .accordion-heading {
     @include transition(0.25mems, linear);
     a {
+      text-align: center;
       text-decoration: none;
       padding: 18px;
       @include header2();
@@ -2089,7 +2095,11 @@ a:focus {
   @include mobile-only {  }; 
   input {
     width: 60%;
-    @include mobile-only {width: 50%;};
+    text-align: center;
+    @include mobile-only {
+      width: 65%;
+      
+    };
   }
   .add-on {
     margin-right: 20px;
@@ -2814,7 +2824,7 @@ hr { margin-top: 60px;}
 
   .error-user-email, .error-user-password, .error-user-name {
     margin-top: 5px;
-    border-bottom: 3px solid rgba(237, 42, 68, 1.0);
+    //border-bottom: 3px solid $error-red;
     padding-bottom: 0px;
     margin-bottom: -3px;
     display: none;
@@ -3320,7 +3330,7 @@ input::-webkit-inner-spin-button {
   ul {
     list-style-type: none; 
     margin: 0px;
-    border-bottom: 3px solid rgba(237, 42, 68, 1.0);
+    //border-bottom: 3px solid rgba(237, 42, 68, 1.0);
     padding-bottom: 5px;
     margin-bottom: -3px;
   };  
@@ -4237,7 +4247,7 @@ ul.spotternav li {
   color: $error-red;
   margin-top: -10px;
   margin-left: -8px;
-  border-top: 3px solid $error-red;
+  //border-top: 3px solid $error-red;
   padding-top: 5px;
   padding-bottom: 10px;
   width: 103%; 
@@ -4245,7 +4255,7 @@ ul.spotternav li {
   ul {
     list-style-type: none; 
     margin: 0px;
-    border-bottom: 3px solid rgba(237, 42, 68, 1.0);
+    //border-bottom: 3px solid rgba(237, 42, 68, 1.0);
     padding-bottom: 5px;
     margin-bottom: -3px;
   }
@@ -5704,11 +5714,35 @@ a#name, a#plan_name, a#client_name {
   // border-radius: 5px;
 }
 
-  .photobuttonlabel {
+.photobuttonlabel {
   margin-right: 0px;
   padding: 5px 20px 0px 20px;
   height: 53.5px;
-  margin-top: 4px;
+  margin-top: 0px;
   border-radius: 5px;
   margin-left: 10px;
+}
+
+.lightfont {
+  @include lightfont();
+}
+
+.boldfont {
+  @include boldfont();
+}
+
+.rowreset {
+  margin-left: -30px !important;
+  .offset2 {
+    //margin-left: 200px;
+  }
+}
+
+.aboutpercent {
+  @include lightfont();
+  font-size: 4em;
+  text-align: center;
+  margin: 0 auto;
+  color: white;
+  line-height: 2.5;
 }
