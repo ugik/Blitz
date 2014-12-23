@@ -534,7 +534,7 @@ textarea, textarea:focus {
 /* line 779, ../sass/style.scss */
 #logo2 img {
   max-height: 50px;
-  margin-top: -15px;
+  max-width: 200px;
 }
 @media (max-width: 480px) {
   /* line 773, ../sass/style.scss */
@@ -6778,10 +6778,46 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 
 /* line 5734, ../sass/style.scss */
 .rowreset {
-  margin-left: -30px !important;
+  padding: 0px 20px 0px 20px !important;
 }
 
-/* line 5741, ../sass/style.scss */
+@media only screen and (min-width: 1025px) {
+  /* line 5739, ../sass/style.scss */
+  .leftadjust {
+    margin-left: 180px !important;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  /* line 5745, ../sass/style.scss */
+  .leftadjust2 {
+    margin-left: 70px !important;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  /* line 5751, ../sass/style.scss */
+  .leftadjust3 {
+    margin-left: 470px;
+  }
+}
+
+/* line 5757, ../sass/style.scss */
+.percentcircle {
+  background-color: #7ab2ea;
+  border-radius: 100%;
+  margin-top: 60px;
+  min-height: 170px;
+}
+@media (max-width: 480px) {
+  /* line 5757, ../sass/style.scss */
+  .percentcircle {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+/* line 5768, ../sass/style.scss */
 .aboutpercent {
   font-family: 'proxima_novalight';
   font-size: 4em;
@@ -6789,4 +6825,101 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   margin: 0 auto;
   color: white;
   line-height: 2.5;
+}
+
+@media only screen and (min-width: 1025px) {
+  /* line 5777, ../sass/style.scss */
+  .downarrow {
+    width: 75px;
+  }
+}
+@media (max-width: 480px) {
+  /* line 5777, ../sass/style.scss */
+  .downarrow {
+    width: 25px;
+    margin-top: -35px;
+  }
+}
+
+/* line 5787, ../sass/style.scss */
+#thelogo {
+  margin-top: 40px;
+}
+@media (max-width: 480px) {
+  /* line 5789, ../sass/style.scss */
+  #thelogo img {
+    width: 30%;
+  }
+}
+
+/* line 5798, ../sass/style.scss */
+.about0 {
+  height: 350px;
+}
+@media only screen and (min-width: 481px) {
+  /* line 5798, ../sass/style.scss */
+  .about0 {
+    background-image: url("/static/images/0.png");
+  }
+}
+@media (max-width: 480px) {
+  /* line 5798, ../sass/style.scss */
+  .about0 {
+    background-image: url("/static/images/0m.png");
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* line 5811, ../sass/style.scss */
+.about1 {
+  height: 350px;
+}
+@media only screen and (min-width: 481px) {
+  /* line 5811, ../sass/style.scss */
+  .about1 {
+    background-image: url("/static/images/1.png");
+  }
+}
+@media (max-width: 480px) {
+  /* line 5811, ../sass/style.scss */
+  .about1 {
+    background-image: url("/static/images/1m.png");
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* line 5824, ../sass/style.scss */
+.about2 {
+  height: 350px;
+}
+@media only screen and (min-width: 481px) {
+  /* line 5824, ../sass/style.scss */
+  .about2 {
+    background-image: url("/static/images/21.png");
+  }
+}
+@media (max-width: 480px) {
+  /* line 5824, ../sass/style.scss */
+  .about2 {
+    background-image: url("/static/images/21m.png");
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* line 5837, ../sass/style.scss */
+.about3 {
+  height: 350px;
+}
+@media only screen and (min-width: 481px) {
+  /* line 5837, ../sass/style.scss */
+  .about3 {
+    background-image: url("/static/images/3.png");
+  }
+}
+@media (max-width: 480px) {
+  /* line 5837, ../sass/style.scss */
+  .about3 {
+    background-image: url("/static/images/3m.png");
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
 }
