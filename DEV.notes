@@ -200,6 +200,7 @@ week of 12.22
 - production BalancedPayments
 - remove trainer comments from group individual feeds in dashboard
 - fix decimals in payments report
+- segment.io identity and tracking
 - bug fixing
 
 

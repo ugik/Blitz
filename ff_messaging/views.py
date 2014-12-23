@@ -20,7 +20,7 @@ analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 def inbox(request):
     # segment.io track
     analytics.track(request.user.id, 'inbox', {
-             'name': request.user.client.name,
+             'name': request.user.trainer.name if request.user.is_trainer else request.user.client.name,
             })
 
     user_threads = UserThread.objects.filter(user=request.user).order_by('-thread__last_message_date')

@@ -124,6 +124,11 @@ def blitz_setup(request):
     if not request.user.is_trainer:
         return redirect('home')
 
+    # segment.io track
+    analytics.track(request.user.id, 'blitz-setup', {
+             'name': request.user.trainer.name,
+            })
+
     trainer = request.user.trainer
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
 
@@ -241,6 +246,11 @@ def client_blitz_setup(request, pk):
     if not request.user.is_trainer:
         return redirect('home')
 
+    # segment.io track
+    analytics.track(request.user.id, 'client-setup', {
+             'name': request.user.trainer.name,
+            })
+
     trainer = request.user.trainer
 
     # handle where modal returns to
@@ -346,6 +356,11 @@ def spotter_program_edit(request, pk):
     if not request.user.is_trainer:
         return redirect('home')
 
+    # segment.io track
+    analytics.track(request.user.id, 'spotter_program_edit', {
+             'name': request.user.trainer.name,
+            })
+
     trainer = request.user.trainer
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
     workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
@@ -397,6 +412,12 @@ def blitz_macros(request, pk):
     trainer = request.user.trainer
     blitz = get_object_or_404(Blitz, pk=int(pk) )
 
+    # segment.io track
+    analytics.track(request.user.id, 'blitz_macros', {
+             'name': request.user.trainer.name,
+             'blitz': blitz.title
+            })
+
     modalMacros = True if 'modalMacros' in request.GET else False
 
     if request.method == 'POST':
@@ -438,6 +459,12 @@ def client_macros(request, pk):
     trainer = request.user.trainer
     client = get_object_or_404(Client, pk=int(pk) )
 
+    # segment.io track
+    analytics.track(request.user.id, 'client_macros', {
+             'name': request.user.trainer.name,
+             'client': client.name
+            })
+
     if request.method == 'POST':
         form = MacrosForm(request.POST)
 
@@ -474,6 +501,11 @@ def upload_page(request):
     # check for incongruency
     if not request.user.is_trainer:
         return redirect('home')
+
+    # segment.io track
+    analytics.track(request.user.id, 'upload', {
+             'name': request.user.trainer.name,
+            })
 
     trainer = request.user.trainer
     # deal with new trainer with pending documents
@@ -671,6 +703,11 @@ def my_programs(request):
     modalSpotter = True if 'modalSpotter' in request.GET else False
 
     if request.user.is_trainer:
+        # segment.io track
+        analytics.track(request.user.id, 'programs', {
+                 'name': request.user.trainer.name,
+                })
+
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
         return render(request, 'trainer_programs.html', 
            {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
@@ -1351,6 +1388,13 @@ def trainer_signup(request):
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
+
+            # segment.io track
+            analytics.track(request.user.id, 'register-trainer', {
+                 'name': trainer.name,
+                 'email': trainer.user.email
+                })
+
             return redirect('/register-trainer-uploads/%d' % trainer.pk)
 
     else:
@@ -1480,6 +1524,15 @@ def client_signup(request):
             u = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
+
+            # segment.io track
+            analytics.track(request.user.id, 'client-signup', {
+                 'name': client.name,
+                 'email': client.user.email,
+                 'blitz': invitation.blitz.title,
+                 'price': invitation.price,
+                })
+
             return redirect('/signup-complete?pk='+str(blitz.pk))
 
     else:
@@ -1594,6 +1647,13 @@ def sales_blitz(request):
         sales_page = blitz.sales_page_content
     else:
         blitz = None
+
+    # segment.io track
+    analytics.track(request.user.id, 'sales-blitz', {
+        'name': request.user.trainer.name if request.user.is_trainer else request.user.client.name,
+        'blitz': blitz.title if blitz else '(None)',
+                })
+
 
     if blitz and request.method == 'POST':
         if 'intro' in request.POST:
