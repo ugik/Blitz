@@ -1771,7 +1771,7 @@ def payment_hook(request, pk):
                 blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client)   
 
             elif new_client:   # if this is not existing client re-entering CC info
-                utils.add_client_to_blitz(blitz, client)
+                utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan, price=blitz.price)
                 mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
 
             if new_client:

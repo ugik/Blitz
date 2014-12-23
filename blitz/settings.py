@@ -167,11 +167,6 @@ LOGIN_URL = '/login'
 DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data')
 TEST_MEDIA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../testmedia')
 
-try:
-    from .local_settings import *
-except:
-    pass
-
 # gmail SMTP setup
 # for local server, export var in ~/.bashrc
 # for apache server, SetEnv var in /etc/apache2/httpd.conf
@@ -212,3 +207,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
     "base.context_processors.custom_processor",
 )
+
+
+try:
+    from .local_settings import *
+except:
+    pass
+

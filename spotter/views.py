@@ -41,7 +41,7 @@ def spotter_payments(request):
 
     clients = []
     payments = []
-    total_cost = total_paid = 0
+    total_cost = total_paid = float(0.0)
 
     for client in Client.objects.all():
         blitz = client.get_blitz()
@@ -68,13 +68,13 @@ def spotter_payments(request):
         if debits:
             for debit in debits:
                 if 'client_id' in debit.meta:
-                    payments.append({'amount': debit.amount/100, 'status': debit.status, 
+                    payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
                          'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                    total_paid += debit.amount/100
+                    total_paid = float(total_paid) + float(debit.amount)/100
 
         clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
                         'start':start_date, 'months': months, 'payments': payments,
-                        'total_cost':total_cost, 'total_paid':total_paid, 'due':total_cost-total_paid})
+                        'total_cost': '%.2f' % total_cost, 'total_paid': '%.2f' % total_paid, 'due': '%.2f' % (float(total_cost)-float(total_paid))})
 
         payments = []
         total_cost = total_paid = 0

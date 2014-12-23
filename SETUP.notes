@@ -29,7 +29,6 @@ mysql -uroot -pmysql
 
 #flame signup w/text CC
 (John Doe, cc#4111111111111111 exp:12/2020 code:123)
-/flame/41502/jahed-daily/signup
 
 #git pull hard
 https://gist.github.com/hofmannsven/6814451

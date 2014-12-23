@@ -199,5 +199,8 @@ week of 12.22
 - fix handling of price decimals in payment processing
 - production BalancedPayments
 - remove trainer comments from group individual feeds in dashboard
+- fix decimals in payments report
+- bug fixing
+
 
 
