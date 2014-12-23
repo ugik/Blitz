@@ -16,6 +16,7 @@ from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
 import balanced
+import analytics
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
@@ -45,6 +46,8 @@ from PIL import Image
 import urllib2
 
 #    import pdb; pdb.set_trace()
+
+analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
@@ -551,10 +554,16 @@ def client_home(request, **kwargs):
 # url: /profile
 @login_required()
 def my_profile(request):
+
     if request.user.is_trainer:
         pass
     else:
         client = request.user.client
+        # segment.io track
+        analytics.track(request.user.id, 'profile', {
+                 'name': client.name,
+                })
+
         return client_profile_history(request, client.pk)
 
 # url: /profile/c/(?P<pk>\d+)
@@ -640,6 +649,10 @@ def my_salespages(request):
     if not request.user.is_trainer:
         return redirect('home')
 
+    analytics.track(request.user.id, 'trainer salespages', {
+             'name': request.user.trainer.name,
+            })
+
     # load data needed for client-setup and blitz-setup modal(s)
     trainer = request.user.trainer
     salespages = SalesPageContent.objects.filter(trainer=trainer)
@@ -651,7 +664,7 @@ def my_salespages(request):
         'salespages': salespages, 'trainer': trainer, 'blitzes': blitzes,
         'SITE_URL' : domain(request) })
 
-# trainer programs
+# client/trainer programs
 # url: /program
 @login_required
 def my_programs(request):
@@ -663,6 +676,12 @@ def my_programs(request):
            {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
     else:
         request_blitz = request.user.blitz
+
+        # segment.io track
+        analytics.track(request.user.id, 'program', {
+                 'name': request.user.client.name,
+                })
+
         blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
         return render(request, 'blitz_program.html', {
             'blitz': blitz, 'client': request.user.client })
@@ -686,6 +705,12 @@ def my_blitz_program(request):
 @login_required
 def my_blitz_members(request):
     blitz = request.user.blitz
+
+    # segment.io track
+    analytics.track(request.user.id, 'program/members', {
+             'name': request.user.client.name,
+            })
+
     return render(request, 'blitz_members.html', {
         'blitz': blitz,
     })
@@ -774,8 +799,12 @@ def save_set_to_session(gym_session, workout_set, item):
 @login_required
 def log_workout(request, week_number, day_char):
 
-    error = None
+    # segment.io track
+    analytics.track(request.user.id, 'log-workout', {
+             'name': request.user.client.name,
+            })
 
+    error = None
     client = request.user.client
     blitz = client.get_blitz()
     plan_day = blitz.get_workout_for_day(int(week_number), day_char)
@@ -1201,6 +1230,13 @@ def new_comment(request):
 
     else:
         comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'))
+
+        # segment.io track
+        if not request.user.is_trainer:
+            analytics.track(request.user.id, 'new_comment', {
+                 'name': request.user.client.name,
+                 'comment': request.POST.get('comment_text'),
+                 })
 
     ret = {
         'is_error': False,
@@ -1713,8 +1749,6 @@ def payment_hook(request, pk):
         card_uri = form.cleaned_data['card_uri']
         card = balanced.Card.fetch(form.cleaned_data['card_uri'])
 
-#        import pdb; pdb.set_trace()
-
         # validate CVV
         if card.cvv_match == 'no':
             has_error = True
@@ -2039,6 +2073,12 @@ def set_up_profile(request):
 @login_required
 def client_checkin(request):
     client = request.user.client
+
+    # segment.io track
+    analytics.track(request.user.id, 'checkin', {
+             'name': request.user.client.name,
+            })
+
     # get today's checkins, assume one per day max
     checkin = CheckIn.objects.get_or_none(client = client,
                                           date_created__year=client.current_datetime().date().year,

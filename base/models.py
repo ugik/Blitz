@@ -107,7 +107,10 @@ def user_type(user):
         user.client
         return 'D'
     except:
-        raise Exception("No type for user")
+        if user.email == 'spotter@example.com':
+            return 'S'
+        else:
+            raise Exception("No type for user")
 
 def user_display_name(user):
     """
