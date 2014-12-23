@@ -101,6 +101,12 @@ img.headshot {
 #account-block {
     margin-right: 23px;
 }
+
+.exercise-matrix .exercise-container .exercise .exercise-name-container .exercise-name {
+    height: 100px !important;
+}
+
+
 /**
  * Boxes
  */
