@@ -778,7 +778,7 @@ textarea,textarea:focus {
   //max-width: 240px;
   img {
     max-height: 50px;
-    margin-top: -15px;
+    max-width: 200px;
   }
   @include mobile-only {
     //max-width: 50%;
@@ -5732,9 +5732,36 @@ a#name, a#plan_name, a#client_name {
 }
 
 .rowreset {
-  margin-left: -30px !important;
-  .offset2 {
-    //margin-left: 200px;
+  padding: 0px 20px 0px 20px !important;
+}
+
+
+.leftadjust {
+  @include desktop-and-up {
+  margin-left: 180px !important;
+  };
+}
+
+.leftadjust2 {
+  @include desktop-and-up {
+  margin-left: 70px !important;
+  };
+}
+
+.leftadjust3 {
+  @include desktop-and-up {
+  margin-left: 470px;
+  }
+}
+
+.percentcircle {
+  background-color: #7ab2ea; 
+  border-radius: 100%; 
+  margin-top: 60px; 
+  min-height: 170px;
+  @include mobile-only {
+    width: 50%;
+    margin-left: 25%;
   }
 }
 
@@ -5745,4 +5772,77 @@ a#name, a#plan_name, a#client_name {
   margin: 0 auto;
   color: white;
   line-height: 2.5;
+}
+
+.downarrow {
+  @include desktop-and-up {
+    width: 75px;
+  };
+  @include mobile-only {
+    width: 25px;
+    margin-top: -35px;
+  }
+}
+
+#thelogo {
+  margin-top: 40px;
+  img {
+    @include desktop-and-up {
+    };
+    @include mobile-only {
+      width: 30%;
+    };
+  }
+}
+
+.about0 {
+  @include tablet-portrait-and-up {
+    background-image: url('/static/images/0.png'); 
+  }
+  @include mobile-only {
+    background-image: url('/static/images/0m.png');
+    border: 1px solid rgba(0,0,0,0.1); 
+  }
+  //background-color: #ddd; 
+  //border-radius: 5px 5px 0px 0px; 
+  height: 350px;
+}
+
+.about1 {
+  @include tablet-portrait-and-up {
+    background-image: url('/static/images/1.png'); 
+  }
+  @include mobile-only {
+    background-image: url('/static/images/1m.png');
+    border: 1px solid rgba(0,0,0,0.1); 
+  }
+  //background-color: #ddd; 
+  //border-radius: 5px 5px 0px 0px; 
+  height: 350px;
+}
+
+.about2 {
+  @include tablet-portrait-and-up {
+    background-image: url('/static/images/21.png'); 
+  }
+  @include mobile-only {
+    background-image: url('/static/images/21m.png');
+    border: 1px solid rgba(0,0,0,0.1); 
+  }
+  //background-color: #ddd; 
+  //border-radius: 5px 5px 0px 0px; 
+  height: 350px;
+}
+
+.about3 {
+  @include tablet-portrait-and-up {
+    background-image: url('/static/images/3.png'); 
+  }
+  @include mobile-only {
+    background-image: url('/static/images/3m.png');
+    border: 1px solid rgba(0,0,0,0.1); 
+  }
+  //background-color: #ddd; 
+  //border-radius: 5px 5px 0px 0px; 
+  height: 350px;
 }
