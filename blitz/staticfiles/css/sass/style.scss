@@ -5754,6 +5754,16 @@ a#name, a#plan_name, a#client_name {
   }
 }
 
+.arrow-right {
+  width: 0; 
+  height: 0; 
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  
+  border-left: 60px solid white;
+  margin-left: 30%;
+}
+
 .percentcircle {
   background-color: #7ab2ea; 
   border-radius: 100%; 
@@ -5787,7 +5797,8 @@ a#name, a#plan_name, a#client_name {
 #thelogo {
   margin-top: 40px;
   img {
-    @include desktop-and-up {
+    @include tablet-portrait-and-up {
+      width: 10%;
     };
     @include mobile-only {
       width: 30%;

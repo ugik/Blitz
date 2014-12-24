@@ -4,7 +4,30 @@
 class="sales-page"
 {% endblock %}
 
+{% block morehead %}
+
+    <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
+
+    <script type='text/javascript'>
+    $("#myModal").on("show", function () {
+    $("body").addClass("modal-open");
+    }).on("hidden", function () {
+    $("body").removeClass("modal-open")
+    });
+    </script>
+
+{% endblock %}
+
 {% block outer_content %}
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            yo what's up
+           <iframe src="//player.vimeo.com/video/113844112" width="1000" height="562" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
 
 <div class="container" style="height: 600px;">
     <div class="row rowreset">
@@ -12,9 +35,9 @@ class="sales-page"
             <img src="{{ STATIC_URL }}/images/logo-w.png">
         </div>
     </div>
-    <div class="row rowreset " style="margin-top: 2%;">
+    <div class="row rowreset " style="margin-top: 6%;">
         
-            <div class="span8 offset2 leftadjust">
+            <div class="span6" style="text-align: left;">
                   <div class="header lightfont" style="font-size: 2.5em; line-height: 1.4; color: white; margin-bottom: 10px;">
                       We're all about helping you and your coaching shine.
                   </div>
@@ -24,6 +47,20 @@ class="sales-page"
                   <p style="margin-top: 40px; opacity: 0.5;">
                     <img class="downarrow" src="/static/images/downarrow.png">
                   </p>
+            </div>
+            <div class="span5" style="text-align: left; margin-left: 30px; margin-top: 30px;">
+                
+                    <div class="" style="text-align: center; background-color: #7ab2ea; margin: 0 auto; height: 175px; width: 175px; border-radius: 50px;">
+                        <a data-toggle="modal" data-target="#myModal" >
+                        <div style="height: 35px;">
+                        </div>
+                        <div class="arrow-right">
+                        </div>
+                        <p style="top: 50%; color: white; margin-top: 20px;">
+                            Watch video
+                        </p>
+                    </div>
+                </a>
             </div>
     </div>
 </div>
@@ -150,5 +187,7 @@ class="sales-page"
 <div class="sales-footer">
   ©Blitz MMXV
 </div>
+
+
 
 {% endblock %}
