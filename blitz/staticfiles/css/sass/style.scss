@@ -5857,3 +5857,21 @@ a#name, a#plan_name, a#client_name {
   //border-radius: 5px 5px 0px 0px; 
   height: 350px;
 }
+
+.blueplay {
+  :hover {
+    cursor: pointer;
+  }
+  @include tablet-landscape-and-up {
+    margin: 30px auto;
+  }
+  @include mobile-only {
+    margin: 60px auto;
+  }
+}
+
+.topcut {
+  @include tablet-landscape-and-up {
+    height: 600px;
+  }
+}

@@ -6939,3 +6939,27 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
 }
+
+/* line 5862, ../sass/style.scss */
+.blueplay :hover {
+  cursor: pointer;
+}
+@media only screen and (min-width: 769px) {
+  /* line 5861, ../sass/style.scss */
+  .blueplay {
+    margin: 30px auto;
+  }
+}
+@media (max-width: 480px) {
+  /* line 5861, ../sass/style.scss */
+  .blueplay {
+    margin: 60px auto;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  /* line 5873, ../sass/style.scss */
+  .topcut {
+    height: 600px;
+  }
+}
