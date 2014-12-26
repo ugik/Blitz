@@ -19,7 +19,6 @@
         function homepage_setLoading() {
             $('#homepage-loadmore').hide();
             $('#homepage-loading').show();
-            $('html, body').animate({ scrollTop: $(document).height() }, 600);
         }
 
         function UpdateViewedFeedsCount(clickedFilter) {
@@ -326,6 +325,7 @@
             homepage_morefeed({
                 clickedFilter: CLICKED_FILTER
             });
+            $('html, body').animate({ scrollTop: $(document).height() }, 600);
         });
 
         // Search

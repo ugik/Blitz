@@ -167,11 +167,6 @@ LOGIN_URL = '/login'
 DATA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data')
 TEST_MEDIA_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../testmedia')
 
-try:
-    from .local_settings import *
-except:
-    pass
-
 # gmail SMTP setup
 # for local server, export var in ~/.bashrc
 # for apache server, SetEnv var in /etc/apache2/httpd.conf
@@ -197,8 +192,8 @@ MORNING_NOTIFICATIONS_HOUR = 5
 
 import balanced
 # Production settings for Balanced Marketplace
-balanced.configure('ak-test-2HbxysbHinoGa4nnmnLz63SluBiYiUQCV')
-BALANCED_MARKETPLACE_URI = '/v1/marketplaces/TEST-MP1tHThD8oovCyo9YnXXWImY'
+balanced.configure('ak-prod-2mO1e7PyFqztkxgk7mjCBPjn2cgtvJpIo')
+BALANCED_MARKETPLACE_URI = '/v1/marketplaces/MP1BPVYfxCfkjQCTsqua7aOr'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -212,3 +207,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
     "base.context_processors.custom_processor",
 )
+
+
+try:
+    from .local_settings import *
+except:
+    pass
+

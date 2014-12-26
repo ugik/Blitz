@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 
 from base import emails
-from base.models import Trainer, Client
+from base.models import Trainer, Client, user_type
 from base.utils import create_trainer
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
@@ -15,6 +15,9 @@ from django.core.mail import mail_admins
 import random
 import string
 import re
+import analytics
+
+analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 
 def login_view(request):
 
@@ -60,6 +63,14 @@ def standard_login_view(request):
         if form.is_valid():
             next = request.GET.get('next', '/')
             login(request, form.cleaned_data['user'])
+
+            # segment.io identify
+            user = User.objects.get(id=form.cleaned_data['user'].id)
+            analytics.identify(form.cleaned_data['user'].id, {
+                 'email': form.cleaned_data['email'],
+                 'name': user.trainer.name if user_type(user)=='T' else user.client.name if user_type(user)=='D' else 'spotter',
+                 'blitz': '(trainer)' if user_type(user)=='T' else user.client.get_blitz().title if user_type(user)=='D' else '(spotter)'
+            })
             return redirect(next)
 
     else:
@@ -72,7 +83,12 @@ def standard_login_view(request):
 
 
 def logout_view(request):
+    # segment.io track
+    analytics.track(request.user.id, 'logout', {
+                 'name': request.user.trainer.name if user_type(request.user)=='T' else request.user.client.name if user_type(request.user)=='D' else '(spotter)'    })
+
     logout(request)
+
     return redirect('login_view')
 
 def forgot_password(request):

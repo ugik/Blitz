@@ -107,7 +107,10 @@ def user_type(user):
         user.client
         return 'D'
     except:
-        raise Exception("No type for user")
+        if user.email == 'spotter@example.com':
+            return 'S'
+        else:
+            raise Exception("No type for user")
 
 def user_display_name(user):
     """
@@ -463,8 +466,8 @@ class Client(models.Model):
                         if not fi.content_object.user.is_trainer:
                             if fi.content_object.user.client == self:
                                 show_items.add(fi.pk)
-                        else:   # include trainer comments
-                            show_items.add(fi.pk)
+#                        else:   # include trainer comments
+#                            show_items.add(fi.pk)
                     elif fi.content_type.name in ['gym session', 'check in']:
                         if fi.content_object.client == self:
                             show_items.add(fi.pk)

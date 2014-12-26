@@ -12,6 +12,7 @@ from django.utils.timezone import now as timezone_now
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
+from base.emails import program_loaded, program_assigned
 
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember, BlitzInvitation
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
@@ -41,7 +42,7 @@ def spotter_payments(request):
 
     clients = []
     payments = []
-    total_cost = total_paid = 0
+    total_cost = total_paid = float(0.0)
 
     for client in Client.objects.all():
         blitz = client.get_blitz()
@@ -68,13 +69,13 @@ def spotter_payments(request):
         if debits:
             for debit in debits:
                 if 'client_id' in debit.meta:
-                    payments.append({'amount': debit.amount/100, 'status': debit.status, 
+                    payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
                          'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                    total_paid += debit.amount/100
+                    total_paid = float(total_paid) + float(debit.amount)/100
 
         clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
                         'start':start_date, 'months': months, 'payments': payments,
-                        'total_cost':total_cost, 'total_paid':total_paid, 'due':total_cost-total_paid})
+                        'total_cost': '%.2f' % total_cost, 'total_paid': '%.2f' % total_paid, 'due': '%.2f' % (float(total_cost)-float(total_paid))})
 
         payments = []
         total_cost = total_paid = 0
@@ -181,6 +182,9 @@ def assign_workoutplan(request):
             blitz = Blitz.objects.get(pk=blitz_id)
             blitz.workout_plan = workoutplan
             blitz.save()
+
+            program_assigned(workoutplan, blitz)   # email the trainer
+
             response = redirect('spotter_status_trainers')
             return response
 
@@ -276,6 +280,8 @@ def spotter_program_create(request):
             plan_name = form.cleaned_data['program_name']
             file_name = request.GET.get('filename', None)
             result = load_program(file_name, trainer_id, plan_name)
+
+            program_loaded(plan_name, trainer_id)   # email the trainer
 
             return render_to_response('program_create_done_page.html', 
                               {'plan_name' : plan_name, 'trainer_id' : trainer_id},

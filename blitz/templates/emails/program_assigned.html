@@ -1,0 +1,36 @@
+{% extends "emails/base_email.html" %}
+
+{% block email_content %}
+
+<p>Hey {{ trainer }}, your workout program {{ workoutplan.name }} has been assigned to {{ blitz }}</p>
+
+<p>Login to <a href="http://www.blitz.us" >Blitz</a> and check it out.</p>
+
+<br />
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+    <tbody>
+        <tr>
+            <td style="padding-top:0;padding-right:18px;padding-bottom:18px;padding-left:18px" valign="top" align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:separate!important;border:2px none #707070;border-top-left-radius:5px;border-top-right-radius:5px;border-bottom-right-radius:5px;border-bottom-left-radius:5px;background-color:#7ab2ea">
+                    <tbody>
+                        <tr>
+                            <td align="center" valign="middle" style="font-family:Arial;font-size:24px;padding:20px">
+                                <a title="Check it out" href="http://www.blitz.us" style="font-weight:bold;letter-spacing:normal;line-height:100%;text-align:center;text-decoration:none;color:#ffffff;word-wrap:break-word" target="_blank">Check it out</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p style="color: #9c999b; font-size: 16px;">If you ever run into any problems--or just have ideas on how we can make your experience better--don't hesitate to reach out to us at support@blitz.us.</p>
+
+<p style="color: #9c999b; font-size: 16px;">Thanks for signing up!</p>
+
+<p style="color: #9c999b; font-size: 16px;">--Team Blitz</p>
+
+{% endblock %}
+
