@@ -1,0 +1,39 @@
+{% extends "spotter_base.html" %}
+
+{% block main %}
+
+<header>Edit Workoutplan</i><br></header><br>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+
+<table>
+{% for workoutplanweek in workoutplan.workoutplanweek_set.all %}
+<tr><td><a href="">add Week</a></td></tr>
+<tr><td>week#<b>{{ workoutplanweek.week }}</b></td>
+    <td><a href="">add Day</a></td></tr>
+   {% for workoutplanday in workoutplanweek.workoutplanday_set.all %}
+       <tr><td>{% if workoutplanday.day_of_week == 'M' %}Monday
+               {% elif workoutplanday.day_of_week == 'T' %}Tuesday
+               {% elif workoutplanday.day_of_week == 'W' %}Wednesday
+               {% elif workoutplanday.day_of_week == 'H' %}Thursday
+               {% elif workoutplanday.day_of_week == 'F' %}Friday
+               {% elif workoutplanday.day_of_week == 'S' %}Saturday
+               {% elif workoutplanday.day_of_week == 'U' %}Sunday
+               {% endif %}
+
+          </td><td><a href=""><small>(delete)</small></a></td><td><a onclick="{
+    loc = '#'+'{{ workoutplanday.workout.exercise_set.all.0.pk }}'; html = '</tr><tr><td><td>New Exercise</td></tr>'; $(loc).before(html);}">add Exercise</a></td>
+       {% for exercise in workoutplanday.workout.exercise_set.all %}
+            <tr id="{{ exercise.pk }}"><td><td>{{ exercise.lift }}</td><td>{{ exercise.sets_display }}</td>
+                <td><a href=""><small>(delete)</small></a></td></tr>
+       {% endfor %}
+   {% endfor %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+

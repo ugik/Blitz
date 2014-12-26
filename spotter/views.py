@@ -304,6 +304,21 @@ def spotter_workoutplan(request):
                               RequestContext(request))
 
 @login_required
+def edit_workoutplan(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    workoutplans = WorkoutPlan.objects.filter(pk=request.GET.get('plan'))
+    if workoutplans:
+        workoutplan = workoutplans[0]
+    else:
+        workoutplan = WorkoutPlan()
+
+    return render_to_response('workoutplan_edit.html', 
+                              {'workoutplan' : workoutplan},
+                              RequestContext(request))
+
+@login_required
 def spotter_feed(request):
     if not request.user.is_staff:
         return redirect('home')
