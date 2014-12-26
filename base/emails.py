@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
 from email.MIMEImage import MIMEImage
 
 from django.contrib.auth.models import User
@@ -229,21 +230,50 @@ def usage_trainer(trainer):
 
     send_email(from_mail, to_mail, subject, template_text, template_html, context)
 
+def program_loaded(plan_name, trainer_id):
+
+    trainer = get_object_or_404(Trainer, id=int(trainer_id))
+    from_email, to_email = SOURCE_EMAIL, trainer.user.email
+    subject = "Workout program has been loaded"
+
+    text_template = 'emails/program_loaded.txt'
+    html_template = 'emails/program_loaded.html'
+    context = { 'trainer': trainer, 'plan_name': plan_name }
+    send_email(from_email, to_email, subject, text_template, html_template, context,
+               cc_mail=[] )
+
+def program_assigned(workoutplan, blitz):
+
+    trainer = blitz.trainer
+    from_email, to_email = SOURCE_EMAIL, trainer.user.email
+    subject = "Workout program has been assigned"
+
+    text_template = 'emails/program_assigned.txt'
+    html_template = 'emails/program_assigned.html'
+    context = { 'trainer': trainer, 'workoutplan': workoutplan, 'blitz': blitz }
+    send_email(from_email, to_email, subject, text_template, html_template, context,
+               cc_mail=[] )
 
 def email_tests():
-    from base.models import User, Client, Trainer, Comment
+    from base.models import User, Client, Trainer, Blitz, Comment
+    from workouts.models import WorkoutPlan
     from ff_messaging.models import Message
-    user = User.objects.get(pk=1)
+    user = User.objects.get(pk=3)
     client = Client.objects.get(pk=1)
     trainer = Trainer.objects.get(pk=1)
     message = Message.objects.get(pk=1)
     comment = Comment.objects.get(pk=1)
+    workoutplan = WorkoutPlan.objects.get(pk=1)
+    blitz = Blitz.objects.get(pk=1)
     client_invite(trainer, 'georgek@gmail.com', 'program')
-    signup_confirmation(client)
+    signup_confirmation(client, trainer)
     message_received(user, message)
     forgot_password(user)
     gym_session_comment(user, user, comment)
     new_child_comment(user, user, comment)
     email_spotter_program_edit(1, 'spotter email test')
+    program_loaded(workoutplan.name, trainer.id)
+    program_assigned(workoutplan, blitz)
+
 
 

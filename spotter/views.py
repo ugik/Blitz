@@ -12,6 +12,7 @@ from django.utils.timezone import now as timezone_now
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
+from base.emails import program_loaded, program_assigned
 
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember, BlitzInvitation
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
@@ -181,6 +182,9 @@ def assign_workoutplan(request):
             blitz = Blitz.objects.get(pk=blitz_id)
             blitz.workout_plan = workoutplan
             blitz.save()
+
+            program_assigned(workoutplan, blitz)   # email the trainer
+
             response = redirect('spotter_status_trainers')
             return response
 
@@ -276,6 +280,8 @@ def spotter_program_create(request):
             plan_name = form.cleaned_data['program_name']
             file_name = request.GET.get('filename', None)
             result = load_program(file_name, trainer_id, plan_name)
+
+            program_loaded(plan_name, trainer_id)   # email the trainer
 
             return render_to_response('program_create_done_page.html', 
                               {'plan_name' : plan_name, 'trainer_id' : trainer_id},

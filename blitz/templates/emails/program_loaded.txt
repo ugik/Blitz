@@ -1,0 +1,8 @@
+Hey, {{ trainer }}, your workout program {{ plan_name }} has been loaded.
+
+Login to Blitz.us and check it out.
+
+--Team Blitz
+
+
+
