@@ -17,6 +17,7 @@ from base.emails import program_loaded, program_assigned
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember, BlitzInvitation
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
+from base.utils import JSONResponse
 from spotter.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 
 import os
@@ -318,6 +319,18 @@ def edit_workoutplan(request):
     return render_to_response('workoutplan_edit.html', 
                               {'workoutplan' : workoutplan, 'lifts' : lifts},
                               RequestContext(request))
+
+@login_required
+@csrf_exempt
+def workoutplan_day_save(request):
+#    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+
+#    if 'formula' in request.POST:
+#        blitz_macros_set(blitz=blitz, formula=request.POST.get('formula'))
+    print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set0'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4')
+
+    return JSONResponse({'is_error': False})
+
 
 @login_required
 def spotter_feed(request):

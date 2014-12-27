@@ -2,6 +2,14 @@
 
 {% block morehead %}
 <script>
+function save_workoutday(day, lift, display, set0, set1, set2, set3, set4) { 
+     $.ajax({
+        url: 'workoutplan_day-save',
+        type: 'POST',
+        data: {day: day, lift: lift, display: display, set0: set0, set1: set1, set2: set2, set3: set3, set4: set4},
+      })
+ }
+
 function cancel_row(location) {
     var tr = $(location).closest('tr');
         tr.css("background-color","#FFFFFF");
@@ -10,25 +18,19 @@ function cancel_row(location) {
         });
 }
 
-function save_row(location) {
-    console.log($("#lifts :selected").val());
-    console.log($('#sets_display').val());
-    console.log($('#set0').val());
-    console.log($('#set1').val());
-    console.log($('#set2').val());
-    console.log($('#set3').val());
-    console.log($('#set4').val());
+function save_row(location, day) {
 
+    save_workoutday(day, $("#lifts :selected").val(), $('#sets_display').val(), $('#set0').val(), $('#set1').val(), $('#set2').val(), $('#set3').val(), $('#set4').val());
     cancel_row(location);
 
-    html = "<tr><td><td colspan='5'>Some new lift</td><td>3x10</td><td><a href=''><small>(delete)</small></a></td></tr>"; 
+    html = "<tr><td><td colspan='5'>"+$("#lifts :selected").text()+"</td><td><td>"+$('#sets_display').val()+"</td><td><a onclick='cancel_row(this);'><small>(delete)</small></a></td></tr>"; 
     var tr = $(location).closest('tr');
     tr.after(html);
 
 }
 
-function insert_row(location) {
-    html = "<tr><td><td><select id='lifts' >{% for l in lifts %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td><input type='text' id='sets_display' placeholder='Sets Display'/></td><td><input type='text' id='set0' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set1' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set2' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set3' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set4' style='width:30px;' placeholder='Set'/></td><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this)'><small>(save)</small></a></td></tr>"; 
+function insert_row(location, day) {
+    html = "<tr><td><td><select id='lifts' >{% for l in lifts %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td><input type='text' id='sets_display' style='width:75px;' placeholder='Sets Display'/></td><td><input type='text' id='set0' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set1' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set2' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set3' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set4' style='width:30px;' placeholder='Set'/></td><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, "+ day +");'><small>(save)</small></a></td></tr>"; 
     $(location).before(html);
 
 }
@@ -61,9 +63,9 @@ function insert_row(location) {
                {% elif workoutplanday.day_of_week == 'U' %}Sunday
                {% endif %}
 
-          </td><td><a href=""><small>(delete)</small></a></td><td><a onclick="insert_row('#{{ workoutplanday.workout.exercise_set.all.0.pk }}');">add Exercise</a></td>
+          </td><td><a href=""><small>(delete)</small></a></td><td><a onclick="insert_row('#{{ workoutplanday.workout.exercise_set.all.0.pk }}', '{{ workoutplanday.pk }}');">add Exercise</a></td>
        {% for exercise in workoutplanday.workout.exercise_set.all %}
-            <tr id="{{ exercise.pk }}"><td><td colspan="5">{{ exercise.lift }}</td><td>{{ exercise.sets_display }}</td>
+            <tr id="{{ exercise.pk }}"><td><td colspan="6">{{ exercise.lift }}</td><td>{{ exercise.sets_display }}</td>
                 <td><a href=""><small>(delete)</small></a></td></tr>
        {% endfor %}
    {% endfor %}
