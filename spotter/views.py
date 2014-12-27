@@ -322,12 +322,19 @@ def edit_workoutplan(request):
 
 @login_required
 @csrf_exempt
-def workoutplan_day_save(request):
+# multi-purpose ajax function for workoutplan editing
+def workoutplan_day_ajax(request):
 #    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
 
-#    if 'formula' in request.POST:
-#        blitz_macros_set(blitz=blitz, formula=request.POST.get('formula'))
-    print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set0'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4')
+    if not 'mode' in request.POST:
+        return False
+
+    if request.POST.get('mode') == 'save_workoutplan_day':
+        print request.POST.get('mode')
+        print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set0'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4')
+    elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('day') != None:
+        print request.POST.get('mode')
+        print request.POST.get('day'), request.POST.get('lift')
 
     return JSONResponse({'is_error': False})
 

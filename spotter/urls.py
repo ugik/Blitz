@@ -31,7 +31,7 @@ urlpatterns = patterns(
     url(r'^spotter_feed$', 'spotter.views.spotter_feed', name='spotter_feed'),
     url(r'^spotter_invites$', 'spotter.views.spotter_invites', name='spotter_invites'),
 
-    url(r'^workoutplan_day-save$', 'spotter.views.workoutplan_day_save', name='workoutplan_day_save'),
+    url(r'^workoutplan_day-ajax$', 'spotter.views.workoutplan_day_ajax', name='workoutplan_day_ajax'),
 
     )
 
