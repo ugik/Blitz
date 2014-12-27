@@ -314,8 +314,9 @@ def edit_workoutplan(request):
     else:
         workoutplan = WorkoutPlan()
 
+    lifts = Lift.objects.all()
     return render_to_response('workoutplan_edit.html', 
-                              {'workoutplan' : workoutplan},
+                              {'workoutplan' : workoutplan, 'lifts' : lifts},
                               RequestContext(request))
 
 @login_required
