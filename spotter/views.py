@@ -17,6 +17,7 @@ from base.emails import program_loaded, program_assigned
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember, BlitzInvitation
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
+from base.utils import JSONResponse
 from spotter.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
 
 import os
@@ -302,6 +303,41 @@ def spotter_workoutplan(request):
     return render_to_response('workoutplan_page.html', 
                               {'workoutplan' : workoutplan},
                               RequestContext(request))
+
+@login_required
+def edit_workoutplan(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    workoutplans = WorkoutPlan.objects.filter(pk=request.GET.get('plan'))
+    if workoutplans:
+        workoutplan = workoutplans[0]
+    else:
+        workoutplan = WorkoutPlan()
+
+    lifts = Lift.objects.all()
+    return render_to_response('workoutplan_edit.html', 
+                              {'workoutplan' : workoutplan, 'lifts' : lifts},
+                              RequestContext(request))
+
+@login_required
+@csrf_exempt
+# multi-purpose ajax function for workoutplan editing
+def workoutplan_day_ajax(request):
+#    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
+
+    if not 'mode' in request.POST:
+        return False
+
+    if request.POST.get('mode') == 'save_workoutplan_day':
+        print request.POST.get('mode')
+        print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set0'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4')
+    elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('day') != None:
+        print request.POST.get('mode')
+        print request.POST.get('day'), request.POST.get('lift')
+
+    return JSONResponse({'is_error': False})
+
 
 @login_required
 def spotter_feed(request):

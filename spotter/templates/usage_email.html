@@ -13,7 +13,7 @@
 <h3>from: {{ hosts }}</h3>
 {% endif %}
 {% if MRR %}
-<h3>MRR ${{ MRR }}</h3>
+<h3>MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h3>
 {% endif %}
 
 {% if trainers %}

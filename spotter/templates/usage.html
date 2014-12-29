@@ -21,7 +21,7 @@
 
 <header style="margin-bottom: 30px;">Usage digest {{ days }} days</header>
 
-<h3>MRR ${{ MRR }}</h3>
+<h3>MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h3>
 {% if login_users %}
 <h3>Last login</h3>
 <ul>

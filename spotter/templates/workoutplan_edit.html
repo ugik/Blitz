@@ -1,0 +1,91 @@
+{% extends "spotter_base.html" %}
+
+{% block morehead %}
+<script>
+var count = 0;
+
+function save_workoutday(day, lift, display, set0, set1, set2, set3, set4) { 
+     $.ajax({
+        url: 'workoutplan_day-ajax',
+        type: 'POST',
+        data: {mode: 'save_workoutplan_day',
+               day: day, lift: lift, display: display, set0: set0, set1: set1, set2: set2, set3: set3, set4: set4},
+      })
+ }
+function delete_workoutday(day, lift) { 
+     $.ajax({
+        url: 'workoutplan_day-ajax',
+        type: 'POST',
+        data: {mode: 'delete_workoutplan_day', day: day, lift: lift},
+      })
+ }
+
+function cancel_row(location, day, lift) {
+    var tr = $(location).closest('tr');
+        tr.css("background-color","#FFFFFF");
+        tr.fadeOut(400, function(){
+            tr.remove();
+        });
+        delete_workoutday(day, lift);
+}
+
+function save_row(location, day, count) {
+    save_workoutday(day, $("#lifts"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set0_"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val());
+    cancel_row(location);
+
+    html = "<tr><td><td colspan='5'>"+$("#lifts"+ count +" :selected").text()+"</td><td><td>"+$("#sets_display"+ count).val()+"</td><td><a onclick='cancel_row(this, "+day+" , "+ $("#lifts"+ count +" :selected").val().toString() +");'><small>(delete)</small></a></td></tr>"; 
+    var tr = $(location).closest('tr');
+    tr.after(html);
+
+}
+
+function insert_row(location, day) {
+    count++;
+    c = count.toString();
+    html = "<tr><td><td><select id='lifts"+ c +"'>{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td><input type='text' id='sets_display"+ c +"' style='width:75px;' value='3x10'/></td><td><input type='text' id='set0_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set1_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set2_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set3_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set4_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, "+ day +" , " + c +");'><small>(save)</small></a></td></tr>";
+    $(location).before(html);
+
+}
+
+</script>
+
+{% endblock %}
+
+{% block main %}
+
+<header>Edit Workoutplan</i><br></header><br>
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+
+<table id='table'>
+{% for workoutplanweek in workoutplan.workoutplanweek_set.all %}
+<tr><td><a href="">add Week</a></td></tr>
+<tr><td>week#<b>{{ workoutplanweek.week }}</b></td>
+    <td><a href="">add Day</a></td></tr>
+   {% for workoutplanday in workoutplanweek.workoutplanday_set.all %}
+       <tr><td>{% if workoutplanday.day_of_week == 'M' %}Monday
+               {% elif workoutplanday.day_of_week == 'T' %}Tuesday
+               {% elif workoutplanday.day_of_week == 'W' %}Wednesday
+               {% elif workoutplanday.day_of_week == 'H' %}Thursday
+               {% elif workoutplanday.day_of_week == 'F' %}Friday
+               {% elif workoutplanday.day_of_week == 'S' %}Saturday
+               {% elif workoutplanday.day_of_week == 'U' %}Sunday
+               {% endif %}
+
+          </td><td><a href=""><small>(delete)</small></a></td><td><a onclick="insert_row('#head_{{ workoutplanday.pk }}', '{{ workoutplanday.pk }}');">add Exercise</a></td>
+       <tr id="head_{{ workoutplanday.pk }}" style="height:5px;"></tr>
+       {% for exercise in workoutplanday.workout.exercise_set.all %}
+            <tr id="{{ exercise.pk }}"><td><td colspan="6">{{ exercise.lift }}</td><td>{{ exercise.sets_display }}</td>
+                <td><a onclick="cancel_row(this, '{{ workoutplanday.pk }}', '{{ exercise.lift.pk }}');"><small>(delete)</small></a></td></tr>
+       {% endfor %}
+       <tr></tr>
+   {% endfor %}
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+

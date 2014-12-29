@@ -125,7 +125,7 @@ def blitz_setup(request):
         return redirect('home')
 
     # segment.io track
-    analytics.track(request.user.id, 'blitz-setup', {
+    analytics.track(str(request.user.id), 'blitz-setup', {
              'name': request.user.trainer.name,
             })
 
@@ -247,7 +247,7 @@ def client_blitz_setup(request, pk):
         return redirect('home')
 
     # segment.io track
-    analytics.track(request.user.id, 'client-setup', {
+    analytics.track(str(request.user.id), 'client-setup', {
              'name': request.user.trainer.name,
             })
 
@@ -357,7 +357,7 @@ def spotter_program_edit(request, pk):
         return redirect('home')
 
     # segment.io track
-    analytics.track(request.user.id, 'spotter_program_edit', {
+    analytics.track(str(request.user.id), 'spotter_program_edit', {
              'name': request.user.trainer.name,
             })
 
@@ -413,7 +413,7 @@ def blitz_macros(request, pk):
     blitz = get_object_or_404(Blitz, pk=int(pk) )
 
     # segment.io track
-    analytics.track(request.user.id, 'blitz_macros', {
+    analytics.track(str(request.user.id), 'blitz_macros', {
              'name': request.user.trainer.name,
              'blitz': blitz.title
             })
@@ -460,7 +460,7 @@ def client_macros(request, pk):
     client = get_object_or_404(Client, pk=int(pk) )
 
     # segment.io track
-    analytics.track(request.user.id, 'client_macros', {
+    analytics.track(str(request.user.id), 'client_macros', {
              'name': request.user.trainer.name,
              'client': client.name
             })
@@ -503,7 +503,7 @@ def upload_page(request):
         return redirect('home')
 
     # segment.io track
-    analytics.track(request.user.id, 'upload', {
+    analytics.track(str(request.user.id), 'upload', {
              'name': request.user.trainer.name,
             })
 
@@ -592,7 +592,7 @@ def my_profile(request):
     else:
         client = request.user.client
         # segment.io track
-        analytics.track(request.user.id, 'profile', {
+        analytics.track(str(request.user.id), 'profile', {
                  'name': client.name,
                 })
 
@@ -681,7 +681,7 @@ def my_salespages(request):
     if not request.user.is_trainer:
         return redirect('home')
 
-    analytics.track(request.user.id, 'trainer salespages', {
+    analytics.track(str(request.user.id), 'trainer salespages', {
              'name': request.user.trainer.name,
             })
 
@@ -704,7 +704,7 @@ def my_programs(request):
 
     if request.user.is_trainer:
         # segment.io track
-        analytics.track(request.user.id, 'programs', {
+        analytics.track(str(request.user.id), 'programs', {
                  'name': request.user.trainer.name,
                 })
 
@@ -715,7 +715,7 @@ def my_programs(request):
         request_blitz = request.user.blitz
 
         # segment.io track
-        analytics.track(request.user.id, 'program', {
+        analytics.track(str(request.user.id), 'program', {
                  'name': request.user.client.name,
                 })
 
@@ -744,7 +744,7 @@ def my_blitz_members(request):
     blitz = request.user.blitz
 
     # segment.io track
-    analytics.track(request.user.id, 'program/members', {
+    analytics.track(str(request.user.id), 'program/members', {
              'name': request.user.client.name,
             })
 
@@ -837,7 +837,7 @@ def save_set_to_session(gym_session, workout_set, item):
 def log_workout(request, week_number, day_char):
 
     # segment.io track
-    analytics.track(request.user.id, 'log-workout', {
+    analytics.track(str(request.user.id), 'log-workout', {
              'name': request.user.client.name,
             })
 
@@ -1270,7 +1270,7 @@ def new_comment(request):
 
         # segment.io track
         if not request.user.is_trainer:
-            analytics.track(request.user.id, 'new_comment', {
+            analytics.track(str(request.user.id), 'new_comment', {
                  'name': request.user.client.name,
                  'comment': request.POST.get('comment_text'),
                  })
@@ -1385,15 +1385,14 @@ def trainer_signup(request):
             blitz.price = form.cleaned_data['price']
             blitz.save()
 
+            # segment.io identify
+            analytics.identify(trainer.user.id, {
+                 'name': trainer.name,
+                 'email': trainer.user.email })
+
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
             request.session['show_intro'] = True
-
-            # segment.io track
-            analytics.track(request.user.id, 'register-trainer', {
-                 'name': trainer.name,
-                 'email': trainer.user.email
-                })
 
             return redirect('/register-trainer-uploads/%d' % trainer.pk)
 
@@ -1525,13 +1524,10 @@ def client_signup(request):
             login(request, u)
             request.session['show_intro'] = True
 
-            # segment.io track
-            analytics.track(request.user.id, 'client-signup', {
+            # segment.io identify
+            analytics.identify(str(client.user.pk), {
                  'name': client.name,
-                 'email': client.user.email,
-                 'blitz': invitation.blitz.title,
-                 'price': invitation.price,
-                })
+                 'email': client.user.email })
 
             return redirect('/signup-complete?pk='+str(blitz.pk))
 
@@ -1649,7 +1645,7 @@ def sales_blitz(request):
         blitz = None
 
     # segment.io track
-    analytics.track(request.user.id, 'sales-blitz', {
+    analytics.track(str(request.user.id), 'sales-blitz', {
         'name': request.user.trainer.name if request.user.is_trainer else request.user.client.name,
         'blitz': blitz.title if blitz else '(None)',
                 })
@@ -1878,6 +1874,12 @@ def payment_hook(request, pk):
 
                 user = authenticate(username=client.user.username, password=request.session['password'])
                 login(request, user)
+
+                # segment.io identify
+                analytics.identify(client.user.id, {
+                    'name': client.name,
+                    'email': client.user.email })
+
                 request.session['show_intro'] = True
                 if 'name' in request.session:
                     request.session.pop('name')
@@ -1890,6 +1892,12 @@ def payment_hook(request, pk):
                 alert = TrainerAlert.objects.create(
                            trainer=blitz.trainer, text="Client updated CC info.",
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                # segment.io track
+                analytics.track(client.user.id, 're-up', {
+                    'name': client.name,
+                    'email': client.user.email,
+                })
 
     else:
         has_error = True
@@ -2135,7 +2143,7 @@ def client_checkin(request):
     client = request.user.client
 
     # segment.io track
-    analytics.track(request.user.id, 'checkin', {
+    analytics.track(str(request.user.id), 'checkin', {
              'name': request.user.client.name,
             })
 
