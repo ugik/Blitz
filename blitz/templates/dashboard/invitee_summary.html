@@ -369,8 +369,7 @@
 	<div class="section sidebar-box workout-plan">
 		<div class="header">
 			<span class="sidebar-box-title">Workout Plan</span>
-				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('client_name').text='{{ invitation.name }}'; document.getElementById('edit_request').value='Here's what I want to change for {{ invitation.name|safe }}...'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
-					Edit
+                <a class="btn btn-default btn-edit" id="edit_program" onclick='{ document.getElementById("client_name").text="{{ invitation.name|safe }}"; document.getElementById("edit_request").value="Here is what I want to change for {{ invitation.name|safe }}."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>					Edit
 				</a>
 		</div> 
                 {% if invitation.workout_plan.name %}

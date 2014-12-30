@@ -424,11 +424,10 @@ Hit: {{ day.diet_goal_hit }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}<
     <div class="section sidebar-box workout-plan">
         <div class="header">
             <span class="sidebar-box-title">Workout Plan</span>
-                <a class="btn btn-default btn-edit" id="edit_program" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Here's what I want to change for  for {{ client.name|safe }}... "; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
+                <a class="btn btn-default btn-edit" id="edit_program" onclick='{ document.getElementById("client_name").text="{{ client.name|safe }}"; document.getElementById("edit_request").value="Here is what I want to change for {{ client.name|safe }}."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>
                     Edit
                 </a>
         </div>
-
 
         <div class="description">
                 {{ client.get_blitz.workout_plan.name }}
