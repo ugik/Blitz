@@ -94,7 +94,11 @@
     {% for week in blitz.workout_plan.weeks %}
         <div class="span12"><h3>Week {{ week.week }}:</h3>
         {% for day in week.days %}
-            {% if week.days.count > 3 %}<div class="span2">{% else %}<div class="span3">{% endif %}
+            {% if week.days.count > 4 %}
+              <div class="span2" style="margin-left: 0px; margin-right: 25px !important;">
+            {% else %}
+              <div class="span3" style="margin-left: 0px; margin-right: 30px;">
+            {% endif %}
                 <div class="overview-block workout-day-block">
                     <div class="title">{{ day.day_of_week|day_name }}</div>
                     <div class="content">
