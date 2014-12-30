@@ -91,16 +91,16 @@ class="sales-page"
             <label id="id_label" name="picture"  for="id_picture"/>
             <img class="profile-headshot img-circle" 
               {% if sales_page.trainer_headshot %}
-                   style="background-size: 100%; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
+                   src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
             "
               {% else %}
-                   style="background-size: 100%; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
-            "
+                   src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
               {% endif %}/>
             </label>
          {% else %}
-            <img class="img-circle" style="background-size: 100%; min-height: 150px; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
-            " />
+          <div style="width:150px; height:150px; overflow: hidden; border: 6px solid white; margin: 0 auto; border-radius: 50%"> 
+            <img class="img-circle" src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}" style="height: auto; border: none; width: auto; border-radius: 0px;" />
+          </div>
          {% endif %}   
        </div>
     </div>
