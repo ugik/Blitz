@@ -35,7 +35,7 @@ class="sales-page"
 
           <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
           action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
-        {% else %}circ;
+        {% else %}
           <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
         {% endif %}
 
@@ -91,13 +91,15 @@ class="sales-page"
             <label id="id_label" name="picture"  for="id_picture"/>
             <img class="profile-headshot img-circle" 
               {% if sales_page.trainer_headshot %}
-                   src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
+                   style="background-size: 100%; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
+            "
               {% else %}
-                   src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
+                   style="background-size: 100%; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
+            "
               {% endif %}/>
             </label>
          {% else %}
-            <img class="img-circle" style="background-size: 100%; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
+            <img class="img-circle" style="background-size: 100%; min-height: 150px; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
             " />
          {% endif %}   
        </div>
