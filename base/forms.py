@@ -22,6 +22,7 @@ class LoginForm(forms.Form):
             user = User.objects.get(email=self.cleaned_data.get('email', '').lower())
         except ObjectDoesNotExist:
             raise forms.ValidationError("This email address looks weird. Can you double check?")
+
         self.user = authenticate(username=user.username, password=self.cleaned_data.get('password'))
         if self.user is None:
             raise forms.ValidationError("The password you entered wasn't right. Give it another shot.")

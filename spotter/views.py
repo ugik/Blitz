@@ -612,6 +612,8 @@ def test_program(file):
 
     errors = []
     log = []
+    days = []
+    weekdays = ['M', 'T', 'W', 'H', 'F', 'S', 'U']
     ready = False
     try:
         workbook = xlrd.open_workbook(file)
@@ -637,6 +639,20 @@ def test_program(file):
         except:
             errors.append("MISSING DATA: No rows in Meta sheet")
 
+        try:
+            curr_row = 0
+            while curr_row < worksheet.nrows - 1:
+                curr_row += 1
+                try:
+                    row = worksheet.row(curr_row)
+                    days.append(worksheet.cell_value(curr_row, 0))
+                except:
+                    errors.append("BAD DATA: Missing days info in Meta tab")
+
+        except:
+            errors.append("BAD DATA: Meta tab error")
+
+
         log.append("%s rows found in Meta sheet" % str(worksheet.nrows -1))
 
         worksheet = workbook.sheet_by_name('Workouts')
@@ -658,6 +674,9 @@ def test_program(file):
                     row = worksheet.row(curr_row)
                     for reps_str in worksheet.cell_value(curr_row, 3).split(','):
                         i = int(reps_str)
+                    if worksheet.cell_value(curr_row, 0) not in days:
+                        errors.append("Workouts day '%s' not defined in Meta tab" % worksheet.cell_value(curr_row, 0))
+
                 except:
                     errors.append("BAD DATA: Workout reps must be comma-separated numbers")
                 try:
@@ -684,6 +703,11 @@ def test_program(file):
                 curr_row += 1
                 row = worksheet.row(curr_row)
                 i = int(worksheet.cell_value(curr_row, 1))
+                if worksheet.cell_value(curr_row, 0) not in days:
+                    errors.append("Plan day '%s' not defined in Meta tab" % worksheet.cell_value(curr_row, 0))
+                if worksheet.cell_value(curr_row, 2) not in weekdays:
+                    errors.append("Plan weekday '%s' invalid" % worksheet.cell_value(curr_row, 2))
+
         except:
             errors.append("BAD DATA: Plan week must be number")
 
