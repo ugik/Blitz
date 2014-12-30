@@ -83,8 +83,10 @@ def standard_login_view(request):
 
 
 def logout_view(request):
-    # segment.io track
-    analytics.track(request.user.id, 'logout', {
+
+    if request.user.id != None:
+        # segment.io track
+        analytics.track(request.user.id, 'logout', {
                  'name': request.user.trainer.name if user_type(request.user)=='T' else request.user.client.name if user_type(request.user)=='D' else '(spotter)'    })
 
     logout(request)
