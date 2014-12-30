@@ -184,7 +184,7 @@ def assign_workoutplan(request):
             blitz.workout_plan = workoutplan
             blitz.save()
 
-            program_assigned(workoutplan, blitz)   # email the trainer
+#            program_assigned(workoutplan, blitz)   # email the trainer
 
             response = redirect('spotter_status_trainers')
             return response

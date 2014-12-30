@@ -190,15 +190,18 @@ def forgot_password_token(user):
     except:
         raise Exception("No blitz for user")
 
-# creates image of a given width and appropriate aspect-ratio, default width 150, "@2X" suffix
-def create_2X_image(image_path, width=150, suffix="@2X"):
+# creates image of a given width and appropriate aspect-ratio, default width 150, "@2x" suffix
+def create_2X_image(image_path, width=150, suffix="@2x"):
     img = Image.open(image_path)
     wpercent = (width/float(img.size[0]))
     hsize = int((float(img.size[1])*float(wpercent)))
     img = img.resize((width,hsize), PIL.Image.ANTIALIAS)
 
     file_name = image_path.split('/')[-1]
-    new_file_name = file_name.split('.')[0]+"@2X."+file_name.split('.')[-1]
+
+    # we add "_1" after the filename as the uploaded image (eg. "foo.jpg") will result in a thumbnail
+    # "foo_1.jpg" which will be saved in the database, so "foo_1@2x.jpg" is the correct retina image filename
+    new_file_name = file_name.split('.')[0] + "_1" + suffix + "." + file_name.split('.')[-1]
     img.save(image_path.replace(file_name,new_file_name))
 
 class GetOrNoneManager(models.Manager):
@@ -272,7 +275,7 @@ class Trainer(models.Model):
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
 
-        create_2X_image(image_path, width=300, suffix="@2X")
+        create_2X_image(image_path, width=300, suffix="@2x")
 
     def get_timezone(self):
         return timezone(self.timezone)
@@ -431,7 +434,7 @@ class Client(models.Model):
         filename = image_path.split('/')[-1]
         self.headshot.save(filename, thumb_contentfile)
 
-        create_2X_image(image_path, width=300, suffix="@2X")
+        create_2X_image(image_path, width=300, suffix="@2x")
 
     def get_gym_sessions(self):
         """
