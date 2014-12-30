@@ -5927,6 +5927,13 @@ a#name, a#plan_name, a#client_name {
   font-size: 0.9em;
 }
 
+.workout-plan .description li {
+  line-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 0.6em;
+}
+
 .description ul {
   margin-bottom: 20px;
 }
