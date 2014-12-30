@@ -1066,12 +1066,33 @@ h3 {@include lightfont();}
   .parent-headshot {
     position: absolute;
     left: 0px;
-    top: 0px;
-    @include mobile-only { top: 10px; display: none; }
+    top: 10px;
+    width: 45px;
+    max-height: 45px;
+    // -webkit-border-radius: 50%;
+    // -moz-border-radius: 50%;
+    // border-radius: 50%;
+    // border: 2px solid white;
+    // float: left;
+    // margin-top: 12.5px;
+    // overflow: hidden;
+    @include mobile-only { 
+      top: 10px; 
+      display: none; 
+      }
     img {
       width: 70px;
-      border: $imageborder;
-      @include mobile-only { width: 35px; height: 35px; }
+      // height: auto;
+      // max-width: 100%;
+      // vertical-align: middle;
+      // border: 0;
+      //-webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+      //-moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+      //box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+      @include mobile-only { 
+        width: 35px; 
+        height: 35px; 
+        }
     }
   }
   .parent-headshot-card {
@@ -4635,8 +4656,10 @@ a#secondary_logo.brand {
 
 #secondary_logo > img {
   padding: 10px;
+  max-height: 80px;
   @include tablet-portrait-and-below {
     margin: 0 auto;
+    max-height: 60%; 
     width: 60%;
     padding-left: 20%;
     padding-top: 10%;
