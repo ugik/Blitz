@@ -234,7 +234,7 @@ def program_loaded(plan_name, trainer_id):
 
     trainer = get_object_or_404(Trainer, id=int(trainer_id))
     from_email, to_email = SOURCE_EMAIL, trainer.user.email
-    subject = "Workout program has been loaded"
+    subject = "Your workout program is ready to go!"
 
     text_template = 'emails/program_loaded.txt'
     html_template = 'emails/program_loaded.html'
