@@ -886,9 +886,16 @@ textarea,textarea:focus {
   }
   .headshot-container {
     width: 45px;
+    max-height: 45px;
+    @include borderradius(50%); 
+    border: 2px solid white;
     float: left;
     margin-top: 12.5px;
-    img { @include borderradius(50%); border: 2px solid white;};
+    overflow: hidden;
+    img { 
+      //@include borderradius(50%); 
+      //border: 2px solid white;
+    };
   }
 }
 
@@ -5583,13 +5590,13 @@ a#logo2.branding {
   width: 125px;
 }
 
-.week-performance > .description li {
-  line-height: 20px;
-  margin-top: -10px;
-  margin-bottom: 20px;
-  font-size: 0.9em;
-  //letter-spacing: -1px;
-}
+// .week-performance > .description li {
+//   line-height: 20px;
+//   margin-top: -10px;
+//   margin-bottom: 10px;
+//   font-size: 0.8em;
+//   //letter-spacing: -1px;
+// }
 
 .macro-history table td {
   @include meta();
@@ -5877,4 +5884,25 @@ a#name, a#plan_name, a#client_name {
   @include tablet-landscape-and-up {
     height: 600px;
   }
+}
+
+.client-info {
+  //margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.summaryaddon {
+  font-size: 0.8em;
+  @include lightfont();
+}
+
+.workout-plan .description li, .week-performance > .description li {
+  line-height: 20px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+}
+
+.description ul {
+  margin-bottom: 20px;
 }
