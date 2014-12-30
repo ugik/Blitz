@@ -1066,7 +1066,7 @@ h3 {@include lightfont();}
   .parent-headshot {
     position: absolute;
     left: 0px;
-    top: 10px;
+    //top: 10px;
     width: 45px;
     max-height: 45px;
     // -webkit-border-radius: 50%;
@@ -1082,6 +1082,7 @@ h3 {@include lightfont();}
       }
     img {
       width: 70px;
+      border: 2px solid white;
       // height: auto;
       // max-width: 100%;
       // vertical-align: middle;
