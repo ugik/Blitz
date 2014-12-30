@@ -430,10 +430,15 @@ Hit: {{ day.diet_goal_hit }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}<
 
         <div class="description">
                 {{ client.get_blitz.workout_plan.name }}
-                        {% if customizations %}(customized)<br><ul>
+                        {% if customizations %}(customized)
+                        <br>
+                        <ul>
                             {% for custom in customizations %}
-                                <li>{{ custom }}</li>
-                            {% endfor %}</ul>
+                                <li>
+                                    {{ custom }}
+                                </li>
+                            {% endfor %}
+                        </ul>
                         {% endif %}
         </div><br><br><br>
 

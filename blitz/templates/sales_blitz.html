@@ -28,7 +28,7 @@ class="sales-page"
   <div class="container">
     <div class="row">
         <div class="alert alert-success fade in" id="success-alert" style="display:none;">
-            Your changes are saved successfully...
+            Your changes were saved successfully.
         </div>
       <div class="span2" style="margin-left: -30px;">
         {% if debug_mode %}
@@ -91,18 +91,16 @@ class="sales-page"
             <label id="id_label" name="picture"  for="id_picture"/>
             <img class="profile-headshot img-circle" 
               {% if sales_page.trainer_headshot %}
-                   src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
+                   src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
+            "
               {% else %}
                    src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
               {% endif %}/>
             </label>
          {% else %}
-            <img class="img-circle"
-            {% if sales_page.trainer_headshot %}
-                 src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
-            {% else %}
-                 src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
-            {% endif %}/>
+          <div style="width:150px; height:150px; overflow: hidden; border: 6px solid white; margin: 0 auto; border-radius: 50%"> 
+            <img class="img-circle" src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}" style="height: auto; border: none; width: auto; border-radius: 0px;" />
+          </div>
          {% endif %}   
        </div>
     </div>
@@ -230,7 +228,7 @@ class="sales-page"
 
           <div class="sales-note-section">
             <div id="trainersig">
-              -{{ trainer.short_name }}
+              -{{ sales_page.trainer.name }}
             </div>
           </div>
 
@@ -336,7 +334,7 @@ $('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });
     </div>
   </div>
 {% else %} 
-  &nbsp;
+  
 {% endif %}
 
   </div>

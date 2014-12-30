@@ -1,4 +1,4 @@
-Hey, {{ trainer }}, your workout program {{ plan_name }} has been loaded.
+Hey, {{ trainer }}, your workout program {{ plan_name }} has been loaded into Blitz and is ready to go.
 
 Login to Blitz.us and check it out.
 

@@ -174,8 +174,7 @@
 	<p class="client-name center">{{ invitation.name|safe }}</p>
 	<p class="client-info center">{{ invitation.email }}</p>
 	<div class="spacer20"></div>
-        <p class="client-info center"><b>Hasn't signed up yet</b></p>
-	<p class="client-info center">Invite sent {{ delta }} days ago</p>
+        <p class="client-info center summaryaddon"><b>Hasn't signed up yet (invited {{ delta }} days ago)</b></p>
 </div>
 	<div class="spacer20"></div>
 	<div class="spacer20"></div>
@@ -275,7 +274,7 @@
 		<div class="spacer10"></div>
 	</div>
 
-	<div class="section sidebar-box diet-progress">
+	<div class="section sidebar-box diet-progress" style="display: none;">
 		<!-- TODO: Remove .header element -->
 		<div class="header hidden">
 			Diet Progress
