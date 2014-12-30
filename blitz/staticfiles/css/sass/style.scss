@@ -1077,7 +1077,7 @@ h3 {@include lightfont();}
     // margin-top: 12.5px;
     // overflow: hidden;
     @include mobile-only { 
-      top: 0px; 
+      top: 10px; 
       display: none; 
       }
     img {
@@ -4656,8 +4656,10 @@ a#secondary_logo.brand {
 
 #secondary_logo > img {
   padding: 10px;
+  max-height: 80px;
   @include tablet-portrait-and-below {
     margin: 0 auto;
+    max-height: 60%; 
     width: 60%;
     padding-left: 20%;
     padding-top: 10%;
