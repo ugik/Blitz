@@ -10,9 +10,13 @@
 {% endblock %}
 
 {% block main %}
-
+    <div class="span12">
+        <h1>{{ workout_plan.name }}  - Program Details</h1>
+    </div>
     {% for week in workout_plan.weeks %}
-        <div class="span12"><h3>Week {{ week.week }}: </h3>
+        <div class="span12">
+
+            <h3>Week {{ week.week }}: </h3>
         {% for day in week.days %}
             {% if week.days.count > 4 %}
                 <div class="span2" style="margin-left: 0px; margin-right: 25px !important;">
