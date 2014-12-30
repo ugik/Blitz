@@ -28,14 +28,14 @@ class="sales-page"
   <div class="container">
     <div class="row">
         <div class="alert alert-success fade in" id="success-alert" style="display:none;">
-            Your changes are saved successfully...
+            Your changes were saved successfully.
         </div>
       <div class="span2" style="margin-left: -30px;">
         {% if debug_mode %}
 
           <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
           action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
-        {% else %}
+        {% else %}circ;
           <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
         {% endif %}
 
@@ -97,12 +97,8 @@ class="sales-page"
               {% endif %}/>
             </label>
          {% else %}
-            <img class="img-circle"
-            {% if sales_page.trainer_headshot %}
-                 src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
-            {% else %}
-                 src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
-            {% endif %}/>
+            <img class="img-circle" style="background-size: 100%; background: url('{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}');
+            " />
          {% endif %}   
        </div>
     </div>
