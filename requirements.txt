@@ -4,6 +4,7 @@ Pillow==2.5.3
 South==0.7.6
 WebOb==1.4
 amqp==1.4.6
+analytics-python==1.0.3
 anyjson==0.3.3
 argparse==1.2.1
 balanced==1.1.1
