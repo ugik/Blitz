@@ -66,8 +66,8 @@ def standard_login_view(request):
 
             # segment.io identify
             user = User.objects.get(id=form.cleaned_data['user'].id)
-            analytics.identify(form.cleaned_data['user'].id, {
-                 'email': form.cleaned_data['email'],
+            analytics.identify(user.id, {
+                 'email': user.email,
                  'name': user.trainer.name if user_type(user)=='T' else user.client.name if user_type(user)=='D' else 'spotter',
                  'blitz': '(trainer)' if user_type(user)=='T' else user.client.get_blitz().title if user_type(user)=='D' else '(spotter)'
             })

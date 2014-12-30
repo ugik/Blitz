@@ -147,7 +147,7 @@ dumbbell-back-extension,Dumbbell Back Extension,R,0,1
 banded-seat-abduction,Banded Seat Abduction,R,1,0
 landmine,Landmine,R,0,1
 barbell-hip-thrust-isohold,Barbell Hip Thrust Isohold,I,0,1
-d-handle-lat-pulldown,D-handle Lat Pulldown,R,0,1
+d-handle-lat-pulldown,D-handle Lat PUlldown,R,0,1
 skater-squat,Skater Squat,R,0,1
 narrow-base-push-up,Narrow Base Push-up,R,0,1
 barbell-single-leg-rdl,Barbell Single Leg RDL,R,0,1
@@ -244,15 +244,3 @@ db-alternating-curls,Dumbbell Curls (alternating),R,0,0
 wide-grip-pull-up,Wide-Grip Pull-Up,R,1,1
 reverse-hyperextension,Reverse Hyperextension,R,1,1
 neutral-grip-pull-up,Neutral-Grip Pull-Up,R,1,1
-ez-bar-rows,EZ-Bar Rows,R,0,1
-db-rows,Dumbbell Rows,R,0,1
-bb-curls,Barbell Curls,R,0,1
-bicycles,Bicycles,R,1,0
-reverse-crunch,Reverse Crunches,R,1,0
-stability-ball-crunch,Stability Ball Crunches,R,1,1
-cable-flyes,Cable Flyes,R,0,1
-american-deadlift,American Deadlifts,R,0,1
-ez-bar-preacher-curls,EZ-Bar Preacher Curls,R,0,1
-machine-curls,Machine Curls,R,0,1
-cable-curls-tricep-pushdown-ss,Cable Curls (superset w/ Tricep Pushdowns),R,0,1
-tricep-pushdown-cable-curls-ss,Tricep Pushdowns (superset w/ Cable Curls),R,0,1

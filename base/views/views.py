@@ -1480,8 +1480,8 @@ def trainer_profile(request, pk):
         form = TrainerUploadsForm()
 
     return render(request, 'trainer_profile.html', { 
-             'trainer': trainer, 'blitz': trainer.get_blitz(), 
-             'salespage': trainer.get_blitz().sales_page_content, 'document': document })
+             'trainer': trainer, 'blitz': blitz, 
+             'salespage': salespage, 'document': document })
 
 
 # client signup
@@ -2081,8 +2081,7 @@ def set_up_profile_basic(request):
     if request.method == 'POST':
         form = ClientSettingsForm(request.POST, request.FILES)
 
-        if form.is_valid() and form.is_multipart():
-            
+        if form.is_valid() and form.is_multipart():            
             client.headshot = form.cleaned_data['picture']
             client.save()
             client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)

@@ -370,9 +370,12 @@
 				<a class="btn btn-default btn-edit" onclick="{ document.getElementById('client_name').text='{{ invitation.name }}'; document.getElementById('edit_request').value='Help me improve the {{ invitation.workout_plan.name }} program for {{ invitation.name|safe }}.'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">
 					Edit
 				</a>
-		</div>
-
-
+		</div> 
+                {% if invitation.workout_plan.name %}
+                    {{ invitation.workout_plan.name }}
+                {% else %}
+                    (not assigned yet)
+                {% endif %}
 		<div class="spacer10"></div>
 	</div>
 </div>
