@@ -15,15 +15,15 @@
                       {% endif %}
                    </a>
                 {% else %}
+                   <a class="branding" href="/" id="logo2">
                    {% if user.client.get_blitz.sales_page_content.logo %}
-                      <a class="branding" href="/" id="logo2">
                         <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
-                      </a> 
+                   {% elif user.client.get_blitz.trainer.get_blitz.sales_page_content.logo %}
+                        <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.trainer.get_blitz.sales_page_content.logo }}" />
                    {% else %}
-                      <a class="branding" href="/" id="logo2"> 
                          {{ user.client.get_blitz.trainer.name }}
-                      </a>
                    {% endif %}
+                   </a>
                 {% endif %}
 
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
