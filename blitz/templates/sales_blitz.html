@@ -99,7 +99,7 @@ class="sales-page"
             </label>
          {% else %}
           <div style="width:150px; height:150px; overflow: hidden; border: 6px solid white; margin: 0 auto; border-radius: 50%"> 
-            <img class="img-circle" src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}" style="height: auto; border: none; width: auto; border-radius: 0px;" />
+            <img class="img-circle" src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}" style="height: auto; border: none; width: auto; border-radius: 0px; min-width: 150px;"/>
           </div>
          {% endif %}   
        </div>
