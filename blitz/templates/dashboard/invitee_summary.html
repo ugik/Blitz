@@ -374,7 +374,9 @@
 				</a>
 		</div> 
                 {% if invitation.workout_plan.name %}
-                    {{ invitation.workout_plan.name }}
+                    <div class="description" style="margin-bottom: 20px;">
+	                    {{ invitation.workout_plan.name }}
+                    </div>
                 {% else %}
                     <div class="description" style="font-size: 0.9em; margin-bottom: 20px;">
                     	{{ invitation.name|safe }} isn't assigned to a program yet.
