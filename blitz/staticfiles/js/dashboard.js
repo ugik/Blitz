@@ -246,6 +246,11 @@
             });
         }
 
+        if ( $('#summary').html() ) {
+            renderSummary($('#summary').html());
+        }
+        
+
 
 
         $('.alerts-wrapper').removeClass('hidden');
