@@ -12,21 +12,21 @@ function save_workoutday(day, lift, display, set0, set1, set2, set3, set4) {
                day: day, lift: lift, display: display, set0: set0, set1: set1, set2: set2, set3: set3, set4: set4},
       })
  }
-function delete_workoutday(day, lift) { 
+function delete_exercise(day, exercise) { 
      $.ajax({
         url: 'workoutplan_day-ajax',
         type: 'POST',
-        data: {mode: 'delete_workoutplan_day', day: day, lift: lift},
+        data: {mode: 'delete_workoutplan_day', day: day, exercise: exercise},
       })
  }
 
-function cancel_row(location, day, lift) {
+function cancel_row(location, day, exercise) {
     var tr = $(location).closest('tr');
         tr.css("background-color","#FFFFFF");
         tr.fadeOut(400, function(){
             tr.remove();
         });
-        delete_workoutday(day, lift);
+        delete_exercise(day, exercise);
 }
 
 function save_row(location, day, count) {
@@ -40,11 +40,23 @@ function save_row(location, day, count) {
 }
 
 function insert_row(location, day) {
-    count++;
-    c = count.toString();
+    count++; c = count.toString();
     html = "<tr><td><td><select id='lifts"+ c +"'>{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td><input type='text' id='sets_display"+ c +"' style='width:75px;' value='3x10'/></td><td><input type='text' id='set0_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set1_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set2_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set3_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set4_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, "+ day +" , " + c +");'><small>(save)</small></a></td></tr>";
     $(location).before(html);
 
+}
+
+function edit_row(location, day, lift, display, set0, set1, set2, set3, set4) {
+    count++; c = count.toString();
+    html = "<tr><td><td><select id='lifts"+ c +"'>{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td><input type='text' id='sets_display"+ c +"' style='width:75px;' value='"+ display +"'/></td><td><input type='text' id='set0_"+ c +"' style='width:30px;' placeholder='Set' value='"+ set0 +"'/></td><td><input type='text' id='set1_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set2_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set3_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set4_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, "+ day +" , " + c +");'><small>(save)</small></a></td></tr>";
+    $(location).after(html);
+    var lifts = document.getElementById('lifts'+ c);
+    for (var i = 0; i < lifts.options.length; i++) {
+        if (lifts.options[i].text === lift) {
+            lifts.selectedIndex = i;
+            break;
+        }
+    }
 }
 
 </script>
@@ -79,7 +91,10 @@ function insert_row(location, day) {
        <tr id="head_{{ workoutplanday.pk }}" style="height:5px;"></tr>
        {% for exercise in workoutplanday.workout.exercise_set.all %}
             <tr id="{{ exercise.pk }}"><td><td colspan="6">{{ exercise.lift }}</td><td>{{ exercise.sets_display }}</td>
-                <td><a onclick="cancel_row(this, '{{ workoutplanday.pk }}', '{{ exercise.lift.pk }}');"><small>(delete)</small></a></td></tr>
+                <td>
+                <a onclick="cancel_row(this, '{{ workoutplanday.pk }}', '{{ exercise.pk }}');"><small>(delete)</small></a>
+                <a onclick="edit_row(this, '{{ workoutplanday.pk }}', '{{ exercise.lift }}', '{{ exercise.sets_display }}');"><small>(edit)</small></a>
+            </td></tr>
        {% endfor %}
        <tr></tr>
    {% endfor %}

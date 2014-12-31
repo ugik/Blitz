@@ -334,7 +334,7 @@ def workoutplan_day_ajax(request):
         print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set0'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4')
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('day') != None:
         print request.POST.get('mode')
-        print request.POST.get('day'), request.POST.get('lift')
+        print request.POST.get('exercise'), request.POST.get('exercise')
 
     return JSONResponse({'is_error': False})
 
@@ -680,7 +680,7 @@ def test_program(file):
                 except:
                     errors.append("BAD DATA: Workout reps must be comma-separated numbers")
                 try:
-                    lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1).lower())
+                    lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1))
                 except:
                     errors.append("BAD DATA: lift %s not found in Lifts table" % worksheet.cell_value(curr_row, 1))
 
@@ -750,7 +750,7 @@ def load_program(file, trainer_id, plan_name):
 
         slug = get_slug(trainer.short_name, plan.pk, worksheet.cell_value(curr_row, 0))
         workout, _ = Workout.objects.get_or_create(slug=slug)
-        lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1).lower())
+        lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1))
 
         exercise = Exercise.objects.create(lift=lift, 
                                            workout=workout, 
