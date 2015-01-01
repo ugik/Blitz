@@ -2353,7 +2353,9 @@ def trainer_survey(request):
 def about(request):
     
     option = request.GET.get('option') if 'option' in request.GET else None
-    return render(request, 'about.html', { 'option': option })
+    video = True if 'video' in request.GET else None
+
+    return render(request, 'about.html', { 'option': option, 'video': video })
 
 # trainer dashboard
 # url: /dashboard

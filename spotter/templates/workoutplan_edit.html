@@ -36,9 +36,10 @@ function save_row(location, exercise, day, count, option) {
 
         save_workoutday(day, $("#lifts_"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
 
-        html = "<tr><td><a onclick='cancel_row(this, "+day+" , "+ $("#lifts_"+ count +" :selected").val() +");'><small>(delete)</small></a></td><td>"+$("#lifts_"+ count +" :selected").text()+"</td><td>"+$("#sets_display"+ count).val()+"</td><td>"+$("#set1_"+ count).val()+"</td><td>"+$("#set2_"+ count).val()+"</td><td>"+$("#set3_"+ count).val()+"</td><td>"+$("#set4_"+ count).val()+"</td><td>"+$("#set5_"+ count).val()+"</td><td>"+$("#set6_"+ count).val()+"</td></tr>"; 
+        html = "<tr><td><a onclick='cancel_row(this, "+day+" , "+ $("#lifts_"+ count +" :selected").val() +");'><small>(delete)</small></a></td><td id='row_"+ exercise +"_lift'>"+$("#lifts_"+ count +" :selected").text()+"</td><td id='row_"+ exercise +"_display'>"+$("#sets_display"+ count).val()+"</td><td id='row_"+ exercise +"_set_1'>"+$("#set1_"+ count).val()+"</td><td id='row_"+ exercise +"_set_2'>"+$("#set2_"+ count).val()+"</td><td id='row_"+ exercise +"_set_3'>"+$("#set3_"+ count).val()+"</td><td id='row_"+ exercise +"_set_4'>"+$("#set4_"+ count).val()+"</td><td id='row_"+ exercise +"_set_5'>"+$("#set5_"+ count).val()+"</td><td id='row_"+ exercise +"_set_6'>"+$("#set6_"+ count).val()+"</td></tr>"; 
         tr.after(html);
     }
+
     if (option===1) {  // edited row
         save_workoutday(day, $('#row_'+exercise.toString()+'_lift').text(), $('#row_'+exercise.toString()+'_display').text(), $('#row_'+exercise.toString()+'_set_1').val(), $('#row_'+exercise.toString()+'_set_2').val(), $('#row_'+exercise.toString()+'_set_3').val(), $('#row_'+exercise.toString()+'_set_4').val(), $('#row_'+exercise.toString()+'_set_5').val(), $('#row_'+exercise.toString()+'_set_6').val());
 
@@ -55,7 +56,7 @@ function save_row(location, exercise, day, count, option) {
 
 function insert_row(location, day) {   // insert new row
     count++; c = count.toString();
-    html = "<tr><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, "+ "0" +", " + day +" , " + c + ", 0);'><small>(save)</small></a></td><td><select id='lifts_"+ c +"'>{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td><input type='text' id='sets_display"+ c +"' style='width:75px;' value='3x10'/></td><td><input type='text' id='set1_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set2_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set3_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set4_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set5_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set6_"+ c +"' style='width:30px;' placeholder='Set'/></td></tr>";
+    html = "<tr><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, "+ "0" +", " + day +" , " + c + ", 0);'><small>(save)</small></a></td><td><select id='lifts_"+ c +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td><input type='text' id='sets_display"+ c +"' style='width:70px;' value='3x10'/></td><td><input type='text' id='set1_"+ c +"' style='width:20px;' placeholder='Set'/></td><td><input type='text' id='set2_"+ c +"' style='width:20px;' placeholder='Set'/></td><td><input type='text' id='set3_"+ c +"' style='width:20px;' placeholder='Set'/></td><td><input type='text' id='set4_"+ c +"' style='width:20px;' placeholder='Set'/></td><td><input type='text' id='set5_"+ c +"' style='width:30px;' placeholder='Set'/></td><td><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
     $(location).after(html);
 
 }
