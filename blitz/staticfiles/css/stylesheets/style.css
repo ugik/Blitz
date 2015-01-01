@@ -7002,3 +7002,8 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 .invitee_name :hover, .invitee_name2 :hover {
   text-decoration: none;
 }
+
+/* line 5949, ../sass/style.scss */
+.slide-select ul {
+  text-align: center;
+}
