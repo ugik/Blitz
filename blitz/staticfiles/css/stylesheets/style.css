@@ -6992,3 +6992,13 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 .description ul {
   margin-bottom: 20px;
 }
+
+/* line 5941, ../sass/style.scss */
+.invitee_name, .invitee_name2 {
+  text-decoration: none;
+  color: white;
+}
+/* line 5944, ../sass/style.scss */
+.invitee_name :hover, .invitee_name2 :hover {
+  text-decoration: none;
+}

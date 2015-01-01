@@ -5937,3 +5937,11 @@ a#name, a#plan_name, a#client_name {
 .description ul {
   margin-bottom: 20px;
 }
+
+.invitee_name, .invitee_name2 {
+  text-decoration: none;
+  color: white;
+  :hover {
+    text-decoration: none;
+  }
+}
