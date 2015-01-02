@@ -6994,12 +6994,12 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 }
 
 /* line 5941, ../sass/style.scss */
-.invitee_name, .invitee_name2, .name2 {
+.invitee_name, .invitee_name2, .name2, #title {
   text-decoration: none;
   color: white;
 }
 /* line 5944, ../sass/style.scss */
-.invitee_name :hover, .invitee_name2 :hover, .name2 :hover {
+.invitee_name :hover, .invitee_name2 :hover, .name2 :hover, #title :hover {
   text-decoration: none;
 }
 
