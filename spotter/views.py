@@ -672,8 +672,8 @@ def test_program(file):
                 curr_row += 1
                 try:
                     row = worksheet.row(curr_row)
-                    for reps_str in worksheet.cell_value(curr_row, 3).split(','):
-                        i = int(reps_str)
+                    for reps_str in str(worksheet.cell_value(curr_row, 3)).split(','):
+                        i = int(float(reps_str))
                     if worksheet.cell_value(curr_row, 0) not in days:
                         errors.append("Workouts day '%s' not defined in Meta tab" % worksheet.cell_value(curr_row, 0))
 
@@ -757,8 +757,8 @@ def load_program(file, trainer_id, plan_name):
                                            sets_display=worksheet.cell_value(curr_row, 2), 
                                            order=curr_row)
 
-        for reps_str in worksheet.cell_value(curr_row, 3).split(','):
-            workout_set = WorkoutSet.objects.create(lift=lift, workout=workout, num_reps=int(reps_str), exercise=exercise)
+        for reps_str in str(worksheet.cell_value(curr_row, 3)).split(','):
+            workout_set = WorkoutSet.objects.create(lift=lift, workout=workout, num_reps=int(float(reps_str)), exercise=exercise)
 
     # plan schedule
     worksheet = workbook.sheet_by_name('Plan')
