@@ -167,7 +167,7 @@ pec-dec-activation,Pec-Dec (Activation),R,0,1
 wide-grip-btn-press,Wide-Grip BTN Press,R,0,1
 dumbbell-preacher-curl,Dumbbell Preacher Curl,R,0,1
 step-up,Step Up,R,0,1
-squat,Squat,R,0,1
+squat,Squat,R,1,1
 barbell-standing-shoulder-press,Barbell Standing Shoulder Press,R,0,1
 45-degree-back-extension,45 Degree Back Extension,R,0,1
 weighted-pullup,Weighted Pullup,R,0,1
@@ -187,60 +187,60 @@ dumbbell-hammer-curls,Dumbbell Hammer Curls,R,0,1
 barbell-back-squat,Barbell Back Squat,R,0,1
 1-arm-dumbbell-floor-press,One Arm Dumbbell Floor Press,R,0,1
 dumbbell-reverse-lunge,Dumbbell Reverse Lunge,R,0,1
-pushups,Pushups,R,1,0
-barbell-snatch,Barbell Snatch,R,0,0
-1-arm-dumbbell-snatch,One Arm Dumbbell Snatch,R,0,0
-clean-pull,Clean Pull,R,0,0
-power-clean,Power Clean,R,0,0
-hang-clean,Hang Clean,R,0,0
-behind-the-neck-military-press,Behind-the-Neck Military Press,R,0,0
-behind-the-neck-press,Behind-the-Neck Press,R,0,0
-behind-the-neck-push-press,Behind-the-Neck Push Press,R,0,0
-clean-and-jerk,Clean and Jerk,R,0,0
-french-press,French Press,R,0,0
-skullcrusher,Skullcrusher,R,0,0
-1-arm-kb-swing,One Arm Kettlebell Swing,R,0,0
-2-arm-kb-swing,Double Kettlebell Swing,R,0,0
-1-arm-kb-snatch,One Arm Kettlebell Snatch,R,0,0
+pushups,Pushups,R,1,1
+barbell-snatch,Barbell Snatch,R,0,1
+1-arm-dumbbell-snatch,One Arm Dumbbell Snatch,R,0,1
+clean-pull,Clean Pull,R,0,1
+power-clean,Power Clean,R,0,1
+hang-clean,Hang Clean,R,0,1
+behind-the-neck-military-press,Behind-the-Neck Military Press,R,0,1
+behind-the-neck-press,Behind-the-Neck Press,R,0,1
+behind-the-neck-push-press,Behind-the-Neck Push Press,R,0,1
+clean-and-jerk,Clean and Jerk,R,0,1
+french-press,French Press,R,0,1
+skullcrusher,Skullcrusher,R,0,1
+1-arm-kb-swing,One Arm Kettlebell Swing,R,0,1
+2-arm-kb-swing,Double Kettlebell Swing,R,0,1
+1-arm-kb-snatch,One Arm Kettlebell Snatch,R,0,1
 kb-iron-cross-hold,Kettlebell Iron Cross Hold,I,0,1
-1-arm-kb-press,One Arm Kettlebell Press,R,0,0
-2-arm-kb-press,Double Kettlebell Press,R,0,0
-kb-high-pull,Kettlebell High Pull,R,0,0
-1-arm-kb-front-raises,One Arm Kettlebell Front Raise,R,0,0
-2-arm-kb-front-raises,Double Kettlebell Front Raise,R,0,0
-1-arm-kb-lateral-raises,One Arm Kettlebell Lateral Raise,R,0,0
-2-arm-kb-lateral-raises,Double Kettlebell Lateral Raise,R,0,0
-kb-turkish-get-up,Kettlebell Turkish Get Up,R,0,0
-kb-wood-choppers,Kettlebell Wood Chopper,R,0,0
-kb-renegade-row,Kettlebell Renegade Row,R,0,0
-1-arm-kb-bicep-curl,Single Kettlebell Bicep Curl,R,0,
-2-arm-kb-bicep-curl,Double Kettlebell Bicep Curl,R,0,
-kb-squat,Kettlebell Squat,R,0,0
-kb-goblet-squat,Kettlebell Goblet Squat,R,0,0
-kb-overhead-squat,Kettlebell Overhead Squat,R,0,0
-kb-overhead-squat-to-press,Kettlebell Overhead Squat + Press,R,0,0
-kb-walking-lunges,Kettlebell,R,0,0
-kb-bench-press,Kettlebell Bench Press,R,0,0
-1-arm-kb-bench-press,One Arm Kettlebell Bench Press,R,0,0
+1-arm-kb-press,One Arm Kettlebell Press,R,0,1
+2-arm-kb-press,Double Kettlebell Press,R,0,1
+kb-high-pull,Kettlebell High Pull,R,0,1
+1-arm-kb-front-raises,One Arm Kettlebell Front Raise,R,0,1
+2-arm-kb-front-raises,Double Kettlebell Front Raise,R,0,1
+1-arm-kb-lateral-raises,One Arm Kettlebell Lateral Raise,R,0,1
+2-arm-kb-lateral-raises,Double Kettlebell Lateral Raise,R,0,1
+kb-turkish-get-up,Kettlebell Turkish Get Up,R,0,1
+kb-wood-choppers,Kettlebell Wood Chopper,R,0,1
+kb-renegade-row,Kettlebell Renegade Row,R,0,1
+1-arm-kb-bicep-curl,Single Kettlebell Bicep Curl,R,0,1
+2-arm-kb-bicep-curl,Double Kettlebell Bicep Curl,R,0,1
+kb-squat,Kettlebell Squat,R,0,1
+kb-goblet-squat,Kettlebell Goblet Squat,R,0,1
+kb-overhead-squat,Kettlebell Overhead Squat,R,0,1
+kb-overhead-squat-to-press,Kettlebell Overhead Squat + Press,R,0,1
+kb-walking-lunges,Kettlebell,R,0,1
+kb-bench-press,Kettlebell Bench Press,R,0,1
+1-arm-kb-bench-press,One Arm Kettlebell Bench Press,R,0,1
 kb-push-ups,Kettlebell Pushup,R,0,1
-kb-bent-over-row,Kettlebell Bent-over Row,R,0,0
-kb-deadlift,Kettlebell Deadlift,R,0,0
-kb-1-leg-deadlift,Kettlebell One-Leg Deadlift,R,0,0
-kb-rdl,Kettlebell Romanian Deadlift,R,0,0
-kb-1-leg-RDL,Kettlebell One-Leg Romanian Deadlift,R,0,0
-kb-stiff-legged-deadlift,Kettlebell Stiff-Legged Deadlift,R,0,0
-kb-1-leg-stiff-legged-deadlift,Kettlebell One-Leg Stiff-Legged Deadlift,R,0,0
-kb-btn-tricep-exension,Kettlebell Behind-the-Neck Tricep Extension,R,0,0
-1-arm-kb-row,One Arm Kettlebell Row,R,0,0
-2-arm-kb-row,Double Kettlebell Row,R,0,0
-snatch-grib-btn-press,Snatch grip Behind-the-Neck Press,R,0,0
-snatch-grib-btn-push-press,Snatch grip Behind-the-Neck Push Press,R,0,0
-barbell-thrusters,Barbell Thrusters,R,0,0
-kb-thrusters,Kettlebell Thrusters,R,0,0
-kb-power-cleans,Kettlebell Power Cleans,R,0,0
-kb-hang-cleans,Kettlebell Hang Cleans,R,0,0
-barbell-bent-over-row,Barbell Bent-Over Row,R,0,0
-db-alternating-curls,Dumbbell Curls (alternating),R,0,0
+kb-bent-over-row,Kettlebell Bent-over Row,R,0,1
+kb-deadlift,Kettlebell Deadlift,R,0,1
+kb-1-leg-deadlift,Kettlebell One-Leg Deadlift,R,0,1
+kb-rdl,Kettlebell Romanian Deadlift,R,0,1
+kb-1-leg-RDL,Kettlebell One-Leg Romanian Deadlift,R,0,1
+kb-stiff-legged-deadlift,Kettlebell Stiff-Legged Deadlift,R,0,1
+kb-1-leg-stiff-legged-deadlift,Kettlebell One-Leg Stiff-Legged Deadlift,R,0,1
+kb-btn-tricep-exension,Kettlebell Behind-the-Neck Tricep Extension,R,0,1
+1-arm-kb-row,One Arm Kettlebell Row,R,0,1
+2-arm-kb-row,Double Kettlebell Row,R,0,1
+snatch-grib-btn-press,Snatch grip Behind-the-Neck Press,R,0,1
+snatch-grib-btn-push-press,Snatch grip Behind-the-Neck Push Press,R,0,1
+barbell-thrusters,Barbell Thrusters,R,0,1
+kb-thrusters,Kettlebell Thrusters,R,0,1
+kb-power-cleans,Kettlebell Power Cleans,R,0,1
+kb-hang-cleans,Kettlebell Hang Cleans,R,0,1
+barbell-bent-over-row,Barbell Bent-Over Row,R,0,1
+db-alternating-curls,Dumbbell Curls (alternating),R,0,1
 wide-grip-pull-up,Wide-Grip Pull-Up,R,1,1
 reverse-hyperextension,Reverse Hyperextension,R,1,1
 neutral-grip-pull-up,Neutral-Grip Pull-Up,R,1,1
@@ -256,6 +256,10 @@ ez-bar-preacher-curls,EZ-Bar Preacher Curls,R,0,1
 machine-curls,Machine Curls,R,0,1
 cable-curls-tricep-pushdown-ss,Cable Curls (superset w/ Tricep Pushdowns),R,0,1
 tricep-pushdown-cable-curls-ss,Tricep Pushdowns (superset w/ Cable Curls),R,0,1
+l-sit-parallel-grip-pull-up,L-Sit Parallel-Grip Pull-Ups,R,1,1
+barbell-shrugs,Barbell Shrugs,R,0,1
+db-tricep-extension, Dumbbell Tricep Extensions,R,0,1
+ab-work,Ab Work (any),R,1,1
 pec-minor-dips,Pec Minor Dips,R,1,1
 rear-delt-raise,Rear Delt Raise,R,0,0
 neutral-grip-lat-pulldown,Neutral Grip Lat Pulldown,R,0,0
