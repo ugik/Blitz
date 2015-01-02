@@ -5,9 +5,11 @@ class="sales-page"
 {% endblock %}
 
 {% block morehead %}
+
 {% endblock %}
 
 {% block outer_content %}
+
 
 
 <div class="container topcut">
@@ -47,6 +49,17 @@ class="sales-page"
     </div>
 </div>
 
+<script type="text/javascript">
+    $(window).load(function(){
+        var video = '{{ video }}';
+        if (video == 'True') {
+            $('#myModal').modal('show'); 
+            var player = $('iframe'); 
+            var url = window.location.protocol + player.attr('src').split('?')[0]; 
+            player[0].contentWindow.postMessage({ method: 'play'}, url)
+        }
+    });
+</script>
 
 
 <div class="full-width" style="height: ; background-color: white; text-align: center;">

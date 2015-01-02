@@ -56,8 +56,6 @@ def login_view(request):
 def standard_login_view(request):
     logout(request)
 
-#    import pdb; pdb.set_trace()
-
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():

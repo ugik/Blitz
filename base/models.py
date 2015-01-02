@@ -296,6 +296,12 @@ class Trainer(models.Model):
         self.currently_viewing_blitz = blitz
         self.save()
     
+    def first_name(self):
+        if len(self.name.split(' '))>1:
+            return self.name.split(' ')[0]
+        else:
+            return self.name
+
     def all_clients(self):
         members = [f.members() for f in self.active_blitzes()]
         return list(set(itertools.chain(*members)))

@@ -303,8 +303,18 @@ def get_workout_info(client, days=7):
 def save_file(file, pk_value=0, path='/documents/'):
     filename = file._get_name()
 
+    # get file extention
+    if len(filename.split('.')) > 1:
+        ext = filename.split('.')[1]
+    else:
+        ext = None
+
     now = datetime.datetime.now()
-    output_file = "%d__%02d%02d%02d%02d%02d%02d" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second)
+    if ext:
+        output_file = "%d__%02d%02d%02d%02d%02d%02d.%s" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second, ext)
+    else:
+        output_file = "%d__%02d%02d%02d%02d%02d%02d" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second)
+
     fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + output_file), 'wb')
     for chunk in file.chunks():
         fd.write(chunk)

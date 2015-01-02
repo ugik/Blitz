@@ -212,6 +212,7 @@ week of 12.29
 - remove workoutplan assign email to trainer
 - fix "Sign up for " plan.title
 - fix spotter program upload test_program to check for incorrect day identifiers or weekdays
+- add create_client test
 - bug fixing
 
 

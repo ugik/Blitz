@@ -93,7 +93,7 @@ def signup_confirmation(client, trainer):
 def client_invite(trainer, client_email, invite_url, blitz=None):
 
     from_email, to_email = SOURCE_EMAIL, client_email
-    subject = "Invitation to Blitz.us!"
+    subject = "Invitation for training with %s" % trainer.name 
 
     text_template = 'emails/client_invitation.txt'
     html_template = 'emails/client_invitation.html'
@@ -261,8 +261,8 @@ def email_tests():
     user = User.objects.get(pk=3)
     client = Client.objects.get(pk=1)
     trainer = Trainer.objects.get(pk=1)
-    message = Message.objects.get(pk=1)
-    comment = Comment.objects.get(pk=1)
+    message = Message.objects.all()[0]
+    comment = Comment.objects.all()[0]
     workoutplan = WorkoutPlan.objects.get(pk=1)
     blitz = Blitz.objects.get(pk=1)
     client_invite(trainer, 'georgek@gmail.com', 'program')

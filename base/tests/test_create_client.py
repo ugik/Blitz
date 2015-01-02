@@ -10,9 +10,9 @@ import unittest, time, re
 class TestCreateClient(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
-        self.driver.implicitly_wait(100)
-        self.driver.set_window_size(1200, 1000)
+        self.driver.implicitly_wait(30)
         self.base_url = "http://127.0.0.1:8000"
+        self.driver.set_window_size(1200, 1000)
         self.verificationErrors = []
         self.accept_next_alert = True
     
@@ -44,24 +44,20 @@ class TestCreateClient(unittest.TestCase):
         driver.find_element_by_name("height_inches").send_keys("2")
         driver.find_element_by_css_selector("button.obtn.full-width").click()
         driver.find_element_by_id("skip-headshot").click()
-
         # Warning: assertTextPresent may require manual changes
-#        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-#        driver.find_element_by_link_text(u"Finish Signup →").click()
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.find_element_by_link_text(u"Finish Signup →").click()
+        driver.get(self.base_url + "/program")
         # Warning: assertTextPresent may require manual changes
-#        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-#        driver.get(self.base_url + "/program")
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        driver.get(self.base_url + "/inbox")
+        driver.find_element_by_id("to-autocomplete").clear()
+        driver.find_element_by_id("to-autocomplete").send_keys("Mike Rashid")
+        driver.find_element_by_id("id_message_content").clear()
+        driver.find_element_by_id("id_message_content").send_keys("Hi Mike, what's up?")
+        driver.find_element_by_xpath("//button").click()
         # Warning: assertTextPresent may require manual changes
-#        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-#        driver.get(self.base_url + "/inbox")
-#        driver.find_element_by_id("to-autocomplete").clear()
-#        driver.find_element_by_id("to-autocomplete").send_keys("Mike Rashid")
-#        driver.find_element_by_id("id_message_content").clear()
-#        driver.find_element_by_id("id_message_content").send_keys("Hi Mike, what's up?")
-#        driver.find_element_by_xpath("//button").click()
-        # Warning: assertTextPresent may require manual changes
-#        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-
+        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.get(self.base_url + "/logout")
     
     def is_element_present(self, how, what):
