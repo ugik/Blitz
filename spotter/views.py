@@ -164,7 +164,7 @@ def spotter_status_trainers(request):
         return redirect('home')
 
     trainers = Trainer.objects.all()
-    return render(request, 'trainer_status.html', {'trainers' : trainers })
+    return render(request, 'trainer_status.html', {'trainers' : trainers, 'errors' : None })
 
 @login_required
 def assign_workoutplan(request):
@@ -542,18 +542,26 @@ def spotter_program_delete(request, pk):
     if errors:
         print errors
 
-    return redirect('spotter_status_trainers')
+    trainers = Trainer.objects.all()
+    return render(request, 'trainer_status.html', {'trainers' : trainers, 'errors' : errors })
 
 
 def delete_plan(plan_id):
 
     errors = []
     workoutplan = get_object_or_404(WorkoutPlan, pk=plan_id)
-    if not workoutplan.blitz_set.all() and not workoutplan.blitzinvitation_set.all():
-        print "Delete %s" % workoutplan.name
-    else:
+    if workoutplan.blitz_set.all() or workoutplan.blitzinvitation_set.all():
         print "Cannot delete plan %s, in use" % workoutplan.name
-    
+        return "Cannot delete plan %s, in use" % workoutplan.name
+
+    for workoutplan_week in workoutplan.workoutplanweek_set.all():
+        for workoutplan_day in workoutplan_week.workoutplanday_set.all():
+            if workoutplan_day.gymsession_set.all():
+                print "Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name
+                return "Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name
+
+    print "Deleted workoutplan %s" % workoutplan.name
+
     return errors
 
 
