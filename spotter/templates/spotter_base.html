@@ -64,27 +64,48 @@
 
 </style>
 
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+	<div class="navbar-header">
+		<div class="btn-outline-trans navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        	<i class="icon-chevron-down"></i>
+      	</div>
+	    <a class="navbar-brand" href="#">
+	    	<img src="/static/images/logo-w@2x.png" width="45" height="45" style="padding: 15px !important; float: left; text-align: left; margin-bottom: 0px;">
+	    </a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    	<ul class="nav navbar-nav">
+	        <li class="active"><a href="{% url "spotter_index" %}">Home</a></li>
+			<li><a href="{% url "spotter_usage" %}">Daily digest</a></li>
+			<li><a href="{% url "spotter_uploads" %}"> Trainers Uploads</a></li>
+			<li><a href="{% url "spotter_program_upload" %}">Upload new program</a></li>
+			<li><a href="{% url "spotter_status_trainers" %}">Trainers, Programs and WorkoutPlans</a></li>
+			<li><a href="{% url "spotter_blitz_sales_pages" %}">Sales pages</a></li>
+			<li><a href="{% url "spotter_payments" %}">Payments report</a></li>
+			<li><a href="{% url "spotter_invites" %}">Invitations</a></li>
+			<li><a href="{% url "spotter_feed" %}">All feeds</a></li>
+			<li><a href="/logout">Logout</a></li>
+		</ul>
+	</div>
+	<div class="navrow">
+		<ul class="nav navbar-nav">
+	        <li class=""><a href="{% url "spotter_index" %}">Home</a></li>
+			<li><a href="{% url "spotter_usage" %}">Daily digest</a></li>
+			<li><a href="{% url "spotter_uploads" %}"> Trainers Uploads</a></li>
+			<li><a href="{% url "spotter_program_upload" %}">Upload new program</a></li>
+			<li><a href="{% url "spotter_status_trainers" %}">Trainers, Programs and WorkoutPlans</a></li>
+			<li><a href="{% url "spotter_blitz_sales_pages" %}">Sales pages</a></li>
+			<li><a href="{% url "spotter_payments" %}">Payments report</a></li>
+			<li><a href="{% url "spotter_invites" %}">Invitations</a></li>
+			<li><a href="{% url "spotter_feed" %}">All feeds</a></li>
+			<li><a href="/logout">Logout</a></li>
+		</ul>
+  </div>
+</nav>
+
 <div class="container">
-    <div class="row">
-        <div class="span10 offset1" style="margin-bottom: 30px;">
-            <div class="blitz-login" style="margin-top: -25%;">
-                <a href="{% url "spotter_index" %}">
-                	<img src="{{ STATIC_URL }}images/logo-w.png" />
-                </a>
-            </div>
-        <div class="" style="margin-bottom: 30px;">
-	        <ul class="spotternav">
-				<li><a href="{% url "spotter_index" %}">Home</a></li>
-				<li><a href="{% url "spotter_usage" %}">Daily Digest</a></li>
-				<li><a href="{% url "spotter_uploads" %}">Trainers Uploads</a></li>
-				<li><a href="{% url "spotter_program_upload" %}">Upload Programs</a></li>
-				<li><a href="{% url "spotter_status_trainers" %}">Trainers, Programs, and WorkoutPlans</a></li>
-				<li><a href="{% url "spotter_blitz_sales_pages" %}">Sales Pages</a></li>
-				<li><a href="{% url "spotter_payments" %}">Payments report</a></li>
-				<li><a href="{% url "spotter_feed" %}">All feeds</a></li>			
-				<li><a href="{% url "spotter_invites" %}">Invitations</a></li>			
-                </ul>
-		</div>
+    <div class="row" style="margin-top: 3%;">
                 {% block main %}
 				{% endblock %}
         </div>
