@@ -539,30 +539,32 @@ def spotter_program_delete(request, pk):
         return redirect('home')
 
     errors = delete_plan(pk)
-    if errors:
-        print errors
+    for error in errors:
+        print "* %s" % error
 
     trainers = Trainer.objects.all()
-    return render(request, 'trainer_status.html', {'trainers' : trainers, 'errors' : errors })
+    return redirect('spotter_status_trainers')
 
 
 def delete_plan(plan_id):
 
     errors = []
     workoutplan = get_object_or_404(WorkoutPlan, pk=plan_id)
+    # can't delete if assigned to Blitz or Invitation
     if workoutplan.blitz_set.all() or workoutplan.blitzinvitation_set.all():
-        print "Cannot delete plan %s, in use" % workoutplan.name
-        return "Cannot delete plan %s, in use" % workoutplan.name
+        errors.append("Cannot delete plan %s, in use" % workoutplan.name)
+        return errors
 
+    # can't delete if related to old gymsessions
     for workoutplan_week in workoutplan.workoutplanweek_set.all():
         for workoutplan_day in workoutplan_week.workoutplanday_set.all():
             if workoutplan_day.gymsession_set.all():
-                print "Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name
-                return "Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name
+                errors.append("Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name)
+                return errors
 
-    print "Deleted workoutplan %s" % workoutplan.name
+    # workoutplan.delete()
 
-    return errors
+    return
 
 
 def get_pending_sales_pages():

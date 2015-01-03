@@ -216,6 +216,8 @@ week of 12.29
 - allow invitees to have detailed macros set
 - turn off segment.io track/identify when in DEBUG
 - fix bug in program upload for exercises with single set
+- spotter workoutplan delete with integrity checks for blitz, invitation, gymsession
+- fix spotter allfeeds gymsession
 - bug fixing
 
 

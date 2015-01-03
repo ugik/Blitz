@@ -194,7 +194,7 @@ class TestBasic(unittest.TestCase):
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         self.assertTrue("Home" in driver.page_source, "Text not found")
         # click | link=Trainers, Programs, and WorkoutPlans | 
-        driver.find_element_by_link_text("Trainers, Programs, and WorkoutPlans").click()
+        driver.find_element_by_link_text("Trainers, Programs And WorkoutPlans").click()
         # assertTextPresent |  | Here are the trainers and their Programs & WorkoutPlan status
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         self.assertTrue("Here are the trainers" in driver.page_source, "Text not found")
