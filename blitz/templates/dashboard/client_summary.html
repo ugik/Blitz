@@ -2,7 +2,7 @@
 // set attributes in modal indirectly (modal is loaded from dashboard which lacks detail context)
     $(document).ready(function() {
        show_client();
-       show_client_macros(1);
+       show_client_macros(1, details=1);
       })
 
     function show_client() {
@@ -124,7 +124,8 @@
 
     }
 
-    function show_client_macros(factor) {
+    function show_client_macros(factor, details=0) {
+
        factor = factor || 1;
        var kg = {{ client.weight_in_lbs }}/2.2;
        var h = {{ client.height_feet }}*30.48 + {{ client.height_inches }}*2.54;
@@ -148,6 +149,17 @@
        document.getElementById('c_wout_fat').value=w_fat.toFixed(0).toString();
        document.getElementById('c_wout_carbs').value=w_carbs.toFixed(0).toString();
        document.getElementById('c_wout_protein').value=w_protein.toFixed(0).toString();
+       
+       if ("{{ macro_details.rest_calories }}".length > 1 && details != 0) {
+           document.getElementById('c_rest_cals').value="{{ macro_details.rest_calories }}";
+           document.getElementById('c_rest_fat').value="{{ macro_details.rest_fat }}";
+           document.getElementById('c_rest_carbs').value="{{ macro_details.rest_carbs }}";
+           document.getElementById('c_rest_protein').value="{{ macro_details.rest_protein }}";
+           document.getElementById('c_wout_cals').value="{{ macro_details.training_calories }}";
+           document.getElementById('c_wout_fat').value="{{ macro_details.training_fat }}";
+           document.getElementById('c_wout_carbs').value="{{ macro_details.training_carbs }}";
+           document.getElementById('c_wout_protein').value="{{ macro_details.training_protein }}";
+           }
 
        return 0;
        }
