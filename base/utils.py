@@ -203,11 +203,22 @@ def get_client_summary_html(client, macro_goals, macro_history):
         'MEDIA_URL': MEDIA_URL
     })
 
-def get_invitee_summary_html(invitation, delta):
+def get_invitee_summary_html(invitation, delta, macro_goals):
+    macro_goals_formatted = {}
+    detailed_macros = False
+    for k in macro_goals:
+        # Converts number to 'k' if the number is greater/equal than 1000 and adds 'k' sufix
+        if macro_goals[k] >= 1000:
+            macro_goals_formatted[k] =  '{:.1f}k'.format(macro_goals[k]/1000.00)
+        else:
+            macro_goals_formatted[k] =  macro_goals[k]
+        detailed_macros = True
 
     return render_to_string('dashboard/invitee_summary.html', {
         'invitation': invitation,
         'delta': delta,
+        'macro_goals': macro_goals_formatted,
+        'detailed_macros': detailed_macros,
         'STATIC_URL': STATIC_URL
     })
 
@@ -371,6 +382,52 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
         client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
 
         client.save()
+
+    return
+
+# given a macro formula, set macros for invitee
+# TODO: reuse code from both _macros_set functions to avoid duplication
+def invitee_macros_set(invitee, formula, macros_data=None):
+
+    if invitee:
+        age = float(30)
+        kg = float(100)
+        cm = float(180)
+        wkout_factor = float(1.15)   # % workout day above rest day
+        min_factor = float(0.8)      # % min below
+
+        if formula == 'BULK':
+            factor = float(1.1)
+        elif formula == 'CUT':
+            factor = float(0.9)
+        elif formula == 'BEAST':
+            factor = float(1.15)
+        else:
+            factor = float(1.0)
+
+        r_cals = float((10 * kg + 6.25 * cm - 5 * age + 5) * factor)
+
+        r_protein = (0.9 * kg * 2.2) * factor
+        r_fat = (0.4 * kg * 2.2) * factor
+        r_carbs = (r_cals - r_protein - r_fat) / 4 * factor
+        w_cals = r_cals * wkout_factor
+        w_protein = r_protein * wkout_factor
+        w_fat = r_fat * wkout_factor
+        w_carbs = r_carbs * wkout_factor
+
+        if macros_data:   # overwrite formula if client macros entered
+            r_cals = float(macros_data['c_rest_cals'])
+            r_protein = float(macros_data['c_rest_protein'])
+            r_fat = float(macros_data['c_rest_fat'])
+            r_carbs = float(macros_data['c_rest_carbs'])
+            w_cals = float(macros_data['c_wout_cals'])
+            w_protein = float(macros_data['c_wout_protein'])
+            w_fat = float(macros_data['c_wout_fat'])
+            w_carbs = float(macros_data['c_wout_carbs'])
+
+        invitee.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
+
+        invitee.save()
 
     return
 

@@ -331,10 +331,10 @@ def workoutplan_day_ajax(request):
 
     if request.POST.get('mode') == 'save_workoutplan_day':
         print request.POST.get('mode')
-        print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set0'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4')
-    elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('day') != None:
+        print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
+    elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
         print request.POST.get('mode')
-        print request.POST.get('day'), request.POST.get('lift')
+        print request.POST.get('key'), request.POST.get('key')
 
     return JSONResponse({'is_error': False})
 
@@ -534,28 +534,26 @@ def spotter_sales_pages2(request):
 
 
 @login_required
-def spotter_program_delete(request):
+def spotter_program_delete(request, pk):
     if not request.user.is_staff:
         return redirect('home')
 
-    return redirect('home')
+    errors = delete_plan(pk)
+    if errors:
+        print errors
 
-# need to revisit this
-    plan_id = request.GET.get('plan', None)
-    errors = delete_plan(plan_id)
-    pending_trainers = get_pending_trainers()
-    if request.user.is_superuser:
-        return render(request, 'pending_trainers.html', 
-                {'pending' : pending_trainers, 'errors' : errors})
-    else:    
-        return render(request, 'pending_trainers.html', 
-                {'pending' : pending_trainers, 'errors' : errors})
-
+    return redirect('spotter_status_trainers')
 
 
 def delete_plan(plan_id):
 
     errors = []
+    workoutplan = get_object_or_404(WorkoutPlan, pk=plan_id)
+    if not workoutplan.blitz_set.all() and not workoutplan.blitzinvitation_set.all():
+        print "Delete %s" % workoutplan.name
+    else:
+        print "Cannot delete plan %s, in use" % workoutplan.name
+    
     return errors
 
 
@@ -672,15 +670,15 @@ def test_program(file):
                 curr_row += 1
                 try:
                     row = worksheet.row(curr_row)
-                    for reps_str in worksheet.cell_value(curr_row, 3).split(','):
-                        i = int(reps_str)
+                    for reps_str in str(worksheet.cell_value(curr_row, 3)).split(','):
+                        i = int(float(reps_str))
                     if worksheet.cell_value(curr_row, 0) not in days:
                         errors.append("Workouts day '%s' not defined in Meta tab" % worksheet.cell_value(curr_row, 0))
 
                 except:
                     errors.append("BAD DATA: Workout reps must be comma-separated numbers")
                 try:
-                    lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1).lower())
+                    lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1))
                 except:
                     errors.append("BAD DATA: lift %s not found in Lifts table" % worksheet.cell_value(curr_row, 1))
 
@@ -750,15 +748,15 @@ def load_program(file, trainer_id, plan_name):
 
         slug = get_slug(trainer.short_name, plan.pk, worksheet.cell_value(curr_row, 0))
         workout, _ = Workout.objects.get_or_create(slug=slug)
-        lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1).lower())
+        lift = Lift.objects.get(slug=worksheet.cell_value(curr_row, 1))
 
         exercise = Exercise.objects.create(lift=lift, 
                                            workout=workout, 
                                            sets_display=worksheet.cell_value(curr_row, 2), 
                                            order=curr_row)
 
-        for reps_str in worksheet.cell_value(curr_row, 3).split(','):
-            workout_set = WorkoutSet.objects.create(lift=lift, workout=workout, num_reps=int(reps_str), exercise=exercise)
+        for reps_str in str(worksheet.cell_value(curr_row, 3)).split(','):
+            workout_set = WorkoutSet.objects.create(lift=lift, workout=workout, num_reps=int(float(reps_str)), exercise=exercise)
 
     # plan schedule
     worksheet = workbook.sheet_by_name('Plan')

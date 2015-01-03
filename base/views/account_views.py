@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.conf import settings
 
 from base import emails
 from base.models import Trainer, Client, user_type
@@ -63,12 +64,13 @@ def standard_login_view(request):
             login(request, form.cleaned_data['user'])
 
             # segment.io identify
-            user = User.objects.get(id=form.cleaned_data['user'].id)
-            analytics.identify(user.id, {
+            if not settings.DEBUG:
+                user = User.objects.get(id=form.cleaned_data['user'].id)
+                analytics.identify(user.id, {
                  'email': user.email,
                  'name': user.trainer.name if user_type(user)=='T' else user.client.name if user_type(user)=='D' else 'spotter',
                  'blitz': '(trainer)' if user_type(user)=='T' else user.client.get_blitz().title if user_type(user)=='D' else '(spotter)'
-            })
+                })
             return redirect(next)
 
     else:
@@ -84,7 +86,8 @@ def logout_view(request):
 
     if request.user.id != None:
         # segment.io track
-        analytics.track(request.user.id, 'logout', {
+        if not settings.DEBUG:
+            analytics.track(request.user.id, 'logout', {
                  'name': request.user.trainer.name if user_type(request.user)=='T' else request.user.client.name if user_type(request.user)=='D' else '(spotter)'    })
 
     logout(request)

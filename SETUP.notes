@@ -57,6 +57,11 @@ mysql -uroot -p < database.sql  // into new, blank instance of MySQ
    (on sqlite system)
 ./manage.py loaddata ___.json
 
+#mysql unicode setings
+use data;
+SHOW TABLE STATUS;
+ALTER TABLE app_table CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 #delete databases
 mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| grep -v information_schema| grep -v test | gawk '{print "drop database " $1 ";"}' | mysql -uroot -pmysql
 

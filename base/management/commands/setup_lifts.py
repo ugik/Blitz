@@ -23,14 +23,14 @@ class Command(BaseCommand):
         i = new = 0
   
         # update lifts table
-        lifts_file = open(settings.DATA_DIR + '/lifts.tsv')
+        lifts_file = open(settings.DATA_DIR + '/lifts.csv')
         for line in lifts_file:
             if line.strip() == '' or line.startswith('#'): continue
             fields = line.strip('\n').split('\t')
             if len(fields) == 1:
                 fields = line.strip('\n').split(',')
             if len(fields) == 1:
-                print "Columns missing in lifts.tsv"
+                print "Columns missing in lifts.csv"
                 raise
 
             lift, created = Lift.objects.get_or_create(slug=fields[0])    

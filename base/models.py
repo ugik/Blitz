@@ -296,6 +296,12 @@ class Trainer(models.Model):
         self.currently_viewing_blitz = blitz
         self.save()
     
+    def first_name(self):
+        if len(self.name.split(' '))>1:
+            return self.name.split(' ')[0]
+        else:
+            return self.name
+
     def all_clients(self):
         members = [f.members() for f in self.active_blitzes()]
         return list(set(itertools.chain(*members)))
@@ -587,7 +593,7 @@ class Blitz(models.Model):
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
     # workout_plan can be pending, spotter will load and assign workout plan
-    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
+    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True, on_delete=models.SET_NULL)
 
     # this is monday of week 1, model.save() will adjust as necessary
     begin_date = models.DateField()
@@ -789,9 +795,11 @@ class BlitzInvitation(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
 
     # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
-    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
+    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True, on_delete=models.SET_NULL)
 
     macro_formula = models.CharField(max_length=10, choices=MACROS_CHOICES, default='DEFAULT')
+    macro_target_json = models.TextField(default="", blank=True)
+
     date_created = models.DateField(default=datetime.date.today)
 
     objects = GetOrNoneManager()

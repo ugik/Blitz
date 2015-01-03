@@ -213,6 +213,9 @@ week of 12.29
 - fix "Sign up for " plan.title
 - fix spotter program upload test_program to check for incorrect day identifiers or weekdays
 - add create_client test
+- allow invitees to have detailed macros set
+- turn off segment.io track/identify when in DEBUG
+- fix bug in program upload for exercises with single set
 - bug fixing
 
 
