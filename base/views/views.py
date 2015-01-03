@@ -1533,7 +1533,8 @@ def client_signup(request):
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
 
             # set blitz for specific client            
-            blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client)   
+            blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client, 
+                             macros_data=invitation.macro_target_json)   
 
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
@@ -1881,8 +1882,9 @@ def payment_hook(request, pk):
 
                 if "@example" not in client.user.email:
                     mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
-                # set blitz for specific client
-                blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client)   
+                # set macros for specific client
+                blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client,
+                                 macros_data=invitation.macro_target_json)   
 
             elif new_client:   # if this is not existing client re-entering CC info
                 utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan, price=blitz.price)
@@ -2103,7 +2105,8 @@ def set_up_profile_basic(request):
             # set macros if provided
             invite = BlitzInvitation.objects.get_or_none(email = request.user.email)
             if invite:
-                blitz_macros_set(blitz=None, formula=invite.macro_formula, client=client)
+                blitz_macros_set(blitz=None, formula=invite.macro_formula, client=client, 
+                                 macros_data=invite.macro_target_json)
 
             request.session['intro_stage'] = 'photo'
             return redirect('set_up_profile')
