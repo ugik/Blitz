@@ -246,15 +246,15 @@
             });
         }
 
+        // Bind client summary if exists before the ajax requests, ex.: dummy client summary
         if ( $('#summary').html() ) {
             renderSummary($('#summary').html());
         }
-        
 
-
-
+        // Show allerts
         $('.alerts-wrapper').removeClass('hidden');
 
+        // Stores AJAX request object for client summary
         var summaryXHR;
 
         /**
@@ -614,6 +614,9 @@
             removePostForm();
         }
         // END
+
+        // Selects first left-panel item
+        $('.filters.scopes li.item').eq(0).trigger('click');
 
         // Loads the firsts feeds
         homepage_morefeed();
