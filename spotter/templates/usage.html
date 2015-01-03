@@ -22,14 +22,7 @@
 <header style="margin-bottom: 30px;">Usage digest {{ days }} days</header>
 
 <h3>MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h3>
-{% if login_users %}
-<h3>Last login</h3>
-<ul>
-{% for login in login_users|dictsort:"last_login" %}
-    <li> {{ login.email }} {{ login.last_login }}</li>
-{% endfor %}
-</ul>
-{% endif %}
+
 <br>
 
 <div class="span3 digest">

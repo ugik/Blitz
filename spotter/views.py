@@ -534,28 +534,26 @@ def spotter_sales_pages2(request):
 
 
 @login_required
-def spotter_program_delete(request):
+def spotter_program_delete(request, pk):
     if not request.user.is_staff:
         return redirect('home')
 
-    return redirect('home')
+    errors = delete_plan(pk)
+    if errors:
+        print errors
 
-# need to revisit this
-    plan_id = request.GET.get('plan', None)
-    errors = delete_plan(plan_id)
-    pending_trainers = get_pending_trainers()
-    if request.user.is_superuser:
-        return render(request, 'pending_trainers.html', 
-                {'pending' : pending_trainers, 'errors' : errors})
-    else:    
-        return render(request, 'pending_trainers.html', 
-                {'pending' : pending_trainers, 'errors' : errors})
-
+    return redirect('spotter_status_trainers')
 
 
 def delete_plan(plan_id):
 
     errors = []
+    workoutplan = get_object_or_404(WorkoutPlan, pk=plan_id)
+    if not workoutplan.blitz_set.all() and not workoutplan.blitzinvitation_set.all():
+        print "Delete %s" % workoutplan.name
+    else:
+        print "Cannot delete plan %s, in use" % workoutplan.name
+    
     return errors
 
 

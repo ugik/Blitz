@@ -4030,6 +4030,7 @@ label#id_document.upload {
   font-size: 24px;
   padding: 10px 20px;
   :hover {
+    cursor: pointer;
     @include blitz-gradient;
     @include animation('btnpulsate .75s infinite');
   }
@@ -5949,3 +5950,111 @@ a#name, a#plan_name, a#client_name {
 .slide-select ul {
   text-align: center;
 }
+
+.hide {
+  display: none; 
+  }
+
+  .headshot-container img {
+    width: 100%;
+  }
+
+  .navbar-preheader .navbar-toggle {
+    border: 1px solid white;
+    background-color: transparent;
+    margin-right: 0;
+}
+
+.navrow {
+  @include tablet-portrait-and-up {
+    display: block;
+  }
+  @include mobile-only {
+    display: none;
+  }
+}
+
+.navrow .nav {
+  width: 90%;
+  color: white;
+  @include transition(all,0.3s);
+  font-size: 0.9em;
+  letter-spacing: -1px;
+  text-transform: capitalize;
+  padding: 15px;
+  @include meta();
+  a:hover {
+    color: $fadedblue;
+  }
+}
+
+.navrow > ul > li :hover{
+  color: $fadedblue !important;
+}
+
+.navbar-header .btn-outline-trans {
+  @include tablet-portrait-and-up {
+    display: none;
+  }
+  @include mobile-only {
+    display: block;
+  }
+  width: 22px;
+  height: 20px;
+  float: right;
+  padding: 10px;
+  margin-top: 15px;
+  :hover {
+    cursor: pointer;
+  }
+}
+
+#bs-example-navbar-collapse-1 ul li>a {
+  color: white;
+  @include transition(all,0.3s);
+  font-size: 0.9em;
+  letter-spacing: -1px;
+  text-transform: capitalize;
+  @include meta();
+  :hover {
+    color: $fadedblue;
+  }
+}
+
+#bs-example-navbar-collapse-1 > ul > li.active > a {
+  background-color: transparent;
+  color: $fadedblue;
+}
+
+#bs-example-navbar-collapse-1 ul li > a:hover {
+  color: $fadedblue !important;
+}
+
+.container-fluid {
+  @include mobile-only {
+    padding: 10px;
+  }
+}
+
+#bs-example-navbar-collapse-1 {
+  @include mobile-only {
+    width: 100%;
+  }
+}
+
+.nav .navbar-nav ul {
+  @include mobile-only {
+    width: 100%;
+    background: #333;
+    text-align: center;
+  }
+}
+
+#bs-example-navbar-collapse-1 li {
+  @include mobile-only {
+    width: 100%;
+    text-align: center;
+    background: #333;
+  }
+}
+
