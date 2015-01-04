@@ -98,10 +98,13 @@ def home(request):
         if request.user._wrapped.username == 'spotter':
             return redirect('spotter_index')
 
-        if request.user.is_trainer:
-            return trainer_dashboard(request)
-        else:
-            return client_home(request)
+        try:   # handle exception if authenticated admin comes home
+            if request.user.is_trainer:
+                return trainer_dashboard(request)
+            else:
+                return client_home(request)
+        except:
+            return redirect('logout_view')
 
     else:
         return redirect('login_view')

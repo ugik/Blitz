@@ -2,7 +2,7 @@
 // set attributes in modal indirectly (modal is loaded from dashboard which lacks detail context)
     $(document).ready(function() {
        show_client();
-       show_client_macros(1, details=1);
+       show_client_macros(1, details=1, formula=1);
        var detailed_macros = "{{ detailed_macros }}";  
        if (detailed_macros != 'True') { update_summary_macros(); }  // if detailed macros are set then we show them
       })
@@ -121,11 +121,22 @@
         } else {
             document.getElementById('g_rest_fat_min').text = rest_fat_min.toFixed(0);
         }
-
     }
 
-    function show_client_macros(factor, details=0) {
-       factor = factor || 1;
+    function show_client_macros(factor, details=0, formula=0) {
+       // factor can be passed in from form select
+       // details=1 forces stored macro details to ovveride formula
+       // formula=1 forces form select formula to override details and invitation formula
+
+       // set macros formula according to invitation macro formula
+       // TODO figure out how to set the bootstrap selected option in the clientMacrosModal
+
+       if (formula === 0) { factor = factor; }
+       else if ("{{ invitation.macro_formula }}" === 'CUT') { factor = 0.9; }
+       else if ("{{ invitation.macro_formula }}" === 'BULK') { factor = 1.1; }
+       else if ("{{ invitation.macro_formula }}" === 'BEAST') { factor = 1.15; }
+       else { factor = factor; }
+
        var kg = 100;
        var h = 183;
        var age = 30;
