@@ -1412,7 +1412,9 @@ def trainer_signup(request):
             if not settings.DEBUG:
                 analytics.identify(trainer.user.id, {
                  'name': trainer.name,
-                 'email': trainer.user.email })
+                 'email': trainer.user.email,
+                 'note': 'New Trainer Registration' 
+                })
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
@@ -1553,7 +1555,9 @@ def client_signup(request):
             if not settings.DEBUG:
                 analytics.identify(str(client.user.pk), {
                      'name': client.name,
-                     'email': client.user.email })
+                     'email': client.user.email,
+                     'note': 'Free Client Signup'
+                })
 
             return redirect('/signup-complete?pk='+str(blitz.pk))
 
@@ -1910,7 +1914,9 @@ def payment_hook(request, pk):
                 if not settings.DEBUG:
                     analytics.identify(client.user.id, {
                         'name': client.name,
-                        'email': client.user.email })
+                        'email': client.user.email,
+                        'note': "Paid Client Signup to %s for $%s" % (str(blitz.price), str(blitz)) 
+                    })
 
                 request.session['show_intro'] = True
                 if 'name' in request.session:
@@ -2424,6 +2430,7 @@ def trainer_dashboard(request):
 
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
+    print trainer.id
 
     heading = Heading.objects.all().order_by('?')[:1].get()
     header = "%s - %s" % (heading.saying, heading.author)

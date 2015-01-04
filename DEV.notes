@@ -217,8 +217,9 @@ week of 12.29
 - turn off segment.io track/identify when in DEBUG
 - fix bug in program upload for exercises with single set
 - spotter workoutplan delete with integrity checks for blitz, invitation, gymsession
-- fix spotter allfeeds gymsession
-- show stored macros details in modal
+- fix spotter allfeeds gymsession (user = spotter)
+- handle showing stored macros details in modal or formula derived macros
+- enhanced segment.io identify calls
 - bug fixing
 
 

@@ -539,8 +539,9 @@ def spotter_program_delete(request, pk):
         return redirect('home')
 
     errors = delete_plan(pk)
-    for error in errors:
-        print "* %s" % error
+    if errors:
+        for error in errors:
+            print "* %s" % error
 
     trainers = Trainer.objects.all()
     return redirect('spotter_status_trainers')
@@ -562,7 +563,7 @@ def delete_plan(plan_id):
                 errors.append("Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name)
                 return errors
 
-    # workoutplan.delete()
+    workoutplan.delete()
 
     return
 
