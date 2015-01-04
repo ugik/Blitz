@@ -220,6 +220,7 @@ week of 12.29
 - fix spotter allfeeds gymsession (user = spotter)
 - handle showing stored macros details in modal or formula derived macros
 - enhanced segment.io identify calls
+- no @example.com emails
 - bug fixing
 
 

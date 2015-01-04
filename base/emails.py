@@ -22,9 +22,16 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
 
     silent = False if settings.DEBUG else True
 
-    if [i for i in to_email if 'example.com' in i]:
-        print 'example.com address, no email sent'
-        return
+    # don't send emails to @example.com addresses
+    if isinstance(to_email, list):
+        if [i for i in to_email if 'example.com' in i]:
+            print '* @example.com address, no email sent'
+            return
+    else:
+        if 'example.com' in to_email:
+            print '* @example.com address, no email sent'
+            return
+
 
     if len(images) == 0:
         images = ['emailheader.png']

@@ -568,7 +568,6 @@ class Client(models.Model):
         if len(self.balanced_account_uri)<10:    # no CC reference on file
             if self.blitzmember_set:
                 member_price = self.blitzmember_set.all()[0].price
-                print member_price
                 if member_price == None or member_price == 0:
                     return False
                 else:

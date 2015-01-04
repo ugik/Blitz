@@ -2430,7 +2430,6 @@ def trainer_dashboard(request):
 
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
-    print trainer.id
 
     heading = Heading.objects.all().order_by('?')[:1].get()
     header = "%s - %s" % (heading.saying, heading.author)
