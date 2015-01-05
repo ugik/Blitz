@@ -4,12 +4,12 @@
 <script>
 var count = 0;
 
-function save_workoutday(day, lift, display, set1, set2, set3, set4, set5, set6) { 
+function save_workoutday(exercise, lift, display, set1, set2, set3, set4, set5, set6) { 
      $.ajax({
         url: 'workoutplan_day-ajax',
         type: 'POST',
         data: { mode: 'save_workoutplan_day',
-        day: day, lift: lift, display: display, set1: set1, set2: set2, set3: set3, set4: set4, set5: set5, set6: set6 },
+        exercise: exercise, lift: lift, display: display, set1: set1, set2: set2, set3: set3, set4: set4, set5: set5, set6: set6 },
       })
 }
 function delete_exercise(day, exercise) { 
@@ -36,24 +36,37 @@ function save_row(location, exercise, day, count, option) {
 
         save_workoutday(day, $("#lifts_"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
 
-        html = "<tr><td><a onclick='cancel_row(this, "+day+" , "+ $("#lifts_"+ count +" :selected").val() +");'><small>(del)</small><a onclick='edit_row(this, "+ day +", "+ exercise +", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td><td id='row_"+ exercise +"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td><td id='row_"+ exercise +"_display' align='left'>"+$("#sets_display"+ count).val()+"</td><td id='row_"+ exercise +"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td><td id='row_"+ exercise +"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td><td id='row_"+ exercise +"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td><td id='row_"+ exercise +"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td><td id='row_"+ exercise +"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td><td id='row_"+ exercise +"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td></tr>"; 
+        html = "<tr><td id='controls_"+ exercise +"'><a onclick='cancel_row(this, "+day+" , "+ $("#lifts_"+ count +" :selected").val() +");'><small>(del)</small><a onclick='edit_row(this, "+ day +", "+ exercise +", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td><td id='row_"+ exercise +"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td><td id='row_"+ exercise +"_display' align='left'>"+$("#sets_display"+ count).val()+"</td><td id='row_"+ exercise +"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td><td id='row_"+ exercise +"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td><td id='row_"+ exercise +"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td><td id='row_"+ exercise +"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td><td id='row_"+ exercise +"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td><td id='row_"+ exercise +"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td></tr>"; 
         tr.after(html);
     }
 
     if (option===1) {  // edited row
 
-        $('#controls_'+exercise.toString()).replaceWith("<td><a><small>(del)</small></a>&nbsp;<a><small>(edit)</small></a></td>");
         $('#row_'+exercise.toString()+'_lift').replaceWith('<td id="row_'+ exercise +'_lift" align="left">'+$('#lifts_'+ exercise +' :selected').text()+'</td>');
         $('#row_'+exercise.toString()+'_display').replaceWith('<td id="row_'+ exercise +'_display">'+$('#row_'+ exercise+'_display').val()+'</td>');
-        $('#row_'+exercise.toString()+'_set_1').replaceWith('<td>'+$('#row_'+exercise.toString()+'_set_1').val()+'</td>');
-        $('#row_'+exercise.toString()+'_set_2').replaceWith('<td>'+$('#row_'+exercise.toString()+'_set_2').val()+'</td>');
-        $('#row_'+exercise.toString()+'_set_3').replaceWith('<td>'+$('#row_'+exercise.toString()+'_set_3').val()+'</td>');
-        $('#row_'+exercise.toString()+'_set_4').replaceWith('<td>'+$('#row_'+exercise.toString()+'_set_4').val()+'</td>');
-        $('#row_'+exercise.toString()+'_set_5').replaceWith('<td>'+$('#row_'+exercise.toString()+'_set_5').val()+'</td>');
-        $('#row_'+exercise.toString()+'_set_6').replaceWith('<td>'+$('#row_'+exercise.toString()+'_set_6').val()+'</td>');
+        $('#row_'+exercise.toString()+'_set_1').replaceWith('<td id="row_'+ exercise +'_set_1">'+$('#row_'+exercise.toString()+'_set_1').val()+'</td>');
+        $('#row_'+exercise.toString()+'_set_2').replaceWith('<td id="row_'+ exercise +'_set_2">'+$('#row_'+exercise.toString()+'_set_2').val()+'</td>');
+        $('#row_'+exercise.toString()+'_set_3').replaceWith('<td id="row_'+ exercise +'_set_3">'+$('#row_'+exercise.toString()+'_set_3').val()+'</td>');
+        $('#row_'+exercise.toString()+'_set_4').replaceWith('<td id="row_'+ exercise +'_set_4">'+$('#row_'+exercise.toString()+'_set_4').val()+'</td>');
+        $('#row_'+exercise.toString()+'_set_5').replaceWith('<td id="row_'+ exercise +'_set_5">'+$('#row_'+exercise.toString()+'_set_5').val()+'</td>');
+        $('#row_'+exercise.toString()+'_set_6').replaceWith('<td id="row_'+ exercise +'_set_6">'+$('#row_'+exercise.toString()+'_set_6').val()+'</td>');
     }
 
-        save_workoutday(day, $('#row_'+exercise.toString()+'_lift').text(), $('#row_'+exercise.toString()+'_display').text(), $('#row_'+exercise.toString()+'_set_1').val(), $('#row_'+exercise.toString()+'_set_2').val(), $('#row_'+exercise.toString()+'_set_3').val(), $('#row_'+exercise.toString()+'_set_4').val(), $('#row_'+exercise.toString()+'_set_5').val(), $('#row_'+exercise.toString()+'_set_6').val());
+        var lift = $('#row_'+exercise.toString()+'_lift').text();
+        var display = $('#row_'+exercise.toString()+'_display').text();
+        var set1 = $('#row_'+exercise.toString()+'_set_1').text(); 
+        var set2 = $('#row_'+exercise.toString()+'_set_2').text();
+        var set3 = $('#row_'+exercise.toString()+'_set_3').text(); 
+        var set4 = $('#row_'+exercise.toString()+'_set_4').text();
+        var set5 = $('#row_'+exercise.toString()+'_set_5').text(); 
+        var set6 = $('#row_'+exercise.toString()+'_set_6').text();
+
+        if (set1.length < 1) { set1='0'; } if (set2.length < 1) { set2='0'; } if (set3.length < 1) { set3='0'; }
+        if (set4.length < 1) { set4='0'; } if (set5.length < 1) { set5='0'; } if (set6.length < 1) { set6='0'; }
+
+        $('#controls_'+exercise.toString()).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, 0, "+ exercise +");'><small>(del)</small></a>&nbsp;<a onclick='edit_row(this, 0, "+ exercise +", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
+
+        save_workoutday(exercise, lift, display, set1, set2, set3, set4, set5, set6);
 
 }
 

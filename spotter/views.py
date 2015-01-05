@@ -331,7 +331,7 @@ def workoutplan_day_ajax(request):
 
     if request.POST.get('mode') == 'save_workoutplan_day':
         print request.POST.get('mode')
-        print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
+        print request.POST.get('exercise'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
         print request.POST.get('mode')
         print request.POST.get('key'), request.POST.get('key')
