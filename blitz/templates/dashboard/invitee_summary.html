@@ -123,13 +123,16 @@
         }
     }
 
-    function show_client_macros(factor, details=0, formula=0) {
+    function show_client_macros(factor, details, formula) {
        // factor can be passed in from form select
        // details=1 forces stored macro details to ovveride formula
        // formula=1 forces form select formula to override details and invitation formula
 
        // set macros formula according to invitation macro formula
        // TODO figure out how to set the bootstrap selected option in the clientMacrosModal
+
+       details = details || 0;
+       formula = formula || 0;
 
        if (formula === 0) { factor = factor; }
        else if ("{{ invitation.macro_formula }}" === 'CUT') { factor = 0.9; }
