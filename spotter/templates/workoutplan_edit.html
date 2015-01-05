@@ -102,7 +102,10 @@ function cancel_edit(exercise, lift, display, set1, set2, set3, set4, set5, set6
     $('#row_'+exercise.toString()+'_set_5').replaceWith('<td id="row_'+ exercise +'_set_5" align="left">'+set5+'</td>');
     $('#row_'+exercise.toString()+'_set_6').replaceWith('<td id="row_'+ exercise +'_set_6" align="left">'+set6+'</td>');
  
-    $('#controls_'+exercise.toString()).replaceWith("<td><a><small>(del)</small></a>&nbsp;<a><small>(edit)</small></a></td>");
+    if (set1.length < 1) { set1='0'; } if (set2.length < 1) { set2='0'; } if (set3.length < 1) { set3='0'; }
+    if (set4.length < 1) { set4='0'; } if (set5.length < 1) { set5='0'; } if (set6.length < 1) { set6='0'; }
+
+    $('#controls_'+exercise.toString()).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, 0, "+ exercise +");'><small>(del)</small></a>&nbsp;<a onclick='edit_row(this, 0, "+ exercise +", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
 
 }
 
