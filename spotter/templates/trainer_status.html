@@ -56,7 +56,7 @@
               <li style="padding-left: 20px;">
               <a href="workoutplan?plan={{ workoutplan.pk }}">{{ workoutplan.name }}</a>
               {% if workoutplan.blitz_set.all or workoutplan.blitzinvitation_set.all %} <small>(in use)</small>
-              {% else %} <a href="program_delete/{{ workoutplan.pk }}"><small>(delete)</small></a>{% endif %}
+              {% else %} <a onClick="if(confirm('Delete workoutplan {{ workoutplan.name }}?')) window.location.href = 'program_delete/{{ workoutplan.pk }}';"><small>(delete)</small></a>{% endif %}
        action:&nbsp;<a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Program</small></a>
            {% endfor %}</ul>
         </ul>

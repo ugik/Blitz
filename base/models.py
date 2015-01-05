@@ -470,6 +470,7 @@ class Client(models.Model):
 
             else:  # client in a group requires careful dissection of feeditems
                 show_items = set()    # collect pk's for FeedItems from client or trainer
+
                 for fi in FeedItem.objects.filter(blitz=self.get_blitz()):
                     if fi.content_type.name == 'comment':
                         if not fi.content_object.user.is_trainer:
@@ -567,7 +568,6 @@ class Client(models.Model):
         if len(self.balanced_account_uri)<10:    # no CC reference on file
             if self.blitzmember_set:
                 member_price = self.blitzmember_set.all()[0].price
-                print member_price
                 if member_price == None or member_price == 0:
                     return False
                 else:

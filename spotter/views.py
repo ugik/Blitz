@@ -164,7 +164,7 @@ def spotter_status_trainers(request):
         return redirect('home')
 
     trainers = Trainer.objects.all()
-    return render(request, 'trainer_status.html', {'trainers' : trainers })
+    return render(request, 'trainer_status.html', {'trainers' : trainers, 'errors' : None })
 
 @login_required
 def assign_workoutplan(request):
@@ -330,11 +330,9 @@ def workoutplan_day_ajax(request):
         return False
 
     if request.POST.get('mode') == 'save_workoutplan_day':
-        print request.POST.get('mode')
-        print request.POST.get('day'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
+        print request.POST.get('mode'), request.POST.get('exercise'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
-        print request.POST.get('mode')
-        print request.POST.get('key'), request.POST.get('key')
+        print request.POST.get('mode'), request.POST.get('key')
 
     return JSONResponse({'is_error': False})
 
@@ -540,8 +538,10 @@ def spotter_program_delete(request, pk):
 
     errors = delete_plan(pk)
     if errors:
-        print errors
+        for error in errors:
+            print "* %s" % error
 
+    trainers = Trainer.objects.all()
     return redirect('spotter_status_trainers')
 
 
@@ -549,12 +549,21 @@ def delete_plan(plan_id):
 
     errors = []
     workoutplan = get_object_or_404(WorkoutPlan, pk=plan_id)
-    if not workoutplan.blitz_set.all() and not workoutplan.blitzinvitation_set.all():
-        print "Delete %s" % workoutplan.name
-    else:
-        print "Cannot delete plan %s, in use" % workoutplan.name
-    
-    return errors
+    # can't delete if assigned to Blitz or Invitation
+    if workoutplan.blitz_set.all() or workoutplan.blitzinvitation_set.all():
+        errors.append("Cannot delete plan %s, in use" % workoutplan.name)
+        return errors
+
+    # can't delete if related to old gymsessions
+    for workoutplan_week in workoutplan.workoutplanweek_set.all():
+        for workoutplan_day in workoutplan_week.workoutplanday_set.all():
+            if workoutplan_day.gymsession_set.all():
+                errors.append("Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name)
+                return errors
+
+    workoutplan.delete()
+
+    return
 
 
 def get_pending_sales_pages():

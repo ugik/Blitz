@@ -47,7 +47,7 @@ mv database.sql Blitz/blitz/usermedia
 tar -czf usermedia.tar.gz Blitz/blitz/usermedia
 
 tar xf usermedia.tar.gz         // unpacks usermedia w/Blitz/blitz/usermedia dir structure
-mysql -uroot -p < database.sql  // into new, blank instance of MySQ
+mysql -uroot -p < database.sql  // into new, blank instance of MySQL
 
 #database data migration
 ./manage.py dumpdata base > base_data.json

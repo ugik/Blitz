@@ -98,10 +98,13 @@ def home(request):
         if request.user._wrapped.username == 'spotter':
             return redirect('spotter_index')
 
-        if request.user.is_trainer:
-            return trainer_dashboard(request)
-        else:
-            return client_home(request)
+        try:   # handle exception if authenticated admin comes home
+            if request.user.is_trainer:
+                return trainer_dashboard(request)
+            else:
+                return client_home(request)
+        except:
+            return redirect('logout_view')
 
     else:
         return redirect('login_view')
@@ -1409,7 +1412,9 @@ def trainer_signup(request):
             if not settings.DEBUG:
                 analytics.identify(trainer.user.id, {
                  'name': trainer.name,
-                 'email': trainer.user.email })
+                 'email': trainer.user.email,
+                 'note': 'New Trainer Registration' 
+                })
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
@@ -1550,7 +1555,9 @@ def client_signup(request):
             if not settings.DEBUG:
                 analytics.identify(str(client.user.pk), {
                      'name': client.name,
-                     'email': client.user.email })
+                     'email': client.user.email,
+                     'note': 'Free Client Signup'
+                })
 
             return redirect('/signup-complete?pk='+str(blitz.pk))
 
@@ -1907,7 +1914,9 @@ def payment_hook(request, pk):
                 if not settings.DEBUG:
                     analytics.identify(client.user.id, {
                         'name': client.name,
-                        'email': client.user.email })
+                        'email': client.user.email,
+                        'note': "Paid Client Signup to %s for $%s" % (str(blitz.price), str(blitz)) 
+                    })
 
                 request.session['show_intro'] = True
                 if 'name' in request.session:
