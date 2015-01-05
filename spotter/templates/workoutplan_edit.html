@@ -28,7 +28,7 @@ function cancel_row(location, exercise) {
         delete_exercise(exercise);
 }
 
-function save_row(location, exercise, count, option) {
+function save_row(inuse, location, exercise, count, option) {
     var tr = $(location).closest('tr');
 
     if (option===0) {  // inserted row
@@ -36,7 +36,7 @@ function save_row(location, exercise, count, option) {
 
         save_workoutday(exercise, $("#lifts_"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
 
-        html = "<tr><td id='controls_"+ exercise +"'><a onclick='cancel_row(this, "+ $("#lifts_"+ count +" :selected").val() +");'><small>(del)</small><a onclick='edit_row(\""+ exercise +"\", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td><td id='row_"+ exercise +"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td><td id='row_"+ exercise +"_display' align='left'>"+$("#sets_display"+ count).val()+"</td><td id='row_"+ exercise +"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td><td id='row_"+ exercise +"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td><td id='row_"+ exercise +"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td><td id='row_"+ exercise +"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td><td id='row_"+ exercise +"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td><td id='row_"+ exercise +"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td></tr>"; 
+        html = "<tr><td id='controls_"+ exercise +"'><a onclick='cancel_row(this, "+ $("#lifts_"+ count +" :selected").val() +");'><small>(del)</small><a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td><td id='row_"+ exercise +"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td><td id='row_"+ exercise +"_display' align='left'>"+$("#sets_display"+ count).val()+"</td><td id='row_"+ exercise +"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td><td id='row_"+ exercise +"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td><td id='row_"+ exercise +"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td><td id='row_"+ exercise +"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td><td id='row_"+ exercise +"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td><td id='row_"+ exercise +"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td></tr>"; 
         tr.after(html);
     }
 
@@ -64,7 +64,7 @@ function save_row(location, exercise, count, option) {
         if (set1.length < 1) { set1='0'; } if (set2.length < 1) { set2='0'; } if (set3.length < 1) { set3='0'; }
         if (set4.length < 1) { set4='0'; } if (set5.length < 1) { set5='0'; } if (set6.length < 1) { set6='0'; }
 
-        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, 0, "+ exercise +");'><small>(del)</small></a>&nbsp;<a onclick='edit_row(\""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, 0, "+ exercise +");'><small>(del)</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
 
         save_workoutday(exercise, lift, display, set1, set2, set3, set4, set5, set6);
 
@@ -72,12 +72,12 @@ function save_row(location, exercise, count, option) {
 
 function insert_row(location, exercise) {   // insert new row
     count++; c = count.toString();
-    html = "<tr><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td><td align='left'><select id='lifts_"+ c +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td align='left'><input type='text' id='sets_display"+ c +"' style='width:100px;' value='3x10'/></td><td align='left'><input type='text' id='set1_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set2_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set3_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set4_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set5_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
+    html = "<tr><td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(0, this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td><td align='left'><select id='lifts_"+ c +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td><td align='left'><input type='text' id='sets_display"+ c +"' style='width:100px;' value='3x10'/></td><td align='left'><input type='text' id='set1_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set2_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set3_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set4_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set5_"+ c +"' style='width:20px;' placeholder='Set'/></td><td align='left'><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
     $(location).after(html);
 
 }
 
-function edit_row(exercise, lift, display, set1, set2, set3, set4, set5, set6) {  
+function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {  
  
     // edit row by making elements input type
     $('#row_'+exercise+'_lift').replaceWith("<td id='row_"+ exercise +"_lift' align='left'><select id='lifts_"+ exercise +"' align='left'>{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td>");
@@ -92,7 +92,7 @@ function edit_row(exercise, lift, display, set1, set2, set3, set4, set5, set6) {
     if (set1.length < 1) { set1='0'; } if (set2.length < 1) { set2='0'; } if (set3.length < 1) { set3='0'; }
     if (set4.length < 1) { set4='0'; } if (set5.length < 1) { set5='0'; } if (set6.length < 1) { set6='0'; }
 
-    $('#controls_'+exercise).replaceWith("<td id='controls_"+exercise+"'><a onclick='cancel_edit(\""+exercise+"\", \""+lift+"\", \""+display+"\", "+set1+", "+set2+", "+set3+", "+set4+", "+set5+", "+set6+");'><small>(cancel)</small></a>&nbsp;<a onclick='save_row(this, \""+ exercise +"\",0 ,1);'><small>(save)</small></a></td>");
+    $('#controls_'+exercise).replaceWith("<td id='controls_"+exercise+"'><a onclick='cancel_edit("+ inuse +", \""+exercise+"\", \""+lift+"\", \""+display+"\", "+set1+", "+set2+", "+set3+", "+set4+", "+set5+", "+set6+");'><small>(cancel)</small></a>&nbsp;<a onclick='save_row("+ inuse +", this, \""+ exercise +"\",0 ,1);'><small>(save)</small></a></td>");
 
     var lifts = document.getElementById('lifts_'+ exercise);   // set lifts select
     for (var i = 0; i < lifts.options.length; i++) {
@@ -103,7 +103,7 @@ function edit_row(exercise, lift, display, set1, set2, set3, set4, set5, set6) {
     }
 }
 
-function cancel_edit(exercise, lift, display, set1, set2, set3, set4, set5, set6) {   
+function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {   
     // cancel edit by reverting to .a types with initial values
 
     $('#row_'+exercise+'_lift').replaceWith('<td id="row_'+ exercise +'_lift" align="left">'+lift+'</td>');
@@ -118,7 +118,11 @@ function cancel_edit(exercise, lift, display, set1, set2, set3, set4, set5, set6
     if (set1.length < 1) { set1='0'; } if (set2.length < 1) { set2='0'; } if (set3.length < 1) { set3='0'; }
     if (set4.length < 1) { set4='0'; } if (set5.length < 1) { set5='0'; } if (set6.length < 1) { set6='0'; }
 
-    $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>&nbsp;<a onclick='edit_row(\""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
+    if (inuse===0) {
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
+    } else {
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><small><i><span title='This exercise is in use and cannot be deleted'>(in use)</span></i></small>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
+    }
 
 }
 
@@ -152,7 +156,8 @@ function cancel_edit(exercise, lift, display, set1, set2, set3, set4, set5, set6
 
           </td>
           {% if workoutplanday.gymsession_set.all %}<td><small><i>(in use)</i></small></td> {% else %}
-          <td><a href=""><small>(delete)</small></a> {% endif %}</td>
+          <td><a onClick="if(confirm('Delete {{ workoutplanday }}?')) window.location.href = 'edit-workoutplan?plan={{ workoutplan.pk }}';"><small>(delete)</small></a> 
+          {% endif %}</td>
           <td><a onclick="insert_row('#head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">add Exercise</a></td>
        <tr id="head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}" style="height:5px;"></tr>
        {% for exercise in workoutplanday.workout.exercise_set.all %}
@@ -161,7 +166,7 @@ function cancel_edit(exercise, lift, display, set1, set2, set3, set4, set5, set6
             {% if workoutplanday.gymsession_set.all %}<small><i><span title="This exercise is in use and cannot be deleted">(in use)</span></i></small> {% else %}
             <a onclick="cancel_row(this, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}');"><small>(del)</small></a>
             {% endif %}
-            <a onclick="edit_row('{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}', '{{ exercise.lift }}', '{{ exercise.sets_display }}', {% for set in exercise.workoutset_set.all %} '{{ set.num_reps }}',{% endfor %} '', '', '', '', '', '' );"><small>(edit)</small></a>
+            <a onclick="edit_row({% if workoutplanday.gymsession_set.all %}1{% else %}0{% endif %}, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}', '{{ exercise.lift }}', '{{ exercise.sets_display }}', {% for set in exercise.workoutset_set.all %} '{{ set.num_reps }}',{% endfor %} '', '', '', '', '', '' );"><small>(edit)</small></a>
             </td>
             <td align="left" id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_lift">{{ exercise.lift }}</td>
             <td align="left" id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_display">{{ exercise.sets_display }}</td>

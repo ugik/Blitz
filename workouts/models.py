@@ -180,10 +180,9 @@ class WorkoutPlanDay(models.Model):
     workout = models.ForeignKey(Workout)
 
     def __unicode__(self):
-        return "%s of week %s in plan %s" % (
+        return "%s of %s" % (
             self.day_of_week,
-            str(self.workout_plan_week),
-            str(self.get_workout_plan())
+            str(self.workout_plan_week)
         )
 
     def get_workout_plan(self):
