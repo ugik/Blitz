@@ -5065,14 +5065,14 @@ ul.spotternav li {
 }
 @media only screen and (min-width: 481px) {
   /* line 4247, ../sass/style.scss */
-  .modal-body .row .span6 {
+  .modal-body .row .col-md-6 {
     width: 40%;
     margin-left: 30%;
   }
 }
 @media (max-width: 480px) {
   /* line 4247, ../sass/style.scss */
-  .modal-body .row .span6 {
+  .modal-body .row .col-md-6 {
     width: 100%;
     margin-top: 40px;
     margin-left: -25px;
@@ -5136,7 +5136,7 @@ ul.spotternav li {
 }
 @media (max-width: 480px) {
   /* line 4311, ../sass/style.scss */
-  .sales-page .container .row .span2 {
+  .sales-page .container .row .col-md-2 {
     margin-left: 0px !important;
   }
 }
@@ -6063,12 +6063,12 @@ a.ui-state-default :hover {
 }
 
 /* line 5100, ../sass/style.scss */
-.modal-body .row .span6 {
+.modal-body .row .col-md-6 {
   text-align: center;
 }
 @media (max-width: 480px) {
   /* line 5100, ../sass/style.scss */
-  .modal-body .row .span6 {
+  .modal-body .row .col-md-6 {
     margin-left: -5%;
   }
 }
@@ -6087,7 +6087,7 @@ a.ui-state-default :hover {
 }
 
 /* line 5122, ../sass/style.scss */
-.modal-body .row .span6 #headshot {
+.modal-body .row .col-md-6 #headshot {
   max-width: 150px;
   margin: 0 auto;
   border: 6px solid white;
@@ -6336,7 +6336,7 @@ body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > 
 }
 
 /* line 5365, ../sass/style.scss */
-#main-content-container div.container div.row.rightrow div.span8.rightspan div.alert.alert-info {
+#main-content-container div.container div.row.rightrow div.col-md-8.rightspan div.alert.alert-info {
   border: 1px solid #7ab2ea !important;
   background: white !important;
 }
@@ -6459,7 +6459,7 @@ p.macroblurb {
 }
 
 /* line 5467, ../sass/style.scss */
-.modal-body .row .span6 img#headshot {
+.modal-body .row .col-md-6 img#headshot {
   width: 125px;
 }
 
@@ -6554,7 +6554,7 @@ a#logo2.branding {
 
 @media only screen and (min-width: 768px) and (max-width: 979px) {
   /* line 5548, ../sass/style.scss */
-  .span4 {
+  .col-md-4 {
     width: 25%;
     margin-left: 2%;
   }
@@ -6562,7 +6562,7 @@ a#logo2.branding {
 
 @media only screen and (min-width: 768px) and (max-width: 979px) {
   /* line 5555, ../sass/style.scss */
-  .span8 {
+  .col-md-8 {
     width: 66%;
     margin-left: 2%;
   }
@@ -6594,7 +6594,7 @@ a#logo2.branding {
 }
 
 /* line 5605, ../sass/style.scss */
-#main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
+#main-content-container div.container div.row.rightrow div.col-md-8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
   max-width: 500px;
 }
 

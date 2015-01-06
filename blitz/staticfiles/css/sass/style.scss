@@ -4244,7 +4244,7 @@ ul.spotternav li {
   overflow-y: auto;
   margin: 0 auto;
   width: 100%;
-  .span6 {
+  .col-md-6 {
     @include tablet-portrait-and-up {
       width: 40%;
       margin-left: 30%;
@@ -4308,7 +4308,7 @@ ul.spotternav li {
     margin: 0 auto;
     padding-bottom: 30px;
   }
-  .container .row .span2 {
+  .container .row .col-md-2 {
     @include mobile-only {
       margin-left: 0px !important;
     }
@@ -4768,7 +4768,7 @@ color: #9d9ea3;
    display: none; 
 }
 
-.modal-body .row .span6 {
+.modal-body .row .col-md-6 {
 
 }
 
@@ -5097,7 +5097,7 @@ a.ui-state-default :hover {
   @include fadein();
 }
 
-.modal-body .row .span6 {
+.modal-body .row .col-md-6 {
   text-align: center;
   @include mobile-only {
     margin-left: -5%;
@@ -5119,7 +5119,7 @@ a.ui-state-default :hover {
   }
 }
 
-.modal-body .row .span6 #headshot {
+.modal-body .row .col-md-6 #headshot {
   max-width: 150px;
   margin: 0 auto;
   border: 6px solid white;
@@ -5362,7 +5362,7 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 // }
 
 
-#main-content-container div.container div.row.rightrow div.span8.rightspan div.alert.alert-info {
+#main-content-container div.container div.row.rightrow div.col-md-8.rightspan div.alert.alert-info {
   border: 1px solid $fadedblue !important;
   background: white !important;
 }
@@ -5464,7 +5464,7 @@ input.macro-input {
   }
 }
 
-.modal-body .row .span6 img#headshot {
+.modal-body .row .col-md-6 img#headshot {
   width: 125px;
 }
 
@@ -5545,14 +5545,14 @@ a#logo2.branding {
   }
 }
 
-.span4 {
+.col-md-4 {
   @include specialportraitfix {
     width: 25%;
     margin-left: 2%;
   }
 }
 
-.span8 {
+.col-md-8 {
   @include specialportraitfix {
     width: 66%;
     margin-left: 2%;
@@ -5602,7 +5602,7 @@ a#logo2.branding {
   background: rgba(0,0,0,0.9);
 }
 
-#main-content-container div.container div.row.rightrow div.span8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
+#main-content-container div.container div.row.rightrow div.col-md-8 div.overview-top-content.overview-block div.content form#pictureForm table tbody tr td img {
   max-width: 500px
 }
 

@@ -35,13 +35,13 @@
 
 <div class="container">
     <div class="row">
-            <div class="span4">
+            <div class="col-md-4">
               &nbsp;
             </div>
-            <div class="span4" style="margin: 0 auto; text-align: center;">
+            <div class="col-md-4" style="margin: 0 auto; text-align: center;">
               <h1 class="meta"> Sales Pages </h1>
             </div> 
-            <div class="span4" style="margin: 0 auto; text-align: center;">                
+            <div class="col-md-4" style="margin: 0 auto; text-align: center;">                
               <form method="post" name="sales-blitz" 
                action="upload" class="formpage-block-form">
                  {% csrf_token %}
@@ -55,7 +55,7 @@
 
 
     <div class="row">
-        <div class="span8" style="float: none; margin: 0 auto; text-align: center;">
+        <div class="col-md-8" style="float: none; margin: 0 auto; text-align: center;">
          Below is a list of signup pages for your different programs, in case you want to update them. You can also send clients the 'quick signup' link, and they'll just go straight to the payment/credit card page.<br><br>
         {% if blitzes %}
            {% for blitz in blitzes %}
