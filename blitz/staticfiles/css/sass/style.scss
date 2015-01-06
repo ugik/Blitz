@@ -6030,7 +6030,7 @@ a#name, a#plan_name, a#client_name {
   color: $fadedblue !important;
 }
 
-.container-fluid {
+.container {
   @include mobile-only {
     padding: 10px;
   }

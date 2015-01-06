@@ -7120,7 +7120,7 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 
 @media (max-width: 480px) {
   /* line 6033, ../sass/style.scss */
-  .container-fluid {
+  .container {
     padding: 10px;
   }
 }
