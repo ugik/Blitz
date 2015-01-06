@@ -11,7 +11,7 @@
        document.getElementById('name').text="{{ invitation.name|safe }}";
        document.getElementById('name2').text="{{ invitation.name|safe }}";
 
-       document.getElementById('blurb').text="... we'll know the client's biometrics when they sign-up."
+       document.getElementById('blurb').text="... we'll know the client's biometrics when they sign-up.";
        
        $("#headshot").attr("src", "{{ STATIC_URL }}images/silhouette.jpeg");
     }

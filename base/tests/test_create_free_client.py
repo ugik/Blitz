@@ -11,7 +11,7 @@ class TestCreateFreeClient(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.driver.set_window_size(1200, 1000)
+        self.driver.set_window_size(1300, 1000)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -57,6 +57,7 @@ class TestCreateFreeClient(unittest.TestCase):
         driver.find_element_by_xpath("//div[4]/div[3]/input").send_keys("8")
 
         driver.find_element_by_css_selector("span.small").click()
+        time.sleep(1)
         driver.find_element_by_link_text("Save These Sets").click()
         driver.find_element_by_css_selector("button.obtn.log-workout-submit").click()
         # Warning: assertTextPresent may require manual changes

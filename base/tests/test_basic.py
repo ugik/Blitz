@@ -12,6 +12,7 @@ class TestBasic(unittest.TestCase):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
         self.base_url = "http://127.0.0.1:8000"
+        self.driver.set_window_size(1300, 1000)
         self.verificationErrors = []
         self.accept_next_alert = True
     
@@ -118,9 +119,15 @@ class TestBasic(unittest.TestCase):
         # click | link=24 | 
         driver.find_element_by_link_text("24").click()
         # click | xpath=(//button[@type='submit'])[4] | 
+
+#        import pdb; pdb.set_trace()
+#        driver.find_element_by_id("create-group").click()
+        time.sleep(1)
         driver.find_element_by_xpath("(//button[@type='submit'])[4]").click()
         # Warning: assertTextPresent may require manual changes
         # assertTextPresent |  | This field is required.
+        self.assertTrue("This field is required." in driver.page_source, "Text not found")
+
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         # click | css=button.close | 
         driver.find_element_by_css_selector("button.close").click()
@@ -162,6 +169,7 @@ class TestBasic(unittest.TestCase):
         # open | /client-setup/7?modalInvite | 
         driver.get(self.base_url + "/client-setup/7?modalInvite")
         # click | css=button.close | 
+        time.sleep(3)
         driver.find_element_by_css_selector("button.close").click()
         # open | /program | 
         driver.get(self.base_url + "/program")

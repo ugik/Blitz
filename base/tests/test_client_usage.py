@@ -12,6 +12,7 @@ class TestClientUsage(unittest.TestCase):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
         self.base_url = "http://127.0.0.1:8000"
+        self.driver.set_window_size(1200, 1000)
         self.verificationErrors = []
         self.accept_next_alert = True
     

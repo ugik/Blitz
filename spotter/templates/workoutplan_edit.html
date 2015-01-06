@@ -145,7 +145,8 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 <tr><td>week#<b>{{ workoutplanweek.week }}</b></td>
     <td><a href="">add Day</a></td></tr>
    {% for workoutplanday in workoutplanweek.workoutplanday_set.all %}
-       <tr><td>{% if workoutplanday.day_of_week == 'M' %}Monday
+       <tr id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}"><td>
+               {% if workoutplanday.day_of_week == 'M' %}Monday
                {% elif workoutplanday.day_of_week == 'T' %}Tuesday
                {% elif workoutplanday.day_of_week == 'W' %}Wednesday
                {% elif workoutplanday.day_of_week == 'H' %}Thursday
@@ -156,7 +157,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
           </td>
           {% if workoutplanday.gymsession_set.all %}<td><small><i>(in use)</i></small></td> {% else %}
-          <td><a onClick="if(confirm('Delete {{ workoutplanday }}?')) window.location.href = 'edit-workoutplan?plan={{ workoutplan.pk }}';"><small>(delete)</small></a> 
+          <td><a onClick='if(confirm("Delete entire day?")) $("tr[id*=\"row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}\"]").remove();'><small>(delete)</small></a> 
           {% endif %}</td>
           <td><a onclick="insert_row('#head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">add Exercise</a></td>
        <tr id="head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}" style="height:5px;"></tr>
@@ -174,7 +175,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
                 <td align="left" id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_set_{{ forloop.counter }}">{{ set.num_reps }}</td>{% endfor %}
             </tr>
        {% endfor %}
-       <tr></tr>
+       <tr id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}"></tr>
    {% endfor %}
 </tr>
 {% endfor %}
