@@ -203,10 +203,10 @@ img.headshot {
 .sidebar-left #logo {
     margin: 0 !important
 }
-.sidebar-left .brand {
+.sidebar-left .navbar-brand {
     width: 100%
 }
-.sidebar-left .brand img {
+.sidebar-left .navbar-brand img {
     display: table !important;
     position: relative !important;
     margin: 15px auto 15px auto !important;
@@ -359,7 +359,7 @@ ul.filters li.item:hover {
 }
 /* TODO: Replace with Font Awesome Icon */
 
-#summary .macro-day-cell .icon-ok-sign, #summary .macro-day-cell .icon-remove-sign, #summary .macro-day-cell .icon-question-sign {
+#summary .macro-day-cell .glyphicon-ok-sign, #summary .macro-day-cell .glyphicon-remove-sign, #summary .macro-day-cell .glyphicon-question-sign {
     font-size: 29px;
 }
 #summary .diet-progress-stats {
@@ -534,7 +534,7 @@ ul.filters li.item:hover {
 .macro-history .weekSelector {
     float: right;
 }
-.macro-history .weekSelector .icon {
+.macro-history .weekSelector .glyphicon {
     color: #fff;
     font-weight: bold;
 }
@@ -615,7 +615,7 @@ ul.filters li.item:hover {
     transition: all 0.2s;
     display: inline-block;
 }
-.trainer-alert i.icon-remove-sign {
+.trainer-alert i.glyphicon-remove-sign {
     color: #cecece;
 }
 .trainer-alert .btn:hover {

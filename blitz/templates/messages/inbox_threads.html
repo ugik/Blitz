@@ -2,10 +2,10 @@
     <a class="thread-summary{% if current_user_thread == user_thread %} thread-summary-active{% endif %}" href="{% url 'user_thread' urlkey=user_thread.thread.urlkey %}">
         <div class="headshot"><img src="{{ user_thread.other_user.headshot_url }}" alt=""/></div>
         <div class="content">
-            <div class="name">{% if user_thread.is_unread %}<i class="icon-circle unread-icon"></i> {% endif %}{{ user_thread.other_user.display_name }}</div>
-            <div class="date"><i class="icon-time"></i> {{ user_thread.thread.last_message_date|timesince }} ago</div>
+            <div class="name">{% if user_thread.is_unread %}<i class="glyphicon-circle unread-icon"></i> {% endif %}{{ user_thread.other_user.display_name }}</div>
+            <div class="date"><i class="glyphicon-time"></i> {{ user_thread.thread.last_message_date|timesince }} ago</div>
         </div>
     </a>
 {% empty %}
-    <p class="no-messages"><i class="icon-envelope-alt"></i> You have no past messages.</p>
+    <p class="no-messages"><i class="glyphicon-envelope-alt"></i> You have no past messages.</p>
 {% endfor %}

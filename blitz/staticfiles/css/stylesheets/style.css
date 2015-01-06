@@ -4658,7 +4658,7 @@ a.feed-permalink-grey {
 }
 
 /* line 3921, ../sass/style.scss */
-#dashboard .sidebar-left a.brand img {
+#dashboard .sidebar-left a.navbar-brand img {
   margin: 0 auto;
   max-width: 100px;
   padding-top: 10px;
@@ -5192,20 +5192,20 @@ ul.spotternav li {
 }
 
 /* line 4360, ../sass/style.scss */
-a#primary_logo.brand img, #trainerlogo {
+a#primary_logo.navbar-brand img, #trainerlogo {
   padding: 30px;
   max-height: 50px;
 }
 
 @media (max-width: 480px) {
   /* line 4365, ../sass/style.scss */
-  a#primary_logo.brand img {
+  a#primary_logo.navbar-brand img {
     display: none;
   }
 }
 
 /* line 4372, ../sass/style.scss */
-a#secondary_logo.brand {
+a#secondary_logo.navbar-brand {
   padding: 10px;
 }
 
@@ -6634,7 +6634,7 @@ a#logo2.branding {
 }
 
 /* line 5647, ../sass/style.scss */
-.macro-history .weekSelector .icon {
+.macro-history .weekSelector .glyphicon {
   text-decoration: none;
 }
 

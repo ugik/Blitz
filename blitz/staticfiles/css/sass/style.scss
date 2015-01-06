@@ -3918,7 +3918,7 @@ a.feed-permalink-grey {
 }
 
 #dashboard .sidebar-left {
-  a.brand img {
+  a.navbar-brand img {
   margin: 0 auto;
   max-width: 100px;
   padding-top: 10px;
@@ -4357,19 +4357,19 @@ ul.spotternav li {
 
 
 
-a#primary_logo.brand img, #trainerlogo {
+a#primary_logo.navbar-brand img, #trainerlogo {
   padding: 30px;
   max-height: 50px;
 }
 
-a#primary_logo.brand img {
+a#primary_logo.navbar-brand img {
   @include mobile-only {
     display: none;
     }
 }
 
 
-a#secondary_logo.brand {
+a#secondary_logo.navbar-brand {
   padding: 10px;
   @include mobile-only {
     //display: none;
@@ -5644,7 +5644,7 @@ a#logo2.branding {
     width: 93.5%;
  }
 
-.macro-history .weekSelector .icon {
+.macro-history .weekSelector .glyphicon {
   text-decoration: none;
 }
 
