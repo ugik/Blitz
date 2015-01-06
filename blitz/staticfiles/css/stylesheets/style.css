@@ -5216,13 +5216,13 @@ a#secondary_logo.brand {
 }
 @media only screen and (min-width: 769px) {
   /* line 4382, ../sass/style.scss */
-  .sales-page-section-2 .offset2 {
+  .sales-page-section-2 .col-md-offset-2 {
     margin-left: 180px;
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
   /* line 4382, ../sass/style.scss */
-  .sales-page-section-2 .offset2 {
+  .sales-page-section-2 .col-md-offset-2 {
     margin-left: 10%;
     width: 80%;
   }
@@ -5322,13 +5322,13 @@ a#secondary_logo.brand {
 }
 @media only screen and (min-width: 769px) {
   /* line 4467, ../sass/style.scss */
-  .sales-page-section-4 .offset2 {
+  .sales-page-section-4 .col-md-offset-2 {
     margin-left: 180px;
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
   /* line 4467, ../sass/style.scss */
-  .sales-page-section-4 .offset2 {
+  .sales-page-section-4 .col-md-offset-2 {
     margin-left: 10%;
     width: 80%;
   }

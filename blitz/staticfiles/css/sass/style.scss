@@ -4379,7 +4379,7 @@ a#secondary_logo.brand {
 .sales-page-section-2 {
   line-height: 1.4;
   background-color: #F3F3F3;
-  .offset2 {
+  .col-md-offset-2 {
     @include tablet-landscape-and-up {
       margin-left: 180px;
     };
@@ -4464,7 +4464,7 @@ a#secondary_logo.brand {
     margin: 0 auto;
     padding-bottom: 30px;
   }
-  .offset2 {
+  .col-md-offset-2 {
   @include tablet-landscape-and-up {
     margin-left: 180px;
   };
