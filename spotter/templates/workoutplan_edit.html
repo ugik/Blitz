@@ -4,6 +4,9 @@
 <script>
 var count = 0;
 
+function delete_id(key) {
+     $("tr[id*=\""+ key +"\"]").remove();
+}
 function save_workoutday(exercise, lift, display, set1, set2, set3, set4, set5, set6) { 
      $.ajax({
         url: 'workoutplan_day-ajax',
@@ -37,10 +40,12 @@ function save_day(inuse, location, exercise, count, option) {
 
         save_workoutday(exercise, $("#days_"+ count +" :selected").val());
 
-        html = "<tr><td id='controls_"+ exercise +"'><a onclick='cancel_row(this, "+ $("#days_"+ count +" :selected").val() +");'><small>(del)</small></td><td id='row_"+ exercise +"_lift' align='left'>"+$("#days_"+ count +" :selected").text()+"</tr>"; 
+
+        html = "<tr id='day_"+ exercise +"_"+ count +"'><td id='row_"+ exercise +"_lift'>"+$("#days_"+ count +" :selected").text()+"</td><td><a onClick='if(confirm(\"Delete entire day?\")) delete_id(\"row_"+ exercise +"_"+ count +"\"); delete_exercise(\"row_"+ exercise +"_"+ count +"\");'><small>(delete)</small></a></td></tr>";
         tr.after(html);
     }
 }
+
 
 function save_row(inuse, location, exercise, count, option) {
 
@@ -177,7 +182,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
           </td>
           {% if workoutplanday.gymsession_set.all %}<td><small><i>(in use)</i></small></td> {% else %}
           <td><a onClick='if(confirm("Delete entire day?")) $("tr[id*=\"row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}\"]").remove(); delete_exercise("row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}");'><small>(delete)</small></a> 
-          {% endif %}</td>
+          </td>{% endif %}
           <td><a onclick="insert_row('#head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">add Exercise</a></td>
        <tr id="head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}" style="height:5px;"></tr>
        {% for exercise in workoutplanday.workout.exercise_set.all %}

@@ -12,6 +12,7 @@ from base.models import Trainer, Client, user_type
 from base.utils import create_trainer
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
+from ipware.ip import get_ip
 
 import random
 import string
@@ -66,10 +67,15 @@ def standard_login_view(request):
             # segment.io identify
             if not settings.DEBUG:
                 user = User.objects.get(id=form.cleaned_data['user'].id)
-                analytics.identify(user.id, {
+                ip = get_ip(request)
+                if not ip:
+                    ip = '(unknown)'
+                analytics.identify(user_id=user.id, traits={
                  'email': user.email,
                  'name': user.trainer.name if user_type(user)=='T' else user.client.name if user_type(user)=='D' else 'spotter',
                  'blitz': '(trainer)' if user_type(user)=='T' else user.client.get_blitz().title if user_type(user)=='D' else '(spotter)'
+                }, context={
+                 'ip': ip,
                 })
             return redirect(next)
 
