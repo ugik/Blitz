@@ -58,7 +58,6 @@ function save_row(inuse, location, exercise, count, option) {
         controls = "<tr id='row_"+ exercise +"'><td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ $("#lifts_"+ count +" :selected").val() +"\");'><small>(del)</small><a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td>";
 
         data = "<td id='row_"+ exercise +"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td><td id='row_"+ exercise +"_display' align='left'>"+$("#sets_display"+ count).val()+"</td><td id='row_"+ exercise +"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td><td id='row_"+ exercise +"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td><td id='row_"+ exercise +"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td><td id='row_"+ exercise +"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td><td id='row_"+ exercise +"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td><td id='row_"+ exercise +"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td></tr>";
-alert(data);
 
         tr.after(controls+data);
     }
