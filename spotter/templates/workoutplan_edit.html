@@ -287,6 +287,13 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 -->
 
 <table id='table'>
+
+{% if not workoutplan.workoutplanweek_set.all %}
+<tr id="head_1"><td align="left"><a onclick="insert_week('#head_1', '1');">add Week</a></td></tr>
+<tr id="day_1"><td align="left"><a onclick="insert_day('#day_1', '1');">add Day</a></td></tr>
+
+{% endif %}
+
 {% for workoutplanweek in workoutplan.workoutplanweek_set.all %}
 <tr id="head_{{ workoutplanweek.pk }}">
 <td><a onclick="insert_week('#head_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">add Week</a></td></tr>
