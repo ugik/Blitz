@@ -135,18 +135,13 @@ function save_row(inuse, location, exercise, count, option) {
 
 function insert_week(location, exercise) {
 
-// insert new week, structure:
-// <tr id=head_1"><td><a onclick="insert_week('#day_1', '1'>add Week</a></td></tr>
-// <tr id="day_1"><td>week#<b>1</b></td>
-//     <td><a onclick="insert_day('#day_1', '1');">add Day</a></td></tr>
-
-    week++; c = week.toString();
-
-    head = "<tr id='head_"+ c +"'>";
-    data = "<tr id=\"day_"+ c +"\"><td>week#<b>"+ c +"</b></td>";
-     day = "<td><a onclick=\"insert_day('#day_"+ c +"', '"+ c +"');\">add Day</a></td></tr>";
-
-    $(location).after(head+data+day);
+// insert new week, call backend and refresh page:
+     $.ajax({
+        url: 'workoutplan_day-ajax',
+        type: 'POST',
+        data: { mode: 'add_week',
+        exercise: exercise },
+     })
 
 }
 
@@ -310,7 +305,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
           </b></td>
           {% if workoutplanday.gymsession_set.all %}
               <td><small><i>(in use)</i></small></td> {% else %}
-              <td><a onClick='if(confirm("Delete entire day?")) delete_day(\"{{ workoutplanweek.pk }}_{{ workoutplanday.pk }};\");'><small>(delete)</small></a></td>
+              <td><a onClick='if(confirm("Delete entire day?")) delete_day("{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}");'><small>(delete)</small></a></td>
           {% endif %}
           <td>
             <a onclick="insert_row('#head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">add Exercise</a>
