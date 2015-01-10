@@ -5,6 +5,7 @@
 
 var count = 0;
 var week = 0;
+var workoutplan = "{{ workoutplan.pk }}";
 
 function delete_day(key) {
      $("tr[id*=\"head_"+ key +"\"]").remove();
@@ -13,11 +14,18 @@ function delete_day(key) {
      $("tr[id*=\"foot_"+ key +"\"]").remove(); 
      delete_exercise("row_"+ key);
 }
-function save_workoutday(exercise, lift, display, set1, set2, set3, set4, set5, set6) { 
+function save_workoutday(exercise, day) { 
      $.ajax({
         url: 'workoutplan_day-ajax',
         type: 'POST',
-        data: { mode: 'save_workoutplan_day',
+        data: { mode: 'save_day', workoutplan: workoutplan, day: day },
+      })
+}
+function save_workoutexercise(exercise, lift, display, set1, set2, set3, set4, set5, set6) { 
+     $.ajax({
+        url: 'workoutplan_day-ajax',
+        type: 'POST',
+        data: { mode: 'save_exercise', workoutplan: workoutplan,
         exercise: exercise, lift: lift, display: display, set1: set1, set2: set2, set3: set3, set4: set4, set5: set5, set6: set6 },
       })
 }
@@ -25,7 +33,7 @@ function delete_exercise(exercise) {
      $.ajax({
         url: 'workoutplan_day-ajax',
         type: 'POST',
-        data: {mode: 'delete_workoutplan_day', key: exercise},
+        data: {workoutplan: workoutplan, mode: 'delete_workoutplan_day', key: exercise},
       })
 }
 function cancel_row(location, exercise) {
@@ -55,11 +63,11 @@ function save_day(inuse, location, exercise, count, option) {
 
         save_workoutday(exercise, $("#days_"+ count +" :selected").val());
 
-        head = "<tr id='day_"+ exercise +"_"+ count +"'>"
+        head = "<tr id='day_"+ exercise +"'>"
          day = "<td><b>"+$("#days_"+ count +" :selected").text()+"</b></td>"
          del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"_"+ count +"\");'><small>(delete)</small></a></td>"
-      insert = "<td><a onclick='insert_row(\"#head_"+ exercise +"_"+ count +"\", \""+ exercise +"_"+ count +"\");'>add Exercise</a></td></tr>";
-        foot = "<tr id='head_"+ exercise +"_"+ count+"' style='height:5px;'></tr>";
+      insert = "<td><a onclick='insert_row(\"#head_"+ exercise +"\", \""+ exercise +"\");'>add Exercise</a></td></tr>";
+        foot = "<tr id='head_"+ exercise +"' style='height:5px;'></tr>";
 
         tr.after(head+day+del+insert+foot);
 
@@ -85,7 +93,7 @@ function save_row(inuse, location, exercise, count, option) {
     if (option===0) {  // inserted row
         cancel_row(location);
 
-        save_workoutday(exercise, $("#lifts_"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
+        save_workoutexercise(exercise, $("#lifts_"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
 
            head = "<tr id='row_"+ exercise +"'><td id='controls_"+ exercise +"'>"
          cancel = "<a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>"
@@ -130,7 +138,7 @@ function save_row(inuse, location, exercise, count, option) {
 
         $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", "+ set1 +", "+ set2 +", "+ set3 +", "+ set4 +", "+ set5 +", "+ set6 +");'><small>(edit)</small></a></td>");
 
-        save_workoutday(exercise, lift, display, set1, set2, set3, set4, set5, set6);
+        save_workoutexercise(exercise, lift, display, set1, set2, set3, set4, set5, set6);
     }
 }
 
@@ -296,7 +304,8 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 {% else %}
 
 {% if not workoutplan.workoutplanweek_set.all %}
-<tr id="day_1"><td align="left"><a onclick="insert_day('#day_1', '1');">add Day</a></td></tr>
+<tr>
+<tr id="day_1"><td align="left">week#<b>1</b></td><td align="left"><a onclick="insert_day('#day_1', '1');">add Day</a></td></tr>
 
 {% endif %}
 
