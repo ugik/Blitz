@@ -157,7 +157,7 @@ function insert_day(location, exercise) {
 
     count++; c = count.toString();
 
-    head = "<tr id='day_"+ exercise +"_"+ c +"'></tr>";
+    head = "<tr id='day_"+ exercise +"_"+ c +"'>";
   cancel = "<td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;";
     save = "<a onclick='save_day(0, this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td>";
      day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td></td></tr>";
@@ -288,6 +288,11 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
 <table id='table'>
 
+{% if not workoutplan %}
+<h3>No workout plan</h3>
+
+{% else %}
+
 {% if not workoutplan.workoutplanweek_set.all %}
 <tr id="head_1"><td align="left"><a onclick="insert_week('#head_1', '1');">add Week</a></td></tr>
 <tr id="day_1"><td align="left"><a onclick="insert_day('#day_1', '1');">add Day</a></td></tr>
@@ -348,6 +353,8 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 </tr>
 {% endfor %}
 </table>
+
+{% endif %}
 
 {% endblock %}
 

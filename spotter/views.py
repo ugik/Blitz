@@ -313,7 +313,7 @@ def edit_workoutplan(request):
     if workoutplans:
         workoutplan = workoutplans[0]
     else:
-        workoutplan = WorkoutPlan()
+        workoutplan = None
 
     lifts = Lift.objects.all()
     return render_to_response('workoutplan_edit.html', 
