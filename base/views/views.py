@@ -15,6 +15,7 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+from ipware.ip import get_ip
 import balanced
 import analytics
 
@@ -1410,10 +1411,15 @@ def trainer_signup(request):
 
             # segment.io identify
             if not settings.DEBUG:
-                analytics.identify(trainer.user.id, {
+                ip = get_ip(request)
+                if not ip:
+                    ip = '(unknown)'
+                analytics.identify(user_id=trainer.user.id, traits={
                  'name': trainer.name,
                  'email': trainer.user.email,
                  'note': 'New Trainer Registration' 
+                }, context={
+                 'ip': ip,
                 })
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
@@ -1553,10 +1559,15 @@ def client_signup(request):
 
             # segment.io identify
             if not settings.DEBUG:
-                analytics.identify(str(client.user.pk), {
+                ip = get_ip(request)
+                if not ip:
+                    ip = '(unknown)'
+                analytics.identify(user_id=client.user.pk, traits={
                      'name': client.name,
                      'email': client.user.email,
                      'note': 'Free Client Signup'
+                }, context={
+                     'ip': ip,
                 })
 
             return redirect('/signup-complete?pk='+str(blitz.pk))
@@ -1912,10 +1923,15 @@ def payment_hook(request, pk):
 
                 # segment.io identify
                 if not settings.DEBUG:
-                    analytics.identify(client.user.id, {
-                        'name': client.name,
-                        'email': client.user.email,
-                        'note': "Paid Client Signup to %s for $%s" % (str(blitz.price), str(blitz)) 
+                    ip = get_ip(request)
+                    if not ip:
+                        ip = '(unknown)'
+                    analytics.identify(user_id=client.user.pk, traits={
+                         'name': client.name,
+                         'email': client.user.email,
+                         'note': "Paid Client Signup to %s for $%s" % (str(blitz.price), str(blitz)) 
+                    }, context={
+                         'ip': ip,
                     })
 
                 request.session['show_intro'] = True
