@@ -37,7 +37,7 @@ body {
 .modal-full {
     position: absolute;
     top: 0;
-    width: 0px;
+    /*width: 0px;*/
 }
 #header .container {
     width: 100%;
