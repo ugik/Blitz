@@ -51,7 +51,6 @@ function save_day(inuse, location, exercise, count, option) {
 
     var tr = $(location).closest('tr');
 
-    if (option===0) {  // inserted row
         cancel_row(location);
 
         save_workoutday(exercise, $("#days_"+ count +" :selected").val());
@@ -64,7 +63,6 @@ function save_day(inuse, location, exercise, count, option) {
 
         tr.after(head+day+del+insert+foot);
 
-    }
 }
 
 function save_row(inuse, location, exercise, count, option) {
@@ -164,9 +162,10 @@ function insert_day(location, exercise) {
   cancel = "<td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;";
     save = "<a onclick='save_day(0, this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td>";
      day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td></td></tr>";
-    foot = "<tr id='head_"+ exercise +"_"+ c +"' style='height:5px;'></tr>";
+     gap = "<tr id='head_"+ exercise +"_"+ c +"' style='height:5px;'></tr>";
+    foot = "<tr id='foot_"+ exercise +"_"+ c +"' style='height:1px;'></tr>";
 
-    $(location).after(head+cancel+save+day+foot);
+    $(location).after(head+cancel+save+day+gap+foot);
 }
 
 function insert_row(location, exercise) {
