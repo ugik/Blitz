@@ -339,9 +339,8 @@ def workoutplan_day_ajax(request):
         week = WorkoutPlanWeek.objects.get(pk=week).week
         wp_week = WorkoutPlanWeek.objects.filter(workout_plan = wp, week=week)
         action = "SAVE" if wp_week else "NEW"
-        exercise = ex[2]
 
-        print "%s EXERCISE: week %s, day %s, exercise %s for %s" % (action, week, day, exercise, wp)
+        print "%s EXERCISE: week %s, day %s, for %s" % (action, week, day, wp)
         print "DETAILS:", request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
 
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:

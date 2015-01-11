@@ -44,7 +44,6 @@ function cancel_row(location, exercise) {
         });
         delete_exercise(exercise);
         $("tr[id*=\"foot_"+ exercise +"\"]").remove(); 
-        $("tr[id*=\"day_"+ exercise +"\"]").remove(); 
 }
 
 function save_day(inuse, location, exercise, count, option) {
@@ -64,11 +63,11 @@ function save_day(inuse, location, exercise, count, option) {
 
         save_workoutday(exercise, $("#days_"+ count +" :selected").val());
 
-        head = "<tr id='head_"+ exercise +"_"+ count +"'>"
-         day = "<td><b>"+$("#days_"+ count +" :selected").text()+"</b></td>"
+        head = "<tr id='day_head_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'>"
+         day = "<td><b>"+$("#days_"+ count +" :selected").text()+ "</b></td>"
          del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"\");'><small>(delete)</small></a></td>"
-      insert = "<td><a onclick='insert_row(\"#foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td><a onclick='insert_day(\"#head_"+ exercise +"\", \"1\");'>add Day</a></td></tr><tr style='height:1px;'></tr>";
-        foot = "<tr id='foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
+      insert = "<td><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \"1\");'>add Day</a></td></tr><tr style='height:1px;'></tr>";
+        foot = "<tr id='day_foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
 
         tr.after(head+day+del+insert+foot);
 
@@ -96,9 +95,9 @@ function save_row(inuse, location, exercise, count, option) {
 
         save_workoutexercise(exercise, $("#lifts_"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
 
-           head = "<tr id='row_"+ exercise +"' style='background-color: rgba(255,255,255,0.15);'><td id='controls_"+ exercise +"'>"
-         cancel = "<a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>"
-           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td>"
+           head = "<tr id='row_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'><td id='controls_"+ exercise +"_"+ count +"'>";
+         cancel = "<a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>";
+           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td>";
        controls = head+cancel+edit
 
         lift    = "<td id='row_"+ exercise +"_"+count+"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td>";
@@ -206,7 +205,7 @@ function insert_row(location, exercise) {
     set5 = "<td align='left'><input type='text' id='set5_"+ c +"' style='width:20px;' placeholder='Set'/>";
     set6 = "<td align='left'><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
     foot = "<tr id='foot_"+ exercise +"_"+ count +"' style='height:1px;'></tr>";
-    $(location).after(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
+    $(location).before(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
 
 }
 
@@ -325,10 +324,10 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
               <td><a onClick='if(confirm("Delete entire day?")) delete_day("{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}");'><small>(delete)</small></a></td>
           {% endif %}
           <td>
-            <a onclick="insert_row('#head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">add Exercise</a>
+            <a onclick="insert_row('#day_head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">add Exercise</a>
           </td>
 
-       <tr id="head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}" style="height:5px;"></tr>
+       <tr id="day_head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}" style="height:5px;"></tr>
 
           {% for exercise in workoutplanday.workout.exercise_set.all %}
               <tr id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}">
