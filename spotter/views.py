@@ -324,16 +324,25 @@ def edit_workoutplan(request):
 @csrf_exempt
 # multi-purpose ajax function for workoutplan editing
 def workoutplan_day_ajax(request):
-#    blitz = get_object_or_404(Blitz, pk=int(request.POST.get('blitz')))
 
     if not 'mode' in request.POST:
         return False
 
     if request.POST.get('mode') == 'save_day':
-        print "ADD DAY:", request.POST.get('workoutplan'), request.POST.get('day')
+        print "ADD DAY %s to workoutplan %s" % ( request.POST.get('day'), WorkoutPlan.objects.get(pk=request.POST.get('workoutplan')) )
 
     elif request.POST.get('mode') == 'save_exercise':
-        print "ADD/SAVE EXERCISE:", request.POST.get('workoutplan'), request.POST.get('mode'), request.POST.get('exercise'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
+        wp = WorkoutPlan.objects.get(pk=request.POST.get('workoutplan'))
+        ex = request.POST.get('exercise').split('_')
+        week = ex[0]
+        day = WorkoutPlanDay.objects.get(pk=ex[1])
+        week = WorkoutPlanWeek.objects.get(pk=week).week
+        wp_week = WorkoutPlanWeek.objects.filter(workout_plan = wp, week=week)
+        action = "SAVE" if wp_week else "NEW"
+        exercise = ex[2]
+
+        print "%s EXERCISE: week %s, day %s, exercise %s for %s" % (action, week, day, exercise, wp)
+        print "DETAILS:", request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
 
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
         print "DELETE:", request.POST.get('workoutplan'), request.POST.get('mode'), request.POST.get('key')

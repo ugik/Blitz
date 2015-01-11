@@ -44,18 +44,19 @@ function cancel_row(location, exercise) {
         });
         delete_exercise(exercise);
         $("tr[id*=\"foot_"+ exercise +"\"]").remove(); 
+        $("tr[id*=\"day_"+ exercise +"\"]").remove(); 
 }
 
 function save_day(inuse, location, exercise, count, option) {
 
 // save day entry, structure:
-//       <tr id="day_64_220"><td><b>Monday</b></td>
+//       <tr id="head_64_220" id="day_64_220"><td><b>Monday</b></td>
 //          
 //          <td><a onClick='if(confirm("Delete entire day?")) delete_day(row_64_220);'><small>(delete)</small></a></td>
 //          
 //          <td><a onclick="insert_row('#head_64_220', '64_220');">add Exercise</a></td>
 //
-//       <tr id="head_64_220" style="height:5px;"></tr>
+//       <tr id="foot_64_220" style="height:10px;"></tr>
 
     var tr = $(location).closest('tr');
 
@@ -63,11 +64,11 @@ function save_day(inuse, location, exercise, count, option) {
 
         save_workoutday(exercise, $("#days_"+ count +" :selected").val());
 
-        head = "<tr id='day_"+ exercise +"'>"
+        head = "<tr id='head_"+ exercise +"_"+ count +"'>"
          day = "<td><b>"+$("#days_"+ count +" :selected").text()+"</b></td>"
-         del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"_"+ count +"\");'><small>(delete)</small></a></td>"
-      insert = "<td><a onclick='insert_row(\"#head_"+ exercise +"\", \""+ exercise +"\");'>add Exercise</a></td></tr>";
-        foot = "<tr id='head_"+ exercise +"' style='height:5px;'></tr>";
+         del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"\");'><small>(delete)</small></a></td>"
+      insert = "<td><a onclick='insert_row(\"#foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td><a onclick='insert_day(\"#head_"+ exercise +"\", \"1\");'>add Day</a></td></tr><tr style='height:1px;'></tr>";
+        foot = "<tr id='foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
 
         tr.after(head+day+del+insert+foot);
 
@@ -95,22 +96,23 @@ function save_row(inuse, location, exercise, count, option) {
 
         save_workoutexercise(exercise, $("#lifts_"+ count +" :selected").val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
 
-           head = "<tr id='row_"+ exercise +"'><td id='controls_"+ exercise +"'>"
+           head = "<tr id='row_"+ exercise +"' style='background-color: rgba(255,255,255,0.15);'><td id='controls_"+ exercise +"'>"
          cancel = "<a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>"
-           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td>"
+           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count +" :selected").text() + "\", \""+ $("#sets_display"+ count).val() +"\", 0"+$("#set1_"+ count).val()+", 0"+$("#set2_"+ count).val()+", 0"+$("#set3_"+ count).val()+", 0"+$("#set4_"+ count).val()+", 0"+$("#set5_"+ count).val()+", 0"+$("#set6_"+ count).val()+");'><small>(edit)</small></a></td>"
        controls = head+cancel+edit
 
-        lift    = "<td id='row_"+ exercise +"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td>";
-        display = "<td id='row_"+ exercise +"_display' align='left'>"+$("#sets_display"+ count).val()+"</td>";
-        set1    = "<td id='row_"+ exercise +"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td>";
-        set2    = "<td id='row_"+ exercise +"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td>";
-        set3    = "<td id='row_"+ exercise +"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td>";
-        set4    = "<td id='row_"+ exercise +"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td>";
-        set5    = "<td id='row_"+ exercise +"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td>";
-        set6    = "<td id='row_"+ exercise +"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td>";
-        foot    = "<tr id='foot_"+ exercise +"' style='height:1px;'></tr>";
+        lift    = "<td id='row_"+ exercise +"_"+count+"_lift' align='left'>"+$("#lifts_"+ count +" :selected").text()+"</td>";
+        display = "<td id='row_"+ exercise +"_"+count+"_display' align='left'>"+$("#sets_display"+ count).val()+"</td>";
+        set1    = "<td id='row_"+ exercise +"_"+count+"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td>";
+        set2    = "<td id='row_"+ exercise +"_"+count+"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td>";
+        set3    = "<td id='row_"+ exercise +"_"+count+"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td>";
+        set4    = "<td id='row_"+ exercise +"_"+count+"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td>";
+        set5    = "<td id='row_"+ exercise +"_"+count+"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td>";
+        set6    = "<td id='row_"+ exercise +"_"+count+"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td>";
+        foot    = "<tr id='foot_"+ exercise +"_"+count+"' style='height:1px;'></tr>";
 
         tr.after(controls+lift+display+set1+set2+set3+set4+set5+set6);
+
     }
 
     if (option===1) {  // edited row
@@ -170,10 +172,9 @@ function insert_day(location, exercise) {
   cancel = "<td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;";
     save = "<a onclick='save_day(0, this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td>";
      day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td></td></tr>";
-     gap = "<tr id='head_"+ exercise +"_"+ c +"' style='height:5px;'></tr>";
-    foot = "<tr id='foot_"+ exercise +"_"+ c +"' style='height:1px;'></tr>";
+     gap = "<tr id='head_"+ exercise +"_"+ c +"' style='height:1px;'></tr>";
 
-    $(location).after(head+cancel+save+day+gap+foot);
+    $(location).after(head+cancel+save+day+gap);
 }
 
 function insert_row(location, exercise) {
@@ -195,7 +196,7 @@ function insert_row(location, exercise) {
 
     head = "<tr id='row_"+ exercise +"_"+ count +"'>";
   cancel = "<td><a onclick='cancel_row(this, \""+ exercise +"_"+ c +"\");'><small>(cancel)</small></a>&nbsp";
-    save = "<a onclick='save_row(0, this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td>";
+    save = "<a onclick='save_row(0, this, \""+ exercise +"\", " + c + ", 0);'><small>(save)</small></a></td>";
    lifts = "<td align='left'><select id='lifts_"+ c +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.id}}'>{{l.name}}</option>{% endfor %}</select></td>";
  display = "<td align='left'><input type='text' id='sets_display"+ c +"' style='width:100px;' value='3x10'/></td>";
     set1 = "<td align='left'><input type='text' id='set1_"+ c +"' style='width:20px;' placeholder='Set'/>";
@@ -206,6 +207,7 @@ function insert_row(location, exercise) {
     set6 = "<td align='left'><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
     foot = "<tr id='foot_"+ exercise +"_"+ count +"' style='height:1px;'></tr>";
     $(location).after(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
+
 }
 
 function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {  
@@ -262,13 +264,6 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
 {% block main %}
 
-<header>Edit Workoutplan <b>"{{ workoutplan.name }}"</b><br></header><br>
-<style>
-      tr:nth-of-type(odd) {
-      background-color:#D8F1D7;
-    }
-</style>
-
 <!--
  # table structure
  <tr id="head_64"><td><a href="">add Week</a></td></tr>
@@ -305,7 +300,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
 {% if not workoutplan.workoutplanweek_set.all %}
 <tr>
-<tr id="day_1"><td align="left">week#<b>1</b></td><td align="left"><a onclick="insert_day('#day_1', '1');">add Day</a></td></tr>
+<tr id="day_0" ><td align="left">week#<b>1</b></td><td align="left"><a onclick="insert_day('#day_0', '1');">add Day</a></td></tr>
 
 {% endif %}
 
@@ -360,14 +355,17 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
             </tr>
          {% endfor %}
+         <tr style='height:1px;'></tr>
+         <tr id='dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:10px;'><td align='left'><a onclick='insert_day("#dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}", "1");'>add Day</a></td></tr>
+
      {% endfor %}
 
 {% endfor %}
-<tr id="head_1"><td align="left"><a onclick="insert_week('#head_1', '0');">add Week</a></td></tr>
-
+<tr id="head_end"><td align="left"><a onclick="insert_week('#head_end', '999');">add Week</a></td></tr>
+<tr id="dayadd_end" style='height:10px;'><td align="left"'><a onclick="insert_day('#dayadd_end', '1');">add Day</a></td></tr>
+<tr><tr><tr><tr><tr>
 </table>
 
 {% endif %}
 
 {% endblock %}
-
