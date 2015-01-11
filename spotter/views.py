@@ -329,7 +329,7 @@ def workoutplan_day_ajax(request):
         return False
 
     if request.POST.get('mode') == 'save_day':
-        print "ADD DAY %s to workoutplan %s" % ( request.POST.get('day'), WorkoutPlan.objects.get(pk=request.POST.get('workoutplan')) )
+        print "ADD DAY %s, with %s, to workoutplan %s" % ( request.POST.get('day'), request.POST.get('exercise'), WorkoutPlan.objects.get(pk=request.POST.get('workoutplan')) )
 
     elif request.POST.get('mode') == 'save_exercise':
         wp = WorkoutPlan.objects.get(pk=request.POST.get('workoutplan'))

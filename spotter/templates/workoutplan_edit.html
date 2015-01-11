@@ -12,13 +12,15 @@ function delete_day(key) {
      $("tr[id*=\"day_"+ key +"\"]").remove();
      $("tr[id*=\"row_"+ key +"\"]").remove(); 
      $("tr[id*=\"foot_"+ key +"\"]").remove(); 
+     $("tr[id*=\"dayadd_"+ key +"\"]").remove(); 
+
      delete_exercise("row_"+ key);
 }
 function save_workoutday(exercise, day) { 
      $.ajax({
         url: 'workoutplan_day-ajax',
         type: 'POST',
-        data: { mode: 'save_day', workoutplan: workoutplan, day: day },
+        data: { mode: 'save_day', workoutplan: workoutplan, exercise: exercise, day: day },
       })
 }
 function save_workoutexercise(exercise, lift, display, set1, set2, set3, set4, set5, set6) { 
@@ -355,7 +357,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
             </tr>
          {% endfor %}
          <tr style='height:1px;'></tr>
-         <tr id='dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:10px;'><td align='left'><a onclick='insert_day("#dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}", "1");'>add Day</a></td></tr>
+         <tr id='dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:10px;'><td align='left'><a onclick='insert_day("#dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}", "{{ workoutplanweek.pk }}");'>add Day</a></td></tr>
 
      {% endfor %}
 
