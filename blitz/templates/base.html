@@ -112,17 +112,26 @@
 
     {% block outer_content %}
     
-
-        {% block header_content %}
-            <nav class="navbar navbar-inverse navbar-static-top">
-                <div class="container">
-                    <a class="navbar-brand rotate" href="/" id="logo">
-                        <img src="{{ STATIC_URL }}images/logo.png"/>
-                    </a>
+    <div id="header-container">
+        <div class="container">
+            {% block header_content %}
+            <div class="row">
+                <div class="col-md-12" id="header">
+                    <div class="navbar">
+                        <div class="navbar-inner">
+                            <div class="container">
+                                <a class="navbar-brand rotate" href="/" id="logo">
+                                    <img src="{{ STATIC_URL }}images/logo.png"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </nav>
-        {% endblock %}
-
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+    <div id="colorstripe"></div>
 
     <div id="progress-header-container">
         <div class="container">

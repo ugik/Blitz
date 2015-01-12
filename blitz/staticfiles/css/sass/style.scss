@@ -488,6 +488,62 @@ Example @include keyframes
   }
 }
 
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar-inner {
+  min-height: 40px;
+  padding: 0;
+  background: none;
+  background-repeat: repeat-x;
+  border: none;
+  -webkit-border-radius: none;
+  -moz-border-radius: none;
+  border-radius: none;
+  filter: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
+  @include tablet-portrait-and-below {
+    padding: 0px 20px !important;
+  }
+}
+
+.navbar .nav>li>a {
+  text-shadow: none;
+  @include tablet-landscape-and-up {margin-top: 5px;};
+}
+
+.navbar .btn-navbar {
+  margin-top: 25px;
+  background: none;
+  background-image: none;
+  text-shadow: none;
+  //@include ffboxshadow();
+  color: white;
+  border: none;
+  box-shadow: none !important;
+}
+
+.btn-navbar:hover, .navbar .btn-navbar:focus, .navbar .btn-navbar:active, .navbar .btn-navbar.active, .navbar .btn-navbar.disabled, .navbar .btn-navbar[disabled] {
+    background: none;
+    background-image: none;
+    background-color: rgba(0,0,0,0) !important;
+    text-shadow: none;
+    color: $fadedblue !important;
+}
+
+.navbar .btn-navbar .icon-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background-color: #fff;
+}
+
 .rightrow {
   margin-right: -20px;
   margin-left: 0;
@@ -4921,6 +4977,25 @@ a.ui-state-default :hover {
   border: none;
 }
 
+.navbar-fixed-top {
+  background: #2b2b2b;
+  @include tablet-portrait-and-below {
+    background: none;
+  }
+}
+
+#header > div {
+  @include tablet-landscape-and-up {
+    border-bottom: 2px solid $fadedblue; 
+  }
+}
+
+#header {
+  @include mobile-only {
+    border-bottom: 2px solid $fadedblue; 
+  }
+}
+
 .check-in-feed-item {
   max-width: 100%;
 }
@@ -5416,6 +5491,10 @@ a#logo2.branding {
   @include tablet-landscape-and-below {
     display: none;
   }
+}
+
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner, .navbar-fixed-top, .navbar-fixed-bottom {
+  box-shadow: none !important;
 }
 
 .formpage-block .form .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
@@ -5979,7 +6058,3 @@ a#name, a#plan_name, a#client_name {
   }
 }
 
-.navbar-static-top, .navbar-fixed-top, .navbar-fixed-bottom {
-  border-radius: 0;
-  padding-bottom: 15px;
-}
