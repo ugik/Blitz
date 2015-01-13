@@ -6,8 +6,13 @@
 var count = 0;
 var week = 0;
 var workoutplan = "{{ workoutplan.pk }}";
-var workouts = []; 
+var workouts = [{% for w in workoutplan.workouts %}'{{w}}', {% endfor %}]; 
 
+function set_workouts(workouts, count) {
+    $(workouts).each( function(index, item) {
+        var option = $('<option value="'+item+'"></option>'); $('#wos_' +count).append(option);
+    });
+}
 function delete_day(key) {
      $("tr[id*=\"head_"+ key +"\"]").remove();
      $("tr[id*=\"day_"+ key +"\"]").remove();
@@ -68,7 +73,7 @@ function save_day(inuse, location, exercise, count, option) {
 
         head = "<tr id='day_head_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'>"
          day = "<td><b>"+$("#days_"+ count +" :selected").text()+ "</b>"
-         del = "&nbsp;&nbsp;<a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"\");'><small>(delete)</small></a></td>"
+         del = "&nbsp;&nbsp;<a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"\");'><small>(delete)</small></a></td><td>"+ $("#workouts_"+ count).val()+"</td>"
       insert = "<td align='left'><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td align='left'><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \"1\");'>add Day</a></td></tr><tr style='height:1px;'></tr>";
         foot = "<tr id='day_foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
 
@@ -171,10 +176,11 @@ function insert_day(location, exercise) {
     head = "<tr id='day_"+ exercise +"_"+ c +"'>";
   cancel = "<td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;";
     save = "<a onclick='save_day(0, this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td>";
-     day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td><td align='left'><input style='width:250px;' id='workouts_"+ c +"' list='wos_"+ c +"' placeholder='Search for Workout'/><datalist id='wos_"+ c +"' >{% for w in workoutplan.workouts %}<option value='{{w}}'/>{% endfor %}</datalist></td></tr>";
+     day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td><td align='left'><input style='width:250px;' id='workouts_"+ c +"' list='wos_"+ c +"' placeholder='Search for Workout'/><datalist id='wos_"+ c +"' ></datalist></td></tr>";
      gap = "<tr id='head_"+ exercise +"_"+ c +"' style='height:1px;'></tr>";
 
     $(location).after(head+cancel+save+day+gap);
+    set_workouts(workouts, c);
 
     $('#workouts_'+ c).change(function(event){   // handle additions to datalist
        cc = event.target.id.split('_')[1];       // get the variable offset by inspecting id suffix
