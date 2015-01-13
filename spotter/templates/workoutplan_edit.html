@@ -8,17 +8,20 @@ var week = 0;
 var workoutplan = "{{ workoutplan.pk }}";
 var workouts = [{% for w in workoutplan.workouts %}'{{w}}', {% endfor %}]; 
 
-function set_workouts(workouts, count) {
+function set_workouts(workouts, count) {   // load workouts into datalist
     $(workouts).each( function(index, item) {
         var option = $('<option value="'+item+'"></option>'); $('#wos_' +count).append(option);
     });
 }
-function delete_day(key) {
+function delete_day(key) {  // delete day and all of it's rows
      $("tr[id*=\"head_"+ key +"\"]").remove();
      $("tr[id*=\"day_"+ key +"\"]").remove();
      $("tr[id*=\"row_"+ key +"\"]").remove(); 
+     $("tr[id*=\"gap_"+ key +"\"]").remove(); 
      $("tr[id*=\"foot_"+ key +"\"]").remove(); 
      $("tr[id*=\"dayadd_"+ key +"\"]").remove(); 
+     $("tr[id*=\"day_head_"+ key +"\"]").remove(); 
+     $("tr[id*=\"day_foot_"+ key +"\"]").remove(); 
 
      delete_exercise("row_"+ key);
 }
@@ -57,13 +60,13 @@ function cancel_row(location, exercise) {
 function save_day(inuse, location, exercise, count, option) {
 
 // save day entry, structure:
-//       <tr id="head_64_220" id="day_64_220"><td><b>Monday</b></td>
+//       <tr id="day_head_64_220"><td><b>Monday</b></td>
 //          
 //          <td><a onClick='if(confirm("Delete entire day?")) delete_day(row_64_220);'><small>(delete)</small></a></td>
 //          
 //          <td><a onclick="insert_row('#head_64_220', '64_220');">add Exercise</a></td>
 //
-//       <tr id="foot_64_220" style="height:10px;"></tr>
+//       <tr id="day_foot_64_220" style="height:10px;"></tr>
 
     var tr = $(location).closest('tr');
 
@@ -370,7 +373,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
             </tr>
          {% endfor %}
-         <tr style='height:1px;'></tr>
+         <tr id='gap_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:1px;'></tr>
          <tr id='dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:10px;'><td align='left'><a onclick='insert_day("#dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}", "{{ workoutplanweek.pk }}");'>add Day</a></td></tr>
 
      {% endfor %}
