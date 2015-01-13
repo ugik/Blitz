@@ -329,11 +329,21 @@ def edit_workoutplan(request):
  
 
 # utility function, manages new workoutplanweek/day records, returns workoutplanday
-def workoutplan_week_mgr(request, wp, key):
-#    from random import randint
+def workoutplan_week_mgr(workoutplan, workout, key, day):
+
+    print workoutplan, workout, key, day
+    return 
 
     wp = WorkoutPlan.objects.get(pk=wp)    # get workoutplan
-    week_pk = key.split('_')[0]
+    week_pk = key.split('_')[0]            # split key into week, day, exercise
+
+    workout = Workout.objects.filter(display_name=workout)    # get workout (the label for the exercises/sets)
+    if workout:
+        print "*** workout %" % workout[0]
+        workout = workout[0]
+    else:
+        workout = Workout.objects.create(display_name=workout)
+
     week = WorkoutPlanWeek.objects.filter(workout_plan=wp, pk=week_pk)    # get workoutplanweek
     if week:
         print "*** week %" % week[0]
@@ -353,7 +363,9 @@ def workoutplan_week_mgr(request, wp, key):
         print "*** day %" % day[0]
     else:
         if str(day_pk) not in request.session:
-            week = WorkoutPlanDay.objects.create(workout_plan=wp, week=1)
+            week = WorkoutPlanDay.objects.create(workout_plan_week=week, 
+                                                 workout=workout, 
+                                                 week=week_pk)
             request.session[str(day_pk)] = new_pk
             print "*** new day key: %s = %s" % (day_pk, request.session[day_pk])
         else:
@@ -371,9 +383,10 @@ def workoutplan_ajax(request):
         return False
 
     if request.POST.get('mode') == 'save_day':
-#        workoutplan_mgr(request, request.POST.get('workoutplan'), request.POST.get('exercise'))
-
-        print "ADD DAY %s, with %s, to workoutplan %s" % ( request.POST.get('day'), request.POST.get('exercise'), WorkoutPlan.objects.get(pk=request.POST.get('workoutplan')) )
+        workoutplan_week_mgr(workoutplan = request.POST.get('workoutplan'),
+                             workout = request.POST.get('workout'), 
+                             key = request.POST.get('exercise'),
+                             day = request.POST.get('day'))
 
     elif request.POST.get('mode') == 'save_exercise':
 #        workoutplan_mgr(request, request.POST.get('workoutplan'), request.POST.get('exercise'))
