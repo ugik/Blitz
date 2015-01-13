@@ -6,6 +6,7 @@
 var count = 0;
 var week = 0;
 var workoutplan = "{{ workoutplan.pk }}";
+var workouts = []; 
 
 function delete_day(key) {
      $("tr[id*=\"head_"+ key +"\"]").remove();
@@ -174,6 +175,17 @@ function insert_day(location, exercise) {
      gap = "<tr id='head_"+ exercise +"_"+ c +"' style='height:1px;'></tr>";
 
     $(location).after(head+cancel+save+day+gap);
+
+    $('#workouts_'+ c).change(function(){
+
+       var array = $('datalist option').map(function () { return this.value; }).get(); // get datalist values
+       array.map( function(item) {
+          if ($.inArray(item,workouts) < 0) { workouts.push(item); }   // add new ones to workouts list
+          })
+       if ($.inArray(workouts,$('#workouts_' +c).val()) === -1) { workouts.push($('#workouts_' +c).val()); }
+
+       alert(workouts);
+    });
 }
 
 function insert_row(location, exercise) {
