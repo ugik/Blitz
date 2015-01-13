@@ -72,10 +72,22 @@ function save_day(inuse, location, exercise, count, option) {
 
         cancel_row(location);
 
-        save_workoutday(exercise, $("#days_"+ count +" :selected").val(), $("#workouts_"+ count).val());
+        workout = $('#workouts_'+ count).val();
+        if (workout.length < 1) {   // handle case of empty workout label
+            week = exercise.split('_')[0];
+            day = exercise.split('_')[1];
+            workout = $("#days_"+ count +" :selected").val() + " day " + day + ", week" + week
+            }
+
+        // add new element to workouts
+        if ($.inArray(workouts, workout) < 0) { 
+           workouts.push(workout); 
+           }
+
+        save_workoutday(exercise, $("#days_"+ count +" :selected").val(), workout);
 
         head = "<tr id='day_head_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'>"
-         day = "<td><b>"+$("#days_"+ count +" :selected").text()+ "</b> &nbsp;&nbsp;"+ $('#workouts_'+ count).val() +"</td>"
+         day = "<td><b>"+$("#days_"+ count +" :selected").text()+ "</b> &nbsp;&nbsp;"+ workout +"</td>"
          del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"\");'><small>(delete)</small></a></td>"
       insert = "<td align='left'><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td align='left'><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \"1\");'>add Day</a></td></tr><tr style='height:1px;'></tr>";
         foot = "<tr id='day_foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
