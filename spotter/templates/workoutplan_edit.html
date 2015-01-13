@@ -170,7 +170,7 @@ function insert_day(location, exercise) {
     head = "<tr id='day_"+ exercise +"_"+ c +"'>";
   cancel = "<td><a onclick='cancel_row(this);'><small>(cancel)</small></a>&nbsp;";
     save = "<a onclick='save_day(0, this, \""+ exercise +"_"+ c +"\", " + c + ", 0);'><small>(save)</small></a></td>";
-     day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td></td><input id='workouts_"+ c +"' list='wos_"+ c +"' placeholder='Search for Workout'/><datalist id='wos_"+ c +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td></tr>";
+     day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td><td align='left'><input style='width:250px;' id='workouts_"+ c +"' list='wos_"+ c +"' placeholder='Search for Workout'/><datalist id='wos_"+ c +"' >{% for w in workoutplan.workouts %}<option value='{{w}}'/>{% endfor %}</datalist></td></tr>";
      gap = "<tr id='head_"+ exercise +"_"+ c +"' style='height:1px;'></tr>";
 
     $(location).after(head+cancel+save+day+gap);
