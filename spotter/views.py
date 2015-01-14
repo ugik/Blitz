@@ -140,13 +140,14 @@ def spotter_delete(request):
     os.renames(filename, filename+'.backup')
     return redirect('spotter_uploads')
 
-@login_required
 def spotter_download(request):
-    if not request.user.is_staff:
-        return redirect('home')
 
     filename = request.GET.get('file')
-    directory = request.GET.get('dir')
+    if 'dir' in request.GET:
+        directory = request.GET.get('dir')
+    else:
+        directory = '/documents/'
+
     path = settings.MEDIA_ROOT + directory + filename
     return serve(request, os.path.basename(path), os.path.dirname(path))
 

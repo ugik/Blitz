@@ -23,7 +23,7 @@ from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, C
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, invitee_macros_set, save_file
 from base import utils
-from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
+from base.emails import client_invite, signup_confirmation, email_spotter_program_edit, email_spotter_program_upload
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
 from workouts.models import WorkoutPlan, WorkoutPlanDay
@@ -524,7 +524,11 @@ def upload_page(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid() and form.is_multipart():
-            save_file(request.FILES['document'], trainer.pk)
+            filename = save_file(request.FILES['document'], trainer.pk)
+            
+            uri = domain(request)
+            email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
+
             return render_to_response('upload_done_page.html', 
                               {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
                               RequestContext(request))
