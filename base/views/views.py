@@ -15,6 +15,7 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+from ipware.ip import get_ip
 import balanced
 import analytics
 
@@ -22,7 +23,7 @@ from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, C
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, invitee_macros_set, save_file
 from base import utils
-from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
+from base.emails import client_invite, signup_confirmation, email_spotter_program_edit, email_spotter_program_upload
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
 from workouts.models import WorkoutPlan, WorkoutPlanDay
@@ -523,7 +524,11 @@ def upload_page(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid() and form.is_multipart():
-            save_file(request.FILES['document'], trainer.pk)
+            filename = save_file(request.FILES['document'], trainer.pk)
+            
+            uri = domain(request)
+            email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
+
             return render_to_response('upload_done_page.html', 
                               {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
                               RequestContext(request))
@@ -1410,10 +1415,15 @@ def trainer_signup(request):
 
             # segment.io identify
             if not settings.DEBUG:
-                analytics.identify(trainer.user.id, {
+                ip = get_ip(request)
+                if not ip:
+                    ip = '(unknown)'
+                analytics.identify(user_id=trainer.user.id, traits={
                  'name': trainer.name,
                  'email': trainer.user.email,
                  'note': 'New Trainer Registration' 
+                }, context={
+                 'ip': ip,
                 })
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
@@ -1553,10 +1563,15 @@ def client_signup(request):
 
             # segment.io identify
             if not settings.DEBUG:
-                analytics.identify(str(client.user.pk), {
+                ip = get_ip(request)
+                if not ip:
+                    ip = '(unknown)'
+                analytics.identify(user_id=client.user.pk, traits={
                      'name': client.name,
                      'email': client.user.email,
                      'note': 'Free Client Signup'
+                }, context={
+                     'ip': ip,
                 })
 
             return redirect('/signup-complete?pk='+str(blitz.pk))
@@ -1912,10 +1927,15 @@ def payment_hook(request, pk):
 
                 # segment.io identify
                 if not settings.DEBUG:
-                    analytics.identify(client.user.id, {
-                        'name': client.name,
-                        'email': client.user.email,
-                        'note': "Paid Client Signup to %s for $%s" % (str(blitz.price), str(blitz)) 
+                    ip = get_ip(request)
+                    if not ip:
+                        ip = '(unknown)'
+                    analytics.identify(user_id=client.user.pk, traits={
+                         'name': client.name,
+                         'email': client.user.email,
+                         'note': "Paid Client Signup to %s for $%s" % (str(blitz.price), str(blitz)) 
+                    }, context={
+                         'ip': ip,
                     })
 
                 request.session['show_intro'] = True

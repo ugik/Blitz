@@ -193,7 +193,7 @@ class SalesBlitzForm(forms.Form):
 
     picture = forms.ImageField(required=False)
     logo_picture = forms.ImageField(required=False)
-    price_model = forms.ChoiceField(widget=forms.RadioSelect, choices=FEE_CHOICES)
+    price_model = forms.ChoiceField(widget=forms.RadioSelect, choices=FEE_CHOICES, required=False)
 
 class ClientSettingsForm(forms.Form): 
     picture = forms.ImageField()
