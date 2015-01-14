@@ -332,7 +332,7 @@ def save_file(file, pk_value=0, path='/documents/'):
     for chunk in file.chunks():
         fd.write(chunk)
     fd.close()
-
+    return output_file
 
 # given a macro formula, set macros for specified blitz and all or (optional) specified client
 def blitz_macros_set(blitz, formula, client=None, macros_data=None):

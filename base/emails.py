@@ -131,6 +131,16 @@ def message_received(user, message):
     context = { 'user': user, 'message': message }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
+def email_spotter_program_upload(trainer, document):
+    from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL
+    text_template = 'emails/program_upload.txt'
+    html_template = 'emails/program_upload.html'
+
+    if trainer:
+        subject = "Program upload from %s" % trainer.name
+        context = { 'url': document, 'trainer': trainer }
+        send_email(from_email, to_email, subject, text_template, html_template, context )
+
 
 def email_spotter_program_edit(pk, message):
     from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL

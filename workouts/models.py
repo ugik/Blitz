@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+import itertools
 
 DAYS_OF_WEEK = (
     ('M', 'Monday'),
@@ -150,6 +151,10 @@ class WorkoutPlan(models.Model):
     def weeks(self):
         return self.workoutplanweek_set.all().order_by('week')
 
+    def workouts(self):
+        days = [week.workoutplanday_set.all() for week in self.workoutplanweek_set.all()]  # get all days
+        days_set = set(itertools.chain(*days))   # flatten array
+        return set([day.workout for day in days_set])   # return set of workouts
 
 class WorkoutPlanWeek(models.Model):
     """
