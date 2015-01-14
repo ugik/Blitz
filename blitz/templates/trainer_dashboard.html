@@ -217,10 +217,12 @@ function save_client_setup() {
 		<!-- Summary -->
 		<div id="summary">
 			{% if not clients and not blitzes %}
-                            {% if invitees %}
-                                {% include "dashboard/invitee_summary.html" with invitation=invitees|last delta=0 STATIC_URL=STATIC_URL macro_details=macro_details macro_goals=macro_goals detailed_macros=detailed_macros %}
-                            {% else %}
-    		                {% include "dashboard/_dummy_client_summary.html" %}
+                {% if invitees %}
+					{% comment %}
+                    {% include "dashboard/invitee_summary.html" with invitation=invitees|last delta=0 STATIC_URL=STATIC_URL macro_details=macro_details macro_goals=macro_goals detailed_macros=detailed_macros %}
+                    {% endcomment %}
+                {% else %}
+                {% include "dashboard/_dummy_client_summary.html" %}
 			    {% endif %}
 			{% endif %}
 		</div>
