@@ -1,18 +1,17 @@
 <script type="text/javascript">
 // set attributes in modal indirectly (modal is loaded from dashboard which lacks detail context)
     $(document).ready(function() {
-       show_client();
-       show_client_macros(1, details=1, formula=1);
-       var detailed_macros = "{{ detailed_macros }}";  
-       if (detailed_macros != 'True') { update_summary_macros(); }  // if detailed macros are set then we show them
-      })
-
+      show_client();
+      show_client_macros(1, details=1, formula=1);
+      var detailed_macros = "{{ detailed_macros }}";
+      if (detailed_macros != 'True') { update_summary_macros(); }  // if detailed macros are set then we show them
+    });
     function show_client() {
        document.getElementById('name').text="{{ invitation.name|safe }}";
        document.getElementById('name2').text="{{ invitation.name|safe }}";
 
        document.getElementById('blurb').text="... we'll know the client's biometrics when they sign-up.";
-       
+
        $("#headshot").attr("src", "{{ STATIC_URL }}images/silhouette.jpeg");
     }
 
@@ -122,6 +121,7 @@
             document.getElementById('g_rest_fat_min').text = rest_fat_min.toFixed(0);
         }
     }
+  
 
     function show_client_macros(factor, details, formula) {
        // factor can be passed in from form select
@@ -204,9 +204,7 @@
              success:function(result){}
            });
        }
-
 </script>
-
 
 <div class='client-summary'>
 	<div class="section cover">
