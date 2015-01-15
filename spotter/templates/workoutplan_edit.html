@@ -82,10 +82,9 @@ function save_day(inuse, location, exercise, count, option) {
             }
 
         // add new element to workouts
-        if ($.inArray(workouts, workout) === -1) { 
-           workouts.push(workout); alert(workouts+":"+workout);
+        if ($.inArray(workout, workouts) === -1) { 
+           workouts.push(workout);
            }
-
         save_workoutday(exercise+"_"+count, $("#days_"+ count +" :selected").val(), workout);
 
         head = "<tr id='day_head_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'>"
@@ -208,7 +207,7 @@ function insert_day(location, exercise) {
           })
        // add new element to workouts
 
-       if ($.inArray(workouts,$('#workouts_' +cc).val()) === -1) { 
+       if ($.inArray($('#workouts_' +cc).val(),workouts) === -1) { 
           workouts.push($('#workouts_' +cc).val()); 
           }
 

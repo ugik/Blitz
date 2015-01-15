@@ -351,7 +351,6 @@ def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
     week_pk = key.split('_')[0]            # split key into week, day, exercise
 
     weeks = WorkoutPlanWeek.objects.filter(workout_plan=wp, pk=week_pk)    # get workoutplanweek
-    print weeks
 
     if weeks:
         week = weeks[0]
@@ -390,7 +389,6 @@ def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
     else:
         session_key = "day_%s" % day_pk
         if session_key not in request.session:
-
             day_index = [x for x, y in enumerate(DAYS_OF_WEEK) if y[0] == day_char]
             if day_index:
                 day_index = day_index[0]
