@@ -51,7 +51,7 @@ class Workout(models.Model):
     slug = models.SlugField(max_length=100)
 
     def __unicode__(self):
-        return "%s (%s)" % (self.display_name, self.slug)
+        return self.display_name
 
     def get_lifts(self):
         """

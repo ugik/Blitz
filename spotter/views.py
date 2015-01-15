@@ -373,8 +373,13 @@ def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
             workout = wos[0]
         else:
             print "*** new workout %s" % workout
-            workout = Workout.objects.create(display_name="%s day %s, week %s" % (wp.trainer.short_name, day_char, week.week),
-                                             slug="%s-%s-week%s" % (wp.trainer.short_name, day_char, week.week) )
+            if workout == '(TBD)':
+                display_name = "%s day %s, week %s" % (wp.trainer.short_name, day_char, week.week)
+                slug = "%s-%s-week%s" % (wp.trainer.short_name, day_char, week.week)
+            else:
+                display_name = workout
+                slug = workout.replace(' ','-')
+            workout = Workout.objects.create(display_name=display_name, slug=slug)
 
     day_pk = key.split('_')[1]
 
@@ -395,13 +400,13 @@ def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
                                                      day_index=day_index,
                                                      day_of_week=day_char)
                 request.session[session_key] = day.pk
-                print "*** new day key: %s = %s" % (session_key, day_pk)
+                print "*** new day key: %s = %s" % (session_key, day.pk)
             else:
                 print "*** invalid day label %s" % day
                 day = WorkoutPlanDay()
         else:
-            print "*** existing day key: %s = %s" % (session_key, day_pk)
             day = WorkoutPlanDay.objects.get(pk=int(request.session[session_key]))
+            print "*** existing day key: %s = %s" % (session_key, day.pk)
 
     return day
 
