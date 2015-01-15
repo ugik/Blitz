@@ -315,17 +315,22 @@ def spotter_workoutplan(request):
                               {'workoutplan' : workoutplan},
                               RequestContext(request))
 
+def flush_session_vars(request):
+    print '*** Flush session vars'
+    for i in range(100):
+        if "week_"+str(i) in request.session:
+            print "*** del session key:['week_%s']" % i
+            del request.session["week_"+str(i)]
+        if "day_"+str(i) in request.session:
+            print "*** del session key:['day_%s']" % i
+            del request.session["day_"+str(i)]
+
 @login_required
 def edit_workoutplan(request):
     if not request.user.is_staff:
         return redirect('home')
 
-    if 'flush' in request.GET:
-        print '*** Flush session vars'
-        for i in range(100):
-            if str(i) in request.session:
-                print "*** del session key:['%s']" % i
-                del request.session[str(i)]
+    flush_session_vars(request)
 
     workoutplans = WorkoutPlan.objects.filter(pk=request.GET.get('plan'))
     if workoutplans:
@@ -339,13 +344,15 @@ def edit_workoutplan(request):
                               RequestContext(request))
  
 
-# utility function, manages new workoutplanweek/day records, returns workoutplanday
-def workoutplan_day_mgr(request, workoutplan, workout, key, day_char):
+# utility function, manages workoutplanweek/day, returns workoutplanday
+def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
 
     wp = WorkoutPlan.objects.get(pk=workoutplan)    # get workoutplan
     week_pk = key.split('_')[0]            # split key into week, day, exercise
 
     weeks = WorkoutPlanWeek.objects.filter(workout_plan=wp, pk=week_pk)    # get workoutplanweek
+    print weeks
+
     if weeks:
         week = weeks[0]
         print "*** week %s" % weeks[0]
@@ -353,24 +360,25 @@ def workoutplan_day_mgr(request, workoutplan, workout, key, day_char):
         session_key = "week_%s" % week_pk
         if session_key not in request.session:
             week = WorkoutPlanWeek.objects.create(workout_plan=wp, week=1)   # this must be first initial week
-            request.session[week_pk] = week.pk
-            print "*** new week key: %s : %s" % (week_pk, week.pk)
+            request.session[session_key] = week.pk
+            print "*** new week key: %s : %s" % (session_key, week.pk)
         else:
-            week = WorkoutPlanWeek.objects.get(pk=int(request.session[week_pk]))
-            print "*** existing week key: %s : %s" % (week_pk, week.pk)
+            week = WorkoutPlanWeek.objects.get(pk=int(request.session[session_key]))
+            print "*** existing week key: %s : %s" % (session_key, week.pk)
 
-    wos = Workout.objects.filter(display_name=workout)    # get workout (the label for the exercises/sets)
-    if wos:
-        print "*** workout %s" % wos[0]
-        workout = wos[0]
-    else:
-        print "*** new workout %s" % workout
-        workout = Workout.objects.create(display_name=workout,
-                                         slug="%s-%s-week%s" % (wp.trainer.short_name, day_char, week.week) )
+    if workout:
+        wos = Workout.objects.filter(display_name=workout)    # get workout (the label for the exercises/sets)
+        if wos:
+            print "*** workout %s" % wos[0]
+            workout = wos[0]
+        else:
+            print "*** new workout %s" % workout
+            workout = Workout.objects.create(display_name="%s day %s, week %s" % (wp.trainer.short_name, day_char, week.week),
+                                             slug="%s-%s-week%s" % (wp.trainer.short_name, day_char, week.week) )
 
     day_pk = key.split('_')[1]
 
-    days = WorkoutPlanDay.objects.filter(workout_plan_week=wp, pk=day_pk)    # get workoutplanweek
+    days = WorkoutPlanDay.objects.filter(workout_plan_week=week, pk=day_pk)    # get workoutplanday
     if days:
         print "*** day %s" % days[0]
         return days[0]
@@ -386,14 +394,14 @@ def workoutplan_day_mgr(request, workoutplan, workout, key, day_char):
                                                      workout=workout,
                                                      day_index=day_index,
                                                      day_of_week=day_char)
-                request.session[str(day_pk)] = day.pk
-                print "*** new day key: %s = %s" % (day_pk, request.session[day_pk])
+                request.session[session_key] = day.pk
+                print "*** new day key: %s = %s" % (session_key, day_pk)
             else:
                 print "*** invalid day label %s" % day
                 day = WorkoutPlanDay()
         else:
-            print "*** existing day key: %s = %s" % (day_pk, request.session[day_pk])
-            day = WorkoutPlanDay.objects.get(pk=request.session[day_pk])
+            print "*** existing day key: %s = %s" % (session_key, day_pk)
+            day = WorkoutPlanDay.objects.get(pk=int(request.session[session_key]))
 
     return day
 
@@ -409,8 +417,8 @@ def workoutplan_ajax(request):
     if request.POST.get('mode') == 'save_day':
         workoutplan_day_mgr(request = request,
                             workoutplan = request.POST.get('workoutplan'),
-                            workout = request.POST.get('workout'), 
                             key = request.POST.get('exercise'),
+                            workout = request.POST.get('workout'), 
                             day_char = request.POST.get('day'))
 
     elif request.POST.get('mode') == 'save_exercise':
@@ -418,6 +426,7 @@ def workoutplan_ajax(request):
 
         wp = WorkoutPlan.objects.get(pk=request.POST.get('workoutplan'))
         ex = request.POST.get('exercise').split('_')
+
         week = ex[0]
         day = WorkoutPlanDay.objects.get(pk=ex[1])
         week = WorkoutPlanWeek.objects.get(pk=week).week
@@ -428,10 +437,24 @@ def workoutplan_ajax(request):
         print "DETAILS:", request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
 
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
-#        workoutplan_mgr(request, request.POST.get('workoutplan'), request.POST.get('exercise'))
+        day = workoutplan_day_mgr(request = request,
+                                  workoutplan = request.POST.get('workoutplan'),
+                                  key = request.POST.get('key')[4:])
+        workout = day.workout
+        week = day.workout_plan_week
+        day.delete()
+        workouts = WorkoutPlanDay.objects.filter(workout=workout)
+        if not workouts:
+            workout.delete()    # delete workout if it's no longer used
+            print "UNUSED WORKOUT DELETED"
 
-        print "DELETE:", request.POST.get('workoutplan'), request.POST.get('mode'), request.POST.get('key')
- 
+        days = WorkoutPlanDay.objects.filter(workout_plan_week=week.workout_plan)
+        if not days:
+            week.delete()    # delete week if it's no longer used
+            print "UNUSED WEEK DELETED"
+
+        print "DELETE DAY:", day
+         
     elif request.POST.get('mode') == 'add_week':
 #        workoutplan_mgr(request, request.POST.get('workoutplan'), request.POST.get('exercise'))
 
