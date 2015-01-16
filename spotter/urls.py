@@ -32,6 +32,7 @@ urlpatterns = patterns(
     url(r'^spotter_invites$', 'spotter.views.spotter_invites', name='spotter_invites'),
 
     url(r'^workoutplan_ajax$', 'spotter.views.workoutplan_ajax', name='workoutplan_ajax'),
+    url(r'^workout_info$', 'spotter.views.workout_info', name='workout_info'),
 
     )
 

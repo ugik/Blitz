@@ -7,6 +7,7 @@ var count = 0;
 var week = 0;
 var workoutplan = "{{ workoutplan.pk }}";
 var workouts = [{% for w in workoutplan.workouts %}'{{w}}', {% endfor %}]; 
+var num_exercises = 0;
 
 function set_workouts(workouts, count) {   // load workouts into datalist
     $(workouts).each( function(index, item) {
@@ -85,15 +86,16 @@ function save_day(inuse, location, exercise, count, option) {
         if ($.inArray(workout, workouts) === -1) { 
            workouts.push(workout);
            }
-        save_workoutday(exercise+"_"+count, $("#days_"+ count +" :selected").val(), workout);
 
         head = "<tr id='day_head_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'>"
-         day = "<td align='left'><b>"+$("#days_"+ count +" :selected").text()+ "</b> &nbsp;&nbsp;<small>"+ workout +"</small></td>"
+         day = "<td align='left'><b>"+$("#days_"+ count +" :selected").text()+ "</b> &nbsp;&nbsp;<small>"+ workout +"&nbsp;&nbsp;<p id=num_exercises_"+ count +"></p></small></td>"
          del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"_"+ count +"\");'><small>(delete)</small></a></td>"
-      insert = "<td align='left'><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td align='left'><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Day</a></td></tr><tr style='height:1px;'></tr>";
+      insert = "<td align='left'><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td align='left'><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Day</a></td></tr>";
         foot = "<tr id='day_foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
 
         tr.after(head+day+del+insert+foot);
+        exercises = workout_info(workout, count);
+        save_workoutday(exercise+"_"+count, $("#days_"+ count +" :selected").val(), workout);
 
 }
 
@@ -212,6 +214,16 @@ function insert_day(location, exercise) {
           }
 
     });
+}
+
+function workout_info(workout, count) { 
+    $.ajax({
+        url:'workout_info',
+        type: 'POST',
+        data: { workout: workout },
+        success:function(result){ $("#num_exercises_"+ count).replaceWith("("+ result['num_exercises'] + " exercises)"); }
+    });
+
 }
 
 function insert_row(location, exercise) {
@@ -350,7 +362,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
                {% elif workoutplanday.day_of_week == 'S' %}Saturday
                {% elif workoutplanday.day_of_week == 'U' %}Sunday
                {% endif %}
-          </b>&nbsp;&nbsp;<small>{{ workoutplanday.workout }}</small></td>
+          </b>&nbsp;&nbsp;<small>{{ workoutplanday.workout }}&nbsp;&nbsp;({{ workoutplanday.workout.exercise_set.all|length }} exercises)</small></td>
           {% if workoutplanday.gymsession_set.all %}
               <td><small><i>(in use)</i></small></td> {% else %}
               <td><a onClick='if(confirm("Delete entire day?")) delete_day("{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}");'><small>(delete)</small></a></td>

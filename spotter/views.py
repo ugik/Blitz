@@ -316,7 +316,6 @@ def spotter_workoutplan(request):
                               RequestContext(request))
 
 def flush_session_vars(request):
-    print '*** Flush session vars'
     for i in range(100):
         if "week_"+str(i) in request.session:
             print "*** del session key:['week_%s']" % i
@@ -343,6 +342,21 @@ def edit_workoutplan(request):
                               {'workoutplan' : workoutplan, 'lifts' : lifts},
                               RequestContext(request))
  
+@csrf_exempt
+def workout_info(request):
+    print request.POST.get('workout')
+
+    workout = get_object_or_404(Workout, display_name = request.POST.get('workout'))
+    print workout
+
+    if workout:
+        return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
+    else:
+        return JSONResponse({'num_exercises': 0 })
+
+# generate a display for workout
+def workout_display(trainer, extra):
+    return "%s %s" % (trainer.short_name, extra)
 
 # utility function, manages workoutplanweek/day, returns workoutplanday
 def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
@@ -373,11 +387,12 @@ def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
         else:
             print "*** new workout %s" % workout
             if workout == '(TBD)':
-                display_name = "%s day %s, week %s" % (wp.trainer.short_name, day_char, week.week)
-                slug = "%s-%s-week%s" % (wp.trainer.short_name, day_char, week.week)
+                display_name = workout_display(wp.trainer, day_char)
+                slug = get_slug(wp.trainer.short_name, week.workout_plan.pk, day_char)
             else:
-                display_name = workout
-                slug = workout.replace(' ','-')
+                display_name = workout_display(wp.trainer, workout)
+                slug = get_slug(wp.trainer.short_name, week.workout_plan.pk, workout)
+
             workout = Workout.objects.create(display_name=display_name, slug=slug)
 
     day_pk = key.split('_')[1]
@@ -445,19 +460,21 @@ def workoutplan_ajax(request):
                                   key = request.POST.get('key')[4:])
         workout = day.workout
         week = day.workout_plan_week
-        day.delete()
-        workouts = WorkoutPlanDay.objects.filter(workout=workout)
-        if not workouts:
-            workout.delete()    # delete workout if it's no longer used
-            print "UNUSED WORKOUT DELETED"
+        
+        # purge leftover records with safechecks to make sure there are no dependencies
+        if not day.gymsession_set.all() and not day.traineralert_set.all():
+            day.delete()    # delete day IFF it's no longer used
+            print "DELETE DAY:", day
 
-        days = WorkoutPlanDay.objects.filter(workout_plan_week=week.workout_plan)
-        if not days:
-            week.delete()    # delete week if it's no longer used
-            print "UNUSED WEEK DELETED"
+        if not workout.exercise_set.all() and not workout.workoutset_set.all() and not workout.workoutplanday_set.all():
+            workout.delete()    # delete workout IFF it's no longer used
+            print "UNUSED WORKOUT DELETED", workout
 
-        print "DELETE DAY:", day
-         
+        if not week.workoutplanday_set.all():
+            week.delete()    # delete week IFF it's no longer used
+            print "UNUSED WEEK DELETED", week
+
+
     elif request.POST.get('mode') == 'add_week':
 #        workoutplan_mgr(request, request.POST.get('workoutplan'), request.POST.get('exercise'))
 
@@ -857,7 +874,8 @@ def test_program(file):
 
 # generate slug for workout objects
 def get_slug(short_name, plan_pk, exercise):
-    return "%s, plan_pk:%s, %s" % (short_name, str(plan_pk), exercise)
+    return "%s-plan%s-%s" % (short_name, str(plan_pk), exercise)
+
 
 # load program from 3-sheet XLS file (uploaded by spotter)
 def load_program(file, trainer_id, plan_name):
@@ -865,7 +883,6 @@ def load_program(file, trainer_id, plan_name):
     workbook = xlrd.open_workbook(file)
     worksheet = workbook.sheet_by_name('Meta')
     # workout meta
-
 
     plan = WorkoutPlan.objects.create(name=plan_name, trainer_id=trainer_id)
     trainer = Trainer.objects.get(id=trainer_id)
