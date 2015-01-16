@@ -90,7 +90,7 @@ function save_day(inuse, location, exercise, count, option) {
         head = "<tr id='day_head_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'>"
          day = "<td align='left'><b>"+$("#days_"+ count +" :selected").text()+ "</b> &nbsp;&nbsp;<small>"+ workout +"&nbsp;&nbsp;<p id=num_exercises_"+ count +"></p></small></td>"
          del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"_"+ count +"\");'><small>(delete)</small></a></td>"
-      insert = "<td align='left'><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td align='left'><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Day</a></td></tr>";
+      insert = "<td align='left'><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Exercise</a></td><td align='left'><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Day</a></td></tr><tr style='height:1px;'></tr>";
         foot = "<tr id='day_foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
 
         tr.after(head+day+del+insert+foot);
@@ -352,7 +352,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 <td><a onclick="insert_week('#head_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">add Week</a></td></tr>
 <tr id="day_{{ workoutplanweek.pk }}"><td>week#<b>{{ workoutplanweek.week }}</b></td>
     <td><a onclick="insert_day('#day_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">add Day</a></td></tr>
-    {% for workoutplanday in workoutplanweek.workoutplanday_set.all %}
+    {% for workoutplanday in workoutplanweek.workoutplanday_set.all|dictsort:"day_index" %}
        <tr id="day_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}"><td align='left'><b>
                {% if workoutplanday.day_of_week == 'M' %}Monday
                {% elif workoutplanday.day_of_week == 'T' %}Tuesday
