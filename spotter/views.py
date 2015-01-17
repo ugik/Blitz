@@ -440,11 +440,18 @@ def workoutplan_ajax(request):
 
     elif request.POST.get('mode') == 'save_exercise':
 
-        week_pk = request.POST.get('exercise').split('_')[0]            # split key into week, day, exercise
+        week_pk = request.POST.get('exercise').split('_')[0]    # split key into week, day, exercise
         day_pk = request.POST.get('exercise').split('_')[1]
         workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
         week = get_object_or_404(WorkoutPlanWeek, pk=week_pk)
-        day = get_object_or_404(WorkoutPlanDay, pk=day_pk)
+
+        days = WorkoutPlanDay.objects.filter(pk=day_pk)
+        if not days or days[0].workout_plan_week.workout_plan != workoutplan:    # check for provisional day
+            session_key = "day_%s" % day_pk
+            day = WorkoutPlanDay.objects.get(pk=int(request.session[session_key]))
+            print "SAVE EXERCISE REDIRECT:", day_pk, request.session[session_key]
+        else:
+            day = days[0]
 
         lifts = Lift.objects.filter(name=request.POST.get('lift'))
         if lifts:
