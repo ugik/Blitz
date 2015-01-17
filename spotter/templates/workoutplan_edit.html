@@ -6,7 +6,8 @@
 var count = 0;
 var week = 0;
 var workoutplan = "{{ workoutplan.pk }}";
-var workouts = [{% for w in workoutplan.workouts %}'{{w}}', {% endfor %}]; 
+var slugs = [{% for w in workoutplan.workouts %}"{{w.slug}}", {% endfor %}]; 
+var workouts = [{% for w in workoutplan.workouts %}"{{w}}", {% endfor %}];
 var num_exercises = 0;
 
 function set_workouts(workouts, count) {   // load workouts into datalist
@@ -217,10 +218,11 @@ function insert_day(location, exercise) {
 }
 
 function workout_info(workout, count) { 
+    index = $.inArray(workout, workouts);
     $.ajax({
         url:'workout_info',
         type: 'POST',
-        data: { workout: workout },
+        data: { slug: slugs[index] },
         success:function(result){ $("#num_exercises_"+ count).replaceWith("("+ result['num_exercises'] + " exercises)"); }
     });
 

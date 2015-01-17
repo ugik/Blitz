@@ -344,10 +344,8 @@ def edit_workoutplan(request):
  
 @csrf_exempt
 def workout_info(request):
-    print request.POST.get('workout')
 
-    workout = get_object_or_404(Workout, display_name = request.POST.get('workout'))
-    print workout
+    workout = get_object_or_404(Workout, slug = request.POST.get('slug'))
 
     if workout:
         return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
