@@ -529,12 +529,13 @@ def workoutplan_ajax(request):
             week.delete()    # delete week IFF it's no longer used
             print "UNUSED WEEK DELETED", week
 
-    elif request.POST.get('mode') == 'delete_workoutplan_exercise' and request.POST.get('key') != None:
-        exercise_pk = request.POST.get('key').split('_')[2]
-        exercise = get_object_or_404(Exercise, pk=exercise_pk)
-        exercise.delete()
+    elif request.POST.get('mode') == 'delete_workoutplan_exercise':
+        if request.POST.get('key') != None:
+            exercise_pk = request.POST.get('key').split('_')[2]
+            exercise = get_object_or_404(Exercise, pk=exercise_pk)
+            exercise.delete()
 
-        print "DELETE EXERCISE", request.POST.get('key')
+            print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
         workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))

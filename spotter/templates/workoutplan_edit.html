@@ -294,12 +294,6 @@ function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, 
     $('#controls_'+exercise).replaceWith("<td id='controls_"+exercise+"'><a onclick='cancel_edit("+ inuse +", \""+exercise+"\", \""+lift+"\", \""+display+"\", \""+set1+"\", \""+set2+"\", \""+set3+"\", \""+set4+"\", \""+set5+"\", \""+set6+"\");'><small>(cancel)</small></a>&nbsp;<a onclick='save_row("+ inuse +", this, \""+ exercise +"\",0 ,1);'><small>(save)</small></a></td>");
 
     var lifts = document.getElementById('lifts_'+ exercise);   // set lifts select
-    for (var i = 0; i < lifts.options.length; i++) {
-        if (lifts.options[i].text === lift) {
-            lifts.selectedIndex = i;
-            break;
-        }
-    }
 }
 
 function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {   
