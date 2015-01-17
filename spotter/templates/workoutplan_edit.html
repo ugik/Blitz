@@ -363,7 +363,7 @@ WorkoutPlan: <b>{{ workoutplan.name }}</b>
 
 {% endif %}
 
-{% for workoutplanweek in workoutplan.workoutplanweek_set.all %}
+{% for workoutplanweek in workoutplan.workoutplanweek_set.all|dictsort:"week" %}
 <tr id="week_head_{{ workoutplanweek.pk }}">
 <td><a onclick="insert_week('#week_head_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">add Week</a></td></tr>
 <tr id="day_{{ workoutplanweek.pk }}"><td>week#<b>{{ workoutplanweek.week }}</b></td>

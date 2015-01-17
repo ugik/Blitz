@@ -509,11 +509,19 @@ def workoutplan_ajax(request):
     elif request.POST.get('mode') == 'add_week':
         if request.POST.get('exercise')=='999':    # add week to end
             week = 'Last'
+            print "Last"
         else:
             workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
             week = get_object_or_404(WorkoutPlanWeek, pk=request.POST.get('exercise'))
 
-        print "ADD WEEK before:", week
+            for w in WorkoutPlanWeek.objects.filter(workout_plan=workoutplan):
+                if w.week >= week.week:
+                    w.week += 1
+                    w.save()
+            WorkoutPlanWeek.objects.create(workout_plan=workoutplan, week=week.week)
+
+            print "ADD WEEK before:", week
+            return redirect('/spotter/edit-workoutplan?plan='+str(workoutplan.pk))
 
     return JSONResponse({'is_error': False})
 
