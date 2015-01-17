@@ -360,7 +360,8 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 <h3>No workout plan</h3>
 
 {% else %}
-WorkoutPlan: <b>{{ workoutplan.name }}</b>
+WorkoutPlan: <b>{{ workoutplan.name }}</b> 
+<p><a href="/spotter/view-workoutplan?plan={{ workoutplan.pk }}">View program</a></p>
 {% if not workoutplan.workoutplanweek_set.all %}
 <tr>
 <tr id="day_0" ><td align="left">week#<b>1</b></td><td align="left"><a onclick="insert_day('#day_0', '1');">add Day</a></td></tr>

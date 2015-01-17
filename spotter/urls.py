@@ -16,6 +16,7 @@ urlpatterns = patterns(
 
     url(r'^workoutplan$', 'spotter.views.spotter_workoutplan', name='spotter_workoutplan'),
     url(r'^edit-workoutplan$', 'spotter.views.edit_workoutplan', name='edit_workoutplan'),
+    url(r'^view-workoutplan$', 'spotter.views.view_workoutplan', name='view_workoutplan'),
 
     url(r'^exercise_page$', 'spotter.views.spotter_exercise', name='spotter_exercise'),
     url(r'^exercise_page/(?P<slug>\w+)/$', 'spotter.views.spotter_exercise', name='spotter_exercise'),

@@ -353,6 +353,18 @@ def workout_info(request):
 
     return JSONResponse({'num_exercises': 0 })
 
+def view_workoutplan(request):
+    workoutplans = WorkoutPlan.objects.filter(pk=request.GET.get('plan'))
+    if workoutplans:
+        workoutplan = workoutplans[0]
+    else:
+        workoutplan = None
+
+    return render_to_response('workoutplan_view.html', 
+                              {'workout_plan' : workoutplan},
+                              RequestContext(request))
+ 
+
 # generate a display for workout
 def workout_display(trainer, extra):
     return "%s %s" % (trainer.short_name, extra)
