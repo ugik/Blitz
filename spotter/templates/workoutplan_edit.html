@@ -188,8 +188,12 @@ function insert_week(location, exercise) {
         url: 'workoutplan_ajax',
         type: 'POST',
         data: { mode: 'add_week', workoutplan: workoutplan, exercise: exercise },
+        success:function(result) { 
+            if (result.redirect) {
+                window.location.href = result.redirect;
+             }
+        }
      })
-
 }
 
 function insert_day(location, exercise) {

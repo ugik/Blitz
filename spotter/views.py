@@ -507,11 +507,19 @@ def workoutplan_ajax(request):
         print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
+        workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
+
         if request.POST.get('exercise')=='999':    # add week to end
-            week = 'Last'
-            print "Last"
+            weeks = WorkoutPlanWeek.objects.filter(workout_plan=workoutplan)
+            if weeks:
+                week = weeks[len(weeks)-1]    # get last week
+                print "ADD WEEK after:", week
+                WorkoutPlanWeek.objects.create(workout_plan=workoutplan, week=week.week+1)
+            else:
+                print "ADD WEEK 1"
+                WorkoutPlanWeek.objects.create(workout_plan=workoutplan, week=1)
+
         else:
-            workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
             week = get_object_or_404(WorkoutPlanWeek, pk=request.POST.get('exercise'))
 
             for w in WorkoutPlanWeek.objects.filter(workout_plan=workoutplan):
@@ -521,7 +529,8 @@ def workoutplan_ajax(request):
             WorkoutPlanWeek.objects.create(workout_plan=workoutplan, week=week.week)
 
             print "ADD WEEK before:", week
-            return redirect('/spotter/edit-workoutplan?plan='+str(workoutplan.pk))
+        
+        return JSONResponse({'redirect': '/spotter/edit-workoutplan?plan='+str(workoutplan.pk) })
 
     return JSONResponse({'is_error': False})
 
