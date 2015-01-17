@@ -17,18 +17,6 @@ function set_workouts(workouts, count) {   // load workouts into datalist
         }
     });
 }
-function delete_day(key) {  // delete day and all of it's rows
-     $("tr[id*=\"head_"+ key +"\"]").remove();
-     $("tr[id*=\"day_"+ key +"\"]").remove();
-     $("tr[id*=\"row_"+ key +"\"]").remove(); 
-     $("tr[id*=\"gap_"+ key +"\"]").remove(); 
-     $("tr[id*=\"foot_"+ key +"\"]").remove(); 
-     $("tr[id*=\"dayadd_"+ key +"\"]").remove(); 
-     $("tr[id*=\"day_head_"+ key +"\"]").remove(); 
-     $("tr[id*=\"day_foot_"+ key +"\"]").remove(); 
-
-     delete_exercise("row_"+ key);
-}
 function save_workoutday(exercise, day, workout) { 
      $.ajax({
         url: 'workoutplan_ajax',
@@ -51,6 +39,22 @@ function delete_exercise(exercise) {
         data: {workoutplan: workoutplan, mode: 'delete_workoutplan_day', key: exercise},
       })
 }
+function delete_day(exercise) { 
+     $("tr[id*=\"head_"+ exercise +"\"]").remove();
+     $("tr[id*=\"day_"+ exercise +"\"]").remove();
+     $("tr[id*=\"row_"+ exercise +"\"]").remove(); 
+     $("tr[id*=\"gap_"+ exercise +"\"]").remove(); 
+     $("tr[id*=\"foot_"+ exercise +"\"]").remove(); 
+     $("tr[id*=\"dayadd_"+ exercise +"\"]").remove(); 
+     $("tr[id*=\"day_head_"+ exercise +"\"]").remove(); 
+     $("tr[id*=\"day_foot_"+ exercise +"\"]").remove(); 
+     $.ajax({
+        url: 'workoutplan_ajax',
+        type: 'POST',
+        data: {workoutplan: workoutplan, mode: 'delete_workoutplan_day', key: exercise},
+      })
+
+}
 function cancel_row(location, exercise) {
     var tr = $(location).closest('tr');
         tr.css("background-color","#FFFFFF");
@@ -68,7 +72,8 @@ function cancel_day(location, exercise) {
         tr.fadeOut(400, function(){
             tr.remove();
         });
-        delete_exercise(exercise);
+        if (exercise.length > 4) { delete_day(exercise); }
+
         $("tr[id*=\"insert_day_"+ exercise +"\"]").remove(); 
 }
 
@@ -230,13 +235,14 @@ function insert_day(location, exercise) {
 
 function workout_info(workout, count) { 
     index = $.inArray(workout, workouts);
-    $.ajax({
-        url:'workout_info',
-        type: 'POST',
-        data: { slug: slugs[index] },
-        success:function(result){ $("#num_exercises_"+ count).replaceWith("("+ result['num_exercises'] + " exercises)"); }
-    });
-
+    if (index > 0 ) {
+        $.ajax({
+            url:'workout_info',
+            type: 'POST',
+            data: { slug: slugs[index] },
+            success:function(result){ $("#num_exercises_"+ count).replaceWith("("+ result['num_exercises'] + " exercises)"); }
+        });
+    }
 }
 
 function insert_row(location, exercise) {

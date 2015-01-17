@@ -345,12 +345,13 @@ def edit_workoutplan(request):
 @csrf_exempt
 def workout_info(request):
 
-    workout = get_object_or_404(Workout, slug = request.POST.get('slug'))
+    if request.POST.get('slug'):
+        workout = get_object_or_404(Workout, slug = request.POST.get('slug'))
 
-    if workout:
-        return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
-    else:
-        return JSONResponse({'num_exercises': 0 })
+        if workout:
+            return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
+
+    return JSONResponse({'num_exercises': 0 })
 
 # generate a display for workout
 def workout_display(trainer, extra):
@@ -453,9 +454,15 @@ def workoutplan_ajax(request):
         print "DETAILS:", request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
 
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
-        day = workoutplan_day_mgr(request = request,
-                                  workoutplan = request.POST.get('workoutplan'),
-                                  key = request.POST.get('key')[4:])
+
+        key = request.POST.get('key')
+        if '_' in key:
+            day = workoutplan_day_mgr(request = request,
+                                      workoutplan = request.POST.get('workoutplan'),
+                                      key = key)
+        else:
+            return JSONResponse({'is_error': True})
+        
         workout = day.workout
         week = day.workout_plan_week
         
