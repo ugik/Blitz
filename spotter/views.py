@@ -439,19 +439,39 @@ def workoutplan_ajax(request):
                             day_char = request.POST.get('day'))
 
     elif request.POST.get('mode') == 'save_exercise':
-#        workoutplan_mgr(request, request.POST.get('workoutplan'), request.POST.get('exercise'))
 
-        wp = WorkoutPlan.objects.get(pk=request.POST.get('workoutplan'))
-        ex = request.POST.get('exercise').split('_')
+        week_pk = request.POST.get('exercise').split('_')[0]            # split key into week, day, exercise
+        day_pk = request.POST.get('exercise').split('_')[1]
+        workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
+        week = get_object_or_404(WorkoutPlanWeek, pk=week_pk)
+        day = get_object_or_404(WorkoutPlanDay, pk=day_pk)
 
-        week = ex[0]
-        day = WorkoutPlanDay.objects.get(pk=ex[1])
-        week = WorkoutPlanWeek.objects.get(pk=week).week
-        wp_week = WorkoutPlanWeek.objects.filter(workout_plan = wp, week=week)
-        action = "SAVE" if wp_week else "NEW"
+        lifts = Lift.objects.filter(name=request.POST.get('lift'))
+        if lifts:
+            lift = lifts[0]
 
-        print "%s EXERCISE: week %s, day %s, for %s" % (action, week, day, wp)
-        print "DETAILS:", request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
+            exercise = Exercise.objects.create(lift=lift, workout=day.workout, sets_display=request.POST.get('display'))
+
+            if len(request.POST.get('set1'))>1:
+                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
+                                           num_reps=request.POST.get('set1'))
+            if len(request.POST.get('set2'))>1:
+                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
+                                           num_reps=request.POST.get('set2'))
+            if len(request.POST.get('set3'))>1:
+                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
+                                           num_reps=request.POST.get('set3'))
+            if len(request.POST.get('set4'))>1:
+                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
+                                           num_reps=request.POST.get('set4'))
+            if len(request.POST.get('set5'))>1:
+                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
+                                           num_reps=request.POST.get('set5'))
+            if len(request.POST.get('set6'))>1:
+                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
+                                           num_reps=request.POST.get('set6'))
+
+            print "SAVE EXERCISE:", request.POST.get('workoutplan'), request.POST.get('exercise'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
 
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
 
@@ -479,9 +499,14 @@ def workoutplan_ajax(request):
             week.delete()    # delete week IFF it's no longer used
             print "UNUSED WEEK DELETED", week
 
+    elif request.POST.get('mode') == 'delete_workoutplan_exercise' and request.POST.get('key') != None:
+        exercise_pk = request.POST.get('key').split('_')[2]
+        exercise = get_object_or_404(Exercise, pk=exercise_pk)
+        exercise.delete()
+
+        print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
-#        workoutplan_mgr(request, request.POST.get('workoutplan'), request.POST.get('exercise'))
 
         print "ADD WEEK:", request.POST.get('workoutplan'), request.POST.get('exercise')
 
