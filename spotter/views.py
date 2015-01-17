@@ -507,8 +507,13 @@ def workoutplan_ajax(request):
         print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
+        if request.POST.get('exercise')=='999':    # add week to end
+            week = 'Last'
+        else:
+            workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
+            week = get_object_or_404(WorkoutPlanWeek, pk=request.POST.get('exercise'))
 
-        print "ADD WEEK:", request.POST.get('workoutplan'), request.POST.get('exercise')
+        print "ADD WEEK before:", week
 
     return JSONResponse({'is_error': False})
 
