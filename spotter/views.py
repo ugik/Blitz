@@ -466,7 +466,7 @@ def workoutplan_ajax(request):
 
         if not workout.exercise_set.all() and not workout.workoutset_set.all() and not workout.workoutplanday_set.all():
             workout.delete()    # delete workout IFF it's no longer used
-            print "UNUSED WORKOUT DELETED", workout
+            print "UNUSED WORKOUT DELETED", workout.slug
 
         if not week.workoutplanday_set.all():
             week.delete()    # delete week IFF it's no longer used
