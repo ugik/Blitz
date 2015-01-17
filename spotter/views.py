@@ -469,7 +469,18 @@ def workoutplan_ajax(request):
         if lifts:
             lift = lifts[0]
 
-            exercise = Exercise.objects.create(lift=lift, workout=day.workout, sets_display=request.POST.get('display'))
+            if len(request.POST.get('exercise').split('_'))>2:
+                print "SAVE/EDIT EXERCISE", request.POST.get('exercise')
+                exercise_pk = request.POST.get('exercise').split('_')[2]
+                exercise = get_object_or_404(Exercise, pk=exercise_pk)
+                exercise.lift = lift
+                for set in exercise.workoutset_set.all():
+                    set.delete()
+            else:
+                exercise = Exercise.objects.create(lift=lift, workout=day.workout)
+
+            exercise.sets_display=request.POST.get('display')
+            exercise.save()
 
             if len(request.POST.get('set1'))>1:
                  WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
