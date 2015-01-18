@@ -53,6 +53,11 @@ function delete_day(exercise) {
         url: 'workoutplan_ajax',
         type: 'POST',
         data: {workoutplan: workoutplan, mode: 'delete_workoutplan_day', key: exercise},
+        success:function(result) { 
+            if (result.redirect) {
+                window.location.href = result.redirect;
+             }
+        }
       })
 
 }

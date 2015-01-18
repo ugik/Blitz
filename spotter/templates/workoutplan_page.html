@@ -10,7 +10,7 @@
 </style>
 
 <table>
-{% for workoutplanweek in workoutplan.workoutplanweek_set.all %}
+{% for workoutplanweek in workoutplan.workoutplanweek_set.all|dictsort:"week" %}
 <tr><td>week#<b>{{ workoutplanweek.week }}</b></td>
    {% for workoutplanday in workoutplanweek.workoutplanday_set.all %}
        <td>{{ workoutplanday.day_of_week }}</td>

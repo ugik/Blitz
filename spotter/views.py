@@ -364,10 +364,7 @@ def new_workoutplan(request):
     else:
         workoutplan = None
 
-    lifts = Lift.objects.all()
-    return render_to_response('workoutplan_edit.html', 
-                              {'workoutplan' : workoutplan, 'lifts' : lifts},
-                              RequestContext(request))
+    return redirect('/spotter/edit-workoutplan?plan='+str(workoutplan.pk))
 
 def view_workoutplan(request):
     workoutplans = WorkoutPlan.objects.filter(pk=request.GET.get('plan'))
@@ -521,6 +518,8 @@ def workoutplan_ajax(request):
 
     elif request.POST.get('mode') == 'delete_workoutplan_day' and request.POST.get('key') != None:
 
+        workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
+
         key = request.POST.get('key')
         if '_' in key:
             day = workoutplan_day_mgr(request = request,
@@ -543,13 +542,21 @@ def workoutplan_ajax(request):
 
         if not week.workoutplanday_set.all():
             week.delete()    # delete week IFF it's no longer used
+
+            for w in WorkoutPlanWeek.objects.filter(workout_plan=workoutplan):
+                if w.week >= week.week:
+                    w.week -= 1
+                    w.save()
+
             print "UNUSED WEEK DELETED", week
+            return JSONResponse({'redirect': '/spotter/edit-workoutplan?plan='+str(workoutplan.pk) })
 
     elif request.POST.get('mode') == 'delete_workoutplan_exercise':
         if request.POST.get('key') != None:
             exercise_pk = request.POST.get('key').split('_')[2]
             exercise = get_object_or_404(Exercise, pk=exercise_pk)
             exercise.delete()    # delete exercise and associated workoutsets
+
             print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
