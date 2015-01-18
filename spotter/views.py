@@ -354,6 +354,8 @@ def workout_info(request):
     return JSONResponse({'num_exercises': 0 })
 
 def new_workoutplan(request):
+    flush_session_vars(request)
+
     trainer = get_object_or_404(Trainer, pk = request.GET.get('trainer'))
     if trainer:
         workoutplan = WorkoutPlan.objects.create(trainer=trainer, name="test")
@@ -803,6 +805,11 @@ def delete_plan(plan_id):
                 errors.append("Cannot delete plan %s, has gym sessions logged on it" % workoutplan.name)
                 return errors
 
+    for workout in workoutplan.workouts():    # delete workouts for this workoutplan
+         print "DELETE WORKOUT:", workout
+         workout.delete()
+
+    print "DELETE WORKOUTPLAN:", workoutplan
     workoutplan.delete()
 
     return
