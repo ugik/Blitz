@@ -41,11 +41,13 @@ function delete_exercise(exercise) {
         data: {workoutplan: workoutplan, mode: 'delete_workoutplan_exercise', key: exercise},
       })
 }
-function delete_day(exercise) { 
+function delete_day(exercise) {
      $("tr[id*=\"day_"+ exercise +"\"]").remove();
+     $("tr[id*=\"day_head_"+ exercise +"\"]").remove();
      $("tr[id*=\"row_"+ exercise +"\"]").remove(); 
      $("tr[id*=\"gap_"+ exercise +"\"]").remove(); 
      $("tr[id*=\"foot_"+ exercise +"\"]").remove(); 
+     $("tr[id*=\"day_foot_"+ exercise +"\"]").remove(); 
      $("tr[id*=\"dayadd_"+ exercise +"\"]").remove(); 
      $.ajax({
         url: 'workoutplan_ajax',
@@ -284,7 +286,7 @@ function insert_row(location, exercise) {
 function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {  
  
     // edit row by making elements input type
-    $('#row_'+exercise+'_lift').replaceWith("<td id='row_"+ exercise +"_lift' align='left'><input id='lifts_"+ exercise +"' list='list_"+ exercise +"' value='"+lift+"'/><datalist id='list_"+ exercise +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td>");
+    $('#row_'+exercise+'_lift').replaceWith("<td id='row_"+ exercise +"_lift' align='left' ><input id='lifts_"+ exercise +"' list='list_"+ exercise +"' value='"+lift+"'/><datalist id='list_"+ exercise +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td>");
     $('#row_'+exercise+'_display').replaceWith("<td align='left'><input id='row_"+ exercise +"_display' type='text' style='width:100px;' value='"+ display +"'/></td>");
     $('#row_'+exercise+'_set_1').replaceWith("<td align='left' width='5%'><input id='row_"+ exercise +"_set_1' type='text' style='width:30px;' value='"+ $('#row_'+exercise+'_set_1').text().trim() +"'/></td>");
     $('#row_'+exercise+'_set_2').replaceWith("<td align='left' width='5%'><input id='row_"+ exercise +"_set_2' type='text' style='width:30px;' value='"+ $('#row_'+exercise+'_set_2').text().trim() +"'/></td>");
@@ -357,7 +359,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
 {% else %}
 WorkoutPlan: <b>{{ workoutplan.name }}</b> 
-<p><a href="/spotter/view-workoutplan?plan={{ workoutplan.pk }}">View program</a></p>
+<p>Program <a href="/spotter/view-workoutplan?plan={{ workoutplan.pk }}">preview</a></p>
 {% if not workoutplan.workoutplanweek_set.all %}
 <tr>
 <tr id="day_0" ><td align="left">week#<b>1</b></td><td align="left"><a onclick="insert_day('#day_0', '1');">add Day</a></td></tr>

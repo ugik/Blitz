@@ -353,6 +353,20 @@ def workout_info(request):
 
     return JSONResponse({'num_exercises': 0 })
 
+def new_workoutplan(request):
+    trainer = get_object_or_404(Trainer, pk = request.GET.get('trainer'))
+    if trainer:
+        workoutplan = WorkoutPlan.objects.create(trainer=trainer, name="test")
+        workoutplan.name = "%s-%s" % (trainer.short_name, workoutplan.pk)
+        workoutplan.save()
+    else:
+        workoutplan = None
+
+    lifts = Lift.objects.all()
+    return render_to_response('workoutplan_edit.html', 
+                              {'workoutplan' : workoutplan, 'lifts' : lifts},
+                              RequestContext(request))
+
 def view_workoutplan(request):
     workoutplans = WorkoutPlan.objects.filter(pk=request.GET.get('plan'))
     if workoutplans:
@@ -437,7 +451,7 @@ def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
 
 @login_required
 @csrf_exempt
-# multi-purpose ajax function for workoutplan editing
+# multi-purpose ajax function for workoutplan CRUD (create, read, update, delete)
 def workoutplan_ajax(request):
 
     if not 'mode' in request.POST:
@@ -533,8 +547,7 @@ def workoutplan_ajax(request):
         if request.POST.get('key') != None:
             exercise_pk = request.POST.get('key').split('_')[2]
             exercise = get_object_or_404(Exercise, pk=exercise_pk)
-            exercise.delete()
-
+            exercise.delete()    # delete exercise and associated workoutsets
             print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
