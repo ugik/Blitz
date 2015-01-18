@@ -1,5 +1,7 @@
 {% extends "spotter_base.html" %}
 
+{% load get_range %}
+
 {% block morehead %}
 <script>
 
@@ -408,10 +410,18 @@ WorkoutPlan: <b>{{ workoutplan.name }}</b>
                <td align="left" width="5%"
                 id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_set_{{ forloop.counter }}">
                 {{ set.num_reps }}</td>
+                   {% if forloop.last %}
+                       {% for x in 6|get_range:forloop.counter %}
+                           <td align="left" width="5%" id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_set_{{ x|add:1 }}"></td>
+                       {% endfor %}
+
+                   {% endif %}
+            {% empty %}
+                   {% for x in 6|get_range %}
+                       <td align="left" width="5%" id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_set_{{ x|add:1 }}"></td>
+                   {% endfor %}
             {% endfor %}
          <tr id="foot_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}" style="height:1px;"></tr>
-
-            </tr>
          {% endfor %}
          <tr id='gap_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:1px;'></tr>
          <tr id='dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:10px;'><td align='left'><a onclick='insert_day("#dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}", "{{ workoutplanweek.pk }}");'>add Day</a></td></tr>
