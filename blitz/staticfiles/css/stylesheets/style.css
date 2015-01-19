@@ -638,8 +638,8 @@ textarea, textarea:focus {
 
 /* line 864, ../sass/style.scss */
 #main-content-container {
-  margin-top: 70px;
-  padding: 30px 0;
+  margin-top: 0px;
+  padding: 0px 0px 30px 0px;
   min-height: 750px;
   background: #f7f7f7;
 }
