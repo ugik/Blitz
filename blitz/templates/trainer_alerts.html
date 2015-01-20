@@ -6,13 +6,13 @@
             <div class="trainer-alert">
                 <div class="actions">
                     <button class="btn btn-default" type="button" data-action="leave-message" data-target-id="alert{{ alert.pk }}">Message</button>
-                    <i class="dismiss-alert glyphicon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
+                    <i class="dismiss-alert glyphicon glyphicon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
                 </div>
                 <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
                 <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> missed a workout
                     (Week {{ alert.workout_plan_day.get_week }} {{ alert.workout_plan_day.get_day_name }}).
                 <div class="date">
-                    <i class="glyphicon-time"></i> {{ alert.date_created|dayssince|capfirst }}
+                    <i class="glyphicon glyphicon-time"></i> {{ alert.date_created|dayssince|capfirst }}
                 </div>
                 <div class="message-entry hidden" id="alert{{ alert.pk }}">
                     <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}" data-alert_pk="{{ alert.pk }}">
@@ -29,12 +29,12 @@
             <div class="trainer-alert">
                 <div class="actions">
                     <button class="btn btn-default" type="button" data-action="leave-message" data-target-id="alert{{ alert.pk }}">Message</button>
-                    <i class="dismiss-alert glyphicon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
+                    <i class="dismiss-alert glyphicon glyphicon-remove-sign" data-alert_pk="{{ alert.pk }}"></i>
                 </div>
                 <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
                 <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> logged a <a href="/profile/c/{{ alert.client.pk }}/checkins">check-in.</a>
                 <div class="date">
-                    <i class="glyphicon-time"></i> {{ alert.date_created|dayssince|capfirst }}
+                    <i class="glyphicon glyphicon-time"></i> {{ alert.date_created|dayssince|capfirst }}
                 </div>
                 <div class="message-entry hidden" id="alert{{ alert.pk }}">
                     <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}" data-alert_pk="{{ alert.pk }}">
@@ -56,7 +56,7 @@
                 <img class="img-circle headshot" src="{{ alert.client.get_headshot_url }}" />
                 <a href="{{ alert.client.user.get_profile_url }}" class="name">{{ alert.client.user.display_name }}</a> {{ alert.text }}
                 <div class="date">
-                    <i class="glyphicon-time"></i> {{ alert.date_created|dayssince|capfirst }}
+                    <i class="glyphicon glyphicon-time"></i> {{ alert.date_created|dayssince|capfirst }}
                 </div>
                 <div class="message-entry hidden" id="alert{{ alert.pk }}">
                     <form action="{% url 'send_message_to_user' alert.client.user.pk %}" data-to-user-id="{{ alert.client.user.pk }}" data-alert_pk="{{ alert.pk }}">
