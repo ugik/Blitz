@@ -226,8 +226,10 @@ img.headshot {
     padding: 0;
 }
 ul.filters {
-    margin: 0 !important
+    margin: 0 !important;
+    padding: 11px 0px 0px 0px;
 }
+
 ul.filters li.item {
     height: 40px;
     list-style: none;
