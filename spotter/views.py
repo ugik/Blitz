@@ -323,6 +323,9 @@ def flush_session_vars(request):
         if "day_"+str(i) in request.session:
             print "*** del session key:['day_%s']" % i
             del request.session["day_"+str(i)]
+        if "exercise_"+str(i) in request.session:
+            print "*** del session key:['exercise_%s']" % i
+            del request.session["exercise_"+str(i)]
 
 @login_required
 def edit_workoutplan(request):
@@ -473,33 +476,47 @@ def workoutplan_ajax(request):
         days = WorkoutPlanDay.objects.filter(pk=day_pk)
         if not days or days[0].workout_plan_week.workout_plan != workoutplan:    # check for provisional day
             session_key = "day_%s" % day_pk
-            day = WorkoutPlanDay.objects.get(pk=int(request.session[session_key]))
-            print "SAVE EXERCISE REDIRECT:", day_pk, request.session[session_key]
+            day = WorkoutPlanDay.objects.get(pk=int(request.session[session_key]))            
+            print "SAVE EXERCISE REDIRECT WORKOUTDAY:", day_pk, request.session[session_key]
         else:
             day = days[0]
+
+        workout = day.workout
 
         lifts = Lift.objects.filter(name=request.POST.get('lift'))
         if lifts:
             lift = lifts[0]
 
             if len(request.POST.get('exercise').split('_'))>2:
-                print "SAVE/EDIT EXERCISE", request.POST.get('exercise')
                 exercise_pk = request.POST.get('exercise').split('_')[2]
-                exercise = get_object_or_404(Exercise, pk=exercise_pk)
-                exercise.lift = lift
-                sets = exercise.workoutset_set.all()
+                exercises = Exercise.objects.filter(pk=exercise_pk)
 
-#                for set in exercise.workoutset_set.all():
-#                    print "DELETE SET:", set
-#                    set.delete()
+                if not exercises or exercises[0].workout != workout:    # check for provisional exercise
+                    session_key = "exercise_%s" % exercise_pk
+                    if session_key in request.session:
+                        exercises = Exercise.objects.filter(pk=int(request.session[session_key]))
+                    else:
+                        exercises = None
+
+                    if not exercises:    # must be new exercise
+                        exercise = Exercise.objects.create(lift=lift, workout=workout)
+                        request.session[session_key] = exercise.pk
+                        print "SAVE/NEW EXERCISE REDIRECT", request.POST.get('exercise'), exercise.pk
+                    else:
+                        exercise = exercises[0]
+                        exercise.lift = lift
+                        print "SAVE/EDIT EXERCISE REDIRECT", request.POST.get('exercise'), exercise.pk
+                else:
+                    exercise = exercises[0]
+                    exercise.lift = lift
+                    print "SAVE/EDIT EXERCISE", request.POST.get('exercise')
+
             else:
-                exercise = Exercise.objects.create(lift=lift, workout=day.workout)
-                sets = None
+                print "NO EXERCISE IN KEY", request.POST.get('exercise')
 
             exercise.sets_display=request.POST.get('display')
             exercise.save()
-
-#            import pdb; pdb.set_trace()
+            sets = exercise.workoutset_set.all()
 
             for set_num in range(6):
                 if request.POST.get('set'+str(set_num+1)).isdigit():
@@ -514,7 +531,7 @@ def workoutplan_ajax(request):
                             ws.num_reps = num_reps
                             ws.save()
                             print "CHANGED SET:", set_num, ws
-                        else:
+                        elif ws:
                             ws.delete()
                             print "DELETED SET:", set_num, ws
                 elif num_reps>0:
@@ -560,11 +577,34 @@ def workoutplan_ajax(request):
             return JSONResponse({'redirect': '/spotter/edit-workoutplan?plan='+str(workoutplan.pk) })
 
     elif request.POST.get('mode') == 'delete_workoutplan_exercise':
-        if request.POST.get('key') != None:
-            exercise_pk = request.POST.get('key').split('_')[2]
-            exercise = get_object_or_404(Exercise, pk=exercise_pk)
-            exercise.delete()    # delete exercise and associated workoutsets
 
+        if request.POST.get('key') != None:
+            week_pk = request.POST.get('key').split('_')[0]    # split key into week, day, exercise
+            day_pk = request.POST.get('key').split('_')[1]
+            workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
+            week = get_object_or_404(WorkoutPlanWeek, pk=week_pk)
+            days = WorkoutPlanDay.objects.filter(pk=day_pk)
+            if not days or days[0].workout_plan_week.workout_plan != workoutplan:    # check for provisional day
+                session_key = "day_%s" % day_pk
+                day = WorkoutPlanDay.objects.get(pk=int(request.session[session_key]))            
+                print "DELETE EXERCISE REDIRECT WORKOUTDAY:", day_pk, request.session[session_key]
+            else:
+                day = days[0]
+
+            workout = day.workout
+
+            exercise_pk = request.POST.get('key').split('_')[2]
+
+            exercises = Exercise.objects.filter(pk=exercise_pk)
+
+            if not exercises or exercises[0].workout != workout:    # check for provisional exercise
+                session_key = "exercise_%s" % exercise_pk
+                if session_key in request.session:
+                    exercises = Exercise.objects.filter(pk=int(request.session[session_key]))
+                    print "DELETE EXERCISE REDIRECT", request.session[session_key], exercise_pk
+
+            exercise = exercises[0]
+            exercise.delete()    # delete exercise and associated workoutsets
             print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':

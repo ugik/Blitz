@@ -34,6 +34,19 @@ function save_workoutexercise(exercise, lift, display, set1, set2, set3, set4, s
         exercise: exercise, lift: lift, display: display, set1: set1, set2: set2, set3: set3, set4: set4, set5: set5, set6: set6 },
       })
 }
+function auto_sets(display) {
+     sets = []
+     if (display.length == 3) { display_value = display[2] }
+     else if (display.length == 4) { display_value = display[2]+display[3] }
+     else { display_value = '' }
+
+     if (!isNaN(display[0]) && display[1].toLowerCase()==='x') {
+         for (i = 0; i < parseInt(display[0]); i++) {
+             sets[i] = display_value;
+         }
+     }
+     return sets
+}
 function delete_exercise(exercise) { 
      $.ajax({
         url: 'workoutplan_ajax',
@@ -62,6 +75,7 @@ function delete_day(exercise) {
 
 }
 function cancel_row(location, exercise) {
+    console.log(exercise);
     var tr = $(location).closest('tr');
         tr.css("background-color","#FFFFFF");
         tr.fadeOut(400, function(){
@@ -142,13 +156,16 @@ function save_row(inuse, location, exercise, count, option) {
     if (option===0) {  // inserted row
         cancel_row(location);
 
-        save_workoutexercise(exercise, $("#lifts_"+ count).val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
+        save_workoutexercise(exercise +"_"+ count, $("#lifts_"+ count).val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
 
            head = "<tr id='row_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'><td id='controls_"+ exercise +"_"+ count +"'>";
-         cancel = "<a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>";
+         cancel = "<a onclick='cancel_row(this, \""+ exercise +"_"+ count +"\");'><small>(del)</small></a>";
            edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count).val() + "\", \""+ $("#sets_display"+ count).val() +"\", \""+$("#set1_"+ count).val()+"\", \""+$("#set2_"+ count).val()+"\", \""+$("#set3_"+ count).val()+"\", \""+$("#set4_"+ count).val()+"\", \""+$("#set5_"+ count).val()+"\", \""+$("#set6_"+ count).val()+"\");'><small>(edit)</small></a></td>";
 
-       controls = head+cancel+edit
+        controls = head+cancel+edit;
+        sets = auto_sets($("#sets_display"+ count).val());
+
+        console.log(count);
 
         lift    = "<td id='row_"+ exercise +"_"+count+"_lift' align='left'>"+$("#lifts_"+ count).val()+"</td>";
         display = "<td id='row_"+ exercise +"_"+count+"_display' align='left'>"+$("#sets_display"+ count).val()+"</td>";
