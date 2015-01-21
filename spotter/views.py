@@ -510,9 +510,13 @@ def workoutplan_ajax(request):
                 if len(request.POST.get('set'+str(set_num+1)))>0 and len(sets)>set_num:
                     if sets[set_num]:
                         ws = WorkoutSet.objects.get(id=sets[set_num].id)
-                        ws.num_reps = num_reps
-                        ws.save()
-                        print "CHANGED SET:", set_num, ws
+                        if num_reps>0:
+                            ws.num_reps = num_reps
+                            ws.save()
+                            print "CHANGED SET:", set_num, ws
+                        else:
+                            ws.delete()
+                            print "DELETED SET:", set_num, ws
                 elif num_reps>0:
                     ws = WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
                                                    num_reps=num_reps)
