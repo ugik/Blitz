@@ -487,32 +487,36 @@ def workoutplan_ajax(request):
                 exercise_pk = request.POST.get('exercise').split('_')[2]
                 exercise = get_object_or_404(Exercise, pk=exercise_pk)
                 exercise.lift = lift
-                for set in exercise.workoutset_set.all():
-                    set.delete()
+                sets = exercise.workoutset_set.all()
+
+#                for set in exercise.workoutset_set.all():
+#                    print "DELETE SET:", set
+#                    set.delete()
             else:
                 exercise = Exercise.objects.create(lift=lift, workout=day.workout)
+                sets = None
 
             exercise.sets_display=request.POST.get('display')
             exercise.save()
 
-            if len(request.POST.get('set1'))>1:
-                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
-                                           num_reps=request.POST.get('set1'))
-            if len(request.POST.get('set2'))>1:
-                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
-                                           num_reps=request.POST.get('set2'))
-            if len(request.POST.get('set3'))>1:
-                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
-                                           num_reps=request.POST.get('set3'))
-            if len(request.POST.get('set4'))>1:
-                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
-                                           num_reps=request.POST.get('set4'))
-            if len(request.POST.get('set5'))>1:
-                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
-                                           num_reps=request.POST.get('set5'))
-            if len(request.POST.get('set6'))>1:
-                 WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
-                                           num_reps=request.POST.get('set6'))
+#            import pdb; pdb.set_trace()
+
+            for set_num in range(6):
+                if request.POST.get('set'+str(set_num+1)).isdigit():
+                    num_reps = int(request.POST.get('set'+str(set_num+1)))
+                else:
+                    num_reps = 0
+
+                if len(request.POST.get('set'+str(set_num+1)))>0 and len(sets)>set_num:
+                    if sets[set_num]:
+                        ws = WorkoutSet.objects.get(id=sets[set_num].id)
+                        ws.num_reps = num_reps
+                        ws.save()
+                        print "CHANGED SET:", set_num, ws
+                elif num_reps>0:
+                    ws = WorkoutSet.objects.create(lift=lift, workout=day.workout, exercise=exercise, 
+                                                   num_reps=num_reps)
+                    print "NEW SET:", ws
 
             print "SAVE EXERCISE:", request.POST.get('workoutplan'), request.POST.get('exercise'), request.POST.get('lift'), request.POST.get('display'), request.POST.get('set1'), request.POST.get('set2'), request.POST.get('set3'), request.POST.get('set4'), request.POST.get('set5'), request.POST.get('set6')
 
