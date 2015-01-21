@@ -75,7 +75,6 @@ function delete_day(exercise) {
 
 }
 function cancel_row(location, exercise) {
-    console.log(exercise);
     var tr = $(location).closest('tr');
         tr.css("background-color","#FFFFFF");
         tr.fadeOut(400, function(){
@@ -156,28 +155,31 @@ function save_row(inuse, location, exercise, count, option) {
     if (option===0) {  // inserted row
         cancel_row(location);
 
-        save_workoutexercise(exercise +"_"+ count, $("#lifts_"+ count).val(), $("#sets_display"+ count).val(), $("#set1_"+ count).val(), $("#set2_"+ count).val(), $("#set3_"+ count).val(), $("#set4_"+ count).val(), $("#set5_"+ count).val(), $("#set6_"+ count).val());
-
            head = "<tr id='row_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'><td id='controls_"+ exercise +"_"+ count +"'>";
          cancel = "<a onclick='cancel_row(this, \""+ exercise +"_"+ count +"\");'><small>(del)</small></a>";
            edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count).val() + "\", \""+ $("#sets_display"+ count).val() +"\", \""+$("#set1_"+ count).val()+"\", \""+$("#set2_"+ count).val()+"\", \""+$("#set3_"+ count).val()+"\", \""+$("#set4_"+ count).val()+"\", \""+$("#set5_"+ count).val()+"\", \""+$("#set6_"+ count).val()+"\");'><small>(edit)</small></a></td>";
 
         controls = head+cancel+edit;
-        sets = auto_sets($("#sets_display"+ count).val());
-
-        console.log(count);
+        calc_sets = auto_sets($("#sets_display"+ count).val());
+        sets = []
 
         lift    = "<td id='row_"+ exercise +"_"+count+"_lift' align='left'>"+$("#lifts_"+ count).val()+"</td>";
         display = "<td id='row_"+ exercise +"_"+count+"_display' align='left'>"+$("#sets_display"+ count).val()+"</td>";
-        set1    = "<td width='5%' id='row_"+ exercise +"_"+count+"_set_1' align='left'>"+$("#set1_"+ count).val()+"</td>";
-        set2    = "<td width='5%' id='row_"+ exercise +"_"+count+"_set_2' align='left'>"+$("#set2_"+ count).val()+"</td>";
-        set3    = "<td width='5%' id='row_"+ exercise +"_"+count+"_set_3' align='left'>"+$("#set3_"+ count).val()+"</td>";
-        set4    = "<td width='5%' id='row_"+ exercise +"_"+count+"_set_4' align='left'>"+$("#set4_"+ count).val()+"</td>";
-        set5    = "<td width='5%' id='row_"+ exercise +"_"+count+"_set_5' align='left'>"+$("#set5_"+ count).val()+"</td>";
-        set6    = "<td width='5%' id='row_"+ exercise +"_"+count+"_set_6' align='left'>"+$("#set6_"+ count).val()+"</td>";
+
+        for (i = 0; i < 6; i++) {
+
+            if (calc_sets[i]==="" || calc_sets[i]===undefined)  {
+                sets[i]= "<td width='5%' id='row_"+ exercise +"_"+count+"_set_"+i.toString()+"' align='left'>"+$("#set"+i.toString()+"_"+ count).val()+"</td>";
+                calc_sets[i] = $("#set"+i.toString()+"_"+ count).val()
+            } else {
+                sets[i]= "<td width='5%' id='row_"+ exercise +"_"+count+"_set_"+i.toString()+"' align='left'>"+calc_sets[i]+"</td>";
+            }             
+        }
         foot    = "<tr id='foot_"+ exercise +"_"+count+"' style='height:1px;'></tr>";
 
-        tr.after(controls+lift+display+set1+set2+set3+set4+set5+set6);
+        tr.after(controls+lift+display+sets[0]+sets[1]+sets[2]+sets[3]+sets[4]+sets[5]);
+
+        save_workoutexercise(exercise +"_"+ count, $("#lifts_"+ count).val(), $("#sets_display"+ count).val(), calc_sets[0], calc_sets[1], calc_sets[2], calc_sets[3], calc_sets[4], calc_sets[5]);
 
     }
 
