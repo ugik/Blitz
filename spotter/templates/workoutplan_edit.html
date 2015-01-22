@@ -173,7 +173,7 @@ function save_row(inuse, location, exercise, count, option) {
                 sets[i]= "<td width='5%' id='row_"+ exercise +"_"+count+"_set_"+(i+1).toString()+"' align='left'>"+$("#set"+i.toString()+"_"+ count).val()+"</td>";
                 calc_sets[i] = $("#set"+(i+1).toString()+"_"+ count).val();
             } else {
-                sets[i]= "<td width='5%' id='row_"+ exercise +"_"+count+"_set_"+i.toString()+"' align='left'>"+calc_sets[i]+"</td>";
+                sets[i]= "<td width='5%' id='row_"+ exercise +"_"+count+"_set_"+(i+1).toString()+"' align='left'>"+calc_sets[i]+"</td>";
             }             
         }
         foot    = "<tr id='foot_"+ exercise +"_"+count+"' style='height:1px;'></tr>";
@@ -309,7 +309,7 @@ function insert_row(location, exercise) {
 }
 
 function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {  
- 
+
     // edit row by making elements input type
     $('#row_'+exercise+'_lift').replaceWith("<td id='row_"+ exercise +"_lift' align='left' ><input id='lifts_"+ exercise +"' list='list_"+ exercise +"' value='"+lift+"'/><datalist id='list_"+ exercise +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td>");
     $('#row_'+exercise+'_display').replaceWith("<td align='left'><input id='row_"+ exercise +"_display' type='text' style='width:100px;' value='"+ display +"'/></td>");
