@@ -21,8 +21,11 @@ rename -n s/"foo"/"bar"/g  *
 ./manage.py schemamigration <appname> --auto
 ./manage.py migrate <appname>
 
-# runserver processes
+#runserver processes
 ps aux | grep -i manage
+
+#apache log
+tail /var/log/apache2/error.log
 
 #mysql
 mysql -uroot -pmysql

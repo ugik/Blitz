@@ -16,6 +16,8 @@ urlpatterns = patterns(
 
     url(r'^workoutplan$', 'spotter.views.spotter_workoutplan', name='spotter_workoutplan'),
     url(r'^edit-workoutplan$', 'spotter.views.edit_workoutplan', name='edit_workoutplan'),
+    url(r'^view-workoutplan$', 'spotter.views.view_workoutplan', name='view_workoutplan'),
+    url(r'^new-workoutplan$', 'spotter.views.new_workoutplan', name='new_workoutplan'),
 
     url(r'^exercise_page$', 'spotter.views.spotter_exercise', name='spotter_exercise'),
     url(r'^exercise_page/(?P<slug>\w+)/$', 'spotter.views.spotter_exercise', name='spotter_exercise'),
@@ -32,6 +34,7 @@ urlpatterns = patterns(
     url(r'^spotter_invites$', 'spotter.views.spotter_invites', name='spotter_invites'),
 
     url(r'^workoutplan_ajax$', 'spotter.views.workoutplan_ajax', name='workoutplan_ajax'),
+    url(r'^workout_info$', 'spotter.views.workout_info', name='workout_info'),
 
     )
 

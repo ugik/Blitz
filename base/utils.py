@@ -131,16 +131,18 @@ def grouped_sets_with_user_data(gym_session):
     """
     wrapper around (workouts) get_grouped_sets - "sets" is a list of (set, completed_set) tuples
     """
+#    import pdb; pdb.set_trace()
+
     workout = gym_session.workout_plan_day.workout
     grouped_sets = workout_utils.get_grouped_sets(workout)
     for d in grouped_sets:
         sets = []
-        for s in d['sets']:
+        for set in d['sets']:
             try:
-                completed_set = CompletedSet.objects.get(gym_session=gym_session, workout_set=s)
+                completed_set = CompletedSet.objects.get(gym_session=gym_session, workout_set=set)
             except ObjectDoesNotExist:
                 completed_set = None
-            sets.append( (s, completed_set) )
+            sets.append( (set, completed_set) )
         d['sets'] = sets
 
     return grouped_sets
