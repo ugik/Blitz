@@ -237,5 +237,5 @@ week of 1.19
 - allow EDIT of sales pages for spotter
 - use trainer name on program upload
 - send email on program upload during trainer onboarding
-
+- name new trainer's provisional blitz "{trainer.name}'s Program"
 

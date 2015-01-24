@@ -1406,7 +1406,7 @@ def trainer_signup(request):
 
             # create initial 1:1 (recurring, provisional) Blitz for the new Trainer
             blitz = Blitz.objects.create(trainer = trainer,
-                          title = "%s Blitz" % name, recurring = True, provisional = True,
+                          title = "%s Program" % name, recurring = True, provisional = True,
                           begin_date = trainer.current_datetime())
             blitz.sales_page_content = content
             blitz.url_slug = trainer.short_name
@@ -1695,7 +1695,7 @@ def sales_blitz(request):
     # segment.io track
     if not settings.DEBUG:
         analytics.track(str(request.user.id), 'sales-blitz', {
-            'name': request.user.trainer.name if request.user.is_trainer else request.user.client.name,
+            'name': request.user.trainer.name if request.user.is_trainer else request.user.email,
             'blitz': blitz.title if blitz else '(None)',
                 })
 
