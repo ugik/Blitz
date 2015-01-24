@@ -10,6 +10,7 @@ from django.conf import settings
 from base import emails
 from base.models import Trainer, Client, user_type
 from base.utils import create_trainer
+from base.views import analytics_track, analytics_id
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
 from ipware.ip import get_ip
@@ -64,18 +65,12 @@ def standard_login_view(request):
             next = request.GET.get('next', '/')
             login(request, form.cleaned_data['user'])
 
-            # segment.io identify
-            if not settings.DEBUG:
-                user = User.objects.get(id=form.cleaned_data['user'].id)
-                ip = get_ip(request)
-                if not ip:
-                    ip = '(unknown)'
-                analytics.identify(user_id=user.id, traits={
+            user = User.objects.get(id=form.cleaned_data['user'].id)
+            # analytics
+            analytics_id(request, user_id=user.id, traits={
                  'email': user.email,
                  'name': user.trainer.name if user_type(user)=='T' else user.client.name if user_type(user)=='D' else 'spotter',
                  'blitz': '(trainer)' if user_type(user)=='T' else user.client.get_blitz().title if user_type(user)=='D' else '(spotter)'
-                }, context={
-                 'ip': ip,
                 })
             return redirect(next)
 
@@ -91,10 +86,9 @@ def standard_login_view(request):
 def logout_view(request):
 
     if request.user.id != None:
-        # segment.io track
-        if not settings.DEBUG:
-            analytics.track(request.user.id, 'logout', {
-                 'name': request.user.trainer.name if user_type(request.user)=='T' else request.user.client.name if user_type(request.user)=='D' else '(spotter)'    })
+        # analytics
+        analytics_track(request.user.id, 'logout', {
+                 'name': request.user.trainer.name if user_type(request.user)=='T' else request.user.client.name if user_type(request.user)=='D' else '(spotter)' })
 
     logout(request)
 

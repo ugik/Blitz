@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'tastypie',
     'djcelery',
+    'intercom',
 
     'base',
     'workouts',
