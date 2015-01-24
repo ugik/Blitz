@@ -223,5 +223,19 @@ week of 12.29
 - no @example.com emails
 - bug fixing
 
+week of 1.5
+- work on program editor
+
+week of 1.12
+- finish program editor
+
+week of 1.19
+- integrate program editor in spotter pages
+- fix program editor provisional exercise delete
+- fix program editor edit exercise/sets to save gymsession references
+- auto_set to handle display to reps, eg. '3x10'
+- allow EDIT of sales pages for spotter
+- use trainer name on program upload
+- send email on program upload during trainer onboarding
 
 

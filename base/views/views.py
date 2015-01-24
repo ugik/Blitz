@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response, RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
@@ -1467,8 +1467,11 @@ def trainer_signup_uploads(request, pk):
                 salespage.save()
 
             if form.cleaned_data['document']:
-                save_file(request.FILES['document'], trainer.pk)
+                filename = save_file(request.FILES['document'], trainer.pk)
                 document = True
+                # email spotters about upload
+                uri = domain(request)
+                email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
 
             if form.data['done'] == '1':
                 return redirect('home')
@@ -1775,7 +1778,8 @@ def blitz_signup(request, short_name, url_slug):
     next_url = '/signup-complete?pk='+str(blitz.pk)
 
     existing_user = None
-    if request.user.is_authenticated() and not request.user.is_trainer: # deal with client re-entering CC info
+    # deal with client re-entering CC info
+    if request.user.is_authenticated() and not request.user.is_trainer and request.user.email != 'spotter@example.com':
         next_url = '/'
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
@@ -2522,3 +2526,5 @@ def trainer_dashboard(request):
             'invite_url': invite_url,
             'signup_key': signup_key
         })
+
+

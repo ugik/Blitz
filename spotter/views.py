@@ -209,7 +209,7 @@ def spotter_blitz_sales_pages(request):
     if not request.user.is_staff:
         return redirect('home')
 
-    pending_sales_pages = get_pending_sales_pages()        
+    pending_sales_pages = get_pending_sales_pages()  
     return render(request, 'pending_sales_pages.html', {'pending' : pending_sales_pages})
 
 @login_required
@@ -289,6 +289,7 @@ def spotter_program_create(request):
         form = TrainerIDForm(request.POST)
         if form.is_valid():
             trainer_id = form.cleaned_data['trainer_id']
+            trainer = get_object_or_404(Trainer, id = trainer_id)
             plan_name = form.cleaned_data['program_name']
             file_name = request.GET.get('filename', None)
             result = load_program(file_name, trainer_id, plan_name)
@@ -296,7 +297,7 @@ def spotter_program_create(request):
             program_loaded(plan_name, trainer_id)   # email the trainer
 
             return render_to_response('program_create_done_page.html', 
-                              {'plan_name' : plan_name, 'trainer_id' : trainer_id},
+                              {'plan_name' : plan_name, 'trainer' : trainer},
                               RequestContext(request))
     else:
         form = TrainerIDForm()
@@ -875,7 +876,7 @@ def get_pending_sales_pages():
     pending_sales_pages = []
     contents = SalesPageContent.objects.all()
     for content in contents:
-        pending_sales_pages.append([content.id, content.name, content.trainer.name, content.program_title])
+        pending_sales_pages.append([content.blitz_set.all()[0], 'slug:'+content.blitz_set.all()[0].url_slug, content.name, content.trainer.name])
     return pending_sales_pages
 
 
