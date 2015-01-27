@@ -59,11 +59,11 @@ STATIC_URL = getattr(settings, 'STATIC_URL')
 
 # central functions for back-end analytics
 def analytics_track(user_id, label, dict):
-    if not settings.DEBUG and False:
+    if not settings.DEBUG:
         analytics.track(user_id, label, dict)
 
 def analytics_id(request, user_id, traits):
-    if not settings.DEBUG and False:
+    if not settings.DEBUG:
         ip = get_ip(request)
         if not ip:
             ip = '(unknown)'
@@ -1650,7 +1650,7 @@ def sales_blitz(request):
     debug_key = None
     saved = ''
     if 'debug' in request.GET:
-        debug_mode = request.GET.get('debug')
+        debug_mode = request.GET.get('debug') if not request.user.is_anonymous() else False
     if 'key' in request.GET:
         debug_key = request.GET.get('key')
     if 'slug' in request.GET:
@@ -1663,7 +1663,8 @@ def sales_blitz(request):
         blitz = None
 
     # analytics
-    analytics_track(str(request.user.id), 'sales-blitz', {
+    if not request.user.is_anonymous():
+        analytics_track(str(request.user.id), 'sales-blitz', {
             'name': request.user.trainer.name if request.user.is_trainer else request.user.email,
             'blitz': blitz.title if blitz else '(None)',
                 })
