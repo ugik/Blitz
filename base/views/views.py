@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response, RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
@@ -15,14 +15,15 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+from ipware.ip import get_ip
 import balanced
 import analytics
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
-from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, save_file
+from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, invitee_macros_set, save_file
 from base import utils
-from base.emails import client_invite, signup_confirmation, email_spotter_program_edit
+from base.emails import client_invite, signup_confirmation, email_spotter_program_edit, email_spotter_program_upload
 
 from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
 from workouts.models import WorkoutPlan, WorkoutPlanDay
@@ -55,6 +56,19 @@ STATIC_URL = getattr(settings, 'STATIC_URL')
 #====================================
 # Helper Functions
 #====================================
+
+# central functions for back-end analytics
+def analytics_track(user_id, label, dict):
+    if not settings.DEBUG:
+        analytics.track(user_id, label, dict)
+
+def analytics_id(request, user_id, traits):
+    if not settings.DEBUG:
+        ip = get_ip(request)
+        if not ip:
+            ip = '(unknown)'
+        analytics.identify(user_id, traits, context={'ip': ip,})
+
 def mark_feeds_as_viewed(feed_items):
     "Marks feeds items as viewed"
     for feed_item in feed_items:
@@ -98,10 +112,13 @@ def home(request):
         if request.user._wrapped.username == 'spotter':
             return redirect('spotter_index')
 
-        if request.user.is_trainer:
-            return trainer_dashboard(request)
-        else:
-            return client_home(request)
+        try:   # handle exception if authenticated admin comes home
+            if request.user.is_trainer:
+                return trainer_dashboard(request)
+            else:
+                return client_home(request)
+        except:
+            return redirect('logout_view')
 
     else:
         return redirect('login_view')
@@ -124,10 +141,8 @@ def blitz_setup(request):
     if not request.user.is_trainer:
         return redirect('home')
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'blitz-setup', {
-             'name': request.user.trainer.name,
-            })
+    # analytics
+    analytics_track(str(request.user.id), 'blitz-setup', {'name': request.user.trainer.name,})
 
     trainer = request.user.trainer
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
@@ -246,10 +261,8 @@ def client_blitz_setup(request, pk):
     if not request.user.is_trainer:
         return redirect('home')
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'client-setup', {
-             'name': request.user.trainer.name,
-            })
+    # analytics
+    analytics_track(str(request.user.id), 'client-setup', {'name': request.user.trainer.name,})
 
     trainer = request.user.trainer
 
@@ -356,10 +369,8 @@ def spotter_program_edit(request, pk):
     if not request.user.is_trainer:
         return redirect('home')
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'spotter_program_edit', {
-             'name': request.user.trainer.name,
-            })
+    # analytics
+    analytics_track(str(request.user.id), 'spotter_program_edit', {'name': request.user.trainer.name,})
 
     trainer = request.user.trainer
     workoutplan = get_object_or_404(WorkoutPlan, pk=int(pk) )
@@ -412,8 +423,8 @@ def blitz_macros(request, pk):
     trainer = request.user.trainer
     blitz = get_object_or_404(Blitz, pk=int(pk) )
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'blitz_macros', {
+    # analytics
+    analytics_track(str(request.user.id), 'blitz_macros', {
              'name': request.user.trainer.name,
              'blitz': blitz.title
             })
@@ -459,8 +470,8 @@ def client_macros(request, pk):
     trainer = request.user.trainer
     client = get_object_or_404(Client, pk=int(pk) )
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'client_macros', {
+    # analytics
+    analytics_track(str(request.user.id), 'client_macros', {
              'name': request.user.trainer.name,
              'client': client.name
             })
@@ -502,10 +513,8 @@ def upload_page(request):
     if not request.user.is_trainer:
         return redirect('home')
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'upload', {
-             'name': request.user.trainer.name,
-            })
+    # analytics
+    analytics_track(str(request.user.id), 'upload', {'name': request.user.trainer.name,})
 
     trainer = request.user.trainer
     # deal with new trainer with pending documents
@@ -514,7 +523,11 @@ def upload_page(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid() and form.is_multipart():
-            save_file(request.FILES['document'], trainer.pk)
+            filename = save_file(request.FILES['document'], trainer.pk)
+            
+            uri = domain(request)
+            email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
+
             return render_to_response('upload_done_page.html', 
                               {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
                               RequestContext(request))
@@ -591,10 +604,8 @@ def my_profile(request):
         pass
     else:
         client = request.user.client
-        # segment.io track
-        analytics.track(str(request.user.id), 'profile', {
-                 'name': client.name,
-                })
+        # analytics
+        analytics_track(str(request.user.id), 'profile', {'name': client.name,})
 
         return client_profile_history(request, client.pk)
 
@@ -681,9 +692,8 @@ def my_salespages(request):
     if not request.user.is_trainer:
         return redirect('home')
 
-    analytics.track(str(request.user.id), 'trainer salespages', {
-             'name': request.user.trainer.name,
-            })
+    # analytics
+    analytics_track(str(request.user.id), 'trainer salespages', {'name': request.user.trainer.name,})
 
     # load data needed for client-setup and blitz-setup modal(s)
     trainer = request.user.trainer
@@ -703,10 +713,8 @@ def my_programs(request):
     modalSpotter = True if 'modalSpotter' in request.GET else False
 
     if request.user.is_trainer:
-        # segment.io track
-        analytics.track(str(request.user.id), 'programs', {
-                 'name': request.user.trainer.name,
-                })
+        # analytics
+        analytics_track(str(request.user.id), 'programs', {'name': request.user.trainer.name,})
 
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
         return render(request, 'trainer_programs.html', 
@@ -714,10 +722,8 @@ def my_programs(request):
     else:
         request_blitz = request.user.blitz
 
-        # segment.io track
-        analytics.track(str(request.user.id), 'program', {
-                 'name': request.user.client.name,
-                })
+        # analytics
+        analytics_track(str(request.user.id), 'program', {'name': request.user.client.name,})
 
         blitz = get_object_or_404(Blitz, pk=int(request_blitz.pk) )
         return render(request, 'blitz_program.html', {
@@ -743,10 +749,8 @@ def my_blitz_program(request):
 def my_blitz_members(request):
     blitz = request.user.blitz
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'program/members', {
-             'name': request.user.client.name,
-            })
+    # analytics
+    analytics_track(str(request.user.id), 'program/members', {'name': request.user.client.name,})
 
     return render(request, 'blitz_members.html', {
         'blitz': blitz,
@@ -836,10 +840,8 @@ def save_set_to_session(gym_session, workout_set, item):
 @login_required
 def log_workout(request, week_number, day_char):
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'log-workout', {
-             'name': request.user.client.name,
-            })
+    # analytics
+    analytics_track(str(request.user.id), 'log-workout', {'name': request.user.client.name,})
 
     error = None
     client = request.user.client
@@ -1144,7 +1146,6 @@ def client_summary(request, pk):
             macro_goals = {}
 
     except Exception as e:
-        print e
         macro_goals = {}
 
     macro_history = macro_utils.get_full_macro_history(client)
@@ -1168,10 +1169,19 @@ def client_summary(request, pk):
 
 def invitee_summary(request, pk):
     invitation = get_object_or_404(BlitzInvitation, pk=int(pk) )
+    try:
+        if invitation.macro_target_json:
+            macro_goals = json.loads(invitation.macro_target_json)
+        else:
+            macro_goals = {}
+
+    except Exception as e:
+        macro_goals = {}
+
     now = datetime.datetime.now().date()
     delta = (now - invitation.date_created).days
     res = {
-        'html': get_invitee_summary_html(invitation, delta)
+        'html': get_invitee_summary_html(invitation, delta, macro_goals)
     }
     return JSONResponse(res)
 
@@ -1268,12 +1278,12 @@ def new_comment(request):
     else:
         comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'))
 
-        # segment.io track
+        # analytics
         if not request.user.is_trainer:
-            analytics.track(str(request.user.id), 'new_comment', {
-                 'name': request.user.client.name,
-                 'comment': request.POST.get('comment_text'),
-                 })
+            analytics_track(str(request.user.id), 'new_comment', {
+                      'name': request.user.client.name,
+                      'comment': request.POST.get('comment_text'),
+                     })
 
     ret = {
         'is_error': False,
@@ -1378,17 +1388,19 @@ def trainer_signup(request):
 
             # create initial 1:1 (recurring, provisional) Blitz for the new Trainer
             blitz = Blitz.objects.create(trainer = trainer,
-                          title = "%s Blitz" % name, recurring = True, provisional = True,
+                          title = "%s Program" % name, recurring = True, provisional = True,
                           begin_date = trainer.current_datetime())
             blitz.sales_page_content = content
             blitz.url_slug = trainer.short_name
             blitz.price = form.cleaned_data['price']
             blitz.save()
 
-            # segment.io identify
-            analytics.identify(trainer.user.id, {
+            # analytics
+            analytics_id(request=request, user_id=trainer.user.id, traits={
                  'name': trainer.name,
-                 'email': trainer.user.email })
+                 'email': trainer.user.email,
+                 'note': 'New Trainer Registration' 
+                  })
 
             u = authenticate(username=trainer.user.username, password=form.cleaned_data['password1'])
             login(request, u)
@@ -1431,8 +1443,11 @@ def trainer_signup_uploads(request, pk):
                 salespage.save()
 
             if form.cleaned_data['document']:
-                save_file(request.FILES['document'], trainer.pk)
+                filename = save_file(request.FILES['document'], trainer.pk)
                 document = True
+                # email spotters about upload
+                uri = domain(request)
+                email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
 
             if form.data['done'] == '1':
                 return redirect('home')
@@ -1512,7 +1527,8 @@ def client_signup(request):
             utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
 
             # set blitz for specific client            
-            blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client)   
+            blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client, 
+                             macros_data=invitation.macro_target_json)   
 
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
@@ -1524,10 +1540,12 @@ def client_signup(request):
             login(request, u)
             request.session['show_intro'] = True
 
-            # segment.io identify
-            analytics.identify(str(client.user.pk), {
-                 'name': client.name,
-                 'email': client.user.email })
+            # analytics
+            analytics_id(request=request, user_id=client.user.pk, traits={
+                     'name': client.name,
+                     'email': client.user.email,
+                     'note': 'Free Client Signup'
+                })
 
             return redirect('/signup-complete?pk='+str(blitz.pk))
 
@@ -1632,7 +1650,7 @@ def sales_blitz(request):
     debug_key = None
     saved = ''
     if 'debug' in request.GET:
-        debug_mode = request.GET.get('debug')
+        debug_mode = request.GET.get('debug') if not request.user.is_anonymous() else False
     if 'key' in request.GET:
         debug_key = request.GET.get('key')
     if 'slug' in request.GET:
@@ -1644,10 +1662,11 @@ def sales_blitz(request):
     else:
         blitz = None
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'sales-blitz', {
-        'name': request.user.trainer.name if request.user.is_trainer else request.user.client.name,
-        'blitz': blitz.title if blitz else '(None)',
+    # analytics
+    if not request.user.is_anonymous():
+        analytics_track(str(request.user.id), 'sales-blitz', {
+            'name': request.user.trainer.name if request.user.is_trainer else request.user.email,
+            'blitz': blitz.title if blitz else '(None)',
                 })
 
 
@@ -1729,7 +1748,8 @@ def blitz_signup(request, short_name, url_slug):
     next_url = '/signup-complete?pk='+str(blitz.pk)
 
     existing_user = None
-    if request.user.is_authenticated() and not request.user.is_trainer: # deal with client re-entering CC info
+    # deal with client re-entering CC info
+    if request.user.is_authenticated() and not request.user.is_trainer and request.user.email != 'spotter@example.com':
         next_url = '/'
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
@@ -1858,8 +1878,9 @@ def payment_hook(request, pk):
 
                 if "@example" not in client.user.email:
                     mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
-                # set blitz for specific client
-                blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client)   
+                # set macros for specific client
+                blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client,
+                                 macros_data=invitation.macro_target_json)   
 
             elif new_client:   # if this is not existing client re-entering CC info
                 utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan, price=blitz.price)
@@ -1878,10 +1899,12 @@ def payment_hook(request, pk):
                 user = authenticate(username=client.user.username, password=request.session['password'])
                 login(request, user)
 
-                # segment.io identify
-                analytics.identify(client.user.id, {
-                    'name': client.name,
-                    'email': client.user.email })
+                # analytics
+                analytics_id(request, user_id=client.user.pk, traits={
+                         'name': client.name,
+                         'email': client.user.email,
+                         'note': "Paid Client Signup to %s for $%s" % (str(blitz.price), str(blitz)) 
+                    })
 
                 request.session['show_intro'] = True
                 if 'name' in request.session:
@@ -1896,11 +1919,11 @@ def payment_hook(request, pk):
                            trainer=blitz.trainer, text="Client updated CC info.",
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
-                # segment.io track
-                analytics.track(client.user.id, 're-up', {
-                    'name': client.name,
-                    'email': client.user.email,
-                })
+                # analytics
+                analytics_track(client.user.id, 're-up', {
+                        'name': client.name,
+                        'email': client.user.email,
+                    })
 
     else:
         has_error = True
@@ -1998,17 +2021,6 @@ def blitz_macros_save(request):
 
 @login_required
 @csrf_exempt
-def invitee_macros_save(request):
-    invitation = get_object_or_404(BlitzInvitation, pk=int(request.POST.get('invitation')))
-
-    if 'formula' in request.POST:
-        invitation.macro_formula = request.POST.get('formula')
-        invitation.save()
-
-    return JSONResponse({'is_error': False})
-
-@login_required
-@csrf_exempt
 def client_macros_save(request):
     trainer = request.user.trainer
     client = get_object_or_404(Client, pk=int(request.POST.get('client')))
@@ -2027,6 +2039,28 @@ def client_macros_save(request):
         blitz_macros_set(blitz=None, formula=request.POST.get('formula'), client=client, macros_data=macros_data )
 
     return JSONResponse({'is_error': False})
+
+@login_required
+@csrf_exempt
+def invitee_macros_save(request):
+    trainer = request.user.trainer
+    invitee = get_object_or_404(BlitzInvitation, pk=int(request.POST.get('invitee')))
+
+    if 'formula' in request.POST:
+
+        macros_data = { "c_rest_cals" : request.POST.get('c_rest_cals'),
+                        "c_rest_fat" : request.POST.get('c_rest_fat'),
+                        "c_rest_protein" : request.POST.get('c_rest_protein'),
+                        "c_rest_carbs" : request.POST.get('c_rest_carbs'),
+                        "c_wout_cals" : request.POST.get('c_wout_cals'),
+                        "c_wout_fat" : request.POST.get('c_wout_fat'),
+                        "c_wout_protein" : request.POST.get('c_wout_protein'),
+                        "c_wout_carbs" : request.POST.get('c_wout_carbs') }
+
+        invitee_macros_set(invitee=invitee, formula=request.POST.get('formula'), macros_data=macros_data )
+
+    return JSONResponse({'is_error': False})
+
 
 @login_required
 @csrf_exempt
@@ -2067,7 +2101,8 @@ def set_up_profile_basic(request):
             # set macros if provided
             invite = BlitzInvitation.objects.get_or_none(email = request.user.email)
             if invite:
-                blitz_macros_set(blitz=None, formula=invite.macro_formula, client=client)
+                blitz_macros_set(blitz=None, formula=invite.macro_formula, client=client, 
+                                 macros_data=invite.macro_target_json)
 
             request.session['intro_stage'] = 'photo'
             return redirect('set_up_profile')
@@ -2144,8 +2179,8 @@ def set_up_profile(request):
 def client_checkin(request):
     client = request.user.client
 
-    # segment.io track
-    analytics.track(str(request.user.id), 'checkin', {
+    # analytics
+    analytics_track(str(request.user.id), 'checkin', {
              'name': request.user.client.name,
             })
 
@@ -2453,3 +2488,5 @@ def trainer_dashboard(request):
             'invite_url': invite_url,
             'signup_key': signup_key
         })
+
+

@@ -1,0 +1,24 @@
+# instructions on restoring a database image from backup
+
+STEP1: locate the backup image from backup server 
+ssh -i ../backup.pem ubuntu@ec2-54-201-238-160.us-west-2.compute.amazonaws.com
+ls backup -ls
+(eg. ec2-54-201-238-160.us-west-2.compute.amazonaws.com:/home/ubuntu/backup/backup_Jan_02_@16.sql)
+
+STEP2: from local terminal, copy the backup image and call it database.sql
+scp -i ../backup.pem ubuntu@ec2-54-201-238-160.us-west-2.compute.amazonaws.com:/home/ubuntu/backup/backup_Jan_02_@16.sql database.sql
+
+STEP3: copy database.sql to production
+scp -i ../ec2.pem database.sql ubuntu@ec2-54-191-254-12.us-west-2.compute.amazonaws.com
+
+STEP4: ssh into production
+ssh -i ../ec2.pem ubuntu@ec2-54-191-254-12.us-west-2.compute.amazonaws.com
+
+STEP5: drop the database
+mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| grep -v information_schema| grep -v test | gawk '{print "drop database " $1 ";"}' | mysql -uroot -pmysql
+
+STEP6: load the database image
+mysql -uroot -pmysql < database.sql
+
+
+

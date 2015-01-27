@@ -20,7 +20,7 @@
       {% for trainer in trainers|dictsort:"name" %}
       <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
         <div style="text-align: left;" class="spotterheader">
-          {{ trainer.name }}
+          {{ trainer.name }} <small>({{ trainer.user.email }})</small>
         </div>
         <ul style="text-align: left; margin: 10px 0px 50px 0px;">
            <li>Programs:
@@ -54,10 +54,13 @@
            {% endif %}
            {% for workoutplan in trainer.workoutplan_set.all %}
               <li style="padding-left: 20px;">
-          <a href="workoutplan?plan={{ workoutplan.pk }}">{{ workoutplan.name }}</a>
+              <a href="workoutplan?plan={{ workoutplan.pk }}">{{ workoutplan.name }}</a>
+              {% if workoutplan.blitz_set.all or workoutplan.blitzinvitation_set.all %} <small>(in use)</small>
+              {% else %} <a onClick="if(confirm('Delete workoutplan {{ workoutplan.name }}?')) window.location.href = 'program_delete/{{ workoutplan.pk }}';"><small>(delete)</small></a>{% endif %}
        action:&nbsp;<a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Program</small></a>
            {% endfor %}</ul>
         </ul>
+        <a href="/spotter/new-workoutplan?trainer={{ trainer.pk }}">Create <b>NEW</b> </a>workoutplan for {{ trainer.name }}
       </div>
       {% endfor %}
 

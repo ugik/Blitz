@@ -9,12 +9,14 @@
     }
 </style>
 <table>
-
+<br>
 {% for content in pending %}
 <tr>
     {% for element in content %}
       {% if forloop.first %}
-        <td>id:<a href="program_sales_page?plan={{ element }}"><b>{{ element }}</b></a></td>
+        <td><a href="/sales-blitz?slug={{ element.url_slug }}&short_name={{ element.trainer.short_name }}&debug=True&key={{ element.sales_page_content.sales_page_key }}"><b>Edit</b></a></td>
+        <td><a href="/{{ element.trainer.short_name }}/{{ element.url_slug }}"><b>View</b></a></td>
+
       {% else %}
         <td>{{ element }}</td>
       {% endif %}

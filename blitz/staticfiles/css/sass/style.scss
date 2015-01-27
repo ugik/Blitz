@@ -3379,6 +3379,8 @@ input::-webkit-inner-spin-button {
 
 #myModal {
   display: block;
+  position: absolute;
+  top: 0;
 }
 
 .blankfeed {
@@ -5215,6 +5217,33 @@ h3 a#name, a#blurb {
   border: 2px solid $fadedblue;
 }
 
+.macro-history .days tr {
+    height: 70px;
+}
+
+.macro-history .days tr td p {
+    margin: 0;
+}
+
+.diet-progress-stats {
+    background: none repeat scroll 0% 0% #7AB2EA;
+    padding-top: 3px;
+    margin: 0px auto;
+    display: block;
+    width: 29px;
+    height: 25px;
+    color: #FFF;
+    border-radius: 28px;
+}
+
+/* TODO: Replace with Font Awesome Icon */
+
+.macro-day-cell .icon-ok-sign,
+.macro-day-cell .icon-remove-sign, 
+.macro-day-cell .icon-question-sign {
+    font-size: 29px;
+}
+
 #summary .sidebar-box .goals-history .box {
   width: 25%;
   float: left;
@@ -5242,6 +5271,8 @@ h3 a#name, a#blurb {
 #summary > div > div.section.diet-goals.sidebar-box, #summary > div > div.section.sidebar-box.diet-progress {
   margin-bottom: 0px !important;
 }
+
+
 
 #dashboard #summary .sidebar-box .header {
   text-align: left; 
@@ -5843,46 +5874,46 @@ a#name, a#plan_name, a#client_name {
 
 .about0 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/0.png'); 
+    background-image: url('/static/images/0.png');
   }
   @include mobile-only {
     background-image: url('/static/images/0m.png');
-    border: 1px solid rgba(0,0,0,0.1); 
+    border: 1px solid rgba(0,0,0,0.1);
   }
-  //background-color: #ddd; 
-  //border-radius: 5px 5px 0px 0px; 
+  //background-color: #ddd;
+  //border-radius: 5px 5px 0px 0px;
   height: 350px;
 }
 
 .about1 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/1.png'); 
+    background-image: url('/static/images/1.png');
   }
   @include mobile-only {
     background-image: url('/static/images/1m.png');
-    border: 1px solid rgba(0,0,0,0.1); 
+    border: 1px solid rgba(0,0,0,0.1);
   }
-  //background-color: #ddd; 
-  //border-radius: 5px 5px 0px 0px; 
+  //background-color: #ddd;
+  //border-radius: 5px 5px 0px 0px;
   height: 350px;
 }
 
 .about2 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/21.png'); 
+    background-image: url('/static/images/21.png');
   }
   @include mobile-only {
     background-image: url('/static/images/21m.png');
     border: 1px solid rgba(0,0,0,0.1); 
   }
-  //background-color: #ddd; 
-  //border-radius: 5px 5px 0px 0px; 
+  //background-color: #ddd;
+  //border-radius: 5px 5px 0px 0px;
   height: 350px;
 }
 
 .about3 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/3.png'); 
+    background-image: url('/static/images/3.png');
   }
   @include mobile-only {
     background-image: url('/static/images/3m.png');
@@ -6057,4 +6088,3 @@ a#name, a#plan_name, a#client_name {
     background: #333;
   }
 }
-

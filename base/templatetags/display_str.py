@@ -17,15 +17,16 @@ register = template.Library()
 
 @register.filter
 def display_str(completedset, viewer):
+
 #    import pdb; pdb.set_trace()
 
     Client = get_model('base', 'Client')
-    if not viewer or not completedset:
+    if not completedset:
         return ''
 
-    # if viewer is trainer then client will be null
-    if viewer.is_trainer:
-        client = Client(user=viewer)  # placeholder client object
+    # if viewer is trainer (or spotter) then client will be null
+    if not viewer or viewer.is_trainer:
+        client = Client(user=viewer) if viewer else Client() # placeholder client object
         client.units = "I"
     else:
         client = viewer.client

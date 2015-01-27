@@ -213,7 +213,29 @@ week of 12.29
 - fix "Sign up for " plan.title
 - fix spotter program upload test_program to check for incorrect day identifiers or weekdays
 - add create_client test
+- allow invitees to have detailed macros set
+- turn off segment.io track/identify when in DEBUG
+- fix bug in program upload for exercises with single set
+- spotter workoutplan delete with integrity checks for blitz, invitation, gymsession
+- fix spotter allfeeds gymsession (user = spotter)
+- handle showing stored macros details in modal or formula derived macros
+- enhanced segment.io identify calls
+- no @example.com emails
 - bug fixing
 
+week of 1.5
+- work on program editor
 
+week of 1.12
+- finish program editor
+
+week of 1.19
+- integrate program editor in spotter pages
+- fix program editor provisional exercise delete
+- fix program editor edit exercise/sets to save gymsession references
+- auto_set to handle display to reps, eg. '3x10'
+- allow EDIT of sales pages for spotter
+- use trainer name on program upload
+- send email on program upload during trainer onboarding
+- name new trainer's provisional blitz "{trainer.name}'s Program"
 

@@ -11,7 +11,7 @@ class TestCreditCards(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.driver.set_window_size(1200, 1000)
+        self.driver.set_window_size(1300, 1000)
         self.base_url = "http://127.0.0.1:8000"
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -42,6 +42,8 @@ class TestCreditCards(unittest.TestCase):
         driver.find_element_by_id("blitz-signup-submit").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        time.sleep(1)
+
         driver.find_element_by_css_selector("input.cc-number").clear()
         driver.find_element_by_css_selector("input.cc-number").send_keys("4444444444444448")
         driver.find_element_by_css_selector("input.cc-csc").clear()
@@ -55,6 +57,7 @@ class TestCreditCards(unittest.TestCase):
         driver.find_element_by_css_selector("input.cc-csc").send_keys("123")
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        time.sleep(1)
         driver.find_element_by_css_selector("input.cc-number").clear()
         driver.find_element_by_css_selector("input.cc-number").send_keys("4222222222222220")
         driver.find_element_by_css_selector("input.cc-csc").clear()

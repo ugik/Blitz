@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+import itertools
 
 DAYS_OF_WEEK = (
     ('M', 'Monday'),
@@ -50,7 +51,7 @@ class Workout(models.Model):
     slug = models.SlugField(max_length=100)
 
     def __unicode__(self):
-        return "%s (%s)" % (self.display_name, self.slug)
+        return self.display_name
 
     def get_lifts(self):
         """
@@ -145,11 +146,18 @@ class WorkoutPlan(models.Model):
                 yield workout_plan_day
 
     def all_lifts(self):
-        return list(set([d.workout.get_lifts()[0] for d in self.iterate_days()]))
+        try:
+            return list(set([d.workout.get_lifts()[0] for d in self.iterate_days()]))
+        except:
+            return []
 
     def weeks(self):
         return self.workoutplanweek_set.all().order_by('week')
 
+    def workouts(self):
+        days = [week.workoutplanday_set.all() for week in self.workoutplanweek_set.all()]  # get all days
+        days_set = set(itertools.chain(*days))   # flatten array
+        return set([day.workout for day in days_set])   # return set of workouts
 
 class WorkoutPlanWeek(models.Model):
     """
@@ -180,10 +188,9 @@ class WorkoutPlanDay(models.Model):
     workout = models.ForeignKey(Workout)
 
     def __unicode__(self):
-        return "%s of week %s in plan %s" % (
+        return "%s of %s" % (
             self.day_of_week,
-            str(self.workout_plan_week),
-            str(self.get_workout_plan())
+            str(self.workout_plan_week)
         )
 
     def get_workout_plan(self):

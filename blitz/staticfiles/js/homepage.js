@@ -4,6 +4,47 @@
     var FEEDITEM_OFFSET = 0;
 
     jQuery(document).ready(function($) {
+        // Hack to Fix Exercice Matrix borders
+        // TODO: Make it happen just with HTML and CSS, without javascript help
+        function fixExerciseMatrixBorders(containerHTML) {
+
+            var $exercises = containerHTML.find('.exercise-matrix .exercise-container');
+            var i = 0;
+            for (i = 0; i < $exercises.length; i++) {
+                var $el = $exercises.eq(i),
+                    oddLen = 0,
+                    evenLen = 0;
+
+                if ($el.hasClass('odd')) {
+                    var oddLen = $el.find('.exercise-details-container .detail').length;
+                    if (oddLen > 0) {
+                        var oddHeight = oddLen>1? (oddLen*25):31;
+                        $el.find('.exercise-name').css('height', oddHeight);
+                    }
+
+                    if ($el.next() && $el.next().hasClass('even')) {
+                        var $elEven = $el.next();
+                        var evenLen = $elEven.find('.exercise-details-container .detail').length;
+
+                        if (evenLen > 0) {
+                            var evenHeight = evenLen>1? (evenLen*25):31;
+                            $elEven.find('.exercise-name').css('height', evenHeight);
+                        }
+
+                        if (oddLen > evenLen) {
+                            $elEven.find('.exercise-name').css('height', oddHeight);
+                        }
+
+                        if (evenLen > oddLen) {
+                            $el.find('.exercise-name').css('height', evenHeight);
+                        }
+                    };
+                };
+            }
+            return containerHTML;
+        }
+        // END
+
         // Shows progress indicator
         function homepage_setLoading() {
             $('#homepage-loadmore').hide();
@@ -18,8 +59,13 @@
                 function(data) {
                     for (var i=0; i<data.feeditems.length; i++) {
                         var item = data.feeditems[i];
-                        var el = $(item.html);
-                        $('#main-feed').append(el);
+                        var $el = $(item.html);
+
+                        if ($el.find('.exercise-matrix .exercise-container')) {
+                            $el = fixExerciseMatrixBorders($el);
+                        }
+
+                        $('#main-feed').append($el);
                     }
                     FEEDITEM_OFFSET = data.offset;
                     $('#homepage-loadmore').show();

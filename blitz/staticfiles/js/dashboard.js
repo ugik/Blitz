@@ -15,6 +15,48 @@
     var xhr;
 
     $(document).ready(function() {
+        
+        // Hack to Fix Exercice Matrix borders
+        // TODO: Make it happen just with HTML and CSS, without javascript help
+        function fixExerciseMatrixBorders(containerHTML) {
+
+            var $exercises = containerHTML.find('.exercise-matrix .exercise-container');
+            var i = 0;
+            for (i = 0; i < $exercises.length; i++) {
+                var $el = $exercises.eq(i),
+                    oddLen = 0,
+                    evenLen = 0;
+
+                if ($el.hasClass('odd')) {
+                    var oddLen = $el.find('.exercise-details-container .detail').length;
+                    if (oddLen > 0) {
+                        var oddHeight = oddLen>1? (oddLen*25):31;
+                        $el.find('.exercise-name').css('height', oddHeight);
+                    }
+
+                    if ($el.next() && $el.next().hasClass('even')) {
+                        var $elEven = $el.next();
+                        var evenLen = $elEven.find('.exercise-details-container .detail').length;
+
+                        if (evenLen > 0) {
+                            var evenHeight = evenLen>1? (evenLen*25):31;
+                            $elEven.find('.exercise-name').css('height', evenHeight);
+                        }
+
+                        if (oddLen > evenLen) {
+                            $elEven.find('.exercise-name').css('height', oddHeight);
+                        }
+
+                        if (evenLen > oddLen) {
+                            $el.find('.exercise-name').css('height', evenHeight);
+                        }
+                    };
+                };
+            }
+            return containerHTML;
+        }
+        // END
+
 
         function homepage_setLoading() {
             $('#homepage-loadmore').hide();
@@ -107,6 +149,11 @@
                         for (var i = 0; i < data.feeditems.length; i++) {
                             var item = data.feeditems[i];
                             var $el = $(item.html);
+
+                            if ($el.find('.exercise-matrix .exercise-container')) {
+                                $el = fixExerciseMatrixBorders($el);
+                            }
+
                             $('#main-feed').append($el);
                         }
                         FEEDITEM_OFFSET = data.offset;
@@ -125,6 +172,7 @@
                             $postFormContainer.append($postForm);
                             bindPostForm();
                         }
+
                     } else {
                         return false;
                     }
@@ -150,8 +198,20 @@
          * Function which render summary
          */
         function renderSummary(html) {
-            var el = $(html);
-            $('#summary').html(el)
+            var $el = $(html);
+
+            // Selects last week if there is not current week
+            if ($el.find('.macro-history .week .current').length < 1) {
+                $el.find('.macro-history .week').last()
+                    .addClass('current')
+                    .removeClass('hidden');
+
+                $el.find('.weekSelector.slide-select li.item').last()
+                    .addClass('active');
+            }
+            // END
+
+            $('#summary').html($el)
                 .removeClass('hidden');
 
             var setWeek = function(weekNum) {
@@ -246,10 +306,15 @@
             });
         }
 
+        // Bind client summary if exists before the ajax requests, ex.: dummy client summary
+        if ( $('#summary').html() ) {
+            renderSummary($('#summary').html());
+        }
 
-
+        // Show allerts
         $('.alerts-wrapper').removeClass('hidden');
 
+        // Stores AJAX request object for client summary
         var summaryXHR;
 
         /**
@@ -609,6 +674,9 @@
             removePostForm();
         }
         // END
+
+        // Selects first left-panel item
+        $('.filters.scopes li.item').eq(0).trigger('click');
 
         // Loads the firsts feeds
         homepage_morefeed();

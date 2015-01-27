@@ -110,7 +110,8 @@ def user_type(user):
         if user.email == 'spotter@example.com':
             return 'S'
         else:
-            raise Exception("No type for user")
+            return 'O'
+#            raise Exception("No type for user")
 
 def user_display_name(user):
     """
@@ -470,6 +471,7 @@ class Client(models.Model):
 
             else:  # client in a group requires careful dissection of feeditems
                 show_items = set()    # collect pk's for FeedItems from client or trainer
+
                 for fi in FeedItem.objects.filter(blitz=self.get_blitz()):
                     if fi.content_type.name == 'comment':
                         if not fi.content_object.user.is_trainer:
@@ -567,7 +569,6 @@ class Client(models.Model):
         if len(self.balanced_account_uri)<10:    # no CC reference on file
             if self.blitzmember_set:
                 member_price = self.blitzmember_set.all()[0].price
-                print member_price
                 if member_price == None or member_price == 0:
                     return False
                 else:
@@ -593,7 +594,7 @@ class Blitz(models.Model):
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
     # workout_plan can be pending, spotter will load and assign workout plan
-    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
+    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True, on_delete=models.SET_NULL)
 
     # this is monday of week 1, model.save() will adjust as necessary
     begin_date = models.DateField()
@@ -795,9 +796,11 @@ class BlitzInvitation(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
 
     # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
-    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
+    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True, on_delete=models.SET_NULL)
 
     macro_formula = models.CharField(max_length=10, choices=MACROS_CHOICES, default='DEFAULT')
+    macro_target_json = models.TextField(default="", blank=True)
+
     date_created = models.DateField(default=datetime.date.today)
 
     objects = GetOrNoneManager()
