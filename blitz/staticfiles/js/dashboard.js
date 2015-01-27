@@ -198,8 +198,20 @@
          * Function which render summary
          */
         function renderSummary(html) {
-            var el = $(html);
-            $('#summary').html(el)
+            var $el = $(html);
+
+            // Selects last week if there is not current week
+            if ($el.find('.macro-history .week .current').length < 1) {
+                $el.find('.macro-history .week').last()
+                    .addClass('current')
+                    .removeClass('hidden');
+
+                $el.find('.weekSelector.slide-select li.item').last()
+                    .addClass('active');
+            }
+            // END
+
+            $('#summary').html($el)
                 .removeClass('hidden');
 
             var setWeek = function(weekNum) {
