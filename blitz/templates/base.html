@@ -1,3 +1,5 @@
+{% load intercom_tags %}
+
 <!DOCTYPE html>
 
 <head>
@@ -97,6 +99,7 @@
 </script>
 
 </head>
+{% if not debug %}{% intercom_js user %}{% endif %}
 
 <body {% block body_extras %}{% endblock %}>
 
@@ -137,7 +140,7 @@
             <div class="row">
                 <div class="span12">
                     <div id="footer-content">
-                        <div class="copyright"><a href="/termsofuse" style="color: white;">Terms of Use</a> | <a href="/privacypolicy"  style="color: white;">Privacy Policy</a> | &copy; Blitz.us MMXV</div>
+                        <div class="copyright">{% if debug %}debug | {% endif %}<a href="/termsofuse" style="color: white;">Terms of Use</a> | <a href="/privacypolicy"  style="color: white;">Privacy Policy</a> | &copy; Blitz.us MMXV</div>
                     </div>
                 </div>
             </div>
