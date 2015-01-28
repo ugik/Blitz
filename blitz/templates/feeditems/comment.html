@@ -6,7 +6,7 @@
         </div>
         {% comment %}
             <a class="feed-permalink feed-permalink-grey" href="{% url "single_post_comment" feed_item.pk %}">
-                <i class="glyphicon-link"></i>
+                <i class="glyphicon glyphicon-link"></i>
             </a>
         {% endcomment %}
         <div class="comment-feed-item">
@@ -15,7 +15,7 @@
             </div>
             <div class="parent-comment comment{% if comment.user.is_trainer %} trainer-comment{% endif %}">
                 <a href="{{ comment.user.get_profile_url }}" class="name">{{ comment.user.display_name }}</a> {{ comment.text|urlize|linebreaksbr }}
-                <div class="feeditem-pub-date"><i class="glyphicon-time"></i> {{ comment.date_and_time|timesince }} ago</div>
+                <div class="feeditem-pub-date"><i class="glyphicon glyphicon-time"></i> {{ comment.date_and_time|timesince }} ago</div>
 
 {% if comment.image %}<img src="/media/{{ comment.image }}" />{% endif %}
             </div> 
