@@ -25,3 +25,5 @@ blitz/usermedia/programs/*/
 *.jpeg
 
 *.jpg
+
+*.py

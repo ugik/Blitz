@@ -13,7 +13,7 @@ from base.utils import create_trainer
 from base.views import analytics_track, analytics_id
 from django.contrib.auth.models import User
 from django.core.mail import mail_admins
-from ipware.ip import get_ip
+
 
 import random
 import string
