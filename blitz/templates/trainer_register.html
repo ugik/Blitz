@@ -17,13 +17,20 @@
 {% block formpage_content %}
 
 <div class="row">
+    <div class="span6 offset3">
+        <div class="formpage-block" style="margin-bottom: -30px;">
+            <div class="header">Get started in less than 2 minutes.
+                {% if referral %} 
+                <br><small>(referral from {{ referral.name }})</small> 
+                {% endif %}
+            </div>
+            <p class="info-text">You'll coaching clients effortlessly and raking in cash in no time.</p>
+        </div>
+    </div>
     <div class="span4 offset4" style="">
         <div class="formpage-block">
 
                 <form  action="#" method="post">
-                    <div class="header">Registration
-                        {% if referral %} <br><small>(referral from {{ referral.name }})</small> {% endif %}</div>
-                    <p class="info-text">You've been chosen as one of the elite few to get early access to Blitz. Now, tell us a little bit about yourself. </p>
 
                     {% csrf_token %}
 
@@ -95,7 +102,7 @@
                             {{ form.price.errors.as_text }}
                         </div>
                         <div style="width: 100%; float: left;">
-                            <p class="smaller" style="margin-top: 8px; line-height: 1.0; opacity: 0.5; text-align: center;"> You can adjust this on a per-client basis, this is just a default.</p>
+                            <p class="" style="margin-top: 2px; line-height: 1.0; opacity: 0.5; text-align: center; font-size: 0.7em;"> You can adjust this on a per-client basis, this is just a default.</p>
                         </div>
                     </div>
 
@@ -138,7 +145,7 @@
                     <!-- then we need to store this info in the spotter UI somewhere -->                    
 
 
-                    <button class="obtn full-width">Complete Signup</button>
+                    <button class="obtn full-width" style="margin-top: 20px;">Complete Signup</button>
                  </form>
          </div>
       </div>
