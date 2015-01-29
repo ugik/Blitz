@@ -53,7 +53,7 @@ class NewTrainerForm(forms.Form):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'render_value' : False}),max_length=100)
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'render_value' : False}),max_length=100)
     timezone  = forms.CharField(max_length=40)
-    price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': 'Monthly rate ($)'}))
+    price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': '$ per month'}))
 
     def clean_price(self):
         try:

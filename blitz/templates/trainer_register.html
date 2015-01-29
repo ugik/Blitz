@@ -1,5 +1,13 @@
 {% extends "formpage.html" %}
 
+{% block morehead %}
+
+<style type="text/css">
+    .blitz-login{ padding-left: 150px; padding-right: 150px; }
+</style>
+
+{% endblock %}
+
 <script>
   <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 </script>
@@ -9,7 +17,7 @@
 {% block formpage_content %}
 
 <div class="row">
-    <div class="span6 offset3" style="">
+    <div class="span4 offset4" style="">
         <div class="formpage-block">
 
                 <form  action="#" method="post">
@@ -58,30 +66,76 @@
                         </script>
                     </div>
 
-
-                    <div class="fieldWrapper">
-                        <div style="width: 25%; float: left;">
-                            {{ form.price }}
-                            {{ form.price.errors.as_text }}
-                        </div>
-                        <div style="width: 5%; float: left;">
-                            &nbsp;
-                        </div>
-                        <div style="width: 70%; float: left;">
-                            <p class="smaller" style="margin-top: 8px;"> You can adjust this on a per-client basis, this is just a default.</p>
-                        </div>
+                    <div class="spacer">
+                        &nbsp;
                     </div>
 
                     <div class="fieldWrapper full-width" style="float: left;">
                         <p class="info-text">What vanity URL would you like?
-                        <div style="width: 37%; float: left; font-size: 30px; font-family: 'metanormal_caps'; padding-top: 8px;text-align: center;">
+                        <div style="width: 40%; float: left; font-size: 30px; font-family: 'metanormal_caps'; padding-top: 8px;text-align: center;">
                             blitz.us/
                         </div>
-                        <div style="width: 63%; float: left;">
+                        <div style="width: 2%; float: left;">
+                            &nbsp;
+                        </div>
+                        <div style="width: 58%; float: left;">
                             {{ form.short_name }}<br>
                             {{ form.short_name.errors.as_text }}
                         </div>
                     </div>
+
+                    <div class="spacer">
+                        &nbsp;
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <p class="info-text">How much do you charge clients per month?</p>
+                        <div style="width: 100%; float: left;">
+                            {{ form.price }}
+                            {{ form.price.errors.as_text }}
+                        </div>
+                        <div style="width: 100%; float: left;">
+                            <p class="smaller" style="margin-top: 8px; line-height: 1.0; opacity: 0.5; text-align: center;"> You can adjust this on a per-client basis, this is just a default.</p>
+                        </div>
+                    </div>
+
+                    <div class="spacer">
+                        &nbsp;
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <p class="info-text">How do you want to get paid?</p>
+                        <div class="gender-container" style="margin-top: 10px;">
+                        <input type="radio" id="7" name="paymentmethod" value="paypal" checked/>
+                            <label for="7" class="radio" style="margin-right: 0%; width: 33%; padding: 8px; border-radius: 4px 0px 0px 4px;">
+                                 Paypal
+                            </label>
+                        <input type="radio" id="8" name="paymentmethod" value="venmo"/>
+                            <label for="8" class="radio" style="width: 33%; padding: 8px; border-radius: 0px;">
+                                 Venmo
+                            </label>
+                        <input type="radio" id="9" name="paymentmethod" value="directdeposit"/>
+                            <label for="9" class="radio" style="width: 33%; padding: 8px; border-radius: 0px 4px 4px 0px;">
+                                 Direct Deposit
+                            </label>
+                        </div>
+                    </div>
+                    <!-- if user selects paypal, show this form + check for errors like symbols other than @, . etc -->
+                    <div class="fieldWrapper">
+                        {{ form.paypal }}
+                        {{ form.paypal.errors.as_text }}
+                    </div>
+                    <!-- if user selects venmo, show this form + check for errors like symbols other than @, . etc -->
+                    <div class="fieldWrapper">
+                        {{ form.venmo }}
+                        {{ form.venmo.errors.as_text }}
+                    </div>
+                    <!-- if user selects direct deposit, show this form + check for errors like symbols other than @, . etc -->
+                    <p class="info-text">
+                        If you want to get paid via direct deposit, no problem. We want to handle your financial info securely, so a Blitz team member will get in touch via email to set that up.
+                    </p>         
+                    <!-- either that, or i guess we could straight up ask for bank acct# and routing # -->
+                    <!-- then we need to store this info in the spotter UI somewhere -->                    
 
 
                     <button class="obtn full-width">Complete Signup</button>
