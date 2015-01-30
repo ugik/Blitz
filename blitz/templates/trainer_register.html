@@ -128,16 +128,15 @@
                         </div>
                     </div>
 <script>
-$("#radio_P, #radio_V, #radio_D").change(function () { 
-    if ($("#register_trainer input[type='radio']:checked").val()==='P') {
-        $("#id_payment_info").attr("placeholder", "PayPal Account").blur();
-    } else if ($("#register_trainer input[type='radio']:checked").val()==='V') {
-        $("#id_payment_info").attr("placeholder", "Venmo Account").blur();
-    } else {
-        $("#id_payment_info").attr("placeholder", "Bank acct# and Routing # ").blur();
-    }
-  } );
-
+    $("#radio_P, #radio_V, #radio_D").change(function () { 
+        if ($("#register_trainer input[type='radio']:checked").val()==='P') {
+            $("#id_payment_info").attr("placeholder", "PayPal Account").blur();
+        } else if ($("#register_trainer input[type='radio']:checked").val()==='V') {
+            $("#id_payment_info").attr("placeholder", "Venmo Account").blur();
+        } else {
+            $("#id_payment_info").attr("placeholder", "Bank acct# and Routing # ").blur();
+        }
+    } );
 </script>
 
                     <div class="fieldWrapper">

@@ -57,7 +57,7 @@ class NewTrainerForm(forms.Form):
 
     PAY_CHOICES = (('P', 'PayPal',), ('V', 'Venmo',), ('D', 'Direct Deposit',))
     payment_method = forms.ChoiceField(widget=forms.RadioSelect, choices=PAY_CHOICES)
-    payment_info = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'PayPal Account'}))
+    payment_info = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'PayPal Account'}), required=False)
 
     def clean_price(self):
         try:

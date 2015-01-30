@@ -1379,6 +1379,8 @@ def trainer_signup(request):
                 form.cleaned_data['short_name']
             )
             trainer.referral = Scout.objects.get_or_none(url_slug=request.GET.get('referral', None))
+            trainer.payment_method = form.cleaned_data['payment_method']
+            trainer.payment_info = form.cleaned_data['payment_info']
             trainer.save()
 
             # create initial SalesPageContent for initial Blitz
