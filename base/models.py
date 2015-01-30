@@ -84,6 +84,8 @@ MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), (
 
 FEE_CHOICES = (('O', 'One-time',), ('R', 'Recurring',))
 
+PAY_CHOICES = (('P', 'PayPal',), ('V', 'Venmo',), ('D', 'Direct Deposit',))
+
 #
 # This is junk here; going to replace this all with a new custom user model instead but dont feel like
 # figuring out now
@@ -240,6 +242,10 @@ class Trainer(models.Model):
     currently_viewing_blitz = models.ForeignKey('base.Blitz', null=True, blank=True, related_name="currently_viewing_trainer")
 
     referral = models.ForeignKey('base.Scout', null=True, blank=True)
+
+    payment_method = models.CharField(max_length=1, choices=PAY_CHOICES, default="D", blank=True, null=True)
+    payment_info = models.CharField(max_length=50, blank=True, null=True)
+
     objects = GetOrNoneManager()
 
     def __unicode__(self):

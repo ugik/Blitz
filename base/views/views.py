@@ -15,6 +15,8 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+from ipware.ip import get_ip
+
 import balanced
 import analytics
 
@@ -1368,6 +1370,7 @@ def trainer_signup(request):
 
     if request.method == "POST":
         form = NewTrainerForm(request.POST)
+
         if form.is_valid():
             # utils.create_trainer creates Trainer and corresponding User
             trainer = utils.create_trainer(
@@ -1378,6 +1381,8 @@ def trainer_signup(request):
                 form.cleaned_data['short_name']
             )
             trainer.referral = Scout.objects.get_or_none(url_slug=request.GET.get('referral', None))
+            trainer.payment_method = form.cleaned_data['payment_method']
+            trainer.payment_info = form.cleaned_data['payment_info']
             trainer.save()
 
             # create initial SalesPageContent for initial Blitz
