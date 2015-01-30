@@ -55,6 +55,10 @@ class NewTrainerForm(forms.Form):
     timezone  = forms.CharField(max_length=40)
     price = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'placeholder': '$ per month'}))
 
+    PAY_CHOICES = (('P', 'PayPal',), ('V', 'Venmo',), ('D', 'Direct Deposit',))
+    payment_method = forms.ChoiceField(widget=forms.RadioSelect, choices=PAY_CHOICES)
+    payment_info = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'PayPal Account'}))
+
     def clean_price(self):
         try:
             price = float(self.cleaned_data.get('price'))

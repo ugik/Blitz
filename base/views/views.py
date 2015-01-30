@@ -1368,6 +1368,7 @@ def trainer_signup(request):
 
     if request.method == "POST":
         form = NewTrainerForm(request.POST)
+
         if form.is_valid():
             # utils.create_trainer creates Trainer and corresponding User
             trainer = utils.create_trainer(

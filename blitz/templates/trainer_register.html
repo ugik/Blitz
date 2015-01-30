@@ -30,7 +30,7 @@
     <div class="span4 offset4" style="">
         <div class="formpage-block">
 
-                <form  action="#" method="post">
+                <form id='register_trainer' action="#" method="post">
 
                     {% csrf_token %}
 
@@ -113,38 +113,42 @@
                     <div class="fieldWrapper">
                         <p class="info-text">How do you want to get paid?</p>
                         <div class="gender-container" style="margin-top: 10px;">
-                        <input type="radio" id="7" name="paymentmethod" value="paypal" checked/>
-                            <label for="7" class="radio" style="margin-right: 0%; width: 33%; padding: 8px; border-radius: 4px 0px 0px 4px;">
+                        <input type="radio" id="radio_P" name="payment_method" value="P" checked/>
+                            <label for="radio_P" class="radio" style="margin-right: 0%; width: 33%; padding: 8px; border-radius: 4px 0px 0px 4px;">
                                  Paypal
                             </label>
-                        <input type="radio" id="8" name="paymentmethod" value="venmo"/>
-                            <label for="8" class="radio" style="width: 33%; padding: 8px; border-radius: 0px;">
+                        <input type="radio" id="radio_V" name="payment_method" value="V"/>
+                            <label for="radio_V" class="radio" style="width: 33%; padding: 8px; border-radius: 0px;">
                                  Venmo
                             </label>
-                        <input type="radio" id="9" name="paymentmethod" value="directdeposit"/>
-                            <label for="9" class="radio" style="width: 33%; padding: 8px; border-radius: 0px 4px 4px 0px;">
+                        <input type="radio" id="radio_D" name="payment_method" value="D"/>
+                            <label for="radio_D" class="radio" style="width: 33%; padding: 8px; border-radius: 0px 4px 4px 0px;">
                                  Direct Deposit
                             </label>
                         </div>
                     </div>
-                    <!-- if user selects paypal, show this form + check for errors like symbols other than @, . etc -->
-                    <div class="fieldWrapper">
-                        {{ form.paypal }}
-                        {{ form.paypal.errors.as_text }}
-                    </div>
-                    <!-- if user selects venmo, show this form + check for errors like symbols other than @, . etc -->
-                    <div class="fieldWrapper">
-                        {{ form.venmo }}
-                        {{ form.venmo.errors.as_text }}
-                    </div>
-                    <!-- if user selects direct deposit, show this form + check for errors like symbols other than @, . etc -->
-                    <p class="info-text smaller">
-                        If you want to get paid via direct deposit, no problem. We want to handle your financial info securely, so a Blitz team member will get in touch via email to set that up.
-                    </p>         
-                    <!-- either that, or i guess we could straight up ask for bank acct# and routing # -->
-                    <!-- then we need to store this info in the spotter UI somewhere -->                    
+<script>
+$("#radio_P, #radio_V, #radio_D").change(function () { 
+    if ($("#register_trainer input[type='radio']:checked").val()==='P') {
+        $("#id_payment_info").attr("placeholder", "PayPal Account").blur();
+    } else if ($("#register_trainer input[type='radio']:checked").val()==='V') {
+        $("#id_payment_info").attr("placeholder", "Venmo Account").blur();
+    } else {
+        $("#id_payment_info").attr("placeholder", "Bank acct# and Routing # ").blur();
+    }
+  } );
 
+</script>
 
+                    <div class="fieldWrapper">
+                        <p class="info-text"></p>
+                        <div style="width: 100%; float: left;">
+                            {{ form.payment_info }}
+                        </div>
+                    </div>
+                        <div style="width: 100%; float: left;">
+                            <p class="" style="margin-top: 2px; line-height: 1.0; opacity: 0.5; text-align: center; font-size: 0.7em;"> You can provide this information later if you prefer.</p>
+                        </div>
                     <button class="obtn full-width" style="margin-top: 20px;">Complete Signup</button>
                  </form>
          </div>
