@@ -15,6 +15,8 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+from ipware.ip import get_ip
+
 import balanced
 import analytics
 
