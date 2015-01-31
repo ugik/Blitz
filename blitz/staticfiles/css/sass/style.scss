@@ -3874,12 +3874,15 @@ span.num-unread-threads {
 
 a.feed-permalink {
   float: right;
-  padding: 4px;
+  //padding-top: 4px;
+  padding-left: 10px;
   color: white;
 }
 
 a.feed-permalink-grey {
   color: #d3d3d3;
+  padding-top: 15px;
+  padding-right: 20px;
 }
 
 .solo-client, .solo-client .item, ul.filters .item {
@@ -6170,3 +6173,16 @@ a#name, a#plan_name, a#client_name {
     display: none;
   }
 }
+
+.icon-link {
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+  }
+}
+
+a.feed-permalink {
+  font-size: 12px;
+  
+}
+
