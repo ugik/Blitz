@@ -6103,3 +6103,19 @@ a#name, a#plan_name, a#client_name {
   margin-right: 0;
   margin-left: 0;
 }
+
+.alert-text {
+  width: 75%;
+  display: inline-flex;
+  @include tablet-portrait-and-below {
+    width: 100%;
+  }
+}
+
+.alert-btn-wrap {
+  width: 25%;
+  display: inline;  
+  @include tablet-portrait-and-below {
+    width: 100%;
+  }
+}
