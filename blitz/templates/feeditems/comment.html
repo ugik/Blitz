@@ -13,6 +13,9 @@
             <div class="parent-headshot-card">
                 <img src="{{ comment.user.headshot_url }}" class="img-circle" />
             </div>
+            <a class="feed-permalink feed-permalink-grey" href="{% url "single_post_comment" feed_item.pk %}">
+                <i class="icon-link"></i>
+            </a>
             <div class="parent-comment comment{% if comment.user.is_trainer %} trainer-comment{% endif %}">
                 <a href="{{ comment.user.get_profile_url }}" class="name">{{ comment.user.display_name }}</a> {{ comment.text|urlize|linebreaksbr }}
                 <div class="feeditem-pub-date"><i class="icon-time"></i> {{ comment.date_and_time|timesince }} ago</div>
