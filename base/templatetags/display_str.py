@@ -29,7 +29,7 @@ def display_str(completedset, viewer):
         client.units = "I"
     else:
         # if viewer is trainer (or spotter) then client will be null
-        if not viewer or viewer.is_trainer:
+        if not viewer or viewer.is_trainer or viewer.email=='spotter@example.com':
             client = Client(user=viewer) if viewer else Client() # placeholder client object
             client.units = "I"
         else:
