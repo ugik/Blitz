@@ -16,6 +16,7 @@ from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
 from ipware.ip import get_ip
+
 import balanced
 import analytics
 
@@ -59,11 +60,11 @@ STATIC_URL = getattr(settings, 'STATIC_URL')
 
 # central functions for back-end analytics
 def analytics_track(user_id, label, dict):
-    if not settings.DEBUG and False:
+    if not settings.DEBUG:
         analytics.track(user_id, label, dict)
 
 def analytics_id(request, user_id, traits):
-    if not settings.DEBUG and False:
+    if not settings.DEBUG:
         ip = get_ip(request)
         if not ip:
             ip = '(unknown)'
@@ -1369,6 +1370,7 @@ def trainer_signup(request):
 
     if request.method == "POST":
         form = NewTrainerForm(request.POST)
+
         if form.is_valid():
             # utils.create_trainer creates Trainer and corresponding User
             trainer = utils.create_trainer(
@@ -1379,6 +1381,8 @@ def trainer_signup(request):
                 form.cleaned_data['short_name']
             )
             trainer.referral = Scout.objects.get_or_none(url_slug=request.GET.get('referral', None))
+            trainer.payment_method = form.cleaned_data['payment_method']
+            trainer.payment_info = form.cleaned_data['payment_info']
             trainer.save()
 
             # create initial SalesPageContent for initial Blitz
@@ -1650,7 +1654,7 @@ def sales_blitz(request):
     debug_key = None
     saved = ''
     if 'debug' in request.GET:
-        debug_mode = request.GET.get('debug')
+        debug_mode = request.GET.get('debug') if not request.user.is_anonymous() else False
     if 'key' in request.GET:
         debug_key = request.GET.get('key')
     if 'slug' in request.GET:
@@ -1663,7 +1667,8 @@ def sales_blitz(request):
         blitz = None
 
     # analytics
-    analytics_track(str(request.user.id), 'sales-blitz', {
+    if not request.user.is_anonymous():
+        analytics_track(str(request.user.id), 'sales-blitz', {
             'name': request.user.trainer.name if request.user.is_trainer else request.user.email,
             'blitz': blitz.title if blitz else '(None)',
                 })

@@ -1287,7 +1287,7 @@ h3 {@include lightfont();}
     border-top-left-radius: 4px;
     color: white;
     //@include blitz-gradient();
-    background: $blitz-orange;
+    background: $blitz-purple;
     padding: $parentpadding;
     border-bottom: $border;
     font-size: 18px;
@@ -2003,6 +2003,7 @@ a:focus {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    max-width: 100px;
     @include mobile-only {
       margin-top: 5%;
     }
@@ -2018,6 +2019,9 @@ a:focus {
   }
 }
 
+.blitz-login img {
+  max-width: 100px;
+}
 
 
 #progress-header-container {
@@ -3870,12 +3874,15 @@ span.num-unread-threads {
 
 a.feed-permalink {
   float: right;
-  padding: 4px;
+  //padding-top: 4px;
+  padding-left: 10px;
   color: white;
 }
 
 a.feed-permalink-grey {
   color: #d3d3d3;
+  padding-top: 15px;
+  padding-right: 20px;
 }
 
 .solo-client, .solo-client .item, ul.filters .item {
@@ -4751,12 +4758,19 @@ color: #9d9ea3;
   margin-bottom: 10px;
   @include boldfont();
   line-height: 1.3;
+  @include mobile-only {
+    text-align: center;
+  }
 }
 
 .uploads-bottom {
   opacity: 0.5;
   font-size: 14px;
   line-height: 1.3;
+  @include mobile-only {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 }
 
 .uploads-row {
@@ -5864,10 +5878,10 @@ a#name, a#plan_name, a#client_name {
   margin-top: 40px;
   img {
     @include tablet-portrait-and-up {
-      width: 10%;
+      width: 8%;
     };
     @include mobile-only {
-      width: 30%;
+      width: 20%;
     };
   }
 }
@@ -5925,14 +5939,52 @@ a#name, a#plan_name, a#client_name {
 }
 
 .blueplay {
+  text-align: center; 
+  background-color: #7ab2ea; 
+  height: 175px; 
+  width: 175px; 
+  border-radius: 50px;
   :hover {
     cursor: pointer;
   }
   @include tablet-landscape-and-up {
     margin: 30px auto;
+    @include meta();
   }
+  //@include mobile-only {
+  //  margin: 60px auto;
+  //}
   @include mobile-only {
-    margin: 60px auto;
+    width: 100%;
+    height: 40px;
+    .arrow-right {
+      display: none;
+    }
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 4px;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+.watchspacer {
+  height: 35px;
+  @include mobile-only {
+    display: none;
+  }
+}
+
+.watch {
+  top: 50%; 
+  color: white; 
+  margin-top: 20px;
+  @include mobile-only {
+    top: auto;
+    margin-top: 10px;
+    @include meta();
+    font-size: 1.3em;
   }
 }
 
@@ -6088,3 +6140,49 @@ a#name, a#plan_name, a#client_name {
     background: #333;
   }
 }
+
+.spacer {
+  height: 10px;
+  display: block;
+}
+
+.paymentradio label {
+  width: 33%;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.alert-text {
+  width: 75%;
+  display: inline-flex;
+  @include tablet-portrait-and-below {
+    width: 100%;
+  }
+}
+
+.alert-btn-wrap {
+  width: 25%;
+  display: inline;  
+  @include tablet-portrait-and-below {
+    width: 100%;
+  }
+}
+
+.mobile-hide {
+  @include mobile-only {
+    display: none;
+  }
+}
+
+.icon-link {
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+  }
+}
+
+a.feed-permalink {
+  font-size: 12px;
+  
+}
+

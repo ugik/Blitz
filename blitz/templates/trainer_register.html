@@ -1,5 +1,13 @@
 {% extends "formpage.html" %}
 
+{% block morehead %}
+
+<style type="text/css">
+    .blitz-login{ padding-left: 150px; padding-right: 150px; }
+</style>
+
+{% endblock %}
+
 <script>
   <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
 </script>
@@ -9,13 +17,20 @@
 {% block formpage_content %}
 
 <div class="row">
-    <div class="span6 offset3" style="">
+    <div class="span6 offset3">
+        <div class="formpage-block" style="margin-bottom: -30px;">
+            <div class="header">Get started in less than 2 minutes.
+                {% if referral %} 
+                <br><small>(referral from {{ referral.name }})</small> 
+                {% endif %}
+            </div>
+            <p class="info-text">You'll be coaching clients effortlessly and raking in cash in no time.</p>
+        </div>
+    </div>
+    <div class="span4 offset4" style="">
         <div class="formpage-block">
 
-                <form  action="#" method="post">
-                    <div class="header">Registration
-                        {% if referral %} <br><small>(referral from {{ referral.name }})</small> {% endif %}</div>
-                    <p class="info-text">You've been chosen as one of the elite few to get early access to Blitz. Now, tell us a little bit about yourself. </p>
+                <form id='register_trainer' action="#" method="post">
 
                     {% csrf_token %}
 
@@ -58,33 +73,82 @@
                         </script>
                     </div>
 
-
-                    <div class="fieldWrapper">
-                        <div style="width: 25%; float: left;">
-                            {{ form.price }}
-                            {{ form.price.errors.as_text }}
-                        </div>
-                        <div style="width: 5%; float: left;">
-                            &nbsp;
-                        </div>
-                        <div style="width: 70%; float: left;">
-                            <p class="smaller" style="margin-top: 8px;"> You can adjust this on a per-client basis, this is just a default.</p>
-                        </div>
+                    <div class="spacer">
+                        &nbsp;
                     </div>
 
                     <div class="fieldWrapper full-width" style="float: left;">
                         <p class="info-text">What vanity URL would you like?
-                        <div style="width: 37%; float: left; font-size: 30px; font-family: 'metanormal_caps'; padding-top: 8px;text-align: center;">
+                        <div style="width: 40%; float: left; font-size: 30px; font-family: 'metanormal_caps'; padding-top: 8px;text-align: center;">
                             blitz.us/
                         </div>
-                        <div style="width: 63%; float: left;">
+                        <div style="width: 2%; float: left;">
+                            &nbsp;
+                        </div>
+                        <div style="width: 58%; float: left;">
                             {{ form.short_name }}<br>
                             {{ form.short_name.errors.as_text }}
                         </div>
                     </div>
 
+                    <div class="spacer">
+                        &nbsp;
+                    </div>
 
-                    <button class="obtn full-width">Complete Signup</button>
+                    <div class="fieldWrapper">
+                        <p class="info-text">How much do you charge clients per month?</p>
+                        <div style="width: 100%; float: left;">
+                            {{ form.price }}
+                            {{ form.price.errors.as_text }}
+                        </div>
+                        <div style="width: 100%; float: left;">
+                            <p class="" style="margin-top: 2px; line-height: 1.0; opacity: 0.5; text-align: center; font-size: 0.7em;"> You can adjust this on a per-client basis, this is just a default.</p>
+                        </div>
+                    </div>
+
+                    <div class="spacer">
+                        &nbsp;
+                    </div>
+
+                    <div class="fieldWrapper">
+                        <p class="info-text">How do you want to get paid?</p>
+                        <div class="gender-container" style="margin-top: 10px;">
+                        <input type="radio" id="radio_P" name="payment_method" value="P" checked/>
+                            <label for="radio_P" class="radio" style="margin-right: 0%; width: 33%; padding: 8px; border-radius: 4px 0px 0px 4px;">
+                                 Paypal
+                            </label>
+                        <input type="radio" id="radio_V" name="payment_method" value="V"/>
+                            <label for="radio_V" class="radio" style="width: 33%; padding: 8px; border-radius: 0px;">
+                                 Venmo
+                            </label>
+                        <input type="radio" id="radio_D" name="payment_method" value="D"/>
+                            <label for="radio_D" class="radio" style="width: 33%; padding: 8px; border-radius: 0px 4px 4px 0px;">
+                                 Direct Deposit
+                            </label>
+                        </div>
+                    </div>
+<script>
+    $("#radio_P, #radio_V, #radio_D").change(function () { 
+        if ($("#register_trainer input[type='radio']:checked").val()==='P') {
+            $("#id_payment_info").attr("placeholder", "PayPal Account").blur();
+        } else if ($("#register_trainer input[type='radio']:checked").val()==='V') {
+            $("#id_payment_info").attr("placeholder", "Venmo Account").blur();
+        } else {
+            $("#id_payment_info").attr("placeholder", "Bank acct# and Routing # ").blur();
+        }
+    } );
+</script>
+
+                    <div class="fieldWrapper">
+                        <p class="info-text"></p>
+                        <div style="width: 100%; float: left;">
+                            {{ form.payment_info }}
+                        </div>
+                    </div>
+                        <div style="width: 100%; float: left;">
+                            <p class="" style="margin-top: 2px; line-height: 1.0; opacity: 0.5; text-align: center; font-size: 0.7em;"> You can provide this information later if you prefer.</p>
+                        </div>
+                    <button class="obtn full-width" style="margin-top: 20px;">Complete Signup</button>
                  </form>
          </div>
       </div>

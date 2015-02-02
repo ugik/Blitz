@@ -24,12 +24,16 @@ def display_str(completedset, viewer):
     if not completedset:
         return ''
 
-    # if viewer is trainer (or spotter) then client will be null
-    if not viewer or viewer.is_trainer:
-        client = Client(user=viewer) if viewer else Client() # placeholder client object
+    if viewer.is_anonymous():
+        client = Client() # placeholder client object
         client.units = "I"
     else:
-        client = viewer.client
+        # if viewer is trainer (or spotter) then client will be null
+        if not viewer or viewer.is_trainer or viewer.email=='spotter@example.com':
+            client = Client(user=viewer) if viewer else Client() # placeholder client object
+            client.units = "I"
+        else:
+            client = viewer.client
 
     lift = completedset.workout_set.lift
 
