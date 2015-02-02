@@ -97,14 +97,17 @@
                     </div>
                     <% } %>
                     <% if (m.has_entry && !m.all_pass && !m.all_fail) { %>
-                    <div class="macro-day-cell">
-                        <div class="macro-combo">
-                            <div class="letter <% if (m.calories) { %>calories-pass<% } else { %>letter-fail<% } %>"  title="Calories"></div>
-                            <div class="letter <% if (m.protein) { %>protein-pass<% } else { %>letter-fail<% } %>"  title="Protein"></div>
-                            <div class="letter <% if (m.carbs) { %>carbs-pass<% } else { %>letter-fail<% } %>"  title="Carbs"></div>
-                            <div class="letter <% if (m.fat) { %>fat-pass<% } else { %>letter-fail<% } %>"></div>
-                        </div>
+
+                    <div class="macro-day-cell {% if m.current %}current{% endif %}">
+                        <% if (m.diet_goal_done > 0) { %>
+                        <span class="diet-progress-stats" title="<%= m.day_str.split(' ')[0] %>, <%= m.month_str.slice(0,3) %>. <%= m.day_of_month %>
+Missed: <%= m.diet_goal_missed %>.
+Hit: <%= m.diet_goal_hit %>."><%= m.diet_goal_done %>/<%= m.diet_goal_max %></span>
+                        <% } else { %>
+                            <i class="icon-remove-sign fail"></i>
+                        <% } %>
                     </div>
+
                     <% } %>
                 </td>
             <% }); %>

@@ -1858,7 +1858,7 @@ a:focus {
     background-color: #ccc; }
 
 .macro-day-cell {
-  height: 20px; }
+  height: 30px; }
   .macro-day-cell i {
     font-size: 20px; }
   .macro-day-cell i.pass {
