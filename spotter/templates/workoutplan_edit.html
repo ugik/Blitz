@@ -380,46 +380,44 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 <table id='table'>
 
 {% if not workoutplan %}
-<h3>No workout plan</h3>
-
+    <h3>No workout plan</h3>
 {% else %}
-<h1>{{ workoutplan.name }} - Program details</h1>
-<a href="/spotter/view-workoutplan?plan={{ workoutplan.pk }}"><i class="icon-search"></i>  Preview</a></p>
-{% if not workoutplan.workoutplanweek_set.all %}
-<tr>
-
-<tr id="day_0" >
-    <td align="left">
-        Week 1
-    </td>
-    <td align="left">
-        <a onclick="insert_day('#day_0', '1');">
-            <i class="icon-plus-sign"></i> Add day
-        </a>
-    </td>
-</tr>
+    <h1>{{ workoutplan.name }} - Program details</h1>
+    <a href="/spotter/view-workoutplan?plan={{ workoutplan.pk }}"><i class="icon-search"></i>  Preview</a></p>
+    {% if not workoutplan.workoutplanweek_set.all %}
+    <tr>
+    <tr id="day_0" >
+        <td align="left">
+            Week 1
+        </td>
+        <td align="left">
+            <a onclick="insert_day('#day_0', '1');">
+                <i class="icon-plus-sign"></i> Add day
+            </a>
+        </td>
+    </tr>
 
 {% endif %}
 
 {% for workoutplanweek in workoutplan.workoutplanweek_set.all|dictsort:"week" %}
-<tr id="week_head_{{ workoutplanweek.pk }}">
-    <td>
-        <a class="obtn full-width" onclick="insert_week('#week_head_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">
-            <i class="icon-plus-sign"></i> Add week
-        </a>
-    </td>
-</tr>
+    <tr id="week_head_{{ workoutplanweek.pk }}">
+        <td>
+            <a class="obtn full-width" onclick="insert_week('#week_head_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">
+                <i class="icon-plus-sign"></i> Add week
+            </a>
+        </td>
+    </tr>
 
-<tr id="day_{{ workoutplanweek.pk }}">
-    <td>
-        Week #{{ workoutplanweek.week }}
-    </td>
-    <td>
-        <a onclick="insert_day('#day_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">
-            <i class="icon-plus-sign"></i> Add day
-        </a>
-    </td>
-</tr>
+    <tr id="day_{{ workoutplanweek.pk }}">
+        <td>
+            Week #{{ workoutplanweek.week }}
+        </td>
+        <td>
+            <a onclick="insert_day('#day_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">
+                <i class="icon-plus-sign"></i> Add day
+            </a>
+        </td>
+    </tr>
 
     {% for workoutplanday in workoutplanweek.workoutplanday_set.all|dictsort:"day_index" %}
        <tr id="day_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}">
@@ -455,31 +453,33 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
        <tr id="day_head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}" style="height:5px;">
        </tr>
-
           {% for exercise in workoutplanday.workout.exercise_set.all %}
               <tr id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}">
-              <td id="controls_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}">
+                  <td id="controls_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}">
 
-                {% if workoutplanday.gymsession_set.all %}
-                    <small>
-                        <span title="This exercise is in use and cannot be deleted">(in use)</span>
-                    </small> 
-                {% else %}
-                    <a onclick="cancel_row(this, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}');">
-                        <small><i class="icon-remove"></i> Delete</small> 
+                    {% if workoutplanday.gymsession_set.all %}
+                        <small>
+                            <span title="This exercise is in use and cannot be deleted">(in use)</span>
+                        </small> 
+                    {% else %}
+                        <a onclick="cancel_row(this, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}');">
+                            <small><i class="icon-remove"></i> Delete</small> 
+                        </a>
+                      {% endif %}
+
+                    | <a onclick="edit_row({% if workoutplanday.gymsession_set.all %}1{% else %}0{% endif %}, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}', '{{ exercise.lift }}', '{{ exercise.sets_display }}', {% for set in exercise.workoutset_set.all %} '{{ set.num_reps }}',{% endfor %} '', '', '', '', '', '' );">
+                        <small><i class="icon-pencil"></i> Edit</small>
                     </a>
-                  {% endif %}
-
-                | <a onclick="edit_row({% if workoutplanday.gymsession_set.all %}1{% else %}0{% endif %}, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}', '{{ exercise.lift }}', '{{ exercise.sets_display }}', {% for set in exercise.workoutset_set.all %} '{{ set.num_reps }}',{% endfor %} '', '', '', '', '', '' );">
-                    <small><i class="icon-pencil"></i> Edit</small>
-                </a>
-            </td>
-            <td align="left" 
-             id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_lift">{{ exercise.lift }}
-            </td>
-            <td align="left"
-             id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_display">{{ exercise.sets_display }}
-            </td>
+                </td>
+                <td align="left" 
+                 id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_lift">
+                 {{ exercise.lift }}
+                </td>
+                <td align="left"
+                 id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_display">
+                 {{ exercise.sets_display }}
+                </td>
+                
             {% for set in exercise.workoutset_set.all %}
                <td align="left" width="5%"
                 id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_set_{{ forloop.counter }}">
@@ -513,14 +513,14 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 
      {% endfor %}
 
-{% endfor %}
-<tr id="head_end">
-    <td align="left">
-        <a class="obtn full-width" onclick="insert_week('#head_end', '999');">
-            <i class="icon-plus-sign"></i> Add week
-        </a>
-    </td>
-</tr>
+    {% endfor %}
+    <tr id="head_end">
+        <td align="left">
+            <a class="obtn full-width" onclick="insert_week('#head_end', '999');">
+                <i class="icon-plus-sign"></i> Add week
+            </a>
+        </td>
+    </tr>
 </table>
 
 {% endif %}
