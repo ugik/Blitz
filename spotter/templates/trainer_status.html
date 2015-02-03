@@ -24,14 +24,16 @@
           {% if trainer.payment_info %}{{ trainer.payment_method }}:&nbsp;{{ trainer.payment_info }}
           {% endif %}</small>
         </div>
-        <ul style="text-align: left; margin: 10px 0px 50px 0px;">
+        <ul style="text-align: left; margin: 10px 0px 0px 0px;">
            <li>Programs:
             <ul style="margin-top: 10px;">
            {% if not trainer.blitz_set.all %}
-               <li style="padding-left: 20px;">(no Programs)
+                <li style="padding-left: 20px;">
+                  <i class="icon-exclamation-sign"></i> No group or individual programs set up
+                </li>
            {% endif %}
            {% for blitz in trainer.blitz_set.all %}
-               <li style="padding-left: 20px;">{% if blitz.url_slug %}{{ blitz.url_slug }} : {% endif %} <b>{{ blitz.title }}</b>
+               <li style="padding-left: 20px; margin-top: 10px;">{% if blitz.url_slug %}{{ blitz.url_slug }} : {% endif %} <b>{{ blitz.title }}</b>
                    {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
                    {% if blitz.recurring %}
                       {% if blitz.blitzmember_set.all %}
@@ -43,26 +45,49 @@
                    {% endif %}
                    <br>&nbsp;&nbsp;&nbsp;&nbsp;
                    {% if blitz.workout_plan.id %}
-                       <small>has workoutplan:&nbsp;<a href="workoutplan?plan={{ blitz.workout_plan.pk }}">{{ blitz.workout_plan.name }}</a></small>
+                       <i class="icon-caret-right"></i> <small>
+                          Workout plan: {{ blitz.workout_plan.name }}
+                             | <a href="view-workoutplan?plan={{ blitz.workout_plan.pk }}">Preview</a>
+                             | <a href="edit-workoutplan?plan={{ blitz.workout_plan.pk }}">Edit</a>
+                             | <a href="workoutplan?plan={{ blitz.workout_plan.pk }}">Details</a>                         
+                        </small>
                    {% else %}
-                       <small><u>(no WorkoutPlan assigned)</u></small>
+                       <i class="icon-exclamation-sign"></i> <small>No workout plan assigned</small>
                    {% endif %}
 
-           {% endfor %}</ul>
+           {% endfor %}
+          </ul>
 
-           <li style="margin-top: 20px;">WorkoutPlans:<ul style="margin-top: 10px;">
+           <li style="margin-top: 20px;">
+            Workout plans:
+            <ul style="margin-top: 10px;">
            {% if not trainer.workoutplan_set.all %}
-               <li style="padding-left: 20px;">(no WorkoutPlans)
+               <li style="padding-left: 20px;">
+                 <i class="icon-exclamation-sign"></i> No workout plans set up yet
+              </li>
            {% endif %}
            {% for workoutplan in trainer.workoutplan_set.all %}
-              <li style="padding-left: 20px;">
-              <a href="workoutplan?plan={{ workoutplan.pk }}">{{ workoutplan.name }}</a>
-              {% if workoutplan.blitz_set.all or workoutplan.blitzinvitation_set.all %} <small>(in use)</small>
-              {% else %} <a onClick="if(confirm('Delete workoutplan {{ workoutplan.name }}?')) window.location.href = 'program_delete/{{ workoutplan.pk }}';"><small>(delete)</small></a>{% endif %}
-       action:&nbsp;<a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>assign to Program</small></a>
-           {% endfor %}</ul>
+              <li style="padding-left: 20px; margin-top: 5px;">
+                <i class="icon-caret-right"></i> <a href="view-workoutplan?plan={{ workoutplan.pk }}">
+                  {{ workoutplan.name }}
+                </a>
+                {% if workoutplan.blitz_set.all or workoutplan.blitzinvitation_set.all %} 
+                <small>
+                  (in use)
+                </small>
+                {% else %} 
+                   | <a onClick="if(confirm('Are you sure you want to delete {{ workoutplan.name }}?')) window.location.href = 'program_delete/{{ workoutplan.pk }}';">
+                    <small style="cursor: pointer;">Delete plan</small>
+                  </a>
+                {% endif %}
+                 | <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>Add to Program</small></a>
+               </li>
+           {% endfor %}
+               <li style="padding-left: 20px; margin-top: 5px;">
+                <a href="/spotter/new-workoutplan?trainer={{ trainer.pk }}"><i class="icon-plus-sign"></i>  Add a workout plan</a>
+              </li>
+         </ul>
         </ul>
-        <a href="/spotter/new-workoutplan?trainer={{ trainer.pk }}">Create <b>NEW</b> </a>workoutplan for {{ trainer.name }}
       </div>
       {% endfor %}
 

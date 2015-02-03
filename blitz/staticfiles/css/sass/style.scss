@@ -4088,7 +4088,9 @@ ul.spotternav li {
   padding: 10px 0px 30px 5px;
   border-radius: 5px;
   border: 1px solid white;
-  margin-bottom: 20px;
+  margin-left: 0px;
+  margin-right: 30px;
+  min-height: 200px;
 }
 
 .wellheadline {
@@ -6186,3 +6188,9 @@ a.feed-permalink {
   
 }
 
+.spotterwrap {
+  border: 1px solid #fff; 
+  border-radius: 5px; 
+  padding: 20px; 
+  margin-bottom: 30px;
+}
