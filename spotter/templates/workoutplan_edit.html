@@ -157,7 +157,7 @@ function save_row(inuse, location, exercise, count, option) {
 
            head = "<tr id='row_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'><td id='controls_"+ exercise +"_"+ count +"'>";
          cancel = "<a onclick='cancel_row(this, \""+ exercise +"_"+ count +"\");'><small>(del)</small></a>";
-           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count).val() + "\", \""+ $("#sets_display"+ count).val() +"\", \""+$("#set1_"+ count).val()+"\", \""+$("#set2_"+ count).val()+"\", \""+$("#set3_"+ count).val()+"\", \""+$("#set4_"+ count).val()+"\", \""+$("#set5_"+ count).val()+"\", \""+$("#set6_"+ count).val()+"\");'><small><i class="icon-pencil"></i> Edit</small></a></td>";
+           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count).val() + "\", \""+ $("#sets_display"+ count).val() +"\", \""+$("#set1_"+ count).val()+"\", \""+$("#set2_"+ count).val()+"\", \""+$("#set3_"+ count).val()+"\", \""+$("#set4_"+ count).val()+"\", \""+$("#set5_"+ count).val()+"\", \""+$("#set6_"+ count).val()+"\");'><small>Edit</small></a></td>";
 
         controls = head+cancel+edit;
         calc_sets = auto_sets($("#sets_display"+ count).val());
@@ -238,8 +238,8 @@ function insert_day(location, exercise) {
     count++; c = count.toString();
 
     head = "<tr id='day_"+ exercise +"_"+ c +"'>";
-  cancel = "<td><a onclick='cancel_day(this, \""+ exercise + "\", " + c + ");'><small>(cancel)</small></a>&nbsp;";
-    save = "<a onclick='save_day(0, this, \""+ exercise + "\", " + c + ", 0);'><small>(save)</small></a></td>";
+  cancel = "<td><a onclick='cancel_day(this, \""+ exercise + "\", " + c + ");'><small>Cancel</small></a>&nbsp;|&nbsp;";
+    save = "<a onclick='save_day(0, this, \""+ exercise + "\", " + c + ", 0);'><small>Save</small></a></td>";
      day = "<td align='left'><select id='days_"+ c +"' ><option value='M'>Monday</option><option value='T'>Tuesday</option><option value='W'>Wednesday</option><option value='H'>Thursday</option><option value='F'>Friday</option><option value='S'>Saturday</option><option value='U'>Sunday</option></select></td><td align='left'><input style='width:250px;' id='workouts_"+ c +"' list='wos_"+ c +"' placeholder='Search for Workout'/><datalist id='wos_"+ c +"' ></datalist></td></tr>";
      gap = "<tr id='insert_day_"+ exercise +"_"+ c +"' style='height:5px;'></tr>";
 
@@ -293,8 +293,8 @@ function insert_row(location, exercise) {
     count++; c = count.toString();
 
     head = "<tr id='row_"+ exercise +"_"+ count +"'>";
-  cancel = "<td><a onclick='cancel_row(this, \""+ exercise +"_"+ c +"\");'><small>(cancel)</small></a>&nbsp";
-    save = "<a onclick='save_row(0, this, \""+ exercise +"\", " + c + ", 0);'><small>(save)</small></a></td>";
+  cancel = "<td><a onclick='cancel_row(this, \""+ exercise +"_"+ c +"\");'><small>Cancel</small></a>&nbsp";
+    save = "<a onclick='save_row(0, this, \""+ exercise +"\", " + c + ", 0);'> | <small>Save</small></a></td>";
    lifts = "<td align='left'><input id='lifts_"+ c +"' list='list_"+ c +"' placeholder='Search for a Lift'/><datalist id='list_"+ c +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td>";
  display = "<td align='left'><input type='text' id='sets_display"+ c +"' style='width:100px;' value='3x10'/></td>";
     set1 = "<td align='left' width='5%'><input type='text' id='set1_"+ c +"' style='width:20px;' placeholder='Set'/>";
@@ -320,7 +320,7 @@ function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, 
     $('#row_'+exercise+'_set_5').replaceWith("<td align='left' width='5%'><input id='row_"+ exercise +"_set_5' type='text' style='width:30px;' value='"+ $('#row_'+exercise+'_set_5').text().trim() +"'/></td>");
     $('#row_'+exercise+'_set_6').replaceWith("<td align='left' width='5%'><input id='row_"+ exercise +"_set_6' type='text' style='width:30px;' value='"+ $('#row_'+exercise+'_set_6').text().trim() +"'/></td>");
 
-    $('#controls_'+exercise).replaceWith("<td id='controls_"+exercise+"'><a onclick='cancel_edit("+ inuse +", \""+exercise+"\", \""+lift+"\", \""+display+"\", \""+set1+"\", \""+set2+"\", \""+set3+"\", \""+set4+"\", \""+set5+"\", \""+set6+"\");'><small>(cancel)</small></a>&nbsp;<a onclick='save_row("+ inuse +", this, \""+ exercise +"\",0 ,1);'><small>(save)</small></a></td>");
+    $('#controls_'+exercise).replaceWith("<td id='controls_"+exercise+"'><a onclick='cancel_edit("+ inuse +", \""+exercise+"\", \""+lift+"\", \""+display+"\", \""+set1+"\", \""+set2+"\", \""+set3+"\", \""+set4+"\", \""+set5+"\", \""+set6+"\");'><small>Cancel</small></a>&nbsp;|&nbsp;<a onclick='save_row("+ inuse +", this, \""+ exercise +"\",0 ,1);'><small>Save</small></a></td>");
 
     var lifts = document.getElementById('lifts_'+ exercise);   // set lifts select
 }
@@ -338,9 +338,9 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
     $('#row_'+exercise+'_set_6').replaceWith('<td id="row_'+ exercise +'_set_6" align="left" width="5%">'+set6+'</td>');
  
     if (inuse===0) {
-        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>(edit)</small></a></td>");
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>Edit</small></a></td>");
     } else {
-        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><small><i><span title='This exercise is in use and cannot be deleted'>(in use)</span></i></small>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>(edit)</small></a></td>");
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><small><i><span title='This exercise is in use and cannot be deleted'>(in use)</span></i></small>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>Edit</small></a></td>");
     }
 }
 
@@ -479,7 +479,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
                  id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_display">
                  {{ exercise.sets_display }}
                 </td>
-                
+
             {% for set in exercise.workoutset_set.all %}
                <td align="left" width="5%"
                 id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_set_{{ forloop.counter }}">
