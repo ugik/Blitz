@@ -404,7 +404,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 {% for workoutplanweek in workoutplan.workoutplanweek_set.all|dictsort:"week" %}
 <tr id="week_head_{{ workoutplanweek.pk }}">
     <td>
-        <a onclick="insert_week('#week_head_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">
+        <a class="obtn full-width" onclick="insert_week('#week_head_{{ workoutplanweek.pk }}', '{{ workoutplanweek.pk }}');">
             <i class="icon-plus-sign"></i> Add week
         </a>
     </td>
@@ -516,7 +516,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 {% endfor %}
 <tr id="head_end">
     <td align="left">
-        <a onclick="insert_week('#head_end', '999');">
+        <a class="obtn full-width" onclick="insert_week('#head_end', '999');">
             <i class="icon-plus-sign"></i> Add week
         </a>
     </td>
