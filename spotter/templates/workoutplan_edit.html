@@ -443,7 +443,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
           {% else %}
               <td>
                 <a onClick='if(confirm("Delete entire day?")) delete_day("{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}");'>
-                    <small><i class="icon-remove"></i> Delete</small>
+                    <small><i class="icon-remove"></i> Delete day</small>
                 </a>
               </td>
           {% endif %}
@@ -505,7 +505,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
          </tr>
          <tr id='dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' style='height:10px;'>
             <td align='left'>
-                <a onclick='insert_day("#dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}", "{{ workoutplanweek.pk }}");'>
+                <a onclick='insert_day("#dayadd_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}", "{{ workoutplanweek.pk }}");' style="padding-top: 30px; padding-bottom: 60px; padding-left: 100px; display: block;">
                     <i class="icon-plus-sign"></i> Add day
                 </a>
             </td>

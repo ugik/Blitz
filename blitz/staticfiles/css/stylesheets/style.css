@@ -7317,3 +7317,8 @@ a.feed-permalink {
   padding: 20px;
   margin-bottom: 30px;
 }
+
+/* line 6198, ../sass/style.scss */
+#table a {
+  pointer: cursor;
+}
