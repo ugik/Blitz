@@ -1629,7 +1629,23 @@ def default_blitz_page(request, short_name):
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
-    trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
+    # logo, head, name are passed in request for /sample sales page
+    logo = None
+    if 'logo' in request.GET:
+        logo = request.GET.get('logo')
+    head = None
+    if 'head' in request.GET:
+        head = request.GET.get('head')
+    name = None
+    if 'name' in request.GET:
+        name = request.GET.get('name')
+
+    if short_name == 'sample':   # handle /sample sales page
+        trainer = Trainer.objects.get(short_name="CT")
+        url_slug = trainer.short_name
+    else:
+        trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
+
     blitz = sales_page = None
     if trainer:
         if trainer.blitz_set.filter(url_slug__iexact=url_slug):
@@ -1641,7 +1657,8 @@ def blitz_page(request, short_name, url_slug):
 
     if sales_page and trainer:
         return render(request, "sales_blitz.html", {
-            'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page })
+            'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page, 
+            'logo': logo, 'head': head, 'name': name, })
     else:
         return redirect('home')
 
@@ -1732,6 +1749,7 @@ def sales_blitz(request):
         return render(request, "sales_blitz.html", {
             'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
             })
+        print logo
 
 # Blitz signup page
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/signup
