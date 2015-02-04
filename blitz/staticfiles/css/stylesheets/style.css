@@ -2615,24 +2615,15 @@ a:focus {
 
 /* line 2359, ../sass/style.scss */
 .macro-day-cell {
-  height: 20px;
-}
-/* line 2361, ../sass/style.scss */
-.macro-day-cell i {
-  font-size: 20px;
-}
-/* line 2364, ../sass/style.scss */
-.macro-day-cell i.pass {
-  color: #57c6b9;
-}
-/* line 2367, ../sass/style.scss */
-.macro-day-cell i.fail {
-  color: #e8748e;
-}
-/* line 2370, ../sass/style.scss */
-.macro-day-cell i.unknown {
-  color: #ccc;
-}
+  height: 30px; }
+  .macro-day-cell i {
+    font-size: 20px; }
+  .macro-day-cell i.pass {
+    color: #57c6b9; }
+  .macro-day-cell i.fail {
+    color: #e8748e; }
+  .macro-day-cell i.unknown {
+    color: #ccc; }
 
 /* line 2375, ../sass/style.scss */
 .macro-form {

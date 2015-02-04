@@ -1,5 +1,38 @@
 from base.models import MacroDay, Blitz
 
+def day_stats(macro_day):
+    day = macro_day
+    # Diet Goal Stats
+    if day['has_entry'] == True:
+        diet_facts = ['calories', 'carbs', 'protein', 'fat']
+        goal_count = 0
+        hit = []
+        missed = []
+
+        for diet_fact in diet_facts:
+            if day.get(diet_fact) and day.get(diet_fact) == True:
+                goal_count += 1
+                hit.append(diet_fact)
+            else:
+                missed.append(diet_fact)
+
+        day['diet_goal_max'] = len(diet_facts)
+        day['diet_goal_done'] = goal_count
+
+        if hit:
+            if len(hit) > 1:
+                day['diet_goal_hit'] = ', '.join(
+                    hit[:-1]) + ' and ' + hit[-1]
+            else:
+                day['diet_goal_hit'] = ', '.join(hit)
+
+        if missed:
+            if len(missed) > 1:
+                day['diet_goal_missed'] = ', '.join(
+                    missed[:-1]) + ' and ' + missed[-1]
+            else:
+                day['diet_goal_missed'] = ', '.join(missed)
+    return day
 
 def get_macro_targets_for_day(client, week, day):
     """
@@ -34,6 +67,10 @@ def get_macro_meta_for_day(client, week, day_index):
     d['targets'] = client.macro_target_for_date(date)
     d['day_of_month'] = date.day
     d['in_future'] = date > client.current_datetime().date()
+
+    # Add stats for that day
+    d = day_stats(d)
+
     return d
 
 
@@ -71,35 +108,7 @@ def get_full_macro_history(client):
             day = get_macro_meta_for_day(client, i, j)
 
             # Diet Goal Stats
-            if day['has_entry'] == True:
-                diet_facts = ['calories', 'carbs', 'protein', 'fat']
-                goal_count = 0
-                hit = []
-                missed = []
-
-                for diet_fact in diet_facts:
-                    if day.get(diet_fact) and day.get(diet_fact) == True:
-                        goal_count += 1
-                        hit.append(diet_fact)
-                    else:
-                        missed.append(diet_fact)
-
-                day['diet_goal_max'] = len(diet_facts)
-                day['diet_goal_done'] = goal_count
-
-                if hit:
-                    if len(hit) > 1:
-                        day['diet_goal_hit'] = ', '.join(
-                            hit[:-1]) + ' and ' + hit[-1]
-                    else:
-                        day['diet_goal_hit'] = ', '.join(hit)
-
-                if missed:
-                    if len(missed) > 1:
-                        day['diet_goal_missed'] = ', '.join(
-                            missed[:-1]) + ' and ' + missed[-1]
-                    else:
-                        day['diet_goal_missed'] = ', '.join(missed)
+            day = day_stats(day)            
 
             # dayBefore = ( get_macro_meta_for_day(client, i, j-1))# if (j > 0)
             # else get_macro_meta_for_day(client, -i, 7) )

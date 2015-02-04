@@ -1,5 +1,17 @@
 {% extends "formpage.html" %}
 
+{% block moretitle %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block moremeta %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
 {% block formpage_content %}
 
 
