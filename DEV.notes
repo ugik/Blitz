@@ -239,3 +239,13 @@ week of 1.19
 - send email on program upload during trainer onboarding
 - name new trainer's provisional blitz "{trainer.name}'s Program"
 
+...
+
+week of 2.2
+- sample/facsimile salespages
+- HTML title/meta data
+- django-hijack
+- fix spotter uploads sort, archive view
+- add trainer short_name to upload file name
+
+

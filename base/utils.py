@@ -1,6 +1,7 @@
 from base.models import Trainer, Client, BlitzMember, BlitzInvitation, Comment, FeedItem, CompletedSet, GymSession, SalesPageContent
 from base.new_content import finalize_gym_session
 
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
@@ -316,6 +317,11 @@ def get_workout_info(client, days=7):
 
 # utility method for upload_page
 def save_file(file, pk_value=0, path='/documents/'):
+    if pk_value != 0:
+        trainer = get_object_or_404(Trainer, pk=pk_value)
+    else:
+        trainer = Trainer()
+
     filename = file._get_name()
 
     # get file extention
@@ -326,9 +332,9 @@ def save_file(file, pk_value=0, path='/documents/'):
 
     now = datetime.datetime.now()
     if ext:
-        output_file = "%d__%02d%02d%02d%02d%02d%02d.%s" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second, ext)
+        output_file = "%d__%02d%02d%02d%02d%02d%02d_%s.%s" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second, trainer.short_name, ext)
     else:
-        output_file = "%d__%02d%02d%02d%02d%02d%02d" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second)
+        output_file = "%d__%02d%02d%02d%02d%02d%02d_%s" % (pk_value, now.year, now.month, now.day, now.hour, now.minute, now.second, trainer.short_name)
 
     fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + output_file), 'wb')
     for chunk in file.chunks():
