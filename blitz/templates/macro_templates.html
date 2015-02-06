@@ -25,8 +25,8 @@
                             <div class="content calories-numbers"><span><%= macro.targets.calories.min %> - <%= macro.targets.calories.max %></span></div>
                         </div>
                     </div>
-                    <div class="choice-container"><a class="choice choice-no" data-slug="calories" ><i class="glyphicon-remove choice-icon"></i></a></div>
-                    <div class="choice-container"><a class="choice choice-yes" data-slug="calories"><i class="glyphicon-ok choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="calories" ><i class="glyphicon glyphicon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="calories"><i class="glyphicon glyphicon-ok choice-icon"></i></a></div>
                 </div>
 
                 <div class="macro-form-row">
@@ -36,8 +36,8 @@
                             <div class="content"><span><%= macro.targets.carbs.min %> - <%= macro.targets.carbs.max %></span></div>
                         </div>
                     </div>
-                    <div class="choice-container"><a class="choice choice-no" data-slug="carbs" ><i class="glyphicon-remove choice-icon"></i></a></div>
-                    <div class="choice-container"><a class="choice choice-yes" data-slug="carbs"><i class="glyphicon-ok choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="carbs" ><i class="glyphicon glyphicon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="carbs"><i class="glyphicon glyphicon-ok choice-icon"></i></a></div>
                 </div>
 
                 <div class="macro-form-row">
@@ -83,17 +83,17 @@
                 <td>
                     <% if (!m.has_entry) { %>
                     <div class="macro-day-cell">
-                        <i class="glyphicon-question-sign unknown"></i>
+                        <i class="glyphicon glyphicon-question-sign unknown"></i>
                     </div>
                     <% } %>
                     <% if (m.has_entry && m.all_pass) { %>
                     <div class="macro-day-cell">
-                        <i class="glyphicon-ok-sign pass"></i>
+                        <i class="glyphicon glyphicon-ok-sign pass"></i>
                     </div>
                     <% } %>
                     <% if (m.has_entry && m.all_fail) { %>
                     <div class="macro-day-cell">
-                        <i class="glyphicon-remove-sign fail"></i>
+                        <i class="glyphicon glyphicon-remove-sign fail"></i>
                     </div>
                     <% } %>
                     <% if (m.has_entry && !m.all_pass && !m.all_fail) { %>

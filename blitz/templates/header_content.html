@@ -34,7 +34,7 @@
 
                 <!-- Everything you want hidden at 940px or less, place within here -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                      <ul class="nav navbar-nav">
+                      <ul id="top-level-navs" class="nav navbar-nav">
                         {% if user.is_trainer %}
                             <li class="nav-item">
                                 <a class="{% ifequal request.path "/" %}active{% endifequal %}" 
@@ -123,7 +123,9 @@
                     </div>
 
                 </div>
+                <div class="colorstripe"></div>
             </nav>
+            <div class="colorstripe"></div>
         </div>
     </div>
 </div>
@@ -135,9 +137,9 @@
               <a class="branding" href="/" id="logo">
                   <img class="center" src="/static/images/logo.png"/>
               </a>
+          <div class="colorstripe"></div>
         </div>
     </div>
 </div>
 
 {% endif %}
-

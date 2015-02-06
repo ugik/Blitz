@@ -789,8 +789,8 @@ textarea,textarea:focus {
 }
 
 #top-level-navs .nav-item .active {
-  //@include blitz-gradient();
-  //color: white;
+  @include blitz-gradient();
+  color: white;
 }
 
 #account-block {
@@ -2755,6 +2755,8 @@ hr { margin-top: 60px;}
     left: -8px;
     font-size: 16px;
     text-align: center;
+    margin-bottom: 10px;
+    color: #555;
     @include lightfont();
     @include borderradius(0);
   }
@@ -3865,6 +3867,8 @@ a.feed-permalink-grey {
 #dashboard #summary .sidebar-box .macro-history .week-name {
   @include meta();
   font-size: 16px;
+  width: 100%;
+  height: 30px;
 }
 
 #dashboard .sidebar-left {
@@ -5025,7 +5029,6 @@ a.ui-state-default :hover {
 }
 
 #dashboard > div.content-wrapper > div > div.feeds > div.alerts-wrapper {
-  margin-top: -20px;
   @include fadein();
 }
 
