@@ -110,7 +110,7 @@ def spotter_usage(request):
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
-            if payer.blitzmember_set.all()[0].blitz.recurring:
+            if not payer.blitzmember_set.all()[0].blitz.group:
                 MRR += float(payer.blitzmember_set.all()[0].blitz.price)
             # monthly charge for non-recurring blitz
             else:

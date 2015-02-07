@@ -156,7 +156,7 @@ def blitz_setup(request):
     # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
     # list of blitzes for salespages does not include recurring blitzes assigned to clients
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
 
     if request.method == 'POST':
 
@@ -211,8 +211,9 @@ def blitz_setup(request):
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
             blitz.recurring = False if forceGroup or form.data['blitz_type'] == "GRP" else True
+            blitz.group = True if forceGroup or form.data['blitz_type'] == "GRP" else False
             blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"
-            blitz.provisional = True if blitz.recurring else False
+            blitz.provisional = True if not blitz.group else False
             blitz.save()
 
             return render_to_response('blitz_setup_done.html', 
@@ -289,7 +290,7 @@ def client_blitz_setup(request, pk):
 
     # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
 
     if request.method == 'POST':
         form = NewClientForm(request.POST)
@@ -699,8 +700,8 @@ def my_salespages(request):
     # load data needed for client-setup and blitz-setup modal(s)
     trainer = request.user.trainer
     salespages = SalesPageContent.objects.filter(trainer=trainer)
-    # sales pages for trainer's Blitzes that are either provisional or not recurring
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    # sales pages for trainer's Blitzes that are either provisional or group
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
 
     return render(request, 'trainer_salespages.html', {

@@ -91,6 +91,7 @@ class Command(BaseCommand):
         joy_beginner_blitz.macro_strategy = 'M'
         joy_beginner_blitz.price = 499
         joy_beginner_blitz.recurring = False
+        joy_beginner_blitz.group = True
         joy_beginner_blitz.price_model = "O"
         joy_beginner_blitz.save()
 
@@ -110,6 +111,7 @@ class Command(BaseCommand):
         joy_advanced_blitz.macro_strategy = 'M'
         joy_advanced_blitz.price = 499
         joy_beginner_blitz.recurring = False
+        joy_beginner_blitz.group = True
         joy_beginner_blitz.price_model = "O"
         joy_advanced_blitz.save()
 
@@ -146,6 +148,7 @@ class Command(BaseCommand):
         perryman_blitz.macro_strategy = 'M'
         perryman_blitz.price = 500
         perryman_blitz.recurring = False
+        perryman_blitz.group = True
         perryman_blitz.price_model = "O"
         perryman_blitz.save()
 
@@ -182,6 +185,7 @@ class Command(BaseCommand):
         blitz.macro_strategy = 'M'
         blitz.price = 200
         blitz.recurring = False
+        blitz.group = True
         blitz.price_model = "O"
         blitz.save()
 
