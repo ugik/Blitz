@@ -210,6 +210,7 @@ def blitz_setup(request):
             blitz.price = charge
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
+ 
             blitz.recurring = False if forceGroup or form.data['blitz_type'] == "GRP" else True
             blitz.group = True if forceGroup or form.data['blitz_type'] == "GRP" else False
             blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"

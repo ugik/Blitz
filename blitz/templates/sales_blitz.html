@@ -148,7 +148,7 @@ class="sales-page"
            {{ sales_page.program_introduction }}
         {% endif %}
 
-        {% if not blitz.recurring and not logo %}
+        {% if blitz.group and not logo %}
             <br />Begins
             {% if debug_mode %}
                 <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}">
@@ -162,7 +162,9 @@ class="sales-page"
                 <small><i>(Programs always start on Monday)</i></small>
             {% else %}
                 {{ blitz.begin_date }}
-            {% endif %} <br>
+            {% endif %}             
+            {% if blitz.recurring %} (Recurring) {% endif %}
+            <br>
 
             Price: ${{ blitz.price_recurring_monthly }}
             {% if debug_mode %}
