@@ -24,51 +24,49 @@
                You're seconds away from taking your fitness to the next level with {{ trainer.short_name }}.
             </p>
             <div class="content">
-                <form action="#" method="POST" id="blitz-signup-form" class="formpage-block-form">
 
-                    <div class="form-error error-user-name"></div>
-                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
-                        <input type="text"
-                               autocomplete="off"
+                <form action="#" method="post">{% csrf_token %}
+
+                    <div class="input-container">
+                        <input type="text" name="name" id="name"
                                placeholder="Name (first and last)"
-                               class="user-name"
-                               {% if existing_user %}value="{{ existing_user.name }}"{% else %}
-                               value="{{ invitation.name }}"{% endif %}>
+                               value="{{ form.data.name }}">
                     </div>
 
-                    <div class="form-error error-user-email"></div>
-                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
-                        <input type="text"
+                    <div class="input-container">
+                        <input type="text" name="email" id="email"
                                placeholder="Email"
-                               class="user-email"
-                               {% if existing_user %}value="placeholder@example.com"{% else %}
-                               value="{{ invitation.email }}"{% endif %}>
+                               value="{{ form.data.email }}">
                     </div>
 
-                    <div class="form-error error-user-password"></div>
-                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
-                        <input type="password"
+                    <div class="input-container">
+                        <input type="password" name="password1" id="password1"
                                autocomplete="off"
-                               placeholder="Create password"
-                               class="user-password"
-                               {% if existing_user %}value="placeholder"{% endif %}>
+                               placeholder="Create password">
+                    </div>
+
+                    <div class="input-container">
+                        <input type="password" name="password2" id="password2"
+                               placeholder="Confirm password">
                     </div>
 
                     <div class="form-sep"></div>
 
-
-                    <div class="form-sep"></div>
-
-                    <div class="submit-container">
-                        <a id="blitz-signup-submit" class="obtn obtn-comment">Complete Signup →</a>
-                        <div id="signup-loading" style="display:none; text-align: center; padding: 5px; "><img src="/static/images/squareloader.gif" alt="Loading..."/></div>
-                    </div>
-                    <div id="sslbadge">
-                        <img src="https://www.positivessl.com/images-new/PositiveSSL_tl_trans.png" alt="Positive SSL on a transparent background" title="Positive SSL on a transparent background" border="0" style="display: none;" />
-                      
-                    </div>
+                    <button class="obtn full-width">Complete Signup →</button>
 
                 </form>
+
+             {% if errors %}
+                <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Slow down, champ. Looks like you've got a few errors to fix:</strong> 
+	        {% for field in form %}
+                    {% if field.errors %}
+   	                <li>{{ field.name }}: <small>{{ field.errors|striptags }}</small></li>
+                    {% endif %}
+	        {% endfor %}
+             {% endif %}
+
             </div>
         </div>
     </div>
@@ -112,5 +110,6 @@
         </div> 
     </div>
 </div>
+
 
 {% endblock %}

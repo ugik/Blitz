@@ -20,7 +20,7 @@ from ipware.ip import get_ip
 import balanced
 import analytics
 
-from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
+from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, CreateAccountFormFree, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, invitee_macros_set, save_file
 from base import utils
@@ -1761,6 +1761,8 @@ def default_blitz_signup(request, short_name):
 # url: /(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)/signup
 def blitz_signup(request, short_name, url_slug):
 
+#    import pdb; pdb.set_trace()
+
     # signup_key points to invitation record, if applicable
     if 'signup_key' in request.GET:
         invitation = get_object_or_404(BlitzInvitation, signup_key=request.GET.get('signup_key'))
@@ -1778,9 +1780,28 @@ def blitz_signup(request, short_name, url_slug):
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
     if blitz.free:
-        return render(request, 'blitz_signup_free.html', {
-            'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url
-        })
+        form = CreateAccountFormFree(request.POST)
+        if request.method == 'POST':
+
+            if form.is_valid():
+
+#            client = utils.get_or_create_client(
+#                form.cleaned_data['name'],
+#                form.cleaned_data['email'].lower(),
+#                form.cleaned_data['password1']
+#                )
+                return redirect(next_url)
+
+            return render(request, 'blitz_signup_free.html', {
+                'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
+                'form': form, 'errors': form.errors,
+            })
+        else:
+            return render(request, 'blitz_signup_free.html', {
+                'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
+                'form': form,
+            })
+
     else:
         return render(request, 'blitz_signup.html', {
             'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
