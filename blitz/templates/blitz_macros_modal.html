@@ -26,7 +26,7 @@
            <h3 class="mformh3">Set macros for <a id='title' ></a></h3>
 
            <div class="formpage-block" style="padding: 0px;">
-              <form method="post" name="blitz_macros id="blitz_macros"> {% csrf_token %}
+              <form method="post" name="blitz_macros" id="blitz_macros"> {% csrf_token %}
 
                     <select name="formulas" id="formula-select" class="formula-select">
                         <option value="DEFAULT">Standard Macro Formula</option>
@@ -34,7 +34,7 @@
                         <option value="BEAST">Beast Mode (+15%)</option>
                         <option value="CUT">Cutting (-10%)</option>
                     </select>
-                    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+                    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
                     <!-- Note: formulas also in base/view.py blitz_macros_set() -->
                     <script type="text/javascript">
                         function show_macros(factor) {

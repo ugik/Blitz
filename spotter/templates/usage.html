@@ -25,7 +25,7 @@
 
 <br>
 
-<div class="span3 digest">
+<div class="col-md-3 digest">
     <h3>Clients:</h3>
     {% regroup clients by date_created as client_list %}
     {% for client in client_list %}
@@ -39,7 +39,7 @@
     </ul>
 </div>
 
-<div class="span3 digest">
+<div class="col-md-3 digest">
     <h3>Trainers:</h3>
     {% regroup trainers by date_created as trainer_list %}
     {% for trainer in trainer_list %}
@@ -53,7 +53,7 @@
     </ul>
 </div>
 
-<div class="span3 digest">
+<div class="col-md-3 digest">
     <h3>Members:</h3>
     {% regroup members by date_created as member_list %}
     {% for member in member_list %}

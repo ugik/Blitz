@@ -28,7 +28,7 @@
 {% block main %}
 <header> Edit sales page content
 
-<div class="span8">
+<div class="col-md-8">
       <form action="{% url 'spotter_sales_pages2' %}?plan={{ plan }}" method="post" id="contactform">
       {% csrf_token %}
       <div id="ajaxwrapper">

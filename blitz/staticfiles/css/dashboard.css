@@ -1,4 +1,17 @@
 /**
+ * Modals
+ */
+.modal-full .btn {
+    width: 100%;
+    height: 44px;
+}
+
+.modal-full input[type="text"] {
+    color: #555;
+} 
+
+
+/**
  * Utils
  */
 
