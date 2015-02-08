@@ -166,7 +166,7 @@ class="sales-page"
             {% if blitz.recurring %} (Recurring) {% endif %}
             <br>
 
-            Price: ${{ blitz.price_recurring_monthly }}
+            Price: $
             {% if debug_mode %}
                 <input class="edit" type="text" name="price" id="price" style="size:5; maxlength:30;" value="{{ blitz.price }}">
                 <select name="price_model" id="price_model" class="selectpicker show-tick">
@@ -185,11 +185,13 @@ class="sales-page"
                 </script>
 
             {% else %}
-                {{ blitz.price }}
-                {% if blitz.price_model == "R" %}
-                   Monthly Recurring
-                {% else %}
-                   One-time
+                {% if blitz.free %} FREE 
+                {% else %} ${{ blitz.price }} 
+                    {% if blitz.price_model == "R" %}
+                       Monthly Recurring
+                    {% else %}
+                       One-time
+                    {% endif %}
                 {% endif %}
             {% endif %}</a>
            </div>

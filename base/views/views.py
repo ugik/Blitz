@@ -1777,11 +1777,16 @@ def blitz_signup(request, short_name, url_slug):
         next_url = '/'
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
-    return render(request, 'blitz_signup.html', {
-        'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
-        'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
-        'next_url': next_url, 'existing_user': existing_user
-    })
+    if blitz.free:
+        return render(request, 'blitz_signup_free.html', {
+            'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url
+        })
+    else:
+        return render(request, 'blitz_signup.html', {
+            'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
+            'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
+            'next_url': next_url, 'existing_user': existing_user
+        })
 
 # completion of Blitz signup
 def blitz_signup_done(request):

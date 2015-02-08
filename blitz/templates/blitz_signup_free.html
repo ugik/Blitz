@@ -1,0 +1,116 @@
+{% extends "formpage.html" %}
+
+{% block moretitle %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block moremeta %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block formpage_content %}
+
+
+
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+            <div class="header">Sign up</div>
+            <p class="info-text">
+               You're seconds away from taking your fitness to the next level with {{ trainer.short_name }}.
+            </p>
+            <div class="content">
+                <form action="#" method="POST" id="blitz-signup-form" class="formpage-block-form">
+
+                    <div class="form-error error-user-name"></div>
+                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
+                        <input type="text"
+                               autocomplete="off"
+                               placeholder="Name (first and last)"
+                               class="user-name"
+                               {% if existing_user %}value="{{ existing_user.name }}"{% else %}
+                               value="{{ invitation.name }}"{% endif %}>
+                    </div>
+
+                    <div class="form-error error-user-email"></div>
+                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
+                        <input type="text"
+                               placeholder="Email"
+                               class="user-email"
+                               {% if existing_user %}value="placeholder@example.com"{% else %}
+                               value="{{ invitation.email }}"{% endif %}>
+                    </div>
+
+                    <div class="form-error error-user-password"></div>
+                    <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
+                        <input type="password"
+                               autocomplete="off"
+                               placeholder="Create password"
+                               class="user-password"
+                               {% if existing_user %}value="placeholder"{% endif %}>
+                    </div>
+
+                    <div class="form-sep"></div>
+
+
+                    <div class="form-sep"></div>
+
+                    <div class="submit-container">
+                        <a id="blitz-signup-submit" class="obtn obtn-comment">Complete Signup →</a>
+                        <div id="signup-loading" style="display:none; text-align: center; padding: 5px; "><img src="/static/images/squareloader.gif" alt="Loading..."/></div>
+                    </div>
+                    <div id="sslbadge">
+                        <img src="https://www.positivessl.com/images-new/PositiveSSL_tl_trans.png" alt="Positive SSL on a transparent background" title="Positive SSL on a transparent background" border="0" style="display: none;" />
+                      
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="formpage-block">
+            <div class="blitz-signup-info">
+                <img class="trainer-headshot img-circle" 
+          {% if blitz.sales_page_content.trainer_headshot %}
+               src="{{ MEDIA_URL }}{{ blitz.sales_page_content.trainer_headshot }}"
+          {% else %}
+               src="{{ MEDIA_URL }}{{ blitz.trainer.headshot }}"
+          {% endif %}/>
+
+                <div class="blitz-title">{{ blitz }}</div>
+                <br />
+                <div class="info-block">
+                    {% if not blitz.recurring %}
+                    <div class="title">Schedule</div>
+                    <div class="content">
+                        Starts: {{ blitz.begin_date }} <br>
+                        {% if blitz.begin_date != blitz.end_date %}
+                        Ends: {{ blitz.end_date }} {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                <br />
+                <div class="blitz-cost">
+                  <div class="title">Cost {% if blitz.recurring %}/Month{% endif %}</div>
+                    <div class="cost">
+                    FREE
+                    </div>
+                        {% if blitz.price_per_workout > 0 %}
+                            <div class="per-week">
+                                That's just <span>${{ blitz.price_per_workout|floatformat:0 }}</span> per workout for expert coaching and access to an awesome community.
+                            </div>
+                        {% endif %}
+                 </div>
+            </div>
+
+
+        </div> 
+    </div>
+</div>
+
+{% endblock %}
