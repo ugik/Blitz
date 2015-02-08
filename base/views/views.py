@@ -1785,6 +1785,7 @@ def blitz_signup(request, short_name, url_slug):
 
             if form.is_valid():
 
+                # create client
                 client = utils.get_or_create_client(
                     form.cleaned_data['name'],
                     form.cleaned_data['email'].lower(),
