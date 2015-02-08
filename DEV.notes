@@ -247,5 +247,8 @@ week of 2.2
 - django-hijack
 - fix spotter uploads sort, archive view
 - add trainer short_name to upload file name
+- open groups
+- group w/recurring plan
+- free on-ramp option
 
 
