@@ -1530,7 +1530,7 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
+            utils.add_client_to_blitz(invitation.blitz, client)
 
             # set blitz for specific client            
             blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client, 
@@ -1779,17 +1779,36 @@ def blitz_signup(request, short_name, url_slug):
         next_url = '/'
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
-    if blitz.free:
+    if blitz.free:   # handle free on-ramp
         form = CreateAccountFormFree(request.POST)
         if request.method == 'POST':
 
             if form.is_valid():
 
-#            client = utils.get_or_create_client(
-#                form.cleaned_data['name'],
-#                form.cleaned_data['email'].lower(),
-#                form.cleaned_data['password1']
-#                )
+                client = utils.get_or_create_client(
+                    form.cleaned_data['name'],
+                    form.cleaned_data['email'].lower(),
+                    form.cleaned_data['password1']
+                    )
+                # add new client to Blitz
+                utils.add_client_to_blitz(blitz, client)
+                user = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
+                login(request, user)
+
+                # alert trainer of new client signup
+                alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="New (free) client registration.",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                # analytics
+                analytics_id(request, user_id=client.user.pk, traits={
+                         'name': client.name,
+                         'email': client.user.email,
+                         'note': "Paid Client Signup to %s for FREE" % str(blitz.price) 
+                    })
+
+                request.session['show_intro'] = True
+
                 return redirect(next_url)
 
             return render(request, 'blitz_signup_free.html', {

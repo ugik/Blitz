@@ -46,10 +46,10 @@ class="sales-page"
       <div class="span2" style="margin-left: -30px;">
         {% if debug_mode %}
 
-          <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
+          <form method="get" name="SalesBlitz" enctype="multipart/form-data" 
           action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
         {% else %}
-          <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
+          <form method="get" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
         {% endif %}
 
         {% csrf_token %}
