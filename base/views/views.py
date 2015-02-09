@@ -1631,7 +1631,9 @@ def default_blitz_page(request, short_name):
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
-    # logo, head, name are passed in request for /sample sales page
+    # logo, head, name are passed in request for /sample facsimile sales page
+    # eg. /sample?logo=http://www.hawking.org.uk/uploads/8/3/0/0/8300824/1377255702.jpg&head=http://graphics8.nytimes.com/images/2013/09/13/arts/13RDP_HAWKING_SPAN/HAWKING-popup.jpg&name=Hawking
+
     logo = None
     if 'logo' in request.GET:
         logo = request.GET.get('logo')
