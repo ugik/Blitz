@@ -1530,7 +1530,7 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client)
+            utils.add_client_to_blitz(invitation.blitz, client,invitation=invitation)
 
             # set blitz for specific client            
             blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client, 
@@ -1692,7 +1692,6 @@ def sales_blitz(request):
             'blitz': blitz.title if blitz else '(None)',
                 })
 
-
     if blitz and request.method == 'POST':
         if 'intro' in request.POST:
             blitz.sales_page_content.program_introduction = request.POST.get('intro')
@@ -1744,14 +1743,12 @@ def sales_blitz(request):
         blitz.sales_page_content.save()
         blitz.save()
 
+    if blitz:
         return render(request, "sales_blitz.html", {
             'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
             'saved': saved })
     else:
-        return render(request, "sales_blitz.html", {
-            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
-            })
-        print logo
+        return redirect('/')
 
 # Blitz signup page
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/signup
@@ -1760,8 +1757,6 @@ def default_blitz_signup(request, short_name):
 
 # url: /(r'^(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)/signup
 def blitz_signup(request, short_name, url_slug):
-
-#    import pdb; pdb.set_trace()
 
     # signup_key points to invitation record, if applicable
     if 'signup_key' in request.GET:
