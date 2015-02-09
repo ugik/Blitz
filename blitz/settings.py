@@ -38,6 +38,7 @@ LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 SITE_URL = 'Blitz.us'
+LOGIN_REDIRECT_URL = '/home'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -100,7 +101,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
 ROOT_URLCONF = 'blitz.urls'
 APPEND_SLASH = False
 
@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'tastypie',
     'djcelery',
+    'hijack',
 
     'base',
     'workouts',

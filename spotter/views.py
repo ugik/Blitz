@@ -147,7 +147,8 @@ def spotter_delete(request):
         return redirect('home')
 
     filename = settings.MEDIA_ROOT + '/documents/'+request.GET.get('file')
-    os.renames(filename, filename+'.backup')
+    fname = filename[filename.rfind('/')+1:]
+    os.renames(filename, filename.replace(fname, 'backup_'+fname))
     return redirect('spotter_uploads')
 
 def spotter_download(request):
@@ -218,7 +219,13 @@ def spotter_uploads(request):
         return redirect('home')
 
     path = settings.MEDIA_ROOT + '/documents'
-    doclist = [f for f in os.listdir(path) if not f.endswith('.backup')]
+    if 'archive' in request.GET:
+        doclist = [f[7:] for f in os.listdir(path) if f.startswith('backup_')]
+        archive = True
+    else:
+        doclist = [f for f in os.listdir(path) if not f.startswith('backup_')]
+        archive = False
+
     numdocs = 0
     documents = []
 
@@ -241,7 +248,7 @@ def spotter_uploads(request):
             documents.append(entry)
             numdocs += 1
 
-    return render(request, 'docs.html', {'docs' : documents, 'numdocs' : numdocs})
+    return render(request, 'docs.html', {'docs' : documents, 'numdocs' : numdocs, 'archive' : archive })
 
 @login_required
 def spotter_program_upload(request):
