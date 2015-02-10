@@ -34,6 +34,13 @@ function save_workoutexercise(exercise, lift, display, set1, set2, set3, set4, s
         exercise: exercise, lift: lift, display: display, set1: set1, set2: set2, set3: set3, set4: set4, set5: set5, set6: set6 },
       })
 }
+function rename_workoutplan(workoutplan, name) { 
+     $.ajax({
+        url: 'workoutplan_rename',
+        type: 'POST',
+        data: { workoutplan: workoutplan, name: name },
+      })
+}
 function auto_sets(display) {
      sets = []
      if (display.length == 3) { display_value = display[2] }
@@ -382,7 +389,17 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 {% if not workoutplan %}
     <h3>No workout plan</h3>
 {% else %}
-    <h1>{{ workoutplan.name }} - Program details</h1>
+
+    <h1><input id='plan-name' type='text' style='font-size:24px; height:30px; width:200px;' value='{{ workoutplan.name }}'/> - Program details</h1>
+
+<script>
+
+// save workoutplan name
+$('#plan-name').blur(function() {
+    rename_workoutplan(workoutplan, $(this).val())
+});
+</script>
+
     <a href="/spotter/view-workoutplan?plan={{ workoutplan.pk }}"><i class="icon-search"></i>  Preview</a></p>
     {% if not workoutplan.workoutplanweek_set.all %}
     <tr>

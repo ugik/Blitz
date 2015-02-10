@@ -413,6 +413,20 @@ def workout_info(request):
 
     return JSONResponse({'num_exercises': 0 })
 
+@csrf_exempt
+def workoutplan_rename(request):
+
+    if request.POST.get('workoutplan'):
+        workoutplan = get_object_or_404(WorkoutPlan, pk = request.POST.get('workoutplan'))
+
+        if workoutplan:
+            if request.POST.get('name'):
+                workoutplan.name = request.POST.get('name')
+                workoutplan.save()
+                print "Rename workoutplan pk=%s : %s" % (request.POST.get('workoutplan'), request.POST.get('name'))
+
+    return JSONResponse({})
+
 def new_workoutplan(request):
     flush_session_vars(request)
 
