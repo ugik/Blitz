@@ -495,7 +495,8 @@ textarea, textarea:focus {
     font-family: 'proxima_novabold'; }
 
 #main-content-container {
-  padding: 30px 0;
+  margin-top: 71px;
+  padding: 30px 0px 30px 0px;
   min-height: 750px;
   background: #f7f7f7; }
 
@@ -942,12 +943,13 @@ a.edit-workout-link {
       margin: 0; }
 
 .landscape-header {
-  background: grey; }
+  background: grey;
+  margin-top: 71px;
+  margin-bottom: -71px; }
   .landscape-header .landscape-header-top {
     height: 180px;
     position: relative; }
   .landscape-header .landscape-header-bottom {
-    margin-bottom: -70px;
     background: rgba(0, 0, 0, 0.5);
     color: white;
     font-weight: lighter; }

@@ -862,18 +862,14 @@ textarea,textarea:focus {
 }
 
 #main-content-container {
-  //margin-top: 70px;
-  padding: 30px 0;
+  margin-top: 71px;
+  padding: 30px 0px 30px 0px;
   min-height: 750px;
   //background: url('/static/images/greynoisebgtile.png');
   background: rgba(247, 247, 247, 1.0);
   //@include mobile-only { padding-left: 10px; padding-right: 10px; }
   //@include tablet-only { padding-left: 30px; padding-right: 10px; };
 }
-
-.container {
-
- }
 
 .rightrow {
  margin-top: 30px; 
@@ -1399,12 +1395,14 @@ a.edit-workout-link {
 
 .landscape-header {
   background: grey;
+  margin-top: 71px;
+  margin-bottom: -71px;
   .landscape-header-top {
     height: 180px;
     position: relative;
   }
   .landscape-header-bottom {
-    margin-bottom: -70px;
+    // margin-bottom: -70px;
     background: rgba(0, 0, 0, 0.5);
     color: white;
     font-weight: lighter;
