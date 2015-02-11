@@ -14,6 +14,8 @@ urlpatterns = patterns(
     url(r'^program_sales_pages$', 'spotter.views.spotter_blitz_sales_pages', name='spotter_blitz_sales_pages'),
     url(r'^program_sales_page2$', 'spotter.views.spotter_sales_pages2', name='spotter_sales_pages2'),
 
+    url(r'^all_lifts$', 'spotter.views.spotter_lifts', name='spotter_lifts'),
+
     url(r'^workoutplan$', 'spotter.views.spotter_workoutplan', name='spotter_workoutplan'),
     url(r'^edit-workoutplan$', 'spotter.views.edit_workoutplan', name='edit_workoutplan'),
     url(r'^view-workoutplan$', 'spotter.views.view_workoutplan', name='view_workoutplan'),

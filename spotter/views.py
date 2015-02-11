@@ -214,6 +214,15 @@ def spotter_blitz_sales_pages(request):
     return render(request, 'pending_sales_pages.html', {'pending' : pending_sales_pages})
 
 @login_required
+def spotter_lifts(request):
+    print "all lifts"
+    if not request.user.is_staff:
+        return redirect('home')
+
+    lifts = Lift.objects.all() 
+    return render(request, 'all_lifts.html', {'lifts' : lifts})
+
+@login_required
 def spotter_uploads(request):
     if not request.user.is_staff:
         return redirect('home')
@@ -391,7 +400,8 @@ def view_workoutplan(request):
 
 # generate a display for workout
 def workout_display(trainer, extra):
-    return "%s %s" % (trainer.short_name, extra)
+#    return "%s %s" % (trainer.short_name, extra)
+    return extra
 
 # utility function, manages workoutplanweek/day, returns workoutplanday
 def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
@@ -881,9 +891,10 @@ def delete_plan(plan_id):
 def get_pending_sales_pages():
 
     pending_sales_pages = []
-    contents = SalesPageContent.objects.all()
+    contents = SalesPageContent.objects.all().order_by('-pk')
     for content in contents:
-        pending_sales_pages.append([content.blitz_set.all()[0], 'slug:'+content.blitz_set.all()[0].url_slug, content.name, content.trainer.name])
+        if content.blitz_set.all():
+            pending_sales_pages.append([content.blitz_set.all()[0], 'slug:'+content.blitz_set.all()[0].url_slug, content.name, content.trainer.name])
     return pending_sales_pages
 
 

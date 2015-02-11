@@ -121,9 +121,9 @@ class TestBasic(unittest.TestCase):
         # click | xpath=(//button[@type='submit'])[4] | 
 
 #        import pdb; pdb.set_trace()
-#        driver.find_element_by_id("create-group").click()
-        time.sleep(1)
-        driver.find_element_by_xpath("(//button[@type='submit'])[4]").click()
+        driver.find_element_by_id("create-group").click()
+        time.sleep(2)
+#        driver.find_element_by_xpath("(//button[@type='submit'])[4]").click()
         # Warning: assertTextPresent may require manual changes
         # assertTextPresent |  | This field is required.
         self.assertTrue("This field is required." in driver.page_source, "Text not found")

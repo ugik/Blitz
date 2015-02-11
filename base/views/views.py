@@ -15,6 +15,7 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+from itertools import chain
 from ipware.ip import get_ip
 
 import balanced
@@ -146,7 +147,11 @@ def blitz_setup(request):
     analytics_track(str(request.user.id), 'blitz-setup', {'name': request.user.trainer.name,})
 
     trainer = request.user.trainer
+    empty_program = WorkoutPlan()
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
+    empty_plan = [WorkoutPlan()]
+
+    programs = list(chain(empty_plan, programs))
 
     # handle re-entrant modal
     modalBlitz = True if 'modalBlitz' in request.GET else False
@@ -193,7 +198,10 @@ def blitz_setup(request):
 
             if 'program' in form.data:
                 program_pk = form.data['program']
-                plan = WorkoutPlan.objects.get(pk=program_pk)
+                if program_pk and program_pk != 'None':
+                    plan = WorkoutPlan.objects.get(pk=program_pk)
+                else:
+                    plan = None
             else:
                 plan = None
 
@@ -287,6 +295,9 @@ def client_blitz_setup(request, pk):
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
+    empty_plan = [WorkoutPlan(name="TBD")]    # add empty workoutplan to list
+    workoutplans = list(chain(workoutplans, empty_plan))
+
     # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
     blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
@@ -309,8 +320,9 @@ def client_blitz_setup(request, pk):
             if 'price' in form.cleaned_data and form.cleaned_data['price']:
                 invitation.price = form.cleaned_data['price']
             if 'workoutplan_id' in form.cleaned_data and form.cleaned_data['workoutplan_id']:
-                workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
-                invitation.workout_plan = workoutplan
+                if form.cleaned_data['workoutplan_id'] != 'None':
+                    workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
+                    invitation.workout_plan = workoutplan
 
             invitation.save()
             client_invite(trainer, [form.cleaned_data['email']], invite_url, blitz)
@@ -925,7 +937,10 @@ def save_sets(request):
 
     week_number = int(request.POST['week_number'])
     day_char = request.POST['day_char']
-    set_pks = [int(s) for s in request.POST['sets'].split(',')]
+    try:
+        set_pks = [int(s) for s in request.POST['sets'].split(',')]
+    except:
+        set_pks = None
 
     client = request.user.client
     blitz = client.get_blitz()
@@ -941,15 +956,18 @@ def save_sets(request):
     )[0]
 
     has_error = False
-    set_errors = { pk: "" for pk in set_pks } # map of pk -> error
-    for pk in set_pks:
-        workout_set = WorkoutSet.objects.get(pk=pk)
-        is_error, item = validate_set_from_post(request.POST, workout_set)
-        if is_error:
-            set_errors[pk] = item
-            has_error = True
-        else:
-            save_set_to_session(gym_session, workout_set, item)
+    set_errors = None
+
+    if set_pks:
+        set_errors = { pk: "" for pk in set_pks } # map of pk -> error
+        for pk in set_pks:
+            workout_set = WorkoutSet.objects.get(pk=pk)
+            is_error, item = validate_set_from_post(request.POST, workout_set)
+            if is_error:
+                set_errors[pk] = item
+                has_error = True
+            else:
+                save_set_to_session(gym_session, workout_set, item)
 
     # save notes when we save sets
     gym_session.notes = request.POST.get('notes', '')
@@ -2019,7 +2037,7 @@ def client_setup(request):
         # override Blitz price and workoutplan if invitation specifies either
         invitation.price = form.data.get('price', None)
         workoutplan_id = form.data.get('workoutplan_id', None)
-        if workoutplan_id:
+        if workoutplan_id and workoutplan_id != 'None':
             workoutplan = get_object_or_404(WorkoutPlan, id=form.data.get('workoutplan_id', None) )
             invitation.workout_plan = workoutplan
 
@@ -2430,6 +2448,9 @@ def trainer_dashboard(request):
         blitz = blitzes[0]
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
+    empty_plan = [WorkoutPlan(name="TBD")]    # add empty workoutplan to list
+    workoutplans = list(chain(workoutplans, empty_plan))
+
     signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
 
     uri = domain(request)
