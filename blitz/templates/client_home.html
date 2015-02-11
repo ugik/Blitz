@@ -57,7 +57,7 @@
             {% endif %}
         {% endif %}
 
-        {% if not client.get_blitz.recurring %}
+        {% if client.get_blitz.group %}
             {% with client.other_blitz_members as members %}
                 {% include "members.html" %}
             {% endwith %}

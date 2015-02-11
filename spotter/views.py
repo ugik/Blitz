@@ -110,7 +110,7 @@ def spotter_usage(request):
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
-            if payer.blitzmember_set.all()[0].blitz.recurring:
+            if not payer.blitzmember_set.all()[0].blitz.group:
                 MRR += float(payer.blitzmember_set.all()[0].blitz.price)
             # monthly charge for non-recurring blitz
             else:
@@ -177,6 +177,55 @@ def spotter_status_trainers(request):
 
     trainers = Trainer.objects.all()
     return render(request, 'trainer_status.html', {'trainers' : trainers, 'errors' : None })
+
+
+@login_required
+# make copy of workoutplan
+def copy_workoutplan(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    plan_id = request.GET.get('plan', None)
+    workoutplan = WorkoutPlan.objects.get(pk=plan_id)
+
+    if not workoutplan:
+        return redirect('home')
+    
+    wp_copy = WorkoutPlan.objects.create(trainer=workoutplan.trainer, name=workoutplan.name+' (copy)')
+
+    for week in workoutplan.workoutplanweek_set.all():
+        week_copy = WorkoutPlanWeek.objects.create(workout_plan=wp_copy, week=week.week)
+
+        for day in week.workoutplanday_set.all():
+            slug = "plan%s" % workoutplan.pk
+            if slug in day.workout.slug:
+                slug_copy = day.workout.slug.replace(slug, "plan%s" % wp_copy.pk)
+            else:
+                slug_copy = day.workout.slug + "-plan%s" % wp_copy.pk
+
+            workouts = Workout.objects.filter(slug=slug_copy)
+            if not workouts:
+                workout_copy = Workout.objects.create(display_name=day.workout.display_name, slug=slug_copy)
+            else:
+                workout_copy = workouts[0]
+
+            day_copy = WorkoutPlanDay.objects.create(workout_plan_week=week_copy, 
+                                                     workout=workout_copy,
+                                                     day_index=day.day_index,
+                                                     day_of_week=day.day_of_week)
+
+            for exercise in day.workout.exercise_set.all():            
+                exercise_copy = Exercise.objects.create(lift=exercise.lift, workout=day_copy.workout)
+                exercise_copy.sets_display = exercise.sets_display
+                exercise_copy.order = exercise.order
+
+                for set in exercise.workoutset_set.all():
+                    set_copy = WorkoutSet.objects.create(lift=set.lift, workout=day_copy.workout, exercise=exercise_copy, 
+                                                         num_reps=set.num_reps)
+
+
+    return redirect('spotter_status_trainers')
+
 
 @login_required
 def assign_workoutplan(request):
@@ -372,6 +421,20 @@ def workout_info(request):
             return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
 
     return JSONResponse({'num_exercises': 0 })
+
+@csrf_exempt
+def workoutplan_rename(request):
+
+    if request.POST.get('workoutplan'):
+        workoutplan = get_object_or_404(WorkoutPlan, pk = request.POST.get('workoutplan'))
+
+        if workoutplan:
+            if request.POST.get('name'):
+                workoutplan.name = request.POST.get('name')
+                workoutplan.save()
+                print "Rename workoutplan pk=%s : %s" % (request.POST.get('workoutplan'), request.POST.get('name'))
+
+    return JSONResponse({})
 
 def new_workoutplan(request):
     flush_session_vars(request)

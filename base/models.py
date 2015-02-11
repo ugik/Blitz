@@ -472,7 +472,7 @@ class Client(models.Model):
             # for q in Comment.objects.filter(user=self.user).all():
             #     feeditems |= q.feeditems.all()
 
-            if self.get_blitz().recurring:  # recurring blitz allows shortcut
+            if not self.get_blitz().group:  # individual blitz allows shortcut
                 feeditems|= FeedItem.objects.filter(blitz=self.get_blitz())
 
             else:  # client in a group requires careful dissection of feeditems
@@ -597,6 +597,9 @@ class Blitz(models.Model):
     trainer = models.ForeignKey(Trainer)
     recurring = models.BooleanField(default=False) # Recurring blitzes repeat over time
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
+    group = models.BooleanField(default=False) # Group, default is Individual
+    free = models.BooleanField(default=False) # Free, default is paid
+
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
     # workout_plan can be pending, spotter will load and assign workout plan

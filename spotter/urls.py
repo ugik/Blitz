@@ -28,6 +28,7 @@ urlpatterns = patterns(
 
     url(r'^status_trainers$', 'spotter.views.spotter_status_trainers', name='spotter_status_trainers'),
     url(r'^assign_workoutplan$', 'spotter.views.assign_workoutplan', name='spotter_assign_workoutplan'),
+    url(r'^copy_workoutplan$', 'spotter.views.copy_workoutplan', name='spotter_copy_workoutplan'),
 
     url(r'^download$', 'spotter.views.spotter_download', name='spotter_download'),
     url(r'^delete$', 'spotter.views.spotter_delete', name='spotter_delete'),
@@ -37,6 +38,7 @@ urlpatterns = patterns(
 
     url(r'^workoutplan_ajax$', 'spotter.views.workoutplan_ajax', name='workoutplan_ajax'),
     url(r'^workout_info$', 'spotter.views.workout_info', name='workout_info'),
+    url(r'^workoutplan_rename$', 'spotter.views.workoutplan_rename', name='workoutplan_rename'),
 
     )
 

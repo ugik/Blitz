@@ -21,7 +21,7 @@ from ipware.ip import get_ip
 import balanced
 import analytics
 
-from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
+from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, CreateAccountFormFree, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, invitee_macros_set, save_file
 from base import utils
@@ -161,7 +161,7 @@ def blitz_setup(request):
     # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
     # list of blitzes for salespages does not include recurring blitzes assigned to clients
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
 
     if request.method == 'POST':
 
@@ -218,9 +218,11 @@ def blitz_setup(request):
             blitz.price = charge
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
+ 
             blitz.recurring = False if forceGroup or form.data['blitz_type'] == "GRP" else True
+            blitz.group = True if forceGroup or form.data['blitz_type'] == "GRP" else False
             blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"
-            blitz.provisional = True if blitz.recurring else False
+            blitz.provisional = True if not blitz.group else False
             blitz.save()
 
             return render_to_response('blitz_setup_done.html', 
@@ -300,7 +302,7 @@ def client_blitz_setup(request, pk):
 
     # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
 
     if request.method == 'POST':
         form = NewClientForm(request.POST)
@@ -711,8 +713,8 @@ def my_salespages(request):
     # load data needed for client-setup and blitz-setup modal(s)
     trainer = request.user.trainer
     salespages = SalesPageContent.objects.filter(trainer=trainer)
-    # sales pages for trainer's Blitzes that are either provisional or not recurring
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    # sales pages for trainer's Blitzes that are either provisional or group
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
 
     return render(request, 'trainer_salespages.html', {
@@ -1546,7 +1548,7 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
+            utils.add_client_to_blitz(invitation.blitz, client,invitation=invitation)
 
             # set blitz for specific client            
             blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client, 
@@ -1647,7 +1649,9 @@ def default_blitz_page(request, short_name):
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
-    # logo, head, name are passed in request for /sample sales page
+    # logo, head, name are passed in request for /sample facsimile sales page
+    # eg. /sample?logo=http://www.hawking.org.uk/uploads/8/3/0/0/8300824/1377255702.jpg&head=http://graphics8.nytimes.com/images/2013/09/13/arts/13RDP_HAWKING_SPAN/HAWKING-popup.jpg&name=Hawking
+
     logo = None
     if 'logo' in request.GET:
         logo = request.GET.get('logo')
@@ -1708,7 +1712,6 @@ def sales_blitz(request):
             'blitz': blitz.title if blitz else '(None)',
                 })
 
-
     if blitz and request.method == 'POST':
         if 'intro' in request.POST:
             blitz.sales_page_content.program_introduction = request.POST.get('intro')
@@ -1760,14 +1763,12 @@ def sales_blitz(request):
         blitz.sales_page_content.save()
         blitz.save()
 
+    if blitz:
         return render(request, "sales_blitz.html", {
             'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
             'saved': saved })
     else:
-        return render(request, "sales_blitz.html", {
-            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
-            })
-        print logo
+        return redirect('/')
 
 # Blitz signup page
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/signup
@@ -1793,11 +1794,55 @@ def blitz_signup(request, short_name, url_slug):
         next_url = '/'
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
-    return render(request, 'blitz_signup.html', {
-        'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
-        'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
-        'next_url': next_url, 'existing_user': existing_user
-    })
+    if blitz.free:   # handle free on-ramp
+        form = CreateAccountFormFree(request.POST)
+        if request.method == 'POST':
+
+            if form.is_valid():
+
+                # create client
+                client = utils.get_or_create_client(
+                    form.cleaned_data['name'],
+                    form.cleaned_data['email'].lower(),
+                    form.cleaned_data['password1']
+                    )
+                # add new client to Blitz
+                utils.add_client_to_blitz(blitz, client)
+                user = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
+                login(request, user)
+
+                # alert trainer of new client signup
+                alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="New (free) client registration.",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                # analytics
+                analytics_id(request, user_id=client.user.pk, traits={
+                         'name': client.name,
+                         'email': client.user.email,
+                         'note': "Paid Client Signup to %s for FREE" % str(blitz.price) 
+                    })
+
+                request.session['show_intro'] = True
+
+                return redirect(next_url)
+
+            return render(request, 'blitz_signup_free.html', {
+                'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
+                'form': form, 'errors': form.errors,
+            })
+        else:
+            return render(request, 'blitz_signup_free.html', {
+                'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
+                'form': form,
+            })
+
+    else:
+        return render(request, 'blitz_signup.html', {
+            'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
+            'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
+            'next_url': next_url, 'existing_user': existing_user
+        })
 
 # completion of Blitz signup
 def blitz_signup_done(request):

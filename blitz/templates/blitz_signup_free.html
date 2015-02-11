@@ -1,0 +1,118 @@
+{% extends "formpage.html" %}
+
+{% block moretitle %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block moremeta %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block formpage_content %}
+
+
+
+<div class="row">
+    <div class="span4 offset4">
+        <div class="formpage-block">
+            <div class="header">Sign up</div>
+            <p class="info-text">
+               You're seconds away from taking your fitness to the next level with {{ trainer.short_name }}.
+            </p>
+            <div class="content">
+
+                <form action="#" method="post">{% csrf_token %}
+
+                    <div class="input-container">
+                        <input type="text" name="name" id="name"
+                               placeholder="Name (first and last)"
+                               value="{{ form.data.name }}">
+                    </div>
+
+                    <div class="input-container">
+                        <input type="text" name="email" id="email"
+                               placeholder="Email"
+                               value="{{ form.data.email }}">
+                    </div>
+
+                    <div class="input-container">
+                        <input type="password" name="password1" id="password1"
+                               autocomplete="off"
+                               placeholder="Create password">
+                    </div>
+
+                    <div class="input-container">
+                        <input type="password" name="password2" id="password2"
+                               placeholder="Confirm password">
+                    </div>
+
+                    <div class="form-sep"></div>
+
+                    <button class="obtn full-width">Complete Signup →</button>
+                    <div id="sslbadge">
+                    By signing up for this service you agree to <a href="/termsofuse" style="color: white;">Terms of Use</a>
+                    </div>
+                </form>
+
+             {% if errors %}
+                <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Slow down, champ. Looks like you've got a few errors to fix:</strong> 
+	        {% for field in form %}
+                    {% if field.errors %}
+   	                <li>{{ field.name }}: <small>{{ field.errors|striptags }}</small></li>
+                    {% endif %}
+	        {% endfor %}
+                </div>
+             {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="formpage-block">
+            <div class="blitz-signup-info">
+                <img class="trainer-headshot img-circle" 
+          {% if blitz.sales_page_content.trainer_headshot %}
+               src="{{ MEDIA_URL }}{{ blitz.sales_page_content.trainer_headshot }}"
+          {% else %}
+               src="{{ MEDIA_URL }}{{ blitz.trainer.headshot }}"
+          {% endif %}/>
+
+                <div class="blitz-title">{{ blitz }}</div>
+                <br />
+                <div class="info-block">
+                    {% if not blitz.recurring %}
+                    <div class="title">Schedule</div>
+                    <div class="content">
+                        Starts: {{ blitz.begin_date }} <br>
+                        {% if blitz.begin_date != blitz.end_date %}
+                        Ends: {{ blitz.end_date }} {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+                <br />
+                <div class="blitz-cost">
+                  <div class="title">Cost {% if blitz.recurring %}/Month{% endif %}</div>
+                    <div class="cost">
+                    FREE
+                    </div>
+                        {% if blitz.price_per_workout > 0 %}
+                            <div class="per-week">
+                                That's just <span>${{ blitz.price_per_workout|floatformat:0 }}</span> per workout for expert coaching and access to an awesome community.
+                            </div>
+                        {% endif %}
+                 </div>
+            </div>
+
+
+        </div> 
+    </div>
+</div>
+
+
+{% endblock %}
