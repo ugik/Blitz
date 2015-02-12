@@ -7,7 +7,7 @@
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
   <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
-  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css"/>
 </script>
 
 <style>
@@ -25,10 +25,10 @@
 
 {% block formpage_content %}
 
-<div class="container-fluid">
+<div class="container">
 
     <div class="row">
-        <div class="span6 wtw" style="">
+        <div class="col-md-6 wtw" style="">
 
            <h3 class="mformh3">Set macros for {{ blitz.title }}</h3>
 
@@ -41,7 +41,7 @@
                         <option value="BEAST">Beast Mode (+15%)</option>
                         <option value="CUT">Cutting (-10%)</option>
                     </select>
-                    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+                    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
                     <!-- Note: formulas also in base/view.py blitz_macros_set() -->
                     <script type="text/javascript">
                         function show_macros(factor) {

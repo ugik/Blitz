@@ -2,7 +2,7 @@
 
 {% block main %}
 <header> Assign program</header>
-<div class="span8">
+<div class="col-md-8">
 
 <div class="content">
     <form enctype="multipart/form-data" action="assign_workoutplan?plan={{ workoutplan.pk }}" method="post" name="program_create" class="formpage-block-form">{% csrf_token %}

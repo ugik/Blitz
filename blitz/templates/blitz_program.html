@@ -25,7 +25,7 @@
         <div class="landscape-header-top" >
             <div class="container">
                 <div class="row">
-                    <div class="span12">
+                    <div class="col-md-12">
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="landscape-header-bottom">
             <div class="container">
                 <div class="row">
-                    <div class="span12">
+                    <div class="col-md-12">
                         <div class="content">
                             <div class="title">Program Overview</div>
                         </div>
@@ -47,7 +47,7 @@
 <div class="which-blitz">
     <div class="container">
         <div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                     <span class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Programs <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -72,7 +72,7 @@
 
 {% block main %}
 {% if client or blitz.workout_plan %}
-    <div class="span8">
+    <div class="col-md-8">
         <div class="overview-top-content overview-block">
             <div class="content">
                 <b>{{ blitz.title }}</b>
@@ -92,12 +92,12 @@
 
 {% if blitz.workout_plan %}
     {% for week in blitz.workout_plan.weeks %}
-        <div class="span12"><h3>Week {{ week.week }}:</h3>
+        <div class="col-md-12"><h3>Week {{ week.week }}:</h3>
         {% for day in week.days %}
             {% if week.days.count > 4 %}
-              <div class="span2" style="margin-left: 0px; margin-right: 25px !important;">
+              <div class="col-md-2" style="margin-left: 0px; margin-right: 25px !important;">
             {% else %}
-              <div class="span3" style="margin-left: 0px; margin-right: 20px!important;">
+              <div class="col-md-3" style="margin-left: 0px; margin-right: 20px;">
             {% endif %}
                 <div class="overview-block workout-day-block">
                     <div class="title">{{ day.day_of_week|day_name }}</div>
@@ -121,7 +121,7 @@
 {% endif %}
 
 
-<div class="span8">
+<div class="col-md-8">
     {% if client %}
         {% if not blitz.workout_plan %}
            <div class="empty-placeholder">
@@ -131,7 +131,7 @@
         {% endif %}
     {% else %}
         <br>
-        <div class="span10">
+        <div class="col-md-10">
         <div class="alert alert-info">
         <b>Sales page link:</b><a href="/{{ trainer.short_name }}/{{ blitz.url_slug }}" target="_blank"><u>
         {% if not trainer.short_name = blitz.url_slug %}

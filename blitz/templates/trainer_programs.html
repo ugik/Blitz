@@ -20,15 +20,15 @@
 
 {% block main %}
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-            <div class="span4">
+            <div class="col-md-4">
               &nbsp;
             </div>
-            <div class="span4" style="margin: 0 auto; text-align: center;">
+            <div class="col-md-4" style="margin: 0 auto; text-align: center;">
               <h1 class="meta"> Programs </h1>
             </div>
-            <div class="span4" style="margin: 0 auto; text-align: center;">
+            <div class="col-md-4" style="margin: 0 auto; text-align: center;">
                 <form method="post" name="sales-blitz" 
                  action="upload" class="formpage-block-form">
                    {% csrf_token %}
@@ -41,13 +41,13 @@
             </div>
 
         </div>
-        <div class="span8" style="float: none; margin: 0 auto; text-align: center;">
+        <div class="col-md-8" style="float: none; margin: 0 auto; text-align: center;">
         {% if workoutplans %}
 
          Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.<br><br>
            {% for plan in workoutplans %}
               <div class="well contentwell">
-                 <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="icon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} week{% if plan.num_weeks > 1 %}s{% endif %} long </div></div>
+                 <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="fa fa-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} week{% if plan.num_weeks > 1 %}s{% endif %} long </div></div>
                  
                  {% for lift in plan.all_lifts %}
                      {% if forloop.last %} {{ lift.name }} {% else %} {{ lift.name }}, {% endif %}

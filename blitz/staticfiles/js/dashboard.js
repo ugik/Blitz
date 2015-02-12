@@ -566,6 +566,10 @@
             $summary.empty();
             // END
 
+            // Hides group container
+            $('.group').addClass('hidden');
+            // END
+
             // Clear feed container
             var clearFeed = function() {
                 if ($mainFeed.html()) {
@@ -608,6 +612,7 @@
                 $('.feeds-filter').addClass('hidden');
                 $('.alerts-wrapper').removeClass('hidden');
             } else {
+
                 // Inbox
                 if (FEED_SCOPE === 'inbox') {
                     // Reset Seearch Input
@@ -624,7 +629,7 @@
                 if (FEED_SCOPE === 'blitz') {
                     SELECTED_ITEM = 'blitz';
                     $.get('/api/blitz/' + OBJECT_ID, function(data) {
-                        $('.group').html(data.html);
+                        $('.group').html(data.html).removeClass('hidden');
                     });
                 }
 

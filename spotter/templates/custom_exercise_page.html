@@ -3,7 +3,7 @@
 {% block main %}
 <header> Customize Exercise </header>
 {{ exercise }} {% if workoutset.client %} for {{ workoutset.client }} {% endif %}
-<div class="span8">
+<div class="col-md-8">
 
         <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
         <input type="text" name="sets_display" value="{{ exercise.sets_display }}" />

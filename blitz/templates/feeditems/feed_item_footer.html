@@ -4,20 +4,20 @@
     <div class="feeditem-actions-container">
         <div class="anchor-container">
         {% if parent|liked_by_user:user %}
-            <a class="unlike-link"><i class="icon-thumbs-down"></i> Unlike</a>
+            <a class="unlike-link"><i class="glyphicon glyphicon-thumbs-down"></i> Unlike</a>
         {% else %}
-            <a class="like-link"><i class="icon-thumbs-up"></i> Like</a>
+            <a class="like-link"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a>
         {% endif %}
         </div>
         <div class="anchor-container">
-            <a class="comment-link"><i class="icon-comment"></i> Comment</a>
+            <a class="comment-link"><i class="glyphicon glyphicon-comment"></i> Comment</a>
         </div>
     </div>
     <div class="clearfix"></div>
     {% if parent.has_likes %}
         <div class="feed-item-likes-container">
             <div class="feed-item-likes">
-                <i class="icon-thumbs-up"></i>
+                <i class="glyphicon glyphicon-thumbs-up"></i>
                 {% for u in parent.users_that_like %}
                     <a href="#">{{ u.display_name }}</a>
                     {% if not forloop.last %}and{% endif %}
@@ -32,12 +32,12 @@
             <div class="reply">
                 <a href="{{ comment.user.get_profile_url }}" class="name">{{ comment.user.display_name }}</a> {{ comment.text|urlize|linebreaksbr }}
                 <div class="comment-date">
-                    <i class="icon-time"></i> {{ comment.date_and_time|timesince }} ago
+                    <i class="glyphicon glyphicon-time"></i> {{ comment.date_and_time|timesince }} ago
                     {% if comment.has_likes %}
                     <span class="num-likes"
                           data-toggle="tooltip"
                           title="{% for u in comment.users_that_like %}{{ u.display_name }}{% if not forloop.last %} and {% endif %}{% endfor %} like{{ comment.users_that_like|pluralize:"s," }} this."
-                        ><i class="icon-thumbs-up"></i> {{ comment.users_that_like|length }}</span>
+                        ><i class="glyphicon glyphicon-thumbs-up"></i> {{ comment.users_that_like|length }}</span>
                     {% endif %}
                     {% if comment|liked_by_user:user %}
                     <a class="unlike-link">Unlike</a>
