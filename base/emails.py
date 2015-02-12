@@ -11,6 +11,7 @@ from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from workouts.models import WorkoutPlan
 from datetime import date, timedelta
+import datetime as dt
 
 import os
 
@@ -91,9 +92,17 @@ def signup_confirmation(client, trainer):
     from_email, to_email = SOURCE_EMAIL, client.user.email
     subject = "Welcome to Blitz.us!"
 
+    if dt.datetime.now().date() > client.get_blitz().begin_date:   # blitz has already started
+        begins = 'began'   # past tense
+        in_meantime = None
+    else:
+        begins = 'begins'
+        in_meantime = True
+
     text_template = 'emails/signup_confirmation.txt'
     html_template = 'emails/signup_confirmation.html'
-    context = { 'client': client, 'blitz': client.get_blitz() }
+    context = { 'client': client, 'blitz': client.get_blitz(), 'begins': begins, 'in_meantime': in_meantime }
+
     send_email(from_email, to_email, subject, text_template, html_template, context,
                cc_mail=[trainer.user.email] )
 

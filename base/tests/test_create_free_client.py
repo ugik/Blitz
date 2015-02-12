@@ -43,7 +43,7 @@ class TestCreateFreeClient(unittest.TestCase):
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.get(self.base_url + "/")
-        driver.find_element_by_link_text("Go log it now").click()
+        driver.find_element_by_link_text("Log Workout").click()
 #        import pdb; pdb.set_trace()
         driver.find_element_by_xpath("//div[2]/input").clear()
         driver.find_element_by_xpath("//div[2]/input").send_keys("90")

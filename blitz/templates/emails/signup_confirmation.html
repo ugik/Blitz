@@ -4,10 +4,11 @@
 
 <p>Hey {{ client }}, welcome to Blitz!</p>
 
-<p>You're all signed up for {{ blitz }}, which begins on {{ blitz.begin_date }}.</p>
-
+<p>You're all signed up for {{ blitz }}, which {{ begins }} on {{ blitz.begin_date }}.</p>
+<br>
+{% if in_meantime %}
 <p>In the meantime, you can still check the site out and leave some comments. Once your program starts, you'll be able to log your workouts and diet goals.</p>
-
+{% endif %}
 <br />
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">

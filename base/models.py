@@ -422,7 +422,7 @@ class Client(models.Model):
         today = timezone.normalize(timezone_now()).date()
         ret = []
         for workout_date, workout_plan_day in self.get_blitz().iterate_workouts():
-            if workout_date < today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists():
+            if workout_date < today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists() and not self.date_created > workout_date:
                 ret.append( (workout_date, workout_plan_day) )
             elif workout_date >= today:
                 break
