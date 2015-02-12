@@ -3,6 +3,9 @@
 {% load blitz_tags %}
 
 {% block morehead %} {{ super }}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheets/style.css"/>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
 
 <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
 <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
@@ -12,12 +15,7 @@
 <script type="text/javascript">
 var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
 </script>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheets/style.css"/>
 
-<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
-<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
 <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
@@ -156,7 +154,7 @@ function save_client_setup() {
 	</div> <!--/ sidebar-left -->
 
 	<div class="content-wrapper">
-		<div class="content row-fluid">
+		<div class="content">
 			<!-- Inbox Container -->
 			<div class="inbox-container">
 				<!-- Will be populated using AJAX -->
@@ -164,7 +162,7 @@ function save_client_setup() {
 
 			<div class="feeds">
 				<!-- Blitz group header -->
-				<div class="group">
+				<div class="group hidden">
 					<!-- Will be populated using AJAX -->
 				</div>
 
@@ -191,7 +189,7 @@ function save_client_setup() {
 
 						    <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
 						    <label id="id_label" name="picture" class="gbtn photobuttonlabel" for="id_picture"/>
-						    <i class="icon-camera"></i>
+						    <i class="glyphicon glyphicon-camera"></i>
 						    </label></td></tr></table>
 						</form>
 						<a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>

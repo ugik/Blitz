@@ -29,7 +29,7 @@
 
 {% block main %}
 
-<div class="span8">
+<div class="col-md-8">
 
 {% if alerts %}
     {% include "trainer_alerts.html" %}
@@ -46,7 +46,7 @@
 
     <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
     <label id="id_label" name="picture" class="gbtn" for="id_picture"/>
-    <i class="icon-camera"></i>
+    <i class="glyphicon glyphicon-camera"></i>
     </label></td></tr></table>
 </form>
 
@@ -57,7 +57,7 @@
 {% if user.blitz %}{% include "main_feed.html" %}{% endif %}
 
 </div>
-<div class="span4">
+<div class="col-md-4">
 
   {% if user.blitz %}
     {% with user.blitz.members as members %}
@@ -74,7 +74,7 @@
 <div class="which-blitz">
     <div class="container">
         <div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                     <span class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Programs <b class="caret"></b></a>
                         <ul class="dropdown-menu">

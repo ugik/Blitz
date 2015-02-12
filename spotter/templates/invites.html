@@ -10,42 +10,16 @@
 </style>
 
 
-    <div class="span6 offset3" style="margin-bottom: 50px; margin-top: 0px; padding-right: 20px;">
-      
-        <ul>
-        {% for invite in invites|dictsort:"date_created" %}
-          <div class="spotterwrap" style="text-align: left;">
-             <li>
-              <span class="small">
-                {{ invite.date_created }}
-              </span>
-              <p>
-                {{ invite.blitz.trainer.name }}: {{ invite }} ({{ invite.email }}) 
-              </p>
-              <p>
-                Details: 
-              </p>
-              <ul style="margin-top: -10px; list-style-type: disc;">
-                <li>
-                  {% if invite.workout_plan %} 
-                    <li>
-                      Workout plan: {{ invite.workout_plan.name }} 
-                    </li>
-                  {% endif %}
-                  {% if invite.macro_formula %} 
-                    <li>
-                      Macros: {{ invite.macro_formula }}
-                    </li>
-                  {% endif %}
-                  {% if invite.price %}
-                    <li>
-                      Price: ${{ invite.price }} {% else %} Free 
-                    </li>
-                  {% endif %}
-                <li>
-             </li>
-           </div>
-        {% endfor %}
+    <div class="col-md-6 col-md-offset-3" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+      <ul>
+      {% for invite in invites|dictsort:"date_created" %}
+           <li>{{ invite.date_created }} trainer: {{ invite.blitz.trainer.name }} <br>
+               <b>{{ invite }} ({{ invite.email }}) </b> <br>
+           {% if invite.workout_plan %} workout plan: {{ invite.workout_plan.name }} {% endif %}
+           {% if invite.macro_formula %} macros: {{ invite.macro_formula }} {% endif %}
+           {% if invite.price %} price: ${{ invite.price }} {% else %} (free) {% endif %}
+           </li><br>
+      {% endfor %}
 
     </div>
 

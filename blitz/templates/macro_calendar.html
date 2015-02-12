@@ -19,17 +19,17 @@
                         {% endif %}
                         {% if not day.in_future and not day.has_entry %}
                         <div class="macro-day-cell">
-                            <i class="icon-question-sign unknown"></i>
+                            <i class="glyphicon glyphicon-question-sign unknown"></i>
                         </div>
                         {% endif %}
                         {% if day.all_pass %}
                         <div class="macro-day-cell">
-                            <i class="icon-ok-sign pass"></i>
+                            <i class="glyphicon glyphicon-ok-sign pass"></i>
                         </div>
                         {% endif %}
                         {% if day.all_fail %}
                         <div class="macro-day-cell">
-                            <i class="icon-remove-sign fail"></i>
+                            <i class="glyphicon glyphicon-remove-sign fail"></i>
                         </div>
                         {% endif %}
                         {% if day.has_entry and not day.all_pass and not day.all_fail %}
