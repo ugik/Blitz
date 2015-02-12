@@ -1,0 +1,11 @@
+{% extends "emails/base_email.html" %}
+
+{% block email_content %}
+
+<p>You received an upload file from {{ trainer.name|safe }}.</p>
+
+<p>Get it <a href="{{ url }}">here</a>.</p>
+
+
+{% endblock %}
+

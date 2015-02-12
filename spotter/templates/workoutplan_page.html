@@ -2,7 +2,8 @@
 
 {% block main %}
 
-<header>Workoutplan Details</i><br></header><br>
+<h3>Workout plan details</i><br></h3><a href="/spotter/edit-workoutplan?plan={{ workoutplan.pk }}">
+<i class="icon-pencil"></i> Edit program</a><br><br>
 <style>
       tr:nth-of-type(odd) {
       background-color:#D8F1D7;
@@ -10,7 +11,7 @@
 </style>
 
 <table>
-{% for workoutplanweek in workoutplan.workoutplanweek_set.all %}
+{% for workoutplanweek in workoutplan.workoutplanweek_set.all|dictsort:"week" %}
 <tr><td>week#<b>{{ workoutplanweek.week }}</b></td>
    {% for workoutplanday in workoutplanweek.workoutplanday_set.all %}
        <td>{{ workoutplanday.day_of_week }}</td>

@@ -22,9 +22,16 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
 
     silent = False if settings.DEBUG else True
 
-    if [i for i in to_email if 'example.com' in i]:
-        print 'example.com address, no email sent'
-        return
+    # don't send emails to @example.com addresses
+    if isinstance(to_email, list):
+        if [i for i in to_email if 'example.com' in i]:
+            print '* @example.com address, no email sent'
+            return
+    else:
+        if 'example.com' in to_email:
+            print '* @example.com address, no email sent'
+            return
+
 
     if len(images) == 0:
         images = ['emailheader.png']
@@ -123,6 +130,16 @@ def message_received(user, message):
     html_template = 'emails/message_received.html'
     context = { 'user': user, 'message': message }
     send_email(from_email, to_email, subject, text_template, html_template, context )
+
+def email_spotter_program_upload(trainer, document):
+    from_email, to_email = SOURCE_EMAIL, SPOTTER_EMAIL
+    text_template = 'emails/program_upload.txt'
+    html_template = 'emails/program_upload.html'
+
+    if trainer:
+        subject = "Program upload from %s" % trainer.name
+        context = { 'url': document, 'trainer': trainer }
+        send_email(from_email, to_email, subject, text_template, html_template, context )
 
 
 def email_spotter_program_edit(pk, message):

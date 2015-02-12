@@ -8,6 +8,7 @@
         <div class="days" style="width: 365px;">
             <table>
                 <tr>
+                {% comment %}
                 {% for day in week.macro_days %}
                     <td>
                         <p>{{ day.day_str|slice:"3" }}</p>
@@ -43,6 +44,69 @@
                         {% endif %}
                     </td>
                 {% endfor %}
+                {% endcomment %}
+                {% for day in week.macro_days %}
+                    <td class="{% if day.current %}current{% endif %}" data-future="{{ day.in_future }}">
+                        <p>{{ day.day_str|slice:"3" }}</p>
+                        {% if day.in_future and not day.has_entry %}
+                        <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                            {# <span class="day-of-month">{{ day.day_of_month }}</span> #}
+                        </div>
+                        {% endif %}
+
+                        {% if not day.in_future and not day.has_entry %}
+                        <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                            <i class="icon-question-sign unknown"></i>
+                        </div>
+                        {% endif %}
+
+                        {% if day.all_pass %}
+                        <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                            <i class="icon-ok-sign pass"></i> 
+                            {# <i class="fa fa-check-circle pass"></i> #}
+                        </div>
+                        {% endif %}
+
+                        {% if day.all_fail %}
+                        <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                            <i class="icon-remove-sign fail"></i> 
+                            {#<i class="fa fa-times-circle fail"></i> #}
+                        </div>
+                        {% endif %}
+
+                        {% if day.has_entry and not day.all_pass and not day.all_fail %}
+                        <div class="macro-day-cell {% if day.current %}current{% endif %}">
+                            {% comment %}
+                            <div class="macro-combo">
+                                <div class="letter calories {% if day.calories %}calories-pass{% else %}letter-fail{% endif %}"  title="Calories">{% if day.calories %}True{% endif %}</div>
+                                <div class="letter protein {% if day.protein %}protein-pass{% else %}letter-fail{% endif %}"  title="Protein"></div>
+                                <div class="letter carbs {% if day.carbs %}carbs-pass{% else %}letter-fail{% endif %}"  title="Carbs"></div>
+                                <div class="letter fat {% if day.fat %}fat-pass{% else %}letter-fail{% endif %}"  title="Fat"></div>
+                            </div>
+                            {% endcomment %}
+
+                            {% if day.diet_goal_done > 0 %}
+                            <span class="diet-progress-stats" title="{{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
+Missed: {{ day.diet_goal_missed }}.
+Hit: {{ day.diet_goal_hit }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}</span>
+
+                            {% comment %}
+                            <div class="legend-tooltip hidden">
+                                <div class="legend-tooltip-header">
+                                {{ day.day_str|truncatewords:"1"|slice:"-4" }}, {{ day.month_str|slice:"3" }}. {{ day.day_of_month }}
+                                </div>
+                                <p>{{ day.diet_goal_stats_legend }}.</p>
+                            </div>
+                            {% endcomment %}
+
+                            {% else %}
+                            <i class="icon-remove-sign fail"></i> 
+                            {% endif %}
+                        </div>
+                        {% endif %}
+
+                    </td>
+                    {% endfor %}
                 </tr>
             </table>
         </div>

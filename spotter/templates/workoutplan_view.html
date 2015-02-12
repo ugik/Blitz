@@ -1,0 +1,47 @@
+{% extends "spotter_base.html" %}
+
+{% load blitz_tags %}
+
+{% block morehead %}
+{% endblock %}
+
+{% block above_content %}
+{% endblock %}
+
+{% block main %}
+    <div class="span12">
+        <h1 style="">{{ workout_plan.name }}  - Program Details</h1>
+        <a href="/spotter/edit-workoutplan?plan={{ workout_plan.pk }}" style="">
+            <i class="icon-pencil"></i> Edit program
+        </a>
+        <hr />
+    </div>
+
+    {% for week in workout_plan.weeks %}
+        <div class="span12">
+
+            <h3>Week {{ week.week }}: </h3>
+        {% for day in week.days %}
+            {% if week.days.count > 4 %}
+                <div class="span2 spotterwrap" style="margin-left: 0px; margin-right: 25px !important; padding: 0px;">
+            {% else %}
+                <div class="span3 spotterwrap" style="margin-left: 0px; margin-right: 20px!important; padding: 0px;">
+            {% endif %}
+                <div class="workout-day-block" >
+                    <div class="title"><u>{{ day.day_of_week|day_name }}</u></div>
+                    <div class="content">
+                        <ul>
+                            {% for exercise in day.workout.get_exercises %}
+                                    <li style="margin-left: 0px;">{{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+

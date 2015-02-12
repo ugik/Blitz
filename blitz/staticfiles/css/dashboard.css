@@ -47,6 +47,7 @@
 body {
     height: 100% !important
 }
+
 .modal-full {
     position: absolute;
     top: 0;
@@ -116,7 +117,7 @@ img.headshot {
 }
 
 .exercise-matrix .exercise-container .exercise .exercise-name-container .exercise-name {
-    height: 100px !important;
+    /*height: 100px !important;*/
 }
 
 

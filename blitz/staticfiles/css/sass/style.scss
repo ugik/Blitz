@@ -1229,7 +1229,7 @@ h3 {@include lightfont();}
     border-top-left-radius: 4px;
     color: white;
     //@include blitz-gradient();
-    background: $blitz-orange;
+    background: $blitz-purple;
     padding: $parentpadding;
     border-bottom: $border;
     font-size: 18px;
@@ -1947,6 +1947,7 @@ a:focus {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    max-width: 100px;
     @include mobile-only {
       margin-top: 5%;
     }
@@ -1962,6 +1963,9 @@ a:focus {
   }
 }
 
+.blitz-login img {
+  max-width: 100px;
+}
 
 
 #progress-header-container {
@@ -2297,7 +2301,7 @@ background-position: 0 -30px;
 }
 
 .macro-day-cell {
-  height: 20px;
+  height: 30px;
   i {
     font-size: 20px;
   }
@@ -3329,6 +3333,8 @@ input::-webkit-inner-spin-button {
 
 #myModal {
   display: block;
+  position: absolute;
+  top: 0;
 }
 
 .blankfeed {
@@ -3818,12 +3824,15 @@ span.num-unread-threads {
 
 a.feed-permalink {
   float: right;
-  padding: 4px;
+  //padding-top: 4px;
+  padding-left: 10px;
   color: white;
 }
 
 a.feed-permalink-grey {
   color: #d3d3d3;
+  padding-top: 15px;
+  padding-right: 20px;
 }
 
 .solo-client, .solo-client .item, ul.filters .item {
@@ -4031,7 +4040,9 @@ ul.spotternav li {
   padding: 10px 0px 30px 5px;
   border-radius: 5px;
   border: 1px solid white;
-  margin-bottom: 20px;
+  margin-left: 0px;
+  margin-right: 30px;
+  min-height: 200px;
 }
 
 .wellheadline {
@@ -4702,12 +4713,19 @@ padding: 30px 30px 30px 43px;
   margin-bottom: 10px;
   @include boldfont();
   line-height: 1.3;
+  @include mobile-only {
+    text-align: center;
+  }
 }
 
 .uploads-bottom {
   opacity: 0.5;
   font-size: 14px;
   line-height: 1.3;
+  @include mobile-only {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 }
 
 .uploads-row {
@@ -5148,6 +5166,33 @@ h3 a#name, a#blurb {
   border: 2px solid $fadedblue;
 }
 
+.macro-history .days tr {
+    height: 70px;
+}
+
+.macro-history .days tr td p {
+    margin: 0;
+}
+
+.diet-progress-stats {
+    background: none repeat scroll 0% 0% #7AB2EA;
+    padding-top: 3px;
+    margin: 0px auto;
+    display: block;
+    width: 29px;
+    height: 25px;
+    color: #FFF;
+    border-radius: 28px;
+}
+
+/* TODO: Replace with Font Awesome Icon */
+
+.macro-day-cell .icon-ok-sign,
+.macro-day-cell .icon-remove-sign, 
+.macro-day-cell .icon-question-sign {
+    font-size: 29px;
+}
+
 #summary .sidebar-box .goals-history .box {
   width: 25%;
   float: left;
@@ -5175,6 +5220,8 @@ h3 a#name, a#blurb {
 #summary > div > div.section.diet-goals.sidebar-box, #summary > div > div.section.sidebar-box.diet-progress {
   margin-bottom: 0px !important;
 }
+
+
 
 #dashboard #summary .sidebar-box .header {
   text-align: left; 
@@ -5762,56 +5809,56 @@ a#name, a#plan_name, a#client_name {
   margin-top: 40px;
   img {
     @include tablet-portrait-and-up {
-      width: 10%;
+      width: 8%;
     };
     @include mobile-only {
-      width: 30%;
+      width: 20%;
     };
   }
 }
 
 .about0 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/0.png'); 
+    background-image: url('/static/images/0.png');
   }
   @include mobile-only {
     background-image: url('/static/images/0m.png');
-    border: 1px solid rgba(0,0,0,0.1); 
+    border: 1px solid rgba(0,0,0,0.1);
   }
-  //background-color: #ddd; 
-  //border-radius: 5px 5px 0px 0px; 
+  //background-color: #ddd;
+  //border-radius: 5px 5px 0px 0px;
   height: 350px;
 }
 
 .about1 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/1.png'); 
+    background-image: url('/static/images/1.png');
   }
   @include mobile-only {
     background-image: url('/static/images/1m.png');
-    border: 1px solid rgba(0,0,0,0.1); 
+    border: 1px solid rgba(0,0,0,0.1);
   }
-  //background-color: #ddd; 
-  //border-radius: 5px 5px 0px 0px; 
+  //background-color: #ddd;
+  //border-radius: 5px 5px 0px 0px;
   height: 350px;
 }
 
 .about2 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/21.png'); 
+    background-image: url('/static/images/21.png');
   }
   @include mobile-only {
     background-image: url('/static/images/21m.png');
     border: 1px solid rgba(0,0,0,0.1); 
   }
-  //background-color: #ddd; 
-  //border-radius: 5px 5px 0px 0px; 
+  //background-color: #ddd;
+  //border-radius: 5px 5px 0px 0px;
   height: 350px;
 }
 
 .about3 {
   @include tablet-portrait-and-up {
-    background-image: url('/static/images/3.png'); 
+    background-image: url('/static/images/3.png');
   }
   @include mobile-only {
     background-image: url('/static/images/3m.png');
@@ -5823,14 +5870,52 @@ a#name, a#plan_name, a#client_name {
 }
 
 .blueplay {
+  text-align: center; 
+  background-color: #7ab2ea; 
+  height: 175px; 
+  width: 175px; 
+  border-radius: 50px;
   :hover {
     cursor: pointer;
   }
   @include tablet-landscape-and-up {
     margin: 30px auto;
+    @include meta();
   }
+  //@include mobile-only {
+  //  margin: 60px auto;
+  //}
   @include mobile-only {
-    margin: 60px auto;
+    width: 100%;
+    height: 40px;
+    .arrow-right {
+      display: none;
+    }
+    border: 2px solid white;
+    background-color: transparent;
+    border-radius: 4px;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+.watchspacer {
+  height: 35px;
+  @include mobile-only {
+    display: none;
+  }
+}
+
+.watch {
+  top: 50%; 
+  color: white; 
+  margin-top: 20px;
+  @include mobile-only {
+    top: auto;
+    margin-top: 10px;
+    @include meta();
+    font-size: 1.3em;
   }
 }
 
@@ -6000,4 +6085,61 @@ a#name, a#plan_name, a#client_name {
 
 .navbar {
   margin-bottom: 0px;
+}
+
+.spacer {
+  height: 10px;
+  display: block;
+}
+
+.paymentradio label {
+  width: 33%;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.alert-text {
+  width: 75%;
+  display: inline-flex;
+  @include tablet-portrait-and-below {
+    width: 100%;
+  }
+}
+
+.alert-btn-wrap {
+  width: 25%;
+  display: inline;  
+  @include tablet-portrait-and-below {
+    width: 100%;
+  }
+}
+
+.mobile-hide {
+  @include mobile-only {
+    display: none;
+  }
+}
+
+.icon-link {
+  text-decoration: none;
+  :hover {
+    text-decoration: none;
+  }
+}
+
+a.feed-permalink {
+  font-size: 12px;
+  
+}
+
+.spotterwrap {
+  border: 1px solid #fff; 
+  border-radius: 5px; 
+  padding: 20px; 
+  margin-bottom: 30px;
+}
+
+#table a {
+    pointer: cursor;
+  
 }

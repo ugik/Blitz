@@ -13,8 +13,10 @@
         <div class="formpage-block">
 
                 <form name="uploadsForm" id="uploadsForm" enctype="multipart/form-data" action="" method="post">
-                    <div class="header">Registration</div>
-                    <p class="info-text">Sweet. Now let's upload some stuff to complete your account and get you ready to train people. There's just 3 steps and you're done. </p>
+                    <div class="header">Last step!</div>
+                    <p class="info-text">
+                        Now let's upload some stuff to complete your account and get things ready for your clients. There's just 3 steps and you're done.
+                    </p>
 
                     {% csrf_token %}
         </div>
@@ -40,7 +42,7 @@
             <div class="row uploads-row">
                 <div class="col-md-6 trainer-uploads-left">
                     <div class="uploads-top">Upload a logo</div>
-                    <div class="uploads-bottom">Clients will see your logo on the site (or just your name, if you don't have one).</div>
+                    <div class="uploads-bottom">Clients will see your logo when they use Blitz (if you don't have one, we'll use your name).</div>
                 </div>
                 <div class="col-md-2 trainer-uploads-right">
                     <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
@@ -56,7 +58,7 @@
             <div class="row uploads-row">
                 <div class="col-md-6 trainer-uploads-left">
                     <div class="uploads-top">Upload program documents</div>
-                    <div class="uploads-bottom">Any files that illustrate your fitness/diet programs. Excel, PDF, whatever.</div>
+                    <div class="uploads-bottom">Any spreadsheets, PDF, etc that explain your fitness/diet programs. We'll set it up for you.</div>
                 </div>
                 <div class="col-md-2 trainer-uploads-right">
                     <input type="file" name="document" id="id_document" style="height:0; display:none;"/>

@@ -2,26 +2,38 @@
 
 {% block main %}
 
-<header>Here are the program sales pages</header>
+<h1>Sales pages</h1>
 <style>
       tr:nth-of-type(odd) {
       background-color:#D8F1D7;
     }
 </style>
 <table>
-
-{% for content in pending %}
-<tr>
-    {% for element in content %}
-      {% if forloop.first %}
-        <td>id:<a href="program_sales_page?plan={{ element }}"><b>{{ element }}</b></a></td>
-      {% else %}
-        <td>{{ element }}</td>
-      {% endif %}
-    {% endfor %}
-</tr>
-{% endfor %}
+  <br>
+  {% for content in pending %}
+    <tr>
+        {% for element in content %}
+          {% if forloop.first %}
+            <td>
+              <a href="/sales-blitz?slug={{ element.url_slug }}&short_name={{ element.trainer.short_name }}&debug=True&key={{ element.sales_page_content.sales_page_key }}">
+                <b>Edit</b>
+              </a>
+            </td>
+            <td>
+              <a href="/{{ element.trainer.short_name }}/{{ element.url_slug }}">
+                <b>View</b>
+              </a>
+            </td>
+          {% else %}
+            <td>
+              {{ element }}
+            </td>
+          {% endif %}
+      {% endfor %}
+    </tr>
+  {% endfor %}
 </table>
+
 {% if errors %}
     <ul>
     {% for e in errors %}
@@ -29,9 +41,6 @@
     {% endfor %}
     </ul>
 {% endif %}
-
-<br>
-
 
 {% endblock %}
 
