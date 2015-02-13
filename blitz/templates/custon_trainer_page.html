@@ -1,0 +1,429 @@
+{% extends "base.html" %}
+
+{% block morehead %}
+<style>
+	body {
+		background: #fcfcfc;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		margin-top: 0;
+	}
+
+	hr {
+		border: 1px solid #393837;
+		margin-top: 51px;
+		margin-bottom: 30px;
+		padding: 0px;
+	}
+
+	.header {
+		height: 550px;
+		background: #262523;
+		color: #fff;
+		margin-bottom: 50px;
+		padding: 0px 149px;
+	}
+
+	.header .inner {
+		margin-top: 48px;
+	}
+
+	.testimonials {
+		color: #4b4b4b;
+		padding: 0px 149px;
+	}
+
+	.show-cases {
+		background: #262523;
+		height: 548px;
+		/*margin-bottom: 50px;*/
+		color: #fff;
+		padding: 0px 149px;
+	}
+
+	.show-cases .inner {
+		margin-top: 60px;
+	}
+
+	.show-cases .after-before {
+		/*width: 554px;*/
+		min-height: 349px;
+		background: #fff;
+		display: table;
+		color: #202020;
+		font-size: 9px;
+		margin-right: 30px;
+		float: left;
+	}
+
+	.show-cases .after-before img {
+		height: 349px;
+	}
+
+	.after-before .after {
+		float: left;
+		margin-top: 5px;
+		margin-right: 5px;
+	}
+
+	.after-before .before {
+		float: right;
+		margin-top: 6px;
+	}
+
+	.pricing {
+		padding: 0px 149px;
+	}
+
+	#trainer-logo img {
+		/*width: 243px;*/
+		height: 25px;
+		float: left;
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+
+	#logo {
+		float: right;
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+
+	.trainer-cover {
+		color: #bdbdbd;
+	}
+
+	.trainer-cover img {
+		border: 2px solid #fff;
+	}
+
+	.trainer-info ul li.title {
+		margin: 0;
+		padding: 0;
+		font-weight: bold;
+		list-style: none;
+	}
+
+	.trainer-info ul li.title * {
+		margin: 0;
+		padding: 0;
+	}
+
+	.obtn {
+		margin-bottom: 17px;
+		margin-right: 17px;
+		border-radius: 7px;
+	}
+
+	.obtn.btn-default {
+		background: none;
+		border: 2px solid #fff;
+	}
+
+	.comment {
+		width: 46%;
+		max-width: 554px;
+		margin-right: 30px;
+		margin-bottom: 28px;
+		color: #4c4c4c;
+		display: inline-block;
+	}
+
+	.comment .text {
+		border: 1px solid #efefef;
+		background: #fff;
+		padding: 20px;
+		margin-bottom: 20px;
+		border-radius: 10px;
+	}
+
+	.comment img.img-circle {
+		border: 2px solid #fff;
+		width: 60px;
+		margin-right: 20px;
+		display: inline-block;
+	}
+
+	.comment .about-client .client-picture {
+		float: left;
+	}
+
+	.comment .about-client .client-info {
+		float: left;
+		line-height: 10px;
+		margin-top: 14px;
+	}
+
+	.comment .about-client .client-name {
+		font-weight: bold;
+	}
+
+</style>
+{% endblock %}
+
+{% block outer_content %}
+<div class="container">
+	<div class="row header">
+		<div class="inner">
+			<div>
+				<a href="/" id="trainer-logo">
+	                <img src="{{ STATIC_URL }}images/marc_logo.png"/>
+	            </a>
+				<a href="/" id="logo">
+	                <img src="{{ STATIC_URL }}images/logo.png"/>
+	            </a>
+	            <div class="clearfix"></div>
+			</div>
+
+			<hr/>
+			<div class="row trainer-info">
+				<div class="col-md-2 trainer-cover">
+					<img class="img-circle" src="{{ STATIC_URL }}images/marchead_1.jpg" alt="">
+					<p>Titon Falls, NJ</p>
+				</div>
+
+				<div class="col-md-6">
+					<div class="trainer-attributes">
+						<h3>Mark Rosamilia</h3>
+						<small>Strength and conditioning coach at SPARC</small>	
+					</div>
+
+					<ul>
+						<li class="title"><h4>Notable Achivements</h4></li>
+						<li>NASM Certified Performance Enhancement Specialist</li>
+						<li>Competitive & award winning bodybuilder</li>
+						<li>Bodybuilding.com author</li>
+						<li>Bodybuilding.com author</li>
+					</ul>
+				</div>
+
+				<div class="col-md-4">
+					<button class="obtn full-width">Message Marc</button>
+					<button class="obtn btn-default full-width">View Plans & Pricing</button>
+				</div>
+
+			</div>	
+		</div><!--/ inner -->
+	</div><!--/ header -->
+
+	<div class="row testimonials">
+		<h2>What people who've worked with Marc are saying..</h2>
+
+		<div class="comment">
+			<div class="text">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laborum qui odio nobis reiciendis sunt, nulla dolorum aspernatur nostrum, natus quasi nisi cupiditate ut molestiae, vero cumque unde dolores laudantium?
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/silhouette.jpeg" alt="">	
+				</div>
+				<div class="client-info">
+					<p class="client-name">Denise M.</p>
+					<p>25 | Long Branch, NJ</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="comment">
+			<div class="text">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laborum qui odio nobis reiciendis sunt, nulla dolorum aspernatur nostrum, natus quasi nisi cupiditate ut molestiae, vero cumque unde dolores laudantium?
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/silhouette.jpeg" alt="">	
+				</div>
+				<div class="client-info">
+					<p class="client-name">Denise M.</p>
+					<p>25 | Long Branch, NJ</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="comment">
+			<div class="text">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laborum qui odio nobis reiciendis sunt, nulla dolorum aspernatur nostrum, natus quasi nisi cupiditate ut molestiae, vero cumque unde dolores laudantium?
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/silhouette.jpeg" alt="">	
+				</div>
+				<div class="client-info">
+					<p class="client-name">Denise M.</p>
+					<p>25 | Long Branch, NJ</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="comment">
+			<div class="text">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit laborum qui odio nobis reiciendis sunt, nulla dolorum aspernatur nostrum, natus quasi nisi cupiditate ut molestiae, vero cumque unde dolores laudantium?
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/silhouette.jpeg" alt="">
+				</div>
+				<div class="client-info">
+					<p class="client-name">Denise M.</p>
+					<p>25 | Long Branch, NJ</p>
+				</div>
+			</div>
+		</div>
+	</div><!--/ testimonials -->
+
+	<div class="row show-cases">
+		<div class="inner">
+			<h2>Marc's clients, before and after</h2>
+
+			<div class="after-before">
+				<div class="after">
+					<img src="{{ STATIC_URL }}images/certa-after.jpg" alt=""><br/>
+					<strong>BEFORE</strong> /// 129 LBS<br/>
+					<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 20.3%
+				</div>
+				<div class="before">
+					<img src="{{ STATIC_URL }}images/certa-before.jpg" alt=""><br/>
+					<strong>AFTER</strong> /// 115 LBS<br/>
+					<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 13.9%
+				</div>
+			</div><!--/ after-before -->
+
+			<div class="after-before">
+				<div class="after">
+					<img src="{{ STATIC_URL }}images/certa-after.jpg" alt=""><br/>
+					<strong>BEFORE</strong> /// 129 LBS<br/>
+					<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 20.3%
+				</div>
+				<div class="before">
+					<img src="{{ STATIC_URL }}images/certa-before.jpg" alt=""><br/>
+					<strong>AFTER</strong> /// 115 LBS<br/>
+					<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 13.9%
+				</div>
+			</div><!--/ after-before -->
+		</div>
+	</div>
+
+	<style>
+		.pricing {
+			background: #fff;
+		}
+		.price-plan {
+			border: 1px solid #d9d9d9;
+			border-radius: 5px;
+			width: 361px;
+			text-align: center;
+			margin-right: 30px;
+			float: left;
+			display: inline-block;
+		}
+		h2, h2 small {
+			color: #9dbfff;
+		}
+	</style>
+	<div class="row pricing">
+		<h3>Available training options</h3>
+		<p>All plans include every workout and diet set up for easy tracking in Marc's Blitz app</p>
+
+		<div class="price-plan">
+			<h2>
+				$200 <br/>
+				<small>12 weeks</small>
+			</h2>
+			
+			<strong>12 week muscle gain coaching <br/><small>Full diet plan</small></strong>
+			
+			<p>Unlimited Q&A + motivational support via online messaging</p>
+			<p>Lorem ipsum dolor sit amet, consectur adipisicing</p>
+
+			<button class="obtn">Reserve Spot</button>
+		</div><!--/ price-plan -->
+		<div class="price-plan">
+			<h2>
+				$200 <br/>
+				<small>12 weeks</small>
+			</h2>
+			
+			<strong>12 week muscle gain coaching <br/><small>Full diet plan</small></strong>
+			
+			<p>Unlimited Q&A + motivational support via online messaging</p>
+			<p>Lorem ipsum dolor sit amet, consectur adipisicing</p>
+
+			<button class="obtn">Reserve Spot</button>
+		</div><!--/ price-plan -->
+	</div><!--/ pricing -->
+
+	<style>
+		.marketing .inner {
+			margin-top: 60px;
+		}
+		.marketing {
+			padding: 0px 149px;
+		}
+		.trainer-message {
+			background: #fff;
+			border-radius: 5px;
+			border: 1px solid #d9d9d9;
+			height: 339px;
+		}
+		.trainer-contact {
+			background: #fff;
+			border-radius: 5px;
+			border: 1px solid #d9d9d9;
+			height: 339px;
+		}
+		.trainer-contact img, .trainer-contact button {
+			display: table;
+			margin: 0 auto;
+		}
+		.trainer-contact img {
+			margin-top: 43px;
+		}
+	</style>
+	<div class="row marketing">
+		<div class="inner">
+			<h2>A word from Marc...</h2>
+			<div class="col-md-8 trainer-message">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis corporis atque, ex, at nihil eaque esse ipsum voluptatum, eveniet omnis aliquam rerum ab cumque incidunt minima modi qui officiis pariatur.</p>
+
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo amet, iure, dolorem fugiat aliquam, non dolorum autem consequatur repudiandae pariatur et, quod laudantium. Distinctio rem atque ducimus, eos quos eveniet.</p>
+			</div>
+			<div class="col-md-4 trainer-contact">
+				<img style="margin-bottom: 40px;" width="140" class="img-circle" src="{{ STATIC_URL }}images/marchead_1.jpg"/>
+				<button class="obtn">Message Marc</button>
+			</div>
+		</div>
+	</div><!--/ marketing -->
+	<style>
+		.getting-started {
+			padding: 0px 149px;
+			height: 538px;
+			background: #28251f;
+			color: #fff;
+			text-align: center;
+		}
+		.getting-started h2 {
+			color: #fff;
+			margin-top: 60px;
+			margin-bottom: 65px;
+			padding: 0px;
+		}
+		.getting-started button {
+			margin-top: 57px;
+			margin-bottom: 65px;
+		}
+	</style>
+	<div class="row getting-started">
+		<h2>Don't keep settling for the same results.</h2>
+
+		<p>Get the progress and body you deserve with a coach who can get you there.</p>
+		<p>If you don't see something that's right for you here, or have any questions, shoot me a message. 15-30 minute video-chat consults about your fitness goals and the best way to get there are always free.</p>
+		<button class="obtn">Get a Free Consultation</button>
+	</div>
+
+	{% block footer %}{{super}}
+	{%endblock footer%}
+	
+</div> <!--/ container -->
+{% endblock %}
