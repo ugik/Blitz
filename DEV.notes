@@ -255,6 +255,9 @@ week of 2.9
 - workoutplan copy for spotter
 - fix workout log for exercise without sets
 - remove trainer short-name from workout label
+- remove missed workout alerts prior to client signup
+- change 'do you even lift?' placeholder
+- change signup confirmation email to handle past tense when program already started
 
 
 

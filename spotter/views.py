@@ -123,7 +123,7 @@ def spotter_usage(request):
         days = request.GET.get('days')
     else:
         days = 3
-        startdate = date.today() - timedelta(days = days)
+        startdate = date.today() - timedelta(days = days-1)
 
     enddate = date.today() - timedelta(days=0)
     trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
