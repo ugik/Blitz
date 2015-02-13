@@ -2143,7 +2143,7 @@ a:focus {
   color: white;
   padding: 10px;
   border-radius: 5px;
-  margin-left: 20px;
+  margin-top: 10px;
   text-decoration: none;
   text-shadow: none;
   @include tablet-landscape-and-below {
@@ -6087,4 +6087,10 @@ a#name, a#plan_name, a#client_name {
     text-align: center;
     background: #333;
   }
+}
+
+.spacer {
+  display: block;
+  height: 15px;
+  width: 100%;
 }
