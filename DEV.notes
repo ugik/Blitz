@@ -258,6 +258,8 @@ week of 2.9
 - remove missed workout alerts prior to client signup
 - change 'do you even lift?' placeholder
 - change signup confirmation email to handle past tense when program already started
+- add emails to usage digest
+- change headshot image reduction to 150x150 (from 75x75) to avoid grainy images on non-retina browsers
 
 
 

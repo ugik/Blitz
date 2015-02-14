@@ -415,10 +415,11 @@ def edit_workoutplan(request):
 def workout_info(request):
 
     if request.POST.get('slug'):
-        workout = get_object_or_404(Workout, slug = request.POST.get('slug'))
-
-        if workout:
-            return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
+        workouts = Workout.objects.filter(slug=request.POST.get('slug'))
+        if workouts:
+            workout = workouts[0]
+            if workout:
+                return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
 
     return JSONResponse({'num_exercises': 0 })
 
@@ -684,9 +685,10 @@ def workoutplan_ajax(request):
                     exercises = Exercise.objects.filter(pk=int(request.session[session_key]))
                     print "DELETE EXERCISE REDIRECT", request.session[session_key], exercise_pk
 
-            exercise = exercises[0]
-            exercise.delete()    # delete exercise and associated workoutsets
-            print "DELETE EXERCISE", request.POST.get('key')
+            if exercises:
+                exercise = exercises[0]
+                exercise.delete()    # delete exercise and associated workoutsets
+                print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
         workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))

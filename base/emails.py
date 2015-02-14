@@ -19,7 +19,7 @@ SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
 
 # email wrapper, note parameters: images[] context{}
-def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=[]):  
+def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=[], trainer=None):  
 
     silent = False if settings.DEBUG else True
 
@@ -27,12 +27,11 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     if isinstance(to_email, list):
         if [i for i in to_email if 'example.com' in i]:
             print '* @example.com address, no email sent'
-            return
+#            return
     else:
         if 'example.com' in to_email:
             print '* @example.com address, no email sent'
-            return
-
+#            return
 
     if len(images) == 0:
         images = ['emailheader.png']
@@ -40,6 +39,16 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     else:
         images += ['emailheader.png']
         dirs += [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
+
+    if trainer:    # insert trainer headshot where necessary
+        if trainer.headshot:
+            headshot = str(trainer.headshot)
+            images += [headshot[headshot.rfind('/')+1:]]
+            dirs += [os.path.join(getattr(settings, 'MEDIA_ROOT'), 'headshots/')]
+
+    print images
+    print dirs
+#    import pdb; pdb.set_trace()
 
     html_content = render_to_string(html_template, context)
     text_content = render_to_string(text_template, context)
@@ -113,9 +122,12 @@ def client_invite(trainer, client_email, invite_url, blitz=None):
 
     text_template = 'emails/client_invitation.txt'
     html_template = 'emails/client_invitation.html'
-    context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz }
-    send_email(from_email, to_email, subject, text_template, html_template, context, 
-               cc_mail=[trainer.user.email])
+
+    headshot_file = str(trainer.headshot)
+    headshot = headshot_file[headshot_file.rfind('/')+1:]
+
+    context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz, 'headshot': headshot }
+    send_email(from_email, to_email, subject, text_template, html_template, context, trainer=trainer, cc_mail=[trainer.user.email])
 
 
 def forgot_password(user):
