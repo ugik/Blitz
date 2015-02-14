@@ -46,10 +46,6 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
             images += [headshot[headshot.rfind('/')+1:]]
             dirs += [os.path.join(getattr(settings, 'MEDIA_ROOT'), 'headshots/')]
 
-    print images
-    print dirs
-#    import pdb; pdb.set_trace()
-
     html_content = render_to_string(html_template, context)
     text_content = render_to_string(text_template, context)
     if override:  # OVERRIDE EMAIL_TO
