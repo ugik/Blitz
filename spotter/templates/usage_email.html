@@ -4,7 +4,7 @@
 
 {% block email_content %}
 
-<h4>Daily usage digest past {{ days }} days</h4>
+<h4>Usage digest past {{ days }} days</h4>
 {% if trainer %}
 {{ trainer.name }}
 {% endif %}
@@ -55,10 +55,19 @@
 {% endif %}
 
 {% if laggard_users %}
-<h3>Missing in action</h3>
+<h3>Need reminders</h3>
 <ul>
 {% for laggard in laggard_users|dictsort:"last_login" %}
     <li> {{ laggard.email }} {{ laggard.last_login }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if inactive_users %}
+<h3>Missing in action</h3>
+<ul>
+{% for inactive in inactive_users|dictsort:"last_login" %}
+    <li> {{ inactive.email }} {{ inactive.last_login }}</li>
 {% endfor %}
 </ul>
 {% endif %}

@@ -43,8 +43,9 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     if trainer:    # insert trainer headshot where necessary
         if trainer.headshot:
             headshot = str(trainer.headshot)
-            images += [headshot[headshot.rfind('/')+1:]]
-            dirs += [os.path.join(getattr(settings, 'MEDIA_ROOT'), 'headshots/')]
+            if '/' in headshot:
+                images += [headshot[headshot.rfind('/')+1:]]
+                dirs += [os.path.join(getattr(settings, 'MEDIA_ROOT'), 'headshots/')]
 
     html_content = render_to_string(html_template, context)
     text_content = render_to_string(text_template, context)
@@ -120,7 +121,7 @@ def client_invite(trainer, client_email, invite_url, blitz=None):
     html_template = 'emails/client_invitation.html'
 
     headshot_file = str(trainer.headshot)
-    headshot = headshot_file[headshot_file.rfind('/')+1:]
+    headshot = headshot_file[headshot_file.rfind('/')+1:] if '/' in headshot_file else None
 
     context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz, 'headshot': headshot }
     send_email(from_email, to_email, subject, text_template, html_template, context, trainer=trainer, cc_mail=[trainer.user.email])
@@ -227,15 +228,15 @@ def usage_trainer(trainer):
     LAGGARD_DAYS = 7
 
     timezone = current_tz()
-    days = 1
+    days = 7
     startdate = date.today() - timedelta(days = days)
     enddate = date.today() - timedelta(days=0)
-    laggard = date.today() - timedelta(days = LAGGARD_DAYS)
+    laggard = date.today() - timedelta(days = days + LAGGARD_DAYS)    # laggard users
 
     users = []
     clients = Client.objects.all()
     for client in clients:
-        if not client.user.is_trainer and client.get_blitz().trainer == trainer:
+        if not client.user.is_trainer and client.get_blitz() and client.get_blitz().trainer == trainer:
             users.append(client.user)
 
     if not users:
@@ -243,12 +244,19 @@ def usage_trainer(trainer):
 
     login_users = []
     laggard_users = []
+    inactive_users = []
+
     for user in users:
         if timezone.normalize(user.last_login).date() >= startdate:
             login_users.append(user)
     for user in users:
-        if timezone.normalize(user.last_login).date() <= laggard:
+        # show the trainer users that are laggards but still 'active'
+        if timezone.normalize(user.last_login).date() < startdate and timezone.normalize(user.last_login).date() >= laggard:
             laggard_users.append(user)
+    for user in users:
+        # show the trainer users that are laggards but still 'active'
+        if timezone.normalize(user.last_login).date() < laggard:
+            inactive_users.append(user)
 
     if not login_users and not laggard_users:
         return
@@ -256,7 +264,7 @@ def usage_trainer(trainer):
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
     context = {'days':days, 'trainer':trainer, 'login_users':login_users,
-               'laggard_users':laggard_users }
+               'laggard_users':laggard_users, 'inactive_users':inactive_users }
     to_mail = [trainer.user.email]
 
     from_mail = settings.DEFAULT_FROM_EMAIL           
@@ -294,7 +302,7 @@ def email_tests():
     from ff_messaging.models import Message
     user = User.objects.get(pk=3)
     client = Client.objects.get(pk=1)
-    trainer = Trainer.objects.get(pk=1)
+    trainer = Trainer.objects.get(pk=6)
     message = Message.objects.all()[0]
     comment = Comment.objects.all()[0]
     workoutplan = WorkoutPlan.objects.get(pk=1)
@@ -308,6 +316,7 @@ def email_tests():
     email_spotter_program_edit(1, 'spotter email test')
     program_loaded(workoutplan.name, trainer.id)
     program_assigned(workoutplan, blitz)
+    usage_trainer(trainer)
 
 
 
