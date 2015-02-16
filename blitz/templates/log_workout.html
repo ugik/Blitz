@@ -119,8 +119,8 @@
 
                             <div id="myModal_{{ group.lift.slug }}" class="modal hide fade">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="document.getElementById('iframe_{{ group.lift.slug }}').src='';">{{ group.title }} {{ group.lift }} x </button>
-                                <h3 id="myModalLabel_{{ group.lift.slug }}">Exercise video</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="document.getElementById('iframe_{{ group.lift.slug }}').src='';"> x </button>
+                                <h3 id="myModalLabel_{{ group.lift.slug }}"><font color="gray">{{ group.lift }}&nbsp;&nbsp;{{ group.title }} </font></h3>
                             </div>
                             <div class="modal-body">        
                                 <iframe id="iframe_{{ group.lift.slug }}" width="520" height="335" src="https://www.youtube.com/embed?listType=search&list={{ group.lift }}" frameborder="0" allowfullscreen></iframe>

@@ -27,7 +27,7 @@ from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_s
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit, email_spotter_program_upload
 
-from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
+from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, BlitzMember, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
 from workouts.models import WorkoutPlan, WorkoutPlanDay
 
 from base.templatetags import units_tags
@@ -1558,7 +1558,7 @@ def client_signup(request):
 
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
-                       trainer=invitation.blitz.trainer, text="New client registration.",
+                       trainer=invitation.blitz.trainer, text="new client registration",
                        client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
             # login client
@@ -1815,7 +1815,7 @@ def blitz_signup(request, short_name, url_slug):
 
                 # alert trainer of new client signup
                 alert = TrainerAlert.objects.create(
-                           trainer=blitz.trainer, text="New (free) client registration.",
+                           trainer=blitz.trainer, text="new (free) client registration",
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
                 # analytics
@@ -1980,7 +1980,7 @@ def payment_hook(request, pk):
 
                 # alert trainer of new client signup
                 alert = TrainerAlert.objects.create(
-                           trainer=blitz.trainer, text="New client registration.",
+                           trainer=blitz.trainer, text="new client registration",
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
                 user = authenticate(username=client.user.username, password=request.session['password'])
@@ -2001,16 +2001,43 @@ def payment_hook(request, pk):
                 if 'password' in request.session:
                     request.session.pop('password')
             else:
-                # alert trainer of client re-up
-                alert = TrainerAlert.objects.create(
-                           trainer=blitz.trainer, text="Client updated CC info.",
+                # existing client in different blitz
+                if client.get_blitz() and client.get_blitz() != blitz:
+
+                    # alert existing trainer of client leaving
+                    alert = TrainerAlert.objects.create(
+                           trainer=client.get_blitz().trainer, text="has now registered for %s" % blitz.title,
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
-                # analytics
-                analytics_track(client.user.id, 're-up', {
-                        'name': client.name,
-                        'email': client.user.email,
-                    })
+                    # alert trainer of client registration if new trainer
+                    if client.get_blitz().trainer != blitz.trainer:
+                        alert = TrainerAlert.objects.create(
+                             trainer=blitz.trainer, text="new client registration",
+                             client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                    membership = BlitzMember.objects.get(client=client)
+                    membership.delete()
+
+                    utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan, price=blitz.price)
+
+
+                    # analytics
+                    analytics_track(client.user.id, 'existing client, new program', {
+                           'name': client.name,
+                           'email': client.user.email,
+                           })
+             
+                else:
+                    # alert trainer of client re-up
+                    alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="updated CC info",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                    # analytics
+                    analytics_track(client.user.id, 're-up', {
+                           'name': client.name,
+                           'email': client.user.email,
+                           })
 
     else:
         has_error = True
