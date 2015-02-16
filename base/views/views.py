@@ -1952,6 +1952,7 @@ def payment_hook(request, pk):
             except Exception as e:
                 has_error = True
                 error = "Error: %s, %s, %s" % (e.status, e.category_code, e.additional)
+                print error
 
         if error:
             has_error = True
