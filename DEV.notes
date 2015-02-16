@@ -260,6 +260,8 @@ week of 2.9
 - change signup confirmation email to handle past tense when program already started
 - add emails to usage digest
 - change headshot image reduction to 150x150 (from 75x75) to avoid grainy images on non-retina browsers
-
+- improve trainer usage digest and run it weekly
+- handle balanced payment refunds
+- google exercise YouTube video lookup
 
 

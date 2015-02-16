@@ -55,17 +55,19 @@ analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
 
+ANALYTICS = False   # analytics layer override
+
 #====================================
 # Helper Functions
 #====================================
 
 # central functions for back-end analytics
 def analytics_track(user_id, label, dict):
-    if not settings.DEBUG:
+    if not settings.DEBUG and ANALYTICS:
         analytics.track(user_id, label, dict)
 
 def analytics_id(request, user_id, traits):
-    if not settings.DEBUG:
+    if not settings.DEBUG and ANALYTICS:
         ip = get_ip(request)
         if not ip:
             ip = '(unknown)'
