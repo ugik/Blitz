@@ -1290,6 +1290,7 @@ def new_comment(request):
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
         object_id = request.POST.get('object_id')
         selected_item = request.POST.get('selected_item')
+
         if selected_item == 'blitz':  # post to blitz (group) feed
             blitz = Blitz.objects.get_or_none(pk = object_id)
             comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)

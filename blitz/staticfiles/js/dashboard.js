@@ -345,13 +345,16 @@
                     $('#add-comment-submit').hide(300);
                 }
             });
+            $('#id_picture').on('change', function() { $('#add-comment-submit').show(300); });
+            $('input[type=file]').change(function(e) { document.getElementById("id_label").innerHTML = "&#10004;"; });
 
             // Add comment submit
 
             $('#add-comment-submit').unbind().on('click', function(e) {
                 e.preventDefault();
                 var comment_text = $('#add-comment').val();
-                if (comment_text === "") {
+                var comment_picture = $('#id_picture').val();
+                if (comment_text == "" && comment_picture == "") {
                     alert("Why would you post nothing?");
                     return;
                 }
@@ -359,9 +362,10 @@
 
                 if (SELECTED_ITEM === 'invitee') {
                     alert("This feed will be happening once the client signs up");
-                } else {
+                } else { alert('post comment');
                     $.post('/api/new-comment', {
                         'comment_text': comment_text,
+                        'comment_picture': comment_picture,
                         'object_id': OBJECT_ID,
                         'selected_item': SELECTED_ITEM
                     }, function(data) {
@@ -372,8 +376,8 @@
                             $('#main-feed').prepend(el);
                             $('#add-comment').val('');
                         }
-                    });
-                }
+                       });
+                 }
             });
         };
         bindPostForm();

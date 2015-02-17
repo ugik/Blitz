@@ -17,3 +17,7 @@ def member_price(value, member):
         else:
             return invitation[0].price
 
+    else:
+        return member.blitz.price
+
+
