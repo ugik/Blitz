@@ -6,6 +6,7 @@ admin.autodiscover()
 
 from base.api import UserResource, FeedItemResource
 from tastypie.api import Api
+from django.views.generic import TemplateView
 
 handler500 = 'base.views.server_error'
 handler404 = 'base.views.not_found_error'
@@ -21,6 +22,9 @@ urlpatterns = patterns('',
 )
 urlpatterns += patterns(
     '',
+
+
+    url("^dev/custom-trainer-page$", TemplateView.as_view(template_name="custon_trainer_page.html"), name="custom_trainer_page"),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hijack/', include('hijack.urls')),
