@@ -3,9 +3,26 @@
 {% block email_content %}
 
 {% if headshot %}
-    <img align="center" alt="" src="cid:{{ headshot }}" width="150" style="max-width:600px;padding-bottom:0;display:inline!important;vertical-align:bottom;border:0;outline:none;text-decoration:none">
+    <table border="0" cellpadding="0" cellspacing="0" width="30%" style="border-collapse:collapse;margin-left:40%!important;">
+        <tbody>
+            <tr>
+                <td>
+                    <img align="center" alt="" src="cid:{{ headshot }}" width="150" style="max-width:150px;padding-bottom:0;display:block!important;vertical-align:bottom;border:0;outline:none;text-decoration:none">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 {% endif %}
-{{ trainer.name }} has invited you to join a training program!
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
+    <tbody>
+        <tr>
+            <td>
+                <p>{{ trainer.name }} has invited you to join a training program!</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
 <br />
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
