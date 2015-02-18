@@ -25,9 +25,11 @@ class Lift(models.Model):
     slug = models.SlugField(max_length=100, unique=True)
     name = models.CharField(max_length=100, default="")
 
+
+
     # can this be done with weighed / assisted / body weight (eg. chinup)
-    weight_or_body = models.BooleanField(default=False)
-    allow_weight_or_body = models.BooleanField(default=True)
+    weight_or_body = models.BooleanField(default=False, verbose_name='Bodyweight exercise?')
+    allow_weight_or_body = models.BooleanField(default=True, verbose_name='If body weight, can it be weighted (e.g. like a pull-up)?')
     lift_type = models.CharField(max_length=1, default="R", choices=LIFT_TYPES)
 
     def __unicode__(self):
@@ -41,6 +43,7 @@ class Workout(models.Model):
     """
 
     display_name = models.CharField(max_length=100)
+    description = models.CharField(max_length=100, default="")
 
     # Sets are not necessarily grouped by lift - a workout could prescribe bench -> squat -> bench
     # But, usually sets are going to be grouped, so indicate that here
@@ -67,6 +70,7 @@ class Exercise(models.Model):
     lift = models.ForeignKey(Lift)
     workout = models.ForeignKey(Workout)
     sets_display = models.CharField(max_length=100, default="")
+    description = models.CharField(max_length=100, default="")
     order = models.FloatField(default=0.0)
 
     def num_sets(self):

@@ -272,7 +272,7 @@ class Trainer(models.Model):
     def headshot_from_image(self, image_path):
         image = Image.open(image_path)
 
-        size = (150, 150)
+        size = (300, 300)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
@@ -437,7 +437,7 @@ class Client(models.Model):
     def headshot_from_image(self, image_path):
 
         image = Image.open(image_path)
-        size = (150, 150)
+        size = (300, 300)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()

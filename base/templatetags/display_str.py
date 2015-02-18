@@ -57,9 +57,15 @@ def display_str(completedset, viewer):
     # TODO: body weight weighted
     elif lift.weight_or_body and lift.allow_weight_or_body:
         if completedset.set_type == 'A':
-            type_str = '-%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            try:
+                type_str = '-%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            except:
+                type_str = '0'
         elif completedset.set_type == 'W':
-            type_str = '%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            try:
+                type_str = '%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            except:
+                type_str = '0'
         else:
             type_str = 'bw'
 
