@@ -69,12 +69,19 @@ def spotter_payments(request):
             start_date = membership[0].date_created
         else:
             start_date = date.today()
+
         months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
 
         if not membership[0].price:   # if there was no special invitation price
-            total_cost = months * blitz.price
+            if blitz.recurring:
+                total_cost = months * blitz.price
+            else:
+                total_cost = blitz.price
         else:
-            total_cost = months * membership[0].price
+            if blitz.recurring:
+                total_cost = months * membership[0].price
+            else:
+                total_cost = membership[0].price
 
         debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
         if debits:
@@ -118,7 +125,7 @@ def spotter_usage(request):
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
-            if not payer.blitzmember_set.all()[0].blitz.group:
+            if payer.blitzmember_set.all()[0].blitz.group:
                 MRR += float(payer.blitzmember_set.all()[0].blitz.price)
             # monthly charge for non-recurring blitz
             else:

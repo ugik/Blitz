@@ -455,13 +455,12 @@ $('#plan-name').blur(function() {
           &nbsp;&nbsp;<small>{{ workoutplanday.workout }}</small>
         </td>
         <td>
-        <input id='day-desc_{{ workoutplanday.workout.pk }}' type='text' style='font-size:14px; width:400px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
+        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='font-size:14px; width:400px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
 
 <script>
 // save workout description
-var workout = "{{ workoutplanday.workout.pk }}";
-$('#day-desc_{{ workoutplanday.workout.pk }}').blur(function() {
-    description_workout(workout, $(this).val())
+$('#day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}').blur(function() {
+    description_workout({{ workoutplanday.workout.pk }}, $(this).val())
 });
 </script>
 

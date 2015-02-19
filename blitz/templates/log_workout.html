@@ -92,8 +92,19 @@
 
     <h2>Today's Workout: {{ workout.display_name }}</h2>
 
-    <p><b> {{ workout.description }} </b></p>
-    <p>
+
+{% if workout.description %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Notes:</h3>
+      </div>
+      <div class="panel-body">
+        {{ workout.description }}
+      </div>
+    </div>
+    <br>
+    {% endif %}
+
         Log what you lifted today at the gym below.
         Record only your working sets.
         You can add notes for your trainer at the end too.

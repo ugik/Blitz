@@ -27,11 +27,11 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     if isinstance(to_email, list):
         if [i for i in to_email if 'example.com' in i]:
             print '* @example.com address, no email sent'
-#            return   # comment this to turn on @example emails
+            return   # comment this to turn on @example emails
     else:
         if 'example.com' in to_email:
             print '* @example.com address, no email sent'
-#            return   # comment this to turn on @example emails
+            return   # comment this to turn on @example emails
 
     if len(images) == 0:
         images = ['emailheader.png']

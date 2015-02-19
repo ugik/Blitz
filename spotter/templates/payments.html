@@ -29,6 +29,7 @@
      <div style="text-align: left;" class="spotterheader">
      <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.start }} ({{ client.months }} months)</li>  
      {% if client.blitz.group %} <li> Blitz:{{ client.blitz.title }} {% endif %}
+     {% if client.blitz.recurring %} (recurring) {% else %} (one-time) {% endif %}
      {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
      {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
 <br>
