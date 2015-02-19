@@ -348,20 +348,23 @@
 
             // Add comment submit
 
-            $('#add-comment-submit').unbind().on('click', function(e) {
+            $('#add-comment-submit').on('click', function(e) {
                 e.preventDefault();
                 var comment_text = $('#add-comment').val();
+                var comment_picture = $('#id_picture').val();
+
                 if (comment_text === "") {
                     alert("Why would you post nothing?");
                     return;
                 }
-                $('#add-comment-submit').hide(300);
+                $('#add-comment-submit').hide(300);                
 
                 if (SELECTED_ITEM === 'invitee') {
                     alert("This feed will be happening once the client signs up");
                 } else {
                     $.post('/api/new-comment', {
                         'comment_text': comment_text,
+                        'comment_picture': comment_picture,
                         'object_id': OBJECT_ID,
                         'selected_item': SELECTED_ITEM
                     }, function(data) {
@@ -376,7 +379,6 @@
                 }
             });
         };
-        bindPostForm();
 
 
         // On Windows Resize
