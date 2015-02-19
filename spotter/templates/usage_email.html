@@ -38,6 +38,7 @@
     <ul>
     {% for c in member.list %}
     <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for $
+
 {% if c.blitz.price|member_price:c == 0 or c.blitz.price|member_price:c == None %}FREE{% else %}{{ c.blitz.price|member_price:c }}{% endif %}</li>
     {% endfor %}
     </ul>

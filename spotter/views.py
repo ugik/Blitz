@@ -137,7 +137,7 @@ def spotter_usage(request):
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
         days = request.GET.get('days')
     else:
-        days = 3
+        days = 1
         startdate = date.today() - timedelta(days = days-1)
 
     enddate = date.today() - timedelta(days=0)

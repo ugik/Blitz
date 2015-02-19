@@ -271,5 +271,8 @@ week of 2.16
 - fix display_str dealing with empty float
 - improve invite email headshot layout
 - payments report account for non-recurring programs
+- change email invite url to absolute path
+- clean up usage report
+- change headshot image save dimensions to 300x300
 
 

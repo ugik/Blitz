@@ -41,7 +41,10 @@ def dayssince(value):
 
 def divide(value, arg):
     "Returns numeric value divided by provided arg"
-    return float(value)/float(arg)
+    try:
+        return float(value)/float(arg)
+    except:
+        return 0
 
 register.filter('dayssince', dayssince)
 register.filter('divide', divide)

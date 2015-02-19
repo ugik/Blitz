@@ -73,7 +73,11 @@ def display_str(completedset, viewer):
 
     else:
         if completedset.weight_in_lbs:
-            weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            try:
+                weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            except:
+                weight = 0
+
             ds = "%d x %.1f" % (completedset.num_reps_completed, weight)
             # get rid of trailing zeros
             if '.' in ds and ds.endswith('0'):
