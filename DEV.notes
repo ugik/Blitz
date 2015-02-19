@@ -267,6 +267,9 @@ week of 2.9
 week of 2.16
 - existing user registering for new program
 - Tawk.to IM client
-
+- add descriptions to workout day
+- fix display_str dealing with empty float
+- improve invite email headshot layout
+- payments report account for non-recurring programs
 
 
