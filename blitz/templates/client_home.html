@@ -85,12 +85,23 @@
         {% if missed_workouts %}
             {% for day, workout_day in missed_workouts %}
                 <div class="alert alert-info">
+<<<<<<< HEAD
                     <div class="alert-text">
                         You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}.
                     </div>
                     <div class="alert-btn-wrap">
                         <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Go log it now</a>
                     </div>
+=======
+                    <span class="alert-text">
+                        You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}.
+                    </span>
+                    <br />
+                    <div class="spacer"></div>
+                    <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">
+                        Go log it now
+                    </a>
+>>>>>>> b3fd08c2eda458b55fcdc879e78c69e4bc612615
                 </div>
             {% endfor %}
         {% endif %}

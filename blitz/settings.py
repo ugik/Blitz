@@ -128,7 +128,6 @@ INSTALLED_APPS = (
     'tastypie',
     'djcelery',
     'hijack',
-
     'base',
     'workouts',
     'ff_messaging',

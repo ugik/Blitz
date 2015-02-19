@@ -2091,7 +2091,7 @@ a:focus {
   color: white;
   padding: 10px;
   border-radius: 5px;
-  margin-left: 20px;
+  margin-top: 10px;
   text-decoration: none;
   text-shadow: none;
   @include tablet-landscape-and-below {
@@ -6072,6 +6072,7 @@ a#name, a#plan_name, a#client_name {
   }
 }
 
+<<<<<<< HEAD
 .navbar-static-top, .navbar-fixed-top, .navbar-fixed-bottom {
   border-radius: 0;
   //padding-bottom: 15px;
@@ -6143,3 +6144,10 @@ a.feed-permalink {
     pointer: cursor;
   
 }
+=======
+.spacer {
+  display: block;
+  height: 15px;
+  width: 100%;
+}
+>>>>>>> b3fd08c2eda458b55fcdc879e78c69e4bc612615
