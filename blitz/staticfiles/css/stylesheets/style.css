@@ -2615,15 +2615,24 @@ a:focus {
 
 /* line 2359, ../sass/style.scss */
 .macro-day-cell {
-  height: 30px; }
-  .macro-day-cell i {
-    font-size: 20px; }
-  .macro-day-cell i.pass {
-    color: #57c6b9; }
-  .macro-day-cell i.fail {
-    color: #e8748e; }
-  .macro-day-cell i.unknown {
-    color: #ccc; }
+  height: 30px;
+}
+/* line 2361, ../sass/style.scss */
+.macro-day-cell i {
+  font-size: 20px;
+}
+/* line 2364, ../sass/style.scss */
+.macro-day-cell i.pass {
+  color: #57c6b9;
+}
+/* line 2367, ../sass/style.scss */
+.macro-day-cell i.fail {
+  color: #e8748e;
+}
+/* line 2370, ../sass/style.scss */
+.macro-day-cell i.unknown {
+  color: #ccc;
+}
 
 /* line 2375, ../sass/style.scss */
 .macro-form {
@@ -7312,4 +7321,77 @@ a.feed-permalink {
 /* line 6198, ../sass/style.scss */
 #table a {
   pointer: cursor;
+}
+
+@media (max-width: 480px) {
+  /* line 6203, ../sass/style.scss */
+  .mobilepad {
+    padding: 20px;
+  }
+}
+
+/* line 6209, ../sass/style.scss */
+.price {
+  color: #9dbfff;
+}
+
+/* line 6213, ../sass/style.scss */
+.price h2 {
+  line-height: 1;
+  font-family: 'proxima_nova_excn_ththin';
+  font-size: 1.4em;
+  font-weight: lighter !important;
+  margin-top: 20px;
+  margin-bottom: -2px;
+}
+@media (max-width: 480px) {
+  /* line 6213, ../sass/style.scss */
+  .price h2 {
+    font-size: 2.5em;
+  }
+}
+
+/* line 6226, ../sass/style.scss */
+.price small {
+  width: 100%;
+  font-size: 0.25em;
+}
+@media (max-width: 480px) {
+  /* line 6226, ../sass/style.scss */
+  .price small {
+    font-size: 0.3em;
+    margin-bottom: 60px;
+  }
+}
+
+/* line 6235, ../sass/style.scss */
+.price-plan h3 {
+  font-size: 1.2em;
+  font-family: 'proxima_novabold';
+  text-align: left;
+}
+
+/* line 6241, ../sass/style.scss */
+.price-plan ul {
+  margin-bottom: 30px;
+}
+
+/* line 6245, ../sass/style.scss */
+.price-plan ul li {
+  margin-bottom: 15px;
+  font-size: 0.85em;
+  list-style-type: circle;
+  text-align: left;
+}
+
+/* line 6253, ../sass/style.scss */
+.span8 .message {
+  font-family: 'proxima_novalight';
+}
+
+/* line 6257, ../sass/style.scss */
+.getting-started {
+  font-family: 'proxima_novalight';
+  line-height: 1.4;
+  font-size: 0.9em;
 }
