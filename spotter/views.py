@@ -13,6 +13,7 @@ from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
 from base.emails import program_loaded, program_assigned
+from django.db.models import Q
 
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember, BlitzInvitation
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
@@ -244,14 +245,40 @@ def assign_workoutplan(request):
         return redirect('home')
 
     trainers = Trainer.objects.all()
-    blitzes = Blitz.objects.all()
+
     plan_id = request.GET.get('plan', None)
     workoutplan = WorkoutPlan.objects.get(pk=plan_id)
+
+    blitz_list = []
+    blitzes = Blitz.objects.filter(trainer=workoutplan.trainer)
+    for blitz in blitzes:
+        if blitz.group:
+            blitz.title = "Group:"+blitz.title
+        if blitz.provisional:
+            blitz.title = "Provisional:"+blitz.title
+        blitz_list.append(blitz)
+
+    blitz_list.append(Blitz(title='-------------'))
+
+    blitzes = Blitz.objects.filter(~Q(trainer = workoutplan.trainer))
+    for blitz in blitzes:
+        if blitz.group:
+            blitz.title = "Group:"+blitz.title
+        if blitz.provisional:
+            blitz.title = "Provisional:"+blitz.title
+        blitz_list.append(blitz)
+
 
     if request.method == 'POST':
         form = AssignPlanForm(request.POST)
         if form.is_valid() and workoutplan:
             blitz_id = form.cleaned_data['blitz_id']
+
+            import pdb; pdb.set_trace()
+            if blitz_id == 'None':
+                response = redirect('spotter_assign_workoutplan')
+                return response
+
             blitz = Blitz.objects.get(pk=blitz_id)
             blitz.workout_plan = workoutplan
             blitz.save()
@@ -263,7 +290,7 @@ def assign_workoutplan(request):
 
     form = AssignPlanForm()
     return render(request, 'assign_workoutplan.html', 
-           {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitzes })
+           {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitz_list })
 
 @login_required
 def spotter_blitz_sales_pages(request):

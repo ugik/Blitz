@@ -2,7 +2,7 @@
 
 {% block main %}
 <header> Assign program</header>
-<div class="span8">
+<div class="span10">
 
 <div class="content">
     <form enctype="multipart/form-data" action="assign_workoutplan?plan={{ workoutplan.pk }}" method="post" name="program_create" class="formpage-block-form">{% csrf_token %}
@@ -15,7 +15,9 @@
         {% endfor %}
         </select>
         WorkoutPlan name: {{ workoutplan.name }} <small>--></small>
-        Assign to blitz: <select name="blitz_id" id="blitz_id">
+        Assign to blitz: 
+
+        <select name="blitz_id" id="blitz_id" style="width:350px;">
         {% for blitz in blitzes %}
             <option value="{{blitz.id}}">
             {{blitz.title}}
