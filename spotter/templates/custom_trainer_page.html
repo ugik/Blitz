@@ -2,6 +2,7 @@
 
 {% block morehead %}
 <style>
+
 	body {
 		background: #fcfcfc;
 		color: #4b4b4b;
@@ -179,7 +180,12 @@
 	}
 
 	.trainer-cover img {
-		border: 2px solid #fff;
+		border: 4px solid #fff;
+	}
+
+	.trainer-info p {
+		text-align: center;
+		margin-top: 10px;
 	}
 
 	.trainer-info ul li.title {
@@ -190,8 +196,10 @@
 	}
 
 	.trainer-info ul li.title * {
-		margin: 0;
+		margin-top: 20px;
+		margin-bottom: 10px;
 		padding: 0;
+		font-size: 1.3em;
 	}
 
 	.obtn {
@@ -286,6 +294,7 @@
 		margin-top: 57px;
 		margin-bottom: 65px;
 	}
+
 </style>
 {% endblock %}
 
@@ -295,7 +304,7 @@
 		<div class="inner">
 			<div>
 				<a href="/" id="trainer-logo">
-	                <img src="{{ STATIC_URL }}images/marc_logo.png"/>
+	                <img src="{{ STATIC_URL }}images/sparclogo.png"/>
 	            </a>
 				<a href="/" id="logo">
 	                <img src="{{ STATIC_URL }}images/logo.png"/>
@@ -304,16 +313,16 @@
 			</div>
 
 			<hr/>
-			<div class="row trainer-info">
-				<div class="col-md-2 trainer-cover">
-					<img class="img-circle" src="{{ STATIC_URL }}images/marchead_1.jpg" alt="">
-					<p>Titon Falls, NJ</p>
+			<div class="row trainer-info" style="margin-top: 60px;">
+				<div class="span2 trainer-cover">
+					<img class="img-circle" src="{{ STATIC_URL }}images/marcheadshot.png" alt="" align="center">
+					<p>Tinton Falls, NJ</p>
 				</div>
 
-				<div class="col-md-6">
+				<div class="span7">
 					<div class="trainer-attributes">
-						<h3>Mark Rosamilia</h3>
-						<small>Strength and conditioning coach at SPARC</small>	
+						<h1>Mark Rosamilia</h1>
+						<h3>Strength and conditioning coach at SPARC</h3>	
 					</div>
 
 					<ul>
@@ -325,7 +334,11 @@
 					</ul>
 				</div>
 
-				<div class="col-md-4">
+				<div class="span1" style="min-height: 20px; max-width: 64px;">
+					&nbsp;
+				</div>
+
+				<div class="span2">
 					<button class="obtn full-width">Message Marc</button>
 					<button class="obtn btn-default full-width">View Plans & Pricing</button>
 				</div>
@@ -511,13 +524,13 @@
 	<div class="row marketing">
 		<div class="inner">
 			<h2>A word from Marc...</h2>
-			<div class="col-md-8 trainer-message">
+			<div class="span8 trainer-message">
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis corporis atque, ex, at nihil eaque esse ipsum voluptatum, eveniet omnis aliquam rerum ab cumque incidunt minima modi qui officiis pariatur.</p>
 
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo amet, iure, dolorem fugiat aliquam, non dolorum autem consequatur repudiandae pariatur et, quod laudantium. Distinctio rem atque ducimus, eos quos eveniet.</p>
 				<img class="trainer-sign" src="{{ STATIC_URL }}images/marc_sign.png" alt="">
 			</div>
-			<div class="col-md-4 trainer-contact">
+			<div class="span4 trainer-contact">
 				<img style="margin-bottom: 40px;" width="140" class="img-circle" src="{{ STATIC_URL }}images/marchead_1.jpg"/>
 				<button class="obtn">Message Marc</button>
 			</div>
