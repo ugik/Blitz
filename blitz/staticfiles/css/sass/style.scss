@@ -6199,3 +6199,63 @@ a.feed-permalink {
     pointer: cursor;
   
 }
+
+.mobilepad {
+  @include mobile-only {
+    padding: 20px;
+  }
+}
+
+.price {
+    color: #9dbfff;
+}
+
+.price h2 {
+    line-height: 1;
+    @include pnmacrosfont();
+    font-size: 1.4em;
+    font-weight: lighter!important;
+    margin-top: 20px;
+    margin-bottom: -2px;
+    @include mobile-only {
+      font-size: 2.5em;
+    }
+  }
+
+
+.price small {
+    width: 100%;
+    font-size: 0.25em;
+    @include mobile-only {
+      font-size: 0.3em;
+      margin-bottom: 60px;
+    }
+  }
+
+.price-plan h3 {
+  font-size: 1.2em;
+  @include boldfont();
+  text-align: left;
+}
+
+.price-plan ul {
+  margin-bottom: 30px;
+}
+
+.price-plan ul li {
+  //line-height: 1.75;
+  margin-bottom: 15px;
+  font-size: 0.85em;
+  list-style-type: circle;
+  text-align: left;
+}
+
+.span8 .message {
+  @include lightfont();
+}
+
+  .getting-started {
+    @include lightfont();
+    line-height: 1.4;
+    font-size: 0.9em;
+  }
