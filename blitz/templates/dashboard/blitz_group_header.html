@@ -1,10 +1,11 @@
-<h3>{{ title }} <small>Starts {{start_date}} | Ends {{end_date}} - {{ members_count }} Members</small></h3>
+<p>{{ title }}</b></p> 
+<p><small>Starts {{start_date}} | Ends {{end_date}} - {{ members_count }} Members</small></p>
 
 <div class="members">
 	{% if headshots %}
 		{% for member in blitz.members %}
 		<a href="{% url 'client_profile' member.pk %}">
-                    <img class="img-circle headshot" id="headshot" src="{{ member.get_headshot_url }}">
+                    <img class="img-circle headshot" id="headshot" src="{{ member.get_headshot_url }}" alt="{{ member }}" title="{{ member }}" >
                 </a>
 		{% endfor %}
 	{% endif %}
@@ -14,7 +15,7 @@
 <input type="text" class="datepicker inbtn" id="datepicker" name="begin_date" value="{{ blitz.begin_date|date:"m/d/Y" }}" style=""></a>
 
     {% if blitz.workout_plan %}
-	<a class="btn btn-primary" id="edit_program" onclick="{ document.getElementById('client_name').text='members of {{ blitz.title }}'; document.getElementById('edit_request').value='Here is what I want to change in the {{ blitz.workout_plan.name }} program...'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">Edit Program</a>
+	<a class="btn btn-primary" id="edit_program" onclick='{ document.getElementById("client_name").text="members of {{ blitz.title }}"; document.getElementById("edit_request").value="Here is what I want to change in the {{ blitz.workout_plan.name }} program..."; jQuery.noConflict(); $("#modalSpotterEdit").modal("show"); }'>Edit Program</a>
     {% endif %}
 
 	<a class="btn btn-primary" id="edit_macros" onclick="{ jQuery.noConflict(); $('#modalMacros').modal('show'); }">Edit Macros</a>

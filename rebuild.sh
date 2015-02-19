@@ -15,6 +15,8 @@ mv blitz/usermedia/programs/sample_blitz_program.KEEP blitz/usermedia/programs/s
 find . -name \*.pyc -delete
 
 python manage.py syncdb --noinput
+python manage.py schemamigration base --auto
+python manage.py schemamigration workouts --auto
 python manage.py migrate --all
 python manage.py setup_test_env --traceback
 python manage.py setup_new_stuff --traceback

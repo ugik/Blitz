@@ -95,6 +95,7 @@ class Command(BaseCommand):
                 title="Mind & Body Training", begin_date=blitz_start_date, url_slug="mike")
             blitz.provisional = False
             blitz.recurring = False
+            blitz.group = True
             blitz.price_model = "O"
             blitz.sales_page_content = content
             blitz.uses_macros = True
@@ -130,7 +131,7 @@ class Command(BaseCommand):
         # seed some demo workout data
         shapeness = knicks_profile()
         for d in clients:
-            if d.get_blitz().recurring:
+            if not d.get_blitz().group:
                 simulate_recurring_blitz(d.get_blitz(), d, 200, shapeness)
             else:
                 simulate_blitz_through_date(d.get_blitz(), d, timezone_now().date(), shapeness)

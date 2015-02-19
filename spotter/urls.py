@@ -14,6 +14,8 @@ urlpatterns = patterns(
     url(r'^program_sales_pages$', 'spotter.views.spotter_blitz_sales_pages', name='spotter_blitz_sales_pages'),
     url(r'^program_sales_page2$', 'spotter.views.spotter_sales_pages2', name='spotter_sales_pages2'),
 
+    url(r'^all_lifts$', 'spotter.views.spotter_lifts', name='spotter_lifts'),
+
     url(r'^workoutplan$', 'spotter.views.spotter_workoutplan', name='spotter_workoutplan'),
     url(r'^edit-workoutplan$', 'spotter.views.edit_workoutplan', name='edit_workoutplan'),
     url(r'^view-workoutplan$', 'spotter.views.view_workoutplan', name='view_workoutplan'),
@@ -26,6 +28,7 @@ urlpatterns = patterns(
 
     url(r'^status_trainers$', 'spotter.views.spotter_status_trainers', name='spotter_status_trainers'),
     url(r'^assign_workoutplan$', 'spotter.views.assign_workoutplan', name='spotter_assign_workoutplan'),
+    url(r'^copy_workoutplan$', 'spotter.views.copy_workoutplan', name='spotter_copy_workoutplan'),
 
     url(r'^download$', 'spotter.views.spotter_download', name='spotter_download'),
     url(r'^delete$', 'spotter.views.spotter_delete', name='spotter_delete'),
@@ -35,6 +38,8 @@ urlpatterns = patterns(
 
     url(r'^workoutplan_ajax$', 'spotter.views.workoutplan_ajax', name='workoutplan_ajax'),
     url(r'^workout_info$', 'spotter.views.workout_info', name='workout_info'),
+    url(r'^workoutplan_rename$', 'spotter.views.workoutplan_rename', name='workoutplan_rename'),
+    url(r'^workout_desc$', 'spotter.views.workout_desc', name='workout_desc'),
 
     )
 

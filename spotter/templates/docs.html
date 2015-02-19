@@ -6,13 +6,31 @@
       background-color:#D8F1D7;
     }
 </style>
-<header>There are {{ numdocs }} documents to process <br></header>
+<header>There are {{ numdocs }} documents to process 
+{% if not archive %}
+    <a href="{% url "spotter_uploads" %}?archive">View archives</a>
+{% endif %}
+
+<br></header>
 <table>
-{% for doc in docs|dictsort:"name"|dictsort:"year"|dictsort:"month"|dictsort:"day"|dictsort:"hour"|dictsort:"minute" %}
+{% for doc in docs|dictsortreversed:"second"|dictsortreversed:"minute"|dictsortreversed:"hour"|dictsortreversed:"day"|dictsortreversed:"month"|dictsortreversed:"year" %}
 <tr>
-<td><a href="{% url "spotter_download" %}?file={{ doc.doc }}&dir=/documents/">
+<td>
+
+{% if not archive %}
+    <a href="{% url "spotter_download" %}?file={{ doc.doc }}&dir=/documents/">
+{% else %}
+    <a href="{% url "spotter_download" %}?file=backup_{{ doc.doc }}&dir=/documents/">
+{% endif %}
+
 {{ doc.name }} on {{ doc.month }}/{{ doc.day }}/{{ doc.year}} at {{ doc.hour }}:{{ doc.minute }}:{{doc.second}}</a></td>
-<td><small>(<a href="{% url "spotter_delete" %}?file={{ doc.doc }}">Delete</a>)</small></td>
+<td><small>
+
+{% if not archive %}
+    (<a href="{% url "spotter_delete" %}?file={{ doc.doc }}">Archive</a>)
+{% endif %}
+
+</small></td>
 </tr>
 {% endfor %}
 </table>

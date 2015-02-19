@@ -2,10 +2,31 @@
 
 {% block email_content %}
 
-<p>Hey,</p>
+{% if headshot %}
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;text-align:center!important; margin-bottom:30px;table-layout: fixed;">
+        <tbody>
+            <tr>
+                <td align="center" style="text-align:center!important;">
+                    <div style="margin: 0 auto;">
+                        <center>
+                            <img align="center" alt="" src="cid:{{ headshot }}" width="150" style="border-radius:100%;border:6px solid #7ab2ea;">
+                        </center>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endif %}
 
-<p>{{ trainer.name }} has invited you to join {{ blitz.title }}!</p>
-
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;text-align:center!important;">
+    <tbody>
+        <tr>
+            <td valign="top" style="font-size: 20px; font-family: Helvetica; line-height: 1.4; text-align: center; padding: 20px;">
+                <p>{{ trainer.name }} has invited you to be coached on their training program!</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
 <br />
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse">
@@ -27,3 +48,4 @@
 </table>
 
 {% endblock %}
+

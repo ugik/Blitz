@@ -272,7 +272,7 @@ class Trainer(models.Model):
     def headshot_from_image(self, image_path):
         image = Image.open(image_path)
 
-        size = (75, 75)
+        size = (300, 300)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
@@ -422,7 +422,7 @@ class Client(models.Model):
         today = timezone.normalize(timezone_now()).date()
         ret = []
         for workout_date, workout_plan_day in self.get_blitz().iterate_workouts():
-            if workout_date < today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists():
+            if workout_date < today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists() and not self.date_created > workout_date:
                 ret.append( (workout_date, workout_plan_day) )
             elif workout_date >= today:
                 break
@@ -437,7 +437,7 @@ class Client(models.Model):
     def headshot_from_image(self, image_path):
 
         image = Image.open(image_path)
-        size = (75, 75)
+        size = (300, 300)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
@@ -472,7 +472,7 @@ class Client(models.Model):
             # for q in Comment.objects.filter(user=self.user).all():
             #     feeditems |= q.feeditems.all()
 
-            if self.get_blitz().recurring:  # recurring blitz allows shortcut
+            if not self.get_blitz().group:  # individual blitz allows shortcut
                 feeditems|= FeedItem.objects.filter(blitz=self.get_blitz())
 
             else:  # client in a group requires careful dissection of feeditems
@@ -597,6 +597,9 @@ class Blitz(models.Model):
     trainer = models.ForeignKey(Trainer)
     recurring = models.BooleanField(default=False) # Recurring blitzes repeat over time
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
+    group = models.BooleanField(default=False) # Group, default is Individual
+    free = models.BooleanField(default=False) # Free, default is paid
+
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
     # workout_plan can be pending, spotter will load and assign workout plan

@@ -63,26 +63,37 @@ def spotter_payments(request):
         if not test and client.balanced_account_uri == '':
             continue
 
-        membership = client.blitzmember_set.all()
+        start_date = blitz.begin_date
 
-        if membership:  # this should never be missing
-            start_date = membership[0].date_created
-        else:
-            start_date = date.today()
         months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
 
+        membership = client.blitzmember_set.all()
         if not membership[0].price:   # if there was no special invitation price
-            total_cost = months * blitz.price
+            if blitz.recurring:
+                total_cost = months * blitz.price
+            else:
+                total_cost = blitz.price
         else:
-            total_cost = months * membership[0].price
+            if blitz.recurring:
+                total_cost = months * membership[0].price
+            else:
+                total_cost = membership[0].price
 
-        debits = debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
+        debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
         if debits:
             for debit in debits:
                 if 'client_id' in debit.meta:
                     payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
                          'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
                     total_paid = float(total_paid) + float(debit.amount)/100
+
+        refunds = balanced.Refund.query.filter(balanced.Refund.f.meta.client_id == client.pk)
+        if refunds:
+            for refund in refunds:
+                if 'client_id' in debit.meta:
+                    payments.append({'amount': float(debit.amount)/-100, 'status': debit.status, 
+                         'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
+                    total_paid = float(total_paid) - float(debit.amount)/100
 
         clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
                         'start':start_date, 'months': months, 'payments': payments,
@@ -110,7 +121,7 @@ def spotter_usage(request):
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
-            if payer.blitzmember_set.all()[0].blitz.recurring:
+            if not payer.blitzmember_set.all()[0].blitz.group:
                 MRR += float(payer.blitzmember_set.all()[0].blitz.price)
             # monthly charge for non-recurring blitz
             else:
@@ -122,8 +133,8 @@ def spotter_usage(request):
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
         days = request.GET.get('days')
     else:
-        days = 3
-        startdate = date.today() - timedelta(days = days)
+        days = 1
+        startdate = date.today() - timedelta(days = days-1)
 
     enddate = date.today() - timedelta(days=0)
     trainers = Trainer.objects.filter(date_created__range=[startdate, enddate])
@@ -147,7 +158,8 @@ def spotter_delete(request):
         return redirect('home')
 
     filename = settings.MEDIA_ROOT + '/documents/'+request.GET.get('file')
-    os.renames(filename, filename+'.backup')
+    fname = filename[filename.rfind('/')+1:]
+    os.renames(filename, filename.replace(fname, 'backup_'+fname))
     return redirect('spotter_uploads')
 
 def spotter_download(request):
@@ -176,6 +188,55 @@ def spotter_status_trainers(request):
 
     trainers = Trainer.objects.all()
     return render(request, 'trainer_status.html', {'trainers' : trainers, 'errors' : None })
+
+
+@login_required
+# make copy of workoutplan
+def copy_workoutplan(request):
+    if not request.user.is_staff:
+        return redirect('home')
+
+    plan_id = request.GET.get('plan', None)
+    workoutplan = WorkoutPlan.objects.get(pk=plan_id)
+
+    if not workoutplan:
+        return redirect('home')
+    
+    wp_copy = WorkoutPlan.objects.create(trainer=workoutplan.trainer, name=workoutplan.name+' (copy)')
+
+    for week in workoutplan.workoutplanweek_set.all():
+        week_copy = WorkoutPlanWeek.objects.create(workout_plan=wp_copy, week=week.week)
+
+        for day in week.workoutplanday_set.all():
+            slug = "plan%s" % workoutplan.pk
+            if slug in day.workout.slug:
+                slug_copy = day.workout.slug.replace(slug, "plan%s" % wp_copy.pk)
+            else:
+                slug_copy = day.workout.slug + "-plan%s" % wp_copy.pk
+
+            workouts = Workout.objects.filter(slug=slug_copy)
+            if not workouts:
+                workout_copy = Workout.objects.create(display_name=day.workout.display_name, slug=slug_copy)
+            else:
+                workout_copy = workouts[0]
+
+            day_copy = WorkoutPlanDay.objects.create(workout_plan_week=week_copy, 
+                                                     workout=workout_copy,
+                                                     day_index=day.day_index,
+                                                     day_of_week=day.day_of_week)
+
+            for exercise in day.workout.exercise_set.all():            
+                exercise_copy = Exercise.objects.create(lift=exercise.lift, workout=day_copy.workout)
+                exercise_copy.sets_display = exercise.sets_display
+                exercise_copy.order = exercise.order
+
+                for set in exercise.workoutset_set.all():
+                    set_copy = WorkoutSet.objects.create(lift=set.lift, workout=day_copy.workout, exercise=exercise_copy, 
+                                                         num_reps=set.num_reps)
+
+
+    return redirect('spotter_status_trainers')
+
 
 @login_required
 def assign_workoutplan(request):
@@ -213,12 +274,27 @@ def spotter_blitz_sales_pages(request):
     return render(request, 'pending_sales_pages.html', {'pending' : pending_sales_pages})
 
 @login_required
+def spotter_lifts(request):
+    print "all lifts"
+    if not request.user.is_staff:
+        return redirect('home')
+
+    lifts = Lift.objects.all() 
+    return render(request, 'all_lifts.html', {'lifts' : lifts})
+
+@login_required
 def spotter_uploads(request):
     if not request.user.is_staff:
         return redirect('home')
 
     path = settings.MEDIA_ROOT + '/documents'
-    doclist = [f for f in os.listdir(path) if not f.endswith('.backup')]
+    if 'archive' in request.GET:
+        doclist = [f[7:] for f in os.listdir(path) if f.startswith('backup_')]
+        archive = True
+    else:
+        doclist = [f for f in os.listdir(path) if not f.startswith('backup_')]
+        archive = False
+
     numdocs = 0
     documents = []
 
@@ -241,7 +317,7 @@ def spotter_uploads(request):
             documents.append(entry)
             numdocs += 1
 
-    return render(request, 'docs.html', {'docs' : documents, 'numdocs' : numdocs})
+    return render(request, 'docs.html', {'docs' : documents, 'numdocs' : numdocs, 'archive' : archive })
 
 @login_required
 def spotter_program_upload(request):
@@ -350,12 +426,41 @@ def edit_workoutplan(request):
 def workout_info(request):
 
     if request.POST.get('slug'):
-        workout = get_object_or_404(Workout, slug = request.POST.get('slug'))
-
-        if workout:
-            return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
+        workouts = Workout.objects.filter(slug=request.POST.get('slug'))
+        if workouts:
+            workout = workouts[0]
+            if workout:
+                return JSONResponse({'num_exercises': len(workout.exercise_set.all()) })
 
     return JSONResponse({'num_exercises': 0 })
+
+@csrf_exempt
+def workoutplan_rename(request):
+
+    if request.POST.get('workoutplan'):
+        workoutplan = get_object_or_404(WorkoutPlan, pk = request.POST.get('workoutplan'))
+
+        if workoutplan:
+            if request.POST.get('name'):
+                workoutplan.name = request.POST.get('name')
+                workoutplan.save()
+                print "Rename workoutplan pk=%s : %s" % (request.POST.get('workoutplan'), request.POST.get('name'))
+
+    return JSONResponse({})
+
+@csrf_exempt
+def workout_desc(request):
+
+    if request.POST.get('workout'):
+        workout = get_object_or_404(Workout, pk = request.POST.get('workout'))
+
+        if workout:
+            if request.POST.get('desc'):
+                workout.description  = request.POST.get('desc')
+                workout.save()
+                print "Description for workout pk=%s : %s" % (request.POST.get('workout'), request.POST.get('desc'))
+
+    return JSONResponse({})
 
 def new_workoutplan(request):
     flush_session_vars(request)
@@ -384,7 +489,8 @@ def view_workoutplan(request):
 
 # generate a display for workout
 def workout_display(trainer, extra):
-    return "%s %s" % (trainer.short_name, extra)
+#    return "%s %s" % (trainer.short_name, extra)
+    return extra
 
 # utility function, manages workoutplanweek/day, returns workoutplanday
 def workoutplan_day_mgr(request, workoutplan, key, workout=None, day_char=None):
@@ -604,9 +710,10 @@ def workoutplan_ajax(request):
                     exercises = Exercise.objects.filter(pk=int(request.session[session_key]))
                     print "DELETE EXERCISE REDIRECT", request.session[session_key], exercise_pk
 
-            exercise = exercises[0]
-            exercise.delete()    # delete exercise and associated workoutsets
-            print "DELETE EXERCISE", request.POST.get('key')
+            if exercises:
+                exercise = exercises[0]
+                exercise.delete()    # delete exercise and associated workoutsets
+                print "DELETE EXERCISE", request.POST.get('key')
 
     elif request.POST.get('mode') == 'add_week':
         workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
@@ -874,9 +981,10 @@ def delete_plan(plan_id):
 def get_pending_sales_pages():
 
     pending_sales_pages = []
-    contents = SalesPageContent.objects.all()
+    contents = SalesPageContent.objects.all().order_by('-pk')
     for content in contents:
-        pending_sales_pages.append([content.blitz_set.all()[0], 'slug:'+content.blitz_set.all()[0].url_slug, content.name, content.trainer.name])
+        if content.blitz_set.all():
+            pending_sales_pages.append([content.blitz_set.all()[0], 'slug:'+content.blitz_set.all()[0].url_slug, content.name, content.trainer.name])
     return pending_sales_pages
 
 

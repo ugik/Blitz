@@ -53,21 +53,21 @@ class TestBasic(unittest.TestCase):
         driver.get(self.base_url + "/log-workout/1/M")
         # assertTextPresent |  | Log what you lifted today
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        self.assertTrue("Log what you lifted today" in driver.page_source, "Text not found")
+        self.assertTrue("workout" in driver.page_source, "Text not found")
         # type | name=set-829-weight | 100
 
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[2]/div[2]/input").clear()
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[2]/div[2]/input").send_keys("90")
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[2]/div[3]/input").clear()
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[2]/div[3]/input").send_keys("8")
         driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[3]/div[2]/input").clear()
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[3]/div[2]/input").send_keys("100")
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[3]/div[2]/input").send_keys("90")
         driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[3]/div[3]/input").clear()
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[3]/div[3]/input").send_keys("9")
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[3]/div[3]/input").send_keys("8")
         driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[4]/div[2]/input").clear()
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[4]/div[2]/input").send_keys("110")
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[4]/div[2]/input").send_keys("100")
         driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[4]/div[3]/input").clear()
-        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[4]/div[3]/input").send_keys("10")
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[4]/div[3]/input").send_keys("9")
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[5]/div[2]/input").clear()
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[5]/div[2]/input").send_keys("110")
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[5]/div[3]/input").clear()
+        driver.find_element_by_xpath("//div[@id='collapse-deadlift']/div/div[5]/div[3]/input").send_keys("10")
         # open | / | 
         driver.get(self.base_url + "/")
         # assertTextPresent |  | Luke Walton
@@ -121,9 +121,9 @@ class TestBasic(unittest.TestCase):
         # click | xpath=(//button[@type='submit'])[4] | 
 
 #        import pdb; pdb.set_trace()
-#        driver.find_element_by_id("create-group").click()
-        time.sleep(1)
-        driver.find_element_by_xpath("(//button[@type='submit'])[4]").click()
+        driver.find_element_by_id("create-group").click()
+        time.sleep(2)
+#        driver.find_element_by_xpath("(//button[@type='submit'])[4]").click()
         # Warning: assertTextPresent may require manual changes
         # assertTextPresent |  | This field is required.
         self.assertTrue("This field is required." in driver.page_source, "Text not found")

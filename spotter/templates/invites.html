@@ -13,7 +13,7 @@
     <div class="span6 offset3" style="margin-bottom: 50px; margin-top: 0px; padding-right: 20px;">
       
         <ul>
-        {% for invite in invites|dictsort:"date_created" %}
+        {% for invite in invites|dictsortreversed:"date_created" %}
           <div class="spotterwrap" style="text-align: left;">
              <li>
               <span class="small">
@@ -52,19 +52,4 @@
 {% endblock %}
 
 
-    blitz = models.ForeignKey(Blitz, blank=True, null=True)
-    email = models.EmailField()
-    name = models.CharField(max_length=100)
-    signup_key = models.CharField(max_length=30, default="")
-
-    free = models.BooleanField(default=False) # free or paid invitation
-
-    # (optional for 1:1 Blitz) price transfers to Blitz if set specific to invitation  
-    price = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-
-    # (optional for 1:1 Blitz) workoutplan transers to Blitz if set specific to invitation
-    workout_plan = models.ForeignKey(WorkoutPlan, blank=True, null=True)
-
-    macro_formula = models.CharField(max_length=10, choices=MACROS_CHOICES, default='DEFAULT')
-    date_created = models.DateField(default=datetime.date.today)
 

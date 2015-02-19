@@ -19,83 +19,35 @@
 <div class="row" style="margin-bottom: 30px;">
 
     <div class="span12">
-        <header style="margin-bottom: 30px;">Usage digest {{ days }} days</header>
+        <header style="margin-bottom: 30px;">Usage digest {{ days }} {% if days == 1 %}day{% else %}days{% endif %}</header>
         <h3>MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h3>
     </div>
 </div>
 
-<div class="row" style="margin-bottom: 30px;">
-
-    <div class="span4 digest">
-        <h3>Clients:</h3>
-        {% regroup clients by date_created as client_list %}
-        {% for client in client_list %}
-        <ul>{{ client.grouper }}</ul>
-            <ul><ul>
-            {% for c in client.list %}
-            <li> {{ c.name }}</li>
-            {% endfor %}
-            </ul>
-        {% endfor %}
-        </ul>
-    </div>
-
-    <div class="span4 digest">
-        <h3>Trainers:</h3>
-        {% regroup trainers by date_created as trainer_list %}
-        {% for trainer in trainer_list %}
-        <ul>{{ trainer.grouper }}</ul>
-            <ul><ul>
-            {% for c in trainer.list %}
-            <li> {{ c.name }}</li>
-            {% endfor %}
-            </ul>
-        {% endfor %}
-        </ul>
-    </div>
-
-    <div class="span4 digest">
-        <h3>Members:</h3>
-        {% regroup members by date_created as member_list %}
-        {% for member in member_list %}
-        <ul>{{ member.grouper }}</ul>
-            <ul><ul>
-            {% for c in member.list %}
-            <li> {{ c.client.name }} in {{ c.blitz.name }} for $
-            {% if c.blitz.price|member_price:c == 0 or c.blitz.price|member_price:c == None %}FREE{% else %}{{ c.blitz.price|member_price:c }}{% endif %} </li>
-            {% endfor %}
-            </ul>
-        {% endfor %}
-        </ul>
-    </div>
-
-</div>
 <div class="row">
 
+    {% if trainers %}
     <div class="span4 digest">
-
-        {% if trainers %}
         <h3>New Trainers:</h3>
         {% regroup trainers by date_created as trainer_list %}
         {% for trainer in trainer_list %}
-        <ul><b>{{ trainer.grouper }}<b></ul>
+        <ul><b>{{ trainer.grouper }}</b></ul>
             <ul><ul>
             {% for c in trainer.list %}
-            <li> {{ c.name }}</li>
+            <li> {{ c.name }} ({{ c.user.email }})</li>
             {% endfor %}
             </ul>
         {% endfor %}
         </ul>
-        {% endif %}
-
     </div>
-    <div class="span4 digest">
+    {% endif %}
 
-        {% if members %}
+    {% if members %}
+    <div class="span4 digest">
         <h3>New Clients:</h3>
         {% regroup members by date_created as member_list %}
         {% for member in member_list %}
-        <ul><b>{{ member.grouper }}<b></ul>
+        <ul><b>{{ member.grouper }}</b></ul>
             <ul><ul>
             {% for c in member.list %}
             <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for ${{ c.blitz.price }}</li>
@@ -103,21 +55,20 @@
             </ul>
         {% endfor %}
         </ul>
-        {% endif %}
-
     </div>
-    <div class="span4 digest">
+    {% endif %}
 
-        {% if login_users %}
-        <h3>Last login</h3>
+    {% if login_users %}
+    <div class="span4 digest">
+        <h3>Most recent member login</h3>
         <ul>
         {% for login in login_users|dictsort:"last_login" %}
-            <li> {{ login.email }} {{ login.last_login }}</li>
+            <li> {{ login.client.name }} {{ login.trainer.name }} <small>({{ login.email }}) <br>
+            {{ login.last_login }}</small></li>
         {% endfor %}
         </ul>
-        {% endif %}
-
     </div>
+    {% endif %}
 
 </div>
 

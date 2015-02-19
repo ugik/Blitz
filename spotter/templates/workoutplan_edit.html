@@ -34,6 +34,20 @@ function save_workoutexercise(exercise, lift, display, set1, set2, set3, set4, s
         exercise: exercise, lift: lift, display: display, set1: set1, set2: set2, set3: set3, set4: set4, set5: set5, set6: set6 },
       })
 }
+function rename_workoutplan(workoutplan, name) { 
+     $.ajax({
+        url: 'workoutplan_rename',
+        type: 'POST',
+        data: { workoutplan: workoutplan, name: name },
+      })
+}
+function description_workout(workout, desc) { 
+     $.ajax({
+        url: 'workout_desc',
+        type: 'POST',
+        data: { workout: workout, desc: desc },
+      })
+}
 function auto_sets(display) {
      sets = []
      if (display.length == 3) { display_value = display[2] }
@@ -125,7 +139,7 @@ function save_day(inuse, location, exercise, count, option) {
 
         head = "<tr id='day_head_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'>"
          day = "<td align='left'><b>"+$("#days_"+ count +" :selected").text()+ "</b> &nbsp;&nbsp;<small>"+ workout +"&nbsp;&nbsp;<p id=num_exercises_"+ count +"></p></small></td>"
-         del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"_"+ count +"\");'><small>(delete)</small></a></td>"
+         del = "<td><a onClick='if(confirm(\"Delete entire day?\")) delete_day(\""+ exercise +"_"+ count +"\");'><small><i class='icon-remove'></i> Delete</small></a></td>"
       insert = "<td align='left'><a onclick='insert_row(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"_"+ count +"\");'>add Exercise</a></td><td align='left'><a onclick='insert_day(\"#day_foot_"+ exercise +"_"+ count +"\", \""+ exercise +"\");'>add Day</a></td></tr>";
         foot = "<tr id='day_foot_"+ exercise +"_"+ count +"' style='height:5px;'></tr>";
 
@@ -139,7 +153,7 @@ function save_row(inuse, location, exercise, count, option) {
 
 // save row, structure:
 //       <tr id="row_64_220_217"> <td id="controls_64_220_217">            
-//          <a onclick="cancel_row(this, '64_220_217');"><small>(del)</small></a>
+//          <a onclick="cancel_row(this, '64_220_217');"><small>(Delete)</small></a>
 //          <a onclick="edit_row(0, '64_220_217', 'Wide-Grip BTN Press', '5x3 + 1x10',  '3', '3', '3', '3', '3', '10', '', '', '', '', '', '' );"><small>(edit)</small></a>
 //          </td>
 //          <td align="left" id="row_64_220_217_lift"> Wide-Grip BTN Press </td>
@@ -156,8 +170,8 @@ function save_row(inuse, location, exercise, count, option) {
         cancel_row(location);
 
            head = "<tr id='row_"+ exercise +"_"+ count +"' style='background-color: rgba(255,255,255,0.15);'><td id='controls_"+ exercise +"_"+ count +"'>";
-         cancel = "<a onclick='cancel_row(this, \""+ exercise +"_"+ count +"\");'><small>(del)</small></a>";
-           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count).val() + "\", \""+ $("#sets_display"+ count).val() +"\", \""+$("#set1_"+ count).val()+"\", \""+$("#set2_"+ count).val()+"\", \""+$("#set3_"+ count).val()+"\", \""+$("#set4_"+ count).val()+"\", \""+$("#set5_"+ count).val()+"\", \""+$("#set6_"+ count).val()+"\");'><small>Edit</small></a></td>";
+         cancel = "<a onclick='if(confirm(\"Delete row?\")) cancel_row(this, \""+ exercise +"_"+ count +"\");'><small><i class='icon-remove'></i> Delete</small></a>";
+           edit = "<a onclick='edit_row("+ inuse +", \""+ exercise +"_"+ count +"\", \""+ $("#lifts_"+ count).val() + "\", \""+ $("#sets_display"+ count).val() +"\", \""+$("#set1_"+ count).val()+"\", \""+$("#set2_"+ count).val()+"\", \""+$("#set3_"+ count).val()+"\", \""+$("#set4_"+ count).val()+"\", \""+$("#set5_"+ count).val()+"\", \""+$("#set6_"+ count).val()+"\");'> | <small><i class='icon-pencil'></i> Edit</small></a></td>";
 
         controls = head+cancel+edit;
         calc_sets = auto_sets($("#sets_display"+ count).val());
@@ -204,7 +218,7 @@ function save_row(inuse, location, exercise, count, option) {
         var set5 = $('#row_'+exercise+'_set_5').text(); 
         var set6 = $('#row_'+exercise+'_set_6').text();
 
-        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>(edit)</small></a></td>");
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='if(confirm(\"Delete row?\")) cancel_row(this, \""+ exercise +"\");'><small><i class='icon-remove'></i> Delete</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>(edit)</small></a></td>");
 
         save_workoutexercise(exercise, lift, display, set1, set2, set3, set4, set5, set6);
     }
@@ -279,7 +293,7 @@ function insert_row(location, exercise) {
 
 // insert new row, structure:
 //       <tr id="row_64_220_1"> <td id="controls_64_220_1">
-//          <a onclick="cancel_row(this, '64_220_1');"><small>(del)</small></a>
+//          <a onclick="cancel_row(this, '64_220_1');"><small>(Delete)</small></a>
 //          <a onclick="save_row(0, '64_220_1', 'Wide-Grip BTN Press', '5x3 + 1x10',  '3', '3', '3', '3', '3', '10', '', '', '', '', '', '' );"><small>(edit)</small></a>
 //          </td>
 //          <td align="left" id="row_64_220_1_lift"> Wide-Grip BTN Press </td>
@@ -338,9 +352,9 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
     $('#row_'+exercise+'_set_6').replaceWith('<td id="row_'+ exercise +'_set_6" align="left" width="5%">'+set6+'</td>');
  
     if (inuse===0) {
-        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='cancel_row(this, \""+ exercise +"\");'><small>(del)</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>Edit</small></a></td>");
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><a onclick='if(confirm(\"Delete row?\")) cancel_row(this, \""+ exercise +"\");'><small><i class='icon-remove'></i> Delete</small></a>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'> | <small><i class='icon-pencil'></i> Edit</small></a></td>");
     } else {
-        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><small><i><span title='This exercise is in use and cannot be deleted'>(in use)</span></i></small>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'><small>Edit</small></a></td>");
+        $('#controls_'+exercise).replaceWith("<td id='controls_"+ exercise +"'><small><i><span title='This exercise is in use and cannot be deleted'>(in use)</span></i></small>&nbsp;<a onclick='edit_row("+ inuse +", \""+ exercise +"\", \""+ lift +"\", \""+ display+ "\", \""+ set1 +"\", \""+ set2 +"\", \""+ set3 +"\", \""+ set4 +"\", \""+ set5 +"\", \""+ set6 +"\");'> | <small><i class='icon-pencil'></i> Edit</small></a></td>");
     }
 }
 
@@ -365,7 +379,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
        <tr id="day_head_64_220" style="height:5px;"></tr>
           
        <tr id="row_64_220_217"> <td id="controls_64_220_217">            
-          <a onclick="cancel_row(this, '64_220_217');"><small>(del)</small></a>
+          <a onclick="cancel_row(this, '64_220_217');"><small>(Delete)</small></a>
           <a onclick="edit_row(0, '64_220_217', 'Wide-Grip BTN Press', '5x3 + 1x10',  '3', '3', '3', '3', '3', '10', '', '', '', '', '', '' );"><small>(edit)</small></a>
           </td>
           <td align="left" id="row_64_220_217_lift"> Wide-Grip BTN Press </td>
@@ -382,7 +396,15 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 {% if not workoutplan %}
     <h3>No workout plan</h3>
 {% else %}
-    <h1>{{ workoutplan.name }} - Program details</h1>
+    <h1><input id='plan-name' type='text' style='font-size:24px; height:30px; width:300px; color: #FFFFFF; background-color: #000000;' value='{{ workoutplan.name }}'/> - Program details</h1>
+
+<script>
+// save workoutplan name
+$('#plan-name').blur(function() {
+    rename_workoutplan(workoutplan, $(this).val())
+});
+</script>
+
     <a href="/spotter/view-workoutplan?plan={{ workoutplan.pk }}"><i class="icon-search"></i>  Preview</a></p>
     {% if not workoutplan.workoutplanweek_set.all %}
     <tr>
@@ -432,6 +454,17 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
                {% endif %}
           &nbsp;&nbsp;<small>{{ workoutplanday.workout }}</small>
         </td>
+        <td>
+        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='font-size:14px; width:400px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
+
+<script>
+// save workout description
+$('#day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}').blur(function() {
+    description_workout({{ workoutplanday.workout.pk }}, $(this).val())
+});
+</script>
+
+        </td>
           {% if workoutplanday.gymsession_set.all %}
             <td>
                 <small>
@@ -462,7 +495,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
                             <span title="This exercise is in use and cannot be deleted">(in use)</span>
                         </small> 
                     {% else %}
-                        <a onclick="cancel_row(this, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}');">
+                        <a onclick="if(confirm('Delete row?')) cancel_row(this, '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}');">
                             <small><i class="icon-remove"></i> Delete</small> 
                         </a>
                       {% endif %}

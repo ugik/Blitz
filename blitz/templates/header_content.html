@@ -87,7 +87,7 @@
                                 <a class="{% ifequal request.path "/program" %}active{% endifequal %}"
                                    href="{% url "my_blitz_program" %}">Program</a>
                             </li>
-                            {% if not user.client.get_blitz.recurring %}
+                            {% if user.client.get_blitz.group %}
                             <li class="nav-item">
                                 <a class="{% ifequal request.path "/members" %}active{% endifequal %}"
                                    href="{% url "my_blitz_members" %}">People</a>
@@ -127,21 +127,11 @@
             <div class="container">
               <a class="branding" href="/" id="logo">
                   <img class="center" src="/static/images/logo.png"/>
-                  {% if feeditem %}
-                   {% if feeditem.blitz.sales_page_content.logo %}
-                        <img src="{{ MEDIA_URL }}{{ feeditem.blitz.sales_page_content.logo }}" />
-                        {{ feeditem.blitz.trainer.name }}
-                   {% elif feeditem.blitz.trainer.get_blitz.sales_page_content.logo %}
-                        <img src="{{ MEDIA_URL }}{{ feeditem.blitz.trainer.get_blitz.sales_page_content.logo }}" />
-                        {{ feeditem.blitz.trainer.name }}
-                   {% else %}
-                         {{ feeditem.blitz.trainer.name }}
-                   {% endif %}
-                  {% endif %}
               </a>
         </div>
     </div>
 </div>
 
 {% endif %}
+
 

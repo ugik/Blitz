@@ -37,7 +37,7 @@ def backup():
 def usage(): 
     usage_digest()
 
-@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="0"))  
 def trainer_digests():
     for trainer in Trainer.objects.all():
         usage_trainer(trainer)

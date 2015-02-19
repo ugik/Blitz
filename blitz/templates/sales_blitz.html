@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
+{% block moretitle %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block moremeta %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
 {% block body_extras %}
+
 class="sales-page"
 {% endblock %}
 
@@ -36,7 +49,7 @@ class="sales-page"
           <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
           action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
         {% else %}
-          <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
+          <form method="get" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
         {% endif %}
 
         {% csrf_token %}
@@ -58,13 +71,17 @@ class="sales-page"
            {% endif %} 
            </label>
         {% else %}
-           {% if sales_page.logo %}
+           {% if logo %}
+            <a class="brand" href="/" id="secondary_logo">
+              <img src="{{ logo }}" align="left" class="shadowimg"/>
+            </a>
+           {% elif sales_page.logo %}
             <a class="brand" href="/" id="secondary_logo">
               <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
             </a>
             {% else %}
             <div id="trainernologo">
-              {{ sales_page.trainer.name }} 
+              {{ sales_page.trainer.name }}
             </div>
            {% endif %}
            {% if sales_page.video_html %}
@@ -98,8 +115,10 @@ class="sales-page"
             </label>
          {% else %}
           <div style="width:150px; height:150px; overflow: hidden; border: 6px solid white; margin: 0 auto; border-radius: 50%"> 
-            <img class="img-circle" 
-              {% if sales_page.trainer_headshot %}
+            <img class="img-circle"
+              {% if head %} 
+                   src="{{ head }}"
+              {% elif sales_page.trainer_headshot %}
                    src="{{ MEDIA_URL }}{{ sales_page.trainer_headshot }}"
               {% else %}
                    src="{{ MEDIA_URL }}{{ sales_page.trainer.headshot }}"
@@ -115,7 +134,11 @@ class="sales-page"
   {% endif %}
 
   <div class="sales-header">
+     {% if logo %}
+     <h1>Personal Fitness Coaching with {{ name }}</h1>
+     {% else %}
      <h1>Personal Fitness Coaching with {{ sales_page.trainer.name }}</h1>
+     {% endif %}
 
      <div class="content">
         {% if debug_mode %}
@@ -125,7 +148,7 @@ class="sales-page"
            {{ sales_page.program_introduction }}
         {% endif %}
 
-        {% if not blitz.recurring %}
+        {% if blitz.group and not logo %}
             <br />Begins
             {% if debug_mode %}
                 <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}">
@@ -139,9 +162,11 @@ class="sales-page"
                 <small><i>(Programs always start on Monday)</i></small>
             {% else %}
                 {{ blitz.begin_date }}
-            {% endif %} <br>
+            {% endif %}             
+            {% if blitz.recurring %} (Recurring) {% endif %}
+            <br>
 
-            Price: ${{ blitz.price_recurring_monthly }}
+            Price: $
             {% if debug_mode %}
                 <input class="edit" type="text" name="price" id="price" style="size:5; maxlength:30;" value="{{ blitz.price }}">
                 <select name="price_model" id="price_model" class="selectpicker show-tick">
@@ -160,11 +185,13 @@ class="sales-page"
                 </script>
 
             {% else %}
-                {{ blitz.price }}
-                {% if blitz.price_model == "R" %}
-                   Monthly Recurring
-                {% else %}
-                   One-time
+                {% if blitz.free %} FREE 
+                {% else %} ${{ blitz.price }} 
+                    {% if blitz.price_model == "R" %}
+                       Monthly Recurring
+                    {% else %}
+                       One-time
+                    {% endif %}
                 {% endif %}
             {% endif %}</a>
            </div>
@@ -177,9 +204,15 @@ class="sales-page"
             Sign up for {{ blitz.title }}
             </button>
         {% else %}
+            {% if logo %}
+            <button class="obtn obtn-comment-half" disabled>
+               Sign up for the Program
+            </button>
+            {% else %}
             <button action="submit" class="obtn obtn-comment-half" type='submit'>
                Sign up for {{ blitz.title }}
             </button>
+            {% endif %}
         {% endif %}
      </div>
   </div>
@@ -233,7 +266,11 @@ class="sales-page"
 
           <div class="sales-note-section">
             <div id="trainersig">
+              {% if logo %}
+              -{{ name }} 
+              {% else %}
               -{{ sales_page.trainer.name }}
+              {% endif %}
             </div>
           </div>
 
@@ -310,9 +347,15 @@ class="sales-page"
               Sign up for {{ blitz.title }}
             </button>
           {% else %}
+            {% if logo %}
+            <button class="obtn obtn-comment-half" disabled>
+               Sign up for the Program
+            </button>
+            {% else %}
             <button action="submit" class="obtn full-width" type='submit'>
               Sign up for {{ blitz.title }}
             </button>
+            {% endif %}
           {% endif %}
           </div>
         </form>

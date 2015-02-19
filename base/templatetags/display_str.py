@@ -24,12 +24,16 @@ def display_str(completedset, viewer):
     if not completedset:
         return ''
 
-    # if viewer is trainer (or spotter) then client will be null
-    if not viewer or viewer.is_trainer:
-        client = Client(user=viewer) if viewer else Client() # placeholder client object
+    if not viewer or viewer.is_anonymous():
+        client = Client()   # placeholder client object
         client.units = "I"
     else:
-        client = viewer.client
+        # if viewer is trainer (or spotter) then client will be null
+        if viewer.is_trainer or viewer.email=='spotter@example.com':
+            client = Client(user=viewer)   # placeholder client object
+            client.units = "I"
+        else:
+            client = viewer.client
 
     lift = completedset.workout_set.lift
 
@@ -53,9 +57,15 @@ def display_str(completedset, viewer):
     # TODO: body weight weighted
     elif lift.weight_or_body and lift.allow_weight_or_body:
         if completedset.set_type == 'A':
-            type_str = '-%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            try:
+                type_str = '-%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            except:
+                type_str = '0'
         elif completedset.set_type == 'W':
-            type_str = '%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            try:
+                type_str = '%.0f' % float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            except:
+                type_str = '0'
         else:
             type_str = 'bw'
 
@@ -63,7 +73,11 @@ def display_str(completedset, viewer):
 
     else:
         if completedset.weight_in_lbs:
-            weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            try:
+                weight = float(units_tags.lbs_conversion(completedset.weight_in_lbs, client))
+            except:
+                weight = 0
+
             ds = "%d x %.1f" % (completedset.num_reps_completed, weight)
             # get rid of trailing zeros
             if '.' in ds and ds.endswith('0'):
