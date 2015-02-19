@@ -180,17 +180,17 @@ function save_client_setup() {
 					</div>
 
 					<div id="add-comment-container">
-						<form class="hidden" name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+						<form id="comment-form" class="hidden" name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 						    <table><tr><td width="97%">
 						    <textarea id="add-comment" name="comment" class="expanding" placeholder="Post a comment..." rows="1" ></textarea> </td>
-						    <td class="photobutton" valign="top">
-
-						    <input type="text" name="sample" id="id_sample" value="TEXT IS HERE" style="height:0; display:none;"/>
-
+						    <td class="photobutton" valign="top">							
+						    
 						    <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
 						    <label id="id_label" name="picture" class="gbtn photobuttonlabel" for="id_picture"/>
 						    <i class="glyphicon glyphicon-camera"></i>
 						    </label></td></tr></table>
+						    <input type="hidden" name="object_id" value="">
+						    <input type="hidden" name="selected_item" value="">
 						</form>
 						<a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>
 					</div>
