@@ -63,15 +63,11 @@ def spotter_payments(request):
         if not test and client.balanced_account_uri == '':
             continue
 
-        membership = client.blitzmember_set.all()
-
-        if membership:  # this should never be missing
-            start_date = membership[0].date_created
-        else:
-            start_date = date.today()
+        start_date = blitz.begin_date
 
         months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
 
+        membership = client.blitzmember_set.all()
         if not membership[0].price:   # if there was no special invitation price
             if blitz.recurring:
                 total_cost = months * blitz.price
@@ -125,7 +121,7 @@ def spotter_usage(request):
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
-            if payer.blitzmember_set.all()[0].blitz.group:
+            if not payer.blitzmember_set.all()[0].blitz.group:
                 MRR += float(payer.blitzmember_set.all()[0].blitz.price)
             # monthly charge for non-recurring blitz
             else:
