@@ -129,6 +129,8 @@ def spotter_usage(request):
                 if payer.get_blitz().num_weeks() > 0 and payer.blitzmember_set.all()[0].price:
                     MRR += float(payer.blitzmember_set.all()[0].price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
 
+    net = float(MRR * 0.12)
+
     timezone = current_tz()
     if 'days' in request.GET:
         startdate = date.today() - timedelta(days = int(request.GET.get('days')))
@@ -151,7 +153,7 @@ def spotter_usage(request):
         usage_digest()
 
     return render(request, 'usage.html', 
-          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
+          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR, 'net':net })
 
 @login_required
 def spotter_delete(request):
@@ -274,7 +276,6 @@ def assign_workoutplan(request):
         if form.is_valid() and workoutplan:
             blitz_id = form.cleaned_data['blitz_id']
 
-            import pdb; pdb.set_trace()
             if blitz_id == 'None':
                 response = redirect('spotter_assign_workoutplan')
                 return response

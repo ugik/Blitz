@@ -20,7 +20,7 @@
 
     <div class="span12">
         <header style="margin-bottom: 30px;">Usage digest {{ days }} {% if days == 1 %}day{% else %}days{% endif %}</header>
-        <h3>MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h3>
+        <h3>Net Monthly ${{ net|stringformat:"1.2f"|cut:"-" }}<h4>Gross MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h4></h3>
     </div>
 </div>
 

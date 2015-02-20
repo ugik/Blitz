@@ -127,7 +127,7 @@ def user_display_name(user):
     try:
         return user.client.name
     except:
-        raise Exception("Cannot display user")
+        pass
 
 def user_headshot_url(user):
     try:
@@ -138,7 +138,7 @@ def user_headshot_url(user):
     try:
         return user.client.get_headshot_url()
     except:
-        raise Exception("No headshot for user")
+        pass
 
 def user_blitz(user):
     try:
