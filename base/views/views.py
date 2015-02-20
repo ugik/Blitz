@@ -1304,7 +1304,6 @@ def new_comment(request):
         if request.FILES.getlist('comment_picture'):
             picture_file = request.FILES.getlist('comment_picture')[0]
             handle_uploaded_file(picture_file)
-            request.POST["comment_picture"] = 'feed/' + str(picture_file)
             comment_picture = 'feed/' + str(picture_file)
 
         object_id = request.POST.get('object_id')
