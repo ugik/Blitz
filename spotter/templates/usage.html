@@ -50,7 +50,8 @@
         <ul><b>{{ member.grouper }}</b></ul>
             <ul><ul>
             {% for c in member.list %}
-            <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for ${{ c.blitz.price }}</li>
+            <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for $
+            {% if c.price %} {{ c.price }} {% else %} Free {% endif %}</li>
             {% endfor %}
             </ul>
         {% endfor %}

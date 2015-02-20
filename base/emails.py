@@ -195,12 +195,12 @@ def usage_digest(days=0):
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
-            if not payer.blitzmember_set.all()[0].blitz.group:
-                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
+            if not payer.get_blitz().group and payer.blitzmember_set.all()[0].price:
+                MRR += float(payer.blitzmember_set.all()[0].price)
             # monthly charge for non-recurring blitz
             else: 
-                if payer.blitzmember_set.all()[0].blitz.num_weeks() > 0:
-                    MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+                if payer.get_blitz().num_weeks() > 0 and payer.blitzmember_set.all()[0].price:
+                    MRR += float(payer.blitzmember_set.all()[0].price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
 
     users = User.objects.all()
     login_users = []
