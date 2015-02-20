@@ -1297,33 +1297,29 @@ def comment_unlike(request):
 @login_required
 @csrf_exempt
 def new_comment(request):
-
-    # Hack
-    # TODO: rename comment to comment_text and picture to comment_picture in html form field
-    request.POST["comment_text"]    = request.POST.get("comment")
-    request.POST["comment_picture"] = request.POST.get("picture")
-    # END
+    comment_picture = request.POST.get("comment_picture")
 
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
-        # Store Picture FIle
-        if request.FILES.getlist('picture'):
-            picture_file = request.FILES.getlist('picture')[0]
+        # Store Picture File
+        if request.FILES.getlist('comment_picture'):
+            picture_file = request.FILES.getlist('comment_picture')[0]
             handle_uploaded_file(picture_file)
             request.POST["comment_picture"] = 'feed/' + str(picture_file)
+            comment_picture = 'feed/' + str(picture_file)
 
         object_id = request.POST.get('object_id')
         selected_item = request.POST.get('selected_item')
 
         if selected_item == 'blitz':  # post to blitz (group) feed
             blitz = Blitz.objects.get_or_none(pk = object_id)
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture, blitz)
         elif selected_item == 'client':  # post to individual client feed
             client = Client.objects.get(pk = object_id)
             blitz = client.get_blitz()
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture, blitz)
 
     else:
-        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'))
+        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture)
 
         # analytics
         if not request.user.is_trainer:

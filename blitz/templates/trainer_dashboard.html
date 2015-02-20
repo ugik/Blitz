@@ -185,10 +185,10 @@ function save_client_setup() {
 					<div id="add-comment-container">
 						<form id="comment-form" class="hidden" name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
                             <table><tr><td width="97%">
-                            <textarea id="add-comment" name="comment" class="expanding" placeholder="Post a comment..." rows="1" ></textarea> </td>
+                            <textarea id="add-comment" name="comment_text" class="expanding" placeholder="Post a comment..." rows="1" ></textarea> </td>
                             <td class="photobutton" valign="top">                           
                             
-                            <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
+                            <input type="file" name="comment_picture" id="id_picture" style="height:0; display:none;"/>
                             <label id="id_label" name="picture" class="gbtn photobuttonlabel" for="id_picture"/>
                             <i class="icon-camera"></i>
                             </label></td></tr></table>
