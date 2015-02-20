@@ -52,6 +52,7 @@ import urllib2
 
 analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 
+MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT')
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
 
@@ -78,6 +79,16 @@ def mark_feeds_as_viewed(feed_items):
     for feed_item in feed_items:
         feed_item.is_viewed = True
         feed_item.save()
+
+def handle_uploaded_file(f):
+    file_name = str(f)
+    full_path = MEDIA_ROOT + '/feed/'+file_name
+    with open(full_path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+    return full_path
+
 
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
@@ -1287,7 +1298,19 @@ def comment_unlike(request):
 @csrf_exempt
 def new_comment(request):
 
+    # Hack
+    # TODO: rename comment to comment_text and picture to comment_picture in html form field
+    request.POST["comment_text"]    = request.POST.get("comment")
+    request.POST["comment_picture"] = request.POST.get("picture")
+    # END
+
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
+        # Store Picture FIle
+        if request.FILES.getlist('picture'):
+            picture_file = request.FILES.getlist('picture')[0]
+            handle_uploaded_file(picture_file)
+            request.POST["comment_picture"] = 'feed/' + str(picture_file)
+
         object_id = request.POST.get('object_id')
         selected_item = request.POST.get('selected_item')
 
