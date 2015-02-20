@@ -336,47 +336,77 @@
         }
 
         var bindPostForm = function() {
-            // Add comment button show/hide
+            // Removes event handlers that were attached
+            $('#comment-form').off();
+            $('#add-comment').off();
+            $('#id_picture').off();
+            $('#add-comment-submit').off();
+
+            // add comment button show/hide
             $('#add-comment').on('focus', function() {
                 $('#add-comment-submit').show(300);
             });
-
             $('#add-comment').on('blur', function() {
-                if ($(this).val() === "") {
+                if ($(this).val() == "" && $('#id_picture').val() == "") {
                     $('#add-comment-submit').hide(300);
                 }
             });
-
             $('#id_picture').on('change', function() { $('#add-comment-submit').show(300); });
             $('input[type=file]').change(function(e) { document.getElementById("id_label").innerHTML = "&#10004;"; });
 
+            // Add object-id and scope
+            $('#comment-form input[name="object_id"]').val(OBJECT_ID);
+            $('#comment-form input[name="selected_item"]').val(SELECTED_ITEM);
+
+            // Clear Form
+            $('#add-comment').val('');
+            $('#id_picture').val('');
+
             // Add comment submit
             $('#add-comment-submit').on('click', function(e) {
+                $('#comment-form').submit();
+            });
+            
+            $('#comment-form').submit(function(e) {
                 e.preventDefault();
                 var comment_text = $('#add-comment').val();
                 var comment_picture = $('#id_picture').val();
-                if (comment_text == "" && comment_picture == "") {
+
+                if (comment_text === "" && comment_picture === "") {
                     alert("Why would you post nothing?");
                     return;
                 }
+
                 $('#add-comment-submit').hide(300);
 
                 if (SELECTED_ITEM === 'invitee') {
                     alert("This feed will be happening once the client signs up");
                 } else {
-                    $.post('/api/new-comment', {
-                        'comment_text': comment_text,
-                        'comment_picture': comment_picture,
-                        'object_id': OBJECT_ID,
-                        'selected_item': SELECTED_ITEM
-                    }, function(data) {
-                        if (data.is_error) {
+                    var formData = new FormData(this);
 
-                        } else {
-                            var el = $(data.comment_html);
-                            $('#main-feed').prepend(el);
-                            $('#add-comment').val('');
-                        }
+                    // Abort ajax requests
+                    if (commentHRX) {
+                        commentHRX.abort();
+                    }
+
+                    // Submit form via AJAX
+                    var commentHRX = $.ajax({
+                        url: '/api/new-comment',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    });
+
+                    commentHRX.done(function(data) {
+                        // Clear Form
+                        $('#add-comment').val('');
+                        $('#id_picture').val('');
+
+                        // Render Post
+                        var $el = $(data.comment_html);
+                        $('#main-feed').prepend($el);                        
+                        return false;
                     });
                 }
             });
