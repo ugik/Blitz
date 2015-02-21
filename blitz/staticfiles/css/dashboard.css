@@ -570,13 +570,16 @@ ul.filters li.item:hover {
 }
 .feeds-filter ul li {
     height: 32px;
-    color: #7ab2ea;
+    color: #AFB0B1;
     display: inline-block;
     margin-right: 34px;
     cursor: pointer;
 }
+/*.feeds-filter ul li {
+    
+}*/
 .feeds-filter ul li.active {
-    color: #545454;
+    color: #7AB2EA;
     border-bottom: 3px solid #95c0f4;
 }
 /* TODO: Move to the correct place */
@@ -585,7 +588,7 @@ ul.filters li.item:hover {
  */
 
 .group {
-    background: #fff;
+    background: none repeat scroll 0% 0% transparent;
     color: #767577;
     border-bottom: #d9d9d9;
     margin-bottom: 40px;
