@@ -24,7 +24,11 @@
                 <div class="span3" style="margin-left: 0px; margin-right: 20px!important;">
             {% endif %}
                 <div class="overview-block workout-day-block">
-                    <div class="title">{{ day.day_of_week|day_name }}</div>
+                    <div class="title">{{ day.day_of_week|day_name }}
+                        <small>
+                        <a href="/preview-workout/{{ workout_plan.pk }}/{{ week.week }}/{{ day.day_of_week }}">preview</a>
+                        </small>
+                    </div>
                     <div class="content">
                         <ul>
                             {% for exercise in day.workout.get_exercises %}

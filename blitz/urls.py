@@ -78,6 +78,7 @@ urlpatterns += patterns(
     url(r'^dashboard$', 'base.views.trainer_dashboard', name='trainer_dashboard'),
 
     url(r'^log-workout/(?P<week_number>\d+)/(?P<day_char>\w+)$', 'base.views.log_workout', name='log_workout'),
+    url(r'^preview-workout/(?P<workoutplan_pk>\d+)/(?P<week_number>\d+)/(?P<day_char>\w+)$', 'base.views.preview_workout', name='preview_workout'),
 
     url(r'^api/send-message-to-user/(?P<pk>\d+)', 'ff_messaging.views.send_message_to_user', name='send_message_to_user'),
     url(r'^api/new-comment', 'base.views.new_comment', name='new_comment'),

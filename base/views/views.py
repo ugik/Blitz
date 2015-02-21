@@ -937,6 +937,43 @@ def log_workout(request, week_number, day_char):
     })
 
 @login_required
+def preview_workout(request, workoutplan_pk, week_number, day_char):
+
+    error = None
+    client = Client.objects.get(pk=1)
+    workoutplan = WorkoutPlan.objects.get(pk=workoutplan_pk)
+    plan_day = workoutplan.get_workout_for_day(int(week_number), day_char)
+    if plan_day is None:
+        raise Http404
+    gym_session = GymSession.objects.create(
+        date_of_session = datetime.datetime.now().date(),
+        workout_plan_day = plan_day,
+        client=client
+        )
+
+    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, client, gym_session.date_of_session)
+    for group in grouped_sets:
+        group['set_infos'] = []
+        for workout_set in group['sets']:
+            set_info = {}
+            set_info['workout_set'] = workout_set
+            set_info['completed_set'] = None            
+            group['set_infos'].append(set_info)
+
+        group['lift_summary'] = client.lift_summary(group['lift'])
+
+    gym_session.delete()
+
+    return render(request, 'log_workout.html', {
+        'client': client,
+        'plan_day': plan_day,
+        'workout': plan_day.workout,
+        'grouped_sets': grouped_sets,
+        'preview': True,
+    })
+
+
+@login_required
 @csrf_exempt
 def save_sets(request):
 

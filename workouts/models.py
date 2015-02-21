@@ -141,6 +141,14 @@ class WorkoutPlan(models.Model):
     def num_weeks(self):
         return self.workoutplanweek_set.count()
 
+    def get_workout_for_day(self, week, day):
+        try:
+            week = self.workoutplanweek_set.get(week=week)
+            day = week.workoutplanday_set.get(day_of_week=day)
+            return day
+        except ObjectDoesNotExist:
+            return None
+
     def iterate_days(self):
         """
         generator of workoutplandays in order

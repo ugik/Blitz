@@ -6,6 +6,7 @@
     <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
     <script type="text/javascript">
     $(document).ready(function() {
+        var preview = "{{ preview }}";
         $("#workout-notes").expandingTextarea();
 
         function finishExercise(slug) {
@@ -19,6 +20,10 @@
         }
 
         $('.save-sets').on('click', function() {
+
+            if (preview === 'True') { 
+                alert("The exercise log information would be saved at this step.");
+                return }
 
             var lift_slug = $(this).data('lift');
             var postdata = {};
