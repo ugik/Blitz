@@ -203,16 +203,12 @@ def usage_digest(days=0):
 
     # get clients with CC on file
     paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
-    MRR = 0
+    revenue = 0
     for payer in paying_clients:
-        if payer.blitzmember_set:
-            # recurring monthly charge
-            if not payer.get_blitz().group and payer.blitzmember_set.all()[0].price:
-                MRR += float(payer.blitzmember_set.all()[0].price)
-            # monthly charge for non-recurring blitz
-            else: 
-                if payer.get_blitz().num_weeks() > 0 and payer.blitzmember_set.all()[0].price:
-                    MRR += float(payer.blitzmember_set.all()[0].price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+        if payer.blitzmember_set.all()[0].price:
+            revenue += float(payer.blitzmember_set.all()[0].price)
+
+    revenue = float(revenue * 0.12)
 
     users = User.objects.all()
     login_users = []
@@ -227,7 +223,7 @@ def usage_digest(days=0):
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
     context = {'days':days+1, 'trainers':trainers, 'login_users':login_users, 'members':members,     
-               'MRR':MRR, 'hosts':lines[0]}
+               'revenue':revenue, 'hosts':lines[0]}
     to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"

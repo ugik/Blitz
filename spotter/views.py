@@ -118,7 +118,7 @@ def spotter_usage(request):
 
     # get clients with CC on file
     paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
-    MRR = 0
+    revenue = MRR = 0
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
@@ -128,8 +128,10 @@ def spotter_usage(request):
             else:
                 if payer.get_blitz().num_weeks() > 0 and payer.blitzmember_set.all()[0].price:
                     MRR += float(payer.blitzmember_set.all()[0].price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+        revenue += float(payer.blitzmember_set.all()[0].price)
 
     net = float(MRR * 0.12)
+    revenue = float(revenue * 0.12)
 
     timezone = current_tz()
     if 'days' in request.GET:
@@ -153,7 +155,8 @@ def spotter_usage(request):
         usage_digest()
 
     return render(request, 'usage.html', 
-          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR, 'net':net })
+          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 
+           'revenue':revenue, 'MRR':MRR, 'net':net })
 
 @login_required
 def spotter_delete(request):
