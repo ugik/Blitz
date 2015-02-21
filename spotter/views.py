@@ -99,7 +99,7 @@ def spotter_payments(request):
                         payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
                              'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
                         total_paid = float(total_paid) + float(debit.amount)/100
-                        grand_total_paid = float(total_paid) + float(debit.amount)/100
+                        grand_total_paid += float(debit.amount)/100
 
         refunds = balanced.Refund.query.filter(balanced.Refund.f.meta.client_id == client.pk)
         if refunds:
@@ -110,7 +110,7 @@ def spotter_payments(request):
                         payments.append({'amount': float(debit.amount)/-100, 'status': debit.status, 
                              'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
                         total_paid = float(total_paid) - float(debit.amount)/100
-                        grand_total_paid = float(total_paid) - float(debit.amount)/100
+                        grand_total_paid -= float(debit.amount)/100
 
         clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
                         'start':start_date, 'months': months, 'payments': payments,
@@ -123,7 +123,7 @@ def spotter_payments(request):
     
     return render(request, 'payments.html', 
           {'clients' : clients, 'test' : test, 'charge' : charge, 'trainer' : trainer, 
-           'total' : grand_total_paid, 'net' : net })
+           'total' : grand_total_paid, 'net' : net, 'month' : month })
 
 @login_required
 def spotter_usage(request):

@@ -14,10 +14,13 @@
 </style>
 
 <div class="span6 offset3" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+{% if month %}
+    <h3>Month {{ month }}</h3>
+{% endif %}
 
 {% if trainer %}
     <h3>Total payments collected ${{ total|stringformat:"1.2f"|cut:"-" }}<br>
-        Net to trainer ${{ net|stringformat:"1.2f"|cut:"-" }}</h3>
+        Net to trainer <u>${{ net|stringformat:"1.2f"|cut:"-" }}</u></h3>
 {% else %}
     {% if test %}
         (including test/free users)
