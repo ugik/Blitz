@@ -2,38 +2,56 @@
 
 {% block main %}
 
-<header>Payment History</header>
+<h3>Payments
+{% if trainer %}
+    for trainer: {{ trainer }}
+{% endif %}
+</h3>
 <style>
       tr:nth-of-type(odd) {
       background-color:#D8F1D7;
     }
 </style>
 
-{% if test %}
-(including test/free users)
-{% else %}
-(add <b>?test</b> to include test/free users)
-{% endif %}
-
-{% if charge %}
-(processing payments due)
-{% else %}
-(add <b>?charge</b> to process charges)
-{% endif %}
-
 <div class="span6 offset3" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+
+{% if trainer %}
+    <h3>Total payments collected ${{ total|stringformat:"1.2f"|cut:"-" }}<br>
+        Net to trainer ${{ net|stringformat:"1.2f"|cut:"-" }}</h3>
+{% else %}
+    {% if test %}
+        (including test/free users)
+    {% else %}
+        (add <b>?test</b> to include test/free users)
+    {% endif %}
+
+    {% if charge %}
+        (processing payments due)
+    {% else %}
+        (add <b>?charge</b> to process charges)
+    {% endif %}
+{% endif %}
+
 
 {% if clients %}
 {% for client in clients|dictsortreversed:"client.date_created" %}
   <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
      <div style="text-align: left;" class="spotterheader">
-     <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.blitz.begin_date }} ({{ client.months }} months)</li>  
-     {% if client.blitz.group %} <li> Blitz:{{ client.blitz.title }} {% endif %}
-     {% if client.blitz.recurring %} (recurring) {% else %} (one-time) {% endif %}
-     {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
-     {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
+
+
+     {% if trainer %}
+         <ul><li>{{ client.client.name }} <br> start date: {{ client.blitz.begin_date }} ({{ client.months }} months)</li>  
+         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
+     {% else %}
+         <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.blitz.begin_date }} ({{ client.months }} months)</li>  
+         {% if client.blitz.group %} <li> Blitz:{{ client.blitz.title }} {% endif %}
+         {% if client.blitz.recurring %} (recurring) {% else %} (one-time) {% endif %}
+         {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
+         {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
 <br>
-     Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
+         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
+     {% endif %}
+
 <br><br>
    {% if client.payments %}
    Charges:

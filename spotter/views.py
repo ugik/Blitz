@@ -49,16 +49,27 @@ def spotter_index(request):
 def spotter_payments(request):
     import balanced
 
+    trainer = request.GET.get('trainer', None)
+    month = request.GET.get('month', None)
+
+    test = True if 'test' in request.GET else None
+    charge = True if 'charge' in request.GET else None
+
+    if trainer:
+        trainer = Trainer.objects.get(pk=trainer)
+
     test = True if 'test' in request.GET else None
     charge = True if 'charge' in request.GET else None
 
     clients = []
     payments = []
-    total_cost = total_paid = float(0.0)
+    grand_total_paid = total_cost = total_paid = float(0.0)
 
     for client in Client.objects.all():
         blitz = client.get_blitz()
         if not blitz:
+            continue
+        if trainer and trainer != blitz.trainer:
             continue
         # by default ignore test/free users
         if not test and client.balanced_account_uri == '':
@@ -83,18 +94,23 @@ def spotter_payments(request):
         debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
         if debits:
             for debit in debits:
-                if 'client_id' in debit.meta:
-                    payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
-                         'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                    total_paid = float(total_paid) + float(debit.amount)/100
+                if not month or int(month) == int(debit.created_at[5:7]):
+                    if 'client_id' in debit.meta:
+                        payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
+                             'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
+                        total_paid = float(total_paid) + float(debit.amount)/100
+                        grand_total_paid = float(total_paid) + float(debit.amount)/100
 
         refunds = balanced.Refund.query.filter(balanced.Refund.f.meta.client_id == client.pk)
         if refunds:
             for refund in refunds:
-                if 'client_id' in debit.meta:
-                    payments.append({'amount': float(debit.amount)/-100, 'status': debit.status, 
-                         'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                    total_paid = float(total_paid) - float(debit.amount)/100
+                if not month or int(month) == int(refund.created_at[5:7]):
+
+                    if 'client_id' in debit.meta:
+                        payments.append({'amount': float(debit.amount)/-100, 'status': debit.status, 
+                             'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
+                        total_paid = float(total_paid) - float(debit.amount)/100
+                        grand_total_paid = float(total_paid) - float(debit.amount)/100
 
         clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
                         'start':start_date, 'months': months, 'payments': payments,
@@ -103,8 +119,11 @@ def spotter_payments(request):
         payments = []
         total_cost = total_paid = 0
 
+    net = float(grand_total_paid * 0.85)
+    
     return render(request, 'payments.html', 
-          {'clients' : clients, 'test' : test, 'charge' : charge })
+          {'clients' : clients, 'test' : test, 'charge' : charge, 'trainer' : trainer, 
+           'total' : grand_total_paid, 'net' : net })
 
 @login_required
 def spotter_usage(request):
