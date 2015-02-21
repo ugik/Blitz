@@ -643,6 +643,9 @@ class Blitz(models.Model):
             timezone = current_tz()
         return 1 + (timezone.normalize(timezone_now()).date() - self.loop_begin_date()).days / 7
 
+    def current_relative_week(self, timezone=None):
+        return self.current_week() % self.num_weeks()
+
     def current_day_index(self, timezone=None):
         if timezone is None:
             timezone = current_tz()
