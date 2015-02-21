@@ -93,6 +93,12 @@
 
 {% block main %}
 
+{% if preview %}
+    <button class='obtn obtn-comment-grn' onclick="location.href='/view_program/{{ workoutplan.pk }}'">
+    Return to overview
+    </button>
+{% endif %}
+
 <div class="span6 offset3 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd;">
 
     <h2>{{ workout.display_name }} workout</h2>

@@ -17,6 +17,7 @@ import os
 
 SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
+EXAMPLE_EMAILS = False
 
 # email wrapper, note parameters: images[] context{}
 def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=[], trainer=None):  
@@ -26,12 +27,14 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     # don't send emails to @example.com addresses
     if isinstance(to_email, list):
         if [i for i in to_email if 'example.com' in i]:
-            print '* @example.com address, no email sent'
-            return   # comment this to turn on @example emails
+            if not EXAMPLE_EMAILS:
+                print '* @example.com address, no email sent'
+                return
     else:
         if 'example.com' in to_email:
-            print '* @example.com address, no email sent'
-            return   # comment this to turn on @example emails
+            if not EXAMPLE_EMAILS:
+                print '* @example.com address, no email sent'
+                return
 
     if len(images) == 0:
         images = ['emailheader.png']
@@ -138,7 +141,6 @@ def forgot_password(user):
     context = { 'user': user, 'reset_link': reset_link }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
-
 def message_received(user, message):
 
     from_email, to_email = SOURCE_EMAIL, user.email
@@ -147,6 +149,16 @@ def message_received(user, message):
     text_template = 'emails/message_received.txt'
     html_template = 'emails/message_received.html'
     context = { 'user': user, 'message': message }
+    send_email(from_email, to_email, subject, text_template, html_template, context )
+
+def program_start(client):
+
+    from_email, to_email = SOURCE_EMAIL, client.user.email
+    subject = "Your Blitz.us program begins today!"
+
+    text_template = 'emails/program_begins_today.txt'
+    html_template = 'emails/program_begins_today.html'
+    context = { 'client': client }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
 def email_spotter_program_upload(trainer, document):

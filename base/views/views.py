@@ -968,6 +968,7 @@ def preview_workout(request, workoutplan_pk, week_number, day_char):
         'client': client,
         'plan_day': plan_day,
         'workout': plan_day.workout,
+        'workoutplan': workoutplan,
         'grouped_sets': grouped_sets,
         'preview': True,
     })
