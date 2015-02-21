@@ -592,6 +592,7 @@ ul.filters li.item:hover {
     color: #767577;
     border-bottom: #d9d9d9;
     margin-bottom: 40px;
+    margin-top: -70px;
 }
 
 .group .btn {
