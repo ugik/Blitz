@@ -22,17 +22,17 @@
     <div class="col-md-8 col-md-offset-2 trainersettings" style="margin-top: -50px;">
         <div class="formpage-block">
             <div class="row uploads-row">
-                <div class="col-md-6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Your profile photo</div>
                     <div class="uploads-bottom">This should be square-ish and at least 150x150 px.</div>
                 </div>
-                <div class="col-md-2 trainer-uploads-right">
-                    <input type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
+                <div class="col-md-3 trainer-uploads-right">
+                    <input class="full-width" type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
                     <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline"/>
                         + Photo
                     </label>
                     {% if trainer.headshot %}
-                    <input type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
+                    <input class="full-width" type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
                     <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline"/>
                         <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" />
                     {% endif %}
@@ -40,17 +40,17 @@
             </div>
 
             <div class="row uploads-row">
-                <div class="col-md-6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Your logo</div>
                     <div class="uploads-bottom">Clients will see your logo on the site (or just your name, if you don't have one).</div>
                 </div>
-                <div class="col-md-2 trainer-uploads-right">
-                    <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
+                <div class="col-md-3 trainer-uploads-right">
+                    <input class="full-width" type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
                     <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline"/>
                         + Logo
                     </label>
                     {% if salespage.logo %}
-                    <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
+                    <input class="full-width" type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
                     <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline"/>
                         <img src="{{ MEDIA_URL }}{{ salespage.logo }}" />
                     {% endif %}
@@ -58,12 +58,12 @@
             </div>
 
             <div class="row uploads-row">
-                <div class="col-md-6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload program documents</div>
                     <div class="uploads-bottom">Files that illustrate your fitness/diet programs. Excel, PDF, whatever.</div>
                 </div>
-                <div class="col-md-2 trainer-uploads-right">
-                    <input type="file" name="document" id="id_document" style="height:0; display:none;"/>
+                <div class="col-md-3 trainer-uploads-right">
+                    <input class="full-width" type="file" name="document" id="id_document" style="height:0; display:none;"/>
                     <label id="label_document" name="label_document" for="id_document" class="btn-outline"/>
                         + Files
                     </label>

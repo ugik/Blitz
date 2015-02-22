@@ -2142,6 +2142,7 @@ a:focus {
   position: relative;
   display: inline-block;
   font-size: 0;
+  margin-left: 0px !important;
   white-space: nowrap;
   vertical-align: middle;
   margin-bottom: 10px;
@@ -2754,7 +2755,7 @@ hr { margin-top: 60px;}
     width: 100%;
     padding: 8px 7px;
     position: relative;
-    left: -8px;
+    //left: -8px;
     font-size: 16px;
     text-align: center;
     margin-bottom: 10px;
@@ -6209,4 +6210,13 @@ a.feed-permalink {
 .ui-state-default :hover {
   background: $fadedblue;
   color: white;
+}
+
+.modal-backdrop.in {
+  filter: alpha(opacity=50);
+  opacity: .75;
+}
+
+.btn-default {
+  display: none;
 }
