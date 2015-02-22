@@ -2149,6 +2149,7 @@ a:focus {
   position: relative;
   display: inline-block;
   font-size: 0;
+  margin-left: 0px !important;
   white-space: nowrap;
   vertical-align: middle;
   margin-bottom: 10px;
@@ -2762,7 +2763,7 @@ hr { margin-top: 60px;}
     width: 100%;
     padding: 8px 7px;
     position: relative;
-    left: -8px;
+    //left: -8px;
     font-size: 16px;
     text-align: center;
     margin-bottom: 10px;
@@ -6158,3 +6159,73 @@ a.feed-permalink {
 //   height: 15px;
 //   width: 100%;
 // }
+
+/* Custom container */
+.container-full {
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Custom navbar */
+.navbar-brand ,.navbar-nav>li>a {
+    padding-left: 30px;
+    padding-right: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+} 
+.navbar-nav>.active>a {
+  opacity:.6;
+}
+
+.feeds {
+
+}
+
+.group h3 small {
+  font-size: 0.5em;
+}
+
+.inbtn {
+  height: 30px;
+  margin-bottom: -10px;
+}
+
+#datepicker :hover {
+  color: $fadedblue;
+}
+
+.ui-datepicker-header {
+  background-color: $fadedblue !important;
+  color: white !important;
+  border: none;
+  border-radius: 0px;
+  @include boldfont();
+}
+
+.ui-datepicker-month {
+  color: white;
+}
+
+.ui-datepicker-div {
+  background: white;
+  @include ffboxshadow();
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  background: white !important;
+  border: none !important;
+}
+
+.ui-state-default :hover {
+  background: $fadedblue;
+  color: white;
+}
+
+.modal-backdrop.in {
+  filter: alpha(opacity=50);
+  opacity: .75;
+}
+
+.btn-default {
+  display: none;
+}

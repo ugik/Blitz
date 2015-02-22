@@ -1669,6 +1669,7 @@ a:focus {
   position: relative;
   display: inline-block;
   font-size: 0;
+  margin-left: 0px !important;
   white-space: nowrap;
   vertical-align: middle;
   margin-bottom: 10px;
@@ -2268,7 +2269,6 @@ hr {
     width: 100%;
     padding: 8px 7px;
     position: relative;
-    left: -8px;
     font-size: 16px;
     text-align: center;
     margin-bottom: 10px;
@@ -5123,3 +5123,59 @@ a.feed-permalink {
 
 #table a {
   pointer: cursor; }
+
+/* Custom container */
+.container-full {
+  margin: 0 auto;
+  width: 100%; }
+
+/* Custom navbar */
+.navbar-brand, .navbar-nav > li > a {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+.navbar-nav > .active > a {
+  opacity: 0.6; }
+
+.group h3 small {
+  font-size: 0.5em; }
+
+.inbtn {
+  height: 30px;
+  margin-bottom: -10px; }
+
+#datepicker :hover {
+  color: #7ab2ea; }
+
+.ui-datepicker-header {
+  background-color: #7ab2ea !important;
+  color: white !important;
+  border: none;
+  border-radius: 0px;
+  font-family: 'proxima_novabold'; }
+
+.ui-datepicker-month {
+  color: white; }
+
+.ui-datepicker-div {
+  background: white;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1); }
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  background: white !important;
+  border: none !important; }
+
+.ui-state-default :hover {
+  background: #7ab2ea;
+  color: white; }
+
+.modal-backdrop.in {
+  filter: alpha(opacity=50);
+  opacity: 0.75; }
+
+.btn-default {
+  display: none; }
