@@ -11,7 +11,7 @@
 </div>
 <div class="actions">
 	<a class="btn btn-primary" id="datep" href="#" data-object-id="{{blitz.pk}}"><div class="startlabel">Starts: </div>
-<input type="text" class="datepicker inbtn" id="datepicker" name="begin_date" value="{{ blitz.begin_date|date:"m/d/Y" }}" style="height:20px;"></a>
+<input type="text" class="datepicker inbtn" id="datepicker" name="begin_date" value="{{ blitz.begin_date|date:"m/d/Y" }}" style="height:30px;"></a>
 
     {% if blitz.workout_plan %}
 	<a class="btn btn-primary" id="edit_program" onclick="{ document.getElementById('client_name').text='members of {{ blitz.title }}'; document.getElementById('edit_request').value='Here is what I want to change in the {{ blitz.workout_plan.name }} program...'; jQuery.noConflict(); $('#modalSpotterEdit').modal('show'); }">Edit Program</a>
