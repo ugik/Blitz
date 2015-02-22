@@ -7270,22 +7270,28 @@ a.feed-permalink {
 }
 
 /* line 6184, ../sass/style.scss */
-.group h3 small {
-  font-size: 0.5em;
+.group {
+  width: 100%;
 }
 
 /* line 6188, ../sass/style.scss */
+.group h3 small {
+  font-size: 0.4em;
+  margin-left: 20px;
+}
+
+/* line 6193, ../sass/style.scss */
 .inbtn {
   height: 30px;
   margin-bottom: -10px;
 }
 
-/* line 6193, ../sass/style.scss */
+/* line 6198, ../sass/style.scss */
 #datepicker :hover {
   color: #7ab2ea;
 }
 
-/* line 6197, ../sass/style.scss */
+/* line 6202, ../sass/style.scss */
 .ui-datepicker-header {
   background-color: #7ab2ea !important;
   color: white !important;
@@ -7294,12 +7300,12 @@ a.feed-permalink {
   font-family: 'proxima_novabold';
 }
 
-/* line 6205, ../sass/style.scss */
+/* line 6210, ../sass/style.scss */
 .ui-datepicker-month {
   color: white;
 }
 
-/* line 6209, ../sass/style.scss */
+/* line 6214, ../sass/style.scss */
 .ui-datepicker-div {
   background: white;
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
@@ -7307,40 +7313,40 @@ a.feed-permalink {
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
 
-/* line 6214, ../sass/style.scss */
+/* line 6219, ../sass/style.scss */
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   background: white !important;
   border: none !important;
 }
 
-/* line 6219, ../sass/style.scss */
+/* line 6224, ../sass/style.scss */
 .ui-state-default :hover {
   background: #7ab2ea;
   color: white;
 }
 
-/* line 6224, ../sass/style.scss */
+/* line 6229, ../sass/style.scss */
 .modal-backdrop.in {
   filter: alpha(opacity=50);
   opacity: .75;
 }
 
-/* line 6229, ../sass/style.scss */
+/* line 6234, ../sass/style.scss */
 .btn-default {
   display: none;
 }
 
-/* line 6233, ../sass/style.scss */
+/* line 6238, ../sass/style.scss */
 .input-row-fw > div.btn-group.bootstrap-select.full-width {
   margin-left: 0px !important;
 }
 
-/* line 6237, ../sass/style.scss */
+/* line 6242, ../sass/style.scss */
 #ajaxwrapper > .input-row-fw > .form-input {
   margin-left: 0px !important;
 }
 
-/* line 6242, ../sass/style.scss */
+/* line 6247, ../sass/style.scss */
 #ajaxwrapper > .input-row-fw > .field-label {
   margin-left: 5%;
 }
