@@ -6229,3 +6229,16 @@ a.feed-permalink {
 .btn-default {
   display: none;
 }
+
+.input-row-fw > div.btn-group.bootstrap-select.full-width {
+  margin-left: 0px!important;
+}
+
+#ajaxwrapper > .input-row-fw > .form-input {
+  margin-left: 0px!important;
+  
+}
+
+#ajaxwrapper > .input-row-fw > .field-label {
+  margin-left: 5%;
+}
