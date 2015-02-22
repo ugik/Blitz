@@ -75,7 +75,10 @@ def spotter_payments(request):
         if not test and client.balanced_account_uri == '':
             continue
 
-        start_date = blitz.begin_date
+        if client.date_created < blitz.begin_date:
+            start_date = blitz.begin_date
+        else:
+            start_date = client.date_created
 
         months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
 

@@ -1,4 +1,4 @@
-Dev work
+Dev work diary
 
 week of 9.8
 - reconstitute working localhost
@@ -275,7 +275,10 @@ week of 2.16
 - clean up/simplify usage report
 - change headshot image save dimensions to 300x300
 - improve program assign for spotter
-- use BlitzMember.price for MRR calc
+- use BlitzMember.price for price calc
+- html program start email
 - trainer workoutday log-workout preview
+- client program show current (relative) week and current week exercise videos
+- spotter payments trainer and month filters
 
 

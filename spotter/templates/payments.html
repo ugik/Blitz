@@ -43,7 +43,9 @@
 
 
      {% if trainer %}
-         <ul><li>{{ client.client.name }} <br> start date: {{ client.blitz.begin_date }} ({{ client.months }} months)</li>  
+         <ul><li>{{ client.client.name }} <br> 
+<small>  Program start date: {{ client.blitz.begin_date }} <br>
+         Client start date: {{ client.client.date_created }} ({{ client.months }} months)</small></li>  
          Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
      {% else %}
          <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.blitz.begin_date }} ({{ client.months }} months)</li>  
