@@ -176,6 +176,12 @@ Example @include keyframes
  }
 
 /**
+ * Overwrites
+ */
+.modal-backdrop.in {
+  opacity: 0.8; }
+
+/**
 Site styles
 **/
 html {
@@ -1672,7 +1678,8 @@ a:focus {
       width: 100%; } }
 
 .btn-group > .btn {
-  width: 33.33333%;
+  width: 100%;
+  font-size: 14px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
@@ -3507,6 +3514,9 @@ ul.spotternav li {
 
 .modal.fade.in {
   top: 0%; }
+
+.modal-backdrop {
+  height: 100%; }
 
 .modal-full.fade.in {
   top: 0;

@@ -43,15 +43,20 @@
 /**
  * Overwrites
  */
-
+.btn-group .btn {
+    width: 100%;
+    font-size: 14px;
+}
 body {
     height: 100% !important
 }
-
 .modal-full {
     position: absolute;
     top: 0;
     width: 0px;
+}
+.modal-backdrop.in {
+    opacity: 0.8;
 }
 nav .container {
     width: 100%;
@@ -592,7 +597,7 @@ ul.filters li.item:hover {
     color: #767577;
     border-bottom: #d9d9d9;
     margin-bottom: 40px;
-    margin-top: -70px;
+    margin-top: -60px;
 }
 
 .group .btn {

@@ -509,6 +509,13 @@ Example @include keyframes
   }
 }
 
+/**
+ * Overwrites
+ */
+.modal-backdrop.in {
+  opacity: 0.8;
+}
+
 
 /**
 Site styles
@@ -2150,7 +2157,8 @@ a:focus {
 }
 
 .btn-group>.btn {
-  width: 33.33333333%;
+  width: 100%;
+  font-size: 14px;
   @include borderbox {};
   @include tablet-portrait-and-up {};
   @include mobile-only {font-size: 12px;};
@@ -4128,6 +4136,7 @@ ul.spotternav li {
 }
 
 .modal-backdrop {
+  height: 100%;
 }
 
 .modal-full.fade.in {
