@@ -95,9 +95,9 @@
         <div class="col-md-12"><h3>Week {{ week.week }}:</h3>
         {% for day in week.days %}
             {% if week.days.count > 4 %}
-              <div class="col-md-2" style="margin-left: 0px; margin-right: 25px !important;">
+              <div class="col-md-2" style="margin-left: 0px; ">
             {% else %}
-              <div class="col-md-3" style="margin-left: 0px; margin-right: 20px;">
+              <div class="col-md-3" style="margin-left: 0px; ">
             {% endif %}
                 <div class="overview-block workout-day-block">
                     <div class="title">{{ day.day_of_week|day_name }}</div>
