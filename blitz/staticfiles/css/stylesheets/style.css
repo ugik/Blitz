@@ -7379,3 +7379,14 @@ a.feed-permalink {
     width: 100%;
   }
 }
+
+/* line 6285, ../sass/style.scss */
+.formpage-block input[type="number"] {
+  left: 0px;
+  margin-bottom: 10px;
+}
+
+/* line 6290, ../sass/style.scss */
+.formpage-block .input-container {
+  padding: 3px 0px;
+}
