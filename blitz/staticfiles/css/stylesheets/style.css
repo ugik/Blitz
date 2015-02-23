@@ -7396,3 +7396,8 @@ a.feed-permalink {
 #blitz-signup-form > div:nth-child(10) > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
   color: #333;
 }
+
+/* line 6299, ../sass/style.scss */
+.calendar-container table td {
+  padding-top: 5px;
+}

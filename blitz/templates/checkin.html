@@ -52,7 +52,8 @@
                 value="{{ checkin.weight|lbs_conversion:client }}"/> {{ client.units|weight_label }}
 
                 <input type="file" name="front_image" id="id_front_image" style="height:0; display:none;"/>
-                <label id="id_front_image" name="front_image" for="id_front_image" class="btn-outline "/>Front Photo</label>
+                <br / >
+                <label id="id_front_image" name="front_image" for="id_front_image" class="btn-outline " style="margin-top: 20px;"/>Front Photo</label>
 
             {% if checkin.front_image %}
             <img src="/media/{{ checkin.front_image }}" />
@@ -60,6 +61,7 @@
             {% endif %}
 
                 <input type="file" name="side_image" id="id_side_image" style="height:0; display:none;"/>
+                <br / >
                 <label id="id_side_image" name="side_image" for="id_side_image" class="btn-outline " style="margin-top: 30px;"/>Side Photo</label>
                 {% if checkin.side_image %}
                 <img src="/media/{{ checkin.side_image }}" />
