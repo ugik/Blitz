@@ -63,8 +63,9 @@ function save_client_setup() {
     <div class="clearfix"></div>
 {% endblock %}
 
-<div id="dashboard">
-	<div class="sidebar-left">
+
+<div class="row" id="dash" style="padding-top: 70px;">
+	<div class="col-md-3 clientlist fixed">
 		<div class="inner">
 			{% if clients or blitzes or invitees %}
 
@@ -153,14 +154,14 @@ function save_client_setup() {
 		</div> <!-- inner -->
 	</div> <!--/ sidebar-left -->
 
-	<div class="content-wrapper">
-		<div class="content">
+	<div class="col-md-6 col-md-offset-3 mobile-padding"><!-- feeds -->
+		<div class="">
 			<!-- Inbox Container -->
 			<div class="inbox-container">
 				<!-- Will be populated using AJAX -->
 			</div>
 
-			<div class="feeds" style="width: 100%!important;">
+			<div class="" style="width: 100%!important;">
 				<!-- Blitz group header -->
 				<div class="group hidden">
 					<!-- Will be populated using AJAX -->
@@ -211,9 +212,11 @@ function save_client_setup() {
 	        {% endif %}
 
 		</div> <!--/ feeds -->
+	</div>
+</div>
 
 		<!-- Summary -->
-		<div id="summary">
+		<div class="col-md-3 col-md-offset-9 summary fixed" id="summary">
 			{% if not clients and not blitzes %}
                 {% if invitees %}
 					{% comment %}
@@ -227,8 +230,8 @@ function save_client_setup() {
 
 		<div class="clearfix"></div>
 	    </div>
-	</div> <!--/ content -->
-    </div>
+	</div> <!--/ summary -->
+</div><!--/ row -->
 
 <!-- include modals -->
 {% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}

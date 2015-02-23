@@ -5041,9 +5041,9 @@ a.ui-state-default :hover {
 }
 
 .client-summary {
-  position: fixed;
-  border-left: 1px solid rgba(0,0,0,0.1);
-  height: 100%;
+  //position: fixed;
+  //border-left: 1px solid rgba(0,0,0,0.1);
+  //height: 100%;
 }
 
 #homepage-loading {
@@ -5132,7 +5132,7 @@ h3 a#name, a#blurb {
 
 #summary .sidebar-box {
   border-radius: 0px !important;
-  border: 1px solid rgba(0,0,0,0.1);
+  border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 .macro-toggle {
@@ -6326,4 +6326,60 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   @include mobile-only {
     font-size: 0.8em;
   }
+}
+
+#dash {
+  .col-md-3.clientlist {
+    background: url('../images/sidebar_background.png') #252322;
+    height: 100vh;
+    padding: 20px;
+    //width: 310px;
+    /*custom*/
+    /*position: absolute;*/
+    //position: fixed;
+    //top: 0;
+    //left: 0;
+    //bottom: 0;
+    //float: left;
+    //margin-top: 69px;
+    overflow-y: hidden;
+    z-index: 1;
+    @include mobile-only {
+      display: none;
+    }
+  }
+  .col-md-6 {
+    padding-top: 30px;
+  }
+  .col-md-3.summary {
+    background: #fafafb;
+    height: 100vh;
+    border-left: 1px solid #ddd;
+    margin-left: 77.5%;;
+    //width: 330px;
+    /* float: right; */
+    //position: fixed;
+    //top: 0;
+    //right: 0;
+    //bottom: 0;
+    //float: right;
+    //margin-top: 71px;
+    overflow-y: hidden;
+    z-index: 1;
+    padding: 0px;
+  }
+}
+
+.fixed {
+  position: fixed;
+}
+
+.mobile-padding {
+  @include mobile-only {
+    padding: 20px;
+  }
+}
+
+.summary.description ul {
+  margin-left: -20px
 }
