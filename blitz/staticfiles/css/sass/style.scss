@@ -1949,7 +1949,7 @@ a:focus {
 .blitz-login {
   //padding-top: 20%;
   text-align: center;
-  margin-bottom: -30px;
+  //margin-bottom: -30px;
   img {
     margin-top: 20%;
     display: block;
@@ -3043,6 +3043,12 @@ text-decoration: none;
     padding-right: 15px;
   }
 }
+
+.gender-container :hover {
+    cursor: pointer;
+  }
+
+
 .before-radio { float: left; padding-right: 15px; }
 
 #choose-another-headshot {
