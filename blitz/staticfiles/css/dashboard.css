@@ -360,10 +360,12 @@ ul.filters li.item:hover {
 #summary .section {
     border-top: 1px solid #c1c0c3;
     border-radius: none;
+    padding: 15px;
+    padding-right: 30px;
     /*  width: 326px; */
 }
 #summary .section:last-child {
-    border-bottom: 1px solid #c1c0c3;
+    /* border-bottom: 1px solid #c1c0c3; */
 }
 #summary .diet-goals {
     color: #9b999c;
@@ -451,7 +453,7 @@ ul.filters li.item:hover {
     color: #7ab2ea;
 }
 #summary .cover {
-    height: 230px;
+    /*  height: 230px; */
     color: #757476
 }
 #summary .cover img.client-picture {
@@ -559,6 +561,10 @@ ul.filters li.item:hover {
 .macro-history .weekSelector .glyphicon {
     color: #fff;
     font-weight: bold;
+}
+
+.macro-history table td {
+    padding-top: 0px!important;
 }
 /* TODO: Move to the correct place */
 

@@ -7463,7 +7463,13 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
 }
 
-/* line 6383, ../sass/style.scss */
-.summary.description ul {
+/* line 6384, ../sass/style.scss */
+.week-performance > .description ul {
+  margin-bottom: 0px;
+}
+
+/* line 6388, ../sass/style.scss */
+.week-performance > .description li {
   margin-left: -20px;
+  list-style-type: circle;
 }

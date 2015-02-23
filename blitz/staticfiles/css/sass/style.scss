@@ -6380,6 +6380,13 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
 }
 
-.summary.description ul {
-  margin-left: -20px
+
+.week-performance > .description ul {
+  margin-bottom: 0px;
+}
+
+.week-performance > .description li {
+  margin-left: -20px;
+  list-style-type: circle;
+  //margin-bottom: 0px;
 }
