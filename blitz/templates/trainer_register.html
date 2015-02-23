@@ -3,7 +3,7 @@
 {% block morehead %}
 
 <style type="text/css">
-    .blitz-login{ padding-left: 150px; padding-right: 150px; }
+    .blitz-login{ }
 </style>
 
 {% endblock %}
@@ -46,7 +46,7 @@
 
 
                     <div class="fieldWrapper full-width" style="float: left;">
-                        <select name="timezone" id="timezone-select" class="full-width" style="">
+                        <select name="timezone" id="timezone-select" class="full-width selectpicker">
                             {% for tz in timezones %}
                             {% if form.default_timezone %}
                             <option value="{{ tz }}"{% if tz == form.default_timezone.value %} selected="selected"{% endif %}>{{ tz }}</option>

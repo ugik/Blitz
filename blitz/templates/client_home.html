@@ -69,15 +69,23 @@
 
         {% if days_since_checkin > 14 %}
                 <div class="alert alert-info">
-                    It's been {{ days_since_checkin }} days since your last check-in.
-                    <a href="{% url "client_checkin"  %}">Check-in now</a>
+                    <div class="alert-text">
+                        It's been {{ days_since_checkin }} days since your last check-in.
+                    </div>
+                    <div class="alert-btn-wrap">
+                        <a href="{% url "client_checkin"  %}">Check-in now</a>
+                    </div>
                 </div>
         {% endif %}
 
         {% if days_since_blitz > 14 %}
                 <div class="alert alert-info">
-                    Time for a check-in.
-                    <a href="{% url "client_checkin"  %}">Check-in now</a>
+                    <div class="alert-text">
+                        Time for a check-in.
+                    </div>
+                    <div class="alert-btn-wrap">
+                        <a href="{% url "client_checkin"  %}">Check-in now</a>
+                    </div>
                 </div>
         {% endif %}
 

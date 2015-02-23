@@ -72,7 +72,8 @@
 
 {% block main %}
 {% if client or blitz.workout_plan %}
-    <div class="col-md-8">
+    <div class="col-md-9">
+      <div class="col-md-12">
         <div class="overview-top-content overview-block">
             <div class="content">
                 <b>{{ blitz.title }}</b>
@@ -87,17 +88,21 @@
                 {% endif %}
             </div>
         </div>
+      </div>
     </div>
 {% endif %}
 
 {% if blitz.workout_plan %}
     {% for week in blitz.workout_plan.weeks %}
-        <div class="col-md-12"><h3>Week {{ week.week }}:</h3>
+        <div class="col-md-12">
+          <div class="col-md-12">
+            <h3>Week {{ week.week }}:</h3>
+          </div>
         {% for day in week.days %}
             {% if week.days.count > 4 %}
-              <div class="col-md-2" style="margin-left: 0px; margin-right: 25px !important;">
+              <div class="col-md-2" style="margin-left: 0px; ">
             {% else %}
-              <div class="col-md-3" style="margin-left: 0px; margin-right: 20px;">
+              <div class="col-md-3" style="margin-left: 0px; ">
             {% endif %}
                 <div class="overview-block workout-day-block">
                     <div class="title">{{ day.day_of_week|day_name }}</div>
