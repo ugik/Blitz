@@ -2310,9 +2310,10 @@ background-position: 0 -30px;
 }
 
 .macro-day-cell {
-  height: 30px;
+   height: 50px;
+   padding-top: 10px;
   i {
-    font-size: 20px;
+    font-size: 29px;
   }
   i.pass {
     color: $blitz-green;
@@ -5185,12 +5186,13 @@ h3 a#name, a#blurb {
 }
 
 .diet-progress-stats {
+    font-size: 13px;
     background: none repeat scroll 0% 0% #7AB2EA;
     padding-top: 3px;
     margin: 0px auto;
     display: block;
     width: 29px;
-    height: 25px;
+    height: 29px;
     color: #FFF;
     border-radius: 28px;
 }
@@ -5410,14 +5412,14 @@ input.macro-input {
   border-radius: 4px !important;
   //background: transparent;
   //color: white;
-  height: 10px;
-  padding: 15px 0px !important;
+  height: 30px;
+  padding: 8px 0px !important;
   width: 40px;
   margin-bottom: -0px;
   @include mobile-only {
     padding: 15px 15px !important;
-  margin-left: -15px;
-  margin-top: -15px;
+    margin-left: -15px;
+    margin-top: -15px;
   }
 }
 
@@ -5508,6 +5510,15 @@ a#logo2.branding {
     display: block;
     padding: 5px;
   }
+}
+
+.macro-form .goal .title {
+  height: 29px;
+  padding: 5px;
+  color: #FFF;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  font-family: "metanormal_caps";
 }
 
 #account-block {
@@ -6226,6 +6237,6 @@ a.feed-permalink {
   opacity: .75;
 }
 
-.btn-default {
-  display: none;
-}
+// .btn-default {
+//   display: none;
+// }

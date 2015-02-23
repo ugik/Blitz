@@ -376,6 +376,7 @@ ul.filters li.item:hover {
 #summary .macro-day-cell {
     font-weight: bold;
     height: 30px;
+    padding-top: 0px;
 }
 #summary .macro-history .week p {
     margin: 0px;
@@ -383,9 +384,9 @@ ul.filters li.item:hover {
 }
 /* TODO: Replace with Font Awesome Icon */
 
-#summary .macro-day-cell .glyphicon-ok-sign, #summary .macro-day-cell .glyphicon-remove-sign, #summary .macro-day-cell .glyphicon-question-sign {
+/*#summary .macro-day-cell .glyphicon-ok-sign, #summary .macro-day-cell .glyphicon-remove-sign, #summary .macro-day-cell .glyphicon-question-sign {
     font-size: 29px;
-}
+}*/
 #summary .diet-progress-stats {
     background: none repeat scroll 0% 0% #7AB2EA;
     padding-top: 3px;
