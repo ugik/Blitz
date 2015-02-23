@@ -4589,10 +4589,16 @@ a#secondary_logo.navbar-brand {
 
 }
 
+#salespageblitzlogo {
+  float: right;
+  text-align: right;
+}
+
 #salespageblitzlogo img {
   height: 60px;
   width: 60px;
-  padding: 20px;
+  float: right;
+  //padding: 20px;
   @include tablet-portrait-and-below {
     display: none;
   }
