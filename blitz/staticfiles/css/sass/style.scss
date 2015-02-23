@@ -4467,7 +4467,7 @@ a#secondary_logo.navbar-brand {
   text-align: right;
   background: black;
   border: 1px solid rgba(255,255,255,0.1);
-  margin: 0px -20px;
+  margin: 0px auto;
   padding: 10px;
 }
 
@@ -6256,4 +6256,16 @@ a.feed-permalink {
 
 #ajaxwrapper > .input-row-fw > .field-label {
   margin-left: 5%;
+}
+
+.mobile-margin-top {
+  @include mobile-only {
+    margin-top: 10px;
+  }
+}
+
+.mobile-fw {
+  @include mobile-only {
+    width: 100%;
+  }
 }
