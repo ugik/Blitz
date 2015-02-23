@@ -6290,3 +6290,7 @@ a.feed-permalink {
 .formpage-block .input-container {
   padding: 3px 0px;
 }
+
+#blitz-signup-form > div:nth-child(10) > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
+  color: #333;
+}
