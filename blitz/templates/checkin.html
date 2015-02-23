@@ -5,6 +5,9 @@
 {% load units_tags %}
 
 {% block morehead %}
+    <style type="text/css">
+        #main-content-container {min-height: 550px;};
+    </style>
 {% endblock %}
 
 {% block above_content %}
@@ -34,13 +37,13 @@
 {% endblock %}
 
 {% block main %}
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-4 col-md-offset-4">
         <div class="overview-top-content overview-block">
         <div class="content">
 
 <br>
-    <p style="margin-bottom: 20px;">
-        Time to update your weight and take some progress photos. This is really important to see how you're progressing and make adjustments to your plan, if necessary. Plus it'll be fun to look back at later ;-) 
+    <p style="margin-bottom: 20px; margin-top: -10px; text-align: center;">
+        Time to update your weight and take some progress photos. This is really important to see how you're progressing and make adjustments to your program. Plus, it'll be great motivation to look at later.
     </p>
 
     <form name="pictureForm" id="pictureForm" enctype="multipart/form-data" action="" method="post">
@@ -53,7 +56,7 @@
 
                 <input type="file" name="front_image" id="id_front_image" style="height:0; display:none;"/>
                 <br / >
-                <label id="id_front_image" name="front_image" for="id_front_image" class="btn-outline " style="margin-top: 20px;"/>Front Photo</label>
+                <label id="id_front_image" name="front_image" for="id_front_image" class="btn-outline full-width" style="margin-top: 20px;"/>+ Front Photo</label>
 
             {% if checkin.front_image %}
             <img src="/media/{{ checkin.front_image }}" />
@@ -62,7 +65,7 @@
 
                 <input type="file" name="side_image" id="id_side_image" style="height:0; display:none;"/>
                 <br / >
-                <label id="id_side_image" name="side_image" for="id_side_image" class="btn-outline " style="margin-top: 30px;"/>Side Photo</label>
+                <label id="id_side_image" name="side_image" for="id_side_image" class="btn-outline full-width" style="margin-top: 30px;"/>+ Side Photo</label>
                 {% if checkin.side_image %}
                 <img src="/media/{{ checkin.side_image }}" />
                 {% endif %}

@@ -63,6 +63,14 @@ $error-red: #ed2a44;
   font-family: 'proxima_novalight';
 }
 
+@mixin vertical() {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 @mixin borderradius($size) {
   -webkit-border-radius: $size;
   -moz-border-radius: $size;
@@ -1311,6 +1319,7 @@ a.edit-workout-link {
             .detail {
               @include tablet-portrait-only {font-size: 0.8em;};
               box-sizing: border-box;
+              font-size: 0.8em;
               border-top: 1px solid rgba(255,255,255,0.3);
               height: 25px;
               padding-top: 4px;
@@ -5954,7 +5963,7 @@ a#name, a#plan_name, a#client_name {
 
 .topcut {
   @include tablet-landscape-and-up {
-    height: 600px;
+    height: 520px;
   }
 }
 
@@ -6298,4 +6307,23 @@ a.feed-permalink {
 
 .calendar-container table td {
   padding-top: 5px;
+}
+
+.navbar-inverse {
+  background: #222;
+  background-image: none;
+}
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav>li>a {
+  text-shadow: none;
+}
+
+label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover {
+  cursor: pointer;
+}
+
+.mobile-text-shrink {
+  @include mobile-only {
+    font-size: 0.8em;
+  }
 }
