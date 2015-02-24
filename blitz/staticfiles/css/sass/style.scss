@@ -6342,7 +6342,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
     //bottom: 0;
     //float: left;
     //margin-top: 69px;
-    overflow-y: hidden;
+    overflow-y: scroll;
     z-index: 1;
     @include mobile-only {
       display: none;
@@ -6350,6 +6350,9 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
   .col-md-6 {
     padding-top: 30px;
+    @include mobile-only {
+      margin-top: 40px;
+    }
   }
   .col-md-3.summary {
     background: #fafafb;
@@ -6364,7 +6367,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
     //bottom: 0;
     //float: right;
     //margin-top: 71px;
-    overflow-y: hidden;
+    overflow-y: scroll;
     z-index: 1;
     padding: 0px;
   }
@@ -6372,6 +6375,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 
 .fixed {
   position: fixed;
+  //overflow: scroll;
 }
 
 .mobile-padding {
@@ -6389,4 +6393,25 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   margin-left: -20px;
   list-style-type: circle;
   //margin-bottom: 0px;
+}
+
+.mobileclientpick {
+  background: black;
+  color: white;
+  @include tablet-portrait-and-up {
+    display: none;
+  }
+}
+
+.profilelink {
+  background: green;
+  color: white;
+  @include tablet-portrait-and-up {
+    display: none;
+  }
+}
+
+.bottom {
+  transform: translate3d(0, 125%, 0);
+  -webkit-transform: translate3d(0, 125%, 0);
 }
