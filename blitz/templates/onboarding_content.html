@@ -23,7 +23,13 @@
 
 		<br />
         <p class="intro-blurb">
+            {% if client.get_blitz.begin_date > client.current_datetime.date %}
         	The program doesn't officially start until {{ client.get_blitz.begin_date|date:"F jS" }}, but you can still check things out between now and then. Feel free to comment and introduce yourself to the rest of the group.
+            {% elif client.get_blitz.begin_date < client.current_datetime.date %}
+        	The program started on {{ client.get_blitz.begin_date|date:"F jS" }}, let's get to it!
+            {% else %}
+                The program begins today. Very exciting!
+            {% endif %}
         </p>
         <a id="video-continue" class="obtn obtn-comment intro-modal-close">Let's go! →</a>
     </div>

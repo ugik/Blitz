@@ -523,6 +523,9 @@ class Client(models.Model):
     def current_datetime(self):
         return self.get_timezone().normalize(timezone_now())
 
+    def current_datetime_date(self):
+        return self.get_timezone().normalize(timezone_now()).date()
+
     def macro_target_for_date(self, date):
         spec = self.macro_target_spec()
         if spec:

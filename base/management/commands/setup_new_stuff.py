@@ -125,6 +125,8 @@ class Command(BaseCommand):
             tay = create_client("Tayshaun Prince", "tay@example.com", "asdf", 35, 200, 6, 9, 'M')
             tay.headshot_from_image(settings.TEST_MEDIA_DIR + '/tayshaun_prince.png')
             add_client_to_blitz(blitz, tay)
+            tay.date_created = blitz.begin_date - timedelta(days = 10)   # force lateness to program
+            tay.save()
 
         clients = [luke, tay, joe]
 

@@ -49,6 +49,7 @@ urlpatterns += patterns(
     url(r'^profile/c/(?P<pk>\d+)/progress$', 'base.views.client_profile_progress', name='client_profile_progress'),
     url(r'^profile/c/(?P<pk>\d+)/history$', 'base.views.client_profile_history', name='client_profile_history'),
     url(r'^profile/c/(?P<pk>\d+)/checkins$', 'base.views.client_profile_checkins', name='client_profile_checkins'),
+    url(r'^profile-basic$', 'base.views.set_up_profile_basic', name='profile_basic'),
 
     url(r'^profile/c/(?P<pk>\d+)/set-macros', 'base.views.set_client_macros', name='set_client_macros'),
 

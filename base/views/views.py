@@ -1414,8 +1414,12 @@ def checkin_like(request):
 def gym_session_unlike(request):
 
     gym_session = GymSession.objects.get(pk=int(request.POST['gym_session_pk']))
-    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
-    gym_session_like.delete()
+    gym_session_like = GymSessionLike.objects.filter(user=request.user, gym_session=gym_session)
+    if gym_session_like:    # handle unlikely case of multiple likes for user/session
+        gym_session_like[0].delete()
+
+#    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
+#    gym_session_like.delete()
 
     content_type = ContentType.objects.get_for_model(gym_session)
     feed_item = FeedItem.objects.get(content_type=content_type, object_id=gym_session.pk)
@@ -2277,7 +2281,10 @@ def set_up_profile_basic(request):
                                  macros_data=invite.macro_target_json)
 
             request.session['intro_stage'] = 'photo'
-            return redirect('set_up_profile')
+            if 'reset' in request.GET:
+                return redirect('/')
+            else:
+                return redirect('set_up_profile')
 
     else:
         form = Intro1Form()
@@ -2285,6 +2292,7 @@ def set_up_profile_basic(request):
     return render(request, 'signup/basic.html', {
         'client': client,
         'form': form,
+        'reset': 'reset' in request.GET,
     })
 
 

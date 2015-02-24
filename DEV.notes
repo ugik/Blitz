@@ -281,4 +281,9 @@ week of 2.16
 - client program show current (relative) week and current week exercise videos
 - spotter payments trainer and month filters
 
+week of 2.23
+- client program workout day hover-over showing description
+- client settings reset in settings
+- fix date references in client signup intro
+
 
