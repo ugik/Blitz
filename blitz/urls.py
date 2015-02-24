@@ -26,7 +26,7 @@ urlpatterns += patterns(
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hijack/', include('hijack.urls')),
 
-    url("^custom-trainer-page$", TemplateView.as_view(template_name="custom_trainer_page.html"), name="custom_trainer_page"),
+    url("^trainer/marc$", TemplateView.as_view(template_name="custom_trainer_page_marc.html"), name="custom_trainer_page_marc"),
 
     url(r'^allclients$', 'base.views.all_clients', name='all_clients'),
 
