@@ -81,33 +81,31 @@
     <form action="#" method="post" class="log-workout-form">
         {% csrf_token %}
 
-        <div class="accordion">
-
+        <div class="panel-group" id="accordion">
             {% for group in grouped_sets %}
-
-                <div class="accordion-group exercise-group" data-exercise="{{ group.lift.slug }}" data-weight_or_body="{% if group.lift.weight_or_body %}yes{% else %}no{% endif %}" >
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" href="#collapse-{{ group.lift.slug }}">
-                            {{ group.lift }}: <span class="small">{{ group.title }}</span>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="heading-{{ group.lift.slug }}">
+                    <h4 class="panel-title">
+                        <a {% if not forloop.first %}class="collapsed" {% endif %} data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.lift.slug }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse-{{ group.lift.slug }}">
+                          {{ group.lift }}: <span class="small">{{ group.title }}</span>
                         </a>
-                    </div>
-                    <div id="collapse-{{ group.lift.slug }}" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-
-                            <div class="last-lift">
+                    </h4>
+                </div>
+                <div id="collapse-{{ group.lift.slug }}" class="panel-collapse collapse {% if forloop.first %}in{% endif %}" role="tabpanel" aria-labelledby="heading-{{ group.lift.slug }}">
+                    <div class="panel-body">
+                        <div class="last-lift">
                             {% if not group.lift_summary.has_completed %}
                             &nbsp;
                             {% else %}
-                                <p>Last time, you did
-                                  {% if group.lift_summary.last_session %}
-                                    {% for a in group.lift_summary.last_session %}
-                                    {% if a.display_str = '' %}<small>(none)</small>{% else %}
-                                    {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}{% endif %}
-                                    {% endfor %}.
-                                  {% else %}<small>(none)</small>{% endif %}
-                                </p>
+                            <p>Last time, you did
+                              {% if group.lift_summary.last_session %}
+                                {% for a in group.lift_summary.last_session %}
+                                {% if a.display_str = '' %}<small>(none)</small>{% else %}
+                                {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}{% endif %}
+                                {% endfor %}.
+                              {% else %}<small>(none)</small>{% endif %}
+                            </p>
                             {% endif %}
-                            </div>
 
                             {% if group.lift.weight_or_body and group.lift.allow_weight_or_body %}
                             <div class="set-container">
@@ -149,22 +147,21 @@
                                     </div>
                                 </div>
                             {% endfor %}
-
-                        <div class="set-container">
-                            <a class="save-sets obtn"
-                                    data-sets="{% for set_info in group.set_infos %}{{ set_info.workout_set.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
-                                    data-week_number="{{ plan_day.get_week }}"
-                                    data-day_char="{{ plan_day.day_of_week }}"
-                                    data-lift="{{ group.lift.slug }}" >
-                                {% if group.exercise.num_sets > 1 %}Save These Sets{% else %}Save This Set{% endif %}
-                            </a>
+                            <div class="set-container">
+                                <a class="save-sets obtn"
+                                        data-sets="{% for set_info in group.set_infos %}{{ set_info.workout_set.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                                        data-week_number="{{ plan_day.get_week }}"
+                                        data-day_char="{{ plan_day.day_of_week }}"
+                                        data-lift="{{ group.lift.slug }}" >
+                                    {% if group.exercise.num_sets > 1 %}Save These Sets{% else %}Save This Set{% endif %}
+                                </a>
+                            </div>
                         </div>
-
-                        </div>
-                    </div>
-                </div>
+                    </div><!-- panel-body -->
+                </div><!-- panel-collapse -->
+            </div><!-- panel -->
             {% endfor %}
-        </div>
+        </div><!--/ panel-group -->
 
         <div class="notes-container">
             <textarea id="workout-notes" name="notes" placeholder="Additional notes..." >{{ gym_session.notes }}</textarea>
