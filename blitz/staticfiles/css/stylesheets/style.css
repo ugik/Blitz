@@ -7365,31 +7365,39 @@ a.feed-permalink {
 }
 
 /* line 6235, ../sass/style.scss */
+.price-plan {
+  min-height: 570px;
+}
+
+/* line 6239, ../sass/style.scss */
 .price-plan h3 {
   font-size: 1.2em;
   font-family: 'proxima_novabold';
   text-align: left;
 }
 
-/* line 6241, ../sass/style.scss */
+/* line 6245, ../sass/style.scss */
 .price-plan ul {
   margin-bottom: 30px;
+  margin-left: 15px;
 }
 
-/* line 6245, ../sass/style.scss */
+/* line 6250, ../sass/style.scss */
 .price-plan ul li {
   margin-bottom: 15px;
-  font-size: 0.85em;
+  font-size: 0.8em;
   list-style-type: circle;
   text-align: left;
+  letter-spacing: -0.25px;
 }
 
-/* line 6253, ../sass/style.scss */
+/* line 6259, ../sass/style.scss */
 .span8 .message {
   font-family: 'proxima_novalight';
+  font-size: 1em;
 }
 
-/* line 6257, ../sass/style.scss */
+/* line 6264, ../sass/style.scss */
 .getting-started {
   font-family: 'proxima_novalight';
   line-height: 1.4;

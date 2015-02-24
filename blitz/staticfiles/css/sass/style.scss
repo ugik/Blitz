@@ -6232,6 +6232,10 @@ a.feed-permalink {
     }
   }
 
+.price-plan {
+  min-height: 570px;
+}
+
 .price-plan h3 {
   font-size: 1.2em;
   @include boldfont();
@@ -6240,18 +6244,21 @@ a.feed-permalink {
 
 .price-plan ul {
   margin-bottom: 30px;
+  margin-left: 15px;
 }
 
 .price-plan ul li {
   //line-height: 1.75;
   margin-bottom: 15px;
-  font-size: 0.85em;
+  font-size: 0.8em;
   list-style-type: circle;
   text-align: left;
+  letter-spacing: -0.25px;
 }
 
 .span8 .message {
   @include lightfont();
+  font-size: 1em;
 }
 
   .getting-started {
