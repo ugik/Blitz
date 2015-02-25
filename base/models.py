@@ -720,6 +720,8 @@ class Blitz(models.Model):
             return self.loop_end_date()
         if self.provisional: 
             return self.begin_date
+        if self.num_weeks > 0:
+            return self.begin_date + datetime.timedelta(days=7*self.num_weeks())
         if self.workout_plan and map( lambda x: x, set(self.iterate_workouts()) ):
             return map( lambda x: x, set(self.iterate_workouts()) )[-1][0]
         return self.begin_date  # last resort 

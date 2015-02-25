@@ -21,4 +21,4 @@ python manage.py migrate --all
 python manage.py setup_test_env --traceback
 python manage.py setup_new_stuff --traceback
 python manage.py setup_headings --traceback
-python manage.py setup_charge_env --traceback
+#python manage.py setup_charge_env --traceback
