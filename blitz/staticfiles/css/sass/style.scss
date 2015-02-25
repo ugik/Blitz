@@ -6211,6 +6211,76 @@ a.feed-permalink {
   
 }
 
+
+
+.mobilepad {
+  @include mobile-only {
+    padding: 20px;
+  }
+}
+
+.price {
+    color: #9dbfff;
+}
+
+.price h2 {
+    line-height: 1;
+    @include pnmacrosfont();
+    font-size: 1.4em;
+    font-weight: lighter!important;
+    margin-top: 20px;
+    margin-bottom: -2px;
+    @include mobile-only {
+      font-size: 2.5em;
+    }
+  }
+
+
+.price small {
+    width: 100%;
+    font-size: 0.25em;
+    @include mobile-only {
+      font-size: 0.3em;
+      margin-bottom: 60px;
+    }
+  }
+
+.price-plan {
+  min-height: 570px;
+}
+
+.price-plan h3 {
+  font-size: 1.2em;
+  @include boldfont();
+  text-align: left;
+}
+
+.price-plan ul {
+  margin-bottom: 30px;
+  margin-left: 15px;
+}
+
+.price-plan ul li {
+  //line-height: 1.75;
+  margin-bottom: 15px;
+  font-size: 0.8em;
+  list-style-type: circle;
+  text-align: left;
+  letter-spacing: -0.25px;
+}
+
+.span8 .message {
+  @include lightfont();
+  font-size: 1em;
+}
+
+  .getting-started {
+    @include lightfont();
+    line-height: 1.4;
+    font-size: 0.9em;
+  }
+
+
 // .spacer {
 //   display: block;
 //   height: 15px;
