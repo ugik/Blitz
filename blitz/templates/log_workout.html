@@ -123,28 +123,35 @@
                                     <div class="set-error" style="display:none;" data-set_pk="{{ set_info.workout_set.pk }}">
 
                                     </div>
-                                    <div class="workout-input workout-input-weight input-append" {% if group.lift.weight_or_body %}style="display:none;"{% endif %}>
-                                        <input type="number" step="any"
-                                               class="input-small"
-                                               name="set-{{ set_info.workout_set.pk }}-weight"
-                                               {% if set_info.completed_set %}value="{{ set_info.completed_set.weight_in_lbs|lbs_conversion:client }}"{% endif %}
-                                                />
-                                        <span class="add-on">{{ client.units|weight_label }}</span>
+
+                                    <div class="col-md-6">
+                                        <div class="workout-input workout-input-weight input-group" {% if group.lift.weight_or_body %}style="display:none;"{% endif %}>
+                                            <input type="number" step="any"
+                                                   class="form-control"
+                                                   name="set-{{ set_info.workout_set.pk }}-weight"
+                                                   {% if set_info.completed_set %}value="{{ set_info.completed_set.weight_in_lbs|lbs_conversion:client }}"{% endif %}
+                                                    />
+                                            <span class="input-group-addon">{{ client.units|weight_label }}</span>
+                                        </div>    
                                     </div>
-                                    <div class="workout-input workout-input-reps input-append">
-                                        <input type="number" step="any"
-                                               class="input-small"
-                                               name="set-{{ set_info.workout_set.pk }}-reps"
-                                               {% if set_info.completed_set %}
-                                               value="{{ set_info.completed_set.num_reps_completed }}"
-                                               {% else %}
-                               value="{{ set_info.workout_set|custom_workoutset_num_reps:client }}"
-                                               {% endif %}
-                                                />
-                                        <span class="add-on">
-                                            {% if group.lift.lift_type == "I" %}secs{% else %}reps{% endif %}
-                                        </span>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="workout-input workout-input-reps input-group">
+                                            <input type="number" step="any"
+                                                   class="form-control"
+                                                   name="set-{{ set_info.workout_set.pk }}-reps"
+                                                   {% if set_info.completed_set %}
+                                                   value="{{ set_info.completed_set.num_reps_completed }}"
+                                                   {% else %}
+                                   value="{{ set_info.workout_set|custom_workoutset_num_reps:client }}"
+                                                   {% endif %}
+                                                    />
+                                            <span class="input-group-addon">
+                                                {% if group.lift.lift_type == "I" %}secs{% else %}reps{% endif %}
+                                            </span>
+                                        </div>    
                                     </div>
+
                                 </div>
                             {% endfor %}
                             <div class="set-container">
