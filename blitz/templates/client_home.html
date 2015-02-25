@@ -57,7 +57,7 @@
             {% endif %}
         {% endif %}
 
-        {% if not client.get_blitz.recurring %}
+        {% if client.get_blitz.group %}
             {% with client.other_blitz_members as members %}
                 {% include "members.html" %}
             {% endwith %}
@@ -94,7 +94,7 @@
             {% for day, workout_day in missed_workouts %}
                 <div class="alert alert-info">
                     <div class="alert-text">
-                        You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}.
+                        You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}
                     </div>
                     <div class="alert-btn-wrap">
                         <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Go log it now</a>
@@ -109,7 +109,7 @@
             <table>
                 <tr>
                     <td width="97%">
-                        <textarea id="add-comment" name="comment" class="expanding" placeholder="Do you even lift?" rows="1"></textarea>
+                        <textarea id="add-comment" name="comment" class="expanding" placeholder="How's your training going?" rows="1"></textarea>
                     </td>
                     <td class="photobutton" valign="top">
                         <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>

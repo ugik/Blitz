@@ -15,18 +15,19 @@ from django.core.mail import mail_admins
 from django.db.models import Q
 from django.core.urlresolvers import resolve
 from spotter.urls import *
+from itertools import chain
 from ipware.ip import get_ip
 
 import balanced
 import analytics
 
-from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
+from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, CreateAccountFormFree, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
 from workouts import utils as workout_utils
 from base.utils import get_feeditem_html, get_client_summary_html, get_invitee_summary_html, get_blitz_group_header_html, JSONResponse, grouped_sets_with_user_data, get_lift_history_maxes, create_salespagecontent, try_float, blitz_macros_set, invitee_macros_set, save_file
 from base import utils
 from base.emails import client_invite, signup_confirmation, email_spotter_program_edit, email_spotter_program_upload
 
-from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
+from base.models import Trainer, FeedItem, GymSession, CompletedSet, Comment, CommentLike, Client, Blitz, BlitzInvitation, BlitzMember, WorkoutSet, GymSessionLike, CheckInLike, TrainerAlert, SalesPageContent, CheckIn, Heading, Scout
 from workouts.models import WorkoutPlan, WorkoutPlanDay
 
 from base.templatetags import units_tags
@@ -52,9 +53,10 @@ import urllib2
 analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 
 MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT')
-MEDIA_URL =  getattr(settings, 'MEDIA_URL')
+MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
 
+ANALYTICS = False   # analytics layer override
 
 #====================================
 # Helper Functions
@@ -62,11 +64,11 @@ STATIC_URL = getattr(settings, 'STATIC_URL')
 
 # central functions for back-end analytics
 def analytics_track(user_id, label, dict):
-    if not settings.DEBUG:
+    if not settings.DEBUG and ANALYTICS:
         analytics.track(user_id, label, dict)
 
 def analytics_id(request, user_id, traits):
-    if not settings.DEBUG:
+    if not settings.DEBUG and ANALYTICS:
         ip = get_ip(request)
         if not ip:
             ip = '(unknown)'
@@ -86,6 +88,7 @@ def handle_uploaded_file(f):
             destination.write(chunk)
 
     return full_path
+
 
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
@@ -157,7 +160,11 @@ def blitz_setup(request):
     analytics_track(str(request.user.id), 'blitz-setup', {'name': request.user.trainer.name,})
 
     trainer = request.user.trainer
+    empty_program = WorkoutPlan()
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
+    empty_plan = [WorkoutPlan()]
+
+    programs = list(chain(empty_plan, programs))
 
     # handle re-entrant modal
     modalBlitz = True if 'modalBlitz' in request.GET else False
@@ -167,7 +174,7 @@ def blitz_setup(request):
     # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
     # list of blitzes for salespages does not include recurring blitzes assigned to clients
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
 
     if request.method == 'POST':
 
@@ -204,7 +211,10 @@ def blitz_setup(request):
 
             if 'program' in form.data:
                 program_pk = form.data['program']
-                plan = WorkoutPlan.objects.get(pk=program_pk)
+                if program_pk and program_pk != 'None':
+                    plan = WorkoutPlan.objects.get(pk=program_pk)
+                else:
+                    plan = None
             else:
                 plan = None
 
@@ -221,9 +231,11 @@ def blitz_setup(request):
             blitz.price = charge
             blitz.uses_macros = True
             blitz.macro_strategy = 'M'
+ 
             blitz.recurring = False if forceGroup or form.data['blitz_type'] == "GRP" else True
+            blitz.group = True if forceGroup or form.data['blitz_type'] == "GRP" else False
             blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"
-            blitz.provisional = True if blitz.recurring else False
+            blitz.provisional = True if not blitz.group else False
             blitz.save()
 
             return render_to_response('blitz_setup_done.html', 
@@ -298,9 +310,12 @@ def client_blitz_setup(request, pk):
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
 
+    empty_plan = [WorkoutPlan(name="TBD")]    # add empty workoutplan to list
+    workoutplans = list(chain(workoutplans, empty_plan))
+
     # load salespages template data (modal can be re-entrant through salespages page)
     salespages = SalesPageContent.objects.filter(trainer=trainer)
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
 
     if request.method == 'POST':
         form = NewClientForm(request.POST)
@@ -320,8 +335,9 @@ def client_blitz_setup(request, pk):
             if 'price' in form.cleaned_data and form.cleaned_data['price']:
                 invitation.price = form.cleaned_data['price']
             if 'workoutplan_id' in form.cleaned_data and form.cleaned_data['workoutplan_id']:
-                workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
-                invitation.workout_plan = workoutplan
+                if form.cleaned_data['workoutplan_id'] != 'None':
+                    workoutplan = get_object_or_404(WorkoutPlan, id=form.cleaned_data['workoutplan_id'] )
+                    invitation.workout_plan = workoutplan
 
             invitation.save()
             client_invite(trainer, [form.cleaned_data['email']], invite_url, blitz)
@@ -710,8 +726,8 @@ def my_salespages(request):
     # load data needed for client-setup and blitz-setup modal(s)
     trainer = request.user.trainer
     salespages = SalesPageContent.objects.filter(trainer=trainer)
-    # sales pages for trainer's Blitzes that are either provisional or not recurring
-    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(recurring=False)))
+    # sales pages for trainer's Blitzes that are either provisional or group
+    blitzes = Blitz.objects.filter(Q(trainer=trainer) & (Q(provisional=True) | Q(group=True)))
     programs = WorkoutPlan.objects.filter(trainer_id = trainer.id)
 
     return render(request, 'trainer_salespages.html', {
@@ -921,6 +937,44 @@ def log_workout(request, week_number, day_char):
     })
 
 @login_required
+def preview_workout(request, workoutplan_pk, week_number, day_char):
+
+    error = None
+    client = Client.objects.get(pk=1)
+    workoutplan = WorkoutPlan.objects.get(pk=workoutplan_pk)
+    plan_day = workoutplan.get_workout_for_day(int(week_number), day_char)
+    if plan_day is None:
+        raise Http404
+    gym_session = GymSession.objects.create(
+        date_of_session = datetime.datetime.now().date(),
+        workout_plan_day = plan_day,
+        client=client
+        )
+
+    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, client, gym_session.date_of_session)
+    for group in grouped_sets:
+        group['set_infos'] = []
+        for workout_set in group['sets']:
+            set_info = {}
+            set_info['workout_set'] = workout_set
+            set_info['completed_set'] = None            
+            group['set_infos'].append(set_info)
+
+        group['lift_summary'] = client.lift_summary(group['lift'])
+
+    gym_session.delete()
+
+    return render(request, 'log_workout.html', {
+        'client': client,
+        'plan_day': plan_day,
+        'workout': plan_day.workout,
+        'workoutplan': workoutplan,
+        'grouped_sets': grouped_sets,
+        'preview': True,
+    })
+
+
+@login_required
 @csrf_exempt
 def save_sets(request):
 
@@ -936,7 +990,10 @@ def save_sets(request):
 
     week_number = int(request.POST['week_number'])
     day_char = request.POST['day_char']
-    set_pks = [int(s) for s in request.POST['sets'].split(',')]
+    try:
+        set_pks = [int(s) for s in request.POST['sets'].split(',')]
+    except:
+        set_pks = None
 
     client = request.user.client
     blitz = client.get_blitz()
@@ -952,15 +1009,18 @@ def save_sets(request):
     )[0]
 
     has_error = False
-    set_errors = { pk: "" for pk in set_pks } # map of pk -> error
-    for pk in set_pks:
-        workout_set = WorkoutSet.objects.get(pk=pk)
-        is_error, item = validate_set_from_post(request.POST, workout_set)
-        if is_error:
-            set_errors[pk] = item
-            has_error = True
-        else:
-            save_set_to_session(gym_session, workout_set, item)
+    set_errors = None
+
+    if set_pks:
+        set_errors = { pk: "" for pk in set_pks } # map of pk -> error
+        for pk in set_pks:
+            workout_set = WorkoutSet.objects.get(pk=pk)
+            is_error, item = validate_set_from_post(request.POST, workout_set)
+            if is_error:
+                set_errors[pk] = item
+                has_error = True
+            else:
+                save_set_to_session(gym_session, workout_set, item)
 
     # save notes when we save sets
     gym_session.notes = request.POST.get('notes', '')
@@ -1275,10 +1335,15 @@ def comment_unlike(request):
 @login_required
 @csrf_exempt
 def new_comment(request):
-    request.POST["comment_text"]    = request.POST.get("comment")
-    request.POST["comment_picture"] = request.POST.get("picture")
+    comment_picture = request.POST.get("comment_picture")
 
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
+        # Store Picture File
+        if request.FILES.getlist('comment_picture'):
+            picture_file = request.FILES.getlist('comment_picture')[0]
+            handle_uploaded_file(picture_file)
+            comment_picture = 'feed/' + str(picture_file)
+
         object_id = request.POST.get('object_id')
         selected_item = request.POST.get('selected_item')
 
@@ -1290,14 +1355,14 @@ def new_comment(request):
 
         if selected_item == 'blitz':  # post to blitz (group) feed
             blitz = Blitz.objects.get_or_none(pk = object_id)
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture, blitz)
         elif selected_item == 'client':  # post to individual client feed
             client = Client.objects.get(pk = object_id)
             blitz = client.get_blitz()
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture, blitz)
 
     else:
-        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'))
+        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture)
 
         # analytics
         if not request.user.is_trainer:
@@ -1355,8 +1420,12 @@ def checkin_like(request):
 def gym_session_unlike(request):
 
     gym_session = GymSession.objects.get(pk=int(request.POST['gym_session_pk']))
-    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
-    gym_session_like.delete()
+    gym_session_like = GymSessionLike.objects.filter(user=request.user, gym_session=gym_session)
+    if gym_session_like:    # handle unlikely case of multiple likes for user/session
+        gym_session_like[0].delete()
+
+#    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
+#    gym_session_like.delete()
 
     content_type = ContentType.objects.get_for_model(gym_session)
     feed_item = FeedItem.objects.get(content_type=content_type, object_id=gym_session.pk)
@@ -1548,7 +1617,7 @@ def client_signup(request):
                 form.cleaned_data['password1']
             )
             # add new client to Blitz
-            utils.add_client_to_blitz(invitation.blitz, client, invitation.workout_plan, invitation.price, None, invitation.macro_formula, invitation)
+            utils.add_client_to_blitz(invitation.blitz, client,invitation=invitation)
 
             # set blitz for specific client            
             blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client, 
@@ -1556,7 +1625,7 @@ def client_signup(request):
 
             # alert trainer of new client signup
             alert = TrainerAlert.objects.create(
-                       trainer=invitation.blitz.trainer, text="New client registration.",
+                       trainer=invitation.blitz.trainer, text="new client registration",
                        client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
             # login client
@@ -1649,7 +1718,9 @@ def default_blitz_page(request, short_name):
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/(?P<url_slug>[a-zA-Z0-9_.-]+)
 def blitz_page(request, short_name, url_slug):
 
-    # logo, head, name are passed in request for /sample sales page
+    # logo, head, name are passed in request for /sample facsimile sales page
+    # eg. /sample?logo=http://www.hawking.org.uk/uploads/8/3/0/0/8300824/1377255702.jpg&head=http://graphics8.nytimes.com/images/2013/09/13/arts/13RDP_HAWKING_SPAN/HAWKING-popup.jpg&name=Hawking
+
     logo = None
     if 'logo' in request.GET:
         logo = request.GET.get('logo')
@@ -1710,7 +1781,6 @@ def sales_blitz(request):
             'blitz': blitz.title if blitz else '(None)',
                 })
 
-
     if blitz and request.method == 'POST':
         if 'intro' in request.POST:
             blitz.sales_page_content.program_introduction = request.POST.get('intro')
@@ -1762,14 +1832,12 @@ def sales_blitz(request):
         blitz.sales_page_content.save()
         blitz.save()
 
+    if blitz:
         return render(request, "sales_blitz.html", {
             'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
             'saved': saved })
     else:
-        return render(request, "sales_blitz.html", {
-            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
-            })
-        print logo
+        return redirect('/')
 
 # Blitz signup page
 # url: /(?P<short_name>[a-zA-Z0-9_.-]+)/signup
@@ -1795,11 +1863,55 @@ def blitz_signup(request, short_name, url_slug):
         next_url = '/'
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
-    return render(request, 'blitz_signup.html', {
-        'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
-        'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
-        'next_url': next_url, 'existing_user': existing_user
-    })
+    if blitz.free:   # handle free on-ramp
+        form = CreateAccountFormFree(request.POST)
+        if request.method == 'POST':
+
+            if form.is_valid():
+
+                # create client
+                client = utils.get_or_create_client(
+                    form.cleaned_data['name'],
+                    form.cleaned_data['email'].lower(),
+                    form.cleaned_data['password1']
+                    )
+                # add new client to Blitz
+                utils.add_client_to_blitz(blitz, client)
+                user = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
+                login(request, user)
+
+                # alert trainer of new client signup
+                alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="new (free) client registration",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                # analytics
+                analytics_id(request, user_id=client.user.pk, traits={
+                         'name': client.name,
+                         'email': client.user.email,
+                         'note': "Paid Client Signup to %s for FREE" % str(blitz.price) 
+                    })
+
+                request.session['show_intro'] = True
+
+                return redirect(next_url)
+
+            return render(request, 'blitz_signup_free.html', {
+                'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
+                'form': form, 'errors': form.errors,
+            })
+        else:
+            return render(request, 'blitz_signup_free.html', {
+                'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
+                'form': form,
+            })
+
+    else:
+        return render(request, 'blitz_signup.html', {
+            'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
+            'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
+            'next_url': next_url, 'existing_user': existing_user
+        })
 
 # completion of Blitz signup
 def blitz_signup_done(request):
@@ -1907,6 +2019,7 @@ def payment_hook(request, pk):
             except Exception as e:
                 has_error = True
                 error = "Error: %s, %s, %s" % (e.status, e.category_code, e.additional)
+                print error
 
         if error:
             has_error = True
@@ -1935,7 +2048,7 @@ def payment_hook(request, pk):
 
                 # alert trainer of new client signup
                 alert = TrainerAlert.objects.create(
-                           trainer=blitz.trainer, text="New client registration.",
+                           trainer=blitz.trainer, text="new client registration",
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
                 user = authenticate(username=client.user.username, password=request.session['password'])
@@ -1956,16 +2069,43 @@ def payment_hook(request, pk):
                 if 'password' in request.session:
                     request.session.pop('password')
             else:
-                # alert trainer of client re-up
-                alert = TrainerAlert.objects.create(
-                           trainer=blitz.trainer, text="Client updated CC info.",
+                # existing client in different blitz
+                if client.get_blitz() and client.get_blitz() != blitz:
+
+                    # alert existing trainer of client leaving
+                    alert = TrainerAlert.objects.create(
+                           trainer=client.get_blitz().trainer, text="has now registered for %s" % blitz.title,
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
-                # analytics
-                analytics_track(client.user.id, 're-up', {
-                        'name': client.name,
-                        'email': client.user.email,
-                    })
+                    # alert trainer of client registration if new trainer
+                    if client.get_blitz().trainer != blitz.trainer:
+                        alert = TrainerAlert.objects.create(
+                             trainer=blitz.trainer, text="new client registration",
+                             client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                    membership = BlitzMember.objects.get(client=client)
+                    membership.delete()
+
+                    utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan, price=blitz.price)
+
+
+                    # analytics
+                    analytics_track(client.user.id, 'existing client, new program', {
+                           'name': client.name,
+                           'email': client.user.email,
+                           })
+             
+                else:
+                    # alert trainer of client re-up
+                    alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="updated CC info",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                    # analytics
+                    analytics_track(client.user.id, 're-up', {
+                           'name': client.name,
+                           'email': client.user.email,
+                           })
 
     else:
         has_error = True
@@ -2039,7 +2179,7 @@ def client_setup(request):
         # override Blitz price and workoutplan if invitation specifies either
         invitation.price = form.data.get('price', None)
         workoutplan_id = form.data.get('workoutplan_id', None)
-        if workoutplan_id:
+        if workoutplan_id and workoutplan_id != 'None':
             workoutplan = get_object_or_404(WorkoutPlan, id=form.data.get('workoutplan_id', None) )
             invitation.workout_plan = workoutplan
 
@@ -2147,7 +2287,10 @@ def set_up_profile_basic(request):
                                  macros_data=invite.macro_target_json)
 
             request.session['intro_stage'] = 'photo'
-            return redirect('set_up_profile')
+            if 'reset' in request.GET:
+                return redirect('/')
+            else:
+                return redirect('set_up_profile')
 
     else:
         form = Intro1Form()
@@ -2155,6 +2298,7 @@ def set_up_profile_basic(request):
     return render(request, 'signup/basic.html', {
         'client': client,
         'form': form,
+        'reset': 'reset' in request.GET,
     })
 
 
@@ -2450,6 +2594,9 @@ def trainer_dashboard(request):
         blitz = blitzes[0]
 
     workoutplans = WorkoutPlan.objects.filter(trainer=trainer)
+    empty_plan = [WorkoutPlan(name="TBD")]    # add empty workoutplan to list
+    workoutplans = list(chain(workoutplans, empty_plan))
+
     signup_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))    
 
     uri = domain(request)

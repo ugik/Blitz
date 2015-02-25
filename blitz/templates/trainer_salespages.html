@@ -61,7 +61,7 @@
            {% for blitz in blitzes %}
               <div class="contentwell well">
                  <table><tr><td>
-                     {% if blitz.recurring %}
+                     {% if not blitz.group %}
                      <img src="{{ STATIC_URL }}images/SalesPage1on1.png"/></td>
                      {% else %}
                      <img src="{{ STATIC_URL }}images/SalesPageGroup.png"/></td>

@@ -127,7 +127,7 @@ def user_display_name(user):
     try:
         return user.client.name
     except:
-        raise Exception("Cannot display user")
+        pass
 
 def user_headshot_url(user):
     try:
@@ -138,7 +138,7 @@ def user_headshot_url(user):
     try:
         return user.client.get_headshot_url()
     except:
-        raise Exception("No headshot for user")
+        pass
 
 def user_blitz(user):
     try:
@@ -272,7 +272,7 @@ class Trainer(models.Model):
     def headshot_from_image(self, image_path):
         image = Image.open(image_path)
 
-        size = (75, 75)
+        size = (300, 300)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
@@ -422,7 +422,7 @@ class Client(models.Model):
         today = timezone.normalize(timezone_now()).date()
         ret = []
         for workout_date, workout_plan_day in self.get_blitz().iterate_workouts():
-            if workout_date < today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists():
+            if workout_date < today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists() and not self.date_created > workout_date:
                 ret.append( (workout_date, workout_plan_day) )
             elif workout_date >= today:
                 break
@@ -437,7 +437,7 @@ class Client(models.Model):
     def headshot_from_image(self, image_path):
 
         image = Image.open(image_path)
-        size = (75, 75)
+        size = (300, 300)
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
@@ -472,7 +472,7 @@ class Client(models.Model):
             # for q in Comment.objects.filter(user=self.user).all():
             #     feeditems |= q.feeditems.all()
 
-            if self.get_blitz().recurring:  # recurring blitz allows shortcut
+            if not self.get_blitz().group:  # individual blitz allows shortcut
                 feeditems|= FeedItem.objects.filter(blitz=self.get_blitz())
 
             else:  # client in a group requires careful dissection of feeditems
@@ -522,6 +522,9 @@ class Client(models.Model):
 
     def current_datetime(self):
         return self.get_timezone().normalize(timezone_now())
+
+    def current_datetime_date(self):
+        return self.get_timezone().normalize(timezone_now()).date()
 
     def macro_target_for_date(self, date):
         spec = self.macro_target_spec()
@@ -597,6 +600,9 @@ class Blitz(models.Model):
     trainer = models.ForeignKey(Trainer)
     recurring = models.BooleanField(default=False) # Recurring blitzes repeat over time
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
+    group = models.BooleanField(default=False) # Group, default is Individual
+    free = models.BooleanField(default=False) # Free, default is paid
+
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
     # workout_plan can be pending, spotter will load and assign workout plan
@@ -639,6 +645,9 @@ class Blitz(models.Model):
         if timezone is None:
             timezone = current_tz()
         return 1 + (timezone.normalize(timezone_now()).date() - self.loop_begin_date()).days / 7
+
+    def current_relative_week(self, timezone=None):
+        return self.current_week() % self.num_weeks()
 
     def current_day_index(self, timezone=None):
         if timezone is None:
@@ -711,6 +720,8 @@ class Blitz(models.Model):
             return self.loop_end_date()
         if self.provisional: 
             return self.begin_date
+        if self.num_weeks > 0:
+            return self.begin_date + datetime.timedelta(days=7*self.num_weeks())
         if self.workout_plan and map( lambda x: x, set(self.iterate_workouts()) ):
             return map( lambda x: x, set(self.iterate_workouts()) )[-1][0]
         return self.begin_date  # last resort 

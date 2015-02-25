@@ -6,6 +6,7 @@
     <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
     <script type="text/javascript">
     $(document).ready(function() {
+        var preview = "{{ preview }}";
         $("#workout-notes").expandingTextarea();
 
         function finishExercise(slug) {
@@ -19,6 +20,10 @@
         }
 
         $('.save-sets').on('click', function() {
+
+            if (preview === 'True') { 
+                alert("The exercise log information would be saved at this step.");
+                return }
 
             var lift_slug = $(this).data('lift');
             var postdata = {};
@@ -64,19 +69,50 @@
         });
     });
 </script>
+
+<script>
+	$(document).ready(function() {
+	    $('#nodetypeDialog').bind('show', function () {
+   	        setPrompt ('Nodetype for "' + decodeURI (rootName) + '"');
+	        document.getElementById ("woOption" + rootType).selected = true;
+	    });
+	});
+	function setPrompt (s) {
+		document.getElementById ("prompt").innerHTML = s;
+	}
+	function closeDialog () {
+		$('#nodetypeDialog').modal('hide');
+	}
+	function okWebpageDialog (){
+		$("#webpageDialog").modal ('hide');
+		};
+
+</script>
+
 {% endblock %}
 
 {% block main %}
 
+
+{% if preview %}
+    <button class='obtn obtn-comment-grn' onclick="location.href='/view_program/{{ workoutplan.pk }}'">
+    Return to overview
+    </button>
+{% endif %}
+
 <div class="col-md-6 col-md-offset-3 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd;">
 
-    <h2>Today's Workout: {{ workout.display_name }}</h2>
 
-    <p>
-        Log what you lifted today at the gym below.
-        Record only your working sets.
-        You can add notes for your trainer at the end too.
-    </p>
+    <h2>{{ workout.display_name }} workout</h2>
+
+    {% if workout.description %}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{ workout.description }}
+           </div>
+        </div>
+        <br>
+    {% endif %}
 
     <form action="#" method="post" class="log-workout-form">
         {% csrf_token %}
@@ -93,6 +129,17 @@
                 </div>
                 <div id="collapse-{{ group.lift.slug }}" class="panel-collapse collapse {% if forloop.first %}in{% endif %}" role="tabpanel" aria-labelledby="heading-{{ group.lift.slug }}">
                     <div class="panel-body">
+                        <a data-toggle="modal" data-target="#myModal_{{ group.lift.slug }}" onclick="document.getElementById('iframe_{{ group.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ group.lift }}';">What's this?</a>
+
+                        <div id="myModal_{{ group.lift.slug }}" class="modal hide fade">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="document.getElementById('iframe_{{ group.lift.slug }}').src='';"> x </button>
+                            <h3 id="myModalLabel_{{ group.lift.slug }}"><font color="gray">{{ group.lift }}&nbsp;&nbsp;{{ group.title }} </font></h3>
+                        </div>
+                        <div class="modal-body">        
+                            <iframe id="iframe_{{ group.lift.slug }}" width="520" height="335" src="https://www.youtube.com/embed?listType=search&list={{ group.lift }}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+
                         <div class="last-lift">
                             {% if not group.lift_summary.has_completed %}
                             &nbsp;
@@ -183,5 +230,6 @@
     </form>
 
 </div>
+
 
 {% endblock %}

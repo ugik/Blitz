@@ -26,6 +26,7 @@ ps aux | grep -i manage
 
 #apache log
 tail /var/log/apache2/error.log
+apachectl graceful
 
 #mysql
 mysql -uroot -pmysql

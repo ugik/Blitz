@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from base.alerts import create_alerts_for_day
-from base.emails import send_email, usage_digest, usage_trainer
+from base.emails import send_email, usage_digest, usage_trainer, program_start
 from datetime import date, timedelta
 
 import datetime
@@ -37,7 +37,7 @@ def backup():
 def usage(): 
     usage_digest()
 
-@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="*"))  
+@periodic_task(run_every=crontab(hour="23", minute="59", day_of_week="0"))  
 def trainer_digests():
     for trainer in Trainer.objects.all():
         usage_trainer(trainer)
@@ -69,14 +69,6 @@ def client_morning_notifications():
 
         # plan starts today
         if blitz.begin_date == client.current_datetime().date():
-            from_email, to = "team@blitz.us", client.user.email
-            subject = "Your Blitz.us program begins today!"
-
-            text_content = render_to_string('emails/program_begins_today.txt', {
-                'client': client,
-                'blitz': blitz,
-            } )
-            send_mail(subject, text_content, from_email, [to], fail_silently=True)
-
+            program_start(client)
 
 

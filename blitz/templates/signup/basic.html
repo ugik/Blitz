@@ -3,13 +3,16 @@
 {% block formpage_content %}
 
 
-
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <div class="formpage-block">
             <div class="header">Set up your profile</div>
                 <div class="info-text" style="margin-bottom: 20px;">
+                    {% if reset %}
+                    Reset your information
+                    {% else %}
                     Let's get to know each other a bit better. Your trainer will use this info to calibrate your plan.
+                    {% endif %}
                 </div> 
             <div class="content" >
                 <form class="formpage-block-form" action="#" method="post" name="setupForm" id="setupForm">

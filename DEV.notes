@@ -1,4 +1,4 @@
-Dev work
+Dev work diary
 
 week of 9.8
 - reconstitute working localhost
@@ -247,5 +247,43 @@ week of 2.2
 - django-hijack
 - fix spotter uploads sort, archive view
 - add trainer short_name to upload file name
+- open groups
+- group w/recurring plan
+- free on-ramp option
+
+week of 2.9
+- workoutplan copy for spotter
+- fix workout log for exercise without sets
+- remove trainer short-name from workout label
+- remove missed workout alerts prior to client signup
+- change 'do you even lift?' placeholder
+- change signup confirmation email to handle past tense when program already started
+- add emails to usage digest
+- change headshot image reduction to 150x150 (from 75x75) to avoid grainy images on non-retina browsers
+- improve trainer usage digest and run it weekly
+- handle balanced payment refunds
+- google exercise YouTube video lookup
+
+week of 2.16
+- existing user registering for new program
+- Tawk.to IM client
+- add descriptions to workout day
+- fix display_str dealing with empty float
+- improve invite email headshot layout
+- payments report account for non-recurring programs
+- change email invite url to absolute path
+- clean up/simplify usage report
+- change headshot image save dimensions to 300x300
+- improve program assign for spotter
+- use BlitzMember.price for price calc
+- html program start email
+- trainer workoutday log-workout preview
+- client program show current (relative) week and current week exercise videos
+- spotter payments trainer and month filters
+
+week of 2.23
+- client program workout day hover-over showing description
+- client settings reset in settings
+- fix date references in client signup intro
 
 

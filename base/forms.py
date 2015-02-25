@@ -241,6 +241,29 @@ class CreateAccountForm(forms.Form):
             raise forms.ValidationError("Passwords must be at least 8 characters.")
         return data
 
+class CreateAccountFormFree(forms.Form):
+    name = forms.CharField(max_length=100, required=True)
+    email = forms.EmailField()
+    password1 = forms.CharField(widget=forms.PasswordInput(render_value=False))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'render_value' : False}))
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError("This email is already registered.")
+        return data
+
+    def clean_password(self):
+        data = self.cleaned_data['password1']
+        if len(data) < 4:
+            raise forms.ValidationError("Passwords must be at least 4 characters.")
+        return data
+
+    def clean(self):
+        if 'password1' in self.cleaned_data and 'password2' in self.cleaned_data and self.cleaned_data['password1'] != self.cleaned_data['password2']:
+            raise forms.ValidationError("These passwords don't match. Try again, chief.")
+        return self.cleaned_data
+
 class SubmitPaymentForm(forms.Form):
 
     card_uri = forms.CharField(max_length=100)

@@ -11,27 +11,30 @@ from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from workouts.models import WorkoutPlan
 from datetime import date, timedelta
+import datetime as dt
 
 import os
 
 SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
+EXAMPLE_EMAILS = False
 
 # email wrapper, note parameters: images[] context{}
-def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=[]):  
+def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=[], trainer=None):  
 
     silent = False if settings.DEBUG else True
 
     # don't send emails to @example.com addresses
     if isinstance(to_email, list):
         if [i for i in to_email if 'example.com' in i]:
-            print '* @example.com address, no email sent'
-            return
+            if not EXAMPLE_EMAILS:
+                print '* @example.com address, no email sent'
+                return
     else:
         if 'example.com' in to_email:
-            print '* @example.com address, no email sent'
-            return
-
+            if not EXAMPLE_EMAILS:
+                print '* @example.com address, no email sent'
+                return
 
     if len(images) == 0:
         images = ['emailheader.png']
@@ -39,6 +42,13 @@ def send_email(from_email, to_email, subject, text_template, html_template, cont
     else:
         images += ['emailheader.png']
         dirs += [os.path.join(getattr(settings, 'STATIC_ROOT'), 'images/')]
+
+    if trainer:    # insert trainer headshot where necessary
+        if trainer.headshot:
+            headshot = str(trainer.headshot)
+            if '/' in headshot:
+                images += [headshot[headshot.rfind('/')+1:]]
+                dirs += [os.path.join(getattr(settings, 'MEDIA_ROOT'), 'headshots/')]
 
     html_content = render_to_string(html_template, context)
     text_content = render_to_string(text_template, context)
@@ -91,9 +101,17 @@ def signup_confirmation(client, trainer):
     from_email, to_email = SOURCE_EMAIL, client.user.email
     subject = "Welcome to Blitz.us!"
 
+    if dt.datetime.now().date() > client.get_blitz().begin_date:   # blitz has already started
+        begins = 'began'   # past tense
+        in_meantime = None
+    else:
+        begins = 'begins'
+        in_meantime = True
+
     text_template = 'emails/signup_confirmation.txt'
     html_template = 'emails/signup_confirmation.html'
-    context = { 'client': client, 'blitz': client.get_blitz() }
+    context = { 'client': client, 'blitz': client.get_blitz(), 'begins': begins, 'in_meantime': in_meantime }
+
     send_email(from_email, to_email, subject, text_template, html_template, context,
                cc_mail=[trainer.user.email] )
 
@@ -104,9 +122,12 @@ def client_invite(trainer, client_email, invite_url, blitz=None):
 
     text_template = 'emails/client_invitation.txt'
     html_template = 'emails/client_invitation.html'
-    context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz }
-    send_email(from_email, to_email, subject, text_template, html_template, context, 
-               cc_mail=[trainer.user.email])
+
+    headshot_file = str(trainer.headshot)
+    headshot = headshot_file[headshot_file.rfind('/')+1:] if '/' in headshot_file else None
+
+    context = { 'client': client_email, 'trainer': trainer, 'invite_url': invite_url, 'blitz': blitz, 'headshot': headshot }
+    send_email(from_email, to_email, subject, text_template, html_template, context, trainer=trainer, cc_mail=[trainer.user.email])
 
 
 def forgot_password(user):
@@ -114,12 +135,11 @@ def forgot_password(user):
     from_email, to_email = SOURCE_EMAIL, user.email
     subject = "Reset your Blitz.us Password"
 
-    reset_link = settings.SITE_URL + '/reset-password?token=' + user.forgot_password_token
+    reset_link = 'https://' + settings.SITE_URL + '/reset-password?token=' + user.forgot_password_token
     text_template = 'emails/forgot_password.txt'
     html_template = 'emails/forgot_password.html'
     context = { 'user': user, 'reset_link': reset_link }
     send_email(from_email, to_email, subject, text_template, html_template, context )
-
 
 def message_received(user, message):
 
@@ -129,6 +149,16 @@ def message_received(user, message):
     text_template = 'emails/message_received.txt'
     html_template = 'emails/message_received.html'
     context = { 'user': user, 'message': message }
+    send_email(from_email, to_email, subject, text_template, html_template, context )
+
+def program_start(client):
+
+    from_email, to_email = SOURCE_EMAIL, client.user.email
+    subject = "Your Blitz.us program begins today!"
+
+    text_template = 'emails/program_begins_today.txt'
+    html_template = 'emails/program_begins_today.html'
+    context = { 'client': client }
     send_email(from_email, to_email, subject, text_template, html_template, context )
 
 def email_spotter_program_upload(trainer, document):
@@ -173,15 +203,12 @@ def usage_digest(days=0):
 
     # get clients with CC on file
     paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
-    MRR = 0
+    revenue = 0
     for payer in paying_clients:
-        if payer.blitzmember_set:
-            # recurring monthly charge
-            if payer.blitzmember_set.all()[0].blitz.recurring:
-                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
-            # monthly charge for non-recurring blitz
-            else: 
-                MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+        if payer.blitzmember_set.all()[0].price:
+            revenue += float(payer.blitzmember_set.all()[0].price)
+
+    revenue = float(revenue * 0.12)
 
     users = User.objects.all()
     login_users = []
@@ -196,7 +223,7 @@ def usage_digest(days=0):
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
     context = {'days':days+1, 'trainers':trainers, 'login_users':login_users, 'members':members,     
-               'MRR':MRR, 'hosts':lines[0]}
+               'revenue':revenue, 'hosts':lines[0]}
     to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
@@ -210,15 +237,15 @@ def usage_trainer(trainer):
     LAGGARD_DAYS = 7
 
     timezone = current_tz()
-    days = 1
+    days = 7
     startdate = date.today() - timedelta(days = days)
     enddate = date.today() - timedelta(days=0)
-    laggard = date.today() - timedelta(days = LAGGARD_DAYS)
+    laggard = date.today() - timedelta(days = days + LAGGARD_DAYS)    # laggard users
 
     users = []
     clients = Client.objects.all()
     for client in clients:
-        if not client.user.is_trainer and client.get_blitz().trainer == trainer:
+        if not client.user.is_trainer and client.get_blitz() and client.get_blitz().trainer == trainer:
             users.append(client.user)
 
     if not users:
@@ -226,12 +253,19 @@ def usage_trainer(trainer):
 
     login_users = []
     laggard_users = []
+    inactive_users = []
+
     for user in users:
         if timezone.normalize(user.last_login).date() >= startdate:
             login_users.append(user)
     for user in users:
-        if timezone.normalize(user.last_login).date() <= laggard:
+        # show the trainer users that are laggards but still 'active'
+        if timezone.normalize(user.last_login).date() < startdate and timezone.normalize(user.last_login).date() >= laggard:
             laggard_users.append(user)
+    for user in users:
+        # show the trainer users that are laggards but still 'active'
+        if timezone.normalize(user.last_login).date() < laggard:
+            inactive_users.append(user)
 
     if not login_users and not laggard_users:
         return
@@ -239,7 +273,7 @@ def usage_trainer(trainer):
     template_html = 'usage_email.html'
     template_text = 'usage_email.txt'
     context = {'days':days, 'trainer':trainer, 'login_users':login_users,
-               'laggard_users':laggard_users }
+               'laggard_users':laggard_users, 'inactive_users':inactive_users }
     to_mail = [trainer.user.email]
 
     from_mail = settings.DEFAULT_FROM_EMAIL           
@@ -277,7 +311,7 @@ def email_tests():
     from ff_messaging.models import Message
     user = User.objects.get(pk=3)
     client = Client.objects.get(pk=1)
-    trainer = Trainer.objects.get(pk=1)
+    trainer = Trainer.objects.get(pk=6)
     message = Message.objects.all()[0]
     comment = Comment.objects.all()[0]
     workoutplan = WorkoutPlan.objects.get(pk=1)
@@ -291,6 +325,7 @@ def email_tests():
     email_spotter_program_edit(1, 'spotter email test')
     program_loaded(workoutplan.name, trainer.id)
     program_assigned(workoutplan, blitz)
+    usage_trainer(trainer)
 
 
 

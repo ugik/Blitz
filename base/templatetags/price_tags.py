@@ -7,7 +7,11 @@ register = template.Library()
 def member_price(value, member):
 # determines price for member in blitz, if 1:1 blitz then blitz.price suffices, if Group blitz then need to check member invitation
 
-    if member.blitz.recurring:
+    return member.blitz.price
+
+    # TODO: clean this up, invitation is deleted on signup
+
+    if not member.blitz.group:
         return member.blitz.price
 
     invitation = BlitzInvitation.objects.filter(email=member.client.user.email)
@@ -16,4 +20,8 @@ def member_price(value, member):
             return 0
         else:
             return invitation[0].price
+
+    else:
+        return member.blitz.price
+
 

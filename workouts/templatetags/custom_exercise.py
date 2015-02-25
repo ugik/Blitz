@@ -49,13 +49,15 @@ def custom_sets_display(value, client, gym_date=None):
 @register.filter
 def custom_workout_lifts(value, client):
     workout = value
-    lifts = list(set(ws.lift for ws in workout.workoutset_set.all()))    
+    lifts = list(set(ws.lift for ws in workout.exercise_set.all()))
+
     for workoutset in workout.workoutset_set.all():
         if workoutset.lift in lifts:
             lifts.remove(workoutset.lift)
         custom = custom_workoutset_lift(workoutset, client)  # get the custom lift if applicable
         if custom not in lifts:
             lifts.append(custom)
+
     return lifts
 
 @register.filter

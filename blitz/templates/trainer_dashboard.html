@@ -99,7 +99,7 @@ function save_client_setup() {
 
 				{% if blitzes %}
 				    {% for blitz in blitzes %}
-	                    {% if not blitz.provisional and not blitz.recurring %}
+	                    {% if not blitz.provisional and blitz.group %}
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
@@ -177,6 +177,7 @@ function save_client_setup() {
 							<li class="active" data-scope-filter="all">Everything</li>
 							<li data-scope-filter="workouts">Workouts</li>
 							<li data-scope-filter="checkins">Check-Ins</li>
+						</ul>
 					</div>
 
 					<div id="add-comment-container">
@@ -194,7 +195,6 @@ function save_client_setup() {
 						</form>
 						<a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>
 					</div>
-
 		        	{% include "main_feed.html" %}
                 {% else %}
                     {% if invitees %}

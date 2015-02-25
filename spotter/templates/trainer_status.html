@@ -21,6 +21,7 @@
       <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
         <div style="text-align: left;" class="spotterheader">
           {{ trainer.name }} <small>({{ trainer.user.email }}) 
+          <a href="/spotter/payments?trainer={{ trainer.pk }}"><small>payments</small></a>
           {% if trainer.payment_info %}{{ trainer.payment_method }}:&nbsp;{{ trainer.payment_info }}
           {% endif %}</small>
         </div>
@@ -35,13 +36,17 @@
            {% for blitz in trainer.blitz_set.all %}
                <li style="padding-left: 20px; margin-top: 10px;">{% if blitz.url_slug %}{{ blitz.url_slug }} : {% endif %} <b>{{ blitz.title }}</b>
                    {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
-                   {% if blitz.recurring %}
+                   {% if not blitz.group %}
                       {% if blitz.blitzmember_set.all %}
                           {{ blitz.blitzmember_set.all.0.date_created }}
                       {% endif %}
-                      <small>(Recurring)</small>
                    {% else %}
                       <small>(Group)</small>
+                   {% endif %}
+                   {% if blitz.recurring %}
+                      <small>(Recurring)</small>
+                   {% else %}
+                      <small>(Non-Recurring)</small>
                    {% endif %}
                    <br>&nbsp;&nbsp;&nbsp;&nbsp;
                    {% if blitz.workout_plan.id %}
@@ -81,6 +86,7 @@
                   </a>
                 {% endif %}
                  | <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>Add to Program</small></a>
+                 | <a href="copy_workoutplan?plan={{ workoutplan.pk }}"><small>Make Copy</small></a>
                </li>
            {% endfor %}
                <li style="padding-left: 20px; margin-top: 5px;">

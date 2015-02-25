@@ -47,7 +47,7 @@
 
         // add comment submit
         $('#add-comment-submit').on('click', function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             var comment_text = $('#add-comment').val();
             var comment_picture = $('#id_picture').val();
             if (comment_text == "" && comment_picture == "") {

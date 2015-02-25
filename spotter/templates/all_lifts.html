@@ -1,0 +1,21 @@
+{% extends "spotter_base.html" %}
+
+{% block main %}
+<style>
+      tr:nth-of-type(odd) {
+      background-color:#D8F1D7;
+    }
+</style>
+<header><h3>All Lifts</h3></header>
+
+{% for lift in lifts|dictsort:"name" %}
+<b>{{ lift }}</b>
+{% if lift.weight_or_body %} Bodyweight {% else %} Weight {% endif %}
+{% if lift.allow_weight_or_body %} | (Allow Weight or Body) {% endif %}
+{% if lift.lift_type != 'R' %} | Type:{{ lift.lift_type }} {% endif %}
+
+<br>
+{% endfor %}
+
+{% endblock %}
+

@@ -15,7 +15,6 @@
     var xhr;
 
     $(document).ready(function() {
-
         function homepage_setLoading() {
             $('#homepage-loadmore').hide();
             $('#homepage-loading').show();
@@ -294,6 +293,13 @@
         }
 
         var bindPostForm = function() {
+            // Removes event handlers that were attached
+            $('#comment-form').off();
+            $('#add-comment').off();
+            $('#id_picture').off();
+            $('#add-comment-submit').off();
+            $('#id_label').html('<i class="icon-camera"></i>');
+
             // add comment button show/hide
             $('#add-comment').on('focus', function() {
                 $('#add-comment-submit').show(300);
@@ -325,6 +331,7 @@
                 var comment_picture = $('#id_picture').val();
 
                 if (comment_text === "" && comment_picture === "") {
+                    $('#id_label').html('<i class="icon-camera"></i>');
                     alert("Why would you post nothing?");
                     return;
                 }
@@ -336,8 +343,13 @@
                 } else {
                     var formData = new FormData(this);
 
+                    // Abort ajax requests
+                    if (commentHRX) {
+                        commentHRX.abort();
+                    }
+
                     // Submit form via AJAX
-                    var hrx = $.ajax({
+                    var commentHRX = $.ajax({
                         url: '/api/new-comment',
                         type: 'POST',
                         data: formData,
@@ -345,19 +357,20 @@
                         contentType: false
                     });
 
-                    hrx.done(function(data) {
+                    commentHRX.done(function(data) {
                         // Clear Form
                         $('#add-comment').val('');
                         $('#id_picture').val('');
+                        $('#id_label').html('<i class="icon-camera"></i>');
 
                         // Render Post
                         var $el = $(data.comment_html);
-                        $('#main-feed').prepend($el);
+                        $('#main-feed').prepend($el);                        
+                        return false;
                     });
                 }
             });
         };
-
 
         // On Windows Resize
         $(window).resize(function() {

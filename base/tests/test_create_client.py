@@ -47,17 +47,21 @@ class TestCreateClient(unittest.TestCase):
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_link_text(u"Finish Signup →").click()
-        driver.get(self.base_url + "/program")
-        # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.get(self.base_url + "/inbox")
-        driver.find_element_by_id("to-autocomplete").clear()
-        driver.find_element_by_id("to-autocomplete").send_keys("Mike Rashid")
-        driver.find_element_by_id("id_message_content").clear()
-        driver.find_element_by_id("id_message_content").send_keys("Hi Mike, what's up?")
-        driver.find_element_by_xpath("//button").click()
-        # Warning: assertTextPresent may require manual changes
+        driver.find_element_by_link_text(u"Let's go! →").click()
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+
+#        driver.get(self.base_url + "/program")
+#        # Warning: assertTextPresent may require manual changes
+#        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+#        driver.get(self.base_url + "/inbox")
+#        driver.find_element_by_id("to-autocomplete").clear()
+#        driver.find_element_by_id("to-autocomplete").send_keys("Mike Rashid")
+#        driver.find_element_by_id("id_message_content").clear()
+#        driver.find_element_by_id("id_message_content").send_keys("Hi Mike, what's up?")
+#        driver.find_element_by_xpath("//button").click()
+#        # Warning: assertTextPresent may require manual changes
+#        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.get(self.base_url + "/logout")
     
     def is_element_present(self, how, what):

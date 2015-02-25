@@ -39,7 +39,7 @@
                         {% include "error_field.html" with param='email' %}
                         <a id='error_email' style="color: #ff0000;">{% include "error_field.html" with param='name' %}</a>
 
-                        {% if blitz.recurring and workoutplans %}
+                        {% if not blitz.group and workoutplans %}
                            <div class="input-row-fw" style="text-align: center;">
                               <select name="workoutplan_id" id="workoutplan_id" class="selectpicker full-width" style="text-align: center;">
                               {% for wp in workoutplans %}

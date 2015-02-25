@@ -19,8 +19,8 @@
 <div class="row" style="margin-bottom: 30px;">
 
     <div class="span12">
-        <header style="margin-bottom: 30px;">Usage digest {{ days }} days</header>
-        <h3>MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h3>
+        <header style="margin-bottom: 30px;">Usage digest {{ days }} {% if days == 1 %}day{% else %}days{% endif %}</header>
+        <h3>Total Net ${{ revenue|stringformat:"1.2f"|cut:"-" }}</h3>
     </div>
 </div>
 
@@ -51,39 +51,40 @@
     </div>
 
 </div>
+
 <div class="row">
 
+    {% if trainers %}
     <div class="span4 digest">
-
-        {% if trainers %}
         <h3>New Trainers:</h3>
         {% regroup trainers by date_created as trainer_list %}
         {% for trainer in trainer_list %}
-        <ul><b>{{ trainer.grouper }}<b></ul>
+        <ul><b>{{ trainer.grouper }}</b></ul>
             <ul><ul>
             {% for c in trainer.list %}
-            <li> {{ c.name }}</li>
+            <li> {{ c.name }} ({{ c.user.email }})</li>
             {% endfor %}
             </ul>
         {% endfor %}
         </ul>
-        {% endif %}
-
     </div>
-    <div class="span4 digest">
+    {% endif %}
 
-        {% if members %}
+    {% if members %}
+    <div class="span4 digest">
         <h3>New Clients:</h3>
         {% regroup members by date_created as member_list %}
         {% for member in member_list %}
-        <ul><b>{{ member.grouper }}<b></ul>
+        <ul><b>{{ member.grouper }}</b></ul>
             <ul><ul>
             {% for c in member.list %}
-            <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for ${{ c.blitz.price }}</li>
+            <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for $
+            {% if c.price %} {{ c.price }} {% else %} Free {% endif %}</li>
             {% endfor %}
             </ul>
         {% endfor %}
         </ul>
+<<<<<<< HEAD
         {% endif %}
 
 <div class="col-md-3 digest">
@@ -99,7 +100,22 @@
         </ul>
         {% endif %}
     {% endfor %}
+=======
     </div>
+    {% endif %}
+
+    {% if login_users %}
+    <div class="span4 digest">
+        <h3>Most recent member login</h3>
+        <ul>
+        {% for login in login_users|dictsort:"last_login" %}
+            <li> {{ login.client.name }} {{ login.trainer.name }} <small>({{ login.email }}) <br>
+            {{ login.last_login }}</small></li>
+        {% endfor %}
+        </ul>
+>>>>>>> gk
+    </div>
+    {% endif %}
 
 </div>
 

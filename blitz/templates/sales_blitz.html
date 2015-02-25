@@ -49,7 +49,7 @@ class="sales-page"
           <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
           action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
         {% else %}
-          <form method="post" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
+          <form method="get" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
         {% endif %}
 
         {% csrf_token %}
@@ -144,7 +144,7 @@ class="sales-page"
            {{ sales_page.program_introduction }}
         {% endif %}
 
-        {% if not blitz.recurring and not logo %}
+        {% if blitz.group and not logo %}
             <br />Begins
             {% if debug_mode %}
                 <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}">
@@ -158,9 +158,11 @@ class="sales-page"
                 <small><i>(Programs always start on Monday)</i></small>
             {% else %}
                 {{ blitz.begin_date }}
-            {% endif %} <br>
+            {% endif %}             
+            {% if blitz.recurring %} (Recurring) {% endif %}
+            <br>
 
-            Price: ${{ blitz.price_recurring_monthly }}
+            Price: 
             {% if debug_mode %}
                 <input class="edit" type="text" name="price" id="price" style="size:5; maxlength:30;" value="{{ blitz.price }}">
                 <select name="price_model" id="price_model" class="selectpicker show-tick">
@@ -179,11 +181,13 @@ class="sales-page"
                 </script>
 
             {% else %}
-                {{ blitz.price }}
-                {% if blitz.price_model == "R" %}
-                   Monthly Recurring
-                {% else %}
-                   One-time
+                {% if blitz.free %} FREE 
+                {% else %} ${{ blitz.price }} 
+                    {% if blitz.price_model == "R" %}
+                       Monthly Recurring
+                    {% else %}
+                       One-time
+                    {% endif %}
                 {% endif %}
             {% endif %}</a>
            </div>
