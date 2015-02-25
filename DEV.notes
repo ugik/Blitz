@@ -285,5 +285,6 @@ week of 2.23
 - client program workout day hover-over showing description
 - client settings reset in settings
 - fix date references in client signup intro
+- fix end date on sales page (begin_date + num_weeks)
 
 
