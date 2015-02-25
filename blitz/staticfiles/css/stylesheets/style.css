@@ -4059,6 +4059,7 @@ ul.filters li.item {
   text-align: center;
   font-family: 'metanormal_caps';
   font-size: 24px;
+  margin-top: 10px;
   margin-bottom: 0px;
   border-bottom: 1px solid white;
   padding-top: 15px;
@@ -4070,10 +4071,9 @@ ul.filters li.item {
   text-align: center; }
 
 .macroform {
-  width: 23%;
+  width: 25%;
   text-align: center;
-  float: left;
-  padding: 1%; }
+  float: left; }
 
 .macroform-header {
   text-align: center;
@@ -4090,8 +4090,7 @@ ul.filters li.item {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  border: 1px solid white;
-  padding: 10px; }
+  border: 1px solid white; }
   .macroform-macro a {
     color: white;
     text-decoration: none; }
@@ -4321,19 +4320,11 @@ a.ui-state-default :hover {
   /* Opera < 12.1 */
   animation: fadein 0.25s; }
 
+#modalClientMacros > div.modal-dialog-full > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select {
+  margin-left: 0px !important; }
+
 .modal-body .row .col-md-6 {
   text-align: center; }
-  @media (max-width: 480px) {
-    .modal-body .row .col-md-6 {
-      margin-left: -5%; } }
-
-#modalClientMacros > div > div > div.modal-body > div > div > div > form {
-  margin-left: -5%; }
-
-@media (max-width: 480px) {
-  #modalClientMacros .formpage-block {
-    margin-left: 0%;
-    width: 82%; } }
 
 .modal-body .row .col-md-6 #headshot {
   max-width: 150px;
@@ -4594,15 +4585,9 @@ input.macro-input {
   padding: 8px 0px !important;
   width: 40px;
   margin-bottom: 0px; }
-  @media (max-width: 480px) {
-    input.macro-input {
-      padding: 15px 15px !important;
-      margin-left: -15px;
-      margin-top: -15px; } }
 
 .with-input {
-  padding-left: 25px;
-  margin-top: -10px;
+  padding: 0px 10px;
   margin-bottom: -10px;
   border: none !important; }
   @media (max-width: 480px) {
@@ -5321,3 +5306,12 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 @media (max-width: 480px) {
   .mobile-text-shrink {
     font-size: 0.8em; } }
+
+.week-performance .description ul {
+  margin-left: -20px; }
+
+.box > .description a {
+  font-size: 2em; }
+
+.modal-content-full .modal-body {
+  height: 100%; }
