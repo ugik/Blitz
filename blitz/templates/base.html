@@ -102,7 +102,11 @@ s1.async=true;
 {% if trainer.short_name == 'lexilove' or client.get_blitz.trainer.short_name == 'lexilove' %}
     s1.src='https://embed.tawk.to/54e6b176577853203eb4fb62/default';
 {% else %}
-    s1.src='https://embed.tawk.to/54e2633eb37d8bc7b126539b/19ea5kqpn';
+    {% if client %}
+        <!-- no client chat after login -->
+    {% else %}
+        s1.src='https://embed.tawk.to/54e2633eb37d8bc7b126539b/19ea5kqpn';
+    {% endif %}
 {% endif %}
 s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');

@@ -45,6 +45,12 @@ def spotter_index(request):
 
     return render(request, 'spotter.html')
 
+# review and process outstanding account balances
+# option: ?test (shows test users and users with no cc on file)
+#         ?trainer= (filters for specific trainer id)
+#         ?month= (filters for month #)
+#         ?charge (shows only overdue accounts)
+#
 @login_required
 def spotter_payments(request):
     import balanced
@@ -57,9 +63,6 @@ def spotter_payments(request):
 
     if trainer:
         trainer = Trainer.objects.get(pk=trainer)
-
-    test = True if 'test' in request.GET else None
-    charge = True if 'charge' in request.GET else None
 
     clients = []
     payments = []
@@ -115,9 +118,10 @@ def spotter_payments(request):
                         total_paid = float(total_paid) - float(debit.amount)/100
                         grand_total_paid -= float(debit.amount)/100
 
-        clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
-                        'start':start_date, 'months': months, 'payments': payments,
-                        'total_cost': '%.2f' % total_cost, 'total_paid': '%.2f' % total_paid, 'due': '%.2f' % (float(total_cost)-float(total_paid))})
+        if not charge or float(total_cost)-float(total_paid)>0:
+            clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
+                            'start':start_date, 'months': months, 'payments': payments,
+                            'total_cost': '%.2f' % total_cost, 'total_paid': '%.2f' % total_paid, 'due': '%.2f' % (float(total_cost)-float(total_paid))})
 
         payments = []
         total_cost = total_paid = 0
