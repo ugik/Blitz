@@ -454,11 +454,11 @@ ul.filters li.item:hover {
     color: #7ab2ea;
 }
 #summary .cover {
-    height: 280px;
+    height: 230px;
     color: #757476
 }
 #summary .cover img.client-picture {
-    height: 150px;
+    height: 125px;
     border: 5px solid #75abf5;
 }
 #summary .client-name {
