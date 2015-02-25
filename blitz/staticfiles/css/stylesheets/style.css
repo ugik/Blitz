@@ -7518,3 +7518,8 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 .box > .description a {
   font-size: 2em;
 }
+
+/* line 6435, ../sass/style.scss */
+.modal-content-full .modal-body {
+  height: 100%;
+}
