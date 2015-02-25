@@ -5143,7 +5143,6 @@ ul.spotternav li {
 /* line 4317, ../sass/style.scss */
 .sales-page .row {
   text-align: center;
-  margin: 0 auto;
   padding-bottom: 30px;
 }
 @media (max-width: 480px) {
@@ -5329,7 +5328,6 @@ a#secondary_logo.brand {
 /* line 4473, ../sass/style.scss */
 .sales-page-section-4 .row {
   text-align: center;
-  margin: 0 auto;
   padding-bottom: 30px;
 }
 @media only screen and (min-width: 769px) {
