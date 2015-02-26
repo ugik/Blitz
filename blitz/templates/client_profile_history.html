@@ -10,7 +10,7 @@
         <div class="profile-gym-session">
             <div class="profile-gym-session-header">
                 {{ session_list.0.date_of_session }}
-                <a class="edit-workout-link" href="{% url "log_workout" session_list.0.workout_plan_day.workout_plan_week.week session_list.0.workout_plan_day.day_of_week %}"><i class="icon-edit"></i> edit</a>
+                <a class="edit-workout-link" href="{% url "log_workout" session_list.0.workout_plan_day.workout_plan_week.week session_list.0.workout_plan_day.day_of_week %}"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
             </div>
             {% with session_list.1 as exercises %}
             {% with session_list.0 as gym_session %}
