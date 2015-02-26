@@ -7639,3 +7639,10 @@ a.feed-permalink {
     display: block;
   }
 }
+
+@media (max-width: 480px) {
+  /* line 6585, ../sass/style.scss */
+  .mobile-padding {
+    padding: 20px;
+  }
+}

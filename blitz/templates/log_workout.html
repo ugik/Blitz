@@ -145,15 +145,15 @@
                                             <h4 class="modal-title" id="vidModalLabel"><font color="gray">{{ group.lift }}&nbsp;&nbsp;{{ group.title }} </font></h4>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="embed-responsive embed-responsive-16by9">
-                                                <iframe class="embed-responsive-item" id="iframe_{{ group.lift.slug }}" width="520" height="335" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ group.lift }}" frameborder="0" allowfullscreen></iframe>
+                                            <div class="embed-responsive embed-responsive-16by9 mobile-padding">
+                                                <iframe class="embed-responsive-item" id="iframe_{{ group.lift.slug }}" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ group.lift }}" frameborder="0" allowfullscreen></iframe>
                                             </div>
                                         </div>
-                                        {% comment %}
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                                        <div class="modal-footer" style="text-align: center;">
+                                            <a class="full-width" style="color: #7ab2ea !important;" data-dismiss="modal">Close</a>
                                         </div>
-                                        {% endcomment %}
+
                                     </div>
                                 </div>
                             </div>
