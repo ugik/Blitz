@@ -85,8 +85,12 @@ def spotter_payments(request):
         else:
             start_date = client.date_created
 
-        until_date = date.today() if date.today < blitz.end_date else blitz.end_date
-        months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=until_date))))
+        if date.today < blitz.end_date or blitz.recurring:
+            until_date = date.today()
+        else:
+            until_date = blitz.end_date    # until end of blitz if it's not recurring or in the past
+
+        months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=until_date))))   # months of usage
 
         membership = client.blitzmember_set.all()
         if not membership[0].price:   # if there was no special invitation price
@@ -122,29 +126,33 @@ def spotter_payments(request):
                         grand_total_paid -= float(debit.amount)/100
 
         payment = 0
-        error = None
+        note = error = None
         if not charge or float(total_cost)-float(total_paid)>0:
 
-            if apply:   # apply outstanding balance to cc
-                card = balanced.Card.fetch(client.balanced_account_uri)
+            if apply and client.balanced_account_uri:   # apply outstanding balance to cc
                 meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
                         "email": client.user.email}
 
                 try:
-                    debit_amount_str = "%d" % (float(total_cost)-float(total_paid))*100
-                    #debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
-                    #                   amount = debit_amount_str, description='Blitz.us payment', meta=meta)
+                    card = balanced.Card.fetch(client.balanced_account_uri)
+                    debit_amount_str = "%d" % ((float(total_cost)-float(total_paid))*100)
+                    debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
+                                       amount = debit_amount_str, description='Blitz.us payment', meta=meta)
 
                     if debit.status != 'succeeded':
-                        error = debit.failure_reason
+                        note = debit.failure_reason
+                        error = True
+                    else:
+                        note = debit.status
 
                 except Exception as e:
-                    error = "Error: %s, %s, %s" % (e.status, e.category_code, e.additional)
+                    note = "Error: %s" % e.status
+                    error = True
 
                 payment = (float(total_cost)-float(total_paid)) if not error else 0
 
             clients.append({'client':client, 'blitz': blitz, 'membership': membership[0], 'payment': payment,
-                            'start':start_date, 'months': months, 'payments': payments, 'error': error,
+                            'start':start_date, 'months': months, 'payments': payments, 'note': note,
                             'total_cost': '%.2f' % total_cost, 'total_paid': '%.2f' % total_paid, 'due': '%.2f' % (float(total_cost)-float(total_paid))})
 
         payments = []
