@@ -1536,10 +1536,13 @@ a.edit-workout-link {
     color: white;
     font-weight: lighter;
     .content {
-      padding: 10px 20px 0px 195px;
-      margin-bottom: 25px;
+      padding: 0px 20px 0px 195px;
+      margin-bottom: 20px;
       @include mobile-only {
         padding: 20px;
+        width: 100%;
+        margin-top: 60px;
+        margin-bottom: 0px;
         text-align: center;
       };
       .name {
