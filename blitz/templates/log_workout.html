@@ -207,8 +207,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="workout-input workout-input-weight input-group" {% if group.lift.weight_or_body %}style="display:none;"{% endif %}>
+                                <div {% if group.lift.weight_or_body %}style="display:none;"{% endif %} class="col-xs-6">
+                                    <div class="workout-input workout-input-weight input-group" >
                                         <input type="number" step="any"
                                                class="form-control"
                                                name="set-{{ set_info.workout_set.pk }}-weight"
@@ -218,7 +218,7 @@
                                     </div>    
                                 </div>
                                         
-                                <div class="col-xs-6">
+                                <div {% if group.lift.weight_or_body %}class="col-xs-12"{% else %}class="col-xs-6"{% endif %}>
                                     <div class="workout-input workout-input-reps input-group">
                                         <input type="number" step="any"
                                                class="form-control"
