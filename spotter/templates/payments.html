@@ -18,6 +18,12 @@
     <h3>Month {{ month }}</h3>
 {% endif %}
 
+{% if charge %}
+<a href="/spotter/payments?charge&apply">Charge outstanding balances</a><br>
+{% else %}
+<a href="/spotter/payments?charge">Review outstanding balances</a><br>
+{% endif %}
+
 {% if trainer %}
     <h3>Total payments collected ${{ total|stringformat:"1.2f"|cut:"-" }}<br>
         Net to trainer <u>${{ net|stringformat:"1.2f"|cut:"-" }}</u></h3>
