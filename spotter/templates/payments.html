@@ -18,6 +18,12 @@
     <h3>Month {{ month }}</h3>
 {% endif %}
 
+{% if charge %}
+<a href="/spotter/payments?charge&apply">Charge outstanding balances</a><br>
+{% else %}
+<a href="/spotter/payments?charge">Review outstanding balances</a><br>
+{% endif %}
+
 {% if trainer %}
     <h3>Total payments collected ${{ total|stringformat:"1.2f"|cut:"-" }}<br>
         Net to trainer <u>${{ net|stringformat:"1.2f"|cut:"-" }}</u></h3>
@@ -55,7 +61,8 @@
          {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
          {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
 <br>
-         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
+         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: $<b><u>{{ client.due }}</u></b>
+         {% if client.note %} <br><br><b>Note: {{ client.note }} </b><br>{% endif %}
      {% endif %}
 
 <br><br>
@@ -74,7 +81,7 @@
   {% endfor %}
 
 {% else %}
-   <b>No Payments to report at this time.</b>
+   <br><br><b>No Payments to report at this time.</b>
 {% endif %}
 </div>
 
