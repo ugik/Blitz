@@ -6622,11 +6622,6 @@ a#logo2.branding {
   width: 125px;
 }
 
-/* line 5723, ../sass/style.scss */
-.macro-history table {
-  width: 99% !important;
-}
-
 /* line 5727, ../sass/style.scss */
 .macro-history table td {
   font-family: 'metanormal_caps';
