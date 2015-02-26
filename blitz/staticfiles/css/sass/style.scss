@@ -1,5 +1,5 @@
 
-$fadedblue: #7ab2ea;
+$blitz-blue: #7ab2ea;
 $border: 1px solid rgba(0,0,0,0.05);
 $imageborder: 3px solid white;
 $linkcolor: #7ab2ea;
@@ -530,7 +530,7 @@ Example @include keyframes
   padding: 0px;
   height: 100%;
   .panel-title {
-    font-size: 24px;
+    //font-size: 24px;
     a {
       width: 100%;
       height: 100%;
@@ -539,12 +539,12 @@ Example @include keyframes
       text-decoration: none;
       &:hover {
         text-decoration: none;
-        color: #fff;
+        //color: #fff;
       }
     }    
   }
   &:hover {
-    background: $fadedblue;
+    background: $blitz-blue;
   }
 }
 
@@ -582,7 +582,7 @@ body {
 }
 
 a {
-  color: $fadedblue;
+  color: $blitz-blue;
   text-decoration: none;
   @include transition(0.3s, linear);
   }
@@ -651,11 +651,11 @@ textarea:focus {
   box-shadow:none !important;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  border: 1px solid $fadedblue;
+  border: 1px solid $blitz-blue;
 }
 
 textarea:hover {
-  border: 1px solid $fadedblue;
+  border: 1px solid $blitz-blue;
 }
 
 textarea,textarea:focus {
@@ -1240,7 +1240,7 @@ h3 {@include lightfont();}
     border-top-left-radius: 4px;
     color: white;
     //@include blitz-gradient();
-    background: $fadedblue;
+    background: $blitz-blue;
     padding: $parentpadding;
     border-bottom: $border;
     font-size: 18px;
@@ -1377,45 +1377,87 @@ a.edit-workout-link {
 
 }
 
-.log-workout-page {
-  p {
-    text-align: center;
+.x-out {
+  color: $mainfontcolor!important;
+  :hover {
+    color: $blitz-blue!important;
   }
+}
+
+.log-workout-page {
   background: white;
   padding: 20px;
+  .modal-header span {
+    color: $mainfontcolor;
+  }
+  p {
+    text-align: left;
+  }
   h2 {
-    @include header1();
     text-align: center;
     line-height: 1.3;
+    margin-top: 0px;
+    //margin-bottom: 30px;
   }
-  .accordion-group {
+  .panel-group {
     margin-bottom: 20px;
   }
-  .accordion-heading {
-    @include transition(0.25mems, linear);
+  .panel-heading, .panel-title, .panel-title a, .panel-title span {
+    @include transition(0.25ms, linear);
+  }
+  h3 {
+    font-size: 1.3em;
+    @include lightfont();
+  }
+  .panel-title {
+    font-size: 1.4em;
+    padding: 10px;
+    color: $mainfontcolor;
+  }
+  .panel-heading {
+    @include transition(0.25s, linear);
     a {
-      text-align: center;
       text-decoration: none;
       padding: 18px;
-      @include header2();
+      color: $mainfontcolor;
+      //@include header2();
       span.small {
-        @include header2small();
-        @include transition(0.25s, linear);
+        //@include header2small();
+        @include mobile-only {
+          line-height: 0px;
+        }
       }
       span.small:hover {
         color: white;
+        cursor: pointer;
       }
     }
-    .accordion-toggle:hover {
-    color: white;
+    a:hover {
+      color: white!important;
+      cursor: pointer;
+    }
+    .panel-toggle:hover {
+      color: white !important;
+      cursor: pointer; 
     }
   }
-  .accordion-heading:hover, {
-    background-color: $fadedblue;
-    color: white !important;
+  .panel-heading i {
+    color: $blitz-blue;
   }
-  .accordion-heading:hover span {
+  .panel-heading:hover {
+    background-color: $blitz-blue;
+  }
+  .panel-heading:hover a {
     color: white !important;
+    cursor: pointer;
+  }
+  .panel-heading:hover span {
+    color: white !important;
+    cursor: pointer;
+  }
+  .panel-heading:hover i {
+    color: white !important;
+    cursor: pointer;
   }
 
   .notes-container {
@@ -1432,7 +1474,7 @@ a.edit-workout-link {
     }
   }
   .last-lift {
-
+    @include lightfont();
   }
 }
 
@@ -1577,7 +1619,7 @@ a.edit-workout-link {
   .profile-gym-session-header {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    background: $fadedblue;
+    background: $blitz-blue;
     padding: 12px 20px;
     color: white;
     @include boldfont();
@@ -1649,7 +1691,7 @@ a.edit-workout-link {
     .max-block {
       float: left;
       width: 55px;
-      background: $fadedblue;
+      background: $blitz-blue;
       height: 260px;
       margin: 0 10px;
       top: 20px;
@@ -2100,28 +2142,29 @@ a:focus {
 }
 
 .set-container {
-  overflow: none;
-  clear: both;
-  @include tablet-landscape-and-up { width: 60%;};
+  //overflow: none;
+  //clear: both;
+  @include tablet-landscape-and-up { 
+    //width: 60%;
+  };
   .set-error {
-    color: red;
+    color: $blitz-red;
     padding: 10px;
-    border: 1px solid red;
+    border: 1px solid $blitz-red;
   }
 }
 .input-append {
   float: left;
-  width: 50%;
+  //width: 50%;
   @include borderbox {};
   @include desktop-only {  };
   @include tablet-only {  };
   @include mobile-only {  }; 
   input {
-    width: 60%;
+    //width: 60%;
     text-align: center;
     @include mobile-only {
-      width: 65%;
-      
+      //width: 65%; 
     };
   }
   .add-on {
@@ -2161,7 +2204,7 @@ a:focus {
 
 
 .exercise-finished {
-  background: $fadedblue;
+  background: $blitz-blue;
   background-position: right;
   color: white;
   .accordion-heading a {
@@ -2225,14 +2268,14 @@ text-shadow: 0 -0px 0 rgba(0,0,0,0.0);
 
 
 .btn-primary:active, .btn-primary.active {
-background-color: $fadedblue;
+background-color: $blitz-blue;
 text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
 background-color: rba(255,255,255,0.3);
 color: #fff;
-background-color: $fadedblue;
+background-color: $blitz-blue;
 background-position: 0 -30px;
 }
 
@@ -2316,11 +2359,11 @@ background-position: 0 -30px;
     border-collapse: collapse;
     table-layout: fixed;
     tr.table-header {
-      background: $fadedblue;
+      background: $blitz-blue;
       color: white;
     }
     td.table-header {
-      background: $fadedblue;
+      background: $blitz-blue;
       color: white;
     }
     td {
@@ -2745,11 +2788,11 @@ hr { margin-top: 60px;}
   .bootstrap-select {
     width: 100% !important;
     background: white;
-    border: 2px solid $fadedblue;
+    border: 2px solid $blitz-blue;
     @include transition(0.5ms, ease);
     @include borderradius(5px);
     text-decoration: none !important;
-    color: $fadedblue;
+    color: $blitz-blue;
     text-align: center;
     margin: 0 auto;
   }
@@ -2757,18 +2800,18 @@ hr { margin-top: 60px;}
     text-align: center;
     width: 100% !important;
     background: white;
-    color: $fadedblue;
+    color: $blitz-blue;
     text-shadow: none;
   }
   .btn {
     text-align: center;
     width: 100%;
     background: white;
-    color: $fadedblue;
+    color: $blitz-blue;
     text-shadow: none;
   }
   .btn-group.bootstrap-select.show-tick.open span.caret {
-    color: $fadedblue;
+    color: $blitz-blue;
   }
   */
   .formpage-block-form {
@@ -2820,14 +2863,14 @@ hr { margin-top: 60px;}
     transition: border .75s ease;
   }
   input:hover {
-    border: 1px solid $fadedblue;
+    border: 1px solid $blitz-blue;
   }
   input:focus {
-    border: 1px solid $fadedblue;
+    border: 1px solid $blitz-blue;
     //@mixin boxshadow(0px,0px,3px,3px,rgb(241, 94, 56));
-    -webkit-box-shadow: 0px 0px 5px 1px $fadedblue;
-    -moz-box-shadow: 0px 0px 5px 1px $fadedblue;
-    box-shadow: 0px 0px 5px 1px $fadedblue;
+    -webkit-box-shadow: 0px 0px 5px 1px $blitz-blue;
+    -moz-box-shadow: 0px 0px 5px 1px $blitz-blue;
+    box-shadow: 0px 0px 5px 1px $blitz-blue;
   }
 
   input[type="number"] {
@@ -2974,10 +3017,10 @@ text-decoration: none;
   //background: rgba(236,163,104, .05);
   background: white;
   color: #515352;
-  border: 1px solid $fadedblue;
+  border: 1px solid $blitz-blue;
   text-shadow: none;
   //display: none;
-  border: 1px solid $fadedblue;
+  border: 1px solid $blitz-blue;
   font-size: 1.3em;
   padding: 20px 20px;
   line-height: 1.5;
@@ -3022,7 +3065,7 @@ text-decoration: none;
 
 .intro-modal-header {
   color: white !important; 
-  background-color: $fadedblue;
+  background-color: $blitz-blue;
   padding: 20px; 
   font-size: 1.2em;
   @include mobile-only {font-size: 1.0em;};
@@ -3456,13 +3499,13 @@ input::-webkit-inner-spin-button {
     0% {
         visibility: visible;
         width: 0%;
-        background-color: $fadedblue;
+        background-color: $blitz-blue;
         color: white;
     }
     95% {
         visibility: visible;
         width: 100%;
-        background-color: $fadedblue;
+        background-color: $blitz-blue;
         color: white;
     }
     100% {
@@ -3476,13 +3519,13 @@ input::-webkit-inner-spin-button {
     0% {
         visibility: visible;
         width: 0%;
-        background-color: $fadedblue;
+        background-color: $blitz-blue;
         color: white;
     }
     95% {
         visibility: visible;
         width: 100%;
-        background-color: $fadedblue;
+        background-color: $blitz-blue;
         color: white;
     }
     100% {
@@ -3496,13 +3539,13 @@ input::-webkit-inner-spin-button {
     0% {
         visibility: visible;
         width: 0%;
-        background-color: $fadedblue;
+        background-color: $blitz-blue;
         color: white;
     }
     95% {
         visibility: visible;
         width: 100%;
-        background-color: $fadedblue;
+        background-color: $blitz-blue;
         color: white;
     }
     100% {
@@ -3867,7 +3910,7 @@ span.num-unread-threads {
   @include boldfont();
   color: white;
   @include blitz-gradient();
-  background: $fadedblue;
+  background: $blitz-blue;
   @include borderradius(20px);
   padding: 2px 6px;
 }
@@ -3944,11 +3987,11 @@ input#id_document {
   min-width: 50%;
   max-width: 750px;
   background: white;
-  //border: 2px solid $fadedblue;
+  //border: 2px solid $blitz-blue;
   @include transition(0.5ms, ease);
   @include borderradius(5px);
   text-decoration: none !important;
-  color: $fadedblue;
+  color: $blitz-blue;
   text-align: center;
   //margin: 0 auto;
   //width: 30%;
@@ -3957,11 +4000,11 @@ input#id_document {
 
 label#id_document.upload {
   background: white;
-  border: 2px solid $fadedblue;
+  border: 2px solid $blitz-blue;
   @include transition(0.3s, ease);
   @include borderradius(5px);
   text-decoration: none !important;
-  color: $fadedblue;
+  color: $blitz-blue;
   text-align: center;
   //margin: 0 auto;
   //width: 30%;
@@ -3995,8 +4038,8 @@ label#id_document.upload {
   @include transition(0.3s, linear);
   text-shadow: none;
   span.caret {
-    border-top-color: $fadedblue !important;
-    border-bottom-color: $fadedblue !important;
+    border-top-color: $blitz-blue !important;
+    border-bottom-color: $blitz-blue !important;
   }
   span.caret:hover {
     border-top-color: white !important;
@@ -4008,11 +4051,11 @@ label#id_document.upload {
 .btn-outline, .btn-info {
   text-shadow: none;
   background: white;
-  border: 2px solid $fadedblue;
+  border: 2px solid $blitz-blue;
   @include transition(0.3s, linear);
   @include borderradius(5px);
   text-decoration: none !important;
-  color: $fadedblue;
+  color: $blitz-blue;
   text-align: center;
   //margin: 0 auto;
   //width: 30%;
@@ -4025,9 +4068,9 @@ label#id_document.upload {
 }
   
   .btn-outline:hover, .btn-outline:active, .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled], .btn-group.open .btn-info.dropdown-toggle, .btn-outline-trans:hover, .btn-outline-trans:focus, .btn-outline-trans:active  {
-    background: $fadedblue;
+    background: $blitz-blue;
     color: white;
-    border: 2px solid $fadedblue;
+    border: 2px solid $blitz-blue;
   }
 
 .btn-outline-trans {
@@ -4701,7 +4744,7 @@ a#secondary_logo.navbar-brand {
 }
 
 .logoborder:hover {
-    border: 2px dashed $fadedblue;
+    border: 2px dashed $blitz-blue;
   }
 
 #trainernologo {
@@ -4733,7 +4776,7 @@ a#secondary_logo.navbar-brand {
 }
 
 .results-count {
-  background: $fadedblue;
+  background: $blitz-blue;
   float: right;
   width: 25px;
   height: 25px;
@@ -4969,8 +5012,8 @@ padding: 30px 30px 30px 43px;
 }
 
 a.ui-state-default :hover {
-  border: 1px solid $fadedblue;
-  color: $fadedblue;
+  border: 1px solid $blitz-blue;
+  color: $blitz-blue;
 }
 
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
@@ -4983,7 +5026,7 @@ a.ui-state-default :hover {
 
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, .dropdown-submenu:hover>a, .dropdown-submenu:focus>a {
   @include blitz-gradient();
-  background-color: $fadedblue;
+  background-color: $blitz-blue;
 }
 
 .trainer-alert .btn {
@@ -4993,7 +5036,7 @@ a.ui-state-default :hover {
 
 .trainer-alert form .btn {
   @include blitz-gradient();
-  background: $fadedblue;
+  background: $blitz-blue;
   border: none;
   box-shadow: none;
 }
@@ -5061,7 +5104,7 @@ a.ui-state-default :hover {
     -webkit-border-radius: 100px;
     border-radius: 100px;
     //background: rgba(0,0,0,0.6); 
-    background: $fadedblue;
+    background: $blitz-blue;
     //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 ::-webkit-scrollbar-thumb:window-inactive {
@@ -5093,13 +5136,13 @@ a.ui-state-default :hover {
 }
 
 .feeds-filter ul li:hover {
-    color: $fadedblue;
-    border-bottom: 3px solid $fadedblue;
+    color: $blitz-blue;
+    border-bottom: 3px solid $blitz-blue;
     //text-shadow: 1px 1px rgba(0,0,0,0.15);
   }
 
 .feeds-filter ul li.active {
-  color: $fadedblue;
+  color: $blitz-blue;
 }
 
 .client-summary, .feeds, .feeds-filter, #main-feed {
@@ -5187,7 +5230,7 @@ h3 a#name, a#blurb {
   @include transition(0.3s, linear);
   background: white;
   border-radius: 6px 0px 0px 0px;
-  color: $fadedblue;
+  color: $blitz-blue;
   font-size: 16px;
   @include meta();
   width: 50%;
@@ -5199,11 +5242,11 @@ h3 a#name, a#blurb {
   outline: none;
   box-shadow: none;
   @include borderbox();
-  border: 2px solid $fadedblue;
+  border: 2px solid $blitz-blue;
 }
 
 .macro-toggle .active {
-  background: $fadedblue;
+  background: $blitz-blue;
   color: white;
 }
 
@@ -5213,7 +5256,7 @@ h3 a#name, a#blurb {
   @include transition(0.3s, linear);
   background: white;
   border-radius: 0px 6px 0px 0px;
-  color: $fadedblue;
+  color: $blitz-blue;
   font-size: 16px;
   @include meta();
   width: 50%;
@@ -5225,7 +5268,7 @@ h3 a#name, a#blurb {
   outline: none;
   box-shadow: none;
   @include borderbox();
-  border: 2px solid $fadedblue;
+  border: 2px solid $blitz-blue;
 }
 
 .macro-history .days tr {
@@ -5406,7 +5449,7 @@ body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:
 
 
 #main-content-container div.container div.row.rightrow div.col-md-8.rightspan div.alert.alert-info {
-  border: 1px solid $fadedblue !important;
+  border: 1px solid $blitz-blue !important;
   background: white !important;
 }
 
@@ -6072,19 +6115,19 @@ a#name, a#plan_name, a#client_name {
 .navrow .nav {
   width: 90%;
   color: white;
-  @include transition(all,0.3s);
+  @include transition(0.25s, linear);
   font-size: 0.9em;
   letter-spacing: -1px;
   text-transform: capitalize;
   padding: 15px;
   @include meta();
   a:hover {
-    color: $fadedblue;
+    color: $blitz-blue;
   }
 }
 
 .navrow > ul > li :hover{
-  color: $fadedblue !important;
+  color: $blitz-blue !important;
 }
 
 .navbar-header .btn-outline-trans {
@@ -6106,23 +6149,23 @@ a#name, a#plan_name, a#client_name {
 
 #bs-example-navbar-collapse-1 ul li>a {
   color: white;
-  @include transition(all,0.3s);
+  @include transition(0.25s, linear);
   font-size: 0.9em;
   letter-spacing: -1px;
   text-transform: capitalize;
   @include meta();
   :hover {
-    color: $fadedblue;
+    color: $blitz-blue;
   }
 }
 
 #bs-example-navbar-collapse-1 > ul > li.active > a {
   background-color: transparent;
-  color: $fadedblue;
+  color: $blitz-blue;
 }
 
 #bs-example-navbar-collapse-1 ul li > a:hover {
-  color: $fadedblue !important;
+  color: $blitz-blue !important;
 }
 
 .container {
@@ -6334,11 +6377,11 @@ a.feed-permalink {
 }
 
 #datepicker :hover {
-  color: $fadedblue;
+  color: $blitz-blue;
 }
 
 .ui-datepicker-header {
-  background-color: $fadedblue !important;
+  background-color: $blitz-blue !important;
   color: white !important;
   border: none;
   border-radius: 0px;
@@ -6360,7 +6403,7 @@ a.feed-permalink {
 }
 
 .ui-state-default :hover {
-  background: $fadedblue;
+  background: $blitz-blue;
   color: white;
 }
 
@@ -6496,8 +6539,45 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   @include lightfont();
 }
 
-  .getting-started {
-    @include lightfont();
-    line-height: 1.4;
-    font-size: 0.9em;
+.getting-started {
+  @include lightfont();
+  line-height: 1.4;
+  font-size: 0.9em;
+}
+
+.linky {
+  //@include transition(all,0.25s);
+  color: $blitz-blue;
+  :hover {
+    cursor: pointer;
   }
+}
+
+.videoicon {
+  margin-top: 10px;
+  :hover {
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.videolink {
+  font-size: 0.9em;
+  margin-top: -5px;
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.workout-input input {
+  text-align: center;
+}
+
+.mobile-only {
+  @include mobile-landscape-and-up {
+    display: none;
+  }
+  @include mobile-only {
+    display: block;
+  }
+}
