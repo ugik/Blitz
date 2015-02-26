@@ -55,6 +55,7 @@
          {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
 <br>
          Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: $<b><u>{{ client.due }}</u></b>
+         {% if client.error %} <br>Error: {{ client.error }} <br>{% endif %}
      {% endif %}
 
 <br><br>

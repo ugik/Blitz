@@ -50,6 +50,7 @@ def spotter_index(request):
 #         ?trainer= (filters for specific trainer id)
 #         ?month= (filters for month #)
 #         ?charge (shows only overdue accounts)
+#         ?apply (when used w/charge applies charges to overdue accounts)
 #
 @login_required
 def spotter_payments(request):
@@ -60,6 +61,7 @@ def spotter_payments(request):
 
     test = True if 'test' in request.GET else None
     charge = True if 'charge' in request.GET else None
+    apply = True if 'apply' in request.GET and charge else None
 
     if trainer:
         trainer = Trainer.objects.get(pk=trainer)
@@ -83,16 +85,17 @@ def spotter_payments(request):
         else:
             start_date = client.date_created
 
-        months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
+        until_date = date.today() if date.today < blitz.end_date else blitz.end_date
+        months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=until_date))))
 
         membership = client.blitzmember_set.all()
         if not membership[0].price:   # if there was no special invitation price
-            if blitz.recurring:
+            if blitz.price_model == "R":   # recurring price model
                 total_cost = months * blitz.price
             else:
                 total_cost = blitz.price
         else:
-            if blitz.recurring:
+            if blitz.price_model == "R":
                 total_cost = months * membership[0].price
             else:
                 total_cost = membership[0].price
@@ -118,9 +121,30 @@ def spotter_payments(request):
                         total_paid = float(total_paid) - float(debit.amount)/100
                         grand_total_paid -= float(debit.amount)/100
 
+        payment = 0
+        error = None
         if not charge or float(total_cost)-float(total_paid)>0:
-            clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
-                            'start':start_date, 'months': months, 'payments': payments,
+
+            if apply:   # apply outstanding balance to cc
+                card = balanced.Card.fetch(client.balanced_account_uri)
+                meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
+                        "email": client.user.email}
+
+                try:
+                    debit_amount_str = "%d" % (float(total_cost)-float(total_paid))*100
+                    #debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
+                    #                   amount = debit_amount_str, description='Blitz.us payment', meta=meta)
+
+                    if debit.status != 'succeeded':
+                        error = debit.failure_reason
+
+                except Exception as e:
+                    error = "Error: %s, %s, %s" % (e.status, e.category_code, e.additional)
+
+                payment = (float(total_cost)-float(total_paid)) if not error else 0
+
+            clients.append({'client':client, 'blitz': blitz, 'membership': membership[0], 'payment': payment,
+                            'start':start_date, 'months': months, 'payments': payments, 'error': error,
                             'total_cost': '%.2f' % total_cost, 'total_paid': '%.2f' % total_paid, 'due': '%.2f' % (float(total_cost)-float(total_paid))})
 
         payments = []
@@ -129,7 +153,7 @@ def spotter_payments(request):
     net = float(grand_total_paid * 0.85)
     
     return render(request, 'payments.html', 
-          {'clients' : clients, 'test' : test, 'charge' : charge, 'trainer' : trainer, 
+          {'clients' : clients, 'test' : test, 'charge' : charge, 'apply' : apply, 'trainer' : trainer, 
            'total' : grand_total_paid, 'net' : net, 'month' : month })
 
 @login_required
