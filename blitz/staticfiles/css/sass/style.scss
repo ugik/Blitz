@@ -1529,7 +1529,7 @@ a.edit-workout-link {
   @include mobile-only {background: url('/static/images/coverphoto1-mini.jpg') no-repeat;};
   .profile-header-top {
     height: 160px;
-    position: relative;
+    //position: relative;
   }
   .profile-header-bottom {
     background: rgba(0, 0, 0, 0.5);
@@ -1538,7 +1538,10 @@ a.edit-workout-link {
     .content {
       padding: 10px 20px 0px 195px;
       margin-bottom: 25px;
-      @include mobile-only {padding: 20px;};
+      @include mobile-only {
+        padding: 20px;
+        text-align: center;
+      };
       .name {
         @include header3();
         text-transform: capitalize;
@@ -1559,7 +1562,11 @@ a.edit-workout-link {
     position: absolute;
     border: 6px solid white;
     top: 85px;
-    @include mobile-only { left: 25%; };
+    @include mobile-only { 
+      text-align: center;
+      margin-left: 26%;
+      //margin-right: auto; 
+    };
   }
 }
 
@@ -1575,19 +1582,17 @@ a.edit-workout-link {
     @include borderbox();
     @include mobile-only {
       padding: 10px;
-      width: 50%;
-      float: left;
+      //width: 50%;
+      //float: left;
       };
-    float: left;
+    //float: left;
     border: solid 1px rgba(0,0,0,0.1);
-    a {
       color: white;
       @include meta();
       //@include lightfont();
       font-size: 24px;
       @include mobile-only {font-size: 16px;};
-      text-decoration: none;
-    }
+      text-decoration: none; 
     -webkit-transition: background .5s ease;
     -moz-transition: background .5s ease;
     -ms-transition: background .5s ease;

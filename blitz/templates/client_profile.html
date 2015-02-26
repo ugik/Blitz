@@ -43,24 +43,28 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="tab{% if section == "history" %} active{% endif %}">
+                    <a href="{% url "client_profile_history" client.pk %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "history" %} active{% endif %}">
                         <i class="glyphicon glyphicon-calendar profile-tab-icon"></i>
-                        <a href="{% url "client_profile_history" client.pk %}">History</a>
-                    </div>
-                    <div class="tab{% if section == "progress" %} active{% endif %}">
+                        History
+                    </div></a>
+                    <a href="{% url "client_profile_progress" client.pk %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "progress" %} active{% endif %}">
                         <i class="glyphicon glyphicon-stats profile-tab-icon"></i>
-                        <a href="{% url "client_profile_progress" client.pk %}">Progress</a>
-                    </div>
-                    <div class="tab{% if section == "checkins" %} active{% endif %}">
+                        Progress
+                    </div></a>
+                    <a href="{% url "client_profile_checkins" client.pk %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "checkins" %} active{% endif %}">
                         <i class="glyphicon glyphicon-pencil profile-tab-icon"></i>
-                        <a href="{% url "client_profile_checkins" client.pk %}">Check-ins</a>
-                    </div>
+                        Check-ins
+                    </div></a>
 
                     {% if user.client == client %}
-                    <div class="tab{% if section == "settings" %} active{% endif %}">
+                    <a href="{% url "client_settings" %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "settings" %} active{% endif %}">
                         <i class="glyphicon glyphicon-cog profile-tab-icon"></i>
-                        <a href="{% url "client_settings" %}">Settings</a>
-                    </div>
+                        Settings
+                    </div></a>
                     {% endif %}
                 </div>
             </div>
