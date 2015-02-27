@@ -7803,6 +7803,11 @@ a.feed-permalink {
 }
 
 /* line 6785, ../sass/style.scss */
+#summary .cover {
+  text-align: center;
+}
+
+/* line 6791, ../sass/style.scss */
 .clientlist {
   background: url("../images/sidebar_background.png") #252322;
   height: 100%;
