@@ -1339,8 +1339,8 @@ def new_comment(request):
 
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
         # Store Picture File
-        if request.FILES.getlist('comment_picture'):
-            picture_file = request.FILES.getlist('comment_picture')[0]
+        if request.FILES.getlist('picture'):
+            picture_file = request.FILES.getlist('picture')[0]
             handle_uploaded_file(picture_file)
             comment_picture = 'feed/' + str(picture_file)
 
@@ -1351,24 +1351,24 @@ def new_comment(request):
         if request.FILES.getlist('picture'):
             picture_file = request.FILES.getlist('picture')[0]
             handle_uploaded_file(picture_file)
-            request.POST["comment_picture"] = 'feed/' + str(picture_file)
+            request.POST["picture"] = 'feed/' + str(picture_file)
 
         if selected_item == 'blitz':  # post to blitz (group) feed
             blitz = Blitz.objects.get_or_none(pk = object_id)
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture, blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
         elif selected_item == 'client':  # post to individual client feed
             client = Client.objects.get(pk = object_id)
             blitz = client.get_blitz()
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture, blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
 
     else:
-        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture)
+        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture)
 
         # analytics
         if not request.user.is_trainer:
             analytics_track(str(request.user.id), 'new_comment', {
                       'name': request.user.client.name,
-                      'comment': request.POST.get('comment_text'),
+                      'comment': request.POST.get('comment'),
                      })
 
     ret = {
