@@ -75,7 +75,7 @@
                 }
             });
         });
-        $('.lift-toggle').on('click', function() {
+        $('.lift-toggle').on('click', function() { 
             var parent = $(this).closest('.exercise-group');
             var lift = parent.data('exercise');
             var settype = $(this).data('settype');
@@ -137,7 +137,7 @@
 
         <div class="panel-group" id="accordion">
             {% for group in grouped_sets %}
-            <div class="panel panel-default">
+            <div class="panel panel-default exercise-group" data-exercise="{{ group.lift.slug }}" data-weight_or_body="{% if group.lift.weight_or_body %}yes{% else %}no{% endif %}" >
                 <div class="panel-heading" role="tab" id="heading-{{ group.lift.slug }}">
                     <div class="row">
                         <div class="col-xs-9">
@@ -208,8 +208,8 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="btn-group btn-group-justified" role="group">
-                                                <div class="btn-group" role="group">
-                                                    <button id="{{ group.lift.slug }}-toggle-B" data-settype="B" type="button" class="btn btn-primary active">Body Wt</button>
+                                                <div class="btn-group" role="group" >
+                                                    <button id="{{ group.lift.slug }}-toggle-B" data-settype="B" type="button" class="btn btn-primary lift-toggle" >Body Wt {{ group.lift.slug }}</button>
                                                 </div>
                                                 <div class="btn-group" role="group">
                                                     <button id="{{ group.lift.slug }}-toggle-A" data-settype="A" type="button" class="btn btn-primary lift-toggle" >Assisted</button>
@@ -237,8 +237,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div {% if group.lift.weight_or_body %}style="display:none;"{% endif %} class="col-xs-6">
-                                    <div class="workout-input workout-input-weight input-group" >
+                                <div class="col-xs-6">
+                                    <div class="workout-input workout-input-weight input-group" class="col-xs-6" {% if group.lift.weight_or_body %}style="display:none;"{% endif %}>
                                         <input type="number" step="any"
                                                class="form-control"
                                                name="set-{{ set_info.workout_set.pk }}-weight"
@@ -247,8 +247,7 @@
                                         <span class="input-group-addon">{{ client.units|weight_label }}</span>
                                     </div>    
                                 </div>
-                                        
-                                <div {% if group.lift.weight_or_body %}class="col-xs-12"{% else %}class="col-xs-6"{% endif %}>
+                                <div class="col-xs-6">
                                     <div class="workout-input workout-input-reps input-group">
                                         <input type="number" step="any"
                                                class="form-control"
