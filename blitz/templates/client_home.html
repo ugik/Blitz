@@ -68,38 +68,44 @@
     <div class="col-md-8">
 
         {% if days_since_checkin > 14 %}
-                <div class="alert alert-info">
-                    <div class="alert-text">
+            <div class="alert alert-info">
+                <div class="row">
+                    <div class="col-md-9">
                         It's been {{ days_since_checkin }} days since your last check-in.
                     </div>
-                    <div class="alert-btn-wrap">
+                    <div class="cl-md-3" style="text-align: right;">
                         <a href="{% url "client_checkin"  %}">Check-in now</a>
                     </div>
                 </div>
+            </div>
         {% endif %}
 
         {% if days_since_blitz > 14 %}
-                <div class="alert alert-info">
-                    <div class="alert-text">
+            <div class="alert alert-info">
+                <div class="row">
+                    <div class="col-md-9">
                         Time for a check-in.
                     </div>
-                    <div class="alert-btn-wrap">
+                    <div class="col-md-3" style="text-align: right;">
                         <a href="{% url "client_checkin"  %}">Check-in now</a>
                     </div>
                 </div>
+            </div>
         {% endif %}
 
 
         {% if missed_workouts %}
             {% for day, workout_day in missed_workouts %}
-                <div class="alert alert-info">
-                    <div class="alert-text">
-                        You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}
+            <div class="alert alert-info">
+                <div class="row">
+                    <div class="col-md-9">
+                        You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}.
                     </div>
-                    <div class="alert-btn-wrap">
-                        <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Go log it now</a>
+                    <div class="col-md-3" style="text-align: right;">
+                        <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Log Workout</a>
                     </div>
                 </div>
+            </div>
             {% endfor %}
         {% endif %}
 
