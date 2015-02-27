@@ -7106,7 +7106,6 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 
 /* line 6127, ../sass/style.scss */
 .navrow .nav {
-  width: 90%;
   color: white;
   transition: all 0.25s linear;
   -webkit-transition: all 0.25s linear;
@@ -7129,14 +7128,6 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   color: #7ab2ea !important;
 }
 
-/* line 6145, ../sass/style.scss */
-.navbar-header .btn-outline-trans {
-  width: 22px;
-  height: 20px;
-  float: right;
-  padding: 10px;
-  margin-top: 15px;
-}
 @media only screen and (min-width: 481px) {
   /* line 6145, ../sass/style.scss */
   .navbar-header .btn-outline-trans {
@@ -7165,7 +7156,6 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   font-size: 0.9em;
   letter-spacing: -1px;
   text-transform: capitalize;
-  padding: 30px 15px;
   font-family: 'metanormal_caps';
 }
 /* line 6170, ../sass/style.scss */
@@ -7192,13 +7182,6 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 }
 
 @media (max-width: 480px) {
-  /* line 6190, ../sass/style.scss */
-  #bs-example-navbar-collapse-1 {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
   /* line 6196, ../sass/style.scss */
   .nav .navbar-nav ul {
     width: 100%;
@@ -7210,7 +7193,6 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 @media (max-width: 480px) {
   /* line 6204, ../sass/style.scss */
   #bs-example-navbar-collapse-1 li {
-    width: 100%;
     text-align: center;
     background: #333;
   }
@@ -7639,4 +7621,9 @@ a.feed-permalink {
   .mobile-padding {
     padding: 20px;
   }
+}
+
+/* line 6604, ../sass/style.scss */
+.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+  max-height: 440px;
 }
