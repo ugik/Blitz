@@ -298,7 +298,7 @@
             $('#add-comment').off();
             $('#id_picture').off();
             $('#add-comment-submit').off();
-            $('#id_label').html('<i class="icon-camera"></i>');
+            $('#id_label').html('<i class="glyphicon glyphicon-camera"></i>');
 
             // add comment button show/hide
             $('#add-comment').on('focus', function() {
@@ -331,7 +331,7 @@
                 var comment_picture = $('#id_picture').val();
 
                 if (comment_text === "" && comment_picture === "") {
-                    $('#id_label').html('<i class="icon-camera"></i>');
+                    $('#id_label').html('<i class="glyphicon glyphicon-camera"></i>');
                     alert("Why would you post nothing?");
                     return;
                 }
@@ -361,7 +361,7 @@
                         // Clear Form
                         $('#add-comment').val('');
                         $('#id_picture').val('');
-                        $('#id_label').html('<i class="icon-camera"></i>');
+                        $('#id_label').html('<i class="glyphicon glyphicon-camera"></i>');
 
                         // Render Post
                         var $el = $(data.comment_html);
