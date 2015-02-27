@@ -6539,6 +6539,9 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
     @include mobile-only {
       display: none;
     }
+    .inner {
+      height: 100%;
+    }
   }
   .col-md-6 {
     padding-top: 30px;
@@ -6741,8 +6744,14 @@ margin-left: 15px;
 
 .feed-padding {
   padding: 20px 20px 0px 20px;
+  @include mobile-only {
+    padding: 40px 0px 0px 25px;
+  }
 }
 
+.fixed {
+  position: fixed;
+}
 
 #summary {
   @include mobile-only {
