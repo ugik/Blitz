@@ -7164,40 +7164,41 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   font-size: 0.9em;
   letter-spacing: -1px;
   text-transform: capitalize;
+  padding: 30px 15px;
   font-family: 'metanormal_caps';
 }
-/* line 6164, ../sass/style.scss */
+/* line 6165, ../sass/style.scss */
 #bs-example-navbar-collapse-1 ul li > a :hover {
   color: #7ab2ea;
 }
 
-/* line 6169, ../sass/style.scss */
+/* line 6170, ../sass/style.scss */
 #bs-example-navbar-collapse-1 > ul > li.active > a {
   background-color: transparent;
   color: #7ab2ea;
 }
 
-/* line 6174, ../sass/style.scss */
+/* line 6175, ../sass/style.scss */
 #bs-example-navbar-collapse-1 ul li > a:hover {
   color: #7ab2ea !important;
 }
 
 @media (max-width: 480px) {
-  /* line 6178, ../sass/style.scss */
+  /* line 6179, ../sass/style.scss */
   .container {
     padding: 10px;
   }
 }
 
 @media (max-width: 480px) {
-  /* line 6184, ../sass/style.scss */
+  /* line 6185, ../sass/style.scss */
   #bs-example-navbar-collapse-1 {
     width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  /* line 6190, ../sass/style.scss */
+  /* line 6191, ../sass/style.scss */
   .nav .navbar-nav ul {
     width: 100%;
     background: #333;
@@ -7206,7 +7207,7 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
 }
 
 @media (max-width: 480px) {
-  /* line 6198, ../sass/style.scss */
+  /* line 6199, ../sass/style.scss */
   #bs-example-navbar-collapse-1 li {
     width: 100%;
     text-align: center;
@@ -7214,82 +7215,82 @@ a#name :hover, a#plan_name :hover, a#client_name :hover {
   }
 }
 
-/* line 6206, ../sass/style.scss */
+/* line 6207, ../sass/style.scss */
 .navbar-static-top, .navbar-fixed-top, .navbar-fixed-bottom {
   border-radius: 0;
 }
 
 @media only screen and (min-width: 481px) {
-  /* line 6211, ../sass/style.scss */
+  /* line 6212, ../sass/style.scss */
   .right-side {
     float: right;
   }
 }
 
-/* line 6217, ../sass/style.scss */
+/* line 6218, ../sass/style.scss */
 .navbar {
   margin-bottom: 0px;
 }
 
-/* line 6221, ../sass/style.scss */
+/* line 6222, ../sass/style.scss */
 .spacer {
   height: 10px;
   display: block;
 }
 
-/* line 6226, ../sass/style.scss */
+/* line 6227, ../sass/style.scss */
 .paymentradio label {
   width: 33%;
   margin-right: 0;
   margin-left: 0;
 }
 
-/* line 6232, ../sass/style.scss */
+/* line 6233, ../sass/style.scss */
 .alert-text {
   width: 75%;
   display: inline-flex;
 }
 @media only screen and (max-width: 768px) {
-  /* line 6232, ../sass/style.scss */
+  /* line 6233, ../sass/style.scss */
   .alert-text {
     width: 100%;
   }
 }
 
-/* line 6240, ../sass/style.scss */
+/* line 6241, ../sass/style.scss */
 .alert-btn-wrap {
   width: 25%;
   display: inline;
 }
 @media only screen and (max-width: 768px) {
-  /* line 6240, ../sass/style.scss */
+  /* line 6241, ../sass/style.scss */
   .alert-btn-wrap {
     width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  /* line 6248, ../sass/style.scss */
+  /* line 6249, ../sass/style.scss */
   .mobile-hide {
     display: none;
   }
 }
 
-/* line 6254, ../sass/style.scss */
+/* line 6255, ../sass/style.scss */
 .icon-link {
   text-decoration: none;
 }
-/* line 6256, ../sass/style.scss */
+/* line 6257, ../sass/style.scss */
 .icon-link :hover {
   text-decoration: none;
 }
 
-/* line 6261, ../sass/style.scss */
+/* line 6262, ../sass/style.scss */
 a.feed-permalink {
   font-size: 12px;
 }
 
-/* line 6266, ../sass/style.scss */
+/* line 6267, ../sass/style.scss */
 .spotterwrap {
   border: 1px solid #fff;
   border-radius: 5px;
@@ -7297,27 +7298,27 @@ a.feed-permalink {
   margin-bottom: 30px;
 }
 
-/* line 6273, ../sass/style.scss */
+/* line 6274, ../sass/style.scss */
 #table a {
   pointer: cursor;
 }
 
-/* line 6278, ../sass/style.scss */
+/* line 6279, ../sass/style.scss */
 .mobilepad {
   /* Custom container */
   /* Custom navbar */
 }
 @media (max-width: 480px) {
-  /* line 6278, ../sass/style.scss */
+  /* line 6279, ../sass/style.scss */
   .mobilepad {
     padding: 20px;
   }
 }
-/* line 6283, ../sass/style.scss */
+/* line 6284, ../sass/style.scss */
 .mobilepad .price {
   color: #9dbfff;
 }
-/* line 6287, ../sass/style.scss */
+/* line 6288, ../sass/style.scss */
 .mobilepad .price h2 {
   line-height: 1;
   font-family: 'proxima_nova_excn_ththin';
@@ -7327,39 +7328,39 @@ a.feed-permalink {
   margin-bottom: -2px;
 }
 @media (max-width: 480px) {
-  /* line 6287, ../sass/style.scss */
+  /* line 6288, ../sass/style.scss */
   .mobilepad .price h2 {
     font-size: 2.5em;
   }
 }
-/* line 6300, ../sass/style.scss */
+/* line 6301, ../sass/style.scss */
 .mobilepad .price small {
   width: 100%;
   font-size: 0.25em;
 }
 @media (max-width: 480px) {
-  /* line 6300, ../sass/style.scss */
+  /* line 6301, ../sass/style.scss */
   .mobilepad .price small {
     font-size: 0.3em;
     margin-bottom: 60px;
   }
 }
-/* line 6309, ../sass/style.scss */
+/* line 6310, ../sass/style.scss */
 .mobilepad .price-plan {
   min-height: 570px;
 }
-/* line 6313, ../sass/style.scss */
+/* line 6314, ../sass/style.scss */
 .mobilepad .price-plan h3 {
   font-size: 1.2em;
   font-family: 'proxima_novabold';
   text-align: left;
 }
-/* line 6319, ../sass/style.scss */
+/* line 6320, ../sass/style.scss */
 .mobilepad .price-plan ul {
   margin-bottom: 30px;
   margin-left: 15px;
 }
-/* line 6324, ../sass/style.scss */
+/* line 6325, ../sass/style.scss */
 .mobilepad .price-plan ul li {
   margin-bottom: 15px;
   font-size: 0.8em;
@@ -7367,52 +7368,52 @@ a.feed-permalink {
   text-align: left;
   letter-spacing: -0.25px;
 }
-/* line 6333, ../sass/style.scss */
+/* line 6334, ../sass/style.scss */
 .mobilepad .span8 .message {
   font-family: 'proxima_novalight';
   font-size: 1em;
 }
-/* line 6338, ../sass/style.scss */
+/* line 6339, ../sass/style.scss */
 .mobilepad .getting-started {
   font-family: 'proxima_novalight';
   line-height: 1.4;
   font-size: 0.9em;
 }
-/* line 6352, ../sass/style.scss */
+/* line 6353, ../sass/style.scss */
 .mobilepad .container-full {
   margin: 0 auto;
   width: 100%;
 }
-/* line 6358, ../sass/style.scss */
+/* line 6359, ../sass/style.scss */
 .mobilepad .navbar-brand, .mobilepad .navbar-nav > li > a {
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 6364, ../sass/style.scss */
+/* line 6365, ../sass/style.scss */
 .mobilepad .navbar-nav > .active > a {
   opacity: .6;
 }
-/* line 6372, ../sass/style.scss */
+/* line 6373, ../sass/style.scss */
 .mobilepad .group {
   width: 100%;
 }
-/* line 6376, ../sass/style.scss */
+/* line 6377, ../sass/style.scss */
 .mobilepad .group h3 small {
   font-size: 0.4em;
   margin-left: 20px;
 }
-/* line 6381, ../sass/style.scss */
+/* line 6382, ../sass/style.scss */
 .mobilepad .inbtn {
   height: 30px;
   margin-bottom: -10px;
 }
-/* line 6386, ../sass/style.scss */
+/* line 6387, ../sass/style.scss */
 .mobilepad #datepicker :hover {
   color: #7ab2ea;
 }
-/* line 6390, ../sass/style.scss */
+/* line 6391, ../sass/style.scss */
 .mobilepad .ui-datepicker-header {
   background-color: #7ab2ea !important;
   color: white !important;
@@ -7420,111 +7421,111 @@ a.feed-permalink {
   border-radius: 0px;
   font-family: 'proxima_novabold';
 }
-/* line 6398, ../sass/style.scss */
+/* line 6399, ../sass/style.scss */
 .mobilepad .ui-datepicker-month {
   color: white;
 }
-/* line 6402, ../sass/style.scss */
+/* line 6403, ../sass/style.scss */
 .mobilepad .ui-datepicker-div {
   background: white;
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
-/* line 6407, ../sass/style.scss */
+/* line 6408, ../sass/style.scss */
 .mobilepad .ui-state-default, .mobilepad .ui-widget-content .ui-state-default, .mobilepad .ui-widget-header .ui-state-default {
   background: white !important;
   border: none !important;
 }
-/* line 6412, ../sass/style.scss */
+/* line 6413, ../sass/style.scss */
 .mobilepad .ui-state-default :hover {
   background: #7ab2ea;
   color: white;
 }
-/* line 6417, ../sass/style.scss */
+/* line 6418, ../sass/style.scss */
 .mobilepad .modal-backdrop.in {
   filter: alpha(opacity=50);
   opacity: .75;
 }
-/* line 6426, ../sass/style.scss */
+/* line 6427, ../sass/style.scss */
 .mobilepad .input-row-fw > div.btn-group.bootstrap-select.full-width {
   margin-left: 0px !important;
 }
-/* line 6430, ../sass/style.scss */
+/* line 6431, ../sass/style.scss */
 .mobilepad #ajaxwrapper > .input-row-fw > .form-input {
   margin-left: 0px !important;
 }
-/* line 6435, ../sass/style.scss */
+/* line 6436, ../sass/style.scss */
 .mobilepad #ajaxwrapper > .input-row-fw > .field-label {
   margin-left: 5%;
 }
 @media (max-width: 480px) {
-  /* line 6439, ../sass/style.scss */
+  /* line 6440, ../sass/style.scss */
   .mobilepad .mobile-margin-top {
     margin-top: 10px;
   }
 }
 @media (max-width: 480px) {
-  /* line 6445, ../sass/style.scss */
+  /* line 6446, ../sass/style.scss */
   .mobilepad .mobile-fw {
     width: 100%;
   }
 }
-/* line 6451, ../sass/style.scss */
+/* line 6452, ../sass/style.scss */
 .mobilepad .formpage-block input[type="number"] {
   left: 0px;
   margin-bottom: 10px;
 }
-/* line 6456, ../sass/style.scss */
+/* line 6457, ../sass/style.scss */
 .mobilepad .formpage-block .input-container {
   padding: 3px 0px;
 }
-/* line 6460, ../sass/style.scss */
+/* line 6461, ../sass/style.scss */
 .mobilepad #blitz-signup-form > div:nth-child(10) > input, .mobilepad input.cc-number, .mobilepad input.cc-em, .mobilepad input.cc-ey, .mobilepad input.cc-csc {
   color: #333;
 }
-/* line 6464, ../sass/style.scss */
+/* line 6465, ../sass/style.scss */
 .mobilepad .calendar-container table td {
   padding-top: 5px;
 }
-/* line 6468, ../sass/style.scss */
+/* line 6469, ../sass/style.scss */
 .mobilepad .navbar-inverse {
   background: #222;
   background-image: none;
 }
-/* line 6473, ../sass/style.scss */
+/* line 6474, ../sass/style.scss */
 .mobilepad .navbar-inverse .navbar-brand, .mobilepad .navbar-inverse .navbar-nav > li > a {
   text-shadow: none;
 }
-/* line 6477, ../sass/style.scss */
+/* line 6478, ../sass/style.scss */
 .mobilepad label#id_front_image.btn-outline :hover, .mobilepad label#id_side_image.btn-outline :hover {
   cursor: pointer;
 }
 @media (max-width: 480px) {
-  /* line 6481, ../sass/style.scss */
+  /* line 6482, ../sass/style.scss */
   .mobilepad .mobile-text-shrink {
     font-size: 0.8em;
   }
 }
-/* line 6487, ../sass/style.scss */
+/* line 6488, ../sass/style.scss */
 .mobilepad .week-performance .description ul {
   margin-left: -20px;
 }
-/* line 6491, ../sass/style.scss */
+/* line 6492, ../sass/style.scss */
 .mobilepad .box > .description a {
   font-size: 2em;
 }
-/* line 6495, ../sass/style.scss */
+/* line 6496, ../sass/style.scss */
 .mobilepad .modal-content-full .modal-body {
   height: 100%;
 }
 
-/* line 6501, ../sass/style.scss */
+/* line 6502, ../sass/style.scss */
 .price {
   color: #9dbfff;
 }
 
-/* line 6505, ../sass/style.scss */
+/* line 6506, ../sass/style.scss */
 .price h2 {
   line-height: 1;
   font-family: 'proxima_nova_excn_ththin';
@@ -7534,38 +7535,38 @@ a.feed-permalink {
   margin-bottom: -2px;
 }
 @media (max-width: 480px) {
-  /* line 6505, ../sass/style.scss */
+  /* line 6506, ../sass/style.scss */
   .price h2 {
     font-size: 2.5em;
   }
 }
 
-/* line 6518, ../sass/style.scss */
+/* line 6519, ../sass/style.scss */
 .price small {
   width: 100%;
   font-size: 0.25em;
 }
 @media (max-width: 480px) {
-  /* line 6518, ../sass/style.scss */
+  /* line 6519, ../sass/style.scss */
   .price small {
     font-size: 0.3em;
     margin-bottom: 60px;
   }
 }
 
-/* line 6527, ../sass/style.scss */
+/* line 6528, ../sass/style.scss */
 .price-plan h3 {
   font-size: 1.2em;
   font-family: 'proxima_novabold';
   text-align: left;
 }
 
-/* line 6533, ../sass/style.scss */
+/* line 6534, ../sass/style.scss */
 .price-plan ul {
   margin-bottom: 30px;
 }
 
-/* line 6537, ../sass/style.scss */
+/* line 6538, ../sass/style.scss */
 .price-plan ul li {
   margin-bottom: 15px;
   font-size: 0.85em;
@@ -7573,67 +7574,67 @@ a.feed-permalink {
   text-align: left;
 }
 
-/* line 6545, ../sass/style.scss */
+/* line 6546, ../sass/style.scss */
 .col-md-8 .message {
   font-family: 'proxima_novalight';
 }
 
-/* line 6549, ../sass/style.scss */
+/* line 6550, ../sass/style.scss */
 .getting-started {
   font-family: 'proxima_novalight';
   line-height: 1.4;
   font-size: 0.9em;
 }
 
-/* line 6555, ../sass/style.scss */
+/* line 6556, ../sass/style.scss */
 .linky {
   color: #7ab2ea;
 }
-/* line 6558, ../sass/style.scss */
+/* line 6559, ../sass/style.scss */
 .linky :hover {
   cursor: pointer;
 }
 
-/* line 6563, ../sass/style.scss */
+/* line 6564, ../sass/style.scss */
 .videoicon {
   margin-top: 10px;
 }
-/* line 6565, ../sass/style.scss */
+/* line 6566, ../sass/style.scss */
 .videoicon :hover {
   color: white;
   cursor: pointer;
 }
 
-/* line 6571, ../sass/style.scss */
+/* line 6572, ../sass/style.scss */
 .videolink {
   font-size: 0.9em;
   margin-top: -5px;
 }
-/* line 6574, ../sass/style.scss */
+/* line 6575, ../sass/style.scss */
 .videolink :hover {
   cursor: pointer;
 }
 
-/* line 6579, ../sass/style.scss */
+/* line 6580, ../sass/style.scss */
 .workout-input input {
   text-align: center;
 }
 
 @media only screen and (min-width: 321px) {
-  /* line 6583, ../sass/style.scss */
+  /* line 6584, ../sass/style.scss */
   .mobile-only {
     display: none;
   }
 }
 @media (max-width: 480px) {
-  /* line 6583, ../sass/style.scss */
+  /* line 6584, ../sass/style.scss */
   .mobile-only {
     display: block;
   }
 }
 
 @media (max-width: 480px) {
-  /* line 6592, ../sass/style.scss */
+  /* line 6593, ../sass/style.scss */
   .mobile-padding {
     padding: 20px;
   }

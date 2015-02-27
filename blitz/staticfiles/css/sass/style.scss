@@ -6160,6 +6160,7 @@ a#name, a#plan_name, a#client_name {
   font-size: 0.9em;
   letter-spacing: -1px;
   text-transform: capitalize;
+  padding: 30px 15px;
   @include meta();
   :hover {
     color: $blitz-blue;
