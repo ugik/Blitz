@@ -63,6 +63,26 @@ function save_client_setup() {
     <div class="clearfix"></div>
 {% endblock %}
 
+<<<<<<< HEAD
+=======
+<div class="row fixed full-width" style="min-height: 40px; margin-left: 0px; margin-top: 80px; ">
+	<div class="col-xs-12 mobileclientpick">
+		<div class="col-xs-9">
+			<div class="clientdisplay" style="padding: 10px; text-align: center;">
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">All clients</button>
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="profilelink">
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+					<i class="glyphicon glyphicon-user"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 <div class="row" id="dash" style="padding-top: 70px;">
 	<div class="col-md-3 clientlist fixed">
 		<div class="inner">
@@ -153,8 +173,13 @@ function save_client_setup() {
 		</div> <!-- inner -->
 	</div> <!--/ sidebar-left -->
 
+<<<<<<< HEAD
 	<div class="col-md-6"><!-- feeds -->
 		<div class="feed-padding">
+=======
+	<div class="col-md-6 col-md-offset-3 mobile-padding"><!-- feeds -->
+		<div class="">
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 			<!-- Inbox Container -->
 			<div class="inbox-container">
 				<!-- Will be populated using AJAX -->
@@ -215,7 +240,11 @@ function save_client_setup() {
 </div>
 
 		<!-- Summary -->
+<<<<<<< HEAD
 		<div class="col-md-3 summary fixed" id="summary">
+=======
+		<div class="col-md-3 col-md-offset-9 summary fixed" id="summary">
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 			{% if not clients and not blitzes %}
                 {% if invitees %}
 					{% comment %}
@@ -340,6 +369,34 @@ function save_client_setup() {
   </div>
 </div>
 
+<<<<<<< HEAD
+=======
+<!-- Modal -->
+<div class="modal fade bottom blitz-modal" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel2">Client Details</h4>
+	  </div>
+      <div class="modal-body">
+      		{% if not clients and not blitzes %}
+                {% if invitees %}
+					{% comment %}
+                    {% include "dashboard/invitee_summary.html" with invitation=invitees|last delta=0 STATIC_URL=STATIC_URL macro_details=macro_details macro_goals=macro_goals detailed_macros=detailed_macros %}
+                    {% endcomment %}
+                {% else %}
+                {% include "dashboard/_dummy_client_summary.html" %}
+			    {% endif %}
+			{% endif %}
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 {% endblock content %}
 
 {% endblock outer_content %}
