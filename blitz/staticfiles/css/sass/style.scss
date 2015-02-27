@@ -2185,6 +2185,7 @@ a:focus {
   color: white;
   padding: 10px;
   border-radius: 5px;
+  font-size: 0.85em;
   //margin-left: 20px;
   text-decoration: none;
   text-shadow: none;
@@ -3032,7 +3033,7 @@ text-decoration: none;
   text-shadow: none;
   //display: none;
   border: 1px solid $blitz-blue;
-  font-size: 1.3em;
+  font-size: 1.2em;
   padding: 20px 20px;
   line-height: 1.5;
   
@@ -3234,10 +3235,12 @@ label.radio {
 .empty-placeholder {
   background: white;
   border: 1px solid #ccc;
-  padding: 10px 20px;
-  width: 70%;
+  padding: 20px;
+  /* width: 70%; */
   margin: 10px auto;
   text-align: center;
+  line-height: 1.4;
+  border-radius: 4px;
   .title {
     @include boldfont();
     font-size: 20px;
@@ -6124,7 +6127,7 @@ a#name, a#plan_name, a#client_name {
 }
 
 .navrow .nav {
-  width: 90%;
+  //width: 90%;
   color: white;
   @include transition(0.25s, linear);
   font-size: 0.9em;
@@ -6148,11 +6151,11 @@ a#name, a#plan_name, a#client_name {
   @include mobile-only {
     display: block;
   }
-  width: 22px;
-  height: 20px;
-  float: right;
-  padding: 10px;
-  margin-top: 15px;
+  //width: 22px;
+  //height: 20px;
+  //float: right;
+  //padding: 10px;
+  //margin-top: 15px;
   :hover {
     cursor: pointer;
   }
@@ -6164,7 +6167,8 @@ a#name, a#plan_name, a#client_name {
   font-size: 0.9em;
   letter-spacing: -1px;
   text-transform: capitalize;
-  padding: 30px 15px;
+  padding: 25px 20px;
+  //padding: 30px 15px;
   @include meta();
   :hover {
     color: $blitz-blue;
@@ -6177,7 +6181,7 @@ a#name, a#plan_name, a#client_name {
 }
 
 #bs-example-navbar-collapse-1 ul li > a:hover {
-  color: $blitz-blue !important;
+  //color: $blitz-blue !important;
 }
 
 .container {
@@ -6188,7 +6192,7 @@ a#name, a#plan_name, a#client_name {
 
 #bs-example-navbar-collapse-1 {
   @include mobile-only {
-    width: 100%;
+    //width: 100%;
   }
 }
 
@@ -6202,7 +6206,7 @@ a#name, a#plan_name, a#client_name {
 
 #bs-example-navbar-collapse-1 li {
   @include mobile-only {
-    width: 100%;
+    //width: 100%;
     text-align: center;
     background: #333;
   }
@@ -6598,4 +6602,8 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   @include mobile-only {
     padding: 20px;
   }
+}
+
+.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+max-height: 440px;
 }
