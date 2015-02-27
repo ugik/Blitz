@@ -3235,10 +3235,12 @@ label.radio {
 .empty-placeholder {
   background: white;
   border: 1px solid #ccc;
-  padding: 10px 20px;
-  width: 70%;
+  padding: 20px;
+  /* width: 70%; */
   margin: 10px auto;
   text-align: center;
+  line-height: 1.4;
+  border-radius: 4px;
   .title {
     @include boldfont();
     font-size: 20px;
@@ -6165,6 +6167,7 @@ a#name, a#plan_name, a#client_name {
   font-size: 0.9em;
   letter-spacing: -1px;
   text-transform: capitalize;
+  padding: 25px 20px;
   //padding: 30px 15px;
   @include meta();
   :hover {
@@ -6178,7 +6181,7 @@ a#name, a#plan_name, a#client_name {
 }
 
 #bs-example-navbar-collapse-1 ul li > a:hover {
-  color: $blitz-blue !important;
+  //color: $blitz-blue !important;
 }
 
 .container {
