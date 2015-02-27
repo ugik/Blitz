@@ -24,34 +24,6 @@
     </div>
 </div>
 
-<div class="col-md-3 digest">
-    <h3>Clients:</h3>
-    {% regroup clients by date_created as client_list %}
-    {% for client in client_list %}
-    <ul>{{ client.grouper }}</ul>
-        <ul><ul>
-        {% for c in client.list %}
-        <li> {{ c.name }}</li>
-        {% endfor %}
-        </ul>
-    {% endfor %}
-    </ul>
-</div>
-
-<div class="col-md-3 digest">
-    <h3>Trainers:</h3>
-    {% regroup trainers by date_created as trainer_list %}
-    {% for trainer in trainer_list %}
-    <ul>{{ trainer.grouper }}</ul>
-        <ul><ul>
-        {% for c in trainer.list %}
-        <li> {{ c.name }}</li>
-    {% endfor %}
-        </ul>
-    </div>
-
-</div>
-
 <div class="row">
 
     {% if trainers %}
@@ -84,23 +56,6 @@
             </ul>
         {% endfor %}
         </ul>
-<<<<<<< HEAD
-        {% endif %}
-
-<div class="col-md-3 digest">
-    <h3>Members:</h3>
-    {% regroup members by date_created as member_list %}
-    {% for member in member_list %}
-    <ul>{{ member.grouper }}</ul>
-        <ul><ul>
-        {% for c in member.list %}
-        <li> {{ c.client.name }} in {{ c.blitz.name }} for $
-        {% if c.blitz.price|member_price:c == 0 or c.blitz.price|member_price:c == None %}FREE{% else %}{{ c.blitz.price|member_price:c }}{% endif %} </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    {% endfor %}
-=======
     </div>
     {% endif %}
 
@@ -113,11 +68,11 @@
             {{ login.last_login }}</small></li>
         {% endfor %}
         </ul>
->>>>>>> gk
     </div>
     {% endif %}
 
 </div>
 
 {% endblock %}
+
 
