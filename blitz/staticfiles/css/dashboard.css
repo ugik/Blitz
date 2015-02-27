@@ -62,8 +62,8 @@ nav .container {
     width: 100%;
 }
 nav #logo {
-    width: 270px;
-    margin: 0px 19px 0px 6px;
+    /*  width: 270px; */
+    /* margin: 0px 19px 0px 6px; */
 }
 /*nav .results-count {
     float: left;
@@ -193,7 +193,7 @@ nav p {
 .sidebar-left {
     background: url('../images/sidebar_background.png') #252322;
     height: 100vh;
-    width: 310px;
+    /*  width: 310px; */
     /*custom*/
     /*position: absolute;*/
     
@@ -234,7 +234,8 @@ nav p {
 }
 .sidebar-left .search-input {
     margin-top: 10px;
-    padding: 0 10px
+    padding: 0 10px;
+    width: 100%;
 }
 .sidebar-left .search-input input.search-text {
     -moz-border-radius: 0;
@@ -300,10 +301,10 @@ ul.filters li.item:hover {
  */
 
 .content-wrapper {
-    margin-left: 335px;
+    /* margin-left: 335px; 
     position: relative;
     margin-top: 50px;
-    padding-top: 50px;
+    padding-top: 50px; */
 }
 .content {
     position: relative;
@@ -311,10 +312,10 @@ ul.filters li.item:hover {
     /*padding-left: 25px;*/
 }
 .feeds {
-    width: 595px;
-    float: left;
+    /* width: 595px;
+    float: left; */
     color: #333;
-    font-size: 18pt;
+    /* font-size: 18pt; */
     padding: 0px 0px 0px 10px;
     margin-right: 10px
 }
@@ -326,15 +327,18 @@ ul.filters li.item:hover {
  */
 
 #summary {
-    /*position: absolute;*/
-    
+    /*    
     right: 0px;
     background: #fafafb;
-    height: 100%;
+    height: 100vh;
     border-left: 1px solid #adadad;
-    width: 330px;
+<<<<<<< HEAD
+    /* width: 330px; */
     /*float: right;*/
     
+=======
+    width: 330px;
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
     position: fixed;
     top: 0;
     right: 0;
@@ -342,7 +346,7 @@ ul.filters li.item:hover {
     float: right;
     margin-top: 71px;
     overflow-y: hidden;
-    z-index: 1;
+    z-index: 1;*/
 }
 #summary .client-summary {
     overflow-y: hidden;
@@ -362,10 +366,16 @@ ul.filters li.item:hover {
 #summary .section {
     border-top: 1px solid #c1c0c3;
     border-radius: none;
-    width: 326px;
+<<<<<<< HEAD
+    /* width: 326px; */
+=======
+    padding: 15px;
+    padding-right: 30px;
+    /*  width: 326px; */
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 }
 #summary .section:last-child {
-    border-bottom: 1px solid #c1c0c3;
+    /* border-bottom: 1px solid #c1c0c3; */
 }
 #summary .diet-goals {
     color: #9b999c;
@@ -454,17 +464,24 @@ ul.filters li.item:hover {
     color: #7ab2ea;
 }
 #summary .cover {
+<<<<<<< HEAD
     height: 230px;
+=======
+    /*  height: 230px; */
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
     color: #757476
 }
 #summary .cover img.client-picture {
     height: 125px;
+<<<<<<< HEAD
+=======
+    width: 125px;
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
     border: 5px solid #75abf5;
 }
 #summary .client-name {
     font-size: 22px;
     margin-bottom: 10px;
-    font-weight: bold
 }
 #summary .sidebar-box .header {
     padding: 13px 0 !important;
@@ -563,6 +580,10 @@ ul.filters li.item:hover {
     color: #fff;
     font-weight: bold;
 }
+
+.macro-history table td {
+    padding-top: 0px!important;
+}
 /* TODO: Move to the correct place */
 
 .feeds-filter {
@@ -650,7 +671,7 @@ ul.filters li.item:hover {
 
 .trainer-alert .btn {
     background: none transparent;
-    padding: 10px 34px;
+    /* padding: 10px 34px; */
     color: #84aeff;
     border: 2px solid #84aeff;
     margin-right: 18px;

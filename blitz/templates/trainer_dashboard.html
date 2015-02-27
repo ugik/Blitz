@@ -63,12 +63,32 @@ function save_client_setup() {
     <div class="clearfix"></div>
 {% endblock %}
 
-<div id="dashboard">
-	<div class="sidebar-left">
+<<<<<<< HEAD
+=======
+<div class="row fixed full-width" style="min-height: 40px; margin-left: 0px; margin-top: 80px; ">
+	<div class="col-xs-12 mobileclientpick">
+		<div class="col-xs-9">
+			<div class="clientdisplay" style="padding: 10px; text-align: center;">
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">All clients</button>
+			</div>
+		</div>
+		<div class="col-xs-3">
+			<div class="profilelink">
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal2">
+					<i class="glyphicon glyphicon-user"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
+<div class="row" id="dash" style="padding-top: 70px;">
+	<div class="col-md-3 clientlist fixed">
 		<div class="inner">
 			{% if clients or blitzes or invitees %}
 
-		    	        <div class="search-input">
+		    	        <div class="search-input full-width">
                                     {% if clients or blitzes %}
 	   			        <input type='text' class="search-text" placeholder="  Search for a client or program...">
                                     {% endif %}
@@ -99,7 +119,7 @@ function save_client_setup() {
 
 				{% if blitzes %}
 				    {% for blitz in blitzes %}
-	                    {% if not blitz.provisional and blitz.group %}
+	                    {% if not blitz.provisional and not blitz.recurring %}
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
@@ -153,14 +173,19 @@ function save_client_setup() {
 		</div> <!-- inner -->
 	</div> <!--/ sidebar-left -->
 
-	<div class="content-wrapper">
-		<div class="content">
+<<<<<<< HEAD
+	<div class="col-md-6"><!-- feeds -->
+		<div class="feed-padding">
+=======
+	<div class="col-md-6 col-md-offset-3 mobile-padding"><!-- feeds -->
+		<div class="">
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 			<!-- Inbox Container -->
 			<div class="inbox-container">
 				<!-- Will be populated using AJAX -->
 			</div>
 
-			<div class="feeds" style="width: 100%!important;">
+			<div class="" style="width: 100%!important;">
 				<!-- Blitz group header -->
 				<div class="group hidden">
 					<!-- Will be populated using AJAX -->
@@ -177,7 +202,6 @@ function save_client_setup() {
 							<li class="active" data-scope-filter="all">Everything</li>
 							<li data-scope-filter="workouts">Workouts</li>
 							<li data-scope-filter="checkins">Check-Ins</li>
-						</ul>
 					</div>
 
 					<div id="add-comment-container">
@@ -195,6 +219,7 @@ function save_client_setup() {
 						</form>
 						<a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>
 					</div>
+
 		        	{% include "main_feed.html" %}
                 {% else %}
                     {% if invitees %}
@@ -211,9 +236,15 @@ function save_client_setup() {
 	        {% endif %}
 
 		</div> <!--/ feeds -->
+	</div>
+</div>
 
 		<!-- Summary -->
-		<div id="summary">
+<<<<<<< HEAD
+		<div class="col-md-3 summary fixed" id="summary">
+=======
+		<div class="col-md-3 col-md-offset-9 summary fixed" id="summary">
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 			{% if not clients and not blitzes %}
                 {% if invitees %}
 					{% comment %}
@@ -227,8 +258,8 @@ function save_client_setup() {
 
 		<div class="clearfix"></div>
 	    </div>
-	</div> <!--/ content -->
-    </div>
+	</div> <!--/ summary -->
+</div><!--/ row -->
 
 <!-- include modals -->
 {% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
@@ -242,6 +273,130 @@ function save_client_setup() {
     {% include "onboarding_content_trainer.html" with trainer=trainer %}
 </div>
 
+<!-- Modal -->
+<div class="modal fade bottom blitz-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Pick a client</h4>
+	  </div>
+      <div class="modal-body">
+        			{% if clients or blitzes or invitees %}
+
+		    	        <div class="search-input full-width">
+                                    {% if clients or blitzes %}
+	   			        <input type='text' class="search-text" placeholder="  Search for a client or program...">
+                                    {% endif %}
+  			        </div>
+			        <ul class='filters scopes'>
+
+                        {% if clients or blitzes %}
+
+<!--
+				    <li class='item' data-scope='alerts'>
+					<div class="item-inner">
+						Alerts
+					</div>
+					{% if alerts_count %}
+					<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
+					{% endif %}
+				    </li> -->
+
+				    <li class="item active" data-scope='all'>
+					<div class="item-inner">
+						All Updates
+					</div>
+					{% if updates_count %}
+					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
+					{% endif %}
+				    </li>				
+				    <div class="separator"></div>
+
+				{% if blitzes %}
+				    {% for blitz in blitzes %}
+	                    {% if not blitz.provisional and not blitz.recurring %}
+					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
+						<div class="item-inner">{{ blitz.title }}</div>
+						    {% if blitz.unviewed_feeds_count %}
+						        <span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
+						    {% endif %}
+					    </li>
+   			                    <div class="separator"></div>
+	                                {% endif %}
+
+				    {% endfor %}
+
+				{% endif %}
+
+				{% for client in clients %}
+				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
+				    <div class="item-inner">{{ client.name }}</div>
+					{% if client.unviewed_feeds_count %}
+					    <span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
+					{% endif %}
+				</li>
+				{% endfor %}
+
+                            {% endif %} 
+
+                            {% for invitee in invitees %}
+<li class='item solo-client' data-object-pk="{{ invitee.pk }}" data-scope='invitee'>
+				<div class="item-inner">
+		                   {{ invitee.name }} <i>(pending)</i>
+				</div>
+				</li>
+                            {% endfor %}
+   			</ul>
+			{% else %}
+			<div class="new-trainer-experience">
+				<div>
+					<h3>Clients and Groups</h3>
+				</div>
+				<div>
+					<p>
+						When you're got clients or groups, they'll be listed over here.
+					</p>
+				</div>	
+			</div>
+			{% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type='button' id="add_client" class='obtn fullwidth' onclick="jQuery.noConflict(); $('#ClientSetupModal').modal('show');">+ Add Client</button>
+		<button type='button' id="add_group" class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<<<<<<< HEAD
+=======
+<!-- Modal -->
+<div class="modal fade bottom blitz-modal" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel2">Client Details</h4>
+	  </div>
+      <div class="modal-body">
+      		{% if not clients and not blitzes %}
+                {% if invitees %}
+					{% comment %}
+                    {% include "dashboard/invitee_summary.html" with invitation=invitees|last delta=0 STATIC_URL=STATIC_URL macro_details=macro_details macro_goals=macro_goals detailed_macros=detailed_macros %}
+                    {% endcomment %}
+                {% else %}
+                {% include "dashboard/_dummy_client_summary.html" %}
+			    {% endif %}
+			{% endif %}
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 {% endblock content %}
 
 {% endblock outer_content %}

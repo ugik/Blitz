@@ -729,19 +729,21 @@ textarea,textarea:focus {
 }
 
 #logo {
-  float: left;
+ // float: left;
   //width: 330px;
+  //padding-top: 10px;
+  //margin-left: 20px;
+  //margin-right: 50px;
   padding-top: 10px;
-  margin-left: 20px;
-  margin-right: 50px;
+  text-align: center;
   img {
     max-height: 50px;
   }
   @include mobile-only {
     //margin-left: 35%
-    width: 24%;
-    margin-left: 43.5%;
-    display: block;
+    //width: 24%;
+    //margin-left: 43.5%;
+    //display: block;
     float: left;
   }
 }
@@ -5126,9 +5128,9 @@ a.ui-state-default :hover {
 }
 
 .client-summary {
-  position: fixed;
-  border-left: 1px solid rgba(0,0,0,0.1);
-  height: 100%;
+  //position: fixed;
+  //border-left: 1px solid rgba(0,0,0,0.1);
+  //height: 100%;
 }
 
 #homepage-loading {
@@ -5217,7 +5219,7 @@ h3 a#name, a#blurb {
 
 #summary .sidebar-box {
   border-radius: 0px !important;
-  border: 1px solid rgba(0,0,0,0.1);
+  border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 .macro-toggle {
@@ -6144,6 +6146,16 @@ a#name, a#plan_name, a#client_name {
   color: $blitz-blue !important;
 }
 
+.navbar-header {
+  text-align: center;
+  width: 100%;
+  padding-top: 10px;
+}
+
+nav .container {
+  width: 100%;
+}
+
 .navbar-header .btn-outline-trans {
   @include tablet-portrait-and-up {
     display: none;
@@ -6159,6 +6171,18 @@ a#name, a#plan_name, a#client_name {
   :hover {
     cursor: pointer;
   }
+}
+
+.navbar-inverse {
+  background-color: #333;
+  border-color: transparent;
+}
+
+.navbar-toggle {
+  //position: relative;
+  //float: right;
+  //padding: 20px 10px;
+  padding-top: 20px;
 }
 
 #bs-example-navbar-collapse-1 ul li>a {
@@ -6374,9 +6398,12 @@ a.feed-permalink {
   opacity:.6;
 }
 
+
+
 .feeds {
 
 }
+
 
 .group {
   width: 100%;
@@ -6392,7 +6419,7 @@ a.feed-permalink {
   margin-bottom: -10px;
 }
 
-#datepicker :hover {
+#datepicker:hover {
   color: $blitz-blue;
 }
 
@@ -6428,9 +6455,9 @@ a.feed-permalink {
   opacity: .75;
 }
 
-// .btn-default {
-//   display: none;
-// }
+.btn-default {
+  display: none;
+}
 
 .input-row-fw > div.btn-group.bootstrap-select.full-width {
   margin-left: 0px!important;
@@ -6493,8 +6520,93 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
 }
 
-.week-performance .description ul {
+#dash {
+  .col-md-3.clientlist {
+    background: url('../images/sidebar_background.png') #252322;
+    height: 100vh;
+    padding: 20px;
+    //width: 310px;
+    /*custom*/
+    /*position: absolute;*/
+    //position: fixed;
+    //top: 0;
+    //left: 0;
+    //bottom: 0;
+    //float: left;
+    //margin-top: 69px;
+    overflow-y: scroll;
+    z-index: 1;
+    @include mobile-only {
+      display: none;
+    }
+  }
+  .col-md-6 {
+    padding-top: 30px;
+    @include mobile-only {
+      margin-top: 40px;
+    }
+  }
+  .col-md-3.summary {
+    background: #fafafb;
+    height: 100vh;
+    border-left: 1px solid #ddd;
+    margin-left: 77.5%;;
+    //width: 330px;
+    /* float: right; */
+    //position: fixed;
+    //top: 0;
+    //right: 0;
+    //bottom: 0;
+    //float: right;
+    //margin-top: 71px;
+    overflow-y: scroll;
+    z-index: 1;
+    padding: 0px;
+  }
+}
+
+.fixed {
+  position: fixed;
+  //overflow: scroll;
+}
+
+.mobile-padding {
+  @include mobile-only {
+    padding: 20px;
+  }
+}
+
+
+.week-performance > .description ul {
+  margin-bottom: 0px;
+}
+
+.week-performance > .description li {
   margin-left: -20px;
+  list-style-type: circle;
+  //margin-bottom: 0px;
+}
+
+.mobileclientpick {
+  background: black;
+  color: white;
+  @include tablet-portrait-and-up {
+    display: none;
+  }
+}
+
+.profilelink {
+  background: green;
+  color: white;
+  @include tablet-portrait-and-up {
+    display: none;
+  }
+}
+
+.bottom {
+  transform: translate3d(0, 125%, 0);
+  -webkit-transform: translate3d(0, 125%, 0);
+<<<<<<< HEAD
 }
 
 .box > .description a {
@@ -6604,6 +6716,50 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
 }
 
+.mobile-hide {
+  @include mobile-only {
+    display: none;
+  }
+}
+
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
 max-height: 440px;
+}
+
+.sidebar-left {
+    @include mobile-only {
+        display: none;
+    }
+}
+
+
+.search-input.full-width {
+  width: 100%;
+padding: 10px;
+margin-top: 15px;
+margin-left: 15px;
+}
+
+.feed-padding {
+  padding: 20px 20px 0px 20px;
+}
+
+
+#summary {
+  @include mobile-only {
+        display: none !important;
+    }
+}
+
+.clientlist {
+  @include mobile-only {
+        display: none !important;
+    }
+}
+
+.clientlist {
+    background: url('../images/sidebar_background.png') #252322;
+    height: 100%;
+=======
+>>>>>>> dashboard-reskin-responsive-trainer-dashboard
 }
