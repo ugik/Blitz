@@ -6737,16 +6737,33 @@ max-height: 440px;
 
 .search-input.full-width {
   width: 100%;
-padding: 10px;
-margin-top: 15px;
-margin-left: 15px;
+  padding: 10px;
+  margin-top: 15px;
+  margin-left: 15px;
+  input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    width: 100%;
+    padding: 8px;
+  }
 }
 
 .feed-padding {
-  padding: 20px 20px 0px 20px;
+  padding: 25px 15px 0px 0px;
   @include mobile-only {
     padding: 40px 0px 0px 25px;
   }
+}
+
+.actions {
+  margin-bottom: 15px;
+  //padding: 0px 15px;
+  padding-left: 20px;
+}
+
+.actions button {
+  margin-bottom: 10px;
 }
 
 .fixed {
