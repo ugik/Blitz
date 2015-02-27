@@ -734,7 +734,7 @@ textarea,textarea:focus {
   //padding-top: 10px;
   //margin-left: 20px;
   //margin-right: 50px;
-  padding-top: 10px;
+  //padding-top: 10px;
   text-align: center;
   img {
     max-height: 50px;
@@ -6149,7 +6149,8 @@ a#name, a#plan_name, a#client_name {
 .navbar-header {
   text-align: center;
   width: 100%;
-  padding-top: 10px;
+  height: 100%;
+  padding: 10px;
 }
 
 nav .container {
@@ -6182,7 +6183,7 @@ nav .container {
   //position: relative;
   //float: right;
   //padding: 20px 10px;
-  padding-top: 20px;
+  //padding-top: 20px;
 }
 
 #bs-example-navbar-collapse-1 ul li>a {
@@ -6752,7 +6753,7 @@ max-height: 440px;
 .feed-padding {
   padding: 25px 15px 0px 0px;
   @include mobile-only {
-    padding: 40px 0px 0px 25px;
+    padding: 40px 5px 0px 10px;
   }
 }
 
