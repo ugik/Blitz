@@ -5128,9 +5128,9 @@ a.ui-state-default :hover {
 }
 
 .client-summary {
-  //position: fixed;
-  //border-left: 1px solid rgba(0,0,0,0.1);
-  //height: 100%;
+  position: fixed;
+  border-left: 1px solid rgba(0,0,0,0.1);
+  height: 100%;
 }
 
 #homepage-loading {
@@ -5219,7 +5219,7 @@ h3 a#name, a#blurb {
 
 #summary .sidebar-box {
   border-radius: 0px !important;
-  border-top: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 .macro-toggle {
@@ -6606,7 +6606,6 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 .bottom {
   transform: translate3d(0, 125%, 0);
   -webkit-transform: translate3d(0, 125%, 0);
-<<<<<<< HEAD
 }
 
 .box > .description a {
@@ -6760,6 +6759,4 @@ margin-left: 15px;
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
     height: 100%;
-=======
->>>>>>> dashboard-reskin-responsive-trainer-dashboard
 }
