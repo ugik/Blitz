@@ -48,8 +48,8 @@ class TestCreateClient(unittest.TestCase):
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         driver.find_element_by_link_text(u"Finish Signup →").click()
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        driver.find_element_by_link_text(u"Let's go! →").click()
-        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+#        driver.find_element_by_link_text(u"Let's go! →").click()
+#        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
 
 #        driver.get(self.base_url + "/program")
 #        # Warning: assertTextPresent may require manual changes

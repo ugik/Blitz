@@ -348,6 +348,8 @@
                         commentHRX.abort();
                     }
 
+alert(formData);
+
                     // Submit form via AJAX
                     var commentHRX = $.ajax({
                         url: '/api/new-comment',
