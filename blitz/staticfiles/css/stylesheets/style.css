@@ -2396,7 +2396,6 @@ a:focus {
 
 /* line 2248, ../sass/style.scss */
 .btn-group > .btn {
-  width: 100%;
   font-size: 14px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -2411,7 +2410,6 @@ a:focus {
 
 /* line 2256, ../sass/style.scss */
 .btn-group > .col-xs-4 button {
-  width: 100%;
   transition: all 0.25s linear;
   -webkit-transition: all 0.25s linear;
   -moz-transition: all 0.25s linear;
