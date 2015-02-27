@@ -2246,7 +2246,7 @@ a:focus {
 }
 
 .btn-group>.btn {
-  width: 100%;
+  //width: 100%;
   font-size: 14px;
   @include borderbox {};
   @include tablet-portrait-and-up {};
@@ -2254,7 +2254,7 @@ a:focus {
 }
 
 .btn-group > .col-xs-4 button {
-  width: 100%;
+  //width: 100%;
   @include transition(0.25s, linear);
 }
 
