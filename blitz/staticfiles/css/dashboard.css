@@ -62,8 +62,8 @@ nav .container {
     width: 100%;
 }
 nav #logo {
-    width: 270px;
-    margin: 0px 19px 0px 6px;
+    /*  width: 270px; */
+    /* margin: 0px 19px 0px 6px; */
 }
 /*nav .results-count {
     float: left;
@@ -650,7 +650,7 @@ ul.filters li.item:hover {
 
 .trainer-alert .btn {
     background: none transparent;
-    padding: 10px 34px;
+    /* padding: 10px 34px; */
     color: #84aeff;
     border: 2px solid #84aeff;
     margin-right: 18px;

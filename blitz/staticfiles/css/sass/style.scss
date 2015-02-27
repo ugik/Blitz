@@ -729,19 +729,21 @@ textarea,textarea:focus {
 }
 
 #logo {
-  float: left;
+ // float: left;
   //width: 330px;
+  //padding-top: 10px;
+  //margin-left: 20px;
+  //margin-right: 50px;
   padding-top: 10px;
-  margin-left: 20px;
-  margin-right: 50px;
+  text-align: center;
   img {
     max-height: 50px;
   }
   @include mobile-only {
     //margin-left: 35%
-    width: 24%;
-    margin-left: 43.5%;
-    display: block;
+    //width: 24%;
+    //margin-left: 43.5%;
+    //display: block;
     float: left;
   }
 }
@@ -6144,6 +6146,16 @@ a#name, a#plan_name, a#client_name {
   color: $blitz-blue !important;
 }
 
+.navbar-header {
+  text-align: center;
+  width: 100%;
+  padding-top: 10px;
+}
+
+nav .container {
+  width: 100%;
+}
+
 .navbar-header .btn-outline-trans {
   @include tablet-portrait-and-up {
     display: none;
@@ -6159,6 +6171,18 @@ a#name, a#plan_name, a#client_name {
   :hover {
     cursor: pointer;
   }
+}
+
+.navbar-inverse {
+  background-color: #333;
+  border-color: transparent;
+}
+
+.navbar-toggle {
+  //position: relative;
+  //float: right;
+  //padding: 20px 10px;
+  padding-top: 20px;
 }
 
 #bs-example-navbar-collapse-1 ul li>a {
@@ -6604,6 +6628,18 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
 }
 
+.mobile-hide {
+  @include mobile-only {
+    display: none;
+  }
+}
+
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
 max-height: 440px;
+}
+
+.sidebar-left {
+    @include mobile-only {
+        display: none;
+    }
 }
