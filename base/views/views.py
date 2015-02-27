@@ -1335,7 +1335,7 @@ def comment_unlike(request):
 @login_required
 @csrf_exempt
 def new_comment(request):
-    comment_picture = request.POST.get("comment_picture")
+    comment_picture = request.POST.get("picture")
 
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
         # Store Picture File
@@ -1362,7 +1362,8 @@ def new_comment(request):
             comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
 
     else:
-        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture)
+
+        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture)
 
         # analytics
         if not request.user.is_trainer:
