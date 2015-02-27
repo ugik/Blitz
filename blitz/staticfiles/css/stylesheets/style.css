@@ -7394,25 +7394,25 @@ a.feed-permalink {
 .mobilepad .navbar-nav > .active > a {
   opacity: .6;
 }
-/* line 6405, ../sass/style.scss */
+/* line 6408, ../sass/style.scss */
 .mobilepad .group {
   width: 100%;
 }
-/* line 6409, ../sass/style.scss */
+/* line 6412, ../sass/style.scss */
 .mobilepad .group h3 small {
   font-size: 0.4em;
   margin-left: 20px;
 }
-/* line 6414, ../sass/style.scss */
+/* line 6417, ../sass/style.scss */
 .mobilepad .inbtn {
   height: 30px;
   margin-bottom: -10px;
 }
-/* line 6419, ../sass/style.scss */
-.mobilepad #datepicker :hover {
+/* line 6422, ../sass/style.scss */
+.mobilepad #datepicker:hover {
   color: #7ab2ea;
 }
-/* line 6423, ../sass/style.scss */
+/* line 6426, ../sass/style.scss */
 .mobilepad .ui-datepicker-header {
   background-color: #7ab2ea !important;
   color: white !important;
@@ -7420,111 +7420,194 @@ a.feed-permalink {
   border-radius: 0px;
   font-family: 'proxima_novabold';
 }
-/* line 6431, ../sass/style.scss */
+/* line 6434, ../sass/style.scss */
 .mobilepad .ui-datepicker-month {
   color: white;
 }
-/* line 6435, ../sass/style.scss */
+/* line 6438, ../sass/style.scss */
 .mobilepad .ui-datepicker-div {
   background: white;
   -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.1);
 }
-/* line 6440, ../sass/style.scss */
+/* line 6443, ../sass/style.scss */
 .mobilepad .ui-state-default, .mobilepad .ui-widget-content .ui-state-default, .mobilepad .ui-widget-header .ui-state-default {
   background: white !important;
   border: none !important;
 }
-/* line 6445, ../sass/style.scss */
+/* line 6448, ../sass/style.scss */
 .mobilepad .ui-state-default :hover {
   background: #7ab2ea;
   color: white;
 }
-/* line 6450, ../sass/style.scss */
+/* line 6453, ../sass/style.scss */
 .mobilepad .modal-backdrop.in {
   filter: alpha(opacity=50);
   opacity: .75;
 }
-/* line 6459, ../sass/style.scss */
+/* line 6458, ../sass/style.scss */
+.mobilepad .btn-default {
+  display: none;
+}
+/* line 6462, ../sass/style.scss */
 .mobilepad .input-row-fw > div.btn-group.bootstrap-select.full-width {
   margin-left: 0px !important;
 }
-/* line 6463, ../sass/style.scss */
+/* line 6466, ../sass/style.scss */
 .mobilepad #ajaxwrapper > .input-row-fw > .form-input {
   margin-left: 0px !important;
 }
-/* line 6468, ../sass/style.scss */
+/* line 6471, ../sass/style.scss */
 .mobilepad #ajaxwrapper > .input-row-fw > .field-label {
   margin-left: 5%;
 }
 @media (max-width: 480px) {
-  /* line 6472, ../sass/style.scss */
+  /* line 6475, ../sass/style.scss */
   .mobilepad .mobile-margin-top {
     margin-top: 10px;
   }
 }
 @media (max-width: 480px) {
-  /* line 6478, ../sass/style.scss */
+  /* line 6481, ../sass/style.scss */
   .mobilepad .mobile-fw {
     width: 100%;
   }
 }
-/* line 6484, ../sass/style.scss */
+/* line 6487, ../sass/style.scss */
 .mobilepad .formpage-block input[type="number"] {
   left: 0px;
   margin-bottom: 10px;
 }
-/* line 6489, ../sass/style.scss */
+/* line 6492, ../sass/style.scss */
 .mobilepad .formpage-block .input-container {
   padding: 3px 0px;
 }
-/* line 6493, ../sass/style.scss */
+/* line 6496, ../sass/style.scss */
 .mobilepad #blitz-signup-form > div:nth-child(10) > input, .mobilepad input.cc-number, .mobilepad input.cc-em, .mobilepad input.cc-ey, .mobilepad input.cc-csc {
   color: #333;
 }
-/* line 6497, ../sass/style.scss */
+/* line 6500, ../sass/style.scss */
 .mobilepad .calendar-container table td {
   padding-top: 5px;
 }
-/* line 6501, ../sass/style.scss */
+/* line 6504, ../sass/style.scss */
 .mobilepad .navbar-inverse {
   background: #222;
   background-image: none;
 }
-/* line 6506, ../sass/style.scss */
+/* line 6509, ../sass/style.scss */
 .mobilepad .navbar-inverse .navbar-brand, .mobilepad .navbar-inverse .navbar-nav > li > a {
   text-shadow: none;
 }
-/* line 6510, ../sass/style.scss */
+/* line 6513, ../sass/style.scss */
 .mobilepad label#id_front_image.btn-outline :hover, .mobilepad label#id_side_image.btn-outline :hover {
   cursor: pointer;
 }
 @media (max-width: 480px) {
-  /* line 6514, ../sass/style.scss */
+  /* line 6517, ../sass/style.scss */
   .mobilepad .mobile-text-shrink {
     font-size: 0.8em;
   }
 }
-/* line 6520, ../sass/style.scss */
-.mobilepad .week-performance .description ul {
-  margin-left: -20px;
-}
 /* line 6524, ../sass/style.scss */
+.mobilepad #dash .col-md-3.clientlist {
+  background: url("../images/sidebar_background.png") #252322;
+  height: 100vh;
+  padding: 20px;
+  /*custom*/
+  /*position: absolute;*/
+  overflow-y: scroll;
+  z-index: 1;
+}
+@media (max-width: 480px) {
+  /* line 6524, ../sass/style.scss */
+  .mobilepad #dash .col-md-3.clientlist {
+    display: none;
+  }
+}
+/* line 6543, ../sass/style.scss */
+.mobilepad #dash .col-md-6 {
+  padding-top: 30px;
+}
+@media (max-width: 480px) {
+  /* line 6543, ../sass/style.scss */
+  .mobilepad #dash .col-md-6 {
+    margin-top: 40px;
+  }
+}
+/* line 6549, ../sass/style.scss */
+.mobilepad #dash .col-md-3.summary {
+  background: #fafafb;
+  height: 100vh;
+  border-left: 1px solid #ddd;
+  margin-left: 77.5%;
+  /* float: right; */
+  overflow-y: scroll;
+  z-index: 1;
+  padding: 0px;
+}
+/* line 6568, ../sass/style.scss */
+.mobilepad .fixed {
+  position: fixed;
+}
+@media (max-width: 480px) {
+  /* line 6573, ../sass/style.scss */
+  .mobilepad .mobile-padding {
+    padding: 20px;
+  }
+}
+/* line 6580, ../sass/style.scss */
+.mobilepad .week-performance > .description ul {
+  margin-bottom: 0px;
+}
+/* line 6584, ../sass/style.scss */
+.mobilepad .week-performance > .description li {
+  margin-left: -20px;
+  list-style-type: circle;
+}
+/* line 6590, ../sass/style.scss */
+.mobilepad .mobileclientpick {
+  background: black;
+  color: white;
+}
+@media only screen and (min-width: 481px) {
+  /* line 6590, ../sass/style.scss */
+  .mobilepad .mobileclientpick {
+    display: none;
+  }
+}
+/* line 6598, ../sass/style.scss */
+.mobilepad .profilelink {
+  background: green;
+  color: white;
+}
+@media only screen and (min-width: 481px) {
+  /* line 6598, ../sass/style.scss */
+  .mobilepad .profilelink {
+    display: none;
+  }
+}
+/* line 6606, ../sass/style.scss */
+.mobilepad .bottom {
+  transform: translate3d(0, 125%, 0);
+  -webkit-transform: translate3d(0, 125%, 0);
+}
+/* line 6611, ../sass/style.scss */
 .mobilepad .box > .description a {
   font-size: 2em;
 }
-/* line 6528, ../sass/style.scss */
+/* line 6615, ../sass/style.scss */
 .mobilepad .modal-content-full .modal-body {
   height: 100%;
 }
 
-/* line 6534, ../sass/style.scss */
+/* line 6621, ../sass/style.scss */
 .price {
   color: #9dbfff;
 }
 
-/* line 6538, ../sass/style.scss */
+/* line 6625, ../sass/style.scss */
 .price h2 {
   line-height: 1;
   font-family: 'proxima_nova_excn_ththin';
@@ -7534,38 +7617,38 @@ a.feed-permalink {
   margin-bottom: -2px;
 }
 @media (max-width: 480px) {
-  /* line 6538, ../sass/style.scss */
+  /* line 6625, ../sass/style.scss */
   .price h2 {
     font-size: 2.5em;
   }
 }
 
-/* line 6551, ../sass/style.scss */
+/* line 6638, ../sass/style.scss */
 .price small {
   width: 100%;
   font-size: 0.25em;
 }
 @media (max-width: 480px) {
-  /* line 6551, ../sass/style.scss */
+  /* line 6638, ../sass/style.scss */
   .price small {
     font-size: 0.3em;
     margin-bottom: 60px;
   }
 }
 
-/* line 6560, ../sass/style.scss */
+/* line 6647, ../sass/style.scss */
 .price-plan h3 {
   font-size: 1.2em;
   font-family: 'proxima_novabold';
   text-align: left;
 }
 
-/* line 6566, ../sass/style.scss */
+/* line 6653, ../sass/style.scss */
 .price-plan ul {
   margin-bottom: 30px;
 }
 
-/* line 6570, ../sass/style.scss */
+/* line 6657, ../sass/style.scss */
 .price-plan ul li {
   margin-bottom: 15px;
   font-size: 0.85em;
@@ -7573,87 +7656,120 @@ a.feed-permalink {
   text-align: left;
 }
 
-/* line 6578, ../sass/style.scss */
+/* line 6665, ../sass/style.scss */
 .col-md-8 .message {
   font-family: 'proxima_novalight';
 }
 
-/* line 6582, ../sass/style.scss */
+/* line 6669, ../sass/style.scss */
 .getting-started {
   font-family: 'proxima_novalight';
   line-height: 1.4;
   font-size: 0.9em;
 }
 
-/* line 6588, ../sass/style.scss */
+/* line 6675, ../sass/style.scss */
 .linky {
   color: #7ab2ea;
 }
-/* line 6591, ../sass/style.scss */
+/* line 6678, ../sass/style.scss */
 .linky :hover {
   cursor: pointer;
 }
 
-/* line 6596, ../sass/style.scss */
+/* line 6683, ../sass/style.scss */
 .videoicon {
   margin-top: 10px;
 }
-/* line 6598, ../sass/style.scss */
+/* line 6685, ../sass/style.scss */
 .videoicon :hover {
   color: white;
   cursor: pointer;
 }
 
-/* line 6604, ../sass/style.scss */
+/* line 6691, ../sass/style.scss */
 .videolink {
   font-size: 0.9em;
   margin-top: -5px;
 }
-/* line 6607, ../sass/style.scss */
+/* line 6694, ../sass/style.scss */
 .videolink :hover {
   cursor: pointer;
 }
 
-/* line 6612, ../sass/style.scss */
+/* line 6699, ../sass/style.scss */
 .workout-input input {
   text-align: center;
 }
 
 @media only screen and (min-width: 321px) {
-  /* line 6616, ../sass/style.scss */
+  /* line 6703, ../sass/style.scss */
   .mobile-only {
     display: none;
   }
 }
 @media (max-width: 480px) {
-  /* line 6616, ../sass/style.scss */
+  /* line 6703, ../sass/style.scss */
   .mobile-only {
     display: block;
   }
 }
 
 @media (max-width: 480px) {
-  /* line 6625, ../sass/style.scss */
+  /* line 6712, ../sass/style.scss */
   .mobile-padding {
     padding: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  /* line 6631, ../sass/style.scss */
+  /* line 6718, ../sass/style.scss */
   .mobile-hide {
     display: none;
   }
 }
 
-/* line 6637, ../sass/style.scss */
+/* line 6724, ../sass/style.scss */
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
   max-height: 440px;
 }
 
 @media (max-width: 480px) {
-  /* line 6641, ../sass/style.scss */
+  /* line 6728, ../sass/style.scss */
   .sidebar-left {
     display: none;
   }
+}
+
+/* line 6735, ../sass/style.scss */
+.search-input.full-width {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+/* line 6742, ../sass/style.scss */
+.feed-padding {
+  padding: 20px 20px 0px 20px;
+}
+
+@media (max-width: 480px) {
+  /* line 6747, ../sass/style.scss */
+  #summary {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* line 6753, ../sass/style.scss */
+  .clientlist {
+    display: none !important;
+  }
+}
+
+/* line 6759, ../sass/style.scss */
+.clientlist {
+  background: url("../images/sidebar_background.png") #252322;
+  height: 100%;
 }
