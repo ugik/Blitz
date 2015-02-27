@@ -7759,7 +7759,7 @@ a.feed-permalink {
 
 /* line 6754, ../sass/style.scss */
 .feed-padding {
-  padding: 25px 15px 0px 0px;
+  padding: 25px 0px 0px 0px;
 }
 @media (max-width: 480px) {
   /* line 6754, ../sass/style.scss */
