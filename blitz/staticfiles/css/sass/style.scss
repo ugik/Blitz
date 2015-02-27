@@ -6079,7 +6079,8 @@ a#name, a#plan_name, a#client_name {
   line-height: 20px;
   margin-top: -10px;
   margin-bottom: 10px;
-  font-size: 0.9em;
+  font-size: 0.8em;
+  margin-left: -20px;
 }
 
 .workout-plan .description li {
@@ -6792,4 +6793,13 @@ max-height: 440px;
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
     height: 100%;
+}
+
+h3 small {
+  font-size: 0.4em;
+}
+
+.group .actions {
+  padding-left: 0px;
+  margin-bottom: 10px!important;
 }
