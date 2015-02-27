@@ -2233,6 +2233,7 @@ a:focus {
 // this is the body weight workout button stuff
 
 .btn-group {
+  @include transition(0.25s, linear);
   position: relative;
   display: inline-block;
   font-size: 0;
@@ -2240,8 +2241,8 @@ a:focus {
   white-space: nowrap;
   vertical-align: middle;
   margin-bottom: 10px;
-  width: 92%;
-  @include mobile-only {width: 100%;};
+  width: 100%;
+  //@include mobile-only {width: 100%;};
 }
 
 .btn-group>.btn {
@@ -2252,31 +2253,34 @@ a:focus {
   @include mobile-only {font-size: 12px;};
 }
 
+.btn-group > .col-xs-4 button {
+  width: 100%;
+  @include transition(0.25s, linear);
+}
+
 .btn-group-dropdown {
 
 }
 
 .btn-primary {
-color: #333;
-background-color: #fff;
-background-image: -moz-linear-gradient(top,#fff,#ccc);
-background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ccc));
-background-image: -webkit-linear-gradient(top,#fff,#ccc);
-background-image: -o-linear-gradient(top,#fff,#ccc);
-background-image: linear-gradient(to bottom,#fff,#ccc);
-background-repeat: repeat-x;
-border-color: #ccc #ccc #002a80;
-border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-text-shadow: 0 -0px 0 rgba(0,0,0,0.0);
-@include meta();
+  color: $mainfontcolor;
+  background-color: #eee;
+// background-image: -moz-linear-gradient(top,#fff,#ccc);
+// background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#ccc));
+// background-image: -webkit-linear-gradient(top,#fff,#ccc);
+// background-image: -o-linear-gradient(top,#fff,#ccc);
+// background-image: linear-gradient(to bottom,#fff,#ccc);
+  background-repeat: repeat-x;
+  border-color: #ccc #ccc #002a80;
+  border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+  text-shadow: 0 -0px 0 rgba(0,0,0,0.0);
+  @include meta();
 }
 
 
 .btn-primary:active, .btn-primary.active {
-background-color: $blitz-blue;
-text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+  background-color: $blitz-blue;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
