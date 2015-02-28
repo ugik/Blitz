@@ -8,7 +8,7 @@
       <source src="http://dl.dropbox.com/s/kygs018hu4ptzqk/deadliftbgvid.mp4?dl=0" type="video/mp4">
   </video>
 
-  <div class="container loginbutton">
+  <div class="container loginbutton" style="">
     <div class="row">
       <div class="col-md-2 col-md-offset-10">
         <a href="/login?standard">
@@ -21,28 +21,29 @@
   </div>
 
 
-      <style type="text/css">
+  <style type="text/css">
 
-          body {
-            margin: 0;
-            background: transparent; 
-          }
-
-      @media only screen and (max-width: 750px) {
-          #video-overlay { background-color: rgba(0,0,0,0); }
-          #bgvid { display: none; }
-          #form-container {width: 80%; margin-left: 10%;}
-          #mc_embed_signup label {font-size: 48pximportant;}
-          .hook {font-size: 30px;}
-           #mc_embed_signup_scroll input {font-size: 48px;}
-          #mc_embed_signup input.button {font-size: 48px; padding: 20px 10px; height: auto!important;}
-        
+      body {
+        margin: 0;
+        background: transparent; 
       }
 
-      .blitz-login img {
-        margin-top: 30%;
-      }
-      </style>
+    @media only screen and (max-width: 750px) {
+        #video-overlay { background-color: rgba(0,0,0,0); }
+        #bgvid { display: none; }
+        #form-container {width: 80%; margin-left: 10%;}
+        #mc_embed_signup label {font-size: 48pximportant;}
+        .hook {font-size: 30px;}
+         #mc_embed_signup_scroll input {font-size: 48px;}
+        #mc_embed_signup input.button {font-size: 48px; padding: 20px 10px; height: auto!important;}
+      
+    }
+
+    .blitz-login img {
+      margin-top: 30%;
+    }
+  </style>
+
 {% endblock %}
 
 {% block formpage_content %}
@@ -56,21 +57,27 @@
               <p class="info-text lightfont" style="margin-bottom: 20px; font-size: 1.25em; line-height: 1.3;">
                 Blitz helps you build an amazing, branded experience around your online fitness coaching—whether coaching individuals or groups. Try it and see how trainers save tons of time, provide a premium product for clients, and skyrocket revenues.
               </p>
-              <div class="content">
-                  <a href="register-trainer">
-                    <button class="obtn" style="width: 49%;">
-                      Sign up
-                    </button>
-                  </a>
-                  <a href="about">
-                    <button class="btn-outline-trans" style="width: 49%;">
-                      Learn more
-                    </button>
-                  </a>
-                  <a href="https://mixpanel.com/f/partner">
-                    <img class="hide" src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png" alt="Mobile Analytics" />
-                  </a>
-              </div>
+              <div class="row">
+                <div class="content">
+                  <div class="col-xs-6">
+                    <a href="register-trainer">
+                      <button class="obtn full-width" style="">
+                        Sign up
+                      </button>
+                    </a>
+                  </div>
+                  <div class="col-xs-6">
+                    <a href="about">
+                      <button class="btn-outline-trans full-width" style="height: 100%!important; min-height: 45px;">
+                        Learn more
+                      </button>
+                    </a>
+                  </div>
+  <!--                   <a href="https://mixpanel.com/f/partner">
+                      <img class="hide" src="//cdn.mxpnl.com/site_media/images/partner/badge_blue.png" alt="Mobile Analytics" />
+                    </a>  -->
+                </div>
+            </div>
           </div>
       </div>
   </div>

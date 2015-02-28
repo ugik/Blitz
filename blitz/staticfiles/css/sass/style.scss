@@ -738,6 +738,7 @@ textarea,textarea:focus {
   text-align: center;
   img {
     max-height: 50px;
+    padding: 8px;
   }
   @include mobile-only {
     //margin-left: 35%
@@ -759,14 +760,16 @@ textarea,textarea:focus {
 
 
 #logo2 {
-  float: left;
+  //float: left;
   position: relative;
-  margin-right: 50px;
-  padding-top: 20px;
+  text-align: center;
+  //margin-right: 50px;
+  //padding-top: 20px;
   //max-width: 240px;
   img {
     max-height: 50px;
     max-width: 200px;
+    padding: 8px;
   }
   @include mobile-only {
     //max-width: 50%;
@@ -4726,8 +4729,12 @@ a#secondary_logo.navbar-brand {
 .loginbutton {
   padding-top: 30px; 
   text-align: right;
+  z-index: 999999999999999999;
+  min-height: 55px;
+  margin-bottom: 0px !important;
   @include mobile-only {
-    margin-right: 20px;
+    //margin-right: 20px;
+    padding: 20px!important;
     height: 44px;
     margin-bottom: -40px;
     font-size: 21px;
@@ -5575,10 +5582,16 @@ a#logo2.branding {
   text-decoration: none;
   color: white;
   @include meta();
-  font-size: 22px;
+  font-size: 24px;
   text-overflow: ellipsis;
-  margin-top: 5px;
+  display: inline-block;
+  //margin-top: 5px;
   //max-width: 240px;
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 15px;
+  }
   @include tablet-portrait-only {
     margin-left: 20px;
   }
@@ -6155,7 +6168,7 @@ a#name, a#plan_name, a#client_name {
 }
 
 nav .container {
-  width: 100%;
+  //width: 100%;
 }
 
 .navbar-header .btn-outline-trans {
@@ -6812,3 +6825,9 @@ h3 small {
   padding-left: 0px;
   margin-bottom: 10px!important;
 }
+
+.h70 {
+  height: 70px;
+}
+
+

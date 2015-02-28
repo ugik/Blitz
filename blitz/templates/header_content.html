@@ -3,9 +3,9 @@
 {% if user.email %}
 
           <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
+            <div {% if user.is_trainer %} {% else %} class="container" {% endif %}>
               <div class="row">
-                <div class="col-md-3 col-xs-12">
+                <div class="col-md-3 col-xs-12 h70">
                    <div class="navbar-header">
                       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
@@ -28,7 +28,7 @@
                        {% elif user.client.get_blitz.trainer.get_blitz.sales_page_content.logo %}
                             <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.trainer.get_blitz.sales_page_content.logo }}" />
                        {% else %}
-                             {{ user.client.get_blitz.trainer.name }}
+                             <span>{{ user.client.get_blitz.trainer.name }}</span>
                        {% endif %}
                        </a>
                     {% endif %}
