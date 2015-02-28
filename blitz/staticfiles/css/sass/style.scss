@@ -6834,7 +6834,7 @@ max-height: 440px;
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
     height: 100vh;
-    overflow: scroll;
+    overflow-y: scroll;
     //padding-bottom: 20px;
 }
 
@@ -6852,7 +6852,7 @@ h3 small {
 }
 
 .h70 {
-  height: 70px;
+  height: 60px;
 }
 
 #account-block {

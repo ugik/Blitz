@@ -7839,7 +7839,7 @@ a.feed-permalink {
 .clientlist {
   background: url("../images/sidebar_background.png") #252322;
   height: 100vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 /* line 6841, ../sass/style.scss */
@@ -7860,7 +7860,7 @@ h3 small {
 
 /* line 6854, ../sass/style.scss */
 .h70 {
-  height: 70px;
+  height: 60px;
 }
 
 /* line 6858, ../sass/style.scss */
