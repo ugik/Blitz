@@ -6833,9 +6833,9 @@ max-height: 440px;
 
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
-    height: 100%;
+    height: 100vh;
     overflow: scroll;
-    padding-bottom: 20px;
+    //padding-bottom: 20px;
 }
 
 h3 small {
@@ -6845,6 +6845,10 @@ h3 small {
 .group .actions {
   padding-left: 0px;
   margin-bottom: 10px!important;
+}
+
+#add_group {
+  margin-bottom: 20px;
 }
 
 .h70 {

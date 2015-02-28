@@ -7838,9 +7838,8 @@ a.feed-permalink {
 /* line 6834, ../sass/style.scss */
 .clientlist {
   background: url("../images/sidebar_background.png") #252322;
-  height: 100%;
+  height: 100vh;
   overflow: scroll;
-  padding-bottom: 20px;
 }
 
 /* line 6841, ../sass/style.scss */
@@ -7855,21 +7854,26 @@ h3 small {
 }
 
 /* line 6850, ../sass/style.scss */
+#add_group {
+  margin-bottom: 20px;
+}
+
+/* line 6854, ../sass/style.scss */
 .h70 {
   height: 70px;
 }
 
-/* line 6854, ../sass/style.scss */
+/* line 6858, ../sass/style.scss */
 #account-block {
   margin-right: 20px;
 }
 
-/* line 6858, ../sass/style.scss */
+/* line 6862, ../sass/style.scss */
 .spotter-row input {
   color: #333 !important;
 }
 
-/* line 6862, ../sass/style.scss */
+/* line 6866, ../sass/style.scss */
 .description.info a {
   font-size: 2em;
 }
