@@ -31,7 +31,8 @@ def get_thread_for_users(*args):
     for user in args[1:]:
         threads = threads.filter(users=user)
     if threads.count() > 1:
-        raise Exception("More than one thread")
+        return threads[0]
+#        raise Exception("More than one thread")
     elif threads.count() == 1:
         return threads[0]
     else:
