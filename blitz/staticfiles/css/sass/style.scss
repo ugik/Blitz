@@ -2793,6 +2793,7 @@ hr { margin-top: 60px;}
     @include lightfont();
   }
   .info-text {
+    @include lightfont();
     text-align: center;
     a {color: $linkcolor};
   }
@@ -2838,8 +2839,9 @@ hr { margin-top: 60px;}
     }
   }
   .input-container {
-    padding: 3px 8px;
-    margin-bottom: -8px;
+    //padding: 3px 8px;
+    margin-bottom: 0px;
+    //margin-bottom: -8px;
   }
   .input-row {
     overflow: hidden;
@@ -2894,7 +2896,8 @@ hr { margin-top: 60px;}
     width: 100%;
     padding: 8px 7px;
     position: relative;
-    left: -8px;
+    margin-bottom: 10px;
+    //left: -8px;
     font-size: 16px;
     @include lightfont();
     @include borderradius(0);
@@ -6500,8 +6503,19 @@ a.feed-permalink {
 }
 
 .formpage-block input[type="number"] {
-  left: 0px;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px 7px;
+  position: relative;
+  left: 0px!important;
+  font-size: 16px;
+  text-align: center;
   margin-bottom: 10px;
+  color: #555;
+  font-family: 'proxima_novalight';
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 
 .formpage-block .input-container {
