@@ -78,6 +78,18 @@ nav .results-count .inner {
     position: relative;
 }*/
 
+/*nav .results-count {
+    margin: 0 0 0 3px;
+}
+
+nav .results-count .inner {
+    position: relative;
+}
+
+nav .results-count .inner:hover {
+    color: #fff;
+}*/
+
 img.headshot {
     top: 12px;
     left: -20px;
