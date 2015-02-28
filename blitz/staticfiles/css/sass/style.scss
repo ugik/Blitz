@@ -738,6 +738,7 @@ textarea,textarea:focus {
   text-align: center;
   img {
     max-height: 50px;
+    padding: 8px;
   }
   @include mobile-only {
     //margin-left: 35%
@@ -759,14 +760,16 @@ textarea,textarea:focus {
 
 
 #logo2 {
-  float: left;
+  //float: left;
   position: relative;
-  margin-right: 50px;
-  padding-top: 20px;
+  text-align: center;
+  //margin-right: 50px;
+  //padding-top: 20px;
   //max-width: 240px;
   img {
     max-height: 50px;
     max-width: 200px;
+    padding: 8px;
   }
   @include mobile-only {
     //max-width: 50%;
@@ -2790,6 +2793,7 @@ hr { margin-top: 60px;}
     @include lightfont();
   }
   .info-text {
+    @include lightfont();
     text-align: center;
     a {color: $linkcolor};
   }
@@ -2835,8 +2839,9 @@ hr { margin-top: 60px;}
     }
   }
   .input-container {
-    padding: 3px 8px;
-    margin-bottom: -8px;
+    //padding: 3px 8px;
+    margin-bottom: 0px;
+    //margin-bottom: -8px;
   }
   .input-row {
     overflow: hidden;
@@ -2854,7 +2859,7 @@ hr { margin-top: 60px;}
     float: left;
     @include borderbox();
   }
-  input[type="text"], input[type="password"], input[type="email"] {
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
     border-radius: 5px;
     width: 100%;
     padding: 8px 7px;
@@ -2891,7 +2896,8 @@ hr { margin-top: 60px;}
     width: 100%;
     padding: 8px 7px;
     position: relative;
-    left: -8px;
+    margin-bottom: 10px;
+    //left: -8px;
     font-size: 16px;
     @include lightfont();
     @include borderradius(0);
@@ -2945,7 +2951,7 @@ hr { margin-top: 60px;}
     font-size: 16px;
     border-top: $border;
     position: relative;
-    @include transition(1s, linear);
+    @include transition(0.3s, linear);
     img.headshot {
       position: absolute;
       top: 12px;
@@ -3789,6 +3795,7 @@ input::-webkit-inner-spin-button {
 }
 
 .thread-summary {
+  @include transition(0.25s, linear);
   overflow: auto;
   border-bottom: $border;
   display: block;
@@ -3800,7 +3807,15 @@ input::-webkit-inner-spin-button {
     width: 20%;
     @include mobile-only {width: 80%;};
     box-sizing: border-box;
-    img {border-radius: 50%; moz-border-radius: 50%; webkit-border-radius: 50%; o-border-radius: 50%; ms-border-radius: 50%; @include ffboxshadow();}
+    img {
+      border-radius: 50%; 
+      moz-border-radius: 50%; 
+      webkit-border-radius: 50%; 
+      o-border-radius: 50%; 
+      ms-border-radius: 50%; 
+      @include ffboxshadow();
+      max-width: 50px;
+    }
   }
   .content {
     float: left;
@@ -3812,6 +3827,9 @@ input::-webkit-inner-spin-button {
     .name {
       @include boldfont();
       font-size: 18px;
+      :hover {
+        color: $blitz-blue;
+      }
     }
     .date {
       font-size: 13px;
@@ -3829,7 +3847,9 @@ input::-webkit-inner-spin-button {
 .thread-summary:hover {
   background-color: rgba(255, 255, 255, 1.0);
   color: #333;
-  .name {color: #333;}
+  .name {
+    color: #333;
+    }
 }
 
 .thread-summary-active {
@@ -3951,6 +3971,10 @@ a.feed-permalink-grey {
 .solo-client, .solo-client .item, ul.filters .item {
   @include meta();
   font-size: 18px;
+}
+
+.sidebar-left .actions {
+  padding: 20px;
 }
 
 .sidebar-left .actions button {
@@ -4414,6 +4438,12 @@ ul.spotternav li {
   }
   input {
     text-align: center;
+    background: rgba(0,0,0,0.25);
+    color: white;
+    @include lightfont();
+    //padding: 20px;
+    border: 1px dashed white;
+    border-radius: 4px;
   }
   textarea {
     text-align: center;
@@ -4726,8 +4756,12 @@ a#secondary_logo.navbar-brand {
 .loginbutton {
   padding-top: 30px; 
   text-align: right;
+  z-index: 999999999999999999;
+  min-height: 55px;
+  margin-bottom: 0px !important;
   @include mobile-only {
-    margin-right: 20px;
+    //margin-right: 20px;
+    padding: 20px!important;
     height: 44px;
     margin-bottom: -40px;
     font-size: 21px;
@@ -4809,6 +4843,7 @@ a#secondary_logo.navbar-brand {
   text-align: center;
   width: 24px;
   font-size: 16px;
+  overflow: hidden;
 }
 
 ul.filters li.item {
@@ -5575,10 +5610,16 @@ a#logo2.branding {
   text-decoration: none;
   color: white;
   @include meta();
-  font-size: 22px;
+  font-size: 24px;
   text-overflow: ellipsis;
-  margin-top: 5px;
+  display: inline-block;
+  //margin-top: 5px;
   //max-width: 240px;
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 15px;
+  }
   @include tablet-portrait-only {
     margin-left: 20px;
   }
@@ -6155,7 +6196,7 @@ a#name, a#plan_name, a#client_name {
 }
 
 nav .container {
-  width: 100%;
+  //width: 100%;
 }
 
 .navbar-header .btn-outline-trans {
@@ -6487,16 +6528,28 @@ a.feed-permalink {
 }
 
 .formpage-block input[type="number"] {
-  left: 0px;
+  border-radius: 5px;
+  width: 100%;
+  padding: 8px 7px;
+  position: relative;
+  left: 0px!important;
+  font-size: 16px;
+  text-align: center!important;
   margin-bottom: 10px;
+  color: #333 !important;
+  font-family: 'proxima_novalight';
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 
 .formpage-block .input-container {
   padding: 3px 0px;
 }
 
-#blitz-signup-form > div:nth-child(10) > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
-  color: #333;
+#blitz-signup-form > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
+  color: #333!important;
+  text-align: center;
 }
 
 .calendar-container table td {
@@ -6523,6 +6576,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 }
 
 #dash {
+  margin-right: 0px!important;
   .col-md-3.clientlist {
     background: url('../images/sidebar_background.png') #252322;
     height: 100vh;
@@ -6727,7 +6781,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 }
 
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
-max-height: 440px;
+  max-height: 440px;
 }
 
 .sidebar-left {
@@ -6741,7 +6795,7 @@ max-height: 440px;
   width: 100%;
   padding: 10px;
   margin-top: 15px;
-  margin-left: 15px;
+  //margin-left: 15px;
   input, button, select, textarea {
     font-family: inherit;
     font-size: inherit;
@@ -6751,17 +6805,34 @@ max-height: 440px;
   }
 }
 
+.move-left {
+  margin-left: -20px;
+  @include mobile-only {
+    margin-left: 0px;
+  }
+}
+
 .feed-padding {
-  padding: 25px 0px 0px 0px;
+  padding: 15px 0px 0px 15px;
   @include mobile-only {
     padding: 40px 5px 0px 10px;
   }
 }
 
-.actions {
+.inner {
+  width: 100%;
+  //height: 100vh;
+  //overflow-y: scroll;
+}
+
+.inner.actions {
+  padding: 20px;
+}
+
+#trainer-alert-box.actions {
   margin-bottom: 15px;
-  //padding: 0px 15px;
-  padding-left: 20px;
+  padding: 0px 15px;
+  padding: 20px;
 }
 
 .actions button {
@@ -6770,6 +6841,15 @@ max-height: 440px;
 
 .fixed {
   position: fixed;
+  overflow-y: scroll;
+}
+
+.auto-scroll {
+  overflow: hidden;
+}
+
+.auto-scroll:hover {
+  overflow-y: auto;
 }
 
 #summary {
@@ -6792,14 +6872,47 @@ max-height: 440px;
 
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
-    height: 100%;
+    height: 100vh;
+    // overflow: scroll;
+    //padding-bottom: 20px;
+    padding-right: 0px;
 }
 
 h3 small {
   font-size: 0.4em;
 }
 
-.group .actions {
-  padding-left: 0px;
-  margin-bottom: 10px!important;
+.h70 {
+  height: 60px;
+}
+
+#addgroup {
+  margin-bottom: 40px;
+}
+
+#account-block {
+  //margin-right: 20px; 
+}
+
+.spotter-row input {
+  color: #333 !important;
+}
+
+.description.info a {
+  font-size: 2em;
+}
+
+.clientlist > .inner > .actions {
+  padding: 20px;
+}
+
+.feeds-filter {
+  margin-top: 10px;
+}
+
+.filter.scopes {
+  margin: 0 !important;
+padding: 11px 0px 0px 0px;
+overflow-y: scroll;
+max-height: 68%;
 }
