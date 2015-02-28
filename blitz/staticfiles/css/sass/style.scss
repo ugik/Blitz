@@ -1584,7 +1584,7 @@ a.edit-workout-link {
   //margin-bottom: 30px;
   margin-bottom: -71px;
   background: $navbarblue;
-  overflow: auto;
+  //overflow: auto;
   text-decoration: none;
   text-align: center;
   .tab {
@@ -2219,9 +2219,15 @@ a:focus {
   }
 
 
+.exercise-finished > .panel-heading > .row > .col-xs-3 {
+  display: none;
+}
+
 .exercise-finished {
-  background: $blitz-blue;
-  background-position: right;
+  background-color: $blitz-blue;
+  background-position: 95% 50%;
+  background-repeat: no-repeat;
+  background-image: url('/static/images/checkmark.png');
   color: white;
   .panel-heading a {
     color: white;
@@ -3273,6 +3279,7 @@ input::-webkit-inner-spin-button {
 .settings-block {
   @include ffboxshadow();
   border: $border;
+  margin-top: 10px;
   margin-bottom: 30px;
   border-radius: 4px;
   .title {
@@ -5134,7 +5141,8 @@ a.ui-state-default :hover {
 }
 
 .checkin-pic-wrap {
-  width: 100%;
+  width: 48%;
+  margin-right: 1%;
   margin-bottom: 20px;
   display: block;
   float: left;
@@ -5149,6 +5157,14 @@ a.ui-state-default :hover {
     margin-right: 0;
     margin-bottom: 20px;
   }
+  img {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.settings-block > .content img {
+  max-width: 100%;
 }
 
 /* Let's get this party started, webkit scrollbar styles */
@@ -6923,6 +6939,10 @@ h3 small {
 
 .feeds-filter {
   margin-top: 10px;
+  ul {
+    margin-left: 0px;
+    padding-left: 30px;
+  }
 }
 
 .filter.scopes {
