@@ -1432,7 +1432,7 @@ a.edit-workout-link {
       span.small {
         //@include header2small();
         @include mobile-only {
-          line-height: 0px;
+          //line-height: 0px;
         }
       }
       span.small:hover {

@@ -1320,12 +1320,6 @@ a.edit-workout-link {
   padding: 18px;
   color: #515352;
 }
-@media (max-width: 480px) {
-  /* line 1432, ../sass/style.scss */
-  .log-workout-page .panel-heading a span.small {
-    line-height: 0px;
-  }
-}
 /* line 1438, ../sass/style.scss */
 .log-workout-page .panel-heading a span.small:hover {
   color: white;
