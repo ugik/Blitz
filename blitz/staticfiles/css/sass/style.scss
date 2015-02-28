@@ -6571,6 +6571,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 }
 
 #dash {
+  margin-right: 0px!important;
   .col-md-3.clientlist {
     background: url('../images/sidebar_background.png') #252322;
     height: 100vh;
@@ -6862,7 +6863,7 @@ h3 small {
 }
 
 #add_group {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .h70 {
