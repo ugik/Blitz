@@ -2951,7 +2951,7 @@ hr { margin-top: 60px;}
     font-size: 16px;
     border-top: $border;
     position: relative;
-    @include transition(1s, linear);
+    @include transition(0.3s, linear);
     img.headshot {
       position: absolute;
       top: 12px;
@@ -3795,6 +3795,7 @@ input::-webkit-inner-spin-button {
 }
 
 .thread-summary {
+  @include transition(0.25s, linear);
   overflow: auto;
   border-bottom: $border;
   display: block;
@@ -3806,7 +3807,15 @@ input::-webkit-inner-spin-button {
     width: 20%;
     @include mobile-only {width: 80%;};
     box-sizing: border-box;
-    img {border-radius: 50%; moz-border-radius: 50%; webkit-border-radius: 50%; o-border-radius: 50%; ms-border-radius: 50%; @include ffboxshadow();}
+    img {
+      border-radius: 50%; 
+      moz-border-radius: 50%; 
+      webkit-border-radius: 50%; 
+      o-border-radius: 50%; 
+      ms-border-radius: 50%; 
+      @include ffboxshadow();
+      max-width: 50px;
+    }
   }
   .content {
     float: left;
@@ -3818,6 +3827,9 @@ input::-webkit-inner-spin-button {
     .name {
       @include boldfont();
       font-size: 18px;
+      :hover {
+        color: $blitz-blue;
+      }
     }
     .date {
       font-size: 13px;
@@ -3835,7 +3847,9 @@ input::-webkit-inner-spin-button {
 .thread-summary:hover {
   background-color: rgba(255, 255, 255, 1.0);
   color: #333;
-  .name {color: #333;}
+  .name {
+    color: #333;
+    }
 }
 
 .thread-summary-active {
@@ -6856,7 +6870,7 @@ h3 small {
 }
 
 #account-block {
-  margin-right: 20px; 
+  //margin-right: 20px; 
 }
 
 .spotter-row input {
