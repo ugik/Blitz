@@ -63,8 +63,13 @@ function save_client_setup() {
     <div class="clearfix"></div>
 {% endblock %}
 
+<<<<<<< HEAD
 <div class="row" id="dash" style="padding-top: 70px;">
+	<div class="col-md-3 clientlist fixed auto-scroll">
+=======
+<div class="row" id="dash" style="padding-top: 70px; margin-right: 0px!important;">
 	<div class="col-md-3 clientlist fixed">
+>>>>>>> 2c2600e53e854135ee266828d893302ae55bf337
 		<div class="inner">
 			{% if clients or blitzes or invitees %}
 
@@ -147,7 +152,7 @@ function save_client_setup() {
 			<div class="actions">
 <!--				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button> -->
 				<button type='button' id="add_client" class='obtn fullwidth' onclick="jQuery.noConflict(); $('#ClientSetupModal').modal('show');">+ Add Client</button>
-				<button type='button' id="add_group" class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
+				<button type='button' id="add_group" class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button>
 
 			</div>
 		</div> <!-- inner -->
