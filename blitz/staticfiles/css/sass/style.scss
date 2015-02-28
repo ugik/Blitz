@@ -3279,6 +3279,7 @@ input::-webkit-inner-spin-button {
 .settings-block {
   @include ffboxshadow();
   border: $border;
+  margin-top: 10px;
   margin-bottom: 30px;
   border-radius: 4px;
   .title {
@@ -5160,6 +5161,10 @@ a.ui-state-default :hover {
     max-width: 100%;
     margin-bottom: 10px;
   }
+}
+
+.settings-block > .content img {
+  max-width: 100%;
 }
 
 /* Let's get this party started, webkit scrollbar styles */
