@@ -5140,7 +5140,8 @@ a.ui-state-default :hover {
 }
 
 .checkin-pic-wrap {
-  width: 100%;
+  width: 48%;
+  margin-right: 1%;
   margin-bottom: 20px;
   display: block;
   float: left;
@@ -5154,6 +5155,10 @@ a.ui-state-default :hover {
     width: 100%;
     margin-right: 0;
     margin-bottom: 20px;
+  }
+  img {
+    max-width: 100%;
+    margin-bottom: 10px;
   }
 }
 
