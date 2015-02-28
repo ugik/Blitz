@@ -2859,7 +2859,7 @@ hr { margin-top: 60px;}
     float: left;
     @include borderbox();
   }
-  input[type="text"], input[type="password"], input[type="email"] {
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
     border-radius: 5px;
     width: 100%;
     padding: 8px 7px;
@@ -4420,6 +4420,12 @@ ul.spotternav li {
   }
   input {
     text-align: center;
+    background: rgba(0,0,0,0.25);
+    color: white;
+    @include lightfont();
+    //padding: 20px;
+    border: 1px dashed white;
+    border-radius: 4px;
   }
   textarea {
     text-align: center;
@@ -6509,9 +6515,9 @@ a.feed-permalink {
   position: relative;
   left: 0px!important;
   font-size: 16px;
-  text-align: center;
+  text-align: center!important;
   margin-bottom: 10px;
-  color: #555;
+  color: #333 !important;
   font-family: 'proxima_novalight';
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -6522,8 +6528,9 @@ a.feed-permalink {
   padding: 3px 0px;
 }
 
-#blitz-signup-form > div:nth-child(10) > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
-  color: #333;
+#blitz-signup-form > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
+  color: #333!important;
+  text-align: center;
 }
 
 .calendar-container table td {
@@ -6779,7 +6786,7 @@ max-height: 440px;
 }
 
 .move-left {
-  margin-left: -30px;
+  margin-left: -20px;
   @include mobile-only {
     margin-left: 0px;
   }
@@ -6826,9 +6833,9 @@ max-height: 440px;
 
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
-    height: 100%;
+    height: 100vh;
     overflow: scroll;
-    padding-bottom: 20px;
+    //padding-bottom: 20px;
 }
 
 h3 small {
@@ -6840,8 +6847,22 @@ h3 small {
   margin-bottom: 10px!important;
 }
 
+#add_group {
+  margin-bottom: 20px;
+}
+
 .h70 {
   height: 70px;
 }
 
+#account-block {
+  margin-right: 20px; 
+}
 
+.spotter-row input {
+  color: #333 !important;
+}
+
+.description.info a {
+  font-size: 2em;
+}
