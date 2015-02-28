@@ -7852,3 +7852,8 @@ h3 small {
 .h70 {
   height: 70px;
 }
+
+/* line 6847, ../sass/style.scss */
+#account-block {
+  margin-right: 20px;
+}
