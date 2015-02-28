@@ -4420,6 +4420,12 @@ ul.spotternav li {
   }
   input {
     text-align: center;
+    background: rgba(0,0,0,0.25);
+    color: white;
+    @include lightfont();
+    //padding: 20px;
+    border: 1px dashed white;
+    border-radius: 4px;
   }
   textarea {
     text-align: center;
@@ -6851,4 +6857,8 @@ h3 small {
 
 .spotter-row input {
   color: #333 !important;
+}
+
+.description.info a {
+  font-size: 2em;
 }
