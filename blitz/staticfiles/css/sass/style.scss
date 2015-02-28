@@ -6939,6 +6939,10 @@ h3 small {
 
 .feeds-filter {
   margin-top: 10px;
+  ul {
+    margin-left: 0px;
+    padding-left: 30px;
+  }
 }
 
 .filter.scopes {

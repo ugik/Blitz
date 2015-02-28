@@ -7941,8 +7941,13 @@ h3 small {
 .feeds-filter {
   margin-top: 10px;
 }
+/* line 6942, ../sass/style.scss */
+.feeds-filter ul {
+  margin-left: 0px;
+  padding-left: 30px;
+}
 
-/* line 6944, ../sass/style.scss */
+/* line 6948, ../sass/style.scss */
 .filter.scopes {
   margin: 0 !important;
   padding: 11px 0px 0px 0px;
