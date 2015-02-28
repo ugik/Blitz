@@ -3973,6 +3973,10 @@ a.feed-permalink-grey {
   font-size: 18px;
 }
 
+.sidebar-left .actions {
+  padding: 20px;
+}
+
 .sidebar-left .actions button {
   font-size: 21px;
 }
@@ -4839,6 +4843,7 @@ a#secondary_logo.navbar-brand {
   text-align: center;
   width: 24px;
   font-size: 16px;
+  overflow: hidden;
 }
 
 ul.filters li.item {
@@ -6776,7 +6781,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 }
 
 .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
-max-height: 440px;
+  max-height: 440px;
 }
 
 .sidebar-left {
@@ -6790,7 +6795,7 @@ max-height: 440px;
   width: 100%;
   padding: 10px;
   margin-top: 15px;
-  margin-left: 15px;
+  //margin-left: 15px;
   input, button, select, textarea {
     font-family: inherit;
     font-size: inherit;
@@ -6808,16 +6813,26 @@ max-height: 440px;
 }
 
 .feed-padding {
-  padding: 25px 0px 0px 0px;
+  padding: 15px 0px 0px 0px;
   @include mobile-only {
     padding: 40px 5px 0px 10px;
   }
 }
 
-.actions {
+.inner {
+  width: 100%;
+  //height: 100vh;
+  //overflow-y: scroll;
+}
+
+.inner.actions {
+  padding: 20px;
+}
+
+#trainer-alert-box.actions {
   margin-bottom: 15px;
-  //padding: 0px 15px;
-  padding-left: 20px;
+  padding: 0px 15px;
+  padding: 20px;
 }
 
 .actions button {
@@ -6826,6 +6841,7 @@ max-height: 440px;
 
 .fixed {
   position: fixed;
+  overflow-y: scroll;
 }
 
 #summary {
@@ -6849,21 +6865,13 @@ max-height: 440px;
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
     height: 100vh;
-    overflow-y: scroll;
+    //overflow-y: scroll;
     //padding-bottom: 20px;
+    padding-right: 0px;
 }
 
 h3 small {
   font-size: 0.4em;
-}
-
-.group .actions {
-  padding-left: 0px;
-  margin-bottom: 10px!important;
-}
-
-#add_group {
-  margin-bottom: 40px;
 }
 
 .h70 {
@@ -6880,4 +6888,15 @@ h3 small {
 
 .description.info a {
   font-size: 2em;
+}
+
+.clientlist > .inner > .actions {
+  padding: 20px;
+}
+
+.filter.scopes {
+  margin: 0 !important;
+padding: 11px 0px 0px 0px;
+overflow-y: scroll;
+max-height: 68%;
 }
