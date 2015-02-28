@@ -143,7 +143,7 @@
                         <div class="col-xs-9">
                             <h3 class="panel-title">
                                 <a {% if not forloop.first %}class="collapsed" {% endif %} data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.lift.slug }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse-{{ group.lift.slug }}">
-                                  {{ group.lift }}: <span class="small"><div class="mobile-only"><br /></div>{{ group.title }}</span>
+                                  {{ group.lift }}: <span class="small"><div class="mobile-only" style="line-height: 0px;"><br /></div>{{ group.title }}</span>
                                 </a>
                             </h3>
                         </div>
@@ -164,7 +164,7 @@
                                             <h4 class="modal-title" id="vidModalLabel"><font color="gray">{{ group.lift }}&nbsp;&nbsp;{{ group.title }} </font></h4>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="embed-responsive embed-responsive-16by9 mobile-padding">
+                                            <div class="embed-responsive embed-responsive-16by9">
                                                 <iframe class="embed-responsive-item" id="iframe_{{ group.lift.slug }}" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ group.lift }}" frameborder="0" allowfullscreen></iframe>
                                             </div>
                                         </div>

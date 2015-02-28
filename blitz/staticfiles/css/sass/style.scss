@@ -1432,7 +1432,7 @@ a.edit-workout-link {
       span.small {
         //@include header2small();
         @include mobile-only {
-          line-height: 0px;
+          //line-height: 0px;
         }
       }
       span.small:hover {
@@ -2223,15 +2223,15 @@ a:focus {
   background: $blitz-blue;
   background-position: right;
   color: white;
-  .accordion-heading a {
+  .panel-heading a {
     color: white;
     text-decoration: none;
     :hover { text-decoration: none;};
   }
-  .accordion-toggle {
+  .panel-toggle {
     color: white;
   }
-  .accordion-heading a span.small {
+  .panel-heading a span.small {
     color: white;
   }
   .add-on {
@@ -4837,6 +4837,9 @@ a#secondary_logo.navbar-brand {
   border-radius: 20px;
   // margin-right: 20px;
   // margin-top: 8px;
+  margin-top: 6px;
+  margin-right: 10px;
+  text-align: center;
 }
 
 
