@@ -7858,3 +7858,8 @@ h3 small {
 #account-block {
   margin-right: 20px;
 }
+
+/* line 6852, ../sass/style.scss */
+.spotter-row input {
+  color: #333 !important;
+}
