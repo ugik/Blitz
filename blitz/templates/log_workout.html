@@ -143,7 +143,7 @@
                         <div class="col-xs-9">
                             <h3 class="panel-title">
                                 <a {% if not forloop.first %}class="collapsed" {% endif %} data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.lift.slug }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse-{{ group.lift.slug }}">
-                                  {{ group.lift }}: <span class="small"><div class="mobile-only"><br /></div>{{ group.title }}</span>
+                                  {{ group.lift }}: <span class="small"><div class="mobile-only" style="line-height: 0px;"><br /></div>{{ group.title }}</span>
                                 </a>
                             </h3>
                         </div>
