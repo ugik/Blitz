@@ -7883,22 +7883,32 @@ h3 small {
   height: 60px;
 }
 
-/* line 6885, ../sass/style.scss */
+/* line 6881, ../sass/style.scss */
+#addgroup {
+  margin-bottom: 40px;
+}
+
+/* line 6889, ../sass/style.scss */
 .spotter-row input {
   color: #333 !important;
 }
 
-/* line 6889, ../sass/style.scss */
+/* line 6893, ../sass/style.scss */
 .description.info a {
   font-size: 2em;
 }
 
-/* line 6893, ../sass/style.scss */
+/* line 6897, ../sass/style.scss */
 .clientlist > .inner > .actions {
   padding: 20px;
 }
 
-/* line 6897, ../sass/style.scss */
+/* line 6901, ../sass/style.scss */
+.feeds-filter {
+  margin-top: 10px;
+}
+
+/* line 6905, ../sass/style.scss */
 .filter.scopes {
   margin: 0 !important;
   padding: 11px 0px 0px 0px;
