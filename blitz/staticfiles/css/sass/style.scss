@@ -6813,6 +6813,14 @@ max-height: 440px;
   position: fixed;
 }
 
+.auto-scroll {
+  overflow: hidden;
+}
+
+.auto-scroll:hover {
+  overflow-y: auto;
+}
+
 #summary {
   @include mobile-only {
         display: none !important;
@@ -6834,7 +6842,7 @@ max-height: 440px;
 .clientlist {
     background: url('../images/sidebar_background.png') #252322;
     height: 100vh;
-    overflow: scroll;
+    // overflow: scroll;
     //padding-bottom: 20px;
 }
 
