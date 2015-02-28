@@ -95,9 +95,9 @@ def spotter_payments(request):
         membership = client.blitzmember_set.all()
         if not membership[0].price:   # if there was no special invitation price
             if blitz.price_model == "R":   # recurring price model
-                total_cost = months * blitz.price
+                total_cost = months * blitz.price if blitz.price else 0
             else:
-                total_cost = blitz.price
+                total_cost = blitz.price if blitz.price else 0
         else:
             if blitz.price_model == "R":
                 total_cost = months * membership[0].price
