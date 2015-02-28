@@ -102,7 +102,7 @@
                         {% endif %}
                       </ul>
 
-                    <div id="account-block" class="pull-right">
+                    <div id="account-block" class="pull-right" {% if user.is_trainer %} style="margin-right: 20px;" {% endif %} >
                         <div class="name-container">
                           <div class="name">{{ user.display_name }}
                           </div>
