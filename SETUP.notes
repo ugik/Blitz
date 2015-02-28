@@ -1,5 +1,8 @@
 #local setup notes:
 
+#EC2 update
+bash EC2update.sh ec2-54-68-16-255.us-west-2.compute.amazonaws.com preview migrate
+
 #http://roundhere.net/journal/virtualenv-ubuntu-12-10/
 #virtualenv wrapper:
 mkvirtualenv Blitz
