@@ -2859,7 +2859,7 @@ hr { margin-top: 60px;}
     float: left;
     @include borderbox();
   }
-  input[type="text"], input[type="password"], input[type="email"] {
+  input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
     border-radius: 5px;
     width: 100%;
     padding: 8px 7px;
@@ -6509,9 +6509,9 @@ a.feed-permalink {
   position: relative;
   left: 0px!important;
   font-size: 16px;
-  text-align: center;
+  text-align: center!important;
   margin-bottom: 10px;
-  color: #555;
+  color: #333 !important;
   font-family: 'proxima_novalight';
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -6522,8 +6522,9 @@ a.feed-permalink {
   padding: 3px 0px;
 }
 
-#blitz-signup-form > div:nth-child(10) > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
-  color: #333;
+#blitz-signup-form > input, input.cc-number, input.cc-em, input.cc-ey, input.cc-csc {
+  color: #333!important;
+  text-align: center;
 }
 
 .calendar-container table td {
