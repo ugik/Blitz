@@ -6813,7 +6813,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 }
 
 .feed-padding {
-  padding: 15px 0px 0px 0px;
+  padding: 15px 0px 0px 15px;
   @include mobile-only {
     padding: 40px 5px 0px 10px;
   }
