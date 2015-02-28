@@ -2349,20 +2349,20 @@ a:focus {
   color: white;
 }
 /* line 2226, ../sass/style.scss */
-.exercise-finished .accordion-heading a {
+.exercise-finished .panel-heading a {
   color: white;
   text-decoration: none;
 }
 /* line 2229, ../sass/style.scss */
-.exercise-finished .accordion-heading a :hover {
+.exercise-finished .panel-heading a :hover {
   text-decoration: none;
 }
 /* line 2231, ../sass/style.scss */
-.exercise-finished .accordion-toggle {
+.exercise-finished .panel-toggle {
   color: white;
 }
 /* line 2234, ../sass/style.scss */
-.exercise-finished .accordion-heading a span.small {
+.exercise-finished .panel-heading a span.small {
   color: white;
 }
 /* line 2237, ../sass/style.scss */

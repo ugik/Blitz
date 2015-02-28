@@ -2223,15 +2223,15 @@ a:focus {
   background: $blitz-blue;
   background-position: right;
   color: white;
-  .accordion-heading a {
+  .panel-heading a {
     color: white;
     text-decoration: none;
     :hover { text-decoration: none;};
   }
-  .accordion-toggle {
+  .panel-toggle {
     color: white;
   }
-  .accordion-heading a span.small {
+  .panel-heading a span.small {
     color: white;
   }
   .add-on {
