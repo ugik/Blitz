@@ -8048,3 +8048,11 @@ h3 small {
 .col-bottom {
   vertical-align: bottom;
 }
+
+/* line 7035, ../sass/style.scss */
+.spotterrowwrap {
+  border: 1px solid white;
+  margin-bottom: 50px;
+  border-radius: 8px;
+  padding: 5px 15px;
+}
