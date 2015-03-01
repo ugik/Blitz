@@ -5214,7 +5214,8 @@ a.ui-state-default :hover {
 
 #homepage-loading {
   max-width: 36px;
-  margin-top: 15px;
+  margin-top: 30px;
+  display: block;
   padding: 20px;
 }
 
@@ -6965,4 +6966,15 @@ h3 small {
 padding: 11px 0px 0px 0px;
 overflow-y: scroll;
 max-height: 68%;
+}
+
+.sni a {
+  padding: 35px 12px!important;
+  font-size: 0.9em!important;
+}
+
+.sni {
+  @include mobile-only {
+    width: 100%;
+  }
 }
