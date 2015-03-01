@@ -1176,7 +1176,10 @@ h3 {@include lightfont();}
       text-transform: capitalize;
     }
   }
-
+  img {
+    max-width: 100%;
+    padding: 10px 0px 0px 0px;
+  }
 }
 
 .feed-item-footer {
