@@ -70,7 +70,7 @@
                         {% if mode != "free" %}
                            
                            <div class="input-row-fw">
-                              <div class="form-input">
+                              <div class="form-input" style="margin-left: 0; margin-right: 5%;">
                                  <input type="text" name="price" placeholder="Price" {% if blitz.price = 0 %}value="$$$"{% else %}value="{{ blitz.price }}"{% endif %} style="width:100%;"/>
                               </div>
                            <a id="error_price" style="color: #ff0000;"> {% include "error_field.html" with param='price' %}</a>
