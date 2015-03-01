@@ -741,7 +741,7 @@ textarea,textarea:focus {
   text-align: center;
   img {
     max-height: 50px;
-    padding: 8px;
+    //padding: 8px;
   }
   @include mobile-only {
     //margin-left: 35%
@@ -749,6 +749,13 @@ textarea,textarea:focus {
     //margin-left: 43.5%;
     //display: block;
     float: left;
+    margin-top: -5px;
+    padding-bottom: 8px;
+    
+    img {
+      max-height: 40px;
+      margin-top: 5px;
+    }
   }
 }
 
@@ -6846,8 +6853,18 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
 }
 
+#dash > .col-md-6 {
+  @include tablet-landscape-and-up {
+    padding-left: 25px;
+  }
+}
+
+#summary .btn-edit {
+  @include meta();
+}
+
 .feed-padding {
-  padding: 15px 0px 0px 15px;
+  padding: 15px 0px 0px 0px;
   @include mobile-only {
     padding: 40px 5px 0px 10px;
   }
