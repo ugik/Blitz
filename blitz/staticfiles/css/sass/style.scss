@@ -3187,9 +3187,12 @@ label.radio {
   padding: 10px;
   box-sizing: border-box;
   text-align: center;
+  font-size: 0.85em;
 }
 
-
+.bootstrap-select.btn-group .btn .filter-option {
+  text-align: center;
+}
 
 .formpage-block label, .formpage-block label.radio, label.radio {
   @include transition(0.3s, linear);
@@ -5149,9 +5152,9 @@ a.ui-state-default :hover {
 }
 
 .checkin-pic {
-  float: left;
-  width: 48%;
-  margin-right: 2%;
+  //float: left;
+  //width: 48%;
+  //margin-right: 2%;
   @include mobile-only {
     width: 100%;
     margin-right: 0;
