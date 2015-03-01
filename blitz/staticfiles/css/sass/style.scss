@@ -741,7 +741,7 @@ textarea,textarea:focus {
   text-align: center;
   img {
     max-height: 50px;
-    padding: 8px;
+    //padding: 8px;
   }
   @include mobile-only {
     //margin-left: 35%
@@ -749,6 +749,13 @@ textarea,textarea:focus {
     //margin-left: 43.5%;
     //display: block;
     float: left;
+    margin-top: -5px;
+    padding-bottom: 8px;
+    
+    img {
+      max-height: 40px;
+      margin-top: 5px;
+    }
   }
 }
 
@@ -1103,7 +1110,7 @@ h3 {@include lightfont();}
   .feeditem-pub-date {
     font-size: 14px;
     color: #999;
-    padding: 10px 0 5px;
+    padding: 5px 0px 0px;
   }
 }
 
@@ -1169,7 +1176,10 @@ h3 {@include lightfont();}
       text-transform: capitalize;
     }
   }
-
+  img {
+    max-width: 100%;
+    padding: 10px 0px 0px 0px;
+  }
 }
 
 .feed-item-footer {
@@ -3187,9 +3197,12 @@ label.radio {
   padding: 10px;
   box-sizing: border-box;
   text-align: center;
+  font-size: 0.85em;
 }
 
-
+.bootstrap-select.btn-group .btn .filter-option {
+  text-align: center;
+}
 
 .formpage-block label, .formpage-block label.radio, label.radio {
   @include transition(0.3s, linear);
@@ -5149,9 +5162,9 @@ a.ui-state-default :hover {
 }
 
 .checkin-pic {
-  float: left;
-  width: 48%;
-  margin-right: 2%;
+  //float: left;
+  //width: 48%;
+  //margin-right: 2%;
   @include mobile-only {
     width: 100%;
     margin-right: 0;
@@ -5200,7 +5213,7 @@ a.ui-state-default :hover {
 }
 
 #homepage-loading {
-  max-width: 36px;
+  max-width: 96px;
   margin-top: 15px;
   padding: 20px;
 }
@@ -5354,7 +5367,7 @@ h3 a#name, a#blurb {
 }
 
 .macro-history .days tr {
-    height: 70px;
+    height: 60px;
 }
 
 .macro-history .days tr td p {
@@ -5432,14 +5445,6 @@ span.sidebar-box-title {
   font-size: 22px;
   margin-top: -10px;
   margin-bottom: 15px;
-}
-
-body > div.container > div:nth-child(2) > div > div > form > div:nth-child(3) > div.form-input > div > button > span.filter-option.pull-left, #modal > div > div > div.modal-body > div > div > div > div.content > form > div:nth-child(4) > div > button > span.filter-option.pull-left, #modal > div > div > div.modal-body > div > div > div > div.content > form > div:nth-child(5) > div > button > span.filter-option.pull-left {
-  text-align: center !important;
-  }
-
-body > div.container > div:nth-child(2) > div > div > form > table > tbody > tr:nth-child(1) > td:nth-child(2) > div {
-  //margin-left: 10px !important;
 }
 
 .input-row-fw {
@@ -6843,8 +6848,18 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
   }
 }
 
+#dash > .col-md-6 {
+  @include tablet-landscape-and-up {
+    padding-left: 25px;
+  }
+}
+
+#summary .btn-edit {
+  @include meta();
+}
+
 .feed-padding {
-  padding: 15px 0px 0px 15px;
+  padding: 15px 0px 0px 0px;
   @include mobile-only {
     padding: 40px 5px 0px 10px;
   }
@@ -6950,4 +6965,15 @@ h3 small {
 padding: 11px 0px 0px 0px;
 overflow-y: scroll;
 max-height: 68%;
+}
+
+.sni a {
+  padding: 35px 12px!important;
+  font-size: 0.9em!important;
+}
+
+.sni {
+  @include mobile-only {
+    width: 100%;
+  }
 }
