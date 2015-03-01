@@ -7,6 +7,9 @@
       tr:nth-of-type(odd) {
       background-color:#D8F1D7;
     }
+    ul {text-align: left; margin: 20px 0px 0px -30px; }
+    ul li {list-style-type: none;}
+
 </style>
 
   <p>
@@ -16,84 +19,87 @@
     A 'provisional' program is a 1:1 program that clients will signup for, upon signup a <i>copy</i> of this provisional program is applied
   </p>
 
-    <div class="col-md-6 col-md-offset-3" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+    <div class="row" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
       {% for trainer in trainers|dictsort:"name" %}
-      <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
-        <div style="text-align: left;" class="spotterheader">
-          {{ trainer.name }} <small>({{ trainer.user.email }}) 
-          <a href="/spotter/payments?trainer={{ trainer.pk }}"><small>payments</small></a>
-          {% if trainer.payment_info %}{{ trainer.payment_method }}:&nbsp;{{ trainer.payment_info }}
-          {% endif %}</small>
-        </div>
-        <ul style="text-align: left; margin: 10px 0px 0px 0px;">
-           <li>Programs:
-            <ul style="margin-top: 10px;">
-           {% if not trainer.blitz_set.all %}
-                <li style="padding-left: 20px;">
-                  <i class="icon-exclamation-sign"></i> No group or individual programs set up
+      <div class="col-md-4">
+        <div style="border: 1px solid #fff; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
+          <div style="text-align: left;" class="spotterheader">
+            {{ trainer.name }} <small>({{ trainer.user.email }}) 
+             | <a href="/spotter/payments?trainer={{ trainer.pk }}"><small><i class="glyphicon glyphicon-credit-card"></i> Payment history</small></a>
+            {% if trainer.payment_info %}{{ trainer.payment_method }}:&nbsp;{{ trainer.payment_info }}
+            {% endif %}</small>
+          </div>
+          <ul style="">
+             <li>Programs:
+              <ul style="margin-top: 10px;">
+             {% if not trainer.blitz_set.all %}
+                  <li style="">
+                    <i class="glyphicon glyphicon-exclamation-sign"></i> No group or individual programs set up
+                  </li>
+             {% endif %}
+             {% for blitz in trainer.blitz_set.all %}
+                 <li style="list-style-type: circle;">{% if blitz.url_slug %}{{ blitz.url_slug }} : {% endif %} <b>{{ blitz.title }}</b>
+                     {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
+                     {% if not blitz.group %}
+                        {% if blitz.blitzmember_set.all %}
+                            {{ blitz.blitzmember_set.all.0.date_created }}
+                        {% endif %}
+                     {% else %}
+                        <small>(Group)</small>
+                     {% endif %}
+                     {% if blitz.recurring %}
+                        <small>(Recurring)</small>
+                     {% else %}
+                        <small>(Non-Recurring)</small>
+                     {% endif %}
+                     <br>&nbsp;&nbsp;&nbsp;&nbsp;
+                     {% if blitz.workout_plan.id %}
+                         <i class="glyphicon glyphicon-caret-right"></i> <small>
+                            Workout plan: {{ blitz.workout_plan.name }}
+                               | <a href="view-workoutplan?plan={{ blitz.workout_plan.pk }}">Preview</a>
+                               | <a href="edit-workoutplan?plan={{ blitz.workout_plan.pk }}">Edit</a>
+                               | <a href="workoutplan?plan={{ blitz.workout_plan.pk }}">Details</a>                         
+                          </small>
+                     {% else %}
+                         <i class="glyphicon glyphicon-exclamation-sign"></i> <small>No workout plan assigned</small>
+                     {% endif %}
+
+             {% endfor %}
+            </ul>
+
+             <li style="margin-top: 20px;">
+              Workout plans:
+              <ul style="margin-top: 10px;">
+             {% if not trainer.workoutplan_set.all %}
+                 <li style="">
+                   <i class="glyphicon glyphicon-exclamation-sign"></i> No workout plans set up yet
                 </li>
-           {% endif %}
-           {% for blitz in trainer.blitz_set.all %}
-               <li style="padding-left: 20px; margin-top: 10px;">{% if blitz.url_slug %}{{ blitz.url_slug }} : {% endif %} <b>{{ blitz.title }}</b>
-                   {% if blitz.provisional %}<small>(Provisional)</small>{% endif %}
-                   {% if not blitz.group %}
-                      {% if blitz.blitzmember_set.all %}
-                          {{ blitz.blitzmember_set.all.0.date_created }}
-                      {% endif %}
-                   {% else %}
-                      <small>(Group)</small>
-                   {% endif %}
-                   {% if blitz.recurring %}
-                      <small>(Recurring)</small>
-                   {% else %}
-                      <small>(Non-Recurring)</small>
-                   {% endif %}
-                   <br>&nbsp;&nbsp;&nbsp;&nbsp;
-                   {% if blitz.workout_plan.id %}
-                       <i class="icon-caret-right"></i> <small>
-                          Workout plan: {{ blitz.workout_plan.name }}
-                             | <a href="view-workoutplan?plan={{ blitz.workout_plan.pk }}">Preview</a>
-                             | <a href="edit-workoutplan?plan={{ blitz.workout_plan.pk }}">Edit</a>
-                             | <a href="workoutplan?plan={{ blitz.workout_plan.pk }}">Details</a>                         
-                        </small>
-                   {% else %}
-                       <i class="icon-exclamation-sign"></i> <small>No workout plan assigned</small>
-                   {% endif %}
-
-           {% endfor %}
-          </ul>
-
-           <li style="margin-top: 20px;">
-            Workout plans:
-            <ul style="margin-top: 10px;">
-           {% if not trainer.workoutplan_set.all %}
-               <li style="padding-left: 20px;">
-                 <i class="icon-exclamation-sign"></i> No workout plans set up yet
-              </li>
-           {% endif %}
-           {% for workoutplan in trainer.workoutplan_set.all %}
-              <li style="padding-left: 20px; margin-top: 5px;">
-                <i class="icon-caret-right"></i> <a href="view-workoutplan?plan={{ workoutplan.pk }}">
-                  {{ workoutplan.name }}
-                </a>
-                {% if workoutplan.blitz_set.all or workoutplan.blitzinvitation_set.all %} 
-                <small>
-                  (in use)
-                </small>
-                {% else %} 
-                   | <a onClick="if(confirm('Are you sure you want to delete {{ workoutplan.name }}?')) window.location.href = 'program_delete/{{ workoutplan.pk }}';">
-                    <small style="cursor: pointer;">Delete plan</small>
+             {% endif %}
+             {% for workoutplan in trainer.workoutplan_set.all %}
+                <li style="padding-left: 0px; margin-top: 5px; list-style-type: upper-hexadecimal;">
+                  <a href="view-workoutplan?plan={{ workoutplan.pk }}">
+                    {{ workoutplan.name }}
                   </a>
-                {% endif %}
-                 | <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>Add to Program</small></a>
-                 | <a href="copy_workoutplan?plan={{ workoutplan.pk }}"><small>Make Copy</small></a>
-               </li>
-           {% endfor %}
-               <li style="padding-left: 20px; margin-top: 5px;">
-                <a href="/spotter/new-workoutplan?trainer={{ trainer.pk }}"><i class="icon-plus-sign"></i>  Add a workout plan</a>
-              </li>
-         </ul>
-        </ul>
+                  {% if workoutplan.blitz_set.all or workoutplan.blitzinvitation_set.all %} 
+                  <small>
+                    (in use)
+                  </small>
+                  {% else %} 
+                     | <a onClick="if(confirm('Are you sure you want to delete {{ workoutplan.name }}?')) window.location.href = 'program_delete/{{ workoutplan.pk }}';">
+                      <small style="cursor: pointer;">Delete plan</small>
+                    </a>
+                  {% endif %}
+                   | <a href="assign_workoutplan?plan={{ workoutplan.pk }}"><small>Add to Program</small></a>
+                   | <a href="copy_workoutplan?plan={{ workoutplan.pk }}"><small>Make Copy</small></a>
+                 </li>
+             {% endfor %}
+                 <li style="padding-left: 0px; margin-top: 10px;">
+                  <a href="/spotter/new-workoutplan?trainer={{ trainer.pk }}">
+                    <i class="glyphicon glyphicon-plus-sign"></i>  Add a workout plan</a>
+                </li>
+           </ul>
+          </ul>
+        </div>
       </div>
       {% endfor %}
 

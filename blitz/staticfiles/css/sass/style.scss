@@ -4197,12 +4197,16 @@ ul.spotternav li {
 }
 
 .digest {
-  padding: 10px 0px 30px 5px;
+  padding: 10px 0px 30px 0px;
   border-radius: 5px;
   border: 1px solid white;
   margin-left: 0px;
   //margin-right: 30px;
   min-height: 200px;
+}
+
+.digest ul li {
+  margin-left: -30px;
 }
 
 .wellheadline {
