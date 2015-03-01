@@ -6384,6 +6384,7 @@ a.feed-permalink {
   border-radius: 5px; 
   padding: 20px; 
   margin-bottom: 30px;
+  ul { padding-left: 0 !important; }
 }
 
 #table a {
@@ -6981,3 +6982,52 @@ max-height: 68%;
     width: 100%;
   }
 }
+
+
+// same height row shit
+.row-same-height {
+    display: table;
+    width: 100%;
+}
+
+.col-xs-height {
+    display: table-cell;
+    float: none !important;
+}
+
+@media (min-width: 768px) {
+    .col-sm-height {
+        display: table-cell;
+        float: none !important;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-height {
+        display: table-cell;
+        float: none !important;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-height {
+        display: table-cell;
+        float: none !important;
+    }
+}
+
+/* firefox fix */
+.img-responsive {
+    width: 100%;
+}
+
+/* vertical alignment styles */
+.col-top {
+    vertical-align:top;
+}
+.col-middle {
+    vertical-align:middle;
+}
+.col-bottom {
+    vertical-align:bottom;
+}
+
+// end same height row shit
