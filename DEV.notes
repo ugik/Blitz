@@ -286,5 +286,12 @@ week of 2.23
 - client settings reset in settings
 - fix date references in client signup intro
 - fix end date on sales page (begin_date + num_weeks)
+- improved log-workout
+- Bootstrap3 migration
+
+week of 3.2
+- improved usage digest and payments report
+- nightly payments digest
+- default vanity URL in /register-trainer
 
 
