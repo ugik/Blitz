@@ -104,7 +104,7 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
         if not charge or float(total_cost)-float(total_paid)>0:
 
             # apply outstanding balance to cc
-            if charge and apply and client.balanced_account_uri:   
+            if charge and apply and client.balanced_account_uri:    # must use both &charge and &apply params
                 meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
                         "email": client.user.email}
 
