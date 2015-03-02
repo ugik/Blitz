@@ -1,5 +1,4 @@
-from base.models import Trainer, Client, BlitzMember, BlitzInvitation, Comment, FeedItem, CompletedSet, GymSession, SalesPageContent
-from base.new_content import finalize_gym_session
+from base.models import Trainer, Client, BlitzMember, BlitzInvitation
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User

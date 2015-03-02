@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from workouts.models import WorkoutPlan
+from spotter.utils import balance
+
 from datetime import date, timedelta
 import datetime as dt
 
@@ -17,7 +19,7 @@ import os
 
 SOURCE_EMAIL = 'team@blitz.us'
 SPOTTER_EMAIL = 'spotters@blitz.us'
-EXAMPLE_EMAILS = False
+EXAMPLE_EMAILS = True
 
 # email wrapper, note parameters: images[] context{}
 def send_email(from_email, to_email, subject, text_template, html_template, context, images=[], dirs=[], override=None, cc_mail=[], trainer=None):  
@@ -227,6 +229,20 @@ def usage_digest(days=0):
     to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
+
+    send_email(from_mail, to_mail, subject, template_text, template_html, context)
+
+def payment_digest(test=None):
+
+    context = balance(charge=True, test=test)
+    if len(context['clients']) == 0:
+        return
+    
+    template_html = 'emails/payments_digest.html'
+    template_text = 'emails/payments_digest.txt'
+    to_mail = ['georgek@gmail.com']
+    from_mail = settings.DEFAULT_FROM_EMAIL           
+    subject = "Payments Digest"
 
     send_email(from_mail, to_mail, subject, template_text, template_html, context)
 
