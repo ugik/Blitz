@@ -6924,7 +6924,9 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
     // overflow: scroll;
     //padding-bottom: 20px;
     padding-right: 0px;
-    padding-bottom: 60px;
+    & .inner {
+      padding-bottom: 60px;  
+    }    
 }
 
 h3 small {

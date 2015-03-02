@@ -5542,8 +5542,9 @@ a.feed-permalink {
 .clientlist {
   background: url('../images/sidebar_background.png') #252322;
   height: 100vh;
-  padding-right: 0px;
-  padding-bottom: 60px; }
+  padding-right: 0px; }
+  .clientlist .inner {
+    padding-bottom: 60px; }
 
 h3 small {
   font-size: 0.4em; }
