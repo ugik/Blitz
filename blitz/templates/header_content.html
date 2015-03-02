@@ -18,7 +18,7 @@
                           {% if user.trainer.get_blitz.sales_page_content.logo %}
                               <img class="center" src="{{ MEDIA_URL }}{{ user.trainer.get_blitz.sales_page_content.logo }}"/>
                           {% else %}
-                              <img class="center" src="{{ STATIC_URL }}images/logo.png"/>
+                              <img class="center" src="{{ STATIC_URL }}images/logo.png" style="padding: 0px;"/>
                           {% endif %}
                        </a>
                     {% else %}
