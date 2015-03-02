@@ -47,29 +47,23 @@
 
 {% if login_users %}
 <h3>Logins</h3>
-<ul>
 {% for login in login_users|dictsort:"last_login" %}
-    <li> {{ login.email }} {{ login.last_login }}</li>
+    <small>({{ login.email }})</small> {{ login.username }} {{ login.last_login }}
 {% endfor %}
-</ul>
 {% endif %}
-
+<br>
 {% if laggard_users %}
 <h3>Need reminders</h3>
-<ul>
 {% for laggard in laggard_users|dictsort:"last_login" %}
-    <li> {{ laggard.email }} {{ laggard.last_login }}</li>
+    <small>({{ laggard.email }})</small> {{ laggard.username}} {{ laggard.last_login }}
 {% endfor %}
-</ul>
 {% endif %}
-
+<br>
 {% if inactive_users %}
 <h3>Missing in action</h3>
-<ul>
 {% for inactive in inactive_users|dictsort:"last_login" %}
-    <li> {{ inactive.email }} {{ inactive.last_login }}</li>
+    <small>({{ inactive.email }})</small> {{ inactive.username }} {{ inactive.last_login }}
 {% endfor %}
-</ul>
 {% endif %}
 
 {% endblock %}

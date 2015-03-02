@@ -8,7 +8,7 @@ from email.MIMEImage import MIMEImage
 
 from django.contrib.auth.models import User
 from django.db.models import Q
-from base.models import Client, Trainer, TrainerAlert, BlitzMember
+from base.models import Client, Trainer, TrainerAlert, BlitzMember, user_display_name
 from workouts.models import WorkoutPlan
 from spotter.utils import balance
 
@@ -216,6 +216,7 @@ def usage_digest(days=0):
     login_users = []
     for user in users:
         if timezone.normalize(user.last_login).date() >= startdate:
+            user.username = user_display_name(user)
             login_users.append(user)
 
     f = open('/etc/hosts', 'r')  # grab host and ip address
@@ -273,14 +274,17 @@ def usage_trainer(trainer):
 
     for user in users:
         if timezone.normalize(user.last_login).date() >= startdate:
+            user.username = user_display_name(user)    # username will hold the client/trainer name
             login_users.append(user)
     for user in users:
         # show the trainer users that are laggards but still 'active'
         if timezone.normalize(user.last_login).date() < startdate and timezone.normalize(user.last_login).date() >= laggard:
+            user.username = user_display_name(user)
             laggard_users.append(user)
     for user in users:
         # show the trainer users that are laggards but still 'active'
         if timezone.normalize(user.last_login).date() < laggard:
+            user.username = user_display_name(user)
             inactive_users.append(user)
 
     if not login_users and not laggard_users:
