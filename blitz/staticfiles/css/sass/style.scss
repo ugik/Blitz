@@ -741,7 +741,7 @@ textarea,textarea:focus {
   text-align: center;
   img {
     max-height: 50px;
-    //padding: 8px;
+    padding: 6px;
   }
   @include mobile-only {
     //margin-left: 35%
@@ -2060,22 +2060,19 @@ a:focus {
     margin-right: auto;
     max-width: 100px;
     @include mobile-only {
-      margin-top: 5%;
+      margin-top: 0%;
+      max-width: 70px;
     }
   }
   @include mobile-only {
-    margin-top: 0% !important;
-    padding-top: 10%;
+    margin-top: 5%;
+    padding-top: 0%;
   }
   button {
-    margin: 0px;
-    width: 216px;
-    display: inline;
+    //margin: 0px;
+    //width: 216px;
+    //display: inline;
   }
-}
-
-.blitz-login img {
-  max-width: 100px;
 }
 
 
@@ -6927,6 +6924,9 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
     // overflow: scroll;
     //padding-bottom: 20px;
     padding-right: 0px;
+    & .inner {
+      padding-bottom: 60px;  
+    }    
 }
 
 h3 small {
