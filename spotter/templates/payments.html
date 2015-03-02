@@ -28,6 +28,9 @@
     <h3>Total payments collected ${{ total|stringformat:"1.2f"|cut:"-" }}<br>
         Net to trainer <u>${{ net|stringformat:"1.2f"|cut:"-" }}</u></h3>
 {% else %}
+    <h3>Total payments collected ${{ total|stringformat:"1.2f"|cut:"-" }}<br>
+        Total value of signups ${{ total_value|stringformat:"1.2f"|cut:"-" }}<br>
+        Net <u>${{ net|stringformat:"1.2f"|cut:"-" }}</u></h3>
     {% if test %}
         (including test/free users)
     {% else %}
@@ -35,9 +38,9 @@
     {% endif %}
 
     {% if charge %}
-        (processing payments due)
+        (including payments due)
     {% else %}
-        (add <b>?charge</b> to process charges)
+        (add <b>?charge</b> to view outstanding charges)
     {% endif %}
 {% endif %}
 
@@ -52,16 +55,20 @@
      {% if trainer %}
          <ul><li>{{ client.client.name }} <br> 
 <small>  Program start date: {{ client.blitz.begin_date }} <br>
-         Client start date: {{ client.client.date_created }} ({{ client.months }} months)</small></li>  
-         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: ${{ client.due }}
+         Client signup date: {{ client.client.date_created }}</small></li>  
+         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} <br> DUE: ${{ client.due }}
+         Usage: {{ client.months }} months
      {% else %}
-         <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br> start date: {{ client.blitz.begin_date }} ({{ client.months }} months)</li>  
+         <ul><li>{{ client.client.name }} <small>{{  client.client.balanced_account_uri }}</small> <br>
+         Client signup date: {{ client.client.date_created }}</li> <br>
          {% if client.blitz.group %} <li> Blitz:{{ client.blitz.title }} {% endif %}
+         Program start date: {{ client.blitz.begin_date }} <br>
          {% if client.blitz.recurring %} (recurring) {% else %} (one-time) {% endif %}
          {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
          {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</li>
 <br>
-         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} DUE: $<b><u>{{ client.due }}</u></b>
+         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} <br> DUE: $<b><u>{{ client.due }}</u></b>
+         Usage: {{ client.months }} months <br>
          {% if client.note %} <br><br><b>Note: {{ client.note }} </b><br>{% endif %}
      {% endif %}
 

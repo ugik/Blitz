@@ -24,6 +24,7 @@ import balanced
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
 
+# utility function for payments
 def balance(trainer=None, month=None, test=None, charge=None, apply=None):
 
     if trainer:
@@ -31,25 +32,30 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
 
     clients = []
     payments = []
-    grand_total_paid = grand_total_value = total_cost = total_paid = total_value = float(0.0)
+
+    grand_total_paid = float(0.0)   # total paid across all clients in filter
+    grand_total_value = float(0.0)  # total value of signups across all aclients in filter
+    total_cost = float(0.0)         # total cost incurred per cleint
+    total_paid = float(0.0)         # total payments processed per client
+    total_value = float(0.0)        # total value of signup per client
 
     for client in Client.objects.all():
 
         blitz = client.get_blitz()
-        if not blitz:
+        if not blitz:  # ignore clients not enrolled
             continue
-        if trainer and trainer != blitz.trainer:
+        if trainer and trainer != blitz.trainer:  # trainer filter (optional)
             continue
         # by default ignore test/free users
-        if not test and client.balanced_account_uri == '':
+        if not test and client.balanced_account_uri == '':   # ignore clients with no cc reference
             continue
 
-        if client.date_created < blitz.begin_date:
+        if client.date_created < blitz.begin_date:   # use blitz begin date if client signed up prior
             start_date = blitz.begin_date
         else:
             start_date = client.date_created
 
-        if date.today < blitz.end_date or blitz.recurring:
+        if date.today < blitz.end_date or blitz.recurring:   # use today if blitz hasn't ended yet
             until_date = date.today()
         else:
             until_date = blitz.end_date    # until end of blitz if it's not recurring or in the past
@@ -59,7 +65,8 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
         membership = client.blitzmember_set.all()
         if not membership[0].price:   # if there was no special invitation price
             if blitz.price_model == "R":   # recurring price model
-                total_cost = total_value = months * blitz.price if blitz.price else 0
+                total_cost = months * blitz.price if blitz.price else 0
+                total_value = float(blitz.num_weeks() / 4 * blitz.price) if blitz.price else 0
             else:
                 total_cost = total_value = blitz.price if blitz.price else 0
         else:
@@ -96,7 +103,8 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
         note = error = None
         if not charge or float(total_cost)-float(total_paid)>0:
 
-            if apply and client.balanced_account_uri:   # apply outstanding balance to cc
+            # apply outstanding balance to cc
+            if charge and apply and client.balanced_account_uri:   
                 meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
                         "email": client.user.email}
 
@@ -129,6 +137,7 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
 
     net = float(grand_total_paid * 0.85)
     
-    return {'clients' : clients, 'total' : grand_total_paid, 'total_value' : grand_total_value, 'net' : net }
+    return {'test': test, 'charge': charge, 'apply': apply,
+            'trainer': trainer, 'clients': clients, 'total': grand_total_paid, 'total_value': grand_total_value, 'net': net }
 
 
