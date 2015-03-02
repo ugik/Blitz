@@ -18,7 +18,7 @@
 
 <div class="row" style="margin-bottom: 30px;">
 
-    <div class="span12">
+    <div class="col-md-12">
         <header style="margin-bottom: 30px;">Usage digest {{ days }} {% if days == 1 %}day{% else %}days{% endif %}</header>
         <h3>Total Net ${{ revenue|stringformat:"1.2f"|cut:"-" }}</h3>
     </div>
@@ -27,7 +27,7 @@
 <div class="row">
 
     {% if trainers %}
-    <div class="span4 digest">
+    <div class="col-md-4 digest">
         <h3>New Trainers:</h3>
         {% regroup trainers by date_created as trainer_list %}
         {% for trainer in trainer_list %}
@@ -43,7 +43,7 @@
     {% endif %}
 
     {% if members %}
-    <div class="span4 digest">
+    <div class="col-md-4 digest">
         <h3>New Clients:</h3>
         {% regroup members by date_created as member_list %}
         {% for member in member_list %}
@@ -60,7 +60,7 @@
     {% endif %}
 
     {% if login_users %}
-    <div class="span4 digest">
+    <div class="col-md-4 digest">
         <h3>Most recent member login</h3>
         <ul>
         {% for login in login_users|dictsort:"last_login" %}

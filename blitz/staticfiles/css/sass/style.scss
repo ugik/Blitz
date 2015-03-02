@@ -4197,12 +4197,16 @@ ul.spotternav li {
 }
 
 .digest {
-  padding: 10px 0px 30px 5px;
+  padding: 10px 0px 30px 0px;
   border-radius: 5px;
   border: 1px solid white;
   margin-left: 0px;
-  margin-right: 30px;
+  //margin-right: 30px;
   min-height: 200px;
+}
+
+.digest ul li {
+  margin-left: -30px;
 }
 
 .wellheadline {
@@ -6380,6 +6384,7 @@ a.feed-permalink {
   border-radius: 5px; 
   padding: 20px; 
   margin-bottom: 30px;
+  ul { padding-left: 0 !important; }
 }
 
 #table a {
@@ -6976,4 +6981,60 @@ max-height: 68%;
   @include mobile-only {
     width: 100%;
   }
+}
+
+
+// same height row shit
+.row-same-height {
+    display: table;
+    width: 100%;
+}
+
+.col-xs-height {
+    display: table-cell;
+    float: none !important;
+}
+
+@media (min-width: 768px) {
+    .col-sm-height {
+        display: table-cell;
+        float: none !important;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-height {
+        display: table-cell;
+        float: none !important;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-height {
+        display: table-cell;
+        float: none !important;
+    }
+}
+
+/* firefox fix */
+.img-responsive {
+    width: 100%;
+}
+
+/* vertical alignment styles */
+.col-top {
+    vertical-align:top;
+}
+.col-middle {
+    vertical-align:middle;
+}
+.col-bottom {
+    vertical-align:bottom;
+}
+
+// end same height row shit
+
+.spotterrowwrap {
+  border: 1px solid white;
+  margin-bottom: 50px;
+  border-radius: 8px;
+  padding: 5px 15px;
 }
