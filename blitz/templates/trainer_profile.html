@@ -34,7 +34,7 @@
                     {% if trainer.headshot %}
                     <input type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
                     <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline  full-width"/>
-                        <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" />
+                        <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" style="max-width: 100%;" />
                     {% endif %}
                 </div>
             </div>
@@ -52,7 +52,7 @@
                     {% if salespage.logo %}
                     <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
                     <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline full-width"/>
-                        <img src="{{ MEDIA_URL }}{{ salespage.logo }}" />
+                        <img src="{{ MEDIA_URL }}{{ salespage.logo }}" style="max-width: 100%;" />
                     {% endif %}
                 </div>
             </div>
