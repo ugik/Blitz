@@ -13,7 +13,7 @@ var workouts = [{% for w in workoutplan.workouts %}"{{w}}", {% endfor %}];
 var num_exercises = 0;
 
 function desc_input(exercise, desc) {
-    var desc = prompt("Exercise description:", desc);
+    var desc = prompt("Enter an exercise prefix | description (separator '|' optional)", desc);
     var abbrev = '';
 
     if (desc != null && desc.length > 0) {
@@ -25,13 +25,14 @@ function desc_input(exercise, desc) {
        if (desc.indexOf('|') === -1) {
            if (desc.length > 5) {
                abbrev = desc.substring(0,4)+'...'; 
+           } else {
+               abbrev = desc;
            }
        } else {
            if (desc.length > 5) {
                abbrev = desc.substring(0,desc.indexOf('|'))+'...'; } else {
                abbrev = desc.substring(0,desc.indexOf('|')); }
        }
-
        $("#desc_"+ exercise ).replaceWith('<td align="left" id="desc_'+ exercise +'"><a onclick="desc_input(\''+ exercise +'\', \''+ desc +'\');">' + abbrev +'</a></td>');
 
     }
@@ -334,7 +335,6 @@ function insert_row(location, exercise) {
     head = "<tr id='row_"+ exercise +"_"+ count +"'>";
   cancel = "<td><a onclick='cancel_row(this, \""+ exercise +"_"+ c +"\");'><small>Cancel</small></a>&nbsp";
     save = "<a onclick='save_row(0, this, \""+ exercise +"\", " + c + ", 0);'> | <small>Save</small></a></td>";
-    desc = "<td align='left' id='desc_"+ exercise +"'><a onclick='desc_input(\""+ exercise +"\", \"\");'>(desc)</a></td>";
    lifts = "<td align='left'><input id='lifts_"+ c +"' list='list_"+ c +"' placeholder='Search for a Lift'/><datalist id='list_"+ c +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td>";
  display = "<td align='left'><input type='text' id='sets_display"+ c +"' style='width:100px;' value='3x10'/></td>";
     set1 = "<td align='left' width='5%'><input type='text' id='set1_"+ c +"' style='width:20px;' placeholder='Set'/>";
@@ -344,8 +344,8 @@ function insert_row(location, exercise) {
     set5 = "<td align='left' width='5%'><input type='text' id='set5_"+ c +"' style='width:20px;' placeholder='Set'/>";
     set6 = "<td align='left' width='5%'><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
     foot = "<tr id='insert_row_"+ exercise +"_"+ count +"' style='height:1px;'></tr>";
-alert(desc);
-    $(location).before(head+cancel+save+desc+lifts+display+set1+set2+set3+set4+set5+set6+foot);
+
+    $(location).before(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
 
 }
 
