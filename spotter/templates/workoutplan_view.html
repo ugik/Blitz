@@ -38,7 +38,9 @@
                         <div class="content">
                             <ul>
                                 {% for exercise in day.workout.get_exercises %}
-                                        <li style="margin-left: 0px;">{{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                        <li style="margin-left: 0px;">
+                                        {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                        {{ exercise.lift }}: {{ exercise.sets_display }}</li>
                                 {% endfor %}
                             </ul>
                         </div>

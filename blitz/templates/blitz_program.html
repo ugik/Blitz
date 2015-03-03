@@ -136,12 +136,15 @@
                         <ul>
                             {% for exercise in day.workout.get_exercises %}
                                 {% if user.is_trainer %}
-                                    <li>{{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                    <li>
+                                    {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                    {{ exercise.lift }}: {{ exercise.sets_display }}</li>
                                 {% else %}
                                     <li>
                                     {% if week.week == blitz.current_relative_week or week.week == 1 and blitz.current_relative_week == 0 %}
 
 <a data-toggle="modal" data-target="#vidModal_{{ exercise.lift.slug }}" onclick="document.getElementById('iframe_{{ exercise.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ exercise.lift }} exercise';">
+{% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
 {{ exercise|custom_lift:client }}: </a>{{ exercise|custom_sets_display:client }}
 
 
@@ -168,6 +171,7 @@
                         <!--/ Video Modal -->
 
                                    {% else %}
+                                        {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
                                         {{ exercise|custom_lift:client }}:
                                    {% endif %}
                                         {{ exercise|custom_sets_display:client }}</li>

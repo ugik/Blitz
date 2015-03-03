@@ -33,9 +33,11 @@
                         <ul>
                             {% for exercise in day.workout.get_exercises %}
                                 {% if user.is_trainer %}
-                                    <li>{{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                    <li>{% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                    {{ exercise.lift }}: {{ exercise.sets_display }}</li>
                                 {% else %}
-                                    <li>{{ exercise|custom_lift:client }}: 
+                                    <li>{% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                        {{ exercise|custom_lift:client }}: 
                                         {{ exercise|custom_sets_display:client }}</li>
                                 {% endif %}
                             {% endfor %}
