@@ -1197,6 +1197,7 @@ h3 {@include lightfont();}
       position: absolute;
       top: 12px;
       left: -20px;
+      padding-top: 0px;
       @include mobile-only {left: 10px; border: 2px solid white;}
       width: 35px;
       border: $imageborder;

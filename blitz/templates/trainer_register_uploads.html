@@ -34,7 +34,7 @@
                         + Photo
                     </label>
                     {% if trainer.headshot %}
-                        <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" />
+                        <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" style="max-width: 100%;" />
                     {% endif %}
                 </div>
             </div>
@@ -50,7 +50,7 @@
                         + Logo
                     </label>
                     {% if salespage.logo %}
-                        <img src="{{ MEDIA_URL }}{{ salespage.logo }}" />
+                        <img src="{{ MEDIA_URL }}{{ salespage.logo }}" style="max-width: 100%;" />
                     {% endif %}
                 </div>
             </div>
