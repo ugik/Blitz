@@ -8052,3 +8052,8 @@ h3 small {
   border-radius: 8px;
   padding: 5px 15px;
 }
+
+/* line 7043, ../sass/style.scss */
+.workout-day-block > .title > .small {
+  font-size: 0.7em;
+}
