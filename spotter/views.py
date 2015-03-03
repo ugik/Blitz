@@ -565,6 +565,44 @@ def workoutplan_ajax(request):
                             workout = request.POST.get('workout'), 
                             day_char = request.POST.get('day'))
 
+    # save description for exercise
+    # TODO: modularize the exercise lookup with handling of provisional records
+    elif request.POST.get('mode') == 'save_desc':
+        exercise = request.POST.get('exercise')
+        desc = request.POST.get('desc')
+        if len(desc) == 0:
+            return JSONResponse({'is_error': False})
+
+        if len(exercise.split('_')) == 1:    # handle the case of exercise param by itself
+            exercise_pk = exercise
+            exercises = Exercise.objects.filter(pk=exercise_pk)
+
+        elif len(exercise.split('_')) == 3:    # handle the case of exercise as 3-part param: week, day, exercise
+            exercise_pk = exercise.split('_')[2]
+            day_pk = request.POST.get('exercise').split('_')[1]   # day param
+            workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
+            day = WorkoutPlanDay.objects.filter(pk=day_pk)[0]
+            workout = day.workout
+
+            exercises = Exercise.objects.filter(pk=exercise_pk)
+
+            if not exercises or exercises[0].workout != workout:    # check for provisional exercise
+                session_key = "exercise_%s" % exercise_pk
+                if session_key in request.session:
+                    exercises = Exercise.objects.filter(pk=int(request.session[session_key]))
+                else:
+                    exercises = None
+
+        else:
+            exercise_pk = None
+
+        if exercises:
+            exercise = exercises[0]
+            exercise.description = desc
+            exercise.save()
+
+        print 'EDIT EXERCISE DESCRIPTION:', exercise, desc
+
     elif request.POST.get('mode') == 'save_exercise':
 
         week_pk = request.POST.get('exercise').split('_')[0]    # split key into week, day, exercise

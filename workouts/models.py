@@ -75,6 +75,19 @@ class Exercise(models.Model):
 
     def num_sets(self):
         return self.workoutset_set.all().count()
+
+    # description can be multi-part separated by '|', eg. '1.0 | a description for the exercise'
+    def prefix(self):   # return prefix in description
+        if '|' in self.description:
+            return self.description[:self.description.index('|')]
+        elif len(self.description)<5:
+            return self.description 
+
+    def desc(self):   # return description portion of description
+        if '|' in self.description:
+            return self.description[self.description.index('|')+1:]
+        elif len(self.description)>5:
+            return self.description 
        
     def __unicode__(self):
         return "%s of %s in %s" % ( self.sets_display, str(self.lift), str(self.workout) )
