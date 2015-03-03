@@ -37,17 +37,16 @@
       </div>
     {% endif %}
 
-    <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+    <form name="uploadForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 
         <input type="file" name="document" id="file" style="height:0;"/>
-        <label id="file" name="document" for="file"/ class="btn-outline upload-btn" >Select a File</label>
+        <label id="file" name="document" for="file" class="obtn" >Upload a File</label>
 
-    <br>
-        <div class="submit-container">
-        <button class='obtn' style="min-width: 50%;" type='submit'>Upload</button>
-        </div>
     </form>
 
+<script type="text/javascript">
+$('input[type=file]').change(function(e) { document.uploadForm.submit(); });
+</script>
 
 {% endblock %}
 
