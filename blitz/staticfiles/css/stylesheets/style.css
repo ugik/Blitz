@@ -8054,6 +8054,6 @@ h3 small {
 }
 
 /* line 7043, ../sass/style.scss */
-.workout-day-block > .title > .small {
-  font-size: 0.7em;
+.workout-day-block > .title > small {
+  font-size: 0.5em;
 }
