@@ -14,13 +14,22 @@ var num_exercises = 0;
 
 function desc_input(exercise, desc) {
     var desc = prompt("Exercise description:", desc);
-    
-    if (desc.length > 0) {
+
+    if (desc === null || desc.length > 0) {
        $.ajax({
           url: 'workoutplan_ajax',
           type: 'POST',
           data: { mode: 'save_desc', workoutplan: workoutplan, exercise: exercise, desc: desc},
        })
+       if (desc.indexOf('|') === -1) {
+           if (desc.length > 5) {
+               $("#desc_"+ exercise ).text(desc.substring(0,5)+'...'); } else {
+               $("#desc_"+ exercise ).text(desc.substring(0,5)); } 
+       } else {
+           if (desc.length > 5) {
+               $("#desc_"+ exercise ).text(desc.substring(0,desc.indexOf('|'))+'...'); } else {
+               $("#desc_"+ exercise ).text(desc.substring(0,desc.indexOf('|'))); }
+       }
     }
 }
 function set_workouts(workouts, count) {   // load workouts into datalist
@@ -465,8 +474,8 @@ $('#plan-name').blur(function() {
                {% endif %}
           &nbsp;&nbsp;<small>{{ workoutplanday.workout }}</small>
         </td>
-        <td>
-        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='font-size:14px; width:400px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
+        <td colspan="2">
+        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='font-size:14px; width:450px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
 
 <script>
 // save workout description
@@ -515,11 +524,14 @@ $('#day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}').blur(function() 
                         <small><i class="icon-pencil"></i> Edit</small>
                     </a>
                 </td>
-                <td align="left" 
-                 id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_lift">
+                <td align="left"
+                 id="desc_{{ exercise.pk }}">
                  <a onclick="desc_input({{ exercise.pk }}, '{{ exercise.description }}');">
                  {% if exercise.description %} {{ exercise.description|truncatechars:7}} {% else %}(desc){% endif %}
-                 </a>&nbsp;&nbsp;
+                 </a>
+                </td>
+                <td align="left"
+                 id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_lift">
                  {{ exercise.lift }}
                 </td>
                 <td align="left"
