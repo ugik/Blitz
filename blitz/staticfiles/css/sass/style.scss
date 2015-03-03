@@ -888,6 +888,7 @@ textarea,textarea:focus {
   .headshot-container {
     width: 45px;
     max-height: 45px;
+    min-height: 45px; 
     @include borderradius(50%); 
     border: 2px solid white;
     float: left;
