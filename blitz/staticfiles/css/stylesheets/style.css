@@ -2354,7 +2354,7 @@ a:focus {
   background-color: #7ab2ea;
   background-position: 95% 50%;
   background-repeat: no-repeat;
-  background-image: url("/static/images/checkmark.png");
+  background-image: url("/static/images/checkmark@2x.png");
   color: white;
 }
 /* line 2240, ../sass/style.scss */
@@ -8051,4 +8051,9 @@ h3 small {
   margin-bottom: 50px;
   border-radius: 8px;
   padding: 5px 15px;
+}
+
+/* line 7043, ../sass/style.scss */
+.workout-day-block > .title > small {
+  font-size: 0.5em;
 }
