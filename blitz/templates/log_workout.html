@@ -114,16 +114,16 @@
 
 
 {% if preview %}
-<div class="row">
-    <div class="col-md-6 col-md-offset-3 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 20px;">
-        <p>
-            This is a preview of how this workout will look for clients. On whichever days this workout happens in your program, they'll be presented with what's below for easy workout logging. 
-        </p>
-        <button class='btn-outline' onclick="location.href='/view_program/{{ workoutplan.pk }}'">
-        Back to program overview
-        </button>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 20px;">
+            <p>
+                This is a preview of how this workout will look for clients. On whichever days this workout happens in your program, they'll be presented with what's below for easy workout logging. 
+            </p>
+            <button class='btn-outline' onclick="location.href='/view_program/{{ workoutplan.pk }}'" style="font-size: 14px;">
+            <i class="glyphicon glyphicon-arrow-left icon-white smaller"></i> Back to program overview
+            </button>
+        </div>
     </div>
-</div>
 {% endif %}
 
 <div class="row">
@@ -193,18 +193,22 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="last-lift">
+                                        <p>
                                         {% if not group.lift_summary.has_completed %}
                                         &nbsp;
                                         {% else %}
                                           {% if group.lift_summary.last_session %}
-                                            <p>Last time, you did {% for a in group.lift_summary.last_session %}.</p>
+                                            Last time, you did {% for a in group.lift_summary.last_session %}
                                             {% if a.display_str = '' %}
                                             {% else %}
+                                            
                                             {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}{% endif %}
                                             {% endfor %}.
                                           {% else %}
-
+                                          
                                         {% endif %}
+                                        {% endif %}
+                                    </p>
                                     </div>
                                 </div>
                             </div>
@@ -295,11 +299,19 @@
                 <textarea id="workout-notes" name="notes" placeholder="Additional notes..." >{{ gym_session.notes }}</textarea>
             </div>
 
-            <div class="submit-container" {% if preview %} style="display: none" {% endif %}>
-                <button type="submit" class="obtn log-workout-submit">
-                    Log Workout <i class="icon-arrow-right icon-white"></i>
+            {% if preview %}
+            <div class="submit-container" >
+                <button onclick="location.href='/view_program/{{ workoutplan.pk }}'" class="obtn log-workout-submit">
+                    <i class="glyphicon glyphicon-arrow-left icon-white smaller"></i> Back to Program Overview
                 </button>
             </div>
+            {% else %}
+            <div class="submit-container" >
+                <button type="submit" class="obtn log-workout-submit">
+                    Log Workout <i class="glyphicon glyphicon-arrow-right icon-white smaller"></i>
+                </button>
+            </div>
+            {% endif %}
 
         </form>
 
