@@ -12,6 +12,13 @@ var slugs = [{% for w in workoutplan.workouts %}"{{w.slug}}", {% endfor %}];
 var workouts = [{% for w in workoutplan.workouts %}"{{w}}", {% endfor %}];
 var num_exercises = 0;
 
+function desc_input(exercise) {
+    var desc = prompt("Exercise description:", "");
+    
+    if (desc != null) {
+        alert(exercise);
+    }
+}
 function set_workouts(workouts, count) {   // load workouts into datalist
     $(workouts).each( function(index, item) {
         if (item != '(TBD)') {
@@ -178,7 +185,7 @@ function save_row(inuse, location, exercise, count, option) {
 
         sets = []
 
-        lift    = "<td id='row_"+ exercise +"_"+count+"_lift' align='left'>"+$("#lifts_"+ count).val()+"</td>";
+        lift    = "<td id='row_"+ exercise +"_"+count+"_lift' align='left'><a onclick='desc_input(\"" +exercise+ "\");'>(desc)</a>&nbsp;&nbsp;"+$("#lifts_"+ count).val()+"</td>";
         display = "<td id='row_"+ exercise +"_"+count+"_display' align='left'>"+$("#sets_display"+ count).val()+"</td>";
 
         for (i = 0; i < 6; i++) {
@@ -200,7 +207,7 @@ function save_row(inuse, location, exercise, count, option) {
 
     if (option===1) {  // edited row
 
-        $('#row_'+exercise+'_lift').replaceWith('<td id="row_'+ exercise +'_lift" align="left">'+$('#lifts_'+ exercise).val()+'</td>');
+        $('#row_'+exercise+'_lift').replaceWith('<a onclick="desc_input(\"' +exercise+ '\");">(desc)</a>&nbsp;&nbsp;<td id="row_'+ exercise +'_lift" align="left">'+$('#lifts_'+ exercise).val()+'</td>');
         $('#row_'+exercise+'_display').replaceWith('<td id="row_'+ exercise +'_display" align="left">'+$('#row_'+ exercise+'_display').val()+'</td>');
         $('#row_'+exercise+'_set_1').replaceWith('<td id="row_'+ exercise +'_set_1" width="5%">'+$('#row_'+exercise+'_set_1').val()+'</td>');
         $('#row_'+exercise+'_set_2').replaceWith('<td id="row_'+ exercise +'_set_2" width="5%">'+$('#row_'+exercise+'_set_2').val()+'</td>');
@@ -318,14 +325,14 @@ function insert_row(location, exercise) {
     set5 = "<td align='left' width='5%'><input type='text' id='set5_"+ c +"' style='width:20px;' placeholder='Set'/>";
     set6 = "<td align='left' width='5%'><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
     foot = "<tr id='insert_row_"+ exercise +"_"+ count +"' style='height:1px;'></tr>";
-    $(location).after(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
+    $(location).before(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
 
 }
 
 function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {  
 
     // edit row by making elements input type
-    $('#row_'+exercise+'_lift').replaceWith("<td id='row_"+ exercise +"_lift' align='left' ><input id='lifts_"+ exercise +"' list='list_"+ exercise +"' value='"+lift+"'/><datalist id='list_"+ exercise +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td>");
+    $('#row_'+exercise+'_lift').replaceWith("<td id='row_"+ exercise +"_lift' align='left' ><a onclick='desc_input(\"" +exercise+ "\");'>(desc)</a>&nbsp;&nbsp;<input id='lifts_"+ exercise +"' list='list_"+ exercise +"' value='"+lift+"'/><datalist id='list_"+ exercise +"' >{% for l in lifts|dictsort:"name" %}<option value='{{l.name}}'/>{% endfor %}</datalist></td>");
     $('#row_'+exercise+'_display').replaceWith("<td align='left'><input id='row_"+ exercise +"_display' type='text' style='width:100px;' value='"+ display +"'/></td>");
     $('#row_'+exercise+'_set_1').replaceWith("<td align='left' width='5%'><input id='row_"+ exercise +"_set_1' type='text' style='width:30px;' value='"+ $('#row_'+exercise+'_set_1').text().trim() +"'/></td>");
     $('#row_'+exercise+'_set_2').replaceWith("<td align='left' width='5%'><input id='row_"+ exercise +"_set_2' type='text' style='width:30px;' value='"+ $('#row_'+exercise+'_set_2').text().trim() +"'/></td>");
@@ -342,7 +349,7 @@ function edit_row(inuse, exercise, lift, display, set1, set2, set3, set4, set5, 
 function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set5, set6) {   
     // cancel edit by reverting to .a types with initial values
 
-    $('#row_'+exercise+'_lift').replaceWith('<td id="row_'+ exercise +'_lift" align="left">'+lift+'</td>');
+    $('#row_'+exercise+'_lift').replaceWith('<td id="row_'+ exercise +'_lift" align="left"><a onclick="desc_input(\'' +exercise+ '\');">(desc)</a>&nbsp;&nbsp;'+lift+'</td>');
     $('#row_'+exercise+'_display').replaceWith('<td id="row_'+ exercise +'_display" align="left">'+display+'</td>');
     $('#row_'+exercise+'_set_1').replaceWith('<td id="row_'+ exercise +'_set_1" align="left" width="5%">'+set1+'</td>');
     $('#row_'+exercise+'_set_2').replaceWith('<td id="row_'+ exercise +'_set_2" align="left" width="5%">'+set2+'</td>');
@@ -479,7 +486,7 @@ $('#day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}').blur(function() 
               </td>
           {% endif %}
           <td align='left'>
-            <a onclick="insert_row('#day_head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">
+            <a onclick="insert_row('#gap_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">
                 <i class="icon-plus-sign"></i> Add Exercise
             </a>
           </td>
@@ -506,7 +513,7 @@ $('#day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}').blur(function() 
                 </td>
                 <td align="left" 
                  id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_lift">
-                 {{ exercise.lift }}
+                 <a onclick="desc_input({{ exercise.pk }});">(desc)</a>&nbsp;&nbsp;{{ exercise.lift }}
                 </td>
                 <td align="left"
                  id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_display">

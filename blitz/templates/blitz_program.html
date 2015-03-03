@@ -141,7 +141,7 @@
                                     <li>
                                     {% if week.week == blitz.current_relative_week or week.week == 1 and blitz.current_relative_week == 0 %}
 
-<a data-toggle="modal" data-target="#vidModal_{{ exercise.lift.slug }}" onclick="document.getElementById('iframe_{{ exercise.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ exercise.lift }}';">
+<a data-toggle="modal" data-target="#vidModal_{{ exercise.lift.slug }}" onclick="document.getElementById('iframe_{{ exercise.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ exercise.lift }} exercise';">
 {{ exercise|custom_lift:client }}: </a>{{ exercise|custom_sets_display:client }}
 
 
@@ -155,7 +155,7 @@
                                         <h4 class="modal-title" id="vidModalLabel"><font color="gray">{{ exercise.lift }}&nbsp;&nbsp;{{ exercise.title }} </font></h4>
                                     </div>
                                     <div class="modal-body">
-                                        <iframe id="iframe_{{ group.lift.slug }}" width="520" height="335" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ exercise.lift }}" frameborder="0" allowfullscreen></iframe>
+                                        <iframe id="iframe_{{ group.lift.slug }}" width="520" height="335" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ exercise.lift }} exercise" frameborder="0" allowfullscreen></iframe>
                                     </div>
                                     {% comment %}
                                     <div class="modal-footer">
