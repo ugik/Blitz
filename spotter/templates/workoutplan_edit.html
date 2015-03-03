@@ -14,6 +14,7 @@ var num_exercises = 0;
 
 function desc_input(exercise, desc) {
     var desc = prompt("Exercise description:", desc);
+    var abbrev = '';
 
     if (desc != null && desc.length > 0) {
        $.ajax({
@@ -23,13 +24,16 @@ function desc_input(exercise, desc) {
        })
        if (desc.indexOf('|') === -1) {
            if (desc.length > 5) {
-               $("#desc_"+ exercise ).text(desc.substring(0,5)+'...'); } else {
-               $("#desc_"+ exercise ).text(desc.substring(0,5)); } 
+               abbrev = desc.substring(0,4)+'...'; 
+           }
        } else {
            if (desc.length > 5) {
-               $("#desc_"+ exercise ).text(desc.substring(0,desc.indexOf('|'))+'...'); } else {
-               $("#desc_"+ exercise ).text(desc.substring(0,desc.indexOf('|'))); }
+               abbrev = desc.substring(0,desc.indexOf('|'))+'...'; } else {
+               abbrev = desc.substring(0,desc.indexOf('|')); }
        }
+
+       $("#desc_"+ exercise ).replaceWith('<td align="left" id="desc_'+ exercise +'"><a onclick="desc_input(\''+ exercise +'\', \''+ desc +'\');">' + abbrev +'</a></td>');
+
     }
 }
 function set_workouts(workouts, count) {   // load workouts into datalist
