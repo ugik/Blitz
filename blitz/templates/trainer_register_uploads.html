@@ -60,7 +60,10 @@
             <div class="row uploads-row">
                 <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload program documents</div>
-                    <div class="uploads-bottom">Any spreadsheets, PDF, etc that explain your fitness/diet programs. We'll set it up for you.</div>
+                    <div class="uploads-bottom">Any spreadsheets, PDFs, etc that explain your fitness/diet programs. Our team will convert these to an app-like experience for your clients. Here's a preview of how 
+                        <a href="#" class=""   data-toggle="modal"   data-target="#basicModal">
+                            a client's workout looks</a> to give you a better idea.
+                    </div>
                 </div>
                 <div class="col-md-3 trainer-uploads-right">
                     <input type="file" name="document" id="id_document" style="height:0; display:none;"/>
@@ -106,6 +109,35 @@
     </div>
     </div>
 </div>
+
+
+<div class="modal modal-full fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <a data-dismiss="modal">
+        <div class="modal-dialog-full">
+            <div class="modal-content-full">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4" style="text-align: center;">
+                                <h2 class="lightfont white" style="color: white;">Client workout logger</h2>
+                                <br />
+                                <p>
+                                    <img src='{{ STATIC_URL }}images/workout-preview.png' style="max-width: 100%;" />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <a class="full-width" style="color: #7ab2ea !important;" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </a>
+  </div>
+</div>
+
+
 {% endblock %}
-
-
