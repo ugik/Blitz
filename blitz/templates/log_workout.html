@@ -4,18 +4,6 @@
 
 {% block morehead %}
 
-<!--select first btn-group toggle -->
-    // <script type="text/javascript">
-        //     $(document).ready(function() {
-        //     $(".btn").first().button("toggle");
-        // });
-
-        //     $(".btn-group > .btn").click(function(){
-        //     $(this).addClass("active").siblings().removeClass("active");
-        // });
-    // </script>
-<!-- / -->
-
 <style type="text/css">
     #main-content-container {
         margin-top: 50px;
@@ -34,9 +22,11 @@
         }
 
         function unFinishExercise(slug) {
-            $('.exercise-group[data-exercise="' + slug + '"]').removeClass('exercise-finished');
             $('#collapse-' + slug).collapse('show');
+            $('.exercise-group[data-exercise="' + slug + '"]').removeClass('exercise-finished');
         }
+        
+        $('.panel-heading').on('click', function() {   });
 
         $('.save-sets').on('click', function() {
 
@@ -75,7 +65,7 @@
                 }
             });
         });
-        $('.lift-toggle').on('click', function() { 
+        $('.lift-toggle').on('click', function() {
             var parent = $(this).closest('.exercise-group');
             var lift = parent.data('exercise');
             var settype = $(this).data('settype');
@@ -105,6 +95,12 @@
     function okWebpageDialog (){
         $("#webpageDialog").modal ('hide');
         };
+    function remove_checkmark(slug) {
+        if ($('#collapse-'+ slug).attr('class').indexOf('in') == -1 ) { 
+            $('.exercise-group[data-exercise="' + slug + '"]').removeClass('exercise-finished');
+        }
+    }
+
 
 </script>
 
@@ -149,7 +145,7 @@
                         <div class="row">
                             <div class="col-xs-9">
                                 <h3 class="panel-title">
-                                    <a {% if not forloop.first %}class="collapsed" {% endif %} data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.lift.slug }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse-{{ group.lift.slug }}">
+                                    <a {% if not forloop.first %}class="collapsed" {% endif %} data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.lift.slug }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse-{{ group.lift.slug }}" onclick="remove_checkmark('{{ group.lift.slug }}');">
                                       {% if group.exercise.prefix %} {{ group.exercise.prefix }} {% endif %}
                                       {{ group.lift }} <span class="small"><div class="mobile-only" style="line-height: 0px;"><br /></div>{{ group.title }}</span>
                                     </a>
