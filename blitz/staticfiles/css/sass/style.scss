@@ -888,6 +888,7 @@ textarea,textarea:focus {
   .headshot-container {
     width: 45px;
     max-height: 45px;
+    min-height: 45px; 
     @include borderradius(50%); 
     border: 2px solid white;
     float: left;
@@ -2236,6 +2237,7 @@ a:focus {
   background-position: 95% 50%;
   background-repeat: no-repeat;
   background-image: url('/static/images/checkmark@2x.png');
+  background-size: 5%;
   color: white;
   .panel-heading a {
     color: white;
@@ -6787,7 +6789,7 @@ label#id_front_image.btn-outline :hover, label#id_side_image.btn-outline :hover 
 }
 
 .videolink {
-  font-size: 0.9em;
+  font-size: 1em;
   margin-top: -5px;
   :hover {
     cursor: pointer;
