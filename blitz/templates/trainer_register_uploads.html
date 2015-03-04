@@ -21,16 +21,18 @@
                     {% csrf_token %}
         </div>
     </div>
-    <div class="col-md-8 col-md-offset-2" style="margin-top: -50px;">
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2" style="margin-top: -40px;">
         <div class="formpage-block">
             <div class="row uploads-row">
-                <div class="col-md-6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload a profile photo</div>
                     <div class="uploads-bottom">This should be square-ish and at least 150x150 px.</div>
                 </div>
-                <div class="col-md-2 trainer-uploads-right">
+                <div class="col-md-3 trainer-uploads-right">
                     <input type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
-                    <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline"/>
+                    <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline full-width"/>
                         + Photo
                     </label>
                     {% if trainer.headshot %}
@@ -40,13 +42,13 @@
             </div>
 
             <div class="row uploads-row">
-                <div class="col-md-6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload a logo</div>
                     <div class="uploads-bottom">Clients will see your logo when they use Blitz (if you don't have one, we'll use your name).</div>
                 </div>
-                <div class="col-md-2 trainer-uploads-right">
+                <div class="col-md-3 trainer-uploads-right">
                     <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
-                    <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline"/>
+                    <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline full-width"/>
                         + Logo
                     </label>
                     {% if salespage.logo %}
@@ -56,13 +58,13 @@
             </div>
 
             <div class="row uploads-row">
-                <div class="col-md-6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload program documents</div>
                     <div class="uploads-bottom">Any spreadsheets, PDF, etc that explain your fitness/diet programs. We'll set it up for you.</div>
                 </div>
-                <div class="col-md-2 trainer-uploads-right">
+                <div class="col-md-3 trainer-uploads-right">
                     <input type="file" name="document" id="id_document" style="height:0; display:none;"/>
-                    <label id="label_document" name="label_document" for="id_document" class="btn-outline"/>
+                    <label id="label_document" name="label_document" for="id_document" class="btn-outline full-width"/>
                         + Files
                     </label>
                     {% if document %}
