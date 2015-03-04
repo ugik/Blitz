@@ -22,25 +22,25 @@
 
 <div class="container">
     <div class="row">
-            <div class="col-md-4">
-              &nbsp;
-            </div>
-            <div class="col-md-4" style="margin: 0 auto; text-align: center;">
-              <h1 class="meta"> Programs </h1>
-            </div>
-            <div class="col-md-4" style="margin: 0 auto; text-align: center;">
-                <form method="post" name="sales-blitz" 
-                 action="upload" class="formpage-block-form">
-                   {% csrf_token %}
-                   <div class="submit-container">
-                    <button class='obtn obtn-comment-grn' type='submit'>
-                        + Upload New Program
-                    </button>
-                   </div>
-                </form>
-            </div>
-
+        <div class="col-md-4">
+          &nbsp;
         </div>
+        <div class="col-md-4" style="margin: 0 auto; text-align: center;">
+          <h1 class="meta"> Programs </h1>
+        </div>
+        <div class="col-md-4" style="margin: 0 auto; text-align: center;">
+            <form method="post" name="sales-blitz" 
+             action="upload" class="formpage-block-form">
+               {% csrf_token %}
+               <div class="submit-container">
+                <button class='obtn obtn-comment-grn' type='submit'>
+                    + Upload New Program
+                </button>
+               </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-8" style="float: none; margin: 0 auto; text-align: center;">
         {% if workoutplans %}
 
@@ -77,6 +77,7 @@
          Once you'll uploaded and setup some programs, we'll show them here.<br><br>
         {% endif %}
         </div>
+    </div>
     </div>
 </div>
 
