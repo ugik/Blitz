@@ -525,15 +525,16 @@ Example @include keyframes
 }
 
 .panel-default > .panel-heading {
-  height: 57px;
+  overflow: hidden;
   background: none;
   padding: 0px;
-  height: 100%;
+  @include mobile-only {
+    overflow: hidden !important;
+  }
   .panel-title {
     //font-size: 24px;
     a {
       width: 100%;
-      height: 100%;
       display: block;
       padding: 10px;
       text-decoration: none;
@@ -589,6 +590,7 @@ a {
   a:hover, a:focus {
     text-decoration: underline;
     color: $linkcolorhover;
+    cursor: pointer!important;
     }
 
 
@@ -2245,7 +2247,7 @@ a:focus {
     :hover { text-decoration: none;};
   }
   .panel-heading a.collapsed {
-    
+
   }
   .panel-toggle {
     color: white;
@@ -4128,6 +4130,9 @@ label#id_document.upload {
   @include meta();
   font-size: 24px;
   padding: 10px 20px;
+  :hover {
+    cursor: pointer!important;
+  }
   :active {
     background-color: rgba(255,255,255,0.2);
   }
@@ -4137,6 +4142,7 @@ label#id_document.upload {
     background: $blitz-blue;
     color: white;
     border: 2px solid $blitz-blue;
+    cursor: pointer!important;
   }
 
 .btn-outline-trans {
@@ -4154,7 +4160,7 @@ label#id_document.upload {
   font-size: 24px;
   padding: 10px 20px;
   :hover {
-    cursor: pointer;
+    cursor: pointer!important;
     @include blitz-gradient;
     @include animation('btnpulsate .75s infinite');
   }
@@ -4345,18 +4351,18 @@ ul.spotternav li {
     color: white;
     text-shadow: none;
     @include transition(0.3s, linear);
-    opacity: 1;
     :hover {
       text-shadow: 0 0 5px rgba(255,255,255,0.5);
-      opacity: 1;
+      //opacity: 1;
+      cursor: pointer!important;
     }
     span {
       @include transition(0.3s, linear);
-      opacity: .5;
+      opacity: .7;
     }
     span:hover {
       text-shadow: 0 0 5px rgba(255,255,255,0.5);
-      opacity: 1;
+      //opacity: 1;
     }
   }
 }
@@ -4364,6 +4370,12 @@ ul.spotternav li {
 .modal-header {
   border: none;
   color: white;
+  button {
+    :hover {
+      color: white!important;
+      cursor: pointer!important;
+    }
+  }
 }
 
 .modal-body {
@@ -4897,13 +4909,16 @@ padding: 30px 30px 30px 43px;
 }
 
 .trainer-uploads-left {
-  margin-left: 0px;
+  padding-left: 0px;
   //margin-right: 50px;
-  max-width: 560px;
+  //max-width: 560px;
 }
 
 .trainer-uploads-right {
-  margin-left: 0px;
+  @include tablet-landscape-and-up {
+    padding-right: 0px;
+  }
+  text-align: right;
 }
 
 .uploads-top {
@@ -5257,6 +5272,7 @@ a.ui-state-default :hover {
 
 #modalClientMacros > div.modal-dialog-full > div > div.modal-body > div > div > div > form > div.btn-group.bootstrap-select {
   margin-left: 0px!important;
+  width: 100%;
 }
 
 .modal-body .row .col-md-6 {
@@ -7047,4 +7063,9 @@ max-height: 68%;
 
 .workout-day-block > .title > small {
   font-size: 0.5em;
+}
+
+.new-trainer-experience {
+  padding: 20px;
+  color: white;
 }
