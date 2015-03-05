@@ -495,7 +495,7 @@ ul.filters li.item:hover {
     font-size: 14px
 }
 #summary .sidebar-box .goals-history .box .info {
-    font-size: 11px;
+    /* font-size: 11px; */
     /*margin: 0px 5px 0px 5px*/
 }
 .edit-diet-goal {
