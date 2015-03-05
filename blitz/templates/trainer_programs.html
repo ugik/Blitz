@@ -29,15 +29,9 @@
           <h1 class="meta"> Programs </h1>
         </div>
         <div class="col-md-4" style="margin: 0 auto; text-align: center;">
-            <form method="post" name="sales-blitz" 
-             action="upload" class="formpage-block-form">
-               {% csrf_token %}
-               <div class="submit-container">
-                <button class='obtn obtn-comment-grn' type='submit'>
-                    + Upload New Program
-                </button>
-               </div>
-            </form>
+            <button class="obtn" href="/upload" class=""   data-toggle="modal"   data-target="#basicModal">
+                + Upload new program
+           </button>
         </div>
     </div>
     <div class="row">
@@ -80,6 +74,15 @@
     </div>
     </div>
 </div>
+
+<div class="modal modal-full fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog-full">
+            <div class="modal-content-full modal-content">
+                <!-- Content will be loaded here from remote file -->
+            </div>
+        </div>
+</div>
+
 
 <!-- include spotter_program_edit_modal if necessary -->
 {% if modalSpotter %}
