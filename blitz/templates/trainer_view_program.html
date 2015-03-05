@@ -12,7 +12,7 @@
 {% block main %}
 <div class="row">
     <div class="col-md-12">
-        <h1>{{ workout_plan.name }}  - Program Details</h1>
+        <h1 style="lightfont">{{ workout_plan.name }}  - Program Details</h1>
     </div>
 </div>
     {% for week in workout_plan.weeks %}
@@ -23,10 +23,23 @@
     </div>
     <div class="row">
         {% for day in week.days %}
-            {% if week.days.count > 4 %}
+            {% if week.days.count = 6 %}
                 <div class="col-md-2" style="margin-left: 0px;">
-            {% else %}
+            {% endif %}
+            {% if week.days.count = 5 %}
+                <div class="col-md-2" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 4 %}
                 <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 3 %}
+                <div class="col-md-4" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 2 %}
+                <div class="col-md-6" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 1 %}
+                <div class="col-md-12" style="margin-left: 0px;">
             {% endif %}
                 <div class="overview-block workout-day-block">
                     <div class="title">{{ day.day_of_week|day_name }}
