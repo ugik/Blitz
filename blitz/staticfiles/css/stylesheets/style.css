@@ -5060,7 +5060,7 @@ ul.spotternav li {
   border-radius: 0;
   color: white;
   overflow: hidden;
-  background-color: transparent;
+  background: transparent;
 }
 /* line 4344, ../sass/style.scss */
 .modal-content-full .modal-body {
