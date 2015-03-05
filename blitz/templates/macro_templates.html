@@ -5,9 +5,9 @@
 
 <script type="text/template" id="tpl-macro-day-view" >
     <div class="day-header">
-        <a class="arrow-container"><i class="arrow goback icon-chevron-left"></i></a>
+        <a class="arrow-container"><i class="arrow goback glyphicon glyphicon-chevron-left"></i></a>
         <div class="day-name"><%= macro.day_str %></div>
-        <a class="arrow-container"><i class="arrow goforward icon-chevron-right"></i></a>
+        <a class="arrow-container"><i class="arrow goforward glyphicon glyphicon-chevron-right"></i></a>
     </div>
     <div class="day-content">
         <% if (macro.has_entry) { %>
@@ -25,8 +25,8 @@
                             <div class="content calories-numbers"><span><%= macro.targets.calories.min %> - <%= macro.targets.calories.max %></span></div>
                         </div>
                     </div>
-                    <div class="choice-container"><a class="choice choice-no" data-slug="calories" ><i class="icon-remove choice-icon"></i></a></div>
-                    <div class="choice-container"><a class="choice choice-yes" data-slug="calories"><i class="icon-ok choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="calories" ><i class="glyphicon glyphicon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="calories"><i class="glyphicon glyphicon-ok choice-icon"></i></a></div>
                 </div>
 
                 <div class="macro-form-row">
@@ -36,8 +36,8 @@
                             <div class="content"><span><%= macro.targets.carbs.min %> - <%= macro.targets.carbs.max %></span></div>
                         </div>
                     </div>
-                    <div class="choice-container"><a class="choice choice-no" data-slug="carbs" ><i class="icon-remove choice-icon"></i></a></div>
-                    <div class="choice-container"><a class="choice choice-yes" data-slug="carbs"><i class="icon-ok choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="carbs" ><i class="glyphicon glyphicon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="carbs"><i class="glyphicon glyphicon-ok choice-icon"></i></a></div>
                 </div>
 
                 <div class="macro-form-row">
@@ -47,8 +47,8 @@
                         <div class="content"><span><%= macro.targets.protein.min %> - <%= macro.targets.protein.max %></span></div>
                     </div>
                     </div>
-                    <div class="choice-container"><a class="choice choice-no" data-slug="protein" ><i class="icon-remove choice-icon"></i></a></div>
-                    <div class="choice-container"><a class="choice choice-yes" data-slug="protein" ><i class="icon-ok choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="protein" ><i class="glyphicon glyphicon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="protein" ><i class="glyphicon glyphicon-ok choice-icon"></i></a></div>
                 </div>
 
                 <div class="macro-form-row">
@@ -58,8 +58,8 @@
                         <div class="content"><span><%= macro.targets.fat.min %> - <%= macro.targets.fat.max %></span></div>
                     </div>
                     </div>
-                    <div class="choice-container"><a class="choice choice-no" data-slug="fat" ><i class="icon-remove choice-icon"></i></a></div>
-                    <div class="choice-container"><a class="choice choice-yes" data-slug="fat" ><i class="icon-ok choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-no" data-slug="fat" ><i class="glyphicon glyphicon-remove choice-icon"></i></a></div>
+                    <div class="choice-container"><a class="choice choice-yes" data-slug="fat" ><i class="glyphicon glyphicon-ok choice-icon"></i></a></div>
                 </div>
 
             </div>
@@ -83,17 +83,17 @@
                 <td>
                     <% if (!m.has_entry) { %>
                     <div class="macro-day-cell">
-                        <i class="icon-question-sign unknown"></i>
+                        <i class="glyphicon glyphicon-question-sign unknown"></i>
                     </div>
                     <% } %>
                     <% if (m.has_entry && m.all_pass) { %>
                     <div class="macro-day-cell">
-                        <i class="icon-ok-sign pass"></i>
+                        <i class="glyphicon glyphicon-ok-sign pass"></i>
                     </div>
                     <% } %>
                     <% if (m.has_entry && m.all_fail) { %>
                     <div class="macro-day-cell">
-                        <i class="icon-remove-sign fail"></i>
+                        <i class="glyphicon glyphicon-remove-sign fail"></i>
                     </div>
                     <% } %>
                     <% if (m.has_entry && !m.all_pass && !m.all_fail) { %>

@@ -11,9 +11,9 @@
          <div class="modal-body">
 
     <div class="row">
-        <div class="span6" style="float: none; margin: 0 auto;">
+        <div class="col-md-6" style="float: none; margin: 0 auto;">
            <img class="profile-headshot img-circle" id='headshot' src="{{ client.get_headshot_url }}" />
-           <h3>Let's tweak macros for <a id='name' ></a></h3>
+           <h3>Edit diet goals for <a id='name' ></a></h3>
            For reference <a id='blurb'></a>
            <p class="macroblurb">You can use one of our preset formulas to give a rough calculation, but whatever you type below that will override it. So you can set <a id='name2' >{{ client.name }}</a>'s macros however you want.</p>
            <div class="formpage-block">
@@ -25,7 +25,7 @@
                         <option value="BEAST">Beast Mode (+15%)</option>
                         <option value="CUT">Cutting (-10%)</option>
                     </select>
-                    <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+                    {# <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script> #}
                     <!-- Note: formulas also in base/view.py client_macros_set() -->
                     <script type="text/javascript">
 
@@ -144,7 +144,7 @@
                   
                 </div>
                 
-                 <button class="obtn full-width" id="client-macros-button" onclick="{ save_macros(); update_summary_macros(); return false; }" class="close" data-dismiss="modal" style="margin-left: 10px;">Set Macros</button>
+                 <button class="obtn full-width" id="client-macros-button" onclick="{ save_macros(); update_summary_macros(); return false; }" class="close" data-dismiss="modal" style="">Set Macros</button>
               </form>
 
            </div>

@@ -328,12 +328,12 @@
 			</select>
 			<div class="weekSelector slide-select">
 				<ul>
-					<li class="arrow"> <a href="#"><span class="icon icon-chevron-left"></span></a> </li>
+					<li class="arrow"> <a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a> </li>
 					<li class="item active">This Week</li>
 					{% for week in macro_history %}
 						<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }} </li>
 					{% endfor %}
-					<li class="arrow"> <a href="#"><span class="icon icon-chevron-right"></span></a> </li>
+					<li class="arrow"> <a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a> </li>
 				</ul>
 			</div>
 		</div>
@@ -348,12 +348,12 @@
 				</select>
 				<div class="weekSelector slide-select">
 					<ul>
-						<li class="arrow "> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
+						<li class="arrow "> <a class="left-arrow" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 						<li class="item active">This Week</li>
 						{% for week in macro_history %}
 							<li class="item" data-week-num="{{ week.week_number }}">Week {{ week.week_number }}</li>
 						{% endfor %}
-						<li class="arrow right-arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
+						<li class="arrow right-arrow"> <a class="right-arrow" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a> </li>
 					</ul>
 				</div>
 			</div>
@@ -372,17 +372,17 @@
 								{% endif %}
 								{% if not day.in_future and not day.has_entry %}
 								<div class="macro-day-cell">
-									<i class="icon-question-sign unknown"></i>
+									<i class="glyphicon glyphicon-question-sign unknown"></i>
 								</div>
 								{% endif %}
 								{% if day.all_pass %}
 								<div class="macro-day-cell">
-									<i class="icon-ok-sign pass"></i>
+									<i class="glyphicon glyphicon-ok-sign pass"></i>
 								</div>
 								{% endif %}
 								{% if day.all_fail %}
 								<div class="macro-day-cell">
-									<i class="icon-remove-sign fail"></i>
+									<i class="glyphicon glyphicon-remove-sign fail"></i>
 								</div>
 								{% endif %}
 								{% if day.has_entry and not day.all_pass and not day.all_fail %}

@@ -4,7 +4,7 @@
 
 {% block email_content %}
 
-<h4>Usage digest past {{ days }} days</h4>
+<h4>Usage digest past {{ days }} {% if days == 1 %}day{% else %}days{% endif %}</h4>
 {% if trainer %}
 {{ trainer.name }}
 {% endif %}
@@ -12,8 +12,8 @@
 {% if hosts %}
 <h3>from: {{ hosts }}</h3>
 {% endif %}
-{% if MRR %}
-<h3>MRR ${{ MRR|stringformat:"1.2f"|cut:"-" }}</h3>
+{% if revenue %}
+<h3>Total net ${{ revenue|stringformat:"1.2f"|cut:"-" }}</h3>
 {% endif %}
 
 {% if trainers %}
@@ -37,9 +37,8 @@
 <ul><b>{{ member.grouper }}<b></ul>
     <ul>
     {% for c in member.list %}
-    <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for $
-
-{% if c.blitz.price|member_price:c == 0 or c.blitz.price|member_price:c == None %}FREE{% else %}{{ c.blitz.price|member_price:c }}{% endif %}</li>
+    <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for $ 
+    {% if c.price %} {{ c.price }} {% else %} Free {% endif %}</li>
     {% endfor %}
     </ul>
 {% endfor %}

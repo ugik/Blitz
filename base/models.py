@@ -127,7 +127,7 @@ def user_display_name(user):
     try:
         return user.client.name
     except:
-        raise Exception("Cannot display user")
+        pass
 
 def user_headshot_url(user):
     try:
@@ -138,7 +138,7 @@ def user_headshot_url(user):
     try:
         return user.client.get_headshot_url()
     except:
-        raise Exception("No headshot for user")
+        pass
 
 def user_blitz(user):
     try:
@@ -523,6 +523,9 @@ class Client(models.Model):
     def current_datetime(self):
         return self.get_timezone().normalize(timezone_now())
 
+    def current_datetime_date(self):
+        return self.get_timezone().normalize(timezone_now()).date()
+
     def macro_target_for_date(self, date):
         spec = self.macro_target_spec()
         if spec:
@@ -643,6 +646,9 @@ class Blitz(models.Model):
             timezone = current_tz()
         return 1 + (timezone.normalize(timezone_now()).date() - self.loop_begin_date()).days / 7
 
+    def current_relative_week(self, timezone=None):
+        return self.current_week() % self.num_weeks()
+
     def current_day_index(self, timezone=None):
         if timezone is None:
             timezone = current_tz()
@@ -714,6 +720,8 @@ class Blitz(models.Model):
             return self.loop_end_date()
         if self.provisional: 
             return self.begin_date
+        if self.num_weeks > 0:
+            return self.begin_date + datetime.timedelta(days=self.num_weeks()*7)
         if self.workout_plan and map( lambda x: x, set(self.iterate_workouts()) ):
             return map( lambda x: x, set(self.iterate_workouts()) )[-1][0]
         return self.begin_date  # last resort 

@@ -6,7 +6,7 @@
         </div>
         {% comment %}
             <a class="feed-permalink feed-permalink-grey" href="{% url " single_post_gym " feed_item.pk %}">
-                <i class="icon-link"></i>
+                <i class="glyphicon glyphicon-link"></i>
             </a>
         {% endcomment %}
         <div class="check-in-feed-item">
@@ -17,7 +17,7 @@
                 </div>
 
                 <a href="{{ checkin.client.user.get_profile_url }}">{{ checkin.client.name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
-                <div class="feeditem-pub-date"><i class="icon-time"></i> {{ feed_item.pub_date|timesince }} ago</div>
+                <div class="feeditem-pub-date"><i class="glyphicon glyphicon-time"></i> {{ feed_item.pub_date|timesince }} ago</div>
             </div>
             
             <div class="checkin-wrap">

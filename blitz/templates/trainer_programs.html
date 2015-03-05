@@ -20,34 +20,28 @@
 
 {% block main %}
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-            <div class="span4">
-              &nbsp;
-            </div>
-            <div class="span4" style="margin: 0 auto; text-align: center;">
-              <h1 class="meta"> Programs </h1>
-            </div>
-            <div class="span4" style="margin: 0 auto; text-align: center;">
-                <form method="post" name="sales-blitz" 
-                 action="upload" class="formpage-block-form">
-                   {% csrf_token %}
-                   <div class="submit-container">
-                    <button class='obtn obtn-comment-grn' type='submit'>
-                        + Upload New Program
-                    </button>
-                   </div>
-                </form>
-            </div>
-
+        <div class="col-md-4">
+          &nbsp;
         </div>
-        <div class="span8" style="float: none; margin: 0 auto; text-align: center;">
+        <div class="col-md-4" style="margin: 0 auto; text-align: center;">
+          <h1 class="meta"> Programs </h1>
+        </div>
+        <div class="col-md-4" style="margin: 0 auto; text-align: center;">
+            <button class="obtn" href="/upload" class=""   data-toggle="modal"   data-target="#basicModal">
+                + Upload new program
+           </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8" style="float: none; margin: 0 auto; text-align: center;">
         {% if workoutplans %}
 
          Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.<br><br>
            {% for plan in workoutplans %}
               <div class="well contentwell">
-                 <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="icon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} week{% if plan.num_weeks > 1 %}s{% endif %} long </div></div>
+                 <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="glyphicon glyphicon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} week{% if plan.num_weeks > 1 %}s{% endif %} long </div></div>
                  
                  {% for lift in plan.all_lifts %}
                      {% if forloop.last %} {{ lift.name }} {% else %} {{ lift.name }}, {% endif %}
@@ -74,11 +68,21 @@
               </div>
            {% endfor %}
         {% else %}
-         Once you'll uploaded and setup some programs, we'll show them here.<br><br>
+         Upload a program and we'll get it set up and ready to assign to clients. Turnaround is usually 24 hours. <br><br>
         {% endif %}
         </div>
     </div>
+    </div>
 </div>
+
+<div class="modal modal-full fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog-full">
+            <div class="modal-content-full modal-content">
+                <!-- Content will be loaded here from remote file -->
+            </div>
+        </div>
+</div>
+
 
 <!-- include spotter_program_edit_modal if necessary -->
 {% if modalSpotter %}

@@ -22,11 +22,14 @@ urlpatterns = patterns('',
 )
 urlpatterns += patterns(
     '',
+
+
+    url("^dev/custom-trainer-page$", TemplateView.as_view(template_name="custon_trainer_page.html"), name="custom_trainer_page"),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hijack/', include('hijack.urls')),
 
-    url("^custom-trainer-page$", TemplateView.as_view(template_name="custom_trainer_page.html"), name="custom_trainer_page"),
+    url("^trainer/marc$", TemplateView.as_view(template_name="custom_trainer_page_marc.html")),
 
     url(r'^allclients$', 'base.views.all_clients', name='all_clients'),
 
@@ -49,6 +52,7 @@ urlpatterns += patterns(
     url(r'^profile/c/(?P<pk>\d+)/progress$', 'base.views.client_profile_progress', name='client_profile_progress'),
     url(r'^profile/c/(?P<pk>\d+)/history$', 'base.views.client_profile_history', name='client_profile_history'),
     url(r'^profile/c/(?P<pk>\d+)/checkins$', 'base.views.client_profile_checkins', name='client_profile_checkins'),
+    url(r'^profile-basic$', 'base.views.set_up_profile_basic', name='profile_basic'),
 
     url(r'^profile/c/(?P<pk>\d+)/set-macros', 'base.views.set_client_macros', name='set_client_macros'),
 
@@ -78,6 +82,7 @@ urlpatterns += patterns(
     url(r'^dashboard$', 'base.views.trainer_dashboard', name='trainer_dashboard'),
 
     url(r'^log-workout/(?P<week_number>\d+)/(?P<day_char>\w+)$', 'base.views.log_workout', name='log_workout'),
+    url(r'^preview-workout/(?P<workoutplan_pk>\d+)/(?P<week_number>\d+)/(?P<day_char>\w+)$', 'base.views.preview_workout', name='preview_workout'),
 
     url(r'^api/send-message-to-user/(?P<pk>\d+)', 'ff_messaging.views.send_message_to_user', name='send_message_to_user'),
     url(r'^api/new-comment', 'base.views.new_comment', name='new_comment'),

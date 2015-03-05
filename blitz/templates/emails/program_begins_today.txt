@@ -1,6 +1,6 @@
 Hey, {{ client }},
 
-Today is the day. Your program, {{ blitz }}, starts now. 
+Today is the day. Your program, {{ client.get_blitz.title }}, starts now!
 
 Go get after it at http://www.blitz.us.
 

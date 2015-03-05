@@ -11,6 +11,11 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
+import balanced
+# Test settings for Balanced Marketplace
+balanced.configure('ak-test-2HbxysbHinoGa4nnmnLz63SluBiYiUQCV')
+BALANCED_MARKETPLACE_URI = '/v1/marketplaces/TEST-MP1tHThD8oovCyo9YnXXWImY'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

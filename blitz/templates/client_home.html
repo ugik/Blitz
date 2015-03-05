@@ -5,7 +5,7 @@
     <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
     <script type='text/javascript' src='{{ STATIC_URL }}js/underscore-min.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/backbone-min.js'></script>
-    <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.min.js'></script>
+    <!--<script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.min.js'></script>-->
     <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
 
     <script type="text/javascript">
@@ -18,7 +18,7 @@
 
 {% block main %}
 
-    <div class="span4 rightspan">
+    <div class="col-md-4 right-side">
 
         {% if next_workout %}
         <div class="sidebar-box todays-workout">
@@ -41,7 +41,7 @@
             {% if next_workout_today %}
             <div class="log-workout-container">
                 <a href="{% url "log_workout" next_workout.get_week next_workout.day_of_week %}"
-                   class="log-workout-a obtn">Log Workout <i class="icon-arrow-right icon-white"></i></a>
+                   class="log-workout-a obtn">Log Workout <i class="glyphicon glyphicon-arrow-right icon-white"></i></a>
             </div>
                 {% endif %}
             {% endif %}
@@ -65,33 +65,47 @@
 
     </div>
 
-    <div class="span8 rightspan">
+    <div class="col-md-8">
 
         {% if days_since_checkin > 14 %}
-                <div class="alert alert-info">
-                    It's been {{ days_since_checkin }} days since your last check-in.
-                    <a href="{% url "client_checkin"  %}">Check-in now</a>
+            <div class="alert alert-info">
+                <div class="row">
+                    <div class="col-md-9">
+                        It's been {{ days_since_checkin }} days since your last check-in.
+                    </div>
+                    <div class="cl-md-3" style="text-align: right;">
+                        <a href="{% url "client_checkin"  %}">Check-in now</a>
+                    </div>
                 </div>
+            </div>
         {% endif %}
 
         {% if days_since_blitz > 14 %}
-                <div class="alert alert-info">
-                    Time for a check-in.
-                    <a href="{% url "client_checkin"  %}">Check-in now</a>
+            <div class="alert alert-info">
+                <div class="row">
+                    <div class="col-md-9">
+                        Time for a check-in.
+                    </div>
+                    <div class="col-md-3" style="text-align: right;">
+                        <a href="{% url "client_checkin"  %}">Check-in now</a>
+                    </div>
                 </div>
+            </div>
         {% endif %}
 
 
         {% if missed_workouts %}
             {% for day, workout_day in missed_workouts %}
-                <div class="alert alert-info">
-                    <div class="alert-text">
-                        You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}
+            <div class="alert alert-info">
+                <div class="row">
+                    <div class="col-md-9">
+                        You didn't log a workout on {{ day }} for {{ workout_day.workout.display_name }}.
                     </div>
-                    <div class="alert-btn-wrap">
-                        <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Go log it now</a>
+                    <div class="col-md-3" style="text-align: right;">
+                        <a href="{% url "log_workout" workout_day.workout_plan_week.week workout_day.day_of_week  %}">Log Workout</a>
                     </div>
                 </div>
+            </div>
             {% endfor %}
         {% endif %}
 
@@ -107,7 +121,7 @@
                         <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
                         <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
                         <label id="id_label" name="picture" class="gbtn photobuttonlabel" for="id_picture"/>
-                            <i class="icon-camera"></i>
+                            <i class="glyphicon glyphicon-camera"></i>
                         </label>
                     </td>
                 </tr>

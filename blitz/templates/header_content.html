@@ -2,40 +2,42 @@
 
 {% if user.email %}
 
-<div class="span12" id="header">
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container">
-                {% if user.is_trainer %}
-                   <a class="branding" href="/" id="logo">
-                      {% if user.trainer.get_blitz.sales_page_content.logo %}
-                          <img class="center" src="{{ MEDIA_URL }}{{ user.trainer.get_blitz.sales_page_content.logo }}"/>
-                      {% else %}
-                          <img class="center" src="{{ STATIC_URL }}images/logo.png"/>
-                      {% endif %}
-                   </a>
-                {% else %}
-                   <a class="branding" href="/" id="logo2">
-                   {% if user.client.get_blitz.sales_page_content.logo %}
-                        <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
-                   {% elif user.client.get_blitz.trainer.get_blitz.sales_page_content.logo %}
-                        <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.trainer.get_blitz.sales_page_content.logo }}" />
-                   {% else %}
-                         {{ user.client.get_blitz.trainer.name }}
-                   {% endif %}
-                   </a>
-                {% endif %}
-
-                <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-
+          <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div {% if user.is_trainer %} {% else %} class="container" {% endif %}>
+              <div class="row">
+                <div class="col-md-3 col-xs-12 h70">
+                   <div class="navbar-header">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                    {% if user.is_trainer %}
+                       <a class="branding" href="/" id="logo">
+                          {% if user.trainer.get_blitz.sales_page_content.logo %}
+                              <img class="center" src="{{ MEDIA_URL }}{{ user.trainer.get_blitz.sales_page_content.logo }}"/>
+                          {% else %}
+                              <img class="center" src="{{ STATIC_URL }}images/logo.png" style="padding: 0px;"/>
+                          {% endif %}
+                       </a>
+                    {% else %}
+                       <a class="branding" href="/" id="logo2">
+                       {% if user.client.get_blitz.sales_page_content.logo %}
+                            <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.sales_page_content.logo }}" />
+                       {% elif user.client.get_blitz.trainer.get_blitz.sales_page_content.logo %}
+                            <img src="{{ MEDIA_URL }}{{ user.client.get_blitz.trainer.get_blitz.sales_page_content.logo }}" />
+                       {% else %}
+                             <span>{{ user.client.get_blitz.trainer.name }}</span>
+                       {% endif %}
+                       </a>
+                    {% endif %}
+                   </div>
+                 </div>
+              <div class="col-md-9 col-xs-12">
                 <!-- Everything you want hidden at 940px or less, place within here -->
-                <div class="nav-collapse collapse">
-                    <ul id="top-level-navs" class="nav" >
+                    <div class="collapse navbar-collapse move-left" id="bs-example-navbar-collapse-1">
+                      <ul id="top-level-navs" class="nav navbar-nav">
                         {% if user.is_trainer %}
                             <li class="nav-item">
                                 <a class="{% ifequal request.path "/" %}active{% endifequal %}" 
@@ -98,40 +100,50 @@
                                    href="/logout">Logout</a>
                             </li>
                         {% endif %}
-                    </div>
-                    <div id="account-block">
+                      </ul>
+
+                    <div id="account-block" class="pull-right" {% if user.is_trainer %} style="margin-right: 20px;" {% endif %} >
                         <div class="name-container">
-                            <div class="name">{{ user.display_name }}</div>
-                            <div class="logout"><a href="/logout"><i class="icon-signout"></i> Logout</a></div>
-                            {% if user.is_trainer %}
-                              <div class="settings"><a href="/trainer/profile/{{ user.trainer.pk}}"><i class="icon-settings"></i> Settings</a></div>
-                            {% else %}  
-                            {% endif %}
+                          <div class="name">{{ user.display_name }}
+                          </div>
+                          <div class="logout">
+                            <a href="/logout"><i class="icon-signout"></i> Logout</a>
+                          </div>
+                          {% if user.is_trainer %}
+                            <div class="settings">
+                              <a href="/trainer/profile/{{ user.trainer.pk}}"><i class="icon-settings"></i> Settings</a>
+                            </div>
+                          {% else %}  
+                          {% endif %}
                         </div>
                         {% if user.headshot_url %}
-                        <div class="headshot-container">
-                               <img src="{{ user.headshot_url }}" />
-                        </div>
+                          <div class="headshot-container">
+                            <img src="{{ user.headshot_url }}" />
+                          </div>
                         {% endif %}
                      </div>
+                    </div>
+                    </div>
+
                 </div>
-            </div>
-            <div class="colorstripe"></div>
+                <div class="colorstripe">
+                </div>
+            </nav>
         </div>
     </div>
 </div>
 {% else %}
-<div class="span12" id="header">
+<div class="col-md-12" id="header">
     <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
               <a class="branding" href="/" id="logo">
                   <img class="center" src="/static/images/logo.png"/>
               </a>
+          <div class="colorstripe"
+          ></div>
         </div>
     </div>
 </div>
 
 {% endif %}
-
-

@@ -3,9 +3,29 @@
 {% load units_tags %}
 
 {% block morehead %}
+
+<!--select first btn-group toggle -->
+    // <script type="text/javascript">
+        //     $(document).ready(function() {
+        //     $(".btn").first().button("toggle");
+        // });
+
+        //     $(".btn-group > .btn").click(function(){
+        //     $(this).addClass("active").siblings().removeClass("active");
+        // });
+    // </script>
+<!-- / -->
+
+<style type="text/css">
+    #main-content-container {
+        margin-top: 50px;
+    }
+</style>
+
     <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
     <script type="text/javascript">
     $(document).ready(function() {
+        var preview = "{{ preview }}";
         $("#workout-notes").expandingTextarea();
 
         function finishExercise(slug) {
@@ -19,6 +39,10 @@
         }
 
         $('.save-sets').on('click', function() {
+
+            if (preview === 'True') { 
+                alert("The exercise log information would be saved at this step.");
+                return }
 
             var lift_slug = $(this).data('lift');
             var postdata = {};
@@ -51,7 +75,7 @@
                 }
             });
         });
-        $('.lift-toggle').on('click', function() {
+        $('.lift-toggle').on('click', function() { 
             var parent = $(this).closest('.exercise-group');
             var lift = parent.data('exercise');
             var settype = $(this).data('settype');
@@ -66,21 +90,21 @@
 </script>
 
 <script>
-	$(document).ready(function() {
-	    $('#nodetypeDialog').bind('show', function () {
-   	        setPrompt ('Nodetype for "' + decodeURI (rootName) + '"');
-	        document.getElementById ("woOption" + rootType).selected = true;
-	    });
-	});
-	function setPrompt (s) {
-		document.getElementById ("prompt").innerHTML = s;
-	}
-	function closeDialog () {
-		$('#nodetypeDialog').modal('hide');
-	}
-	function okWebpageDialog (){
-		$("#webpageDialog").modal ('hide');
-		};
+    $(document).ready(function() {
+        $('#nodetypeDialog').bind('show', function () {
+            setPrompt ('Nodetype for "' + decodeURI (rootName) + '"');
+            document.getElementById ("woOption" + rootType).selected = true;
+        });
+    });
+    function setPrompt (s) {
+        document.getElementById ("prompt").innerHTML = s;
+    }
+    function closeDialog () {
+        $('#nodetypeDialog').modal('hide');
+    }
+    function okWebpageDialog (){
+        $("#webpageDialog").modal ('hide');
+        };
 
 </script>
 
@@ -88,133 +112,212 @@
 
 {% block main %}
 
-<div class="span6 offset3 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd;">
 
-    <h2>{{ workout.display_name }} workout</h2>
-
-    {% if workout.description %}
-        <div class="panel panel-default">
-            <div class="panel-body">
-                {{ workout.description }}
-           </div>
+    {% if preview %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd; margin-bottom: 20px;">
+                <p>
+                    This is a preview of how this workout will look for clients. On whichever days this workout happens in your program, they'll be presented with what's below for easy workout logging. 
+                </p>
+                <button class='btn-outline' onclick="location.href='/view_program/{{ workoutplan.pk }}'" style="font-size: 14px;">
+                <i class="glyphicon glyphicon-arrow-left icon-white smaller"></i> Back to program overview
+                </button>
+            </div>
         </div>
-        <br>
     {% endif %}
 
-    <form action="#" method="post" class="log-workout-form">
-        {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 log-workout-page" style="box-sizing: border-box; -mozilla-box-sizing: border-box; -webkit-box-sizing: border-box; border: 1px solid #ddd;">
+            <h2>{{ workout.display_name }}</h2>
 
-        <div class="accordion">
-
-            {% for group in grouped_sets %}
-
-                <div class="accordion-group exercise-group" data-exercise="{{ group.lift.slug }}" data-weight_or_body="{% if group.lift.weight_or_body %}yes{% else %}no{% endif %}" >
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" href="#collapse-{{ group.lift.slug }}">
-                            {{ group.lift }}: <span class="small">{{ group.title }}</span>
-                        </a>
-
-                    </div>
-                    <div id="collapse-{{ group.lift.slug }}" class="accordion-body collapse in">
-                        <div class="accordion-inner">
-
-                            <a data-toggle="modal" data-target="#myModal_{{ group.lift.slug }}" onclick="document.getElementById('iframe_{{ group.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ group.lift }}';">What's this?</a>
-
-                            <div id="myModal_{{ group.lift.slug }}" class="modal hide fade">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="document.getElementById('iframe_{{ group.lift.slug }}').src='';"> x </button>
-                                <h3 id="myModalLabel_{{ group.lift.slug }}"><font color="gray">{{ group.lift }}&nbsp;&nbsp;{{ group.title }} </font></h3>
-                            </div>
-                            <div class="modal-body">        
-                                <iframe id="iframe_{{ group.lift.slug }}" width="520" height="335" src="https://www.youtube.com/embed?listType=search&list={{ group.lift }}" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                        </div>
-
-                            <div class="last-lift">
-                            {% if not group.lift_summary.has_completed %}
-                            &nbsp;
-                            {% else %}
-                                <p>Last time, you did
-                                  {% if group.lift_summary.last_session %}
-                                    {% for a in group.lift_summary.last_session %}
-                                    {% if a.display_str = '' %}<small>(none)</small>{% else %}
-                                    {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}{% endif %}
-                                    {% endfor %}.
-                                  {% else %}<small>(none)</small>{% endif %}
-                                </p>
-                            {% endif %}
-                            </div>
-
-                            {% if group.lift.weight_or_body and group.lift.allow_weight_or_body %}
-                            <div class="set-container">
-                                <div class="btn-group" data-toggle="buttons-radio">
-                                    <button id="{{ group.lift.slug }}-toggle-B" data-settype="B" type="button" class="btn btn-primary lift-toggle active">Body Wt</button>
-                                    <button id="{{ group.lift.slug }}-toggle-A" data-settype="A" type="button" class="btn btn-primary lift-toggle">Assisted</button>
-                                    <button id="{{ group.lift.slug }}-toggle-W" data-settype="W" type="button" class="btn btn-primary lift-toggle">Weighted</button>
-                                </div>
-                            </div>
-                                <input type="hidden" name="{{ group.lift.slug }}-settype" value="B" />
-                            {% endif %}
-
-                            {% for set_info in group.set_infos %}
-                                <div class="set-container">
-                                    <div class="set-error" style="display:none;" data-set_pk="{{ set_info.workout_set.pk }}">
-
-                                    </div>
-                                    <div class="workout-input workout-input-weight input-append" {% if group.lift.weight_or_body %}style="display:none;"{% endif %}>
-                                        <input type="number" step="any"
-                                               class="input-small"
-                                               name="set-{{ set_info.workout_set.pk }}-weight"
-                                               {% if set_info.completed_set %}value="{{ set_info.completed_set.weight_in_lbs|lbs_conversion:client }}"{% endif %}
-                                                />
-                                        <span class="add-on">{{ client.units|weight_label }}</span>
-                                    </div>
-                                    <div class="workout-input workout-input-reps input-append">
-                                        <input type="number" step="any"
-                                               class="input-small"
-                                               name="set-{{ set_info.workout_set.pk }}-reps"
-                                               {% if set_info.completed_set %}
-                                               value="{{ set_info.completed_set.num_reps_completed }}"
-                                               {% else %}
-                               value="{{ set_info.workout_set|custom_workoutset_num_reps:client }}"
-                                               {% endif %}
-                                                />
-                                        <span class="add-on">
-                                            {% if group.lift.lift_type == "I" %}secs{% else %}reps{% endif %}
-                                        </span>
-                                    </div>
-                                </div>
-                            {% endfor %}
-
-                        <div class="set-container">
-                            <a class="save-sets obtn"
-                                    data-sets="{% for set_info in group.set_infos %}{{ set_info.workout_set.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
-                                    data-week_number="{{ plan_day.get_week }}"
-                                    data-day_char="{{ plan_day.day_of_week }}"
-                                    data-lift="{{ group.lift.slug }}" >
-                                {% if group.exercise.num_sets > 1 %}Save These Sets{% else %}Save This Set{% endif %}
-                            </a>
-                        </div>
-
-                        </div>
-                    </div>
+            {% if workout.description %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {{ workout.description }}
+                   </div>
                 </div>
-            {% endfor %}
+                <br>
+            {% endif %}
+
+            <form action="#" method="post" class="log-workout-form">
+                {% csrf_token %}
+
+                <div class="panel-group" id="accordion">
+                    {% for group in grouped_sets %}
+                    <div class="panel panel-default exercise-group" data-exercise="{{ group.lift.slug }}" data-weight_or_body="{% if group.lift.weight_or_body %}yes{% else %}no{% endif %}" >
+                        <div class="panel-heading" role="tab" id="heading-{{ group.lift.slug }}">
+                            <div class="row">
+                                <div class="col-xs-9">
+                                    <h3 class="panel-title">
+                                        <a {% if not forloop.first %}class="collapsed" {% endif %} data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ group.lift.slug }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse-{{ group.lift.slug }}">
+                                          {{ group.lift }} <span class="small"><div class="mobile-only" style="line-height: 0px;"><br /></div>{{ group.title }}</span>
+                                        </a>
+                                    </h3>
+                                </div>
+                                <div class="col-xs-3" style="padding: 10px; text-align: center; padding-right: 20px;">
+                                     <!-- Video Modal -->
+                                    <!-- Button trigger modal -->    
+                                        <a class="" style="padding: 0px; font-size: 1.2em;" data-toggle="modal" data-target="#vidModal_{{ group.lift.slug }}" onclick="document.getElementById('iframe_{{ group.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ group.lift }}';">
+                                            <i class="glyphicon glyphicon-play-circle videoicon"></i> <span style="margin-top: -5px;" class="linky videolink">Video</span>
+                                        </a>
+
+                                    <!-- Video Modal -->
+                                    <div class="modal fade" id="vidModal_{{ group.lift.slug }}" tabindex="-1" role="dialog" aria-labelledby="vidModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><div class="x-out" aria-hidden="true">&times;</div>
+                                                    </button>
+                                                    <h4 class="modal-title" id="vidModalLabel"><font color="gray">{{ group.lift }}&nbsp;&nbsp;{{ group.title }} </font></h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="embed-responsive embed-responsive-16by9">
+                                                        <iframe class="embed-responsive-item" id="iframe_{{ group.lift.slug }}" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ group.lift }}" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer" style="text-align: center;">
+                                                    <a class="full-width" style="color: #7ab2ea !important;" data-dismiss="modal">Close</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Video Modal -->
+                            </div>
+                        </div>
+                        <div id="collapse-{{ group.lift.slug }}" class="panel-collapse collapse {% if forloop.first %}in{% endif %}" role="tabpanel" aria-labelledby="heading-{{ group.lift.slug }}">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="last-lift">
+                                            <p>
+                                            {% if not group.lift_summary.has_completed %}
+                                            &nbsp;
+                                            {% else %}
+                                              {% if group.lift_summary.last_session %}
+                                                Last time, you did {% for a in group.lift_summary.last_session %}
+                                                {% if a.display_str = '' %}
+                                                {% else %}
+                                                
+                                                {{ a.display_str }}{% if forloop.revcounter > 2 %}, {% endif %}{% if forloop.revcounter == 2 %} and {% endif %}{% endif %}
+                                                {% endfor %}.
+                                              {% else %}
+                                              
+                                            {% endif %}
+                                            {% endif %}
+                                        </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        {% if group.lift.weight_or_body and group.lift.allow_weight_or_body %}
+                                        <div class="set-container">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="btn-group btn-group-justified" role="group">
+                                                        <div class="btn-group" role="group">
+                                                            <button id="{{ group.lift.slug }}-toggle-B" data-settype="B" type="button" class="btn btn-primary lift-toggle" >Body Wt</button>
+                                                        </div>
+                                                        <div class="btn-group" role="group">
+                                                            <button id="{{ group.lift.slug }}-toggle-A" data-settype="A" type="button" class="btn btn-primary lift-toggle" >Assisted</button>
+                                                        </div>
+                                                        <div class="btn-group" role="group">
+                                                            <button id="{{ group.lift.slug }}-toggle-W" data-settype="W" type="button" class="btn btn-primary lift-toggle" >Weighted</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <input type="hidden" name="{{ group.lift.slug }}-settype" value="B" />
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                    
+                                {% for set_info in group.set_infos %}
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="set-container">
+                                                <div class="set-error" style="display:none;" data-set_pk="{{ set_info.workout_set.pk }}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="workout-input workout-input-weight input-group" class="col-xs-6" {% if group.lift.weight_or_body %}style="display:none;"{% endif %}>
+                                                <input type="number" step="any"
+                                                       class="form-control"
+                                                       name="set-{{ set_info.workout_set.pk }}-weight"
+                                                       {% if set_info.completed_set %}value="{{ set_info.completed_set.weight_in_lbs|lbs_conversion:client }}"{% endif %}
+                                                        />
+                                                <span class="input-group-addon">{{ client.units|weight_label }}</span>
+                                            </div>    
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="workout-input workout-input-reps input-group">
+                                                <input type="number" step="any"
+                                                       class="form-control"
+                                                       name="set-{{ set_info.workout_set.pk }}-reps"
+                                                       {% if set_info.completed_set %}
+                                                       value="{{ set_info.completed_set.num_reps_completed }}"
+                                                       {% else %}
+                                       value="{{ set_info.workout_set|custom_workoutset_num_reps:client }}"
+                                                       {% endif %}
+                                                        />
+                                                <span class="input-group-addon">
+                                                    {% if group.lift.lift_type == "I" %}secs{% else %}reps{% endif %}
+                                                </span>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="set-container">
+                                                <a class="save-sets obtn full-width"
+                                                        data-sets="{% for set_info in group.set_infos %}{{ set_info.workout_set.pk }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                                                        data-week_number="{{ plan_day.get_week }}"
+                                                        data-day_char="{{ plan_day.day_of_week }}"
+                                                        data-lift="{{ group.lift.slug }}" >
+                                                    {% if group.exercise.num_sets > 1 %}Save Sets{% else %}Save Set{% endif %}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- panel-body -->
+                            </div><!-- panel-collapse -->
+                        </div><!-- panel -->
+                    {% endfor %}
+                </div><!--/ panel-group -->
+
+                <div class="notes-container">
+                    <textarea id="workout-notes" name="notes" placeholder="Additional notes..." >{{ gym_session.notes }}</textarea>
+                </div>
+
+                {% if preview %}
+                <div class="submit-container" >
+                    <button onclick="location.href='/view_program/{{ workoutplan.pk }}'" class="obtn log-workout-submit">
+                        <i class="glyphicon glyphicon-arrow-left icon-white smaller"></i> Back to Program Overview
+                    </button>
+                </div>
+                {% else %}
+                <div class="submit-container" >
+                    <button type="submit" class="obtn log-workout-submit">
+                        Log Workout <i class="glyphicon glyphicon-arrow-right icon-white smaller"></i>
+                    </button>
+                </div>
+                {% endif %}
+
+            </form>
+
         </div>
+    </div>
 
-        <div class="notes-container">
-            <textarea id="workout-notes" name="notes" placeholder="Additional notes..." >{{ gym_session.notes }}</textarea>
-        </div>
-
-        <div class="submit-container">
-            <button type="submit" class="obtn log-workout-submit">
-                Log Workout <i class="icon-arrow-right icon-white"></i>
-            </button>
-        </div>
-
-    </form>
-
-</div>
 
 
 {% endblock %}
+

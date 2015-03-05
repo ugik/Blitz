@@ -31,16 +31,19 @@
     </div>
 
     {% empty %}
-        {% if user == client.user %}
-            <div class="empty-placeholder">
-                <div class="title">Once you check-in, we'll show your history here.</div>
-                <div class="subtitle">You'll be able to look through your past check-ins.</div>
+        <div class="row">
+            <div class="col-xs-12">
+                {% if user == client.user %}
+                    <div class="empty-placeholder">
+                        <div class="title">You don't have any check-ins yet.</div>
+                        <div class="subtitle">Once you do, you'll be able to look through your past check-ins here and track your progress.</div>
+                    </div>
+                {% else %}
+                    <div class="empty-placeholder">
+                        <div class="title">{{ client }} hasn't completed any check-ins yet.</div>
+                    </div>
+                {% endif %}
             </div>
-        {% else %}
-            <div class="empty-placeholder">
-                <div class="title">{{ client }} hasn't completed any check-ins yet.</div>
-            </div>
-        {% endif %}
     {% endfor %}
 {% endblock %}
 

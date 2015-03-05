@@ -9,7 +9,7 @@
 {% block formpage_content %}
 
 <div class="row">
-    <div class="span8 offset2" style="">
+    <div class="col-md-6 col-md-offset-3" style="">
         <div class="formpage-block">
 
                 <form name="uploadsForm" id="uploadsForm" enctype="multipart/form-data" action="" method="post">
@@ -21,48 +21,53 @@
                     {% csrf_token %}
         </div>
     </div>
-    <div class="span8 offset2" style="margin-top: -50px;">
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2" style="margin-top: -40px;">
         <div class="formpage-block">
             <div class="row uploads-row">
-                <div class="span6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload a profile photo</div>
                     <div class="uploads-bottom">This should be square-ish and at least 150x150 px.</div>
                 </div>
-                <div class="span2 trainer-uploads-right">
+                <div class="col-md-3 trainer-uploads-right">
                     <input type="file" name="headshot_image" id="id_headshot_image" style="height:0; display:none;"/>
-                    <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline"/>
+                    <label id="label_headshot_image" name="label_headshot_image" for="id_headshot_image" class="btn-outline full-width"/>
                         + Photo
                     </label>
                     {% if trainer.headshot %}
-                        <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" />
+                        <img src="{{ MEDIA_URL }}{{ trainer.headshot }}" style="max-width: 100%;" />
                     {% endif %}
                 </div>
             </div>
 
             <div class="row uploads-row">
-                <div class="span6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload a logo</div>
                     <div class="uploads-bottom">Clients will see your logo when they use Blitz (if you don't have one, we'll use your name).</div>
                 </div>
-                <div class="span2 trainer-uploads-right">
+                <div class="col-md-3 trainer-uploads-right">
                     <input type="file" name="logo_image" id="id_logo_image" style="height:0; display:none;"/>
-                    <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline"/>
+                    <label id="label_logo_image" name="label_logo_image" for="id_logo_image" class="btn-outline full-width"/>
                         + Logo
                     </label>
                     {% if salespage.logo %}
-                        <img src="{{ MEDIA_URL }}{{ salespage.logo }}" />
+                        <img src="{{ MEDIA_URL }}{{ salespage.logo }}" style="max-width: 100%;" />
                     {% endif %}
                 </div>
             </div>
 
             <div class="row uploads-row">
-                <div class="span6 trainer-uploads-left">
+                <div class="col-md-9 trainer-uploads-left">
                     <div class="uploads-top">Upload program documents</div>
-                    <div class="uploads-bottom">Any spreadsheets, PDF, etc that explain your fitness/diet programs. We'll set it up for you.</div>
+                    <div class="uploads-bottom">Any spreadsheets, PDFs, etc that explain your fitness/diet programs. Our team will convert these to an app-like experience for your clients. Here's a preview of how 
+                        <a href="#" class=""   data-toggle="modal"   data-target="#basicModal">
+                            a client's workout looks</a> to give you a better idea.
+                    </div>
                 </div>
-                <div class="span2 trainer-uploads-right">
+                <div class="col-md-3 trainer-uploads-right">
                     <input type="file" name="document" id="id_document" style="height:0; display:none;"/>
-                    <label id="label_document" name="label_document" for="id_document" class="btn-outline"/>
+                    <label id="label_document" name="label_document" for="id_document" class="btn-outline full-width"/>
                         + Files
                     </label>
                     {% if document %}
@@ -104,6 +109,35 @@
     </div>
     </div>
 </div>
+
+
+<div class="modal modal-full fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <a data-dismiss="modal">
+        <div class="modal-dialog-full">
+            <div class="modal-content-full">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4" style="text-align: center;">
+                                <h2 class="lightfont white" style="color: white;">Client workout logger</h2>
+                                <br />
+                                <p>
+                                    <img src='{{ STATIC_URL }}images/workout-preview.png' style="max-width: 100%;" />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <a class="full-width" style="color: #7ab2ea !important;" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </a>
+  </div>
+</div>
+
+
 {% endblock %}
-
-

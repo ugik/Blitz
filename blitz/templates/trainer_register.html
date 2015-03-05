@@ -3,7 +3,8 @@
 {% block morehead %}
 
 <style type="text/css">
-    .blitz-login{ padding-left: 150px; padding-right: 150px; }
+    .blitz-login{ margin-top: -50px; }
+    .blitz-login img { max-width: 75px; }
 </style>
 
 {% endblock %}
@@ -17,17 +18,7 @@
 {% block formpage_content %}
 
 <div class="row">
-    <div class="span6 offset3">
-        <div class="formpage-block" style="margin-bottom: -30px;">
-            <div class="header">Get started in less than 2 minutes.
-                {% if referral %} 
-                <br><small>(referral from {{ referral.name }})</small> 
-                {% endif %}
-            </div>
-            <p class="info-text">You'll be coaching clients effortlessly and raking in cash in no time.</p>
-        </div>
-    </div>
-    <div class="span4 offset4" style="">
+    <div class="col-md-4 col-md-offset-4" style="">
         <div class="formpage-block">
 
                 <form id='register_trainer' action="#" method="post">
@@ -56,7 +47,7 @@
 
 
                     <div class="fieldWrapper full-width" style="float: left;">
-                        <select name="timezone" id="timezone-select" class="full-width" style="">
+                        <select name="timezone" id="timezone-select" class="full-width selectpicker">
                             {% for tz in timezones %}
                             {% if form.default_timezone %}
                             <option value="{{ tz }}"{% if tz == form.default_timezone.value %} selected="selected"{% endif %}>{{ tz }}</option>

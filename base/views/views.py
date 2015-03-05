@@ -52,6 +52,7 @@ import urllib2
 
 analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 
+MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT')
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
 
@@ -78,6 +79,16 @@ def mark_feeds_as_viewed(feed_items):
     for feed_item in feed_items:
         feed_item.is_viewed = True
         feed_item.save()
+
+def handle_uploaded_file(f):
+    file_name = str(f)
+    full_path = MEDIA_ROOT + '/feed/'+file_name
+    with open(full_path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+    return full_path
+
 
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
@@ -926,6 +937,44 @@ def log_workout(request, week_number, day_char):
     })
 
 @login_required
+def preview_workout(request, workoutplan_pk, week_number, day_char):
+
+    error = None
+    client = Client.objects.get(pk=1)
+    workoutplan = WorkoutPlan.objects.get(pk=workoutplan_pk)
+    plan_day = workoutplan.get_workout_for_day(int(week_number), day_char)
+    if plan_day is None:
+        raise Http404
+    gym_session = GymSession.objects.create(
+        date_of_session = datetime.datetime.now().date(),
+        workout_plan_day = plan_day,
+        client=client
+        )
+
+    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, client, gym_session.date_of_session)
+    for group in grouped_sets:
+        group['set_infos'] = []
+        for workout_set in group['sets']:
+            set_info = {}
+            set_info['workout_set'] = workout_set
+            set_info['completed_set'] = None            
+            group['set_infos'].append(set_info)
+
+        group['lift_summary'] = client.lift_summary(group['lift'])
+
+    gym_session.delete()
+
+    return render(request, 'log_workout.html', {
+        'client': client,
+        'plan_day': plan_day,
+        'workout': plan_day.workout,
+        'workoutplan': workoutplan,
+        'grouped_sets': grouped_sets,
+        'preview': True,
+    })
+
+
+@login_required
 @csrf_exempt
 def save_sets(request):
 
@@ -1286,27 +1335,40 @@ def comment_unlike(request):
 @login_required
 @csrf_exempt
 def new_comment(request):
+    comment_picture = request.POST.get("comment_picture")
 
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
+        # Store Picture File
+        if request.FILES.getlist('picture'):
+            picture_file = request.FILES.getlist('picture')[0]
+            handle_uploaded_file(picture_file)
+            comment_picture = 'feed/' + str(picture_file)
+
         object_id = request.POST.get('object_id')
         selected_item = request.POST.get('selected_item')
 
+        # Store Picture FIle
+        if request.FILES.getlist('picture'):
+            picture_file = request.FILES.getlist('picture')[0]
+            handle_uploaded_file(picture_file)
+            request.POST["picture"] = 'feed/' + str(picture_file)
+
         if selected_item == 'blitz':  # post to blitz (group) feed
             blitz = Blitz.objects.get_or_none(pk = object_id)
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
         elif selected_item == 'client':  # post to individual client feed
             client = Client.objects.get(pk = object_id)
             blitz = client.get_blitz()
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
 
     else:
-        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'))
+        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture)
 
         # analytics
         if not request.user.is_trainer:
             analytics_track(str(request.user.id), 'new_comment', {
                       'name': request.user.client.name,
-                      'comment': request.POST.get('comment_text'),
+                      'comment': request.POST.get('comment'),
                      })
 
     ret = {
@@ -1358,8 +1420,12 @@ def checkin_like(request):
 def gym_session_unlike(request):
 
     gym_session = GymSession.objects.get(pk=int(request.POST['gym_session_pk']))
-    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
-    gym_session_like.delete()
+    gym_session_like = GymSessionLike.objects.filter(user=request.user, gym_session=gym_session)
+    if gym_session_like:    # handle unlikely case of multiple likes for user/session
+        gym_session_like[0].delete()
+
+#    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
+#    gym_session_like.delete()
 
     content_type = ContentType.objects.get_for_model(gym_session)
     feed_item = FeedItem.objects.get(content_type=content_type, object_id=gym_session.pk)
@@ -2221,7 +2287,10 @@ def set_up_profile_basic(request):
                                  macros_data=invite.macro_target_json)
 
             request.session['intro_stage'] = 'photo'
-            return redirect('set_up_profile')
+            if 'reset' in request.GET:
+                return redirect('/')
+            else:
+                return redirect('set_up_profile')
 
     else:
         form = Intro1Form()
@@ -2229,6 +2298,7 @@ def set_up_profile_basic(request):
     return render(request, 'signup/basic.html', {
         'client': client,
         'form': form,
+        'reset': 'reset' in request.GET,
     })
 
 

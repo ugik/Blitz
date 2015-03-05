@@ -45,9 +45,9 @@ class TestClientUsage(unittest.TestCase):
         # assertTextPresent |  | 222
         self.assertTrue("222" in driver.page_source, "Text not found")        
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        # click | xpath=(//a[contains(text(),'Go log it now')])[4] | 
+        # click | xpath=(//a[contains(text(),'Log Workout')])[4] | 
 #        import pdb; pdb.set_trace()
-        driver.find_element_by_xpath("(//a[contains(text(),'Go log it now')])[1]").click()
+        driver.find_element_by_xpath("(//a[contains(text(),'Log Workout')])[1]").click()
         time.sleep(3)
         # type | name=set-843-weight | 111
 #        driver.find_element_by_name("set-843-weight").clear()
