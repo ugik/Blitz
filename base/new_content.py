@@ -5,7 +5,7 @@ Should probably move to either/or
 
 from base.models import Comment, FeedItem, CommentLike, GymSessionLike, CheckIn, CheckInLike
 from base.emails import new_child_comment, gym_session_comment
-from base.notifications import new_child_comment, gym_session_comment
+from base.notifications import new_child_comment, gym_session_comment, checkin_comment
 
 from django.db.models.signals import post_save
 
