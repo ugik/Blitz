@@ -22,23 +22,23 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
-          &nbsp;
+        <div class="col-md-8 col-md-offset-1" style="text-align: left;">
+          <h1 class="lightfont">Programs</h1>
+            <p>
+                Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.
+            </p>
         </div>
-        <div class="col-md-4" style="margin: 0 auto; text-align: center;">
-          <h1 class="meta"> Programs </h1>
-        </div>
-        <div class="col-md-4" style="margin: 0 auto; text-align: center;">
-            <button class="obtn" href="/upload" class=""   data-toggle="modal"   data-target="#basicModal">
+        <div class="col-md-2" style="margin-top: 20px; text-align: right;">
+            <button class="obtn full-width" style="font-size: 18px;" href="/upload" class=""   data-toggle="modal"   data-target="#basicModal">
                 + Upload new program
            </button>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8" style="float: none; margin: 0 auto; text-align: center;">
+        <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;">
         {% if workoutplans %}
 
-         Here's a list of all the workout programs you've uploaded, in case you want to check or modify them.<br><br>
+
            {% for plan in workoutplans %}
               <div class="well contentwell">
                  <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="glyphicon glyphicon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} week{% if plan.num_weeks > 1 %}s{% endif %} long </div></div>
@@ -53,7 +53,7 @@
                         action="/view_program/{{ plan.pk }}" class="formpage-block-form">
                      {% csrf_token %}
                      <div class="submit-container">
-                        <button class='obtn obtn-comment-grn' type='submit'>View Program</button>
+                        <button class='btn-outline' style="font-size: 14px; margin-right: 20px;"  type='submit'>View Program</button>
                      </div>
                      </form></td>
 
@@ -61,7 +61,7 @@
                         action="/spotter_program_edit/{{ plan.pk }}?modalSpotter" class="formpage-block-form">
                      {% csrf_token %}
                      <div class="submit-container">
-                         <button class='obtn obtn-comment-grn' type='submit'>Edit Program</button>
+                         <button class='btn-outline' style="font-size: 14px;" type='submit'>Edit Program</button>
                      </div>
                      </form></tr>
                  </tr></table>
