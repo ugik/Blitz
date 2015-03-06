@@ -745,8 +745,28 @@ def my_programs(request):
         analytics_track(str(request.user.id), 'programs', {'name': request.user.trainer.name,})
 
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
+
+        trainer = request.user.trainer
+        # deal with new trainer with pending documents
+        numdocs = get_pending_documents('/documents', trainer.pk)
+
+        if request.method == 'POST':
+            form = UploadForm(request.POST, request.FILES)
+            if form.is_valid() and form.is_multipart():
+                filename = save_file(request.FILES['document'], trainer.pk)
+            
+                uri = domain(request)
+                print filename
+
+                email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
+
+        else:
+            form = UploadForm()
+
         return render(request, 'trainer_programs.html', 
-           {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
+           {'docs' : numdocs, 'form': form, 'trainer': request.user.trainer, 
+            'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
+
     else:
         request_blitz = request.user.blitz
 

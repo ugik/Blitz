@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from base.models import Client, Trainer, TrainerAlert, BlitzMember
 from base.alerts import create_alerts_for_day
-from base.emails import send_email, usage_digest, usage_trainer, program_start
+from base.emails import send_email, usage_digest, usage_trainer, program_start, payment_digest
 from datetime import date, timedelta
 
 import datetime
@@ -32,6 +32,10 @@ def backup():
     c = Client.objects.all()
     if len(c) > 0:
         os.system("bash ~/Blitz/backup.sh")
+
+@periodic_task(run_every=crontab(hour="23", minute="57", day_of_week="*"))  
+def payments_digest():
+    payment_digest()
 
 @periodic_task(run_every=crontab(hour="23", minute="58", day_of_week="*"))  
 def usage(): 

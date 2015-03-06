@@ -128,6 +128,7 @@ def user_display_name(user):
         return user.client.name
     except:
         pass
+    return ""
 
 def user_headshot_url(user):
     try:

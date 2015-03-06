@@ -30,6 +30,20 @@
                         {{ form.name.errors.as_text }}
                     </div>
 
+<script>
+// default vanity url
+$('#id_name').blur(function() { 
+    var name = $('#id_name').val();
+    var spaceChar = name.indexOf(" ");
+    if (spaceChar > 0) {
+        $('#id_short_name').val(name.substring(0,spaceChar)); 
+    } else
+    {
+        $('#id_short_name').val($('#id_name').val()); 
+    }
+});
+</script>
+
                     <div class="fieldWrapper">
                         {{ form.email }}
                         {{ form.email.errors.as_text }}

@@ -70,8 +70,6 @@ urlpatterns += patterns(
     url(r'^register-trainer$', 'base.views.trainer_signup', name='register_trainer'),
     url(r'^register-trainer-uploads/(?P<pk>\d+)$', 'base.views.trainer_signup_uploads', name='register_trainer_uploads'),
 
-    url(r'^upload$', 'base.views.upload_page', name='upload_page'),
-
     url(r'^salespage$', 'base.views.my_salespages', name='my_salespages'),
 
     url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
