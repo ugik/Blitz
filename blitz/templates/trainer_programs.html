@@ -54,7 +54,11 @@ $('input[type=file]').change(function(e) { document.uploadForm.submit(); window.
 
            {% for plan in workoutplans %}
               <div class="well contentwell">
-                 <div class="wellheadline">{{ plan.name }}<div class="caltext"><i class="glyphicon glyphicon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} week{% if plan.num_weeks > 1 %}s{% endif %} long </div></div>
+                 <div class="wellheadline">{{ plan.name }}
+                    <div class="caltext smaller">
+                        <i class="glyphicon glyphicon-calendar profile-tab-icon"></i>&nbsp;{{ plan.num_weeks }} week{% if plan.num_weeks > 1 %}s{% endif %} long 
+                    </div>
+                    </div>
                  
                  {% for lift in plan.all_lifts %}
                      {% if forloop.last %} {{ lift.name }} {% else %} {{ lift.name }}, {% endif %}
