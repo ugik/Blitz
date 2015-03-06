@@ -34,10 +34,10 @@
                 {% endif %}
 
         </div>
-        <div class="col-md-3" style="margin-top: 20px; text-align: right;">
+        <div class="col-md-2" style="margin-top: 20px; text-align: right; outline: none!important; border-top: none;">
             <form name="uploadForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
                 <input type="file" name="document" id="file" style="height:0;"/>
-                <label id="file" name="document" for="file" class="obtn" >+ Upload files</label>
+                <label id="file" name="document" for="file" class="obtn full-width" style="font-size: 18px; font-weight: 300;" >+ Upload files</label>
             </form>
         </div>
 

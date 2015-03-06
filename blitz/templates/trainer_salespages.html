@@ -38,10 +38,10 @@
             <div class="col-md-8 col-md-offset-1" style="">
               <h1 class="lightfont"> Program Signup Pages </h1>
                  <p>
-                    Below is a list of signup pages for your different programs, in case you want to update them. You can also send clients the 'quick signup' link, and they'll just go straight to the payment/credit card page.
+                    Below is a list of signup pages for your different programs, in case you want to update them. 
                 </p>
             </div> 
-            <div class="col-md-2" style="">                
+            <div class="col-md-2" style=" margin-top: 20px;">                
               <form method="post" name="sales-blitz" 
                action="upload" class="formpage-block-form">
                  {% csrf_token %}
@@ -82,7 +82,7 @@
                          {% endif %}
 
                          </a></p>
-                         <p class="linktag">Quick signup link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup">
+                         <p class="linktag">Direct signup link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup">
                          {% if trainer.short_name == blitz.url_slug %}
                             {{ SITE_URL }}/{{ trainer.short_name }}/signup
                          {% else %}
