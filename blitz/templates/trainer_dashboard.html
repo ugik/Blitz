@@ -64,6 +64,10 @@ function save_client_setup() {
     <div class="clearfix"></div>
 {% endblock %}
 
+<script>
+var total_unread = 0;
+</script>
+
 <div class="row" id="dash" style="padding-top: 70px; margin-right: 0px!important;">
 	<div class="col-md-3 clientlist fixed auto-scroll">
 		<div class="inner">
@@ -78,23 +82,12 @@ function save_client_setup() {
 
                         {% if clients or blitzes %}
 
-<!--
-				    <li class='item' data-scope='alerts'>
-					<div class="item-inner">
-						Alerts
-					</div>
-					{% if alerts_count %}
-					<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
-					{% endif %}
-				    </li> -->
-
 				    <li class="item active" data-scope='all'>
 					<div class="item-inner">
 						All Updates
-					</div>
-					{% if updates_count %}
-					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
-					{% endif %}
+					</div><div id="total_unread">
+					<span class="results-count"><span class="inner">
+                                        </span></span></div>
 				    </li>				
 				    <div class="separator"></div>
 
@@ -104,7 +97,9 @@ function save_client_setup() {
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
-						        <span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
+						        <span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span>
+<script> total_unread += {{ blitz.unviewed_feeds_count }}; </script>
+
 						    {% endif %}
 					    </li>
    			                    <div class="separator"></div>
@@ -118,12 +113,18 @@ function save_client_setup() {
 				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
 				    <div class="item-inner">{{ client.name }}</div>
 					{% if client.unviewed_feeds_count %}
-					    <span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
+					    <span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span>
+<script> total_unread += {{ client.unviewed_feeds_count }}; </script>
 					{% endif %}
 				</li>
 				{% endfor %}
 
                             {% endif %} 
+
+<script> 
+    document.getElementById('total_unread').text = total_unread.toFixed(0); 
+    if (total_unread == 0) { $('#total_unread').replaceWith(''); }
+</script>
 
                             {% for invitee in invitees %}
 <li class='item solo-client' data-object-pk="{{ invitee.pk }}" data-scope='invitee'>

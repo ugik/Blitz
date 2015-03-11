@@ -293,5 +293,10 @@ week of 3.2
 - improved usage digest and payments report
 - nightly payments digest
 - default vanity URL in /register-trainer
+- add prefix and description to exercise, enabling 'supersets'
+
+week of 3.9
+- increase size of vanity URL
+- speed up dashboard by reworking client.unviewed_feeditems
 
 

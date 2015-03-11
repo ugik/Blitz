@@ -52,7 +52,6 @@
                     'object_pk': filter.data('object-pk')
                 });
             });
-
             $.ajax({
                 url: '/api/blitz_feed/count',
                 type: 'POST',

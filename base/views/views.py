@@ -2603,6 +2603,7 @@ def about(request):
 # url: /dashboard
 @login_required
 def trainer_dashboard(request):
+
     user_id = request.user.pk
     trainer = request.user.trainer
 
@@ -2627,8 +2628,8 @@ def trainer_dashboard(request):
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
-    heading = Heading.objects.all().order_by('?')[:1].get()
-    header = "%s - %s" % (heading.saying, heading.author)
+#    heading = Heading.objects.all().order_by('?')[:1].get()
+#    header = "%s - %s" % (heading.saying, heading.author)
 
     show_intro = request.GET.get('show-intro') == 'true'
     if request.session.get('show_intro') is True:
@@ -2637,20 +2638,12 @@ def trainer_dashboard(request):
     if request.session.get('shown_intro') is True:
         request.session.pop('shown_intro')
 
-
     if blitzes and clients:
-        """Get count of all unviewed feeds"""
-        all_unviewed_count = 0
     
-        for client in clients:
-            all_unviewed_count+= client.unviewed_feeds_count()
-        """ END """
-
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': all_unviewed_count, #FeedItem.objects.filter(blitz=request.user.blitz).exclude(is_viewed = True).count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),
