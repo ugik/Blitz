@@ -48,7 +48,7 @@ class ImageForm(forms.Form):
 class NewTrainerForm(forms.Form):
 
     name =      forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Name'}))
-    short_name  = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'placeholder': 'yourname'}))
+    short_name  = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'yourname'}))
     email =     forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'render_value' : False}),max_length=100)
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'render_value' : False}),max_length=100)

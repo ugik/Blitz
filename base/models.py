@@ -231,7 +231,7 @@ User.forgot_password_token = property(lambda u: forgot_password_token(u))
 class Trainer(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=100, default="")
-    short_name = models.CharField(max_length=10, default="")
+    short_name = models.CharField(max_length=30, default="")
     headshot = models.ImageField(upload_to="headshots/", blank=True, null=True)
     external_headshot_url = models.CharField(max_length=1000, default="", blank=True)
     timezone = models.CharField(max_length=40, default='US/Pacific')
@@ -277,7 +277,11 @@ class Trainer(models.Model):
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
-        thumb.save(thumb_io, format='JPEG')
+        if '.png' in image.filename:
+            thumb.save(thumb_io, format='PNG')
+        else:
+            thumb.save(thumb_io, format='JPEG')
+
         thumb_contentfile = ContentFile(thumb_io.getvalue())
 
         filename = image_path.split('/')[-1]
@@ -606,6 +610,7 @@ class Blitz(models.Model):
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
     group = models.BooleanField(default=False) # Group, default is Individual
     free = models.BooleanField(default=False) # Free, default is paid
+    sample = models.BooleanField(default=False) # Sample from Blitz, for Free Group standard workouts
 
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
