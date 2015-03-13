@@ -593,6 +593,9 @@ a {
     cursor: pointer!important;
     }
 
+img {
+  max-width: 100%;
+}
 
 body.login-page {
     background: url('/static/images/background.png') #000000 no-repeat top center fixed;
@@ -4247,10 +4250,11 @@ ul.spotternav li {
 
 
 .linktag {
-  @include boldfont();
+  @include lightfont();
   margin-top: 10px;
   //float: left;
   width: auto;
+  text-overflow: ellipsis;
 }
 
 .contentwell {
@@ -4276,13 +4280,6 @@ ul.spotternav li {
       }
     }
   }
-  .dropdown-toggle, .btn-group > .btn:first-child, div.btn-group > button {
-    font-size: 21px;
-    //padding: 1px;
-    margin-left: 10px;
-    padding: 6px;
-    margin-top: 17px;
-  }
 }
 
 .meta {
@@ -4291,6 +4288,7 @@ ul.spotternav li {
 
 .dropdown-menu>li>a:hover {
   cursor: pointer;
+  color: white;
 }
 
 .modal.fade {
@@ -4340,7 +4338,7 @@ ul.spotternav li {
   border-radius: 0;
   color:white;
   overflow: hidden;
-  background-color: transparent;
+  background: transparent;
   .modal-body {
     width: 100%;
     margin: 0 auto;
@@ -5136,6 +5134,8 @@ a.ui-state-default :hover {
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, .dropdown-submenu:hover>a, .dropdown-submenu:focus>a {
   @include blitz-gradient();
   background-color: $blitz-blue;
+  color: white;
+  text-shadow: none;
 }
 
 .trainer-alert .btn {

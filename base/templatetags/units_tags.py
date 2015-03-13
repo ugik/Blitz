@@ -10,9 +10,9 @@ def lbs_conversion(value, client):
     if value:
         RATIO = 0.45359237
         if client.units == "M":
-            return "{:3.0f}".format(value * RATIO)
+            return "{:3.0f}".format(value * RATIO).lstrip()
         else:
-            return "{:3.0f}".format(value)
+            return "{:3.0f}".format(value).lstrip()
     else:
         return None
 
@@ -22,9 +22,9 @@ def kg_conversion(value, client):
     if value:
         RATIO = 0.45359237
         if client.units == "M":
-            return "{:3.0f}".format(value * 1/RATIO)
+            return "{:3.0f}".format(value * 1/RATIO).lstrip()
         else:
-            return "{:3.0f}".format(value)
+            return "{:3.0f}".format(value).lstrip()
     else:
         return None
 
@@ -34,7 +34,7 @@ def feet_conversion(value, override=False):
     RATIO_FT = 30.48
     RATIO_IN = 2.54
     if value.units == "M" or override:
-        return "{:3.0f}".format(value.height_feet * RATIO_FT + value.height_inches * RATIO_IN)
+        return "{:3.0f}".format(value.height_feet * RATIO_FT + value.height_inches * RATIO_IN).lstrip()
     else:
         return str(value.height_feet) + "'" + str(value.height_inches) + '"'
 
@@ -44,7 +44,7 @@ def m_conversion(value, client):
     if value:
         RATIO = 39.701
         if client.units == "M":
-            return "{:3.2f}".format(value * RATIO)
+            return "{:3.2f}".format(value * RATIO).lstrip()
         else:
             return str(value)
     else:
@@ -56,7 +56,7 @@ def cm_conversion(value, client):
     if value>0:
         RATIO = .3937
         if client.units == "M":
-            return "{:3.2f}".format(value * RATIO)
+            return "{:3.2f}".format(value * RATIO).lstrip()
         else:
             return str(value)
     else:

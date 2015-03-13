@@ -174,11 +174,6 @@ class TestBasic(unittest.TestCase):
         # assertTextPresent |  | Programs
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         self.assertTrue("Programs" in driver.page_source, "Text not found")
-        # open | /upload | 
-        driver.get(self.base_url + "/upload")
-        # assertTextPresent |  | Training programs
-        self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
-        self.assertTrue("Training programs" in driver.page_source, "Text not found")
         # open | /dashboard | 
         driver.get(self.base_url + "/dashboard")
         # assertTextPresent |  | Everything

@@ -745,8 +745,28 @@ def my_programs(request):
         analytics_track(str(request.user.id), 'programs', {'name': request.user.trainer.name,})
 
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
+
+        trainer = request.user.trainer
+        # deal with new trainer with pending documents
+        numdocs = get_pending_documents('/documents', trainer.pk)
+
+        if request.method == 'POST':
+            form = UploadForm(request.POST, request.FILES)
+            if form.is_valid() and form.is_multipart():
+                filename = save_file(request.FILES['document'], trainer.pk)
+            
+                uri = domain(request)
+                print filename
+
+                email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
+
+        else:
+            form = UploadForm()
+
         return render(request, 'trainer_programs.html', 
-           {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
+           {'docs' : numdocs, 'form': form, 'trainer': request.user.trainer, 
+            'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
+
     else:
         request_blitz = request.user.blitz
 
@@ -1335,7 +1355,7 @@ def comment_unlike(request):
 @login_required
 @csrf_exempt
 def new_comment(request):
-    comment_picture = request.POST.get("comment_picture")
+    comment_picture = request.POST.get("picture")
 
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
         # Store Picture File
@@ -1362,7 +1382,8 @@ def new_comment(request):
             comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
 
     else:
-        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture)
+
+        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture)
 
         # analytics
         if not request.user.is_trainer:
@@ -2582,6 +2603,7 @@ def about(request):
 # url: /dashboard
 @login_required
 def trainer_dashboard(request):
+
     user_id = request.user.pk
     trainer = request.user.trainer
 
@@ -2606,8 +2628,8 @@ def trainer_dashboard(request):
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
-    heading = Heading.objects.all().order_by('?')[:1].get()
-    header = "%s - %s" % (heading.saying, heading.author)
+#    heading = Heading.objects.all().order_by('?')[:1].get()
+#    header = "%s - %s" % (heading.saying, heading.author)
 
     show_intro = request.GET.get('show-intro') == 'true'
     if request.session.get('show_intro') is True:
@@ -2616,20 +2638,12 @@ def trainer_dashboard(request):
     if request.session.get('shown_intro') is True:
         request.session.pop('shown_intro')
 
-
     if blitzes and clients:
-        """Get count of all unviewed feeds"""
-        all_unviewed_count = 0
     
-        for client in clients:
-            all_unviewed_count+= client.unviewed_feeds_count()
-        """ END """
-
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': all_unviewed_count, #FeedItem.objects.filter(blitz=request.user.blitz).exclude(is_viewed = True).count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),

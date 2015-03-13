@@ -8,8 +8,10 @@ from email.MIMEImage import MIMEImage
 
 from django.contrib.auth.models import User
 from django.db.models import Q
-from base.models import Client, Trainer, TrainerAlert, BlitzMember
+from base.models import Client, Trainer, TrainerAlert, BlitzMember, user_display_name
 from workouts.models import WorkoutPlan
+from spotter.utils import balance
+
 from datetime import date, timedelta
 import datetime as dt
 
@@ -214,6 +216,7 @@ def usage_digest(days=0):
     login_users = []
     for user in users:
         if timezone.normalize(user.last_login).date() >= startdate:
+            user.username = user_display_name(user)
             login_users.append(user)
 
     f = open('/etc/hosts', 'r')  # grab host and ip address
@@ -227,6 +230,20 @@ def usage_digest(days=0):
     to_mail = ['georgek@gmail.com']
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
+
+    send_email(from_mail, to_mail, subject, template_text, template_html, context)
+
+def payment_digest(test=None):
+
+    context = balance(charge=True, test=test)
+    if len(context['clients']) == 0:
+        return
+    
+    template_html = 'emails/payments_digest.html'
+    template_text = 'emails/payments_digest.txt'
+    to_mail = ['georgek@gmail.com']
+    from_mail = settings.DEFAULT_FROM_EMAIL           
+    subject = "Payments Digest"
 
     send_email(from_mail, to_mail, subject, template_text, template_html, context)
 
@@ -257,14 +274,17 @@ def usage_trainer(trainer):
 
     for user in users:
         if timezone.normalize(user.last_login).date() >= startdate:
+            user.username = user_display_name(user)    # username will hold the client/trainer name
             login_users.append(user)
     for user in users:
         # show the trainer users that are laggards but still 'active'
         if timezone.normalize(user.last_login).date() < startdate and timezone.normalize(user.last_login).date() >= laggard:
+            user.username = user_display_name(user)
             laggard_users.append(user)
     for user in users:
         # show the trainer users that are laggards but still 'active'
         if timezone.normalize(user.last_login).date() < laggard:
+            user.username = user_display_name(user)
             inactive_users.append(user)
 
     if not login_users and not laggard_users:

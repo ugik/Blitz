@@ -20,7 +20,7 @@
                     <div class="feeditem-pub-date">
                         <i class="glyphicon glyphicon-time"></i> {{ comment.date_and_time|timesince }} ago
                     </div>
-                    {% if comment.image %}<img src="/media/{{ comment.image }}" />{% endif %}
+                    {% if comment.image %}<img src="/media/{{ comment.image }}" width="90%" />{% endif %}
                 </div> 
                 {% with comment as parent %}
                     {% include "feeditems/feed_item_footer.html" %}

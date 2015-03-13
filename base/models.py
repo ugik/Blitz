@@ -128,6 +128,7 @@ def user_display_name(user):
         return user.client.name
     except:
         pass
+    return ""
 
 def user_headshot_url(user):
     try:
@@ -230,7 +231,7 @@ User.forgot_password_token = property(lambda u: forgot_password_token(u))
 class Trainer(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=100, default="")
-    short_name = models.CharField(max_length=10, default="")
+    short_name = models.CharField(max_length=30, default="")
     headshot = models.ImageField(upload_to="headshots/", blank=True, null=True)
     external_headshot_url = models.CharField(max_length=1000, default="", blank=True)
     timezone = models.CharField(max_length=40, default='US/Pacific')
@@ -276,7 +277,11 @@ class Trainer(models.Model):
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
-        thumb.save(thumb_io, format='JPEG')
+        if '.png' in image.filename:
+            thumb.save(thumb_io, format='PNG')
+        else:
+            thumb.save(thumb_io, format='JPEG')
+
         thumb_contentfile = ContentFile(thumb_io.getvalue())
 
         filename = image_path.split('/')[-1]
@@ -564,8 +569,11 @@ class Client(models.Model):
         return self.get_blitz().current_day_index(self.get_timezone())
 
     def unviewed_feeds_count(self):
-        count = self.get_feeditems().exclude(is_viewed=True).count()
-        return count
+#        count = self.get_feeditems().exclude(is_viewed=True).count()
+#        return count
+
+        feed_items = FeedItem.objects.filter(blitz=self.get_blitz(), is_viewed=False)                
+        return len(feed_items)
 
     def get_weight(self):
         checkins = CheckIn.objects.filter(client=self).order_by('-pk')
@@ -596,12 +604,13 @@ class Blitz(models.Model):
 # /trainer.short_name resolves to trainer id, which ties to 1-n SalesPages
 # /trainer.short_name/blitz.url_slug resolves to specific blitz
 
-    url_slug = models.SlugField(max_length=25, default="")
+    url_slug = models.SlugField(max_length=50, default="")
     trainer = models.ForeignKey(Trainer)
     recurring = models.BooleanField(default=False) # Recurring blitzes repeat over time
     provisional = models.BooleanField(default=False) # True for initial 1:1 Blitzes
     group = models.BooleanField(default=False) # Group, default is Individual
     free = models.BooleanField(default=False) # Free, default is paid
+    sample = models.BooleanField(default=False) # Sample from Blitz, for Free Group standard workouts
 
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
@@ -1142,7 +1151,7 @@ class SalesPageContent(models.Model):
     trainer = models.ForeignKey('base.Trainer', null=True)
     group = models.BooleanField(default=False)   # True for Group programs, False for individual
     name = models.CharField(max_length=140, default="", blank=True, null=True)
-    url_slug = models.CharField(max_length=30, blank=True, null=True, default="")
+    url_slug = models.CharField(max_length=50, blank=True, null=True, default="")
     sales_page_key = models.TextField(default="", blank=True, null=True)
 
     trainer_headshot = models.ImageField(blank=True, null=True, upload_to="headshots/")

@@ -34,19 +34,19 @@
 
 
 <div class="container">
-    <div class="row">
-            <div class="col-md-4">
-              &nbsp;
-            </div>
-            <div class="col-md-4" style="margin: 0 auto; text-align: center;">
-              <h1 class="meta"> Sales Pages </h1>
+    <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-8 col-md-offset-1" style="">
+              <h1 class="lightfont"> Program Signup Pages </h1>
+                 <p>
+                    Below is a list of signup pages for your different programs, in case you want to update them. 
+                </p>
             </div> 
-            <div class="col-md-4" style="margin: 0 auto; text-align: center;">                
+            <div class="col-md-2" style=" margin-top: 20px;">                
               <form method="post" name="sales-blitz" 
                action="upload" class="formpage-block-form">
                  {% csrf_token %}
                  <div class="submit-container">
-                    <button id="add_group" onclick="window.location='/blitz-setup?modalBlitz'; return false;" class='obtn obtn-comment-grn' type='submit'>  + Create New Program
+                    <button style="font-size: 18px;" id="add_group" onclick="window.location='/blitz-setup?modalBlitz'; return false;" class='obtn full-width' type='submit'>  + New page
                     </button>
                  </div>
               </form>
@@ -55,62 +55,66 @@
 
 
     <div class="row">
-        <div class="col-md-8" style="float: none; margin: 0 auto; text-align: center;">
-         Below is a list of signup pages for your different programs, in case you want to update them. You can also send clients the 'quick signup' link, and they'll just go straight to the payment/credit card page.<br><br>
+        <div class="col-md-10 col-md-offset-1" style="">
         {% if blitzes %}
            {% for blitz in blitzes %}
               <div class="contentwell well">
-                 <table><tr><td>
-                     {% if not blitz.group %}
-                     <img src="{{ STATIC_URL }}images/SalesPage1on1.png"/></td>
-                     {% else %}
-                     <img src="{{ STATIC_URL }}images/SalesPageGroup.png"/></td>
-                     {% endif %}
-                 <td colspan="2">
-                 <div class="wellheadline">{{ blitz.sales_page_content.program_title }}</div>
-
-                 {% if trainer.short_name == blitz.url_slug %}
-                 <p style="linktag">Page link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}">
-                    {{ SITE_URL }}/{{ trainer.short_name }}
-                 {% else %}
-                 <p style="linktag">Page link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}">                 
-                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }} 
-                 {% endif %}
-
-                 </a></p>
-                 <p style="linktag">Quick signup link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup">
-                 {% if trainer.short_name == blitz.url_slug %}
-                    {{ SITE_URL }}/{{ trainer.short_name }}/signup
-                 {% else %}
-                    {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup
-                 {% endif %}
-                 </a></p>
-                 </td></tr>
-                 <tr><td>
-                 <td><form method="post" 
-                        action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form">
-                     {% csrf_token %}
-                     <div class="submit-container">
-                        <button class='obtn full-width' style="margin-right: 20px;" type='submit'>Edit Page</button>
+                <div class="row">
+                    <div class="col-md-2 mobile-hide">
+                         {% if not blitz.group %}
+                         <img src="{{ STATIC_URL }}images/SalesPage1on1.png" style="max- width: 100%;"/>
+                         {% else %}
+                         <img src="{{ STATIC_URL }}images/SalesPageGroup.png" style="max- width: 100%;" />
+                         {% endif %}
                      </div>
-                     </form></td>
-                 <td>
+                
+                     <div class="col-md-10 col-xs-12">
+                         <div class="wellheadline">
+                            {{ blitz.sales_page_content.program_title }}
+                        </div>
 
-                 <div class="btn-group">
-                 <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" style="width:210px; margin-bottom: 10px;">
-                  Invite Clients<span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
+                         {% if trainer.short_name == blitz.url_slug %}
+                         <p class="linktag">Page link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}">
+                            {{ SITE_URL }}/{{ trainer.short_name }}
+                         {% else %}
+                         <p class="linktag">Page link: <a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}">                 
+                            {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }} 
+                         {% endif %}
 
-                  <li role="presentation"><a role="menuitem" id="invite_client" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite">Invite paid client</a></li>
-                  <li role="presentation" class="divider"></li>
-                  <li role="presentation"><a role="menuitem" id="invite_free" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite&free">Invite free client</a></li>
-                  </ul>
-                 </div></td>
+                         </a></p>
+                         <p class="linktag">Direct signup link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup">
+                         {% if trainer.short_name == blitz.url_slug %}
+                            {{ SITE_URL }}/{{ trainer.short_name }}/signup
+                         {% else %}
+                            {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup
+                         {% endif %}
+                         </a></p>
+                         <div class="" style="margin-top: 20px;">
+                             <form method="post" 
+                                    action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form" style="display: inline-block;">
+                                 {% csrf_token %}
+                                 <div class="submit-container" style="display: inline-block;">
+                                    <button class='obtn' style="margin-right: 20px; font-size: 16px;" type='submit'>Edit Page</button>
+                                 </div>
+                            </form>
 
-                 </tr>
-                 </table>
-              </div>
+
+                             <div class="btn-group" style="width: auto; display: inline-block; margin-bottom: 20px;">
+                                 <button class="btn-outline dropdown-toggle" type="button" data-toggle="dropdown" style="font-size: 16px; padding: 0 20px;height: 45px;">
+                                  Invite Clients <span class="caret"></span>
+                                  </button>
+                                  <ul class="dropdown-menu" role="menu">
+
+                                  <li role="presentation"><a role="menuitem" id="invite_client" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite">Invite paid client</a></li>
+                                  <li role="presentation" class="divider"></li>
+                                  <li role="presentation"><a role="menuitem" id="invite_free" tabindex="-1" href="/client-setup/{{ blitz.pk }}?modalInvite&free">Invite free client</a></li>
+                                  </ul>
+                             </div>
+                         </div>
+
+                         </div>
+                     </div>
+             </div>
 
            {% endfor %}
         {% endif %}

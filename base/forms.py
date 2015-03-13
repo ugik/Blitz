@@ -48,7 +48,7 @@ class ImageForm(forms.Form):
 class NewTrainerForm(forms.Form):
 
     name =      forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Name'}))
-    short_name  = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'placeholder': 'yourname'}))
+    short_name  = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'yourname'}))
     email =     forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'render_value' : False}),max_length=100)
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password', 'render_value' : False}),max_length=100)
@@ -125,7 +125,7 @@ class NewClientForm(forms.Form):
 class BlitzSetupForm(forms.Form):
 
     title = forms.CharField(max_length=30,widget=forms.TextInput(attrs={'placeholder': 'Program Name'})) 
-    url_slug = forms.CharField(max_length=10,widget=forms.TextInput(attrs={'placeholder': 'url'}))
+    url_slug = forms.CharField(max_length=50,widget=forms.TextInput(attrs={'placeholder': 'url'}))
     start_day = forms.DateField(initial=datetime.date.today,
                                 widget=forms.DateInput(attrs= {'class': 'datepicker', 'id':'datepicker', 'placeholder': 'Start Date'} ))
     charge = forms.DecimalField(max_digits=6, decimal_places=2, widget=forms.TextInput(attrs={'class':'form-control','placeholder': '$$$'}))

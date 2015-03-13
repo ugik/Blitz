@@ -65,7 +65,14 @@ def new_message(request):
 @login_required()
 def user_thread(request, urlkey):
     thread = get_object_or_404(Thread, urlkey=urlkey)
-    current_user_thread = get_object_or_404(UserThread, thread=thread, user=request.user)
+
+    current_user_threads = UserThread.objects.filter(thread=thread, user=request.user)
+    if current_user_threads:
+        current_user_thread = current_user_threads[0]
+    else:
+        return redirect('/inbox')
+
+#    current_user_thread = get_object_or_404(UserThread, thread=thread, user=request.user)
     current_user_thread.last_read_date = timezone_now()
     current_user_thread.save()
 

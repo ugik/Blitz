@@ -30,6 +30,7 @@ urlpatterns += patterns(
     url(r'^hijack/', include('hijack.urls')),
 
     url("^trainer/marc$", TemplateView.as_view(template_name="custom_trainer_page_marc.html")),
+    url("^trainer/lexi$", TemplateView.as_view(template_name="custom_trainer_page_lexi.html")),
 
     url(r'^allclients$', 'base.views.all_clients', name='all_clients'),
 
@@ -69,8 +70,6 @@ urlpatterns += patterns(
 
     url(r'^register-trainer$', 'base.views.trainer_signup', name='register_trainer'),
     url(r'^register-trainer-uploads/(?P<pk>\d+)$', 'base.views.trainer_signup_uploads', name='register_trainer_uploads'),
-
-    url(r'^upload$', 'base.views.upload_page', name='upload_page'),
 
     url(r'^salespage$', 'base.views.my_salespages', name='my_salespages'),
 

@@ -12,6 +12,31 @@ var slugs = [{% for w in workoutplan.workouts %}"{{w.slug}}", {% endfor %}];
 var workouts = [{% for w in workoutplan.workouts %}"{{w}}", {% endfor %}];
 var num_exercises = 0;
 
+function desc_input(exercise, desc) {
+    var desc = prompt("Enter an exercise prefix | description (separator '|' optional)", desc);
+    var abbrev = '';
+
+    if (desc != null && desc.length > 0) {
+       $.ajax({
+          url: 'workoutplan_ajax',
+          type: 'POST',
+          data: { mode: 'save_desc', workoutplan: workoutplan, exercise: exercise, desc: desc},
+       })
+       if (desc.indexOf('|') === -1) {
+           if (desc.length > 5) {
+               abbrev = desc.substring(0,4)+'...'; 
+           } else {
+               abbrev = desc;
+           }
+       } else {
+           if (desc.length > 5) {
+               abbrev = desc.substring(0,desc.indexOf('|'))+'...'; } else {
+               abbrev = desc.substring(0,desc.indexOf('|')); }
+       }
+       $("#desc_"+ exercise ).replaceWith('<td align="left" id="desc_'+ exercise +'"><a onclick="desc_input(\''+ exercise +'\', \''+ desc +'\');">' + abbrev +'</a></td>');
+
+    }
+}
 function set_workouts(workouts, count) {   // load workouts into datalist
     $(workouts).each( function(index, item) {
         if (item != '(TBD)') {
@@ -178,6 +203,7 @@ function save_row(inuse, location, exercise, count, option) {
 
         sets = []
 
+        desc = "<td align='left' id='desc_"+ exercise +"_"+count+"'><a onclick='desc_input(\""+ exercise +"_"+count+"\", \"\");'>(desc)</a></td>";
         lift    = "<td id='row_"+ exercise +"_"+count+"_lift' align='left'>"+$("#lifts_"+ count).val()+"</td>";
         display = "<td id='row_"+ exercise +"_"+count+"_display' align='left'>"+$("#sets_display"+ count).val()+"</td>";
 
@@ -192,7 +218,7 @@ function save_row(inuse, location, exercise, count, option) {
         }
         foot    = "<tr id='foot_"+ exercise +"_"+count+"' style='height:1px;'></tr>";
 
-        tr.after(controls+lift+display+sets[0]+sets[1]+sets[2]+sets[3]+sets[4]+sets[5]);
+        tr.after(controls+desc+lift+display+sets[0]+sets[1]+sets[2]+sets[3]+sets[4]+sets[5]);
 
         save_workoutexercise(exercise +"_"+ count, $("#lifts_"+ count).val(), $("#sets_display"+ count).val(), calc_sets[0], calc_sets[1], calc_sets[2], calc_sets[3], calc_sets[4], calc_sets[5]);
 
@@ -318,7 +344,8 @@ function insert_row(location, exercise) {
     set5 = "<td align='left' width='5%'><input type='text' id='set5_"+ c +"' style='width:20px;' placeholder='Set'/>";
     set6 = "<td align='left' width='5%'><input type='text' id='set6_"+ c +"' style='width:20px;' placeholder='Set'/></td></tr>";
     foot = "<tr id='insert_row_"+ exercise +"_"+ count +"' style='height:1px;'></tr>";
-    $(location).after(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
+
+    $(location).before(head+cancel+save+lifts+display+set1+set2+set3+set4+set5+set6+foot);
 
 }
 
@@ -454,8 +481,8 @@ $('#plan-name').blur(function() {
                {% endif %}
           &nbsp;&nbsp;<small>{{ workoutplanday.workout }}</small>
         </td>
-        <td>
-        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='font-size:14px; width:400px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
+        <td colspan="2">
+        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='font-size:14px; width:450px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
 
 <script>
 // save workout description
@@ -479,7 +506,7 @@ $('#day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}').blur(function() 
               </td>
           {% endif %}
           <td align='left'>
-            <a onclick="insert_row('#day_head_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">
+            <a onclick="insert_row('#gap_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}', '{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}');">
                 <i class="icon-plus-sign"></i> Add Exercise
             </a>
           </td>
@@ -504,7 +531,13 @@ $('#day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}').blur(function() 
                         <small><i class="icon-pencil"></i> Edit</small>
                     </a>
                 </td>
-                <td align="left" 
+                <td align="left"
+                 id="desc_{{ exercise.pk }}">
+                 <a onclick="desc_input({{ exercise.pk }}, '{{ exercise.description }}');">
+                 {% if exercise.description %} {{ exercise.description|truncatechars:7}} {% else %}(desc){% endif %}
+                 </a>
+                </td>
+                <td align="left"
                  id="row_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}_{{ exercise.pk }}_lift">
                  {{ exercise.lift }}
                 </td>
