@@ -71,6 +71,7 @@
                      <div class="col-md-10 col-xs-12">
                          <div class="wellheadline">
                             {{ blitz.sales_page_content.program_title }}
+                        {% if blitz.sample %} (sample) {% endif %}
                         </div>
 
                          {% if trainer.short_name == blitz.url_slug %}
@@ -90,14 +91,23 @@
                          {% endif %}
                          </a></p>
                          <div class="" style="margin-top: 20px;">
+                             {% if blitz.sample %}
                              <form method="post" 
+                                    action="sample-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form" style="display: inline-block;">
+                                 {% csrf_token %}
+                                 <div class="submit-container" style="display: inline-block;">
+                                    <button class='obtn' style="margin-right: 20px; font-size: 16px;" type='submit'>Edit Sample Page</button>
+                                 </div>
+                            </form>
+                            {% else %}
+                            <form method="post" 
                                     action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form" style="display: inline-block;">
                                  {% csrf_token %}
                                  <div class="submit-container" style="display: inline-block;">
                                     <button class='obtn' style="margin-right: 20px; font-size: 16px;" type='submit'>Edit Page</button>
                                  </div>
                             </form>
-
+                            {% endif %}
 
                              <div class="btn-group" style="width: auto; display: inline-block; margin-bottom: 20px;">
                                  <button class="btn-outline dropdown-toggle" type="button" data-toggle="dropdown" style="font-size: 16px; padding: 0 20px;height: 45px;">

@@ -279,6 +279,10 @@ class Trainer(models.Model):
         thumb_io = StringIO.StringIO()
         if '.png' in image.filename:
             thumb.save(thumb_io, format='PNG')
+        elif '.gif' in image.filename:
+            thumb.save(thumb_io, format='GIF')
+        elif '.ico' in image.filename:
+            thumb.save(thumb_io, format='ICO')
         else:
             thumb.save(thumb_io, format='JPEG')
 
@@ -446,7 +450,16 @@ class Client(models.Model):
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
-        thumb.save(thumb_io, format='JPEG')
+        thumb_io = StringIO.StringIO()
+        if '.png' in image.filename:
+            thumb.save(thumb_io, format='PNG')
+        elif '.gif' in image.filename:
+            thumb.save(thumb_io, format='GIF')
+        elif '.ico' in image.filename:
+            thumb.save(thumb_io, format='ICO')
+        else:
+            thumb.save(thumb_io, format='JPEG')
+
         thumb_contentfile = ContentFile(thumb_io.getvalue())
 
         filename = image_path.split('/')[-1]

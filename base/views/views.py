@@ -1768,9 +1768,14 @@ def blitz_page(request, short_name, url_slug):
             sales_page = None
 
     if sales_page and trainer:
-        return render(request, "sales_blitz.html", {
-            'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page, 
-            'logo': logo, 'head': head, 'name': name, })
+        if not blitz.sample:
+            return render(request, "sales_blitz.html", {
+                'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page, 
+                'logo': logo, 'head': head, 'name': name, })
+        else:
+            return render(request, "sample_blitz.html", {
+                'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page, 
+                'logo': logo, 'head': head, 'name': name, })
     else:
         return redirect('home')
 
@@ -1854,9 +1859,14 @@ def sales_blitz(request):
         blitz.save()
 
     if blitz:
-        return render(request, "sales_blitz.html", {
-            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
-            'saved': saved })
+        if blitz.sample:
+            return render(request, "sample_blitz.html", {
+                'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+                'saved': saved })
+        else:
+            return render(request, "sales_blitz.html", {
+                'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+                'saved': saved })
     else:
         return redirect('/')
 
