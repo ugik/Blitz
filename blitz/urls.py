@@ -24,13 +24,14 @@ urlpatterns += patterns(
     '',
 
 
-    url("^dev/custom-trainer-page$", TemplateView.as_view(template_name="custon_trainer_page.html"), name="custom_trainer_page"),
+    url("^/custom-trainer-page$", TemplateView.as_view(template_name="custom_trainer_page.html"), name="custom_trainer_page"),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hijack/', include('hijack.urls')),
 
     url("^trainer/marc$", TemplateView.as_view(template_name="custom_trainer_page_marc.html")),
     url("^trainer/lexi$", TemplateView.as_view(template_name="custom_trainer_page_lexi.html")),
+    url("^/all-plans$", TemplateView.as_view(template_name="all-plans.html")),
 
     url(r'^allclients$', 'base.views.all_clients', name='all_clients'),
 
