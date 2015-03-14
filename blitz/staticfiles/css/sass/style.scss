@@ -7092,13 +7092,22 @@ max-height: 68%;
   background-image: url('/static/images/marketplace-bg.png');
   background-color: black;
 //  margin-top: -20px;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.program-cover-bg {
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px 4px 0px 0px;
+  height: 240px;
 }
 
 .program-name {
   padding-left: 20px;
   padding-top: 10px;
   color: white;
-  text-shadow: 0px 0px 2px rgba(150, 150, 150, 1);
+  text-shadow: 0px 0px 4px rgba(100, 100, 100, 1);
 }
 
 .trainer-block {
@@ -7114,14 +7123,14 @@ img.program-trainer-headshot {
   -webkit-border-radius: 50% !important;
   -moz-border-radius: 50% !important;
   border-radius: 50% !important;
-//  width: 70px;
-//  height: 70px;
+  max-width: 60px;
+  max-height: 60px;
   display: inline-block;
 }
 
 .program-trainer-name {
   display: inline-block;
-  @include boldfont();
+  @include lightfont();
   margin-bottom: -10px;
   margin-left: -15px;
 }
