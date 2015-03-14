@@ -71,15 +71,18 @@
                      <div class="col-md-10 col-xs-12">
                          <div class="wellheadline">
                             {{ blitz.sales_page_content.program_title }}
-                        {% if blitz.sample %} (sample) {% endif %}
+                        {% if blitz.sample %} <small>(sample)</small> {% endif %}
                         </div>
 
                          {% if trainer.short_name == blitz.url_slug %}
                          <p class="linktag">Page link:<a href="{{ SITE_URL }}/{{ trainer.short_name }}">
                             {{ SITE_URL }}/{{ trainer.short_name }}
                          {% else %}
-                         <p class="linktag">Page link: <a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}">                 
-                            {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }} 
+                             {% if blitz.sample %}
+                             <p class="linktag">Page link: <a href="{{ SITE_URL }}/{{ blitz.url_slug }}"> {{ SITE_URL }}/{{ blitz.url_slug }} 
+                             {% else %}
+                             <p class="linktag">Page link: <a href="{{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}"> {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }} 
+                             {% endif %}
                          {% endif %}
 
                          </a></p>
@@ -87,7 +90,11 @@
                          {% if trainer.short_name == blitz.url_slug %}
                             {{ SITE_URL }}/{{ trainer.short_name }}/signup
                          {% else %}
-                            {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup
+                             {% if blitz.sample %}
+                                {{ SITE_URL }}/{{ blitz.url_slug }}/signup
+                             {% else %}
+                                {{ SITE_URL }}/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup
+                             {% endif %}
                          {% endif %}
                          </a></p>
                          <div class="" style="margin-top: 20px;">

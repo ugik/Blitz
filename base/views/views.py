@@ -236,6 +236,7 @@ def blitz_setup(request):
             blitz.group = True if forceGroup or form.data['blitz_type'] == "GRP" else False
             blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"
             blitz.provisional = True if not blitz.group else False
+            blitz.sample = True if trainer.name == 'Blitz' else False
             blitz.save()
 
             return render_to_response('blitz_setup_done.html', 
@@ -1752,9 +1753,18 @@ def blitz_page(request, short_name, url_slug):
     if 'name' in request.GET:
         name = request.GET.get('name')
 
-    if short_name == 'sample':   # handle /sample sales page
+    if short_name == 'sample':   # handle /facsimile sales page
         trainer = Trainer.objects.get(short_name="CT")
         url_slug = trainer.short_name
+
+    # if the short_name and url_slug are the same then either it's a Blitz run program or the default program for a trainer
+    elif short_name == url_slug:
+        trainer = Trainer.objects.get_or_none(name__iexact='Blitz')
+        if trainer and trainer.blitz_set.filter(url_slug__iexact=url_slug):    # see if Blitz is running this program
+            blitz = trainer.blitz_set.filter(url_slug__iexact=url_slug)[0]
+            sales_page = blitz.sales_page_content
+        else:
+            trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
     else:
         trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
 

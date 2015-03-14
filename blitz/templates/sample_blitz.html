@@ -57,36 +57,6 @@ class="sales-page"
 
         {% csrf_token %}
 
-        {% if debug_mode %}
-           <input type="text" name="sample" id="id_sample" value="value" style="height:0; display:none;"/>
-           <input type="file" name="logo_picture" id="id_logo_picture" style="height:0; display:none;"/>
-           <label class="" id="id_label" name="logo_picture"  for="id_logo_picture"/>
-            
-           {% if sales_page.logo %}
-              <img class="navbar-brand logoborder" src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg" />
-           {% else %}
-               <div id="trainernologo">
-                {{ sales_page.trainer.name }}
-                <div class="tinytext">
-                  (click to upload your logo here)
-                </div>
-               </div>
-           {% endif %} 
-           </label>
-        {% else %}
-           {% if sales_page.logo %}
-            <a class="navbar-brand" href="/" id="secondary_logo">
-              <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
-            </a>
-            {% else %}
-            <div id="trainernologo">
-              {{ sales_page.trainer.name }}
-            </div>
-           {% endif %}
-           {% if sales_page.video_html %}
-              {% autoescape off %}{{ sales_page.video_html }}{% endautoescape %}
-           {% endif %}
-        {% endif %}
       </div>
       <div class="col-md-8">
         &nbsp;
@@ -97,10 +67,6 @@ class="sales-page"
         </a>
       </div>
     </div>
-
-  {% if debug_mode %} 
-    <a style="display: none; color:lightgreen;">(Edit GREEN areas to create your sales page)</a>  
-  {% endif %}
 
   <div class="sales-header">
 
@@ -133,24 +99,6 @@ class="sales-page"
             <br>
 
             Price: 
-            {% if debug_mode %}
-                <input class="edit" type="text" name="price" id="price" style="size:5; maxlength:30;" value="{{ blitz.price }}">
-                <select name="price_model" id="price_model" class="selectpicker show-tick">
-                    <option value="O"{% if "O" == blitz.price_model %} selected="selected"{% endif %}>
-                      One-time
-                    </option>
-                    <option value="R"{% if "R" == blitz.price_model %} selected="selected"{% endif %}>
-                      Recurring
-                    </option>
-                </select>
-                <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
-                <script type="text/javascript">
-                      $(document).ready(function(e) {
-                          $('.selectpicker').selectpicker({ size: "auto", width: "160px" });
-                      });
-                </script>
-
-            {% else %}
                 {% if blitz.free %} FREE 
                 {% else %} ${{ blitz.price }} 
                     {% if blitz.price_model == "R" %}
@@ -159,7 +107,7 @@ class="sales-page"
                        One-time
                     {% endif %}
                 {% endif %}
-            {% endif %}</a>
+            </a>
            </div>
 
         {% endif %} 
