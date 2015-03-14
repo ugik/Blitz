@@ -23,6 +23,9 @@
     </div>
     <div class="row">
         {% for day in week.days %}
+            {% if week.days.count > 6 %}
+                <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
             {% if week.days.count = 6 %}
                 <div class="col-md-2" style="margin-left: 0px;">
             {% endif %}

@@ -31,6 +31,7 @@ urlpatterns += patterns(
 
     url("^trainer/marc$", TemplateView.as_view(template_name="custom_trainer_page_marc.html")),
     url("^trainer/lexi$", TemplateView.as_view(template_name="custom_trainer_page_lexi.html")),
+    url("^all$", TemplateView.as_view(template_name="all.html")),
 
     url(r'^allclients$', 'base.views.all_clients', name='all_clients'),
 

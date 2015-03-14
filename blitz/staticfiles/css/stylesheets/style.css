@@ -7729,61 +7729,32 @@ a.feed-permalink {
   }
 }
 
-<<<<<<< HEAD
-/* line 6235, ../sass/style.scss */
-.price-plan {
-  min-height: 570px;
-}
-
-/* line 6239, ../sass/style.scss */
-=======
 /* line 6767, ../sass/style.scss */
->>>>>>> dashboard-reskin
 .price-plan h3 {
   font-size: 1.2em;
   font-family: 'proxima_novabold';
   text-align: left;
 }
 
-<<<<<<< HEAD
-/* line 6245, ../sass/style.scss */
-=======
 /* line 6773, ../sass/style.scss */
->>>>>>> dashboard-reskin
 .price-plan ul {
   margin-bottom: 30px;
-  margin-left: 15px;
 }
 
-<<<<<<< HEAD
-/* line 6250, ../sass/style.scss */
-=======
 /* line 6777, ../sass/style.scss */
->>>>>>> dashboard-reskin
 .price-plan ul li {
   margin-bottom: 15px;
-  font-size: 0.8em;
+  font-size: 0.85em;
   list-style-type: circle;
   text-align: left;
-  letter-spacing: -0.25px;
 }
 
-<<<<<<< HEAD
-/* line 6259, ../sass/style.scss */
-.span8 .message {
-=======
 /* line 6785, ../sass/style.scss */
 .col-md-8 .message {
->>>>>>> dashboard-reskin
   font-family: 'proxima_novalight';
-  font-size: 1em;
 }
 
-<<<<<<< HEAD
-/* line 6264, ../sass/style.scss */
-=======
 /* line 6789, ../sass/style.scss */
->>>>>>> dashboard-reskin
 .getting-started {
   font-family: 'proxima_novalight';
   line-height: 1.4;
@@ -8123,4 +8094,92 @@ h3 small {
 /* line 7078, ../sass/style.scss */
 .col-md-2 > .workout-day-block {
   padding: 10px 5px;
+}
+
+/* line 7082, ../sass/style.scss */
+.allplanscover {
+  background: url("/static/images/marketplace-bg.png") #000000 no-repeat top right fixed;
+}
+@media (max-width: 480px) {
+  /* line 7082, ../sass/style.scss */
+  .allplanscover {
+    background: url("/static/images/minibackground.png") #000000 no-repeat top right fixed;
+  }
+}
+
+/* line 7089, ../sass/style.scss */
+.program-cover-photo {
+  border-radius: 4px 4px 0px 0px;
+  height: 240px;
+  background-image: url("/static/images/marketplace-bg.png");
+  background-color: black;
+}
+
+/* line 7097, ../sass/style.scss */
+.program-name {
+  padding-left: 20px;
+  padding-top: 10px;
+  color: white;
+  text-shadow: 0px 0px 2px #969696;
+}
+
+/* line 7104, ../sass/style.scss */
+.trainer-block {
+  padding-left: 0px;
+  color: white;
+  padding-top: 90px;
+  margin: 0px;
+  text-shadow: 0px 0px 2px #969696;
+}
+
+/* line 7112, ../sass/style.scss */
+img.program-trainer-headshot {
+  border: 3px solid white;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+  display: inline-block;
+}
+
+/* line 7122, ../sass/style.scss */
+.program-trainer-name {
+  display: inline-block;
+  font-family: 'proxima_novabold';
+  margin-bottom: -10px;
+  margin-left: -15px;
+}
+
+/* line 7129, ../sass/style.scss */
+.program-trainer-tag {
+  display: inline-block;
+  font-family: 'proxima_novalight';
+  margin-left: -15px;
+}
+
+/* line 7135, ../sass/style.scss */
+.overview-block > .row > .col-xs-4 {
+  text-align: center;
+}
+
+/* line 7139, ../sass/style.scss */
+.program-detail-label {
+  padding-top: 20px;
+  opacity: 0.5;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+/* line 7148, ../sass/style.scss */
+.program-numeral {
+  font-size: 2.5em;
+  font-family: 'proxima_nova_excn_ththin';
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* line 7155, ../sass/style.scss */
+.program-block {
+  margin-bottom: 20px;
 }
