@@ -1904,7 +1904,7 @@ def blitz_signup(request, short_name, url_slug):
         next_url = '/'
         existing_user = {'name': request.user.client.name, 'email': request.user.email}
 
-    if blitz.free:   # handle free on-ramp
+    if blitz.free or blitz.sample:   # handle free on-ramp
         form = CreateAccountFormFree(request.POST)
         if request.method == 'POST':
 
