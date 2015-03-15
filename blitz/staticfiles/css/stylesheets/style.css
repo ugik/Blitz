@@ -7971,11 +7971,6 @@ h3 small {
   color: #333 !important;
 }
 
-/* line 6975, ../sass/style.scss */
-.description.info a {
-  font-size: 2em;
-}
-
 /* line 6979, ../sass/style.scss */
 .clientlist > .inner > .actions {
   padding: 20px;
