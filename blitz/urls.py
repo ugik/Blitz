@@ -126,6 +126,9 @@ urlpatterns += patterns(
     url(r'^sales-blitz$', 'base.views.sales_blitz', name='sales_blitz'),
     url(r'^sales-blitz/(?P<plan_slug>\S+)', 'base.views.sales_blitz', name='sales_blitz'),
 
+    url(r'^sample-blitz$', 'base.views.sales_blitz', name='sample_blitz'),
+    url(r'^sample-blitz/(?P<plan_slug>\S+)', 'base.views.sales_blitz', name='sample_blitz'),
+
     url(r'^termsofuse$', 'base.views.terms_of_use', name='terms_of_use'),
     url(r'^privacypolicy$', 'base.views.privacy_policy', name='privacy_policy'),
 

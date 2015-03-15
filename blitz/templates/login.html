@@ -16,7 +16,7 @@
             <div class="header">Welcome back.</div>
             <p class="info-text">Log in to Blitz here. <a href="/forgot-password">Forgot password?</a> </p>
             <div class="content">
-                <form action="#" method="post" name="login" class="formpage-block-form">
+                <form action="#" method="post" id="login" name="login" class="formpage-block-form">
 
                     {% csrf_token %}
 
@@ -43,32 +43,14 @@
                     </div>
 
                     <div class="submit-container">
-                        <button class='obtn obtn-comment' type='submit'>Log in</button>
+                        <button class='obtn obtn-comment' onclick='$("#homepage-loading").hide(); $("#login").submit();'>Log in</button>
                     </div>
-
                 </form>
+
+            <img style="display:none;" id="homepage-loading" src="{{ STATIC_URL }}images/loading2.gif" alt="Loading..." />
+
             </div>
         </div>
-
-<!--
-
-        <div class="formpage-block">
-
-            <div class="header">Sign up</div>
-            <div class="content">
-                <form action="registration" method="post" name="registration" class="formpage-block-form">
-
-                    {% csrf_token %}
-
-                    <div class="submit-container">
-                        <button class='obtn obtn-comment-grn' type='submit'>Register</button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
--->
-
     </div>
 </div>
 {% endblock %}

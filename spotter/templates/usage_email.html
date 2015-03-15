@@ -37,7 +37,7 @@
 <ul><b>{{ member.grouper }}<b></ul>
     <ul>
     {% for c in member.list %}
-    <li> {{ c.client.name }} in {{ c.blitz.name }} (with {{ c.blitz.trainer.name }}) for $ 
+    <li> {{ c.client.name }} in {{ c.blitz.name }} <small>(with {{ c.blitz.trainer.name }})</small> for $ 
     {% if c.price %} {{ c.price }} {% else %} Free {% endif %}</li>
     {% endfor %}
     </ul>
@@ -48,21 +48,21 @@
 {% if login_users %}
 <h3>Logins</h3>
 {% for login in login_users|dictsort:"last_login" %}
-    <small>({{ login.email }})</small> {{ login.username }} {{ login.last_login }}
+    <small>({{ login.email }}) {{ login.username }} {{ login.last_login }}</small>
 {% endfor %}
 {% endif %}
 <br>
 {% if laggard_users %}
 <h3>Need reminders</h3>
 {% for laggard in laggard_users|dictsort:"last_login" %}
-    <small>({{ laggard.email }})</small> {{ laggard.username}} {{ laggard.last_login }}
+    <small>({{ laggard.email }}) {{ laggard.username}} {{ laggard.last_login }}</small>
 {% endfor %}
 {% endif %}
 <br>
 {% if inactive_users %}
 <h3>Missing in action</h3>
 {% for inactive in inactive_users|dictsort:"last_login" %}
-    <small>({{ inactive.email }})</small> {{ inactive.username }} {{ inactive.last_login }}
+    <small>({{ inactive.email }}) {{ inactive.username }} {{ inactive.last_login }}</small>
 {% endfor %}
 {% endif %}
 

@@ -4,7 +4,6 @@ from datetime import timedelta
 
 ADMINS = (
     ('GK', 'georgek@gmail.com'),
-#    ('Chris York', 'chris@therealchrisyork.com'),
 )
 
 MANAGERS = ADMINS
@@ -20,7 +19,6 @@ DATABASES = {
         'PASSWORD' : 'django',
         },
     }
-
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -42,7 +40,7 @@ LOGIN_REDIRECT_URL = '/home'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -119,15 +117,15 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'django.contrib.admin',
     'django.contrib.admindocs',
 
     'south',
     'django_extensions',
-    'tastypie',
+#    'tastypie',
     'djcelery',
     'hijack',
+#    'debug_toolbar',
 
     'base',
     'workouts',
@@ -205,7 +203,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     'django.core.context_processors.request',
     "django.contrib.messages.context_processors.messages",
-
     "base.context_processors.custom_processor",
 )
 

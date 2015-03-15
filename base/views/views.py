@@ -236,6 +236,7 @@ def blitz_setup(request):
             blitz.group = True if forceGroup or form.data['blitz_type'] == "GRP" else False
             blitz.price_model = "O" if forceGroup or form.data['blitz_type'] == "GRP" else "R"
             blitz.provisional = True if not blitz.group else False
+            blitz.sample = True if trainer.name == 'Blitz' else False
             blitz.save()
 
             return render_to_response('blitz_setup_done.html', 
@@ -1752,9 +1753,18 @@ def blitz_page(request, short_name, url_slug):
     if 'name' in request.GET:
         name = request.GET.get('name')
 
-    if short_name == 'sample':   # handle /sample sales page
+    if short_name == 'sample':   # handle /facsimile sales page
         trainer = Trainer.objects.get(short_name="CT")
         url_slug = trainer.short_name
+
+    # if the short_name and url_slug are the same then either it's a Blitz run program or the default program for a trainer
+    elif short_name == url_slug:
+        trainer = Trainer.objects.get_or_none(name__iexact='Blitz')
+        if trainer and trainer.blitz_set.filter(url_slug__iexact=url_slug):    # see if Blitz is running this program
+            blitz = trainer.blitz_set.filter(url_slug__iexact=url_slug)[0]
+            sales_page = blitz.sales_page_content
+        else:
+            trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
     else:
         trainer = Trainer.objects.get_or_none(short_name__iexact=short_name)
 
@@ -1768,9 +1778,14 @@ def blitz_page(request, short_name, url_slug):
             sales_page = None
 
     if sales_page and trainer:
-        return render(request, "sales_blitz.html", {
-            'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page, 
-            'logo': logo, 'head': head, 'name': name, })
+        if not blitz.sample:
+            return render(request, "sales_blitz.html", {
+                'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page, 
+                'logo': logo, 'head': head, 'name': name, })
+        else:
+            return render(request, "sample_blitz.html", {
+                'blitz' : blitz, 'trainer' : trainer, 'sales_page': sales_page, 
+                'logo': logo, 'head': head, 'name': name, })
     else:
         return redirect('home')
 
@@ -1854,9 +1869,14 @@ def sales_blitz(request):
         blitz.save()
 
     if blitz:
-        return render(request, "sales_blitz.html", {
-            'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
-            'saved': saved })
+        if blitz.sample:
+            return render(request, "sample_blitz.html", {
+                'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+                'saved': saved })
+        else:
+            return render(request, "sales_blitz.html", {
+                'blitz': blitz, 'trainer': blitz.trainer, 'sales_page': sales_page, 'debug_mode': debug_mode,
+                'saved': saved })
     else:
         return redirect('/')
 
@@ -1900,7 +1920,7 @@ def blitz_signup(request, short_name, url_slug):
                 utils.add_client_to_blitz(blitz, client)
 
                 # set blitz for specific client            
-                blitz_macros_set(blitz=blitz, formula=blitz.macro_strategy, client=client)   
+                blitz_macros_set(blitz=None, formula=blitz.macro_strategy, client=client)   
 
                 # alert trainer of new client signup
                 alert = TrainerAlert.objects.create(
@@ -2061,17 +2081,18 @@ def payment_hook(request, pk):
             if invitation.id:
                 utils.add_client_to_blitz(blitz, client, workoutplan=invitation.workout_plan, price=invitation.price, invitation=invitation)
 
-                if "@example" not in client.user.email:
-                    mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
                 # set macros for specific client
                 blitz_macros_set(blitz=None, formula=invitation.macro_formula, client=client,
                                  macros_data=invitation.macro_target_json)   
+
+                if "@example" not in client.user.email:
+                    mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(invitation.price), str(blitz)))
 
             elif new_client:   # if this is not existing client re-entering CC info
                 utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan, price=blitz.price)
 
                 # set macros for specific client
-                blitz_macros_set(blitz=blitz, formula=blitz.macro_strategy, client=client)
+                blitz_macros_set(blitz=None, formula=blitz.macro_strategy, client=client)
 
                 if "@example" not in client.user.email:
                     mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
@@ -2615,6 +2636,7 @@ def about(request):
 # url: /dashboard
 @login_required
 def trainer_dashboard(request):
+
     user_id = request.user.pk
     trainer = request.user.trainer
 
@@ -2639,8 +2661,8 @@ def trainer_dashboard(request):
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
-    heading = Heading.objects.all().order_by('?')[:1].get()
-    header = "%s - %s" % (heading.saying, heading.author)
+#    heading = Heading.objects.all().order_by('?')[:1].get()
+#    header = "%s - %s" % (heading.saying, heading.author)
 
     show_intro = request.GET.get('show-intro') == 'true'
     if request.session.get('show_intro') is True:
@@ -2649,20 +2671,12 @@ def trainer_dashboard(request):
     if request.session.get('shown_intro') is True:
         request.session.pop('shown_intro')
 
-
     if blitzes and clients:
-        """Get count of all unviewed feeds"""
-        all_unviewed_count = 0
     
-        for client in clients:
-            all_unviewed_count+= client.unviewed_feeds_count()
-        """ END """
-
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': all_unviewed_count, #FeedItem.objects.filter(blitz=request.user.blitz).exclude(is_viewed = True).count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),

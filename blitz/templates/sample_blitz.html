@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block moretitle %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block moremeta %}
+{% if blitz %}
+    {{ blitz.title }} from {{ blitz.trainer.name }}
+{% endif %}
+{% endblock %}
+
+{% block body_extras %}
+
+class="sales-page"
+{% endblock %}
+
+{% load blitz_tags %}
+{% load custom_exercise %}
+
+{% block morehead %}
+  <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+    var saved = "{{ saved }}";
+    if (saved == "True") {
+        $('#success-alert').show();
+        setTimeout(function(){ $('#success-alert').hide(); }, 2000); }
+  });
+</script>
+{% endblock %}
+
+{% block outer_content %}
+
+  <div class="container">
+    <div class="row">
+        <div class="alert alert-success fade in" id="success-alert" style="display:none;">
+            Your changes were saved successfully.
+        </div>
+      <div class="col-md-2" style="margin-left: -30px;">
+        {% if debug_mode %}
+
+          <form method="post" name="SalesBlitz" enctype="multipart/form-data" 
+          action="sales-blitz?slug={{ blitz.url_slug }}&short_name={{ trainer.short_name }}&debug=True&key={{ blitz.sales_page_content.sales_page_key }}" class="formpage-block-form"> 
+        {% else %}
+          <form method="get" name="blitz-signup" action="/{{ trainer.short_name }}/{{ blitz.url_slug }}/signup"> 
+        {% endif %}
+
+        {% csrf_token %}
+
+      </div>
+      <div class="col-md-8">
+        &nbsp;
+      </div>
+      <div class="col-md-2">
+        <a class="navbar-brand" href="/" id="salespageblitzlogo">
+          <img src="{{ STATIC_URL }}images/logo-w.png" align="right" />
+        </a>
+      </div>
+    </div>
+
+  <div class="sales-header">
+
+     <h1>{{ sales_page.program_title }}</h1>
+
+     <div class="content">
+        {% if debug_mode %}
+           <textarea class="edit" name="intro" id="intro">{{ sales_page.program_introduction }}
+           </textarea>
+        {% else %}
+           {{ sales_page.program_introduction }}
+        {% endif %}
+
+        {% if blitz.group and not logo %}
+            <br />Begins
+            {% if debug_mode %}
+                <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}">
+            <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
+            <script type="text/javascript">
+              $(document).ready(function(e) {
+                  $('.selectpicker').selectpicker({ style: 'btn-info', size: "auto", });
+                });
+            </script>
+
+                <small><i>(Programs always start on Monday)</i></small>
+            {% else %}
+                {{ blitz.begin_date }}
+            {% endif %}             
+            {% if blitz.recurring %} (Recurring) {% endif %}
+            <br>
+
+            Price: 
+                {% if blitz.free %} FREE 
+                {% else %} ${{ blitz.price }} 
+                    {% if blitz.price_model == "R" %}
+                       Monthly Recurring
+                    {% else %}
+                       One-time
+                    {% endif %}
+                {% endif %}
+            </a>
+           </div>
+
+        {% endif %} 
+
+        <div class="submit-container">
+        {% if debug_mode %}
+            <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button" disabled>
+            Get started for free in {{ blitz.title }}
+            </button>
+        {% else %}
+            <button action="submit" class="obtn obtn-comment-half" type='submit'>
+               Get started for free in {{ blitz.title }}
+            </button>
+        {% endif %}
+     </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+{% if blitz.workout_plan %}
+    {% for week in blitz.workout_plan.weeks %}
+        <div class="col-md-12"><br>
+        {% for day in week.days %}
+            {% if week.days.count > 6 %}
+                <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 6 %}
+                <div class="col-md-2" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 5 %}
+                <div class="col-md-2" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 4 %}
+                <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 3 %}
+                <div class="col-md-4" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 2 %}
+                <div class="col-md-6" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 1 %}
+                <div class="col-md-12" style="margin-left: 0px;">
+            {% endif %}
+                <div class="overview-block workout-day-block">
+                    <div class="title"><span title="{{ day.workout.display_name }} {{ day.workout.description }}">{{ day.day_of_week|day_name }}</span></div>
+                    <div class="content">
+                        <ul>
+                            {% for exercise in day.workout.get_exercises %}
+                                {% if user.is_trainer %}
+                                    <li>
+                                    {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                    {{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                {% else %}
+                                    <li>
+                                    {% if week.week == blitz.current_relative_week or week.week == 1 and blitz.current_relative_week == 0 %}
+
+<a data-toggle="modal" data-target="#vidModal_{{ exercise.lift.slug }}" onclick="document.getElementById('iframe_{{ exercise.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ exercise.lift }} exercise';">
+{% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+{{ exercise }}: </a>{{ exercise.sets_display }}
+
+
+                        <!-- Video Modal -->
+                        <div class="modal fade" id="vidModal_{{ exercise.lift.slug }}" tabindex="-1" role="dialog" aria-labelledby="vidModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title" id="vidModalLabel"><font color="gray">{{ exercise.lift }}&nbsp;&nbsp;{{ exercise.title }} </font></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <iframe id="iframe_{{ group.lift.slug }}" width="520" height="335" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ exercise.lift }} exercise" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                    {% comment %}
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                    {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Video Modal -->
+
+                                   {% else %}
+                                        {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                        {{ exercise }}:
+                                   {% endif %}
+                                        {{ exercise.sets_display }}</li>
+                                {% endif %}
+ 
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+
+  <div class="sales-page-section-3">
+    {% if debug_mode %}
+    <div class="sales-section-overlay">
+      <div class="overlay-text">
+        <i class="icon-lightbulb" style="display: none;"></i> This section just explains what training on Blitz is like (for now, you can't edit or remove it).
+      </div>
+    {% else %}
+    {% endif %}
+    <div class="container" style="padding: 20px;">
+      <div class="row">
+        <h1>How we'll take your fitness to the next level</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-4" style="margin-left: 0px">
+          <img src="{{ STATIC_URL }}images/vp1.png">
+          <h3>
+            A plan that’s right for you.
+          </h3>
+          <div class="desc">
+            There’s no such thing as a one-size-fits-all program. I’ll make you a custom plan that fits your goals, fitness level, and training/eating preferences.
+          </div>
+        </div>
+        <div class="col-md-4">
+          <img src="{{ STATIC_URL }}images/vp2.png">
+          <h3>
+            Someone that’s got your back.
+          </h3>
+          <div class="desc">
+            Feedback and support is often the difference between reaching goals or staying stagnant. I’ll keep you on track and provide the info (or ass-kicking) you need.
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <img src="{{ STATIC_URL }}images/vp3.png">
+          <h3>
+            The easiest tracking ever.
+          </h3>
+          <div class="desc">
+            Since your workouts and diet goals are set up for you, so all you have to do is show up and check them off. No more tedious tracking—you just focus on your plan.
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {% if debug_mode %}
+    </div>
+    {% else %}
+    {% endif %}
+  </div>
+
+
+  <div class="sales-page-section-4">
+    <div class="container" style="padding: 20px;">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <h1>
+            Don’t keep settling for the same results.
+          </h1>
+          <div class="desc">
+            Get the progress and body you deserve. I’ll make it my personal mission to get you there.
+          </div>
+
+          <div class="submit-container">
+          {% if debug_mode %}
+            <button class="obtn full-width" style="opacity: 0.5;" class="disabled-button">
+              Sign up for {{ blitz.title }}
+            </button>
+          {% else %}
+            {% if logo %}
+            <button class="obtn obtn-comment-half" disabled>
+               Sign up for the Program
+            </button>
+            {% else %}
+            <button action="submit" class="obtn full-width" type='submit'>
+              Sign up for {{ blitz.title }}
+            </button>
+            {% endif %}
+          {% endif %}
+          </div>
+        </form>
+<script type="text/javascript">
+$('input[type=file]').change(function(e) { document.SalesBlitz.submit(); });
+</script> 
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sales-footer">
+      ©Blitz MMXV
+  </div>
+
+{% if debug_mode %} 
+  <div id="savebar">
+    <div class="content">
+      This is a preview of how your page will look to potential clients.
+      <button action="submit" class='btn-outline' type='submit' onclick="document.forms['SalesBlitz'].submit();">
+        <div class="savetext">Save</div>
+      </button>
+    </div>
+  </div>
+{% else %} 
+  
+{% endif %}
+
+  </div>
+
+{% endblock outer_content %}
+
