@@ -80,16 +80,11 @@ UNIT_CHOICES = (
     ('I', 'Imperial'),
 )
 
-MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',))
+MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',), ('NONE', 'None',))
 
 FEE_CHOICES = (('O', 'One-time',), ('R', 'Recurring',))
 
 PAY_CHOICES = (('P', 'PayPal',), ('V', 'Venmo',), ('D', 'Direct Deposit',))
-
-#
-# This is junk here; going to replace this all with a new custom user model instead but dont feel like
-# figuring out now
-#
 
 # return date for next specified weekday (Monday=0), inclusive of date provided
 def next_weekday(d, weekday):
@@ -610,14 +605,6 @@ class Client(models.Model):
                     return True
         return False
 
-
-MACRO_STRATEGIES = (
-    ('M', 'Macros Only'),
-    ('C', 'Calories Only'),
-    ('B', 'Both Macros And Calories'),
-    ('N', 'N/A'),
-)
-
 class Blitz(models.Model):
 # /trainer.short_name resolves to trainer id, which ties to 1-n SalesPages
 # /trainer.short_name/blitz.url_slug resolves to specific blitz
@@ -649,7 +636,7 @@ class Blitz(models.Model):
 
     # macros
     uses_macros = models.BooleanField(default=False)
-    macro_strategy = models.CharField(max_length=1, default="DEFAULT", choices=MACRO_STRATEGIES)
+    macro_strategy = models.CharField(max_length=10, default="DEFAULT", choices=MACROS_CHOICES)
 
     # payment
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)

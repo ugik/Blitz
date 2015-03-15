@@ -344,6 +344,9 @@ def save_file(file, pk_value=0, path='/documents/'):
 
 # given a macro formula, set macros for specified blitz and all or (optional) specified client
 def blitz_macros_set(blitz, formula, client=None, macros_data=None):
+    if formula == 'NONE':
+        return
+
     if client:
         clients = [client]
     else:

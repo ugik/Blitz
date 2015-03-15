@@ -88,7 +88,7 @@ class Command(BaseCommand):
         joy_beginner_blitz.sales_page_content = content
         joy_beginner_blitz.url_slug = "joy-victoria-bootyful-beginnings"
         joy_beginner_blitz.uses_macros = True
-        joy_beginner_blitz.macro_strategy = 'M'
+        joy_beginner_blitz.macro_strategy = 'DEFAULT'
         joy_beginner_blitz.price = 499
         joy_beginner_blitz.recurring = False
         joy_beginner_blitz.group = True
@@ -108,7 +108,7 @@ class Command(BaseCommand):
         joy_advanced_blitz.sales_page_content = content
         joy_advanced_blitz.url_slug = "joy-victoria-gluteal-goddess"
         joy_advanced_blitz.uses_macros = True
-        joy_advanced_blitz.macro_strategy = 'M'
+        joy_advanced_blitz.macro_strategy = 'DEFAULT'
         joy_advanced_blitz.price = 499
         joy_beginner_blitz.recurring = False
         joy_beginner_blitz.group = True
@@ -145,7 +145,7 @@ class Command(BaseCommand):
         perryman_blitz.sales_page_content = content
         perryman_blitz.url_slug = "perryman-advanced"
         perryman_blitz.uses_macros = True
-        perryman_blitz.macro_strategy = 'M'
+        perryman_blitz.macro_strategy = 'DEFAULT'
         perryman_blitz.price = 500
         perryman_blitz.recurring = False
         perryman_blitz.group = True
@@ -182,7 +182,7 @@ class Command(BaseCommand):
             title="Posting and Toasting", begin_date=blitz_start_date, url_slug="CT")
         blitz.sales_page_content = content
         blitz.uses_macros = True
-        blitz.macro_strategy = 'M'
+        blitz.macro_strategy = 'DEFAULT'
         blitz.price = 200
         blitz.recurring = False
         blitz.group = True
@@ -214,7 +214,7 @@ class Command(BaseCommand):
             title="Posting and Toasting 2", begin_date=blitz_start_date + datetime.timedelta(weeks=1))
         blitz2.sales_page_content = content
         blitz2.uses_macros = True
-        blitz2.macro_strategy = 'M'
+        blitz2.macro_strategy = 'DEFAULT'
         blitz2.price = 49.99
         blitz2.provisional = True
         blitz2.recurring = True

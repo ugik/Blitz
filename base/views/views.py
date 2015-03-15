@@ -230,7 +230,7 @@ def blitz_setup(request):
             blitz.url_slug = form.data['url_slug']
             blitz.price = charge
             blitz.uses_macros = True
-            blitz.macro_strategy = 'M'
+            blitz.macro_strategy = form.data['formulas']
  
             blitz.recurring = False if forceGroup or form.data['blitz_type'] == "GRP" else True
             blitz.group = True if forceGroup or form.data['blitz_type'] == "GRP" else False

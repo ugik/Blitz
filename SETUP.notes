@@ -22,8 +22,8 @@ find . -name file.ext
 rename -n s/"foo"/"bar"/g  *
 
 #South
-./manage.py schemamigration <appname> --auto
-./manage.py migrate <appname>
+./manage.py schemamigration base --auto
+./manage.py migrate base
 
 #runserver processes
 ps aux | grep -i manage
