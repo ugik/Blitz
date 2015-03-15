@@ -6,9 +6,72 @@
 
 {% block morehead %}
 
+<script type="text/javascript">
+$(document).ready(function(){       
+            var scroll_pos = 0;
+            $(document).scroll(function() { 
+                scroll_pos = $(this).scrollTop();
+                if(scroll_pos > 210) {
+                    $("navbar-inverse").css('background-color', 'transparent');
+                } else {
+                    $("navbar-inverse").css('background-color', '#444');
+                }
+            });
+        });
+</script>
+
 {% endblock %}
 
 {% block outer_content %}
+
+{% block logged_out_header %}
+{% endblock %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top logged-out" style="border-radius: 0px">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-xs-12 h70">
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+             <a class="branding" href="/" id="logo2">
+                  <img style="padding: 0px;" src="{{ STATIC_URL }}/images/logo-w@2x.png" />
+             </a>
+
+         </div>
+       </div>
+      <div class="col-md-8 col-xs-12">
+        <!-- Everything you want hidden at 940px or less, place within here -->
+          <div class="collapse navbar-collapse move-left" id="bs-example-navbar-collapse-1">
+            <ul id="top-level-navs logged-out-navs" class="nav navbar-nav" style="float: right;">
+                <li class="nav-item">
+                    <a class="" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/about">For trainers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/social-media">For social media</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/browse">Browse plans</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/create-plan">Create a plan</a>
+                </li>
+                <li class="">
+                    <a class="obtn login-button" style="  padding: 10px 30px; margin-top: 13px;" href="/login?standard">Login</a>
+                </li>
+            </ul>
+          </div>
+      </div>
+  </div>
+</div>
+</nav>
 
 
 <div class="allplanscover">
@@ -17,13 +80,13 @@
       <div class="row">
         <div class="col-md-4" style="text-align: center; margin-top: 50px;">
           <div id="" class="shrink">
-              <img src="{{ STATIC_URL }}/images/logo-w.png" style="max-width: 70px;">
+              <img src="" style="max-width: 70px;">
           </div>
         </div>
       </div>
 
 
-  <div class="row" style="min-height: 300px;">
+  <div class="row" style="min-height: 300px; margin-top: 5%;">
       <div class="col-md-4" style="text-align: left;">
         <h2 class="lightfont" style="text-align: center; line-height: 1.4; color: white; margin-bottom: 10px;">
           Getting in awesome shape has never been easier.

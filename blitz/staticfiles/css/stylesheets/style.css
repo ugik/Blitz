@@ -8192,3 +8192,34 @@ img.program-trainer-headshot {
 .program-block {
   margin-bottom: 20px;
 }
+
+/* line 7170, ../sass/style.scss */
+.login-button :hover {
+  background: #7ab2ea;
+}
+
+/* line 7175, ../sass/style.scss */
+#logged-out-navs ul li a {
+  padding-left: 25px;
+  padding-right: 25px;
+  text-shadow: 0px 0px 2px #969696;
+}
+
+/* line 7181, ../sass/style.scss */
+.logged-out {
+  border-bottom: none;
+  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.95)), color-stop(100%, transparent));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3000000', endColorstr='#00000000',GradientType=0 );
+  /* IE6-9 */
+}
