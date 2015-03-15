@@ -1898,6 +1898,15 @@ def blitz_signup(request, short_name, url_slug):
                     )
                 # add new client to Blitz
                 utils.add_client_to_blitz(blitz, client)
+
+                # set blitz for specific client            
+                blitz_macros_set(blitz=blitz, formula=blitz.macro_strategy, client=client)   
+
+                # alert trainer of new client signup
+                alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="new free client registration",
+                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
                 user = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
                 login(request, user)
 
@@ -2060,6 +2069,9 @@ def payment_hook(request, pk):
 
             elif new_client:   # if this is not existing client re-entering CC info
                 utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan, price=blitz.price)
+
+                # set macros for specific client
+                blitz_macros_set(blitz=blitz, formula=blitz.macro_strategy, client=client)
 
                 if "@example" not in client.user.email:
                     mail_admins('We got a signup bitches!', '%s paid $%s for %s' % (str(client), str(blitz.price), str(blitz)))
