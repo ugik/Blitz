@@ -3,6 +3,7 @@
 
 {% block morehead %}
     <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
     <script type='text/javascript' src='{{ STATIC_URL }}js/underscore-min.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/backbone-min.js'></script>
     <!--<script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.min.js'></script>-->
@@ -14,6 +15,9 @@
     <script type='text/javascript' src='{{ STATIC_URL }}js/homepage.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/intromodal.js'></script>
+
+    <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 {% endblock %}
 
 {% block main %}
