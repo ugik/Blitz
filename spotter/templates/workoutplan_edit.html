@@ -423,7 +423,7 @@ function cancel_edit(inuse, exercise, lift, display, set1, set2, set3, set4, set
 {% if not workoutplan %}
     <h3>No workout plan</h3>
 {% else %}
-    <h1><input id='plan-name' type='text' style='font-size:24px; height:30px; width:300px; color: #FFFFFF; background-color: #000000;' value='{{ workoutplan.name }}'/> - Program details</h1>
+    <h1><input id='plan-name' type='text' style='' value='{{ workoutplan.name }}'/> - Program details</h1>
 
 <script>
 // save workoutplan name
@@ -482,7 +482,7 @@ $('#plan-name').blur(function() {
           &nbsp;&nbsp;<small>{{ workoutplanday.workout }}</small>
         </td>
         <td colspan="2">
-        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='font-size:14px; width:450px; color: #FFFFFF; background-color: gray;' value='{{ workoutplanday.workout.description }}'/>
+        <input id='day-desc_{{ workoutplanweek.pk }}_{{ workoutplanday.pk }}' type='text' style='' value='{{ workoutplanday.workout.description }}'/>
 
 <script>
 // save workout description
