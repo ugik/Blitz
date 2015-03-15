@@ -624,6 +624,7 @@ class Blitz(models.Model):
     group = models.BooleanField(default=False) # Group, default is Individual
     free = models.BooleanField(default=False) # Free, default is paid
     sample = models.BooleanField(default=False) # Sample from Blitz, for Free Group standard workouts
+    marketplace = models.BooleanField(default=True) # Show in marketplace
 
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
