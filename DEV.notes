@@ -298,5 +298,7 @@ week of 3.2
 week of 3.9
 - increase size of vanity URL
 - speed up dashboard by reworking client.unviewed_feeditems
+- support for Blitz sample programs in a marketplace
+- enable 'None' macros
 
 

@@ -8,7 +8,7 @@ import re
 from base.models import Trainer, Blitz, BlitzInvitation
 from workouts.models import WorkoutPlan
 
-MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',))
+MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',), ('NONE', 'None',))
 BLITZ_TYPE_CHOICES = (('GRP', 'Group',), ('IND', 'Individual',))
 
 class LoginForm(forms.Form):

@@ -24,7 +24,7 @@ urlpatterns += patterns(
     '',
 
 
-    url("^dev/custom-trainer-page$", TemplateView.as_view(template_name="custon_trainer_page.html"), name="custom_trainer_page"),
+    url("^/custom-trainer-page$", TemplateView.as_view(template_name="custom_trainer_page.html"), name="custom_trainer_page"),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hijack/', include('hijack.urls')),
@@ -125,6 +125,9 @@ urlpatterns += patterns(
 
     url(r'^sales-blitz$', 'base.views.sales_blitz', name='sales_blitz'),
     url(r'^sales-blitz/(?P<plan_slug>\S+)', 'base.views.sales_blitz', name='sales_blitz'),
+
+    url(r'^sample-blitz$', 'base.views.sales_blitz', name='sample_blitz'),
+    url(r'^sample-blitz/(?P<plan_slug>\S+)', 'base.views.sales_blitz', name='sample_blitz'),
 
     url(r'^termsofuse$', 'base.views.terms_of_use', name='terms_of_use'),
     url(r'^privacypolicy$', 'base.views.privacy_policy', name='privacy_policy'),

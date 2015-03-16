@@ -96,8 +96,13 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     content.save()
     return content
 
-#TODO handle macro_formula optional param
 def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=None, macro_formula=None, invitation=None):
+
+    if client.blitzmember_set.all():    # client is already enrolled in a Blitz
+        if not client.blitzmember_set.all()[0].blitz.group:
+            client.blitzmember_set.all()[0].blitz.delete()
+        else:
+            client.blitzmember_set.all()[0].delete()
 
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
@@ -105,11 +110,14 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
         blitz.provisional = False
         blitz.recurring = True
         blitz.title = "individual:%s blitz:%s" % (client.name, blitz.url_slug)
-        blitz.workout_plan = workoutplan
-        blitz.price = price
+        if price:
+            blitz.price = price 
+        if workoutplan:
+            blitz.workout_plan = workoutplan 
+        if macro_formula:
+            blitz.macro_strategy = macro_formula 
         blitz.url_slug = ''
         blitz.uses_macros = True
-        blitz.macro_strategy = macro_formula if macro_formula else 'DEFAULT'
         blitz.save()
 
     if not start_date:
@@ -344,6 +352,7 @@ def save_file(file, pk_value=0, path='/documents/'):
 
 # given a macro formula, set macros for specified blitz and all or (optional) specified client
 def blitz_macros_set(blitz, formula, client=None, macros_data=None):
+
     if client:
         clients = [client]
     else:
@@ -363,6 +372,8 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
             factor = float(0.9)
         elif formula == 'BEAST':
             factor = float(1.15)
+        elif formula == 'NONE':
+            factor = float(0)
         else:
             factor = float(1.0)
 
@@ -395,6 +406,12 @@ def blitz_macros_set(blitz, formula, client=None, macros_data=None):
 
             elif 'rest_calories' in macros_data:  # called during on-boarding, same format
                 client.macro_target_json = macros_data
+
+        else:    # build json dict
+            if factor > 0:
+                client.macro_target_json = '{"training_protein_min": %0.0f, "training_protein": %0.0f, "rest_protein_min": %0.0f, "rest_protein": %0.0f, "training_carbs_min": %0.0f, "training_carbs": %0.0f, "rest_carbs_min": %0.0f, "rest_carbs": %0.0f, "training_calories_min": %0.0f, "training_calories": %0.0f, "rest_calories_min": %0.0f, "rest_calories": %0.0f, "training_fat_min": %0.0f, "training_fat": %0.0f, "rest_fat_min": %0.0f, "rest_fat": %0.0f}' % ( w_protein*min_factor, w_protein, r_protein*min_factor, r_protein, w_carbs*min_factor, w_carbs, r_carbs*min_factor, r_carbs, w_cals*min_factor, w_cals, r_cals*min_factor, r_cals, w_fat*min_factor, w_fat, r_fat*min_factor, r_fat )
+            else:
+                client.macro_target_json = ''
 
         client.save()
 

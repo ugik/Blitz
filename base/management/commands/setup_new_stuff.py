@@ -63,7 +63,7 @@ class Command(BaseCommand):
             blitz.recurring = True
             blitz.sales_page_content = content
             blitz.uses_macros = True
-            blitz.macro_strategy = 'M'
+            blitz.macro_strategy = 'DEFAULT'
             blitz.price = 50
             blitz.save()
 
@@ -99,7 +99,7 @@ class Command(BaseCommand):
             blitz.price_model = "O"
             blitz.sales_page_content = content
             blitz.uses_macros = True
-            blitz.macro_strategy = 'M'
+            blitz.macro_strategy = 'DEFAULT'
             blitz.price = 100
             blitz.video_html = "<iframe width='480' height='270' src='//www.youtube.com/embed/uzYoxGY1BmE?feature=player_detailpage' frameborder='0' allowfullscreen></iframe>"
             blitz.save()

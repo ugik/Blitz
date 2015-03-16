@@ -80,22 +80,22 @@ UNIT_CHOICES = (
     ('I', 'Imperial'),
 )
 
-MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',))
+MACROS_CHOICES = (('DEFAULT', 'Default',), ('BULK', 'Bulk',), ('CUT', 'Cut',), ('BEAST', 'Beast',), ('NONE', 'None',))
 
 FEE_CHOICES = (('O', 'One-time',), ('R', 'Recurring',))
 
 PAY_CHOICES = (('P', 'PayPal',), ('V', 'Venmo',), ('D', 'Direct Deposit',))
-
-#
-# This is junk here; going to replace this all with a new custom user model instead but dont feel like
-# figuring out now
-#
 
 # return date for next specified weekday (Monday=0), inclusive of date provided
 def next_weekday(d, weekday):
     days_ahead = weekday - d.weekday()
     if days_ahead < 0: # Target day already happened this week
         days_ahead += 7
+    return d + datetime.timedelta(days_ahead)
+
+# return date for last specified weekday (Monday=0), inclusive of date provided
+def last_weekday(d, weekday):
+    days_ahead = weekday - d.weekday()
     return d + datetime.timedelta(days_ahead)
 
 def user_type(user):
@@ -279,6 +279,10 @@ class Trainer(models.Model):
         thumb_io = StringIO.StringIO()
         if '.png' in image.filename:
             thumb.save(thumb_io, format='PNG')
+        elif '.gif' in image.filename:
+            thumb.save(thumb_io, format='GIF')
+        elif '.ico' in image.filename:
+            thumb.save(thumb_io, format='ICO')
         else:
             thumb.save(thumb_io, format='JPEG')
 
@@ -446,7 +450,16 @@ class Client(models.Model):
         thumb = ImageOps.fit(image, size, Image.ANTIALIAS)
 
         thumb_io = StringIO.StringIO()
-        thumb.save(thumb_io, format='JPEG')
+        thumb_io = StringIO.StringIO()
+        if '.png' in image.filename:
+            thumb.save(thumb_io, format='PNG')
+        elif '.gif' in image.filename:
+            thumb.save(thumb_io, format='GIF')
+        elif '.ico' in image.filename:
+            thumb.save(thumb_io, format='ICO')
+        else:
+            thumb.save(thumb_io, format='JPEG')
+
         thumb_contentfile = ContentFile(thumb_io.getvalue())
 
         filename = image_path.split('/')[-1]
@@ -592,14 +605,6 @@ class Client(models.Model):
                     return True
         return False
 
-
-MACRO_STRATEGIES = (
-    ('M', 'Macros Only'),
-    ('C', 'Calories Only'),
-    ('B', 'Both Macros And Calories'),
-    ('N', 'N/A'),
-)
-
 class Blitz(models.Model):
 # /trainer.short_name resolves to trainer id, which ties to 1-n SalesPages
 # /trainer.short_name/blitz.url_slug resolves to specific blitz
@@ -611,6 +616,7 @@ class Blitz(models.Model):
     group = models.BooleanField(default=False) # Group, default is Individual
     free = models.BooleanField(default=False) # Free, default is paid
     sample = models.BooleanField(default=False) # Sample from Blitz, for Free Group standard workouts
+    marketplace = models.BooleanField(default=True) # Show in marketplace
 
     sales_page_content = models.ForeignKey('base.SalesPageContent', null=True)
 
@@ -630,7 +636,7 @@ class Blitz(models.Model):
 
     # macros
     uses_macros = models.BooleanField(default=False)
-    macro_strategy = models.CharField(max_length=1, default="DEFAULT", choices=MACRO_STRATEGIES)
+    macro_strategy = models.CharField(max_length=10, default="DEFAULT", choices=MACROS_CHOICES)
 
     # payment
     price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
@@ -639,10 +645,8 @@ class Blitz(models.Model):
     objects = GetOrNoneManager()
 
     def save(self, *args, **kwargs):
-#        if self.urlkey == "":
-#            self.urlkey = ''.join(random.choice(string.digits) for x in range(6))
-        # make sure begin_date is a Monday
-        self.begin_date = next_weekday(self.begin_date, 0)
+        # make sure begin_date is a Monday, unless sample blitz, use next Monday
+        self.begin_date = last_weekday(self.begin_date, 0) if self.sample else next_weekday(self.begin_date, 0)
 
         super(Blitz, self).save(*args, **kwargs)
 

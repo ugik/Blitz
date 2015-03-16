@@ -40,20 +40,17 @@ $(document).ready(function(){
         <!-- Everything you want hidden at 940px or less, place within here -->
           <div class="collapse navbar-collapse move-left" id="bs-example-navbar-collapse-1">
             <ul id="top-level-navs logged-out-navs" class="nav navbar-nav" style="float: right;">
-                <li class="nav-item">
+                <li class="nav-item {% ifequal request.path "/login" %}active{% endifequal %}">
                     <a class="" href="/">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {% ifequal request.path "/about" %}active{% endifequal %}">
                     <a class="" href="/about">For trainers</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {% ifequal request.path "/social-media" %}active{% endifequal %}">
                     <a class="" href="/social-media">For social media</a>
                 </li>
-                <li class="nav-item">
-                    <a class="" href="/browse">Browse plans</a>
-                </li>
-                <li class="nav-item">
-                    <a class="" href="/create-plan">Create a plan</a>
+                <li class="nav-item {% ifequal request.path "/all" %}active{% endifequal %}">
+                    <a class="" href="/all">Browse plans</a>
                 </li>
                 <li class="">
                     <a class="obtn login-button" style="  padding: 10px 30px; margin-top: 13px;" href="/login?standard">Login</a>
