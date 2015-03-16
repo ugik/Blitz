@@ -1,4 +1,4 @@
-Dev work
+Dev work diary
 
 week of 9.8
 - reconstitute working localhost
@@ -272,7 +272,31 @@ week of 2.16
 - improve invite email headshot layout
 - payments report account for non-recurring programs
 - change email invite url to absolute path
-- clean up usage report
+- clean up/simplify usage report
 - change headshot image save dimensions to 300x300
+- improve program assign for spotter
+- use BlitzMember.price for price calc
+- html program start email
+- trainer workoutday log-workout preview
+- client program show current (relative) week and current week exercise videos
+- spotter payments trainer and month filters
+
+week of 2.23
+- client program workout day hover-over showing description
+- client settings reset in settings
+- fix date references in client signup intro
+- fix end date on sales page (begin_date + num_weeks)
+- improved log-workout
+- Bootstrap3 migration
+
+week of 3.2
+- improved usage digest and payments report
+- nightly payments digest
+- default vanity URL in /register-trainer
+- add prefix and description to exercise, enabling 'supersets'
+
+week of 3.9
+- increase size of vanity URL
+- speed up dashboard by reworking client.unviewed_feeditems
 
 

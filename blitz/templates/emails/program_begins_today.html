@@ -3,8 +3,8 @@
 {% block email_content %}
 
 <p>Hey {{ client }},</p>
-
-<p>Today is the day. Your program, {{ blitz }}, starts now.</p>
+<p>Today is the day</p> 
+<p>Your program, {{ client.get_blitz.title }}, starts now!</p>
 
 <br />
 

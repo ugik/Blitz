@@ -4,6 +4,24 @@
 {% load custom_exercise %}
 
 {% block morehead %}
+<script>
+	$(document).ready(function() {
+	    $('#nodetypeDialog').bind('show', function () {
+   	        setPrompt ('Nodetype for "' + decodeURI (rootName) + '"');
+	        document.getElementById ("woOption" + rootType).selected = true;
+	    });
+	});
+	function setPrompt (s) {
+		document.getElementById ("prompt").innerHTML = s;
+	}
+	function closeDialog () {
+		$('#nodetypeDialog').modal('hide');
+	}
+	function okWebpageDialog (){
+		$("#webpageDialog").modal ('hide');
+		};
+</script>
+
 {% endblock %}
 
 {% block above_content %}
@@ -21,11 +39,12 @@
   }
 </style>
 
+
     <div class="landscape-header coverphoto2">
         <div class="landscape-header-top" >
             <div class="container">
                 <div class="row">
-                    <div class="span12">
+                    <div class="col-md-12">
                     </div>
                 </div>
             </div>
@@ -33,7 +52,7 @@
         <div class="landscape-header-bottom">
             <div class="container">
                 <div class="row">
-                    <div class="span12">
+                    <div class="col-md-12">
                         <div class="content">
                             <div class="title">Program Overview</div>
                         </div>
@@ -47,7 +66,7 @@
 <div class="which-blitz">
     <div class="container">
         <div class="row">
-            <div class="span12">
+            <div class="col-md-12">
                     <span class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Programs <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -72,12 +91,16 @@
 
 {% block main %}
 {% if client or blitz.workout_plan %}
-    <div class="span8">
+    <div class="col-md-9">
+      <div class="col-md-12">
         <div class="overview-top-content overview-block">
             <div class="content">
                 <b>{{ blitz.title }}</b>
                 <p>{{ blitz.description|linebreaks }}</p>
-                <div class="dates">Start Date: {{ blitz.begin_date }}</div>
+                <div class="dates">Start Date: {{ blitz.begin_date }}
+                {% if blitz.current_relative_week > 0 %}
+                    <small><a href="#{{ blitz.current_relative_week }}">(currently in week: {{ blitz.current_relative_week }})</a></small></div>
+                {% endif %}
                 {% if blitz.workout_plan %}
                    {% if blitz.recurring %}
                    (recurring)
@@ -87,29 +110,89 @@
                 {% endif %}
             </div>
         </div>
+      </div>
     </div>
 {% endif %}
 
 {% if blitz.workout_plan %}
     {% for week in blitz.workout_plan.weeks %}
-        <div class="span12"><h3>Week {{ week.week }}:</h3>
-        {% for day in week.days %}
-            {% if week.days.count > 4 %}
-              <div class="span2" style="margin-left: 0px; margin-right: 25px !important;">
+        <div class="col-md-12">
+          <div class="col-md-12">
+            {% if week.week == blitz.current_relative_week %}
+                <h2><a name="{{ week.week }}">Current Week {{ week.week }}:</a></h2>
             {% else %}
-              <div class="span3" style="margin-left: 0px; margin-right: 20px!important;">
+                <h3>Week {{ week.week }}:</h3>
+            {% endif %}
+          </div>
+        {% for day in week.days %}
+            {% if week.days.count > 6 %}
+                <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 6 %}
+                <div class="col-md-2" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 5 %}
+                <div class="col-md-2" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 4 %}
+                <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 3 %}
+                <div class="col-md-4" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 2 %}
+                <div class="col-md-6" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 1 %}
+                <div class="col-md-12" style="margin-left: 0px;">
             {% endif %}
                 <div class="overview-block workout-day-block">
-                    <div class="title">{{ day.day_of_week|day_name }}</div>
+                    <div class="title"><span title="{{ day.workout.display_name }} {{ day.workout.description }}">{{ day.day_of_week|day_name }}</span></div>
                     <div class="content">
                         <ul>
                             {% for exercise in day.workout.get_exercises %}
                                 {% if user.is_trainer %}
-                                    <li>{{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                    <li>
+                                    {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                    {{ exercise.lift }}: {{ exercise.sets_display }}</li>
                                 {% else %}
-                                    <li>{{ exercise|custom_lift:client }}: 
+                                    <li>
+                                    {% if week.week == blitz.current_relative_week or week.week == 1 and blitz.current_relative_week == 0 %}
+
+<a data-toggle="modal" data-target="#vidModal_{{ exercise.lift.slug }}" onclick="document.getElementById('iframe_{{ exercise.lift.slug }}').src='https://www.youtube.com/embed?listType=search&list={{ exercise.lift }} exercise';">
+{% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+{{ exercise|custom_lift:client }}: </a>{{ exercise|custom_sets_display:client }}
+
+
+                        <!-- Video Modal -->
+                        <div class="modal fade" id="vidModal_{{ exercise.lift.slug }}" tabindex="-1" role="dialog" aria-labelledby="vidModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title" id="vidModalLabel"><font color="gray">{{ exercise.lift }}&nbsp;&nbsp;{{ exercise.title }} </font></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <iframe id="iframe_{{ group.lift.slug }}" width="520" height="335" style="margin: 0px auto; display: table;" src="https://www.youtube.com/embed?listType=search&list={{ exercise.lift }} exercise" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                    {% comment %}
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                    {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Video Modal -->
+
+                                   {% else %}
+                                        {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                        {{ exercise|custom_lift:client }}:
+                                   {% endif %}
                                         {{ exercise|custom_sets_display:client }}</li>
                                 {% endif %}
+ 
                             {% endfor %}
                         </ul>
                     </div>
@@ -121,7 +204,7 @@
 {% endif %}
 
 
-<div class="span8">
+<div class="col-md-8">
     {% if client %}
         {% if not blitz.workout_plan %}
            <div class="empty-placeholder">
@@ -131,7 +214,7 @@
         {% endif %}
     {% else %}
         <br>
-        <div class="span10">
+        <div class="col-md-10">
         <div class="alert alert-info">
         <b>Sales page link:</b><a href="/{{ trainer.short_name }}/{{ blitz.url_slug }}" target="_blank"><u>
         {% if not trainer.short_name = blitz.url_slug %}

@@ -1,0 +1,631 @@
+{% extends "base.html" %}
+
+{% block morehead %}
+<style>
+
+	body {
+		background: #fcfcfc;
+		color: #4b4b4b;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		margin-top: 0;
+	}
+
+	hr {
+		border: 1px solid #393837;
+		padding: 0px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+
+	.header {
+		background: url('/static/images/background.png') #262523;
+		color: #fff;
+		margin-bottom: 50px;
+	}
+
+	.header .inner {
+		margin-top: 48px;
+	}
+
+	.testimonials {
+		color: #4b4b4b;
+	}
+
+	.show-cases {
+		background: #262523;
+		height: 548px;
+		/*margin-bottom: 50px;*/
+		color: #fff;
+		
+	}
+
+	.show-cases .inner {
+		margin-top: 60px;
+	}
+
+	.show-cases .after-before {
+		/*width: 554px;*/
+		min-height: 349px;
+		background: #fff;
+		display: table;
+		color: #202020;
+		margin-right: 30px;
+		float: left;
+	}
+
+	.show-cases .after-before img {
+		height: 349px;
+	}
+
+	.after-before .after {
+		float: left;
+		margin-top: 5px;
+		margin-right: 5px;
+	}
+
+	.after-before .before {
+		float: right;
+		margin-top: 6px;
+	}
+
+	.pricing {
+		border-bottom: 1px solid #f1f1f1;
+	}
+
+	.pricing .inner {
+		margin-top: 30px;
+	}	
+
+	.price-plan {		
+		border: 1px solid #d9d9d9;
+		border-radius: 7px;
+		text-align: center;
+		margin-right: 0px;
+		font-size: 18px;	
+		margin-bottom: 20px;
+		padding: 20px;
+		margin-left: 0px;
+	}
+
+	.price-plan .action {
+
+	}
+
+	.price-plan button {
+	}
+
+	.marketing .inner {
+		margin-top: 60px;
+	}
+
+	.marketing {
+
+	}
+
+	.message {
+		padding: 30px;
+		line-height: 1.5;
+		font-size: 1.1em;
+	}
+
+	.contact {
+		padding: 30px;
+		text-align: center;
+	}
+
+	.contact img {
+		width: 150px;
+	}
+
+	.message, .contact {
+		background: #fff;
+		border-radius: 7px;
+		border: 1px solid #d9d9d9;
+		margin-bottom: 30px;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+
+	#trainer-logo img {
+		/*width: 243px;*/
+		height: 25px;
+		float: left;
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+
+	#logo {
+		float: right;
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+	}
+
+	.trainer-cover {
+		color: #bdbdbd;
+	}
+
+	.trainer-cover img {
+		border: 4px solid #fff;
+	}
+
+	.trainer-info p {
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	.trainer-info ul li.title {
+		margin: 0;
+		padding: 0;
+		font-weight: bold;
+		list-style: none;
+	}
+
+	.trainer-info ul li.title * {
+		margin-top: 20px;
+		margin-bottom: 10px;
+		padding: 0;
+		font-size: 1.3em;
+	}
+
+	.obtn {
+		margin-bottom: 17px;
+		margin-right: 17px;
+		border-radius: 7px;
+	}
+
+	.obtn.btn-default {
+		background: none;
+		border: 2px solid #fff;
+	}
+
+	.comment {
+		
+		margin-bottom: 28px;
+		color: #4c4c4c;
+		margin-left: 0px;
+	}
+
+	.comment .text {
+		border: 1px solid #efefef;
+		background: #fff;
+		padding: 20px;
+		margin-bottom: 20px;
+		border-radius: 10px;
+	}
+
+	.comment img.img-circle {
+		border: 2px solid #fff;
+		width: 60px;
+		margin-right: 20px;
+	}
+
+	.comment .about-client {
+		width: 100%;
+		min-height: 60px;
+		padding-top: 0px;
+		padding-bottom: 10px;
+	}
+
+	.comment .about-client .client-picture {
+		display: inline-block;
+		float: left;
+	}
+
+	.comment .about-client .client-info {
+		float: left;
+		line-height: 10px;
+		margin-top: 14px;
+		display: inline-block;
+	}
+
+	.comment .about-client .client-name {
+		font-weight: bold;
+	}
+
+	.y-separator {
+		color: #00b1f9;
+	}
+
+	.after-before .training-progress-before {
+		color: #fff;
+		margin-top: -23px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	.after-before .training-progress-after {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	.client-progress {
+		margin-right: 30px;
+		margin-bottom: 20px;
+	}
+
+	.getting-started {
+		background: url('/static/images/background.png') #28251f;
+		color: #fff;
+		text-align: center;
+		font-size: 22px;
+	}
+
+	.getting-started h1 {
+		color: #fff;
+		margin-top: 60px;
+		margin-bottom: 65px;
+		padding: 0px;
+	}
+
+	.getting-started button {
+		margin-top: 57px;
+		margin-bottom: 65px;
+	}
+
+	.price-plan ul {
+	  margin-bottom: 30px;
+	  margin-left: -25px!important;
+	}
+
+</style>
+{% endblock %}
+
+{% block outer_content %}
+<div class="header">
+	<div class="container" style="">
+		<div class="row mobilepad">
+			<div class="inner">
+				<div class="row">
+					<div class="col-md-2 col-xs-12" style="padding: 0px; text-align: center;">
+						<a href="/" id="" >
+			                <img src="{{ STATIC_URL }}images/lexi/LL-logo.png" style="max-width: 70px;" />
+			            </a>
+		            </div>
+		            <div class="col-md-1 col-md-offset-9">
+						<a href="/" id="" style="padding: 20px;">
+			                <img src="{{ STATIC_URL }}images/logo.png"  class="mobile-hide" />
+			            </a>
+			            <div class="clearfix"></div>
+					</div>
+				</div>
+
+				<hr/>
+				<div class="row trainer-info" style="padding-top: 30px; padding-bottom: 50px;">
+					<div class="col-md-2 col-xs-6 trainer-cover" style="text-align: center;">
+						<img class="img-circle" src="{{ STATIC_URL }}images/lexi/LL-headshot.png" alt="" align="center">
+						<p>San Francisco, CA</p>
+					</div>
+
+					<div class="col-md-6 col-xs-12">
+						<div class="trainer-attributes">
+							<h1>Lexi Love</h1>
+							<h3>Health and Fitness Coach</h3>	
+						</div>
+
+						<ul>
+							<li class="title"><h4>Background</h4></li>
+							<li>Former model</li>
+							<li>Founder, VKTV Healthy Cooking Youtube channel</li>
+							<li>Published health & fitness author</li>
+							<li>Experienced in fitness/diet program design for professional models</li>
+						</ul>
+					</div>
+
+					<div class="col-md-1" style="min-height: 20px; max-width: 64px;">
+						&nbsp;
+					</div>
+
+					<div class="col-md-3">
+						<button class="obtn full-width" onclick="window.location='mailto:byimagination@gmail.com?subject=Coaching on Blitz&body=Hey I saw your plan on blitz, wanted to learn more, can we set up a 15-30 min video chat?'; return false;">Message Lexi</button>
+						<button class="obtn btn-default full-width" onclick="window.location='#pricing'; return false;">View Plans & Pricing</button>
+					</div>
+
+				</div>	
+			</div><!--/ inner -->
+		</div><!--/ container -->
+	</div>
+</div><!--/ header -->
+
+<div class="container mobilepad">
+	<div class="row testimonials" style="text-align: center; margin-bottom: 30px;">
+		<h2>What people who've worked with Lexi are saying..</h2>
+	</div>
+
+	<div class="row testimonials">
+		<div class="col-md-6 comment">
+			<div class="text">
+				Lexi’s fitness program gave me the resources, direction, and online support I needed to start eating right and get phenomenal results out of my workouts.
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/marc_client4.jpg" alt="">
+				</div>
+				<div class="client-info">
+					<p class="client-name">Tom K.</p>
+					<!-- <p>25 | Long Branch, NJ</p> -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 comment">
+			<div class="text">
+				Lexi’s couples fitness plan was so much fun! I never knew I could learn so much about my partner just by working out together.
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/marc_client3.jpg" alt="">	
+				</div>
+				<div class="client-info">
+					<p class="client-name">Denise J.</p>
+					<!-- <p>25 | Long Branch, NJ</p> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row testimonials">
+		<div class="col-md-6 comment">
+			<div class="text">
+				I wasn’t getting results from my workout, exercising just wasn’t enough to help me reach my fitness goals. Lexi understood my dissatisfaction and created a fitness plus nutrition plan tailored to my needs. Her plan gave me the direction and the online support I needed to keep me focused on my fitness goals throughout the week. This was the first time I reached my fitness goals and obtained results.
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/marc_client2.jpg" alt="">	
+				</div>
+				<div class="client-info">
+					<p class="client-name">Laura L.</p>
+					<!-- <p>25 | Long Branch, NJ</p> -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 comment">
+			<div class="text">
+				My fitness progress would either stall completely or backpedal during business trips. I was always “too busy” to exercise and I allowed myself to eat whatever I wanted because I was traveling. Lexi designed a fitness plus diet plan to accommodate my schedule. I really enjoy the results, convenience, and how easy it is to stick to the program.
+			</div>
+			<div class="about-client">
+				<div class="client-picture">
+					<img class="img-circle" src="{{ STATIC_URL }}images/marc_client1.jpg" alt="">
+				</div>
+				<div class="client-info">
+					<p class="client-name">Michelle D.</p>
+					<!-- <p>25 | Long Branch, NJ</p> -->
+				</div>
+			</div>
+		</div>
+	</div><!--/ testimonials -->
+</div><!--/ container -->
+
+<div class="header">
+	<div class="container mobilepad">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 style="text-align: center; padding: 40px;">Lexi's clients, before and after</h1>
+			</div>
+		</div>
+		<div class="row" style="margin-bottom: 40px;">
+			<div class="col-md-4">
+				<div class="after-before" style="border: 4px solid white; border-radius: 8px; margin-bottom: 20px;">
+					<img src="{{ STATIC_URL }}images/lexi/ba1.png" alt="" style="max-width: 100%;">
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="after-before" style="border: 4px solid white; border-radius: 8px; margin-bottom: 20px;">
+					<img src="{{ STATIC_URL }}images/lexi/ba2.png" alt="" style="max-width: 100%;">
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="after-before" style="border: 4px solid white; border-radius: 8px; margin-bottom: 20px;">
+					<img src="{{ STATIC_URL }}images/lexi/ba3.png" alt="" style="max-width: 100%;">
+				</div>
+			</div>
+				<!-- 
+				<div class="after-before">
+					<div class="after">
+						<img src="{{ STATIC_URL }}images/certa-after.jpg" alt=""><br/>
+						<div class="training-progress-before">
+							<strong>BEFORE</strong> <span class="y-separator">///</span> 129 LBS
+						</div>
+						<div class="training-progress-after">
+							<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 20.3%
+						</div>
+					</div>
+					<div class="before">
+						<img src="{{ STATIC_URL }}images/certa-before.jpg" alt=""><br/>
+						<div class="training-progress-before">
+							<strong>AFTER</strong> <span class="y-separator">///</span> 115 LBS
+						</div>
+						<div class="training-progress-after">
+							<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 13.9%
+						</div>
+					</div>
+				</div> --><!--/ after-before -->
+
+				<!-- 
+				<div class="after-before">
+					<div class="after">
+						<img src="{{ STATIC_URL }}images/certa-after.jpg" alt=""><br/>
+						<div class="training-progress-before">
+							<strong>BEFORE</strong> <span class="y-separator">///</span> 129 LBS
+						</div>
+						<div class="training-progress-after">
+							<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 20.3%
+						</div>
+					</div>
+					<div class="before">
+						<img src="{{ STATIC_URL }}images/certa-before.jpg" alt=""><br/>
+						<div class="training-progress-before">
+							<strong>AFTER</strong> <span class="y-separator">///</span> 115 LBS
+						</div>
+						<div class="training-progress-after">
+							<strong>AGE</strong> 22 / <strong>HEIGHT</strong> 5'3" / <strong>BODY FAT</strong> 13.9%
+						</div>		
+					</div>
+				</div> --><!--/ after-before -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container mobilepad">
+	<div class="row pricing"><a name="pricing"></a>
+		<div class="" style="text-align: center; margin-bottom: 30px;">
+			<h1>Available training options</h1>
+			<p>All plans include custom-designed workouts and diet goals set up for easy tracking on Blitz, along with unlimited access to Mark and the Sparc Strength team for Q&A, support, and more. </p>
+		</div>
+
+			<div class="col-md-3">
+				<div class="price-plan">
+					<div class="price">
+						<h2>
+							$149
+						</h2>
+						<small>10 weeks</small>
+					</div>
+
+					<h3>"Beautiful Booty"</h3>
+					<ul>
+						<li>Custom diet goals (e.g. protein/carbs/fat) and workouts set up for you in the app for easy tracking</li>
+						<li>Private app experience with 1:1 coaching from Lexi (like having a trainer in your pocket 24/7)</li>
+						<li>Custom program design to sculpt your glutes based on experience working with top models</li>
+						<li>Unlimited Q&A + motivational support via Blitz</li>
+						<li>Weekly video chat with Lexi</li>
+					</ul>
+
+					<div class="action">
+						<button class="obtn full-width" onclick="window.location='/lexilove/beautifulb/signup'; return false;">Reserve Spot</button>
+					</div>
+				</div><!--/ price-plan -->
+			</div>
+
+			<div class="col-md-3">
+				<div class="price-plan">
+					<div class="price">
+						<h2>
+							$49
+						</h2>
+						<small>/ month</small>
+					</div>
+
+					<h3>Individualized Goal Coaching</h3>
+					<ul>
+						<li>Custom diet goals (e.g. protein/carbs/fat) and workouts set up for you in the app for easy tracking</li>
+						<li>Private app experience with 1:1 coaching from Lexi (like having a trainer in your pocket 24/7)</li>
+						<li>Customized diet plan (including individual meal planning) for any physique goal</li>
+						<li>Individualized workout plan hand-crafted by Lexi for specific appearance or performance goals</li>
+						<li>Weekly goal check-in via video chat with Lexi</li>
+					</ul>
+					<div class="action">
+						<button class="obtn full-width" onclick="window.location='/lexilove/individual/signup'; return false;">Reserve Spot</button>
+					</div>
+				</div><!--/ price-plan -->
+			</div>
+
+
+
+			<div class="col-md-3">
+				<div class="price-plan">
+					<div class="price">
+						<h2>
+							$149
+						</h2>
+						<small>10 weeks</small>
+					</div>
+					
+
+					<h3>Couples Bootcamp</h3>
+					<ul>
+						<li>Custom diet goals (e.g. protein/carbs/fat) and workouts set up for you in the app for easy tracking</li>
+						<li>A plan for your lifestyle: tips and tricks for healthy cooking or eating out</li>
+						<li>Custom designed couples weight loss fitness plan you can do separatley or together</li>
+						<li>Unlimited support from Lexi via Blitz</li>
+						<li>Weekly goal check via video chat with Lexi</li>
+					</ul>
+
+					<div class="action">
+						<button class="obtn full-width" onclick="window.location='/lexilove/couples/signup'; return false;">Reserve Spot</button>
+					</div>
+				</div><!--/ price-plan -->
+			</div>
+
+			<div class="col-md-3">
+				<div class="price-plan">
+					<div class="price">
+						<h2>
+							$100
+						</h2>
+						<small>10 weeks</small>
+					</div>
+					
+
+					<h3>Keep Fit Stay Fit Weight Loss Group</h3>
+					<ul>
+						<li>Custom diet goals (e.g. protein/carbs/fat) and workouts set up for you in the app for easy tracking</li>
+						<li>Built-in support group of people with the same goal</li>
+						<li>Unlimited support from Lexi + the team via Blitz</li>
+						<li>Proven program design which has helped hundreds lose weight quickly and safely</li>
+						<li>10 weeks of expert coaching for less than some personal trainers charge for an hour!</li>
+					</ul>
+
+					<div class="action">
+						<button class="obtn full-width" onclick="window.location='/lexilove/keepfit/signup'; return false;">Reserve Spot</button>
+					</div>
+				</div><!--/ price-plan -->
+			</div>
+
+	</div><!--/ pricing -->
+</div><!--/ container -->
+
+<div class="container mobilepad">
+	<div class="row">
+		<h1 style="text-align: center; margin-bottom: 30px; margin-top: 30px;">A note from Lexi...</h1>
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+			<div class="message">
+				<p>Weight loss is the main reason why many people exercise in the first place. Though it's certainly not the sole benefit of an exercise program. I've seen what works and what doesn't, and know that people who work with a fitness coach or program reach their goals more often than those who try to go it alone. I've developed a program to give you social support, and help you reach your long-term goals, while reaping the benefits of a healthy lifestyle.</p>
+
+				<p>Work with me and you'll get to benefit from all of my experience, along with getting someone in your corner who's 100% committed to being there for you and helping you reach your goals.</p>
+
+				<div id="trainersig" style="text-align: left; padding-bottom: 0px;">
+					Lexi
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="contact">
+				<img style="margin-bottom: 40px; border: 6px solid #9dbfff; text-align: center;" class="img-circle" src="{{ STATIC_URL }}images/lexi/LL-headshot.png"/>
+				<br />
+				<button class="obtn full-width" onclick="window.location='mailto:byimagination@gmail.com?subject=Coaching on Blitz&body=Hey I saw your plan on Blitz, wanted to learn more, can we set up a 15-30 min video chat?'; return false;">Message Lexi</button>
+			</div>
+		</div>
+	</div>
+</div><!--/ marketing container-->
+
+<div class="getting-started">
+	<div class="container mobilepad">
+		<div class="row">
+			<h1 class="lightfont">Don't keep settling for the same results.</h1>
+
+			<p>Get the progress and body you deserve with someone who can get you there.</p>
+			<p>If you don't see something that's right for you here, or have any questions, shoot me a message and we can chat! 15-30 minute video-chat consults about your fitness goals and the best way to get there are always free.</p>
+			<button class="obtn" onclick="window.location='mailto:byimagination@gmail.com?subject=Coaching on Blitz&body=Hey I saw your page on Blitz, can I get a free consultation?'; return false;">Get a Free Consultation</button>
+		</div>
+	</div> <!--/ container -->
+</div> 
+
+
+
+
+	{% block footer %} {{ block.super }}
+	{% endblock footer %}
+
+{% endblock outer_content %}
+
+
+

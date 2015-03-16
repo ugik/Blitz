@@ -43,7 +43,7 @@ class Workout(models.Model):
     """
 
     display_name = models.CharField(max_length=100)
-    description = models.CharField(max_length=100, default="")
+    description = models.CharField(max_length=400, default="")
 
     # Sets are not necessarily grouped by lift - a workout could prescribe bench -> squat -> bench
     # But, usually sets are going to be grouped, so indicate that here
@@ -70,11 +70,24 @@ class Exercise(models.Model):
     lift = models.ForeignKey(Lift)
     workout = models.ForeignKey(Workout)
     sets_display = models.CharField(max_length=100, default="")
-    description = models.CharField(max_length=100, default="")
+    description = models.CharField(max_length=400, default="")
     order = models.FloatField(default=0.0)
 
     def num_sets(self):
         return self.workoutset_set.all().count()
+
+    # description can be multi-part separated by '|', eg. '1.0 | a description for the exercise'
+    def prefix(self):   # return prefix in description
+        if '|' in self.description:
+            return self.description[:self.description.index('|')]
+        elif len(self.description)<5:
+            return self.description 
+
+    def desc(self):   # return description portion of description
+        if '|' in self.description:
+            return self.description[self.description.index('|')+1:]
+        elif len(self.description)>5:
+            return self.description 
        
     def __unicode__(self):
         return "%s of %s in %s" % ( self.sets_display, str(self.lift), str(self.workout) )
@@ -140,6 +153,14 @@ class WorkoutPlan(models.Model):
 
     def num_weeks(self):
         return self.workoutplanweek_set.count()
+
+    def get_workout_for_day(self, week, day):
+        try:
+            week = self.workoutplanweek_set.get(week=week)
+            day = week.workoutplanday_set.get(day_of_week=day)
+            return day
+        except ObjectDoesNotExist:
+            return None
 
     def iterate_days(self):
         """

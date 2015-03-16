@@ -7,48 +7,59 @@
     <meta name="description" content="Blitz.us {% block moremeta %}{% endblock %}">
 
     <meta name="google-site-verification" content="N6Hr9dtfqhcP2hADv_PqAboSOhRHBsZmToI3MIFkGlo" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, user-scalable=0" />
 
-    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/bootstrap.min.css' />
-    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/bootstrap-responsive.min.css' />
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome.min.css">
-    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}fonts/stylesheet.css' />
-    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css"/>
 
-<!--    <link href="{{ STATIC_URL }}css/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> -->
+
+    <!-- Optional theme -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css"/> -->
+
+    <!-- Latest compiled and minified FontAwesome -->
+    <link rel="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+
+    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}fonts/stylesheet.css' />
+
+    <!--    <link href="{{ STATIC_URL }}css/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> -->
 
     <link href="{{ STATIC_URL }}css/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/addtohomescreen.css">
-    <link rel="shortcut icon" href="/static/images/favicon.ico">
-    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/blitz.ico" >
-    <link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/static/images/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/static/images/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/static/images/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/static/images/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/static/images/favicon-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/static/images/favicon-160x160.png" sizes="160x160">
-    <link rel="icon" type="image/png" href="/static/images/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/static/images/favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="/static/images/favicon-32x32.png" sizes="32x32">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-TileImage" content="/static/images/mstile-144x144.png">
-    <meta name="msapplication-config" content="/static/images/browserconfig.xml">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/addtohomescreen.css"/>
+    <link rel="shortcut icon" href="/static/images/favicon.ico"/>
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}images/blitz.ico"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-touch-icon-114x114.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png"/>
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/images/apple-touch-icon-60x60.png"/>
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/images/apple-touch-icon-120x120.png"/>
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/images/apple-touch-icon-76x76.png"/>
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/images/apple-touch-icon-152x152.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-180x180.png"/>
+    <link rel="icon" type="image/png" href="/static/images/favicon-192x192.png" sizes="192x192"/>
+    <link rel="icon" type="image/png" href="/static/images/favicon-160x160.png" sizes="160x160"/>
+    <link rel="icon" type="image/png" href="/static/images/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/png" href="/static/images/favicon-16x16.png" sizes="16x16"/>
+    <link rel="icon" type="image/png" href="/static/images/favicon-32x32.png" sizes="32x32"/>
+    <meta name="msapplication-TileColor" content="#da532c"/>
+    <meta name="msapplication-TileImage" content="/static/images/mstile-144x144.png"/>
+    <meta name="msapplication-config" content="/static/images/browserconfig.xml"/>
     <meta name="apple-mobile-web-app-title" content="Blitz" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
 
-      <!--[if IE]>
+    <!--[if IE]>
           <link href="{{ STATIC_URL }}css/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
       <![endif]-->
-    
+    <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}css/stylesheets/style.css' />
     <script type='text/javascript' src='{{ STATIC_URL }}js/jquery-1.10.2.min.js'></script>
-    <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap3-typeahead.js'></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <!-- 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+    -->
     <script type='text/javascript' src='{{ STATIC_URL }}js/sitewide.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/fastclick.js'></script>
     <script type='text/javascript' src='{{ STATIC_URL }}js/bootstrap-inputmask.js'></script>
@@ -58,54 +69,41 @@
     addToHomescreen();
     </script>
 
-
-    {% block morehead %}
-    {% endblock %}
-
-
+    {% block morehead %} {% endblock %}
 
     <script type="text/javascript">
     // this is the fastclick.js code
-        jQuery(document).ready(function($) {
-            if ($('#footer-container').length) {
-                var diff = $(window).height() - $('#footer-container').position().top;
-                if (diff > 60) {
-                    $('#footer-container').height(diff);
-                }
+    jQuery(document).ready(function($) {
+        if ($('#footer-container').length) {
+            var diff = $(window).height() - $('#footer-container').position().top;
+            if (diff > 60) {
+                $('#footer-container').height(diff);
             }
-        });
+        }
+    });
 
 
-        window.addEventListener('load', function() {
-            FastClick.attach(document.body);
-        }, false);
-
+    window.addEventListener('load', function() {
+        FastClick.attach(document.body);
+    }, false);
     </script>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <script>
+    (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-56103205-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var $_Tawk_API={},$_Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/54e2633eb37d8bc7b126539b/19ea5kqpn';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
+    ga('create', 'UA-56103205-1', 'auto');
+    ga('send', 'pageview');
+    </script>
 
 <script type="text/javascript">
   !function(){var analytics=window.analytics=window.analytics||[];if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.0";
@@ -114,32 +112,42 @@ s0.parentNode.insertBefore(s1,s0);
   }}();
 </script>
 
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var $_Tawk_API={},$_Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+{% if trainer.short_name == 'lexilove' or client.get_blitz.trainer.short_name == 'lexilove' %}
+    s1.src='https://embed.tawk.to/54e6b176577853203eb4fb62/default';
+{% else %}
+    {% if client or trainer %}
+        <!-- no client chat after login -->
+    {% else %}
+        s1.src='https://embed.tawk.to/54e2633eb37d8bc7b126539b/19ea5kqpn';
+    {% endif %}
+{% endif %}
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+
 </head>
 
 <body {% block body_extras %}{% endblock %}>
 
-    {% block outer_content %}
-    
-    <div id="header-container">
+    {% block outer_content %} {% block header_content %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            {% block header_content %}
-            <div class="row">
-                <div class="span12" id="header">
-                    <div class="navbar">
-                        <div class="navbar-inner">
-                            <div class="container">
-                                <a class="brand rotate" href="/" id="logo">
-                                    <img src="{{ STATIC_URL }}images/logo.png"/>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endblock %}
+            <a class="navbar-brand rotate" href="/" id="logo">
+                <img src="{{ STATIC_URL }}images/logo.png" />
+            </a>
         </div>
-    </div>
-    <div id="colorstripe"></div>
+    </nav>
+    {% endblock %}
+
 
     <div id="progress-header-container">
         <div class="container">
@@ -147,41 +155,37 @@ s0.parentNode.insertBefore(s1,s0);
         </div>
     </div>
 
-    {% block content %}
-    {% endblock content %}
+    {% block content %} {% endblock content %}
 
+    {% block footer %}
     <div id="footer-container">
         <div class="container">
             <div class="row">
-                <div class="span12">
+                <div class="col-md-12">
                     <div id="footer-content">
-                        <div class="copyright">{% if debug %}debug | {% else %} * {% endif %}<a href="/termsofuse" style="color: white;">Terms of Use</a> | <a href="/privacypolicy"  style="color: white;">Privacy Policy</a> | &copy; Blitz.us MMXV</div>
+                        <div class="copyright">{% if debug %}*{% endif %}<a href="/termsofuse" style="color: white;">Terms of Use</a> | <a href="/privacypolicy"  style="color: white;">Privacy Policy</a> | &copy; Blitz.us MMXV</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {% endblock footer %}
 
     {% endblock %}
 
-<script type="text/javascript">
-
-function logError(details) {
-    data = {
-        context: navigator.userAgent,
-        details: details,
+    <script type="text/javascript">
+    function logError(details) {
+        data = {
+            context: navigator.userAgent,
+            details: details,
+        }
+        data.user = "{{ user }}";
+        jQuery.post('/errorlog', data, function(d) {});
     }
-    data.user = "{{ user }}";
-  jQuery.post('/errorlog', data, function(d) {
-  });
-}
 
-window.onerror = function(message, file, line) {
-   logError(file + ':' + line + '\n\n' + message);
-};
-
-</script>
+    window.onerror = function(message, file, line) {
+        logError(file + ':' + line + '\n\n' + message);
+    };
+    </script>
 
 </body>
-
-

@@ -13,12 +13,14 @@ from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.views.static import serve
 from base.emails import program_loaded, program_assigned
+from django.db.models import Q
 
 from base.models import Client, Trainer, Blitz, SalesPageContent, BlitzMember, BlitzInvitation
 from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanWeek, WorkoutPlanDay, Exercise, ExerciseCustom, WorkoutSet, WorkoutSetCustom
 from base.forms import UploadForm
 from base.utils import JSONResponse
 from spotter.forms import TrainerIDForm, SalesPageForm, AssignPlanForm
+from spotter.utils import balance
 
 import os
 import xlrd
@@ -44,66 +46,26 @@ def spotter_index(request):
 
     return render(request, 'spotter.html')
 
+# review and process outstanding account balances
+# option: ?test (shows test users and users with no cc on file)
+#         ?trainer= (filters for specific trainer id)
+#         ?month= (filters for month #)
+#         ?charge (shows only overdue accounts)
+#         ?apply (when used w/charge) applies charges to overdue accounts
+#
 @login_required
 def spotter_payments(request):
-    import balanced
+
+    trainer = request.GET.get('trainer', None)
+    month = request.GET.get('month', None)
 
     test = True if 'test' in request.GET else None
     charge = True if 'charge' in request.GET else None
+    apply = True if 'apply' in request.GET and charge else None
 
-    clients = []
-    payments = []
-    total_cost = total_paid = float(0.0)
-
-    for client in Client.objects.all():
-        blitz = client.get_blitz()
-        if not blitz:
-            continue
-        # by default ignore test/free users
-        if not test and client.balanced_account_uri == '':
-            continue
-
-        start_date = blitz.begin_date
-
-        months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=date.today()))))
-
-        membership = client.blitzmember_set.all()
-        if not membership[0].price:   # if there was no special invitation price
-            if blitz.recurring:
-                total_cost = months * blitz.price
-            else:
-                total_cost = blitz.price
-        else:
-            if blitz.recurring:
-                total_cost = months * membership[0].price
-            else:
-                total_cost = membership[0].price
-
-        debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
-        if debits:
-            for debit in debits:
-                if 'client_id' in debit.meta:
-                    payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
-                         'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                    total_paid = float(total_paid) + float(debit.amount)/100
-
-        refunds = balanced.Refund.query.filter(balanced.Refund.f.meta.client_id == client.pk)
-        if refunds:
-            for refund in refunds:
-                if 'client_id' in debit.meta:
-                    payments.append({'amount': float(debit.amount)/-100, 'status': debit.status, 
-                         'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                    total_paid = float(total_paid) - float(debit.amount)/100
-
-        clients.append({'client':client, 'blitz': blitz, 'membership': membership[0],
-                        'start':start_date, 'months': months, 'payments': payments,
-                        'total_cost': '%.2f' % total_cost, 'total_paid': '%.2f' % total_paid, 'due': '%.2f' % (float(total_cost)-float(total_paid))})
-
-        payments = []
-        total_cost = total_paid = 0
-
-    return render(request, 'payments.html', 
-          {'clients' : clients, 'test' : test, 'charge' : charge })
+    context = balance(trainer=trainer, month=month, test=test, charge=charge, apply=apply)
+    
+    return render(request, 'payments.html', context)
 
 @login_required
 def spotter_usage(request):
@@ -117,16 +79,20 @@ def spotter_usage(request):
 
     # get clients with CC on file
     paying_clients = Client.objects.filter(~Q(balanced_account_uri = ''))
-    MRR = 0
+    revenue = MRR = 0
     for payer in paying_clients:
         if payer.blitzmember_set:
             # recurring monthly charge
-            if not payer.blitzmember_set.all()[0].blitz.group:
-                MRR += float(payer.blitzmember_set.all()[0].blitz.price)
+            if payer.get_blitz().price_model == "R" and payer.blitzmember_set.all()[0].price:
+                MRR += float(payer.blitzmember_set.all()[0].price)
             # monthly charge for non-recurring blitz
             else:
-                if payer.blitzmember_set.all()[0].blitz.num_weeks() > 0:
-                    MRR += float(payer.blitzmember_set.all()[0].blitz.price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+                if payer.get_blitz().num_weeks() > 0 and payer.blitzmember_set.all()[0].price:
+                    MRR += float(payer.blitzmember_set.all()[0].price / payer.blitzmember_set.all()[0].blitz.num_weeks() * 4)
+            revenue += float(payer.blitzmember_set.all()[0].price)
+
+    net = float(MRR * 0.12)
+    revenue = float(revenue * 0.12)
 
     timezone = current_tz()
     if 'days' in request.GET:
@@ -150,7 +116,8 @@ def spotter_usage(request):
         usage_digest()
 
     return render(request, 'usage.html', 
-          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 'MRR':MRR})
+          {'days':days, 'trainers':trainers, 'login_users':login_users, 'members':members, 
+           'revenue':revenue, 'MRR':MRR, 'net':net })
 
 @login_required
 def spotter_delete(request):
@@ -244,14 +211,39 @@ def assign_workoutplan(request):
         return redirect('home')
 
     trainers = Trainer.objects.all()
-    blitzes = Blitz.objects.all()
+
     plan_id = request.GET.get('plan', None)
     workoutplan = WorkoutPlan.objects.get(pk=plan_id)
+
+    blitz_list = []
+    blitzes = Blitz.objects.filter(trainer=workoutplan.trainer)
+    for blitz in blitzes:
+        if blitz.group:
+            blitz.title = "Group:"+blitz.title
+        if blitz.provisional:
+            blitz.title = "Provisional:"+blitz.title
+        blitz_list.append(blitz)
+
+    blitz_list.append(Blitz(title='-------------'))
+
+    blitzes = Blitz.objects.filter(~Q(trainer = workoutplan.trainer))
+    for blitz in blitzes:
+        if blitz.group:
+            blitz.title = "Group:"+blitz.title
+        if blitz.provisional:
+            blitz.title = "Provisional:"+blitz.title
+        blitz_list.append(blitz)
+
 
     if request.method == 'POST':
         form = AssignPlanForm(request.POST)
         if form.is_valid() and workoutplan:
             blitz_id = form.cleaned_data['blitz_id']
+
+            if blitz_id == 'None':
+                response = redirect('spotter_assign_workoutplan')
+                return response
+
             blitz = Blitz.objects.get(pk=blitz_id)
             blitz.workout_plan = workoutplan
             blitz.save()
@@ -263,7 +255,7 @@ def assign_workoutplan(request):
 
     form = AssignPlanForm()
     return render(request, 'assign_workoutplan.html', 
-           {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitzes })
+           {'form' : form, 'workoutplan' : workoutplan, 'trainers' : trainers, 'blitzes' : blitz_list })
 
 @login_required
 def spotter_blitz_sales_pages(request):
@@ -572,6 +564,44 @@ def workoutplan_ajax(request):
                             key = request.POST.get('exercise'),
                             workout = request.POST.get('workout'), 
                             day_char = request.POST.get('day'))
+
+    # save description for exercise
+    # TODO: modularize the exercise lookup with handling of provisional records
+    elif request.POST.get('mode') == 'save_desc':
+        exercise = request.POST.get('exercise')
+        desc = request.POST.get('desc')
+        if len(desc) == 0:
+            return JSONResponse({'is_error': False})
+
+        if len(exercise.split('_')) == 1:    # handle the case of exercise param by itself
+            exercise_pk = exercise
+            exercises = Exercise.objects.filter(pk=exercise_pk)
+
+        elif len(exercise.split('_')) == 3:    # handle the case of exercise as 3-part param: week, day, exercise
+            exercise_pk = exercise.split('_')[2]
+            day_pk = request.POST.get('exercise').split('_')[1]   # day param
+            workoutplan = get_object_or_404(WorkoutPlan, pk=request.POST.get('workoutplan'))
+            day = WorkoutPlanDay.objects.filter(pk=day_pk)[0]
+            workout = day.workout
+
+            exercises = Exercise.objects.filter(pk=exercise_pk)
+
+            if not exercises or exercises[0].workout != workout:    # check for provisional exercise
+                session_key = "exercise_%s" % exercise_pk
+                if session_key in request.session:
+                    exercises = Exercise.objects.filter(pk=int(request.session[session_key]))
+                else:
+                    exercises = None
+
+        else:
+            exercise_pk = None
+
+        if exercises:
+            exercise = exercises[0]
+            exercise.description = desc
+            exercise.save()
+
+        print 'EDIT EXERCISE DESCRIPTION:', exercise, desc
 
     elif request.POST.get('mode') == 'save_exercise':
 

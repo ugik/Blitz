@@ -10,28 +10,55 @@
 {% endblock %}
 
 {% block main %}
-    <div class="span12">
-        <h1>{{ workout_plan.name }}  - Program Details</h1>
+<div class="row">
+    <div class="col-md-12">
+        <h1 style="lightfont">{{ workout_plan.name }}  - Program Details</h1>
     </div>
+</div>
     {% for week in workout_plan.weeks %}
-        <div class="span12">
-
+    <div class="row">
+        <div class="col-md-12">
             <h3>Week {{ week.week }}: </h3>
+        </div>
+    </div>
+    <div class="row">
         {% for day in week.days %}
-            {% if week.days.count > 4 %}
-                <div class="span2" style="margin-left: 0px; margin-right: 25px!important;">
-            {% else %}
-                <div class="span3" style="margin-left: 0px; margin-right: 20px!important;">
+            {% if week.days.count > 6 %}
+                <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 6 %}
+                <div class="col-md-2" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 5 %}
+                <div class="col-md-2" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 4 %}
+                <div class="col-md-3" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 3 %}
+                <div class="col-md-4" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 2 %}
+                <div class="col-md-6" style="margin-left: 0px;">
+            {% endif %}
+            {% if week.days.count = 1 %}
+                <div class="col-md-12" style="margin-left: 0px;">
             {% endif %}
                 <div class="overview-block workout-day-block">
-                    <div class="title">{{ day.day_of_week|day_name }}</div>
+                    <div class="title">{{ day.day_of_week|day_name }}
+                        <small>
+                        <a href="/preview-workout/{{ workout_plan.pk }}/{{ week.week }}/{{ day.day_of_week }}">preview</a>
+                        </small>
+                    </div>
                     <div class="content">
                         <ul>
                             {% for exercise in day.workout.get_exercises %}
                                 {% if user.is_trainer %}
-                                    <li>{{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                    <li>{% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                    {{ exercise.lift }}: {{ exercise.sets_display }}</li>
                                 {% else %}
-                                    <li>{{ exercise|custom_lift:client }}: 
+                                    <li>{% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                        {{ exercise|custom_lift:client }}: 
                                         {{ exercise|custom_sets_display:client }}</li>
                                 {% endif %}
                             {% endfor %}
@@ -42,6 +69,7 @@
         {% endfor %}
         </div>
     {% endfor %}
+    </div>
 
 {% endblock %}
 

@@ -16,8 +16,20 @@ def gym_session_comment(user, commenter, comment):
     Send a notification to user that commenter has commented on his/her gym session
     """
 
-    from_email, to = "robot@blitz.us", user.email
+    from_email, to = SOURCE_EMAIL, user.email
     subject = "%s commented on your lift on Blitz.us" % commenter.display_name
 
     text_content = render_to_string('emails/gym_session_comment.txt', { 'commenter': commenter, 'comment': comment } )
     send_mail(subject, text_content, from_email, [to], fail_silently=True)
+
+def checkin_comment(user, commenter, comment):
+    """
+    Send a notification to user that commenter has commented on his/her checkin
+    """
+
+    from_email, to = SOURCE_EMAIL, user.email
+    subject = "%s commented on your checkin on Blitz.us" % commenter.display_name
+
+    text_content = render_to_string('emails/checkin_comment.txt', { 'commenter': commenter, 'comment': comment } )
+    send_mail(subject, text_content, from_email, [to], fail_silently=True)
+

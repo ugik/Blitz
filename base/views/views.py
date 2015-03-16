@@ -52,6 +52,7 @@ import urllib2
 
 analytics.write_key = 'DHtipkWQ8AUmX4ltTWfiSnX8EvAxsw3M'
 
+MEDIA_ROOT = getattr(settings, 'MEDIA_ROOT')
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
 
@@ -78,6 +79,16 @@ def mark_feeds_as_viewed(feed_items):
     for feed_item in feed_items:
         feed_item.is_viewed = True
         feed_item.save()
+
+def handle_uploaded_file(f):
+    file_name = str(f)
+    full_path = MEDIA_ROOT + '/feed/'+file_name
+    with open(full_path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
+    return full_path
+
 
 def privacy_policy(request):
     content = render_to_string('privacypolicy.html')
@@ -734,8 +745,28 @@ def my_programs(request):
         analytics_track(str(request.user.id), 'programs', {'name': request.user.trainer.name,})
 
         workoutplans = WorkoutPlan.objects.filter(trainer = request.user.trainer)
+
+        trainer = request.user.trainer
+        # deal with new trainer with pending documents
+        numdocs = get_pending_documents('/documents', trainer.pk)
+
+        if request.method == 'POST':
+            form = UploadForm(request.POST, request.FILES)
+            if form.is_valid() and form.is_multipart():
+                filename = save_file(request.FILES['document'], trainer.pk)
+            
+                uri = domain(request)
+                print filename
+
+                email_spotter_program_upload(trainer, uri+ '/spotter/download?file=' +filename)
+
+        else:
+            form = UploadForm()
+
         return render(request, 'trainer_programs.html', 
-           {'trainer': request.user.trainer, 'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
+           {'docs' : numdocs, 'form': form, 'trainer': request.user.trainer, 
+            'workoutplans' : workoutplans, 'modalSpotter': modalSpotter })
+
     else:
         request_blitz = request.user.blitz
 
@@ -924,6 +955,44 @@ def log_workout(request, week_number, day_char):
         'grouped_sets': grouped_sets,
         'gym_session': gym_session,
     })
+
+@login_required
+def preview_workout(request, workoutplan_pk, week_number, day_char):
+
+    error = None
+    client = Client.objects.get(pk=1)
+    workoutplan = WorkoutPlan.objects.get(pk=workoutplan_pk)
+    plan_day = workoutplan.get_workout_for_day(int(week_number), day_char)
+    if plan_day is None:
+        raise Http404
+    gym_session = GymSession.objects.create(
+        date_of_session = datetime.datetime.now().date(),
+        workout_plan_day = plan_day,
+        client=client
+        )
+
+    grouped_sets = workout_utils.get_grouped_sets(plan_day.workout, client, gym_session.date_of_session)
+    for group in grouped_sets:
+        group['set_infos'] = []
+        for workout_set in group['sets']:
+            set_info = {}
+            set_info['workout_set'] = workout_set
+            set_info['completed_set'] = None            
+            group['set_infos'].append(set_info)
+
+        group['lift_summary'] = client.lift_summary(group['lift'])
+
+    gym_session.delete()
+
+    return render(request, 'log_workout.html', {
+        'client': client,
+        'plan_day': plan_day,
+        'workout': plan_day.workout,
+        'workoutplan': workoutplan,
+        'grouped_sets': grouped_sets,
+        'preview': True,
+    })
+
 
 @login_required
 @csrf_exempt
@@ -1286,27 +1355,41 @@ def comment_unlike(request):
 @login_required
 @csrf_exempt
 def new_comment(request):
+    comment_picture = request.POST.get("picture")
 
     if 'object_id' in request.POST:   # post coming from dashboard for client or group
+        # Store Picture File
+        if request.FILES.getlist('picture'):
+            picture_file = request.FILES.getlist('picture')[0]
+            handle_uploaded_file(picture_file)
+            comment_picture = 'feed/' + str(picture_file)
+
         object_id = request.POST.get('object_id')
         selected_item = request.POST.get('selected_item')
 
+        # Store Picture FIle
+        if request.FILES.getlist('picture'):
+            picture_file = request.FILES.getlist('picture')[0]
+            handle_uploaded_file(picture_file)
+            request.POST["picture"] = 'feed/' + str(picture_file)
+
         if selected_item == 'blitz':  # post to blitz (group) feed
             blitz = Blitz.objects.get_or_none(pk = object_id)
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
         elif selected_item == 'client':  # post to individual client feed
             client = Client.objects.get(pk = object_id)
             blitz = client.get_blitz()
-            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'), blitz)
+            comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment'), timezone_now(), comment_picture, blitz)
 
     else:
-        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), request.POST.get('comment_picture'))
+
+        comment, feeditem = new_content.create_new_parent_comment(request.user, request.POST.get('comment_text'), timezone_now(), comment_picture)
 
         # analytics
         if not request.user.is_trainer:
             analytics_track(str(request.user.id), 'new_comment', {
                       'name': request.user.client.name,
-                      'comment': request.POST.get('comment_text'),
+                      'comment': request.POST.get('comment'),
                      })
 
     ret = {
@@ -1358,8 +1441,12 @@ def checkin_like(request):
 def gym_session_unlike(request):
 
     gym_session = GymSession.objects.get(pk=int(request.POST['gym_session_pk']))
-    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
-    gym_session_like.delete()
+    gym_session_like = GymSessionLike.objects.filter(user=request.user, gym_session=gym_session)
+    if gym_session_like:    # handle unlikely case of multiple likes for user/session
+        gym_session_like[0].delete()
+
+#    gym_session_like = GymSessionLike.objects.get(user=request.user, gym_session=gym_session)
+#    gym_session_like.delete()
 
     content_type = ContentType.objects.get_for_model(gym_session)
     feed_item = FeedItem.objects.get(content_type=content_type, object_id=gym_session.pk)
@@ -2221,7 +2308,10 @@ def set_up_profile_basic(request):
                                  macros_data=invite.macro_target_json)
 
             request.session['intro_stage'] = 'photo'
-            return redirect('set_up_profile')
+            if 'reset' in request.GET:
+                return redirect('/')
+            else:
+                return redirect('set_up_profile')
 
     else:
         form = Intro1Form()
@@ -2229,6 +2319,7 @@ def set_up_profile_basic(request):
     return render(request, 'signup/basic.html', {
         'client': client,
         'form': form,
+        'reset': 'reset' in request.GET,
     })
 
 
@@ -2512,6 +2603,7 @@ def about(request):
 # url: /dashboard
 @login_required
 def trainer_dashboard(request):
+
     user_id = request.user.pk
     trainer = request.user.trainer
 
@@ -2536,8 +2628,8 @@ def trainer_dashboard(request):
     blitzes = request.user.trainer.active_blitzes()
     clients = request.user.trainer.all_clients()
 
-    heading = Heading.objects.all().order_by('?')[:1].get()
-    header = "%s - %s" % (heading.saying, heading.author)
+#    heading = Heading.objects.all().order_by('?')[:1].get()
+#    header = "%s - %s" % (heading.saying, heading.author)
 
     show_intro = request.GET.get('show-intro') == 'true'
     if request.session.get('show_intro') is True:
@@ -2546,20 +2638,12 @@ def trainer_dashboard(request):
     if request.session.get('shown_intro') is True:
         request.session.pop('shown_intro')
 
-
     if blitzes and clients:
-        """Get count of all unviewed feeds"""
-        all_unviewed_count = 0
     
-        for client in clients:
-            all_unviewed_count+= client.unviewed_feeds_count()
-        """ END """
-
         return render(request, 'trainer_dashboard.html', {
             'clients': clients,
             'alerts': trainer.get_alerts(),
             'alerts_count': len( trainer.get_alerts() ),
-            'updates_count': all_unviewed_count, #FeedItem.objects.filter(blitz=request.user.blitz).exclude(is_viewed = True).count(),
             'blitzes': blitzes,
             'user_id': user_id,
             'macro_history':  macro_utils.get_full_macro_history(clients[0]),

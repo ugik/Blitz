@@ -6,49 +6,85 @@ class="sales-page"
 
 {% block morehead %}
 
+  st
+
 {% endblock %}
 
 {% block outer_content %}
 
+<nav class="navbar navbar-inverse navbar-fixed-top logged-out" style="border-radius: 0px">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-xs-12 h70">
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+             <a class="branding" href="/" id="logo2">
+                  <img style="padding: 0px;" src="{{ STATIC_URL }}/images/logo-w@2x.png" />
+             </a>
 
+         </div>
+       </div>
+      <div class="col-md-8 col-xs-12">
+        <!-- Everything you want hidden at 940px or less, place within here -->
+          <div class="collapse navbar-collapse move-left" id="bs-example-navbar-collapse-1">
+            <ul id="top-level-navs logged-out-navs" class="nav navbar-nav" style="float: right;">
+                <li class="nav-item">
+                    <a class="" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/about">For trainers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/social-media">For social media</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/browse">Browse plans</a>
+                </li>
+                <li class="nav-item">
+                    <a class="" href="/create-plan">Create a plan</a>
+                </li>
+                <li class="">
+                    <a class="obtn login-button" style="  padding: 10px 30px; margin-top: 13px;" href="/login?standard">Login</a>
+                </li>
+            </ul>
+          </div>
+      </div>
+  </div>
+</div>
+</nav>
 
 <div class="container topcut">
-    <div class="row rowreset">
-        <div id="thelogo" class="shrink">
-            <img src="{{ STATIC_URL }}/images/logo-w.png">
-        </div>
-    </div>
-    <div class="row rowreset " style="margin-top: 6%;">
+    <div class="row " style="margin-top: 15%;">
         
-            <div class="span6" style="text-align: left;">
-                  <div class="header lightfont" style="font-size: 2.4em; line-height: 1.4; color: white; margin-bottom: 10px;">
-                       Make more money training clients online with Blitz.
+            <div class="col-md-10 col-md-offset-1" style="text-align: left;">
+              <h1>
+                  <div class="header lightfont" style="text-align: center; line-height: 1.4; color: white; margin-bottom: 10px;">
+                    <h1>We help trainers make more money coaching online.</h1>
                   </div>
-                  <p class="info-text lightfont" style="margin-bottom: 20px; font-size: 1.25em; line-height: 1.3; color: white;">
-                    Blitz helps fitness coaches manage online coaching more efficiently and deliver a better experience for their clients. Save tons of time, get away from the email/spreadsheet mess, and watch your revenues pile up. 
-                  </p>
+              </h1>
+              <p class="info-text lightfont" style="text-align: center; font-size: 1.3em; margin-bottom: 20px; line-height: 1.3; color: white;">
+                  Blitz helps fitness coaches manage online coaching more efficiently and deliver a better experience for their clients. Save tons of time, get away from the email/spreadsheet mess, and watch your revenues skyrocket. 
+              </p>
+              <div class="col-md-9">
                   <a href="register-trainer">
-                      <button class="obtn full-width">
-                        Get started for free <span class="mobile-hide">in less than 2 minutes</span>
+                      <button class="obtn full-width" style="margin-bottom: 20px;">
+                        Get started <span class="mobile-hide">for free in less than 2 minutes</span>
                       </button>
                   </a>
-                  <p style="margin-top: 40px; opacity: 0.5; text-align: center; display: none;">
-                    <img class="downarrow" src="/static/images/downarrow.png">
-                  </p>
-            </div>
-            <div class="span5" style="">
-                
-                    <div class="blueplay" style="" onclick="$('#myModal').modal('show'); var player = $('iframe'); var url = window.location.protocol + player.attr('src').split('?')[0]; player[0].contentWindow.postMessage({ method: 'play'}, url) ">
+              </div>
+              <div class="col-md-3">
+                  <a onclick="$('#myModal').modal('show'); var player = $('iframe'); var url = window.location.protocol + player.attr('src').split('?')[0]; player[0].contentWindow.postMessage({ method: 'play'}, url) ">
+                      <button class="btn-outline-trans mobile-margin-top full-width" style="margin-bottom: 30px;">
+                        Watch video
+                      </button>
+                  </a>
+              </div>
 
-                        <div class="watchspacer" style="">
-                        </div>
-                        <div class="arrow-right">
-                        </div>
-                        <p class="watch" style="">
-                            Watch video
-                        </p>
-                    </div>
-                </a>
             </div>
 
     </div>
@@ -69,92 +105,80 @@ class="sales-page"
 
 <div class="full-width" style="height: ; background-color: white; text-align: center;">
     <div class="container">
-        <div class="row rowreset ">
-            <div class="span8 offset2 leftadjust" style="margin-top: 60px;">
-                  <div class="header boldfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; font-weight: bold; text-align: center;">
-                      Managing dozens—or hundreds—of clients effortlessly, in just minutes a week.
+        <div class="row ">
+            <div class="col-md-8 col-md-offset-2 leftadjust" style="margin-top: 60px;">
+                  <div class="header lightfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; text-align: center;">
+                      An awesome, premium experience for clients with your logo and branding front-and-center.
                   </div>
                   <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: center;">
-                    All the information you need about your clients, in one simple feed. Check out who’s logged a workout, who’s been keeping up with their diets, and stop the email/texting/spreadsheet headaches for good.
+                    Go from sending emails and spreadsheets/PDFs to offering clients an awesome app with your own branding. Save hours of messing around with Excel or Google docs, and instead reuse and edit workout/diet plans effortlessly. The best part? We set up everything for you.
                   </p>
             </div>
-            <div class="span10 offset1 leftadjust2 about0" style="">
-                &nbsp;
+            <div class="col-md-12 col-md-offset-0" style="">
+                <img src="{{ STATIC_URL }}/images/trainer-about-section-1.png" style="width: 100%; margin-bottom: -5px;">
             </div>
         </div>
     </div>
 </div>
 
 <div class="full-width" style="height: ; background-image: url('/static/images/background.png'); background-color: #fcfcfc; text-align: center; border: 1px solid rgba(0,0,0,0.05); color: white;">
-    <div class="container">
-        <div class="row rowreset ">
-            <div class="span8 offset2 leftadjust" style="margin-top: 60px;">
-                  <div class="header boldfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; font-weight: bold; text-align: center;">
-                      An awesome, premium experience for clients with your logo and branding front-and-center.
+
+        <div class="row" style="padding-top: 80px;">
+            <div class="col-md-8 col-md-offset-0" style="margin-left: 0px!important; margin-bottom: -25px;">
+                <img src="{{ STATIC_URL }}/images/trainer-about-section-2.png" style="width: 100%; margin-bottom: -5px;">
+            </div>
+            <div class="col-md-4 col-md-offset-0 " style="margin-top: 100px; padding: 30px;">
+                  <div class="header lightfont" style="font-size: 1.8em; line-height: 1.4; margin-bottom: 10px; text-align: left;">
+                      Get everything in one place and save tons of time.
                   </div>
-                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: center;">
-                    Whether coaching individuals or groups, you can build your brand and deliver a more valuable product. Clients log workouts and macros in an app with your logo on it.
+                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: left;">
+                    For every client or group, you get message history, workout/diet records, and revenue details all in one place. Trainers on Blitz have shaved their monthly coaching time by upwards of 70%. Say good bye to spending hours of email per day managing clients.
+                  </p>
+                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: left;">
+                    What will you do with that time? Add more clients to grow your business or just drink margaritas—we won’t blame you either way.
                   </p>
             </div>
-            <div class="span10 offset1 leftadjust2 about1" style="">
-                &nbsp;
-            </div>
+
         </div>
-    </div>
 </div>
 
 <div class="full-width" style="height: ; background-color: white; text-align: center;">
-    <div class="container">
-        <div class="row rowreset ">
-            <div class="span8 offset2 leftadjust" style="margin-top: 60px;">
-                  <div class="header boldfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; font-weight: bold; text-align: center;">
-                      Say goodbye to spreadsheets and tedious data entry. We do it for you.
+        <div class="row" style="padding-top: 80px;">
+            <div class="col-md-4 col-md-offset-0 " style="margin-top: 80px; padding: 30px;">
+                  <div class="header lightfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; text-align: left;">
+                      Run online fitness groups with Facebook-style features—effortlessly.
                   </div>
-                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: center;">
-                    Upload any type of files you want describing your program (e.g. spreadsheet, PDF, etc), and we figure out the rest. No more manually entering entering sets/reps for a 12 week program. We help you supercharge your efficiency.
+                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: left;">
+                    Providing an online group experience not only lets you scale your coaching more easily (making more money for less time), but also creates a unique place for fans to engage with your brand and each other. 
+                  </p>
+                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: left;">
+                    As always, macro and diet tracking, photo/video sharing, and revenue analytics are all included.
                   </p>
             </div>
-            <div class="span10 offset1 leftadjust2 about2" style="">
-                &nbsp;
+            <div class="col-md-8 col-md-offset-0" style="margin-left: 0px!important; margin-bottom: -25px;">
+                <img src="{{ STATIC_URL }}/images/trainer-about-section-3.png" style="width: 100%; margin-bottom: -5px;">
             </div>
         </div>
-    </div>
 </div>
 
 <div class="full-width" style="height: ; background-image: url(''); background-color: #f3f3f3; text-align: center; border: 1px solid rgba(0,0,0,0.05); color: ;">
     <div class="container">
-        <div class="row rowreset ">
-            <div class="span8 offset2 leftadjust" style="margin-top: 60px;">
-                  <div class="header boldfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; font-weight: bold; text-align: center;">
-                      Market your coaching with easy-to-build sales pages. 
-                  </div>
-                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.1em; line-height: 1.3; text-align: center;">
-                    We make it easy to pitch your individual and group programs by providing templates you can use that are proven to convert clients and drive sales. 
-                  </p>
-            </div>
-            <div class="span10 offset1 leftadjust2 about3" style="">
-                &nbsp;
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="full-width" style="height: ; background-color: white; text-align: center;">
-    <div class="container">
-        <div class="row rowreset">
-            <div class="span2 offset5 leftadjust3">
+        <div class="row" style="padding-top: 80px; padding-bottom: 80px;">
+            <div class="col-md-2 col-md-offset-0">
                 <div class="percentcircle" style="">
                     <div class="aboutpercent">
                         15%
                     </div>
                 </div>
             </div>
-            <div class="span8 offset2 leftadjust" style="margin-top: 30px;">
-                  <div class="header boldfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; font-weight: bold; text-align: center;">
+            <div class="col-md-9 col-md-offset-0" style="margin-top: 60px; padding-left: 20px;">
+                  <div class="header lightfont" style="font-size: 2em; line-height: 1.4; margin-bottom: 10px; text-align: left; margin-top: 20px;">
                       No-BS pricing: We only get paid when you do.
                   </div>
-                  <p class="info-text lightfont" style="margin-bottom: 60px; font-size: 1.1em; line-height: 1.3; text-align: center;">
-                    Blitz assesses a 15% platform fee (e.g. if you charge a client $100 a month, Blitz would take $15), which includes credit card processing and everything. If you charge super premium prices or train tons of clients, let us know and we'll work something out. We're good people.
+                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.2em; line-height: 1.3; text-align: left;">
+                    Blitz assesses a 15% platform fee (e.g. if you charge a client $100 a month, Blitz would take $15), which includes all credit card processing fees.</p> 
+                  <p class="info-text lightfont" style="margin-bottom: 40px; font-size: 1.2em; line-height: 1.3; text-align: left;">
+                    If you charge super premium prices or train tons of clients, let us know and we'll work something out. We're good people.
                   </p>
             </div>
         </div>
@@ -162,20 +186,24 @@ class="sales-page"
 </div>
 
 <div class="sales-page-section-4">
-    <div class="container" style="padding: 20px;">
-      <div class="row">
-        <div class="span8 offset2">
-            <div class="boldfont" style="font-size: 2.25em;">
+    <div class="container" style="padding-top: 80px; padding-bottom: 80px; background: transparent;">
+      <div class="row" style="background: none;">
+        <div class="col-md-10 col-md-offset-1">
+            <h1>
+              <div class="lightfont" style="">
                 Bottom line: More efficient coaching, better client experience, and bigger revenues.
             </div>
-            <div class="desc" style="font-size: 1.5em;">
-                Don't keep messing around with spreadsheets, email, and random fitness apps. Your clients and your brand deserve better. Let us help you shine.
+          </h1>
+          <h3>
+            <div class="lightfont mobile-text-shrink" style="">
+                Don't keep messing around with spreadsheets, email, and random fitness apps. Your clients and your brand deserve better. Spend less time, make more money, and have happier clients with Blitz.
             </div>
-            <a href="register-trainer">
-                <button class="obtn full-width">
+            <a href="register-trainer" >
+                <button class="obtn full-width" style="margin-top: 30px;">
                   Try Blitz for Free
                 </button>
             </a>
+          </h3> 
         </div>
     </div>
     </div>

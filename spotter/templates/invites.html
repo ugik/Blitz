@@ -10,10 +10,9 @@
 </style>
 
 
-    <div class="span6 offset3" style="margin-bottom: 50px; margin-top: 0px; padding-right: 20px;">
-      
-        <ul>
-        {% for invite in invites|dictsortreversed:"date_created" %}
+    <div class="col-md-6 col-md-offset-3" style="margin-bottom: 50px; margin-top: 50px; padding-right: 20px;">
+      <ul>
+      {% for invite in invites|dictsortreversed:"date_created" %}
           <div class="spotterwrap" style="text-align: left;">
              <li>
               <span class="small">
@@ -46,7 +45,7 @@
              </li>
            </div>
         {% endfor %}
-
+        </ul>
     </div>
 
 {% endblock %}

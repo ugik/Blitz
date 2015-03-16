@@ -206,7 +206,7 @@
 
         {% if client.needs_to_update_cc %}
         <p class="client-info center summaryaddon" style="color: #e8748e; margin-top: 4px;">
-            <i class="icon-credit-card"></i> Credit card expired!
+            <i class="glyphicon glyphicon-credit-card"></i> Credit card expired!
         </p>
         {% endif %}
     </div>
@@ -248,7 +248,7 @@
                 </select>
                 <div class="weekSelector slide-select">
                     <ul>
-                        <li class="arrow"> <a class="left-arrow" href="#"><span class="icon icon-chevron-left"></span></a></li>
+                        <li class="arrow"> <a class="left-arrow" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
                         {% for week in macro_history %}
                             {% if week.is_current %}
                             <li class="item active" data-week-num="{{ week.week_number }}">This Week</li>
@@ -256,7 +256,7 @@
                             <li class="item" data-week-num="{{ week.week_number }}" data-current={{ week.is_current }}> Week of {{ week.month_str|slice:"3" }} {{ week.first_day }} - {{ week.last_day }} </li>
                             {% endif %}
                         {% endfor %}
-                        <li class="arrow"> <a class="right-arrow" href="#"><span class="icon icon-chevron-right"></span></a> </li>
+                        <li class="arrow"> <a class="right-arrow" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a> </li>
                     </ul>
                 </div>
             </div>
@@ -278,20 +278,20 @@
 
                                 {% if not day.in_future and not day.has_entry %}
                                 <div class="macro-day-cell {% if day.current %}current{% endif %}">
-                                    <i class="icon-question-sign unknown"></i>
+                                    <i class="glyphicon glyphicon-question-sign unknown"></i>
                                 </div>
                                 {% endif %}
 
                                 {% if day.all_pass %}
                                 <div class="macro-day-cell {% if day.current %}current{% endif %}">
-                                    <i class="icon-ok-sign pass"></i> 
+                                    <i class="glyphicon glyphicon-ok-sign pass"></i> 
                                     {# <i class="fa fa-check-circle pass"></i> #}
                                 </div>
                                 {% endif %}
 
                                 {% if day.all_fail %}
                                 <div class="macro-day-cell {% if day.current %}current{% endif %}">
-                                    <i class="icon-remove-sign fail"></i> 
+                                    <i class="glyphicon glyphicon-remove-sign fail"></i> 
                                     {#<i class="fa fa-times-circle fail"></i> #}
                                 </div>
                                 {% endif %}
@@ -322,7 +322,7 @@ Hit: {{ day.diet_goal_hit }}.">{{ day.diet_goal_done }}/{{ day.diet_goal_max }}<
                                     {% endcomment %}
 
                                     {% else %}
-                                    <i class="icon-remove-sign fail"></i> 
+                                    <i class="glyphicon glyphicon-remove-sign fail"></i> 
                                     {% endif %}
                                 </div>
                                 {% endif %}

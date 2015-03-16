@@ -10,7 +10,7 @@
         <div class="profile-header-top">
             <div class="container">
                 <div class="row">
-                    <div class="span12">
+                    <div class="col-md-12">
                         <img class="profile-headshot img-circle" src="{{ client.get_headshot_url }}" />
                     </div>
                 </div>
@@ -19,9 +19,9 @@
         <div class="profile-header-bottom">
             <div class="container">
                 <div class="row">
-                    <div class="span12">
+                    <div class="col-md-9 col-offset-3">
                         <div class="content">
-                            <div class="name">{{ client }}</div>
+                            <h1 class="">{{ client }}</h1>
                             <div class="details">
                                {% if client.age %}
                                 {{ client.age }} years old 
@@ -40,27 +40,31 @@
     </div>
 
     <div class="profile-tabs">
-        <div class="container">
+        <div class="container" style="padding: 0px;">
             <div class="row">
-                <div class="span12">
-                    <div class="tab{% if section == "history" %} active{% endif %}">
-                        <i class="icon-calendar profile-tab-icon"></i>
-                        <a href="{% url "client_profile_history" client.pk %}">History</a>
-                    </div>
-                    <div class="tab{% if section == "progress" %} active{% endif %}">
-                        <i class="icon-bar-chart profile-tab-icon"></i>
-                        <a href="{% url "client_profile_progress" client.pk %}">Progress</a>
-                    </div>
-                    <div class="tab{% if section == "checkins" %} active{% endif %}">
-                        <i class="icon-edit profile-tab-icon"></i>
-                        <a href="{% url "client_profile_checkins" client.pk %}">Check-ins</a>
-                    </div>
+                <div class="col-md-12">
+                    <a href="{% url "client_profile_history" client.pk %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "history" %} active{% endif %}">
+                        <i class="glyphicon glyphicon-calendar profile-tab-icon"></i>
+                        History
+                    </div></a>
+                    <a href="{% url "client_profile_progress" client.pk %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "progress" %} active{% endif %}">
+                        <i class="glyphicon glyphicon-stats profile-tab-icon"></i>
+                        Progress
+                    </div></a>
+                    <a href="{% url "client_profile_checkins" client.pk %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "checkins" %} active{% endif %}">
+                        <i class="glyphicon glyphicon-pencil profile-tab-icon"></i>
+                        Check-ins
+                    </div></a>
 
                     {% if user.client == client %}
-                    <div class="tab{% if section == "settings" %} active{% endif %}">
-                        <i class="icon-cog profile-tab-icon"></i>
-                        <a href="{% url "client_settings" %}">Settings</a>
-                    </div>
+                    <a href="{% url "client_settings" %}">
+                        <div class="col-xs-6 col-md-2 tab{% if section == "settings" %} active{% endif %}">
+                        <i class="glyphicon glyphicon-cog profile-tab-icon"></i>
+                        Settings
+                    </div></a>
                     {% endif %}
                 </div>
             </div>
@@ -71,7 +75,7 @@
 
 {% block main %}
 
-    <div class="span8">
+    <div class="col-md-8">
 
         {% block profile_page_content %}
 
@@ -94,7 +98,7 @@
 
     </div>
 
-    <div class="span4">
+    <div class="col-md-4">
         {% if user.is_trainer %}
             <div class="sidebar-box">
                 <div class="header">Trainer Actions</div>

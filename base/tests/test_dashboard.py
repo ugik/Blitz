@@ -39,6 +39,7 @@ class TestDashboard(unittest.TestCase):
         driver.find_element_by_id("add-comment-submit").click()
         # Warning: assertTextPresent may require manual changes
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        time.sleep(2)
         self.assertTrue("D!" in driver.page_source, "Text not found")
 
         driver.find_element_by_xpath("//li[1]/div").click()

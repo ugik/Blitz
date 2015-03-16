@@ -3,6 +3,10 @@
 {% load blitz_tags %}
 
 {% block morehead %} {{ super }}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheets/style.css"/>
+{# <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css"> #}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
 
 <script type='text/javascript' src='{{ STATIC_URL }}js/expanding.js'></script>
 <script type='text/javascript' src='{{ STATIC_URL }}js/feed.js'></script>
@@ -12,12 +16,7 @@
 <script type="text/javascript">
 var SHOW_INTRO = {% if show_intro %}true{% else %}false{% endif %};
 </script>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dashboard.css">
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/stylesheets/style.css"/>
 
-<link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}css/bootstrap-select.css">
-<link rel="stylesheet" href="{{ STATIC_URL }}css/jquery-ui.css">
 <script src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
 
@@ -65,12 +64,16 @@ function save_client_setup() {
     <div class="clearfix"></div>
 {% endblock %}
 
-<div id="dashboard">
-	<div class="sidebar-left">
+<script>
+var total_unread = 0;
+</script>
+
+<div class="row" id="dash" style="padding-top: 70px; margin-right: 0px!important;">
+	<div class="col-md-3 clientlist fixed auto-scroll">
 		<div class="inner">
 			{% if clients or blitzes or invitees %}
 
-		    	        <div class="search-input">
+		    	        <div class="search-input full-width">
                                     {% if clients or blitzes %}
 	   			        <input type='text' class="search-text" placeholder="  Search for a client or program...">
                                     {% endif %}
@@ -79,33 +82,24 @@ function save_client_setup() {
 
                         {% if clients or blitzes %}
 
-<!--
-				    <li class='item' data-scope='alerts'>
-					<div class="item-inner">
-						Alerts
-					</div>
-					{% if alerts_count %}
-					<span class="results-count"><span class="inner">{{ alerts_count }}</span></span>
-					{% endif %}
-				    </li> -->
-
 				    <li class="item active" data-scope='all'>
 					<div class="item-inner">
 						All Updates
-					</div>
-					{% if updates_count %}
-					<span class="results-count"><span class="inner">{{ updates_count }}</span></span>
-					{% endif %}
+					</div><div id="total_unread">
+					<span class="results-count"><span class="inner">
+                                        </span></span></div>
 				    </li>				
 				    <div class="separator"></div>
 
 				{% if blitzes %}
 				    {% for blitz in blitzes %}
-	                    {% if not blitz.provisional and blitz.group %}
+	                    {% if not blitz.provisional and not blitz.recurring %}
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
-						        <span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span></span>
+						        <span class="results-count"><span class="inner">{{ blitz.unviewed_feeds_count }}</span>
+<script> total_unread += {{ blitz.unviewed_feeds_count }}; </script>
+
 						    {% endif %}
 					    </li>
    			                    <div class="separator"></div>
@@ -119,12 +113,18 @@ function save_client_setup() {
 				<li class='item solo-client' data-object-pk="{{ client.pk }}" data-scope='client'>
 				    <div class="item-inner">{{ client.name }}</div>
 					{% if client.unviewed_feeds_count %}
-					    <span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span></span>
+					    <span class="results-count"><span class="inner">{{ client.unviewed_feeds_count }}</span>
+<script> total_unread += {{ client.unviewed_feeds_count }}; </script>
 					{% endif %}
 				</li>
 				{% endfor %}
 
                             {% endif %} 
+
+<script> 
+    document.getElementById('total_unread').text = total_unread.toFixed(0); 
+    if (total_unread == 0) { $('#total_unread').replaceWith(''); }
+</script>
 
                             {% for invitee in invitees %}
 <li class='item solo-client' data-object-pk="{{ invitee.pk }}" data-scope='invitee'>
@@ -149,22 +149,22 @@ function save_client_setup() {
 			<div class="actions">
 <!--				<button type='button' class='obtn fullwidth' onclick="window.location='/client-setup'; return false;">+ Add Client</button> -->
 				<button type='button' id="add_client" class='obtn fullwidth' onclick="jQuery.noConflict(); $('#ClientSetupModal').modal('show');">+ Add Client</button>
-				<button type='button' id="add_group" class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button><br><br><br>
+				<button type='button' id="add_group" class='btn-outline-trans fullwidth' onclick="window.location='/blitz-setup?group'; return false;">+ Add Group</button>
 
 			</div>
 		</div> <!-- inner -->
 	</div> <!--/ sidebar-left -->
 
-	<div class="content-wrapper">
-		<div class="content row-fluid">
+	<div class="col-md-6 col-md-offset-3"><!-- feeds -->
+		<div class="feed-padding">
 			<!-- Inbox Container -->
 			<div class="inbox-container">
 				<!-- Will be populated using AJAX -->
 			</div>
 
-			<div class="feeds">
+			<div class="" style="width: 100%!important;">
 				<!-- Blitz group header -->
-				<div class="group">
+				<div class="group hidden">
 					<!-- Will be populated using AJAX -->
 				</div>
 
@@ -182,17 +182,17 @@ function save_client_setup() {
 					</div>
 
 					<div id="add-comment-container">
-						<form name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+						<form id="comment-form" class="hidden" name="commentForm" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
 						    <table><tr><td width="97%">
 						    <textarea id="add-comment" name="comment" class="expanding" placeholder="Post a comment..." rows="1" ></textarea> </td>
-						    <td class="photobutton" valign="top">
-
-						    <input type="text" name="sample" id="id_sample" value="TEXT IS HERE" style="height:0; display:none;"/>
-
+						    <td class="photobutton" valign="top">							
+						    
 						    <input type="file" name="picture" id="id_picture" style="height:0; display:none;"/>
 						    <label id="id_label" name="picture" class="gbtn photobuttonlabel" for="id_picture"/>
-						    <i class="icon-camera"></i>
+						    <i class="glyphicon glyphicon-camera"></i>
 						    </label></td></tr></table>
+						    <input type="hidden" name="object_id" value="">
+						    <input type="hidden" name="selected_item" value="">
 						</form>
 						<a class="obtn-comment obtn" id="add-comment-submit" style="display: none;" href="#" >Post</a>
 					</div>
@@ -213,9 +213,11 @@ function save_client_setup() {
 	        {% endif %}
 
 		</div> <!--/ feeds -->
+	</div>
+</div>
 
 		<!-- Summary -->
-		<div id="summary">
+		<div class="col-md-3 col-md-offset-9 summary fixed" id="summary">
 			{% if not clients and not blitzes %}
                 {% if invitees %}
 					{% comment %}
@@ -229,8 +231,8 @@ function save_client_setup() {
 
 		<div class="clearfix"></div>
 	    </div>
-	</div> <!--/ content -->
-    </div>
+	</div> <!--/ summary -->
+</div><!--/ row -->
 
 <!-- include modals -->
 {% include "spotter_program_edit_modal.html" with trainer=trainer workoutplan=workoutplan url_return='#' %}
@@ -240,9 +242,10 @@ function save_client_setup() {
 {% include "client_setup_done_modal.html" %}
 
 
-<div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
+<div id="intro-modal" class="modal modal-full fade hide" tabindex="-1">
     {% include "onboarding_content_trainer.html" with trainer=trainer %}
 </div>
+
 
 {% endblock content %}
 
