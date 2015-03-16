@@ -23,7 +23,6 @@ urlpatterns = patterns('',
 urlpatterns += patterns(
     '',
 
-
     url("^/custom-trainer-page$", TemplateView.as_view(template_name="custom_trainer_page.html"), name="custom_trainer_page"),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
@@ -31,8 +30,8 @@ urlpatterns += patterns(
 
     url("^trainer/marc$", TemplateView.as_view(template_name="custom_trainer_page_marc.html")),
     url("^trainer/lexi$", TemplateView.as_view(template_name="custom_trainer_page_lexi.html")),
-    url("^all$", TemplateView.as_view(template_name="all.html")),
 
+    url("^all$", 'base.views.market', name='market'),
     url(r'^allclients$', 'base.views.all_clients', name='all_clients'),
 
     url(r'^post/gym/(?P<pk>\d+)$', 'base.views.single_post_gym', name='single_post_gym'),

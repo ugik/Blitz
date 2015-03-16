@@ -138,6 +138,12 @@ def home(request):
     else:
         return redirect('login_view')
 
+# url: /all
+def market(request):
+    blitzes = Blitz.objects.filter( ( Q(provisional=True) | Q(group=True) ) & Q(marketplace=True) )
+    return render(request, 'all.html', {'blitzes': blitzes, 'days_left': range(2, 10), 'SITE_URL' : domain(request)})
+
+
 # get trainer pending documents given a path from usermedia
 def get_pending_documents(path, trainer_pk):
     path = settings.MEDIA_ROOT + path
