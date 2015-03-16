@@ -98,7 +98,7 @@ def create_salespagecontent(name, trainer, key=None, title=None):
 
 def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=None, macro_formula=None, invitation=None):
 
-    if client.blitzmember_set:    # client is already enrolled in a Blitz
+    if client.blitzmember_set.all():    # client is already enrolled in a Blitz
         client.blitzmember_set.all()[0].blitz.delete()
 
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
