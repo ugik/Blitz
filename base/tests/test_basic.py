@@ -20,8 +20,7 @@ class TestBasic(unittest.TestCase):
         driver = self.driver
         # open | /login | 
         driver.get(self.base_url + "/login")
-        # click | css=button.btn-outline-trans | 
-        driver.find_element_by_css_selector("button.btn-outline-trans").click()
+        driver.find_element_by_id("login-button").click()
         # type | id=id_email | tay@example.com
         driver.find_element_by_id("id_email").clear()
         driver.find_element_by_id("id_email").send_keys("tay@example.com")
@@ -88,8 +87,8 @@ class TestBasic(unittest.TestCase):
         self.assertTrue("hasn't completed any" in driver.page_source, "Text not found")
         # open | /logout | 
         driver.get(self.base_url + "/logout")
-        # click | css=button.btn-outline-trans | 
-        driver.find_element_by_css_selector("button.btn-outline-trans").click()
+
+        driver.find_element_by_id("login-button").click()
         # type | id=id_email | mr@example.com
         driver.find_element_by_id("id_email").clear()
         driver.find_element_by_id("id_email").send_keys("mr@example.com")
@@ -181,8 +180,8 @@ class TestBasic(unittest.TestCase):
         self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         # open | /logout | 
         driver.get(self.base_url + "/logout")
-        # click | css=button.btn-outline-trans | 
-        driver.find_element_by_css_selector("button.btn-outline-trans").click()
+
+        driver.find_element_by_id("login-button").click()
         # type | id=id_email | spotter@example.com
         driver.find_element_by_id("id_email").clear()
         driver.find_element_by_id("id_email").send_keys("spotter@example.com")

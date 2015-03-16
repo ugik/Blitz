@@ -19,7 +19,7 @@ class TestCreateBlitz(unittest.TestCase):
     def test_create_blitz(self):
         driver = self.driver
         driver.get(self.base_url + "/")
-        driver.find_element_by_css_selector("button.btn-outline-trans").click()
+        driver.find_element_by_id("login-button").click()
         driver.find_element_by_id("id_email").clear()
         driver.find_element_by_id("id_email").send_keys("mr@example.com")
         driver.find_element_by_id("id_password").clear()

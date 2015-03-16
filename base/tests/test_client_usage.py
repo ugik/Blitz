@@ -15,13 +15,14 @@ class TestClientUsage(unittest.TestCase):
         self.driver.set_window_size(1200, 1000)
         self.verificationErrors = []
         self.accept_next_alert = True
-    
+
+
     def test_client_usage(self):
         driver = self.driver
         # open | /login | 
         driver.get(self.base_url + "/login")
-        # click | css=button.btn-outline-trans | 
-        driver.find_element_by_css_selector("button.btn-outline-trans").click()
+        driver.find_element_by_id("login-button").click()
+
         # type | id=id_email | tay@example.com
         driver.find_element_by_id("id_email").clear()
         driver.find_element_by_id("id_email").send_keys("tay@example.com")
