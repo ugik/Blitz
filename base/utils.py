@@ -96,8 +96,10 @@ def create_salespagecontent(name, trainer, key=None, title=None):
     content.save()
     return content
 
-#TODO handle macro_formula optional param
 def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=None, macro_formula=None, invitation=None):
+
+    if client.blitzmember_set:    # client is already enrolled in a Blitz
+        client.blitzmember_set.all()[0].blitz.delete()
 
     # for a Provisional 1:1 (recurring) blitz, add client to a copy of the provisional instance
     if blitz.provisional:
@@ -105,11 +107,14 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
         blitz.provisional = False
         blitz.recurring = True
         blitz.title = "individual:%s blitz:%s" % (client.name, blitz.url_slug)
-        blitz.workout_plan = workoutplan
-        blitz.price = price
+        if price:
+            blitz.price = price 
+        if workoutplan:
+            blitz.workout_plan = workoutplan 
+        if macro_formula:
+            blitz.macro_strategy = macro_formula 
         blitz.url_slug = ''
         blitz.uses_macros = True
-        blitz.macro_strategy = macro_formula if macro_formula else 'DEFAULT'
         blitz.save()
 
     if not start_date:

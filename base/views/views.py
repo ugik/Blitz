@@ -1906,6 +1906,7 @@ def blitz_signup(request, short_name, url_slug):
 
     if blitz.free or blitz.sample:   # handle free on-ramp
         form = CreateAccountFormFree(request.POST)
+
         if request.method == 'POST':
 
             if form.is_valid():
@@ -1917,23 +1918,18 @@ def blitz_signup(request, short_name, url_slug):
                     form.cleaned_data['password1']
                     )
                 # add new client to Blitz
-                utils.add_client_to_blitz(blitz, client)
+                utils.add_client_to_blitz(blitz, client, workoutplan=blitz.workout_plan)
 
                 # set blitz for specific client            
                 blitz_macros_set(blitz=None, formula=blitz.macro_strategy, client=client)   
 
                 # alert trainer of new client signup
                 alert = TrainerAlert.objects.create(
-                           trainer=blitz.trainer, text="new free client registration",
+                           trainer=blitz.trainer, text="new (free) client registration",
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
                 user = authenticate(username=client.user.username, password=form.cleaned_data['password1'])
                 login(request, user)
-
-                # alert trainer of new client signup
-                alert = TrainerAlert.objects.create(
-                           trainer=blitz.trainer, text="new (free) client registration",
-                           client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
                 # analytics
                 analytics_id(request, user_id=client.user.pk, traits={
@@ -1946,14 +1942,29 @@ def blitz_signup(request, short_name, url_slug):
 
                 return redirect(next_url)
 
+            elif (blitz.sample or blitz.free) and existing_user:    # don't need much for an existing user going to free Blitz
+
+                # add new client to Blitz
+                utils.add_client_to_blitz(blitz, request.user.client, workoutplan=blitz.workout_plan)
+
+                # set blitz for specific client            
+                blitz_macros_set(blitz=None, formula=blitz.macro_strategy, client=request.user.client)   
+
+                # alert trainer of new client signup
+                alert = TrainerAlert.objects.create(
+                           trainer=blitz.trainer, text="has now registered for %s" % blitz.url_slug,
+                           client_id=request.user.client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                return redirect(next_url)
+
             return render(request, 'blitz_signup_free.html', {
                 'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
-                'form': form, 'errors': form.errors,
+                'form': form, 'errors': form.errors, 'existing_user': existing_user
             })
         else:
             return render(request, 'blitz_signup_free.html', {
                 'blitz': blitz, 'trainer': trainer, 'invitation': invitation, 'next_url': next_url,
-                'form': form,
+                'form': form, 'existing_user': existing_user
             })
 
     else:
@@ -2128,7 +2139,7 @@ def payment_hook(request, pk):
 
                     # alert existing trainer of client leaving
                     alert = TrainerAlert.objects.create(
-                           trainer=client.get_blitz().trainer, text="has now registered for %s" % blitz.title,
+                           trainer=client.get_blitz().trainer, text="has now registered for %s" % blitz.url_slug,
                            client_id=client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
 
                     # alert trainer of client registration if new trainer
