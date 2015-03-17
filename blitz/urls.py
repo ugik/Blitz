@@ -24,6 +24,7 @@ urlpatterns += patterns(
     '',
 
     url("^/custom-trainer-page$", TemplateView.as_view(template_name="custom_trainer_page.html"), name="custom_trainer_page"),
+
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hijack/', include('hijack.urls')),

@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% load get_range %}
-
 {% block body_extras %}
 {% endblock %}
 
@@ -49,7 +47,7 @@
 <div class="container" style="margin-top: 30px; background-color: #fefefe">
 
   <div class="row">
-{% for blitz in blitzes %}
+{% for blitz in blitzes|dictsort:"price" %}
 
 <!-- program card -->
     <div class="col-md-4">
@@ -61,9 +59,9 @@
         {% endif %}
           <div class="program-cover-bg">
             <div class="program-name">
-              <h3 class="lightfont">
+              <h2 class="lightfont">
                 {{ blitz.title }}
-              </h3>
+              </h2>
             </div>
             <div class="row trainer-block">
               <div class="col-xs-3">
