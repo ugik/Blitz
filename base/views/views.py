@@ -140,8 +140,10 @@ def home(request):
 
 # url: /all
 def market(request):
+    background = ['background2.jpg', 'background3.jpg', 'minibackground.jpg', 'workoutsessionbackground.jpg']
     blitzes = Blitz.objects.filter( ( Q(provisional=True) | Q(group=True) ) & Q(marketplace=True) )
-    return render(request, 'all.html', {'blitzes': blitzes, 'days_left': range(2, 10), 'SITE_URL' : domain(request)})
+    return render(request, 'all.html', 
+           {'blitzes': blitzes, 'days_left': range(2, 10), 'SITE_URL': domain(request), 'background': background})
 
 
 # get trainer pending documents given a path from usermedia

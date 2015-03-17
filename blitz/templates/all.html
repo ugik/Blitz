@@ -52,7 +52,7 @@
 <!-- program card -->
     <div class="col-md-4">
       <div class="overview-block program-block">
-        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/background2.jpg');">
+        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ background|random }}');">
           <div class="program-cover-bg">
             <div class="program-name">
               <h3 class="lightfont">
@@ -69,9 +69,8 @@
                     {{ blitz.trainer.name }}
                   </h4>
                 </div>
-                <br />
                 <div class="program-trainer-tag">
-                  {{ blitz.description }}
+                  {{ blitz.sales_page_content.program_introduction }}
                 </div>
               </div>
             </div>
@@ -84,7 +83,7 @@
             </span>
             <br />
             <span class="program-numeral">
-              {{ blitz.price }}
+              {% if blitz.free or blitz.sample %}FREE{% else %}{{ blitz.price }}{% endif %}
             </span>
           </div>
           <div class="col-xs-4">
@@ -93,7 +92,7 @@
             </span>
             <br />
             <span class="program-numeral">
-              {{ blitz.num_weeks }}
+              {% if blitz.num_weeks > 0 %}{{ blitz.num_weeks }}{% else %} 12 {% endif %}
             </span>
           </div>
           <div class="col-xs-4">
