@@ -65,7 +65,7 @@
             </div>
             <div class="row trainer-block">
               <div class="col-xs-3">
-                <img class="program-trainer-headshot" src="{{ blitz.trainer.get_headshot_url }}">
+                <img class="program-trainer-headshot" width="60px" src="{{ blitz.trainer.get_headshot_url }}">
               </div>
               <div class="col-xs-9">
                 <div class="program-trainer-name">
@@ -86,7 +86,7 @@
             </span>
             <br />
             <span class="program-numeral">
-              {% if blitz.free or blitz.sample %}FREE{% else %}{{ blitz.price }}{% endif %}
+              {% if blitz.free or blitz.sample or blitz.price == 0 %}FREE{% else %}{{ blitz.price }}{% endif %}
             </span>
           </div>
           <div class="col-xs-4">
