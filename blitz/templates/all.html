@@ -74,7 +74,6 @@
                   </h4>
                 </div>
                 <div class="program-trainer-tag">
-                  {{ blitz.sales_page_content.program_introduction|truncatechars:60  }}
                 </div>
               </div>
             </div>
@@ -99,6 +98,7 @@
               {% if blitz.num_weeks > 0 %}{{ blitz.num_weeks }}{% else %} 12 {% endif %}
             </span>
           </div>
+          {% if not blitz.free and not blitz.sample %}
           <div class="col-xs-4">
             <span class="program-detail-label">
               Spots left
@@ -108,10 +108,11 @@
               {{ days_left|random }}
             </span>
           </div>
+          {% endif %}
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
           <span class="program-details">
-            {{ blitz.description|truncatechars:40 }}
+                  {{ blitz.sales_page_content.program_introduction|truncatechars:100  }}
           </span>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">

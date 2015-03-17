@@ -140,8 +140,10 @@
               <a class="branding" href="/" id="logo">
                   <img class="center" src="/static/images/logo.png"/>
               </a>
-          <div class="colorstripe"
-          ></div>
+          {% block header_content_text %}
+          {% endblock %}
+            <div class="colorstripe">
+            </div>
         </div>
     </div>
 </div>
