@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load get_range %}
+
 {% block body_extras %}
 {% endblock %}
 
@@ -52,7 +54,11 @@
 <!-- program card -->
     <div class="col-md-4">
       <div class="overview-block program-block">
+        {% if blitz.sales_page_content.social_proof_header_html %}
+        <div class="program-cover-photo" style="background-image: url('{{ blitz.sales_page_content.social_proof_header_html }}');">
+        {% else %}
         <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ background|random }}');">
+        {% endif %}
           <div class="program-cover-bg">
             <div class="program-name">
               <h3 class="lightfont">
@@ -70,7 +76,7 @@
                   </h4>
                 </div>
                 <div class="program-trainer-tag">
-                  {{ blitz.sales_page_content.program_introduction }}
+                  {{ blitz.sales_page_content.program_introduction|truncatechars:60  }}
                 </div>
               </div>
             </div>
@@ -107,7 +113,7 @@
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
           <span class="program-details">
-            {{ blitz.description }}
+            {{ blitz.description|truncatechars:40 }}
           </span>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">
