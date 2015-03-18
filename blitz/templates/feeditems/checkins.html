@@ -16,7 +16,17 @@
                     <img src="{{ checkin.client.user.headshot_url }}" class="img-circle" />
                 </div>
 
+                    {% if user == checkin.client.user %}
+                    <a class="feed-permalink" title="(see 'Profile/Settings' for sharing options)" href="/profile/settings"><i class="glyphicon glyphicon-pencil"></i> sharing settings</a>
+
+                    <a title="(see 'Profile/Settings' for sharing options)" 
+href="{{ checkin.client.user.get_profile_url }}">{{ checkin.client.name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
+
+                    {% else %}
+
                 <a href="{{ checkin.client.user.get_profile_url }}">{{ checkin.client.name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
+                    {% endif %}
+                     
                 <div class="feeditem-pub-date"><i class="glyphicon glyphicon-time"></i> {{ feed_item.pub_date|timesince }} ago</div>
             </div>
             
