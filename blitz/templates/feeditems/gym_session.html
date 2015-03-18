@@ -14,13 +14,13 @@
                 </div>
                     {% if user == gym_session.client.user %}
 
-                    <a class="feed-permalink" title="'Profile/Settings' for sharing options" href="/profile/settings"><i class="glyphicon glyphicon-pencil"></i> settings&nbsp;&nbsp;&nbsp;</a>
+                    <a class="feed-permalink" title="'Profile/Settings' for sharing options" href="/profile/settings"><i class="glyphicon glyphicon-share"></i> sharing&nbsp;&nbsp;&nbsp;</a>
 
                     <a class="edit-workout-link" title="Edit this workout" href="{% url "log_workout" gym_session.workout_plan_day.workout_plan_week.week gym_session.workout_plan_day.day_of_week %}"><i class="glyphicon glyphicon-edit"></i> edit</a>
 
                     <a class="feed-permalink" title="Link for this workout" href="{% url "single_post_gym" feed_item.pk %}"><i class="glyphicon glyphicon-link"></i> link&nbsp;&nbsp;</a>
 
-                    <a title="(see 'Profile/Settings' for sharing options)" href="{{ gym_session.client.user.get_profile_url }}">{{ gym_session.client.name }}</a> logged a workout.
+                    <a title="Profile/Settings for sharing options" href="{{ gym_session.client.user.get_profile_url }}">{{ gym_session.client.name }}</a> logged a workout.
 
                     {% else %}
 

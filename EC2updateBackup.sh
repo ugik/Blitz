@@ -17,6 +17,7 @@ rsync -avC -e "ssh -i ../backup.pem" /home/ugik/Blitz/ ubuntu@"$1":/home/ubuntu/
 
     fi
     ssh -i ../backup.pem ubuntu@$1 $project/manage.py collectstatic --noinput
-    ssh -i ../backup.pem ubuntu@$1 sudo service apache2 restart
+    echo "apache graceful restart..."
+    ssh -i ../backup.pem ubuntu@$1 sudo apachectl graceful
 fi
 

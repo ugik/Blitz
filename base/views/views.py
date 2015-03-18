@@ -1903,7 +1903,14 @@ def blitz_signup(request, short_name, url_slug):
         invitation = None
 
     trainer = get_object_or_404(Trainer, short_name=short_name)
-    blitz = get_object_or_404(Blitz, trainer=trainer, url_slug=url_slug, provisional=True)
+
+    blitzes = Blitz.objects.filter( Q(trainer=trainer) & Q(url_slug=url_slug) & ( Q(provisional=True) | Q(group=True) ) )
+
+    if blitzes:
+        blitz = blitzes[0]
+    else:
+        return redirect('/')
+
     next_url = '/signup-complete?pk='+str(blitz.pk)
 
     existing_user = None

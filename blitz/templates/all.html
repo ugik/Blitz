@@ -59,9 +59,9 @@
         {% endif %}
           <div class="program-cover-bg">
             <div class="program-name">
-              <h2 class="lightfont">
+              <h3 class="lightfont">
                 {{ blitz.title }}
-              </h2>
+              </h3>
             </div>
             <div class="row trainer-block">
               <div class="col-xs-3">
@@ -86,7 +86,9 @@
             </span>
             <br />
             <span class="program-numeral">
-              {% if blitz.free or blitz.sample or blitz.price == 0 %}FREE{% else %}{{ blitz.price }}{% endif %}
+              {% if blitz.free or blitz.sample or blitz.price == 0 %}FREE
+              {% else %}${{ blitz.price|stringformat:"1.0f"|cut:"-" }}
+              {% endif %}
             </span>
           </div>
           <div class="col-xs-4">
@@ -112,7 +114,13 @@
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
           <span class="program-details">
-                  {{ blitz.sales_page_content.program_introduction|truncatechars:100  }}
+               {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
+
+               {% else %}
+                  {{ blitz.sales_page_content.program_introduction }}
+               {% endif %}
+
+               {% if blitz.group %} This is a group program. {% else %} This is an individual program. {% endif %}
           </span>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">
