@@ -47,21 +47,25 @@
 <div class="container" style="margin-top: 30px; background-color: #fefefe">
 
   <div class="row">
-{% for blitz in blitzes %}
+{% for blitz in blitzes|dictsort:"price" %}
 
 <!-- program card -->
     <div class="col-md-4">
       <div class="overview-block program-block">
-        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/background2.jpg');">
+        {% if blitz.sales_page_content.social_proof_header_html %}
+        <div class="program-cover-photo" style="background-image: url('{{ blitz.sales_page_content.social_proof_header_html }}');">
+        {% else %}
+        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ background|random }}');">
+        {% endif %}
           <div class="program-cover-bg">
             <div class="program-name">
-              <h3 class="lightfont">
+              <h2 class="lightfont">
                 {{ blitz.title }}
-              </h3>
+              </h2>
             </div>
             <div class="row trainer-block">
               <div class="col-xs-3">
-                <img class="program-trainer-headshot" src="{{ blitz.trainer.get_headshot_url }}">
+                <img class="program-trainer-headshot" width="60px" src="{{ blitz.trainer.get_headshot_url }}">
               </div>
               <div class="col-xs-9">
                 <div class="program-trainer-name">
@@ -69,9 +73,7 @@
                     {{ blitz.trainer.name }}
                   </h4>
                 </div>
-                <br />
                 <div class="program-trainer-tag">
-                  {{ blitz.description }}
                 </div>
               </div>
             </div>
@@ -84,7 +86,7 @@
             </span>
             <br />
             <span class="program-numeral">
-              {{ blitz.price }}
+              {% if blitz.free or blitz.sample or blitz.price == 0 %}FREE{% else %}{{ blitz.price }}{% endif %}
             </span>
           </div>
           <div class="col-xs-4">
@@ -93,9 +95,10 @@
             </span>
             <br />
             <span class="program-numeral">
-              {{ blitz.num_weeks }}
+              {% if blitz.num_weeks > 0 %}{{ blitz.num_weeks }}{% else %} 12 {% endif %}
             </span>
           </div>
+          {% if not blitz.free and not blitz.sample %}
           <div class="col-xs-4">
             <span class="program-detail-label">
               Spots left
@@ -105,10 +108,11 @@
               {{ days_left|random }}
             </span>
           </div>
+          {% endif %}
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
           <span class="program-details">
-            {{ blitz.description }}
+                  {{ blitz.sales_page_content.program_introduction|truncatechars:100  }}
           </span>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">

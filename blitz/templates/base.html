@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 
 <head>
-    <title> Blitz.us {% block moretitle %}{% endblock %}
+    <title> Blitz.us online fitness training {% block moretitle %}{% endblock %}
+{% if client %}
+- {{ client.get_blitz.trainer }} - {{ client.get_blitz.sales_page_content.program_title }}
+{% endif %}
+
+{% if feeditem %}
+- {{ feeditem.blitz.trainer }} - {{ feeditem.blitz.sales_page_content.program_title }}
+{% endif %}
     </title>
 
-    <meta name="description" content="Blitz.us {% block moremeta %}{% endblock %}">
+    <meta name="description" content="Blitz.us online fitness training
+{% if client %}
+trainer {{ client.get_blitz.trainer }}, {{ client.get_blitz.sales_page_content.program_title }}: {{ client.get_blitz.sales_page_content.program_introduction }}
+{% endif %}
+
+{% if feeditem %}
+trainer {{ feeditem.blitz.trainer }}, {{ feeditem.blitz.sales_page_content.program_title }}: {{ feeditem.blitz.sales_page_content.program_introduction }}
+{% endif %}
+
+{% block moremeta %}{% endblock %}">
 
     <meta name="google-site-verification" content="N6Hr9dtfqhcP2hADv_PqAboSOhRHBsZmToI3MIFkGlo" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1, user-scalable=0" />

@@ -14,6 +14,8 @@
                 </div>
                     {% if user == gym_session.client.user %}
                     <a class="edit-workout-link" href="{% url "log_workout" gym_session.workout_plan_day.workout_plan_week.week gym_session.workout_plan_day.day_of_week %}"><i class="glyphicon glyphicon-edit"></i> edit</a>
+                    <a class="feed-permalink" href="{% url "single_post_gym" feed_item.pk %}"><i class="glyphicon glyphicon-link"></i> share</a>
+
                     {% endif %}
 
                     <a href="{{ gym_session.client.user.get_profile_url }}">{{ gym_session.client.name }}</a> logged a workout.

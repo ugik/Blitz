@@ -759,7 +759,9 @@ class Blitz(models.Model):
         return self.loop_begin_date() + datetime.timedelta(days=7*self.num_weeks())
 
     def num_weeks(self):
-        if self.workout_plan:
+        if self.custom_end_date:
+            return (self.custom_end_date - self.begin_date).days/7
+        elif self.workout_plan:
             return self.workout_plan.workoutplanweek_set.all().count()
         else:
             return 0
