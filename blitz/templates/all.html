@@ -115,12 +115,11 @@
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
           <span class="program-details">
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
-
+                    {% if blitz.group %} This is a group program. {% else %} This is an individual program. {% endif %}
                {% else %}
                   {{ blitz.sales_page_content.program_introduction }}
                {% endif %}
 
-               {% if blitz.group %} This is a group program. {% else %} This is an individual program. {% endif %}
           </span>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">
