@@ -364,6 +364,9 @@ class Client(models.Model):
 
     forgot_password_token = models.CharField(max_length=40, default="")
 
+    share_gym_sessions = models.BooleanField(default=True)
+    share_checkins = models.BooleanField(default=True)
+
     units = models.CharField(max_length=1, choices=UNIT_CHOICES, default="I", blank=True)
     date_created = models.DateField(default=datetime.date.today)
 

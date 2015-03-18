@@ -200,7 +200,9 @@ class SalesBlitzForm(forms.Form):
     price_model = forms.ChoiceField(widget=forms.RadioSelect, choices=FEE_CHOICES, required=False)
 
 class ClientSettingsForm(forms.Form): 
-    picture = forms.ImageField()
+    picture = forms.ImageField(required=False)
+    share_gym_session = forms.BooleanField(required=False,initial=True,label='Share your gym sessions?')
+    share_checkin = forms.BooleanField(required=False,initial=True,label='Share your check-ins?')
 
 # Feed comment
 class CommentForm(forms.Form):
