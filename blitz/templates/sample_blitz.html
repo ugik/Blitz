@@ -99,67 +99,75 @@ class="sales-page"
 
         {% endif %} 
 
-        <div class="submit-container">
-        {% if debug_mode %}
-            <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button" disabled>
-            Get started for free in {{ blitz.title }}
-            </button>
-        {% else %}
-            <button action="submit" class="obtn obtn-comment-half" type='submit'>
-               Get started for free in {{ blitz.title }}
-            </button>
-        {% endif %}
-     </div>
+        <div class="submit-container" style="padding-bottom: 30px;">
+          {% if debug_mode %}
+              <button class="obtn obtn-comment-half" style="opacity: 0.5;" class="disabled-button" disabled>
+              Get started for free in {{ blitz.title }}
+              </button>
+          {% else %}
+              <button action="submit" class="obtn obtn-comment-half" type='submit'>
+                 Get started for free in {{ blitz.title }}
+              </button>
+          {% endif %}
+      </div>
   </div>
 
 </div>
 </div>
 </div>
 
-{% if blitz.workout_plan %}
-    {% for week in blitz.workout_plan.weeks %}
-        <div class="col-md-12"><br>
-        {% for day in week.days %}
-            {% if week.days.count > 6 %}
-                <div class="col-md-3" style="margin-left: 0px;">
-            {% endif %}
-            {% if week.days.count = 6 %}
-                <div class="col-md-2" style="margin-left: 0px;">
-            {% endif %}
-            {% if week.days.count = 5 %}
-                <div class="col-md-2" style="margin-left: 0px;">
-            {% endif %}
-            {% if week.days.count = 4 %}
-                <div class="col-md-3" style="margin-left: 0px;">
-            {% endif %}
-            {% if week.days.count = 3 %}
-                <div class="col-md-4" style="margin-left: 0px;">
-            {% endif %}
-            {% if week.days.count = 2 %}
-                <div class="col-md-6" style="margin-left: 0px;">
-            {% endif %}
-            {% if week.days.count = 1 %}
-                <div class="col-md-12" style="margin-left: 0px;">
-            {% endif %}
-            <div class="overview-block workout-day-block">
-                <div class="title"><span title="{{ day.workout.display_name }} {{ day.workout.description }}">{{ day.day_of_week|day_name }}</span></div>
-                    <div class="content">
-                        <ul>
-                        {% for exercise in day.workout.get_exercises %}
-                             <li>
-                             {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
-                             {{ exercise.lift }}:
-                             {{ exercise.sets_display }}</li>
-                        {% endfor %}
-                        </ul>
+</div>
+</div>
+
+
+<div class="full-width" style="background: #f9f9f9">
+  <div class="container" style="text-align: center; padding-top: 30px;">
+    <h1 class="lightfont">Program Overview</h1>
+    {% if blitz.workout_plan %}
+        {% for week in blitz.workout_plan.weeks %}
+            <div class="row rowfluid" style=""><br>
+            {% for day in week.days %}
+                {% if week.days.count > 6 %}
+                    <div class="col-md-3" style="margin-left: 0px;">
+                {% endif %}
+                {% if week.days.count = 6 %}
+                    <div class="col-md-2" style="margin-left: 0px;">
+                {% endif %}
+                {% if week.days.count = 5 %}
+                    <div class="col-md-2" style="margin-left: 0px;">
+                {% endif %}
+                {% if week.days.count = 4 %}
+                    <div class="col-md-3" style="margin-left: 0px;">
+                {% endif %}
+                {% if week.days.count = 3 %}
+                    <div class="col-md-4" style="margin-left: 0px;">
+                {% endif %}
+                {% if week.days.count = 2 %}
+                    <div class="col-md-6" style="margin-left: 0px;">
+                {% endif %}
+                {% if week.days.count = 1 %}
+                    <div class="col-md-12" style="margin-left: 0px;">
+                {% endif %}
+                <div class="overview-block workout-day-block">
+                    <div class="title"><span title="{{ day.workout.display_name }} {{ day.workout.description }}">{{ day.day_of_week|day_name }}</span></div>
+                        <div class="content">
+                            <ul>
+                            {% for exercise in day.workout.get_exercises %}
+                                 <li>
+                                 {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                 {{ exercise.lift }}:
+                                 {{ exercise.sets_display }}</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
+            {% endfor %}
             </div>
         {% endfor %}
-        </div>
-    {% endfor %}
-{% endif %}
-
+    {% endif %}
+  </div>
+</div>
 
 
   <div class="sales-page-section-3">
@@ -172,38 +180,41 @@ class="sales-page"
     {% endif %}
     <div class="container" style="padding: 20px;">
       <div class="row">
-        <h1>How we'll take your fitness to the next level</h1>
+        <h1 class="lightfont">How we'll take your fitness to the next level</h1>
       </div>
       <div class="row">
-        <div class="col-md-4" style="margin-left: 0px">
-          <img src="{{ STATIC_URL }}images/vp1.png">
-          <h3>
-            A plan that’s right for you.
-          </h3>
-          <div class="desc">
-            There’s no such thing as a one-size-fits-all program. I’ll make you a custom plan that fits your goals, fitness level, and training/eating preferences.
-          </div>
-        </div>
-        <div class="col-md-4">
-          <img src="{{ STATIC_URL }}images/vp2.png">
-          <h3>
-            Someone that’s got your back.
-          </h3>
-          <div class="desc">
-            Feedback and support is often the difference between reaching goals or staying stagnant. I’ll keep you on track and provide the info (or ass-kicking) you need.
-          </div>
 
-        </div>
         <div class="col-md-4">
-          <img src="{{ STATIC_URL }}images/vp3.png">
+          <img src="{{ STATIC_URL }}images/vp1.png">
           <h3>
             The easiest tracking ever.
           </h3>
           <div class="desc">
-            Since your workouts and diet goals are set up for you, so all you have to do is show up and check them off. No more tedious tracking—you just focus on your plan.
+            All your workouts are set up for you, so all you have to do is record weight (and edit reps, if you do more or less). Plus, if you miss a day, you can make it up later. Blitz helps you calculate and track macronutrient goals, too.
           </div>
-
         </div>
+        
+        <div class="col-md-4">
+          <img src="{{ STATIC_URL }}images/vp2.png">
+          <h3>
+            People that have your back.
+          </h3>
+          <div class="desc">
+            Feedback and support is often the difference between reaching goals or staying stagnant. Blitz' team is always around to answer questions, and everyone on {{ sales_page.program_title }} can talk to each other, share tips, and celebrate progress.
+          </div>
+        </div>
+        
+
+        <div class="col-md-4" style="margin-left: 0px">
+          <img src="{{ STATIC_URL }}images/vp3.png">
+          <h3>
+            A plan that really works.
+          </h3>
+          <div class="desc">
+            Blitz hand-picks plans that are included for our clients. {{ sales_page.program_title }} has been used by thousands of people to achieve awesome results. If you put in the work, there's no reason you shouldn't be one too.
+          </div>
+        </div>
+
       </div>
     </div>
     {% if debug_mode %}
@@ -221,22 +232,22 @@ class="sales-page"
             Don’t keep settling for the same results.
           </h1>
           <div class="desc">
-            Get the progress and body you deserve. I’ll make it my personal mission to get you there.
+            Get the progress and body you deserve. A battle-tested plan like {{ blitz.title }} and a little help from Blitz is all you need to get there.
           </div>
 
           <div class="submit-container">
           {% if debug_mode %}
             <button class="obtn full-width" style="opacity: 0.5;" class="disabled-button">
-              Sign up for {{ blitz.title }}
+              Sign up <span class="mobile-hide">for {{ blitz.title }}</span>
             </button>
           {% else %}
             {% if logo %}
             <button class="obtn obtn-comment-half" disabled>
-               Sign up for the Program
+               Sign up <span class="mobile-hide">for the Program</span>
             </button>
             {% else %}
             <button action="submit" class="obtn full-width" type='submit'>
-              Sign up for {{ blitz.title }}
+              Sign up <span class="mobile-hide">for {{ blitz.title }}</span>
             </button>
             {% endif %}
           {% endif %}

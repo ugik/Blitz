@@ -26,7 +26,7 @@
           Getting in awesome shape has never been easier.
         </h2>
         <p class="info-text lightfont mobile-text-shrink" style="text-align: center; margin-bottom: 20px; line-height: 1.3; color: white;">
-          Blitz has plans for everyone and every goal. You can follow popular programs for free or get one with an great, hand-picked trainer. Either way, you're on your way to taking your fitness to the next level and getting the body you deserve.
+          Blitz has plans for everyone and every goal. You can follow popular programs for free or get a custom one from a great, hand-picked trainer. It's the easiest way of taking your fitness to the next level and getting the body you deserve.
         </p>
       </div>
   </div>
@@ -115,8 +115,11 @@
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
           <span class="program-details">
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
-                    {% if blitz.group %} Group training from {{ blitz.trainer.name }}
-                    {% else %} 1 on 1 private personal training from {{ blitz.trainer.name }} {% endif %}
+                    {% if blitz.group %}
+                    Work in a small group pushing towards the same goals—all with {{ blitz.trainer.short_name }} in your corner to make sure you get there. Limited space available.
+                    {% else %}
+                    Private personal coaching with {{ blitz.trainer.name }}. Get a custom program, a premium 1-on-1 experience, and unlimited support/motivation/ass-kicking from {{ blitz.trainer.short_name }}.
+                    {% endif %}
                {% else %}
                   {{ blitz.sales_page_content.program_introduction }}
                {% endif %}
