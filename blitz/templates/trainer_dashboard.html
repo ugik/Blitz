@@ -93,7 +93,7 @@ var total_unread = 0;
 
 				{% if blitzes %}
 				    {% for blitz in blitzes %}
-	                    {% if not blitz.provisional and not blitz.recurring %}
+                                        {% if blitz.group %}
 					    <li class='item blitz' data-object-pk="{{ blitz.pk }}" data-scope='blitz'>
 						<div class="item-inner">{{ blitz.title }}</div>
 						    {% if blitz.unviewed_feeds_count %}
