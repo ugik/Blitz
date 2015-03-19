@@ -178,7 +178,7 @@ def get_feeditem_html(feed_item, user):
 
     elif feed_item.content_type.name == 'gym session':
 
-        if not feed_item.content_object.client.share_gym_sessions and user and not user.is_trainer and user.client != feed_item.content_object.client:
+        if not feed_item.content_object.client.share_gym_sessions:
                 return    # don't show a gym sessions for client who isn't sharing them
         else:
             return render_to_string('feeditems/gym_session.html', {
@@ -190,7 +190,7 @@ def get_feeditem_html(feed_item, user):
 
     elif feed_item.content_type.name == 'check in':
 
-        if not feed_item.content_object.client.share_checkins and user and not user.is_trainer and user.client != feed_item.content_object.client:
+        if not feed_item.content_object.client.share_checkins:
                 return    # don't show a checkin for client who isn't sharing them
         else:
 
