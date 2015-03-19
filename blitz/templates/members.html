@@ -6,7 +6,10 @@
             <div class="member-headshot-container">
                 <div class="member-headshot">
                     <a href="{% url "client_profile" member.pk %}"><img src="{{ member.get_headshot_url }}" alt="{{ member }}"
-                         title="{{ member }}" class="basic-tooltip img-circle" /></a>
+                         title="{{ member }} 
+                                {% if member.share_gym_sessions %}{% else %}(Private gym-sessions){% endif %}
+                                {% if member.share_checkins %}{% else %}(Private checkins){% endif %}" 
+                         class="basic-tooltip img-circle" /></a>
                 </div>
             </div>
         {% endfor %}

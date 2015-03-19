@@ -81,7 +81,7 @@ class="sales-page"
         {% endif %}
 
         {% if blitz.group and not logo %}
-            <br />Begins
+            <br />
             {% if debug_mode %}
                 <input class="edit" type="text" name="datepicker" class="datepicker" id="datepicker" size:10 maxlength:30; value="{{ blitz.begin_date }}" placeholder="{{ blitz.begin_date }}">
             <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
@@ -93,21 +93,8 @@ class="sales-page"
 
                 <small><i>(Programs always start on Monday)</i></small>
             {% else %}
-                {{ blitz.begin_date }}
-            {% endif %}             
-            {% if blitz.recurring %} (Recurring) {% endif %}
-            <br>
 
-            Price: 
-                {% if blitz.free %} FREE 
-                {% else %} ${{ blitz.price }} 
-                    {% if blitz.price_model == "R" %}
-                       Monthly Recurring
-                    {% else %}
-                       One-time
-                    {% endif %}
-                {% endif %}
-            </a>
+            {% endif %}             
            </div>
 
         {% endif %} 

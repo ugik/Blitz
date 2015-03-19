@@ -1903,7 +1903,14 @@ def blitz_signup(request, short_name, url_slug):
         invitation = None
 
     trainer = get_object_or_404(Trainer, short_name=short_name)
-    blitz = get_object_or_404(Blitz, trainer=trainer, url_slug=url_slug)
+
+    blitzes = Blitz.objects.filter( Q(trainer=trainer) & Q(url_slug=url_slug) & ( Q(provisional=True) | Q(group=True) ) )
+
+    if blitzes:
+        blitz = blitzes[0]
+    else:
+        return redirect('/')
+
     next_url = '/signup-complete?pk='+str(blitz.pk)
 
     existing_user = None
@@ -2384,6 +2391,7 @@ def set_up_profile_basic(request):
             client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
 
+
 @login_required
 def set_up_profile_photo(request):
     client = request.user.client
@@ -2504,10 +2512,23 @@ def client_settings(request):
         form = ClientSettingsForm(request.POST, request.FILES)
 
         if form.is_valid() and form.is_multipart():
-            client.headshot = form.cleaned_data['picture']
-            client.save()
-            client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
+            if form.cleaned_data['picture']:
+                client.headshot = form.cleaned_data['picture']
+                client.save()
+                client.headshot_from_image(settings.MEDIA_ROOT+'/'+client.headshot.name)
 
+            if form.cleaned_data['share_checkin']:
+                client.share_checkins = True
+            else:
+                client.share_checkins = False
+
+            if form.cleaned_data['share_gym_session']:
+                client.share_gym_sessions = True
+            else:
+                client.share_gym_sessions = False
+
+            client.save()
+            
     else:
         form = ClientSettingsForm()
 

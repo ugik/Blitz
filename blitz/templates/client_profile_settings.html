@@ -87,6 +87,32 @@ $.post('/set-units', {'units': $('#units-select').val()}, function  (data) { $('
     </div>
 </div>
 
+<div class="settings-block">
+    <div class="title">Sharing
+    </div>
+    <div class="content" style="text-align: center; margin: 0 auto;">
+
+        <div id="sharing-success" class="alert alert-success" style="display:none; ">Shared settings changed!</div>
+
+        <div class="sharing-form">
+            {% csrf_token %}
+            <div class="what-sharing"><h4>When in a group, do you want to share?</h4>
+            </div>
+
+    <form name="SharingForm" action="" method="post">{% csrf_token %}
+
+                <input type="checkbox" name="share_gym_session" id="share_gym_session"
+                {% if client.share_gym_sessions %}checked{% endif %}>Share gym sessions <br>
+                <input type="checkbox" name="share_checkin" id="share_checkin"
+                {% if client.share_checkins %}checked{% endif %}>Share check-ins
+                <br><br>
+                <a id="change-sharing" type="submit" class="obtn" onclick="document.SharingForm.submit();">Set Sharing</a>
+    </form>
+
+        </div>
+    </div>
+</div>
+
 <a href="/profile-basic?reset"><b>Reset your profile information</b></a>
 
 {% endblock %}

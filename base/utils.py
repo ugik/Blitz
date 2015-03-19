@@ -116,7 +116,6 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
             blitz.workout_plan = workoutplan 
         if macro_formula:
             blitz.macro_strategy = macro_formula 
-        blitz.url_slug = ''
         blitz.uses_macros = True
         blitz.save()
 
@@ -178,20 +177,29 @@ def get_feeditem_html(feed_item, user):
         })
 
     elif feed_item.content_type.name == 'gym session':
-        return render_to_string('feeditems/gym_session.html', {
-            'gym_session': feed_item.content_object,
-            'exercises': grouped_sets_with_user_data(feed_item.content_object),
-            'feed_item': feed_item,
-            'user': user
-        })
+
+        if not feed_item.content_object.client.share_gym_sessions:
+                return    # don't show a gym sessions for client who isn't sharing them
+        else:
+            return render_to_string('feeditems/gym_session.html', {
+                'gym_session': feed_item.content_object,
+                'exercises': grouped_sets_with_user_data(feed_item.content_object),
+                'feed_item': feed_item,
+                'user': user
+            })
 
     elif feed_item.content_type.name == 'check in':
-        return render_to_string('feeditems/checkins.html', {
-            'checkin': feed_item.content_object,
-            'user': user,
-            'feed_item': feed_item,
-            'MEDIA_URL': MEDIA_URL
-        })
+
+        if not feed_item.content_object.client.share_checkins:
+                return    # don't show a checkin for client who isn't sharing them
+        else:
+
+            return render_to_string('feeditems/checkins.html', {
+                'checkin': feed_item.content_object,
+                'user': user,
+                'feed_item': feed_item,
+                'MEDIA_URL': MEDIA_URL
+            })
 
 def get_client_summary_html(client, macro_goals, macro_history):
     macro_goals_formatted = {}

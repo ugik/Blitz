@@ -13,12 +13,21 @@
                     <img src="{{ gym_session.client.user.headshot_url }}" class="img-circle" />
                 </div>
                     {% if user == gym_session.client.user %}
-                    <a class="edit-workout-link" href="{% url "log_workout" gym_session.workout_plan_day.workout_plan_week.week gym_session.workout_plan_day.day_of_week %}"><i class="glyphicon glyphicon-edit"></i> edit</a>
-                    <a class="feed-permalink" href="{% url "single_post_gym" feed_item.pk %}"><i class="glyphicon glyphicon-link"></i> share</a>
+
+                    <a class="feed-permalink" title="'Profile/Settings' for sharing options" href="/profile/settings"><i class="glyphicon glyphicon-share"></i> sharing&nbsp;&nbsp;&nbsp;</a>
+
+                    <a class="edit-workout-link" title="Edit this workout" href="{% url "log_workout" gym_session.workout_plan_day.workout_plan_week.week gym_session.workout_plan_day.day_of_week %}"><i class="glyphicon glyphicon-edit"></i> edit</a>
+
+                    <a class="feed-permalink" title="Link for this workout" href="{% url "single_post_gym" feed_item.pk %}"><i class="glyphicon glyphicon-link"></i> link&nbsp;&nbsp;</a>
+
+                    <a title="Profile/Settings for sharing options" href="{{ gym_session.client.user.get_profile_url }}">{{ gym_session.client.name }}</a> logged a workout.
+
+                    {% else %}
+
+                    <a href="{{ gym_session.client.user.get_profile_url }}">{{ gym_session.client.name }}</a> logged a workout.
 
                     {% endif %}
 
-                    <a href="{{ gym_session.client.user.get_profile_url }}">{{ gym_session.client.name }}</a> logged a workout.
                     <div class="feeditem-pub-date">
                         <i class="glyphicon glyphicon-time"></i> {{ feed_item.pub_date|timesince }} ago
                     </div>
