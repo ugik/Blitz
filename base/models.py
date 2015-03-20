@@ -819,6 +819,13 @@ class Blitz(models.Model):
         count = self.get_feeditems().filter(is_viewed=False).count()
         return count
 
+    def default_intro(self): 
+        if self.group:
+            return "Work in a small group pushing towards the same goals - all with %s in your corner to get you there. Limited space available." % self.trainer.name
+        else:
+            return "Private personal coaching with %s. Get a custom program, a premium 1-on-1 experience, with support/motivation/ass-kicking." % self.trainer.name
+
+
 class BlitzInvitation(models.Model):
     blitz = models.ForeignKey(Blitz, blank=True, null=True)
     email = models.EmailField()

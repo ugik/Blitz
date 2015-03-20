@@ -125,13 +125,9 @@
           <span class="program-details">
 
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
-                    {% if blitz.group %}
-                    Work in a small group pushing towards the same goals—all with {{ blitz.trainer.short_name }} in your corner to get you there. Limited space available.
-                    {% else %}
-                    Private personal coaching with {{ blitz.trainer.name }}. Get a custom program, a premium 1-on-1 experience, with support/motivation/ass-kicking.
-                    {% endif %}
+                  {{ blitz.default_intro|truncatechars:120 }}
                {% else %}
-                  {{ blitz.sales_page_content.program_introduction }}
+                  {{ blitz.sales_page_content.program_introduction|truncatechars:120 }}
                {% endif %}
 
           </span>
