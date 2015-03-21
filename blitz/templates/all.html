@@ -56,6 +56,7 @@
     <div class="col-md-6">
 {% elif cols|get_col:forloop.counter0 = 3 %}
     {% if cols|get_prior_col:forloop.counter = 2 %} </div><div class="row">{% endif %}
+
     <div class="col-md-4">
 {% endif %}
 
@@ -64,7 +65,7 @@
         {% if blitz.sales_page_content.social_proof_header_html %}
         <div class="program-cover-photo" style="background-image: url('{{ blitz.sales_page_content.social_proof_header_html }}');">
         {% else %}
-        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ background|random }}');">
+    <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ background|random }}');">
         {% endif %}
           <div class="program-cover-bg">
             <div class="program-name">
@@ -122,20 +123,19 @@
           {% endif %}
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
-          <span class="program-details">
 
+          <div class="program-details">
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
                   {{ blitz.default_intro|truncatechars:120 }}
                {% else %}
                   {{ blitz.sales_page_content.program_introduction|truncatechars:120 }}
                {% endif %}
 
-          </span>
+          </div>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">
           <button class="obtn full-width" onclick="window.location='{{ blitz.trainer.short_name }}/{{ blitz.url_slug }}';">
             Learn More
-
           </button>
         </div>
       </div>

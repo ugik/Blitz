@@ -1882,18 +1882,14 @@ a.edit-workout-link {
 
 .obtn {
   border: none;
-
   @include transition(0.3s, ease);
-  display: block;
   font-size: 24px;
   @include meta();
   padding: 0 20px;
-  margin-right: 5px;
   border-radius: 5px;
   @include blitz-gradient();
   background: #7ab2ea;
   color: #fff !important;
-  display: inline-block;
   position: relative;
   height: 45px;
   font-size: 24px;
@@ -4451,10 +4447,12 @@ ul.spotternav li {
     //margin: 0 auto;
     padding-bottom: 30px;
   }
-  .container .row .col-md-2 {
+  .container {
     @include mobile-only {
-      margin-left: 0px !important;
+      padding: 20px;
     }
+  }
+  .container .row .col-md-2 {
   }
 }
 
@@ -7100,7 +7098,7 @@ max-height: 68%;
 }
 
 .program-cover-bg {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.6);
   border-radius: 4px 4px 0px 0px;
   height: 240px;
 }
@@ -7110,12 +7108,13 @@ max-height: 68%;
   padding-top: 10px;
   color: white;
   text-shadow: 0px 0px 4px rgba(100, 100, 100, 1);
+  float: left;
 }
 
 .trainer-block {
   padding-left: 0px;
   color: white;
-  padding-top: 90px;
+  padding-top: 165px;
   margin: 0px;
   text-shadow: 0px 0px 2px rgba(150, 150, 150, 1);
 }
@@ -7147,6 +7146,12 @@ img.program-trainer-headshot {
   text-align: center;
 }
 
+.program-details {
+  text-overflow: ellipsis;
+  height: 80px;
+  overflow: hidden;
+}
+
 .program-detail-label {
   padding-top: 20px;
   opacity: 0.5;
@@ -7165,6 +7170,7 @@ img.program-trainer-headshot {
 
 .program-block {
   margin-bottom: 20px;
+  height: 520px;
 }
 
 .login-button :hover {
