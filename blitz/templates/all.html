@@ -114,7 +114,7 @@
           {% endif %}
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
-          <span class="program-details">
+          <div class="program-details">
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
                     {% if blitz.group %}
                     Work in a small group pushing towards the same goals—all with {{ blitz.trainer.short_name }} in your corner to make sure you get there. Limited space available.
@@ -125,7 +125,7 @@
                   {{ blitz.sales_page_content.program_introduction }}
                {% endif %}
 
-          </span>
+          </div>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">
           <button class="obtn full-width" onclick="window.location='{{ blitz.trainer.short_name }}/{{ blitz.url_slug }}';">

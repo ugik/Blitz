@@ -8169,6 +8169,13 @@ img.program-trainer-headshot {
 }
 
 /* line 7149, ../sass/style.scss */
+.program-details {
+  text-overflow: ellipsis;
+  height: 80px;
+  overflow: hidden;
+}
+
+/* line 7155, ../sass/style.scss */
 .program-detail-label {
   padding-top: 20px;
   opacity: 0.5;
@@ -8178,7 +8185,7 @@ img.program-trainer-headshot {
   text-align: center;
 }
 
-/* line 7158, ../sass/style.scss */
+/* line 7164, ../sass/style.scss */
 .program-numeral {
   font-size: 2.5em;
   font-family: 'proxima_nova_excn_ththin';
@@ -8186,24 +8193,25 @@ img.program-trainer-headshot {
   text-align: center;
 }
 
-/* line 7165, ../sass/style.scss */
+/* line 7171, ../sass/style.scss */
 .program-block {
   margin-bottom: 20px;
+  height: 520px;
 }
 
-/* line 7169, ../sass/style.scss */
+/* line 7176, ../sass/style.scss */
 .login-button :hover {
   background: #7ab2ea;
 }
 
-/* line 7174, ../sass/style.scss */
+/* line 7181, ../sass/style.scss */
 #logged-out-navs ul li a {
   padding-left: 25px;
   padding-right: 25px;
   text-shadow: 0px 0px 2px #969696;
 }
 
-/* line 7180, ../sass/style.scss */
+/* line 7187, ../sass/style.scss */
 .logged-out {
   border-bottom: none;
   background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);

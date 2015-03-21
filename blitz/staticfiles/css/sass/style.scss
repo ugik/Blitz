@@ -7146,6 +7146,12 @@ img.program-trainer-headshot {
   text-align: center;
 }
 
+.program-details {
+  text-overflow: ellipsis;
+  height: 80px;
+  overflow: hidden;
+}
+
 .program-detail-label {
   padding-top: 20px;
   opacity: 0.5;
@@ -7164,6 +7170,7 @@ img.program-trainer-headshot {
 
 .program-block {
   margin-bottom: 20px;
+  height: 520px;
 }
 
 .login-button :hover {
