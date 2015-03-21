@@ -49,13 +49,14 @@
   <div class="row">
 {% for blitz in blitzes|dictsort:"price" %}
 
+
 <!-- program card -->
     <div class="col-md-4">
       <div class="overview-block program-block">
         {% if blitz.sales_page_content.social_proof_header_html %}
         <div class="program-cover-photo" style="background-image: url('{{ blitz.sales_page_content.social_proof_header_html }}');">
         {% else %}
-        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ background|random }}');">
+        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ programbackground|random }}');">
         {% endif %}
           <div class="program-cover-bg">
             <div class="program-name">
