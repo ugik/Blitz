@@ -165,7 +165,7 @@ def market(request):
         else:
             cols.append(col)
 
-    background = ['background2.jpg', 'background3.jpg', 'minibackground.jpg', 'workoutsessionbackground.jpg']
+    background = ['programbackground1.png', 'programbackground2.png', 'programbackground3.png', 'programbackground4.png']
     blitzes = Blitz.objects.filter( ( Q(provisional=True) | Q(group=True) ) & Q(marketplace=True) )
 
     return render(request, 'all.html', 
