@@ -9,6 +9,7 @@
 {% block outer_content %}
 
 {% include "logged_out_header.html" %}
+{% load get_col %}
 
 <div class="allplanscover">
 
@@ -47,11 +48,19 @@
 <div class="container" style="margin-top: 30px; background-color: #fefefe">
 
   <div class="row">
+
 {% for blitz in blitzes|dictsort:"price" %}
 
+<!-- program card -->
+{% if cols|get_col:forloop.counter0 = 2 %}
+    {% if cols|get_prior_col:forloop.counter = 3 %} </div><div class="row">{% endif %}
+    <div class="col-md-6">
+{% elif cols|get_col:forloop.counter0 = 3 %}
+    {% if cols|get_prior_col:forloop.counter = 2 %} </div><div class="row">{% endif %}
+    <div class="col-md-4">
+{% endif %}
 
 <!-- program card -->
-    <div class="col-md-4">
       <div class="overview-block program-block">
         {% if blitz.sales_page_content.social_proof_header_html %}
         <div class="program-cover-photo" style="background-image: url('{{ blitz.sales_page_content.social_proof_header_html }}');">
@@ -61,7 +70,7 @@
           <div class="program-cover-bg">
             <div class="program-name">
               <h3 class="lightfont">
-                {{ blitz.title }}
+                {{ blitz.title }} {{ cols.forloop.counter }}
               </h3>
             </div>
             <div class="row trainer-block">
@@ -116,13 +125,9 @@
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
           <div class="program-details">
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
-                    {% if blitz.group %}
-                    Work in a small group pushing towards the same goals—all with {{ blitz.trainer.short_name }} in your corner to make sure you get there. Limited space available.
-                    {% else %}
-                    Private personal coaching with {{ blitz.trainer.name }}. Get a custom program, a premium 1-on-1 experience, and unlimited support/motivation/ass-kicking from {{ blitz.trainer.short_name }}.
-                    {% endif %}
+                  {{ blitz.default_intro|truncatechars:180 }}
                {% else %}
-                  {{ blitz.sales_page_content.program_introduction }}
+                  {{ blitz.sales_page_content.program_introduction|truncatechars:180 }}
                {% endif %}
 
           </div>
@@ -135,11 +140,6 @@
       </div>
 
 <!-- / program card -->
-
-{% if forloop.counter|divisibleby:3 %}
-    </div>
-    <div class="row">
-{% endif %}
 
 </div>
 
