@@ -61,7 +61,7 @@
 {% endif %}
 
 <!-- program card -->
-      <div class="overview-block program-block">
+      <div class="overview-block program-block" {% if cols|get_col:forloop.counter0 = 2 %}style="height: 480px;"{% endif %}>
         {% if blitz.sales_page_content.social_proof_header_html %}
         <div class="program-cover-photo" style="background-image: url('{{ blitz.sales_page_content.social_proof_header_html }}');">
         {% else %}
@@ -131,7 +131,7 @@
           {% endif %}
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
-          <div class="program-details">
+          <div class="program-details" {% if cols|get_col:forloop.counter0 = 2 %}style="height: 40px;"{% endif %}>
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
                   {{ blitz.default_intro|truncatechars:180 }}
                {% else %}
