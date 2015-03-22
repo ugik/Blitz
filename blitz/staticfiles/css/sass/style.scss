@@ -1881,6 +1881,7 @@ a.edit-workout-link {
 
 
 .obtn {
+  display: block;
   border: none;
   @include transition(0.3s, ease);
   font-size: 24px;
