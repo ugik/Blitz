@@ -14,7 +14,7 @@
                 </div>
                     {% if user == gym_session.client.user %}
 
-                    <a class="feed-permalink" title="'Profile/Settings' for sharing options" href="/profile/settings"><i class="glyphicon glyphicon-rotation-lock"></i> privacy&nbsp;&nbsp;&nbsp;</a>
+                    <a class="feed-permalink" title="'Profile/Settings' for sharing options" href="/profile/settings"><i class="glyphicon glyphicon-lock"></i> privacy&nbsp;&nbsp;&nbsp;</a>
 
                     <a class="edit-workout-link" title="Edit this workout" href="{% url "log_workout" gym_session.workout_plan_day.workout_plan_week.week gym_session.workout_plan_day.day_of_week %}"><i class="glyphicon glyphicon-edit"></i> edit</a>
 
