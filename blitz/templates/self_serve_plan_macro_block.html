@@ -1,0 +1,22 @@
+<div class="sidebar-box macros-sidebar-box
+        {% if client.get_blitz.uses_macros %}
+            {% if client.macros_set %}
+                macro-portrait-fix
+            {% else  %}
+                
+            {% endif %}
+        {% endif %}">
+    <div class="header">
+        Diet Goals
+        <a href="macrosmodal"><i class="glyphicon glyphicon-edit"></i> edit</a>
+    </div>
+    <div id="macro-block-container"></div>
+</div>
+{% include 'macro_templates.html' %}
+
+<script type='text/javascript'>
+    var CURRENT_WEEK = {{ client.current_blitz_week }};
+    var CURRENT_DAY = "{{ client.current_blitz_day }}";
+    var CURRENT_DAY_INDEX = {{ client.current_blitz_day_index }};
+</script>
+<script type='text/javascript' src='{{ STATIC_URL }}js/macros.js'></script>

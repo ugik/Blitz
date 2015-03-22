@@ -17,7 +17,7 @@
                 </div>
 
                     {% if user == checkin.client.user %}
-                    <a class="feed-permalink" title="(see 'Profile/Settings' for sharing options)" href="/profile/settings"><i class="glyphicon glyphicon-share"></i> sharing</a>
+                    <a class="feed-permalink" title="(see 'Profile/Settings' for sharing options)" href="/profile/settings"><i class="glyphicon glyphicon-lock"></i> privacy</a>
 
                     <a title="(see 'Profile/Settings' for sharing options)" 
 href="{{ checkin.client.user.get_profile_url }}">{{ checkin.client.name }}</a> logged a <a href="/profile/c/{{ checkin.client.pk }}/checkins">check-in.</a>
