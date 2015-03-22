@@ -77,14 +77,14 @@
               {% if cols|get_col:forloop.counter0 = 3 %}
               <div class="col-xs-3">
               {% elif cols|get_col:forloop.counter0 = 2 %}
-              <div class="col-xs-2">
+              <div class="col-md-2 col-xs-3">
               {% endif %}
                 <img class="program-trainer-headshot" width="60px" src="{{ blitz.trainer.get_headshot_url }}">
               </div>
               {% if cols|get_col:forloop.counter0 = 3 %}
               <div class="col-xs-9">
               {% elif cols|get_col:forloop.counter0 = 2 %}
-              <div class="col-xs-10">
+              <div class="col-md-10 col-xs-9">
               {% endif %}
                 <div class="program-trainer-name">
                   <h4>
