@@ -105,7 +105,11 @@
             <br />
             <span class="program-numeral">
               {% if blitz.free or blitz.sample or blitz.price == 0 %}FREE
-              {% else %}${{ blitz.price|stringformat:"1.0f"|cut:"-" }}
+              {% else %}
+                 ${{ blitz.price|stringformat:"1.0f"|cut:"-" }}
+                 {% if blitz.price_model = "R" %}
+                 <small>/month</small>
+                 {% endif %}
               {% endif %}
             </span>
           </div>
