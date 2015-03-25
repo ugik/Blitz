@@ -52,7 +52,7 @@
      <div style="text-align: left;" class="spotterheader">
 
 
-     <ul><li>{{ client.client.name }}
+     <ul><li>{{ client.client.name }} <br>
      {% if trainer %}
          <small>Program start date: {{ client.blitz.begin_date }} <br>
          Client signup date: {{ client.client.date_created }}</small></li>  
@@ -64,7 +64,13 @@
          {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
          {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</small></li> <br>
      {% endif %}
-         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} <br> DUE: $<b><u>{{ client.due }}</u></b>
+
+     {% if month %}
+
+     {% else %}
+         Cost: ${{ client.total_cost }} Paid: ${{ client.total_paid }} <br> 
+         DUE: $<b><u>{{ client.due }}</u></b>
+     {% endif %}
          Usage: {{ client.months }} months <br>
          {% if client.note %} <br><br><b>Note: {{ client.note }} </b><br>{% endif %}
 
