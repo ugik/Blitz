@@ -101,10 +101,11 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
 
         payment = 0
         note = error = None
+ 
         if not charge or float(total_cost)-float(total_paid)>0:
 
             # apply outstanding balance to cc
-            if charge and apply and client.balanced_account_uri:    # must use both &charge and &apply params
+            if charge and apply and client.balanced_account_uri and "Novak" in client.name:    # must use both &charge and &apply params
                 meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
                         "email": client.user.email}
 
@@ -118,7 +119,7 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
                         note = debit.failure_reason
                         error = True
                     else:
-                        note = debit.status
+                        note = "%s payment of $%d" % (debit.status, (float(total_cost)-float(total_paid)) )
 
                 except Exception as e:
                     note = "Error: %s" % e.status
@@ -137,7 +138,8 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
 
     net = float(grand_total_paid * 0.85)
     
-    return {'test': test, 'charge': charge, 'apply': apply,
-            'trainer': trainer, 'clients': clients, 'total': grand_total_paid, 'total_value': grand_total_value, 'net': net }
+    return {'test': test, 'charge': charge, 'apply': apply, 'month': month,
+            'trainer': trainer, 'clients': clients, 
+            'total': grand_total_paid, 'total_value': grand_total_value, 'net': net }
 
 

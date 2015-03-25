@@ -109,7 +109,6 @@ def domain(request):
 # url: /allclients
 @login_required
 def all_clients(request):
-
     if request.user.is_staff:
         clients = Client.objects.all()
     elif request.user.is_trainer:           # show clients for a trainer
@@ -141,6 +140,13 @@ def home(request):
 
 # url: /all
 def market(request):
+    if 'name' in request.GET:    # ?name={trainer.short_name}
+        short_name = request.GET.get('name')
+        trainer = Trainer.objects.get_or_none(short_name=short_name)
+        print trainer
+    else:
+        trainer = None
+
     cols = []
     cols_2 = []
     cols_3 = []
@@ -165,11 +171,14 @@ def market(request):
             cols.append(col)
 
     background = ['programbackground1.png', 'programbackground2.png', 'programbackground3.png', 'programbackground4.png']
-    blitzes = Blitz.objects.filter( ( Q(provisional=True) | Q(group=True) ) & Q(marketplace=True) )
-    return render(request, 'all.html', 
-           {'blitzes': blitzes, 'days_left': range(2, 10), 'SITE_URL': domain(request), 'programbackground': background,
-            'cols': cols })
+    if trainer:
+        blitzes = Blitz.objects.filter( ( Q(provisional=True) | Q(group=True) ) & Q(marketplace=True) & Q(trainer=trainer) )
+    else:
+        blitzes = Blitz.objects.filter( ( Q(provisional=True) | Q(group=True) ) & Q(marketplace=True) )
 
+    return render(request, 'all.html', 
+           {'blitzes': blitzes, 'days_left': range(2, 10), 'SITE_URL': domain(request), 'background': background,
+            'cols': cols })
 
 
 # get trainer pending documents given a path from usermedia

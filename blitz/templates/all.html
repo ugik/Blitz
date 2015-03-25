@@ -51,12 +51,12 @@
 
 {% for blitz in blitzes|dictsort:"price" %}
 
-<!-- program card -->
 {% if cols|get_col:forloop.counter0 = 2 %}
     {% if cols|get_prior_col:forloop.counter = 3 %} </div><div class="row">{% endif %}
     <div class="col-md-6">
 {% elif cols|get_col:forloop.counter0 = 3 %}
     {% if cols|get_prior_col:forloop.counter = 2 %} </div><div class="row">{% endif %}
+
     <div class="col-md-4">
 {% endif %}
 
@@ -65,7 +65,7 @@
         {% if blitz.sales_page_content.social_proof_header_html %}
         <div class="program-cover-photo" style="background-image: url('{{ blitz.sales_page_content.social_proof_header_html }}');">
         {% else %}
-        <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ programbackground|random }}');">
+    <div class="program-cover-photo" style="background-image: url('{{ STATIC_URL }}images/{{ background|random }}');">
         {% endif %}
           <div class="program-cover-bg">
             <div class="program-name">
@@ -105,7 +105,11 @@
             <br />
             <span class="program-numeral">
               {% if blitz.free or blitz.sample or blitz.price == 0 %}FREE
-              {% else %}${{ blitz.price|stringformat:"1.0f"|cut:"-" }}
+              {% else %}
+                 ${{ blitz.price|stringformat:"1.0f"|cut:"-" }}
+                 {% if blitz.price_model = "R" %}
+                 <small>/month</small>
+                 {% endif %}
               {% endif %}
             </span>
           </div>
@@ -131,7 +135,9 @@
           {% endif %}
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px; text-align: center;">
+
           <div class="program-details" {% if cols|get_col:forloop.counter0 = 2 %}style="height: 40px;"{% endif %}>
+
                {% if "I'm taking a limited number of awesome" in blitz.sales_page_content.program_introduction %}
                   {{ blitz.default_intro|truncatechars:180 }}
                {% else %}
