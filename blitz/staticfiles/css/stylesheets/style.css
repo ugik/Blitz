@@ -8230,3 +8230,9 @@ img.program-trainer-headshot {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3000000', endColorstr='#00000000',GradientType=0 );
   /* IE6-9 */
 }
+
+/* line 7199, ../sass/style.scss */
+.permonth {
+  font-family: 'proxima_novalight';
+  font-size: 0.4em;
+}

@@ -98,22 +98,30 @@
           </div>
         </div>
         <div class="row" style="margin: 0; padding-top: 20px;">
-          <div class="col-xs-4">
+          <div 
+          {% if blitz.price_model = "R" and not blitz.free and not blitz.sample %}
+          class="col-xs-8" style="text-align: center;"
+          {% elif blitz.price_model = "R" and blitz.free or blitz.sample %}
+          class="col-xs-12" style="text-align: center;"
+          {% else %}
+          class="col-xs-4"
+          {% endif %}>
+
             <span class="program-detail-label">
               Cost
             </span>
             <br />
-            <span class="program-numeral">
+            <span class="program-numeral" {% if blitz.price_model = "R" %}style=""{% endif %}>
               {% if blitz.free or blitz.sample or blitz.price == 0 %}FREE
               {% else %}
                  ${{ blitz.price|stringformat:"1.0f"|cut:"-" }}
                  {% if blitz.price_model = "R" %}
-                 <small>/month</small>
+                 <span class="permonth"> / month</span>
                  {% endif %}
               {% endif %}
             </span>
           </div>
-          <div class="col-xs-4">
+          <div class="col-xs-4" {% if blitz.price_model = "R" %}style="display: none!important;"{% endif %}>
             <span class="program-detail-label">
               Weeks
             </span>
