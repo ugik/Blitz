@@ -121,7 +121,7 @@
               {% endif %}
             </span>
           </div>
-          <div class="col-xs-4" {% if blitz.price_model = "R" %}style="display: none!important;"{% endif %}>
+          <div class="col-xs-4" {% if blitz.recurring or blitz.sample %}style="display: none!important;"{% endif %}>
             <span class="program-detail-label">
               Weeks
             </span>
