@@ -132,7 +132,9 @@ def home(request):
                 return trainer_dashboard(request)
             else:
                 return client_home(request)
-        except:
+
+        except Exception as e:
+            print "Error: %s" % e
             return redirect('logout_view')
 
     else:
@@ -655,8 +657,8 @@ def client_home(request, **kwargs):
     elif client.get_blitz().workout_plan:
         days_since_blitz = client.get_blitz().days_since_begin()
 
-    macro_goals = json.loads(client.macro_target_json)
-
+    macro_goals = json.loads(client.macro_target_json) if client.macro_target_json else None
+   
     return render(request, 'client_home.html', {
         'client': client,
         'next_workout': next_workout,
