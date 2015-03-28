@@ -12,14 +12,14 @@
 
     <div class="row">
         <div class="col-md-6" style="float: none; margin: 0 auto;">
-           <img class="profile-headshot img-circle" id='headshot' src="{{ client.get_headshot_url }}" />
-           <h3>Edit diet goals</h3>
-           <p class="macroblurb">You can use one of our preset diet goals (personalized based on your height, weight and gender), or type in your own targets below.</p>
+           <img class="profile-headshot img-circle" style="display: none;" id='headshot' src="{{ client.get_headshot_url }}" />
+           <h3 style="margin-top: 125px;">Edit diet goals</h3>
+           <p class="macroblurb">You can set your own diet goals manually or use one of our preset macronutrient formulas (personalized based on your height, weight and gender).</p>
            <div class="formpage-block">
               <form method="post" name="client_macros"> {% csrf_token %}
 
                     <select name="formula-select" id="formula-select" class="selectpicker">
-                        <option value="DEFAULT">Standard Macro Formula</option>
+                        <option value="DEFAULT">Maintenance / Body Recomposition</option>
                         <option value="BULK">Bulking (+10%)</option>
                         <option value="BEAST">Beast Mode (+15%)</option>
                         <option value="CUT">Cutting (-10%)</option>

@@ -8236,3 +8236,9 @@ img.program-trainer-headshot {
   font-family: 'proxima_novalight';
   font-size: 0.4em;
 }
+
+/* line 7204, ../sass/style.scss */
+.header a {
+  font-size: 0.6em;
+  margin-left: 150px;
+}
