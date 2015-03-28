@@ -306,5 +306,7 @@ week of 3.16
 - marketplace /all and wiring
 - gym_session and checkin sharing settings for groups
 
-
+weel of 3.23
+- sample program client self-serve macros
+- improve def home() error handling
 

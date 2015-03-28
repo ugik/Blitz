@@ -57,9 +57,17 @@
 
         {% if client.get_blitz.uses_macros and client.get_blitz.workout_plan_id %}
             {% if client.macros_set %}
-                {% include "macro_block.html" %}
+                {% if client.get_blitz.sample %}
+                    {% include "self_serve_plan_macro_block.html" %}
+                {% else %}
+                    {% include "macro_block.html" %}
+                {% endif %}
             {% else  %}
-                {% include "macros_not_set_yet.html" %}
+                {% if client.get_blitz.sample %}
+                    {% include "self_serve_plan_macros_not_set_yet.html" %}
+                {% else %}
+                    {% include "macros_not_set_yet.html" %}
+                {% endif %}
             {% endif %}
         {% endif %}
 
@@ -146,6 +154,86 @@
     <div id="intro-modal" class="modal hide fade blitz-modal" tabindex="-1">
     {% include "onboarding_content.html" %}
     </div>
+</div>
+
+{% include "self_serve_plan_client_macros_modal.html" with trainer=client.get_blitz.trainer client=client url_return='#' %}
+
+<script type="text/javascript">
+// set attributes in modal indirectly (modal is loaded from dashboard which lacks detail context)
+    $(document).ready(function() {
+       show_client_macros(1, details=1);
+      })
+
+    function show_client_macros(factor, details, formula) { 
+       factor = factor || 1;
+       details = details || 0;
+       formula = formula || 0;
+
+       var kg = {{ client.weight_in_lbs }}/2.2;
+       var h = {{ client.height_feet }}*30.48 + {{ client.height_inches }}*2.54;
+       var age = {{ client.age }};
+       var wkout_factor = 1.15;
+
+       var r_cals = factor * (10 * kg + 6.25 * h - 5 * age + 5);
+       var r_protein = factor * (0.9 * kg * 2.2);
+       var r_fat = factor * (0.4 * kg * 2.2);
+       var r_carbs = factor * (r_cals - r_protein - r_fat) / 4;
+       var w_cals = r_cals * wkout_factor;
+       var w_protein = r_protein * wkout_factor;
+       var w_fat = r_fat * wkout_factor;
+       var w_carbs = r_carbs * wkout_factor;
+
+       document.getElementById('c_rest_cals').value=r_cals.toFixed(0).toString();
+       document.getElementById('c_rest_fat').value=r_fat.toFixed(0).toString();
+       document.getElementById('c_rest_carbs').value=r_carbs.toFixed(0).toString();
+       document.getElementById('c_rest_protein').value=r_protein.toFixed(0).toString();
+       document.getElementById('c_wout_cals').value=w_cals.toFixed(0).toString();
+       document.getElementById('c_wout_fat').value=w_fat.toFixed(0).toString();
+       document.getElementById('c_wout_carbs').value=w_carbs.toFixed(0).toString();
+       document.getElementById('c_wout_protein').value=w_protein.toFixed(0).toString();
+       
+       if ("{{ macro_details.rest_calories }}".length > 1 && details != 0) {
+           document.getElementById('c_rest_cals').value="{{ macro_details.rest_calories }}";
+           document.getElementById('c_rest_fat').value="{{ macro_details.rest_fat }}";
+           document.getElementById('c_rest_carbs').value="{{ macro_details.rest_carbs }}";
+           document.getElementById('c_rest_protein').value="{{ macro_details.rest_protein }}";
+           document.getElementById('c_wout_cals').value="{{ macro_details.training_calories }}";
+           document.getElementById('c_wout_fat').value="{{ macro_details.training_fat }}";
+           document.getElementById('c_wout_carbs').value="{{ macro_details.training_carbs }}";
+           document.getElementById('c_wout_protein').value="{{ macro_details.training_protein }}";
+           }
+
+       return 0;
+       }
+
+    function save_spotter_edit() { 
+         $.ajax({
+             url: '/trainer/spotter-edit',
+             type: 'POST',
+             data: {blitz: {{ client.get_blitz.pk }},
+             spotter_text: document.getElementById('edit_request').value },
+           })
+       }
+
+    function save_macros() { 
+         $.ajax({
+             url:'/trainer/client-macros-save',
+             type: 'POST',
+             data: {client: {{ client.pk }}, formula: document.getElementById('formula-select').value,
+                    c_rest_cals: document.getElementById('c_rest_cals').value,
+                    c_rest_fat: document.getElementById('c_rest_fat').value,
+                    c_rest_carbs: document.getElementById('c_rest_carbs').value,
+                    c_rest_protein: document.getElementById('c_rest_protein').value,
+                    c_wout_cals: document.getElementById('c_wout_cals').value,
+                    c_wout_fat: document.getElementById('c_wout_fat').value,
+                    c_wout_carbs: document.getElementById('c_wout_carbs').value,
+                    c_wout_protein: document.getElementById('c_wout_protein').value,
+                    },
+             success:function(result){}
+           });
+       }
+
+</script>
 
 {% endblock %}
 

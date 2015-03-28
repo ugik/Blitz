@@ -132,7 +132,9 @@ def home(request):
                 return trainer_dashboard(request)
             else:
                 return client_home(request)
-        except:
+
+        except Exception as e:
+            print "Error: %s" % e
             return redirect('logout_view')
 
     else:
@@ -655,6 +657,8 @@ def client_home(request, **kwargs):
     elif client.get_blitz().workout_plan:
         days_since_blitz = client.get_blitz().days_since_begin()
 
+    macro_goals = json.loads(client.macro_target_json) if client.macro_target_json else None
+   
     return render(request, 'client_home.html', {
         'client': client,
         'next_workout': next_workout,
@@ -665,6 +669,7 @@ def client_home(request, **kwargs):
         'days_since_checkin' : days_since_checkin,
         'days_since_blitz' : days_since_blitz,
         'missed_workouts': client.get_missed_workouts(limit=3),
+        'macro_details': macro_goals,
         }, context_instance=RequestContext(request))
 
 # client profile
@@ -2319,7 +2324,8 @@ def blitz_macros_save(request):
 @login_required
 @csrf_exempt
 def client_macros_save(request):
-    trainer = request.user.trainer
+#    trainer = request.user.trainer if request.user.is_trainer else None
+
     client = get_object_or_404(Client, pk=int(request.POST.get('client')))
 
     if 'formula' in request.POST:
