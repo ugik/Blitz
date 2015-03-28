@@ -71,7 +71,11 @@ class="sales-page"
            {% endif %} 
            </label>
         {% else %}
-           {% if sales_page.logo %}
+           {% if logo %}
+            <a class="navbar-brand" href="/" id="secondary_logo">
+              <img src="{{ logo }}" align="left" class="shadowimg"/>
+            </a>
+           {% elif sales_page.logo %}
             <a class="navbar-brand" href="/" id="secondary_logo">
               <img src="{{ MEDIA_URL }}{{ sales_page.logo }}" align="left" class="shadowimg"/>
             </a>

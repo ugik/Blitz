@@ -130,7 +130,7 @@
               {% if blitz.num_weeks > 0 %}{{ blitz.num_weeks }}{% else %} 12 {% endif %}
             </span>
           </div>
-          {% if not blitz.free and not blitz.sample %}
+          {% if not blitz.free and not blitz.sample and not cols|get_col:forloop.counter0 = 3 %}
           <div class="col-xs-4">
             <span class="program-detail-label">
               Spots left
