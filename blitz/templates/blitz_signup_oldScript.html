@@ -1,0 +1,142 @@
+<%--
+$(document).ready(function() {
+
+    var blitz_key = '{{ blitz.pk }}';
+    var invitation_key = '{{ invitation.pk }}';
+    var $form = $('#blitz-signup-form');
+    var existing_user = '{{ existing_user.name }}';
+    var marketplaceUri = "{{ marketplace_uri }}";
+    balanced.init(marketplaceUri);
+
+    function disableForm() {
+        $form.find('input').attr('disabled', 'disabled');
+        $('#signup-loading').show();
+        $('#blitz-signup-submit').hide();
+    }
+
+    function enableForm() {
+        $form.find('input').removeAttr('disabled');
+        $('#signup-loading').hide();
+        $('#blitz-signup-submit').show();
+    }
+
+    function showFinished() {
+        window.location.href = "{{ next_url }}";
+    }
+
+    function resetErrors() {
+        $('.form-error').html("");
+        $('.form-error').hide();
+    }
+
+    function finishItOff(card_uri) {
+        if (invitation_key == '') {   // no invitation
+           $.post('/blitz/' + blitz_key + '/_/payment_hook', {'card_uri': card_uri} , function(data) {
+               if (data.has_error) {
+                   $form.find('.error-card').html(data.error);
+                   $form.find('.error-card').show();
+                   enableForm();
+               } else {
+                   showFinished();
+               }
+           });  
+        }
+        else {   // handle invitation, pass pk in url
+           $.post('/blitz/' + blitz_key + '/_/payment_hook?invitation='+invitation_key, {'card_uri': card_uri} , function(data) {
+               if (data.has_error) {
+                   $form.find('.error-card').html(data.error);
+                   $form.find('.error-card').show();
+                   enableForm();
+               } else {
+                   showFinished();
+               }
+           });
+        }
+    }
+
+    function balancedCallback(response) {
+        switch (response.status) {
+            case 201:
+                finishItOff(response.data.uri);
+                break;
+
+            case 400:
+                if (response.error.card_number) {
+                    $form.find('.error-card_number').html(response.error.card_number);
+                    $form.find('.error-card_number').show();
+                }
+                if (response.error.expiration_month) {
+                    $form.find('.error-expiration_month').html(response.error.expiration_month);
+                    $form.find('.error-expiration_month').show();
+                }
+                if (response.error.expiration_year) {
+                    $form.find('.error-expiration_year').html(response.error.expiration_year);
+                    $form.find('.error-expiration_year').show();
+                }
+                if (response.error.expiration && !response.error.expiration_month && !response.error.expiration_year) {
+                    $form.find('.error-card').html("This expiration date is not valid. ");
+                    $form.find('.error-card').show();
+                }
+                enableForm();
+                break;
+            case 401:
+            case 402:
+            case 403:
+                $form.find('.error-card').html("This card does not appear to be valid; please check the card number again");
+                $form.find('.error-card').show();
+                enableForm();
+                break;
+            case 404:
+                // your marketplace URI is incorrect
+                enableForm();
+                break;
+            default:
+                // we did something unexpected - check response.error for details
+                enableForm();
+                break;
+        }
+    }
+
+    function offToBalanced() {
+        var creditCardData = {
+            card_number: $form.find('.cc-number').val(),
+            expiration_month: $form.find('.cc-em').val(),
+            expiration_year: $form.find('.cc-ey').val(),
+            security_code: $form.find('cc-csc').val()
+        };
+        balanced.card.create(creditCardData, balancedCallback);
+    }
+
+    function submitForm() {
+        disableForm();
+        var accountData = {
+            'name': $form.find('.user-name').val(),
+            'email': $form.find('.user-email').val(),
+            'password': $form.find('.user-password').val(),
+        }
+        $.post('/blitz/' + blitz_key + '/_/create_account', accountData, function(data) {
+            resetErrors();
+            if (data.has_error) {
+                if (data.errors.name && existing_user=='') {
+                    $form.find('.error-user-name').html(data.errors.name[0]);
+                    $form.find('.error-user-name').show();
+                }
+                if (data.errors.email && existing_user=='') {
+                    $form.find('.error-user-email').html(data.errors.email[0]);
+                    $form.find('.error-user-email').show();
+                }
+                if (data.errors.password && existing_user=='') {
+                    $form.find('.error-user-password').html(data.errors.password[0]);
+                    $form.find('.error-user-password').show();
+                }
+                enableForm();
+            } else {
+                offToBalanced();
+            }
+        });
+    }
+
+    $('#blitz-signup-submit').on('click', submitForm);
+
+});
+--%>

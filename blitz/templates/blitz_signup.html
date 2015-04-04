@@ -62,15 +62,13 @@
                     <div class="form-error error-card"></div>
                     <div class="form-error error-card_number"></div>
 
-                    
                         <div class="input-container">
                             <input type="number"
                                    autocomplete="off"
                                    placeholder="Credit card number (no spaces)"
-                                   class="cc-number"
+                                   class="card-number stripe-sensitive required"
                                    >
                         </div>
-
 
                     <div class="input-row">
 
@@ -79,7 +77,7 @@
                         <input type="number"
                                autocomplete="off"
                                placeholder="Month (MM)"
-                               class="cc-em"
+                               class="card-expiry-month stripe-sensitive required"
                                >
                         </div></div></div>
 
@@ -88,7 +86,7 @@
                         <input type="number"
                                autocomplete="off"
                                placeholder="Year (YYYY)"
-                               class="cc-ey"
+                               class="card-expiry-year stripe-sensitive required"
                                >
                         </div></div></div>
 
@@ -96,13 +94,14 @@
                         <input type="number"
                                autocomplete="off"
                                placeholder="Sec. code"
-                               class="cc-csc"
+                               class="card-cvc stripe-sensitive required"
                                >
                         </div></div></div>
 
                     </div>
 
                     <div class="form-sep"></div>
+                    <span class="payment-errors"></span>
 
                     <div class="submit-container">
                         <a id="blitz-signup-submit" class="obtn obtn-comment">{% if existing_user %}Complete Update →{% else %}Complete Signup →{% endif %}</a>
@@ -160,148 +159,93 @@
         </div> 
     </div>
 </div>
-<script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
 
-    var blitz_key = '{{ blitz.pk }}';
-    var invitation_key = '{{ invitation.pk }}';
-    var $form = $('#blitz-signup-form');
-    var existing_user = '{{ existing_user.name }}';
-    var marketplaceUri = "{{ marketplace_uri }}";
-    balanced.init(marketplaceUri);
-
-    function disableForm() {
-        $form.find('input').attr('disabled', 'disabled');
-        $('#signup-loading').show();
-        $('#blitz-signup-submit').hide();
-    }
-
-    function enableForm() {
-        $form.find('input').removeAttr('disabled');
-        $('#signup-loading').hide();
-        $('#blitz-signup-submit').show();
-    }
-
-    function showFinished() {
-        window.location.href = "{{ next_url }}";
-    }
-
-    function resetErrors() {
-        $('.form-error').html("");
-        $('.form-error').hide();
-    }
-
-    function finishItOff(card_uri) {
-        if (invitation_key == '') {   // no invitation
-           $.post('/blitz/' + blitz_key + '/_/payment_hook', {'card_uri': card_uri} , function(data) {
-               if (data.has_error) {
-                   $form.find('.error-card').html(data.error);
-                   $form.find('.error-card').show();
-                   enableForm();
-               } else {
-                   showFinished();
-               }
-           });  
-        }
-        else {   // handle invitation, pass pk in url
-           $.post('/blitz/' + blitz_key + '/_/payment_hook?invitation='+invitation_key, {'card_uri': card_uri} , function(data) {
-               if (data.has_error) {
-                   $form.find('.error-card').html(data.error);
-                   $form.find('.error-card').show();
-                   enableForm();
-               } else {
-                   showFinished();
-               }
-           });
-        }
-    }
-
-    function balancedCallback(response) {
-        switch (response.status) {
-            case 201:
-                finishItOff(response.data.uri);
-                break;
-
-            case 400:
-                if (response.error.card_number) {
-                    $form.find('.error-card_number').html(response.error.card_number);
-                    $form.find('.error-card_number').show();
+        <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+        <script type="text/javascript">
+          Stripe.setPublishableKey('pk_test_GNaBSGoHDthi86RxOdzFPuGN');
+            $(document).ready(function() {
+                function addInputNames() {
+                    $(".card-number").attr("name", "card-number")
+                    $(".card-cvc").attr("name", "card-cvc")
+                    $(".card-expiry-year").attr("name", "card-expiry-year")
                 }
-                if (response.error.expiration_month) {
-                    $form.find('.error-expiration_month').html(response.error.expiration_month);
-                    $form.find('.error-expiration_month').show();
-                }
-                if (response.error.expiration_year) {
-                    $form.find('.error-expiration_year').html(response.error.expiration_year);
-                    $form.find('.error-expiration_year').show();
-                }
-                if (response.error.expiration && !response.error.expiration_month && !response.error.expiration_year) {
-                    $form.find('.error-card').html("This expiration date is not valid. ");
-                    $form.find('.error-card').show();
-                }
-                enableForm();
-                break;
-            case 401:
-            case 402:
-            case 403:
-                $form.find('.error-card').html("This card does not appear to be valid; please check the card number again");
-                $form.find('.error-card').show();
-                enableForm();
-                break;
-            case 404:
-                // your marketplace URI is incorrect
-                enableForm();
-                break;
-            default:
-                // we did something unexpected - check response.error for details
-                enableForm();
-                break;
-        }
-    }
 
-    function offToBalanced() {
-        var creditCardData = {
-            card_number: $form.find('.cc-number').val(),
-            expiration_month: $form.find('.cc-em').val(),
-            expiration_year: $form.find('.cc-ey').val(),
-            security_code: $form.find('cc-csc').val()
-        };
-        balanced.card.create(creditCardData, balancedCallback);
-    }
-
-    function submitForm() {
-        disableForm();
-        var accountData = {
-            'name': $form.find('.user-name').val(),
-            'email': $form.find('.user-email').val(),
-            'password': $form.find('.user-password').val(),
-        }
-        $.post('/blitz/' + blitz_key + '/_/create_account', accountData, function(data) {
-            resetErrors();
-            if (data.has_error) {
-                if (data.errors.name && existing_user=='') {
-                    $form.find('.error-user-name').html(data.errors.name[0]);
-                    $form.find('.error-user-name').show();
+                function removeInputNames() {
+                    $(".card-number").removeAttr("name")
+                    $(".card-cvc").removeAttr("name")
+                    $(".card-expiry-year").removeAttr("name")
                 }
-                if (data.errors.email && existing_user=='') {
-                    $form.find('.error-user-email').html(data.errors.email[0]);
-                    $form.find('.error-user-email').show();
-                }
-                if (data.errors.password && existing_user=='') {
-                    $form.find('.error-user-password').html(data.errors.password[0]);
-                    $form.find('.error-user-password').show();
-                }
-                enableForm();
-            } else {
-                offToBalanced();
-            }
-        });
-    }
 
-    $('#blitz-signup-submit').on('click', submitForm);
+                function submit(form) {
+                    removeInputNames();
 
-});
+                    // given a valid form, submit the payment details to stripe
+                    $(form['submit-button']).attr("disabled", "disabled")
+
+                    Stripe.createToken({
+                        number: $('.card-number').val(),
+                        cvc: $('.card-cvc').val(),
+                        exp_month: $('.card-expiry-month').val(), 
+                        exp_year: $('.card-expiry-year').val()
+                    }, function(status, response) {
+                        if (response.error) {
+                            // re-enable the submit button
+                            $(form['submit-button']).removeAttr("disabled")
+        
+                            // show the error
+                            $(".payment-errors").html(response.error.message);
+
+                            // we add these names back in so we can revalidate properly
+                            addInputNames();
+                        } else {
+                            alert('success!');
+
+                            // token contains id, last4, and card type
+                            var token = response['id'];
+
+                            // insert the stripe token
+                            var input = $("<input name='stripeToken' value='" + token + "' style='display:none;' />");
+                            form.appendChild(input[0])
+
+                            // and submit
+                            form.submit();
+                        }
+                    });
+                    
+                    return false;
+                }
+                
+                // add custom rules for credit card validating
+                jQuery.validator.addMethod("cardNumber", Stripe.validateCardNumber, "Please enter a valid card number");
+                jQuery.validator.addMethod("cardCVC", Stripe.validateCVC, "Please enter a valid security code");
+                jQuery.validator.addMethod("cardExpiry", function() {
+                    return Stripe.validateExpiry($(".card-expiry-month").val(), 
+                                                 $(".card-expiry-year").val())
+                }, "Please enter a valid expiration");
+
+                // We use the jQuery validate plugin to validate required params on submit
+                $("#blitz-signup-form").validate({
+                    submitHandler: submit,
+                    rules: {
+                        "card-cvc" : {
+                            cardCVC: true,
+                            required: true
+                        },
+                        "card-number" : {
+                            cardNumber: true,
+                            required: true
+                        },
+                        "card-expiry-year" : "cardExpiry" // we don't validate month separately
+                    }
+                });
+
+                // adding the input field names is the last step, in case an earlier step errors                
+                addInputNames();
+
+                $('#blitz-signup-submit').on('click', submit);
+            });
+
 </script>
 
 {% endblock %}
