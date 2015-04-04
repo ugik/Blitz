@@ -24,18 +24,28 @@
 
 {% block main %}
 
+
+
     <div class="col-md-4 right-side">
 
         {% if next_workout %}
         <div class="sidebar-box todays-workout">
-
-            {% if next_workout_today %}
-                <div class="header">Today's Workout: {{ next_workout.workout.display_name }}</div>
-            {% else %}
-                <div class="header">Next Workout: {{ next_workout_date }}</div>
-            {% endif %}
-
+          <div class="header">
+            {% blitz.workout_plan %}
+            <a onclick="{ jQuery.noConflict();$('#modalPlanSwitcher').modal('show'); }" >
+              <i class="glyphicon glyphicon-refresh"></i> switch
+            </a>
+          </div>
             <div class="sidebar-box-content todays-workout-items">
+              {% if next_workout_today %}
+                  <span class="workouttitle">
+                    Today's Workout: {{ next_workout.workout.display_name }}
+                  </span>
+              {% else %}
+                  <span class="workouttitle">
+                    Next Workout: {{ next_workout_date }}
+                  </span>
+              {% endif %}
 
                 {% for lift in next_workout.workout|custom_workout_lifts:client %}
                     <div class="lift-desc">{{ lift }}</div>
