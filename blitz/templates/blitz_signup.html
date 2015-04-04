@@ -246,10 +246,6 @@ $(document).ready(function() {
                         // token contains id, last4, and card type
                         var token = response['id'];
 
-                        // insert the stripe token
-                        var input = $("<input name='stripeToken' value='" + token + "' style='display:none;' />");
-                        form.appendChild(input[0])
-
                         if (invitation_key == '') {   // no invitation
                             $.post('/blitz/' + blitz_key + '/_/payment_hook', {'card_uri': token} , function(data) {
                                 if (data.has_error) {

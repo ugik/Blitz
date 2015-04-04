@@ -18,7 +18,7 @@ from spotter.urls import *
 from itertools import chain
 from ipware.ip import get_ip
 
-import balanced
+import stripe
 import analytics
 
 from base.forms import LoginForm, SetPasswordForm, Intro1Form, ProfileURLForm, CreateAccountForm, CreateAccountFormFree, SubmitPaymentForm, SetMacrosForm, NewTrainerForm, UploadForm, BlitzSetupForm, NewClientForm, ClientSettingsForm, CommentForm, ClientCheckinForm, SalesBlitzForm, SpotterProgramEditForm, TrainerUploadsForm, MacrosForm
@@ -2068,7 +2068,6 @@ def create_account_hook(request, pk):
 # note: existing client updating info assumes blitz.price rather than client.blitzmember.price
 @csrf_exempt
 def payment_hook(request, pk):
-
     stripe.api_key = "sk_test_1E3ZsZbKro2jHUG4Gauqb56T"
 
     blitz = get_object_or_404(Blitz, pk=pk)
@@ -2122,13 +2121,12 @@ def payment_hook(request, pk):
                 currency="usd",
                 source=token,
                 description="Blitz.us payment %d" % (debit_amount/100),
-                customer=str(client.id),
                 metadata=meta
             )
         except stripe.CardError, e:
             # The card has been declined
             has_error = True
-            error = e
+            error = e.code
 
         if error:
             has_error = True

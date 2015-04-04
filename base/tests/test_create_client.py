@@ -22,7 +22,7 @@ class TestCreateClient(unittest.TestCase):
         driver.find_element_by_css_selector("input.user-password").clear()
         driver.find_element_by_css_selector("input.user-password").send_keys("asdfasdf")
         driver.find_element_by_css_selector("input.cc-number").clear()
-        driver.find_element_by_css_selector("input.cc-number").send_keys("4111111111111111")
+        driver.find_element_by_css_selector("input.cc-number").send_keys("5555555555554444")
         driver.find_element_by_css_selector("input.cc-em").clear()
         driver.find_element_by_css_selector("input.cc-em").send_keys("12")
         driver.find_element_by_css_selector("input.cc-ey").clear()
