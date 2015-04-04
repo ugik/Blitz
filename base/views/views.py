@@ -2069,6 +2069,8 @@ def create_account_hook(request, pk):
 @csrf_exempt
 def payment_hook(request, pk):
 
+    stripe.api_key = "sk_test_1E3ZsZbKro2jHUG4Gauqb56T"
+
     blitz = get_object_or_404(Blitz, pk=pk)
     form = SubmitPaymentForm(request.POST)
     has_error = False
@@ -2084,58 +2086,49 @@ def payment_hook(request, pk):
             new_client = True
 
         invitation = BlitzInvitation()
-        # process payment w/balanced 1.1 API
-        marketplace = balanced.Marketplace.query.one()
         
         # find invitation record if applicable
         if 'invitation' in request.GET:
             invitation = get_object_or_404(BlitzInvitation, pk=request.GET.get('invitation'))
 
         # fetch the card on file
-        card_uri = form.cleaned_data['card_uri']
-        card = balanced.Card.fetch(form.cleaned_data['card_uri'])
+        token = form.cleaned_data['card_uri']
 
-        # validate CVV
-        if card.cvv_match == 'no':
-            has_error = True
-            new_client = False
-            error = "Invalid CVV code. Please try another card. "
+        # charge card
+        # invitation may have a custom price
+        if invitation and invitation.price:
+            debit_amount = (invitation.price * 100)
+        elif blitz.price:
+            debit_amount = (blitz.price * 100)
         else:
-            # charge card
-            # invitation may have a custom price
-            if invitation and invitation.price:
-                debit_amount_str = "%d" % (invitation.price * 100)
-            elif blitz.price:
-                debit_amount_str = "%d" % (blitz.price * 100)
-            else:
-                debit_amount_str = "0"
+            debit_amount_str = 0
 
-            # create (or update) client so we have debit meta info
-            if new_client:
-                client = utils.get_or_create_client(
-                    request.session['name'],
-                    request.session['email'].lower(),
-                    request.session['password']
-                    )
+        # create (or update) client so we have debit meta info
+        if new_client:
+            client = utils.get_or_create_client(
+                request.session['name'],
+                request.session['email'].lower(),
+                request.session['password']
+                )
 
-            client.balanced_account_uri = card.href
-            client.save()
-            meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
-                    "email": client.user.email, "invitation_id": invitation.pk}
+        client.balanced_account_uri = token
+        client.save()
+        meta = {"client_id": client.pk, "client_name": client.name, "blitz_id": blitz.pk, 
+                "email": client.user.email, "invitation_id": invitation.pk}
 
-            try:
-                debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
-                   amount = debit_amount_str,
-                   description='Blitz.us payment', meta=meta)
-
-                if debit.status != 'succeeded':
-                    has_error = True
-                    error = debit.failure_reason
-
-            except Exception as e:
-                has_error = True
-                error = "Error: %s, %s, %s" % (e.status, e.category_code, e.additional)
-                print error
+        try:
+            charge = stripe.Charge.create(
+                amount=debit_amount,   # amount in cents
+                currency="usd",
+                source=token,
+                description="Blitz.us payment %d" % (debit_amount/100),
+                customer=str(client.id),
+                metadata=meta
+            )
+        except stripe.CardError, e:
+            # The card has been declined
+            has_error = True
+            error = e
 
         if error:
             has_error = True
