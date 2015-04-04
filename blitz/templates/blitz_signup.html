@@ -100,7 +100,6 @@
 
                     </div>
 
-                    <div class="form-sep"></div>
                     <span class="payment-errors"></span>
 
                     <div class="submit-container">
@@ -165,6 +164,11 @@
         <script type="text/javascript">
           Stripe.setPublishableKey('pk_test_GNaBSGoHDthi86RxOdzFPuGN');
             $(document).ready(function() {
+
+                var blitz_key = '{{ blitz.pk }}';
+                var invitation_key = '{{ invitation.pk }}';
+                var $form = $('#blitz-signup-form');
+
                 function addInputNames() {
                     $(".card-number").attr("name", "card-number")
                     $(".card-cvc").attr("name", "card-cvc")
@@ -177,11 +181,22 @@
                     $(".card-expiry-year").removeAttr("name")
                 }
 
+                function disableForm() {
+                    $form.find('input').attr('disabled', 'disabled');
+                    $('#signup-loading').show();
+                    $('#blitz-signup-submit').hide();
+                }
+
+                function enableForm() {
+                    $form.find('input').removeAttr('disabled');
+                    $('#signup-loading').hide();
+                    $('#blitz-signup-submit').show();
+                }
+
                 function submit(form) {
                     removeInputNames();
 
-                    // given a valid form, submit the payment details to stripe
-                    $(form['submit-button']).attr("disabled", "disabled")
+                    disableForm();
 
                     Stripe.createToken({
                         number: $('.card-number').val(),
@@ -191,7 +206,7 @@
                     }, function(status, response) {
                         if (response.error) {
                             // re-enable the submit button
-                            $(form['submit-button']).removeAttr("disabled")
+                            enableForm();
         
                             // show the error
                             $(".payment-errors").html(response.error.message);
@@ -208,8 +223,28 @@
                             var input = $("<input name='stripeToken' value='" + token + "' style='display:none;' />");
                             form.appendChild(input[0])
 
-                            // and submit
-                            form.submit();
+                            if (invitation_key == '') {   // no invitation
+                                $.post('/blitz/' + blitz_key + '/_/payment_hook', {'card_uri': token} , function(data) {
+                                    if (data.has_error) {
+                                        $form.find('.error-card').html(data.error);
+                                        $form.find('.error-card').show();
+                                        enableForm();
+                                    } else {
+                                    window.location.href = "{{ next_url }}";
+                                    }
+                                });  
+                            }
+                            else {   // handle invitation, pass pk in url
+                                $.post('/blitz/' + blitz_key + '/_/payment_hook?invitation='+invitation_key, {'card_uri': token} , function(data) {
+                                    if (data.has_error) {
+                                        $form.find('.error-card').html(data.error);
+                                        $form.find('.error-card').show();
+                                        enableForm();
+                                    } else {
+                                    window.location.href = "{{ next_url }}";
+                                    }
+                                });
+                            }
                         }
                     });
                     
