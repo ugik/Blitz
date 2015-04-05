@@ -1,6 +1,6 @@
 {% load units_tags %}
 
-<div class="modal-full fade" id="modalClientMacros" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-full fade" id="modalPlanSwitcher" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog-full">
       <div class="modal-content-full">
          <div class="modal-header">
@@ -13,16 +13,13 @@
     <div class="row">
         <div class="col-md-6" style="float: none; margin: 0 auto;">
            <img class="profile-headshot img-circle" style="display: none;" id='headshot' src="{{ client.get_headshot_url }}" />
-           <h3 style="margin-top: 125px;">Edit diet goals</h3>
-           <p class="macroblurb">You can set your own diet goals manually or use one of our preset macronutrient formulas (personalized based on your height, weight and gender).</p>
+           <h3 style="margin-top: 125px;">Switch workout plan</h3>
+           <p class="macroblurb">You can switch to a different workout plan below. We recommend you give a plan at least 6-8 weeks to see if it's really working for you before switching, unless you can't do the workouts or think there's an injury risk.</p>
            <div class="formpage-block">
-              <form method="post" name="client_macros"> {% csrf_token %}
+              <form method="post" name="client_plan"> {% csrf_token %}
 
-                    <select name="formula-select" id="formula-select" class="selectpicker">
-                        <option value="DEFAULT">Maintenance / Body Recomposition</option>
-                        <option value="BULK">Bulking (+10%)</option>
-                        <option value="BEAST">Beast Mode (+15%)</option>
-                        <option value="CUT">Cutting (-10%)</option>
+                    <select name="plan-select" id="plan-select" class="selectpicker">
+                        <option value="icecreamfitness">Ice Cream Fitness</option>
                     </select>
                     <script src="{{ STATIC_URL }}js/bootstrap-select.js"></script>
                     <!-- Note: formulas also in base/view.py client_macros_set() -->
@@ -39,109 +36,53 @@
                              else if (selected == 'BEAST') { x = show_client_macros(1.15); }
                          });
                     </script>
-                <div class="macroform-day">
-                  <div class="macroform-day-header">
-                    Workout Day
-                  </div>
-                  <div class="macroform-macros">
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Calories
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_wout_cals" class="macro-input">
-                      </div>
-                    </div>
-                    </div>
 
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Protein
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_wout_protein" class="macro-input">
-                      </div>
-                    </div>
-                  </div>
 
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Fat
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_wout_fat" class="macro-input">
-                      </div>
-                    </div>
-                  </div>
-
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Carbs
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_wout_carbs" class="macro-input">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
+        {% for week in workout_plan.weeks %}
+        <div class="spotterrowwrap">
+            <div class="row">
+                <div class="col-md-12" style="border-top: 0px solid white; border-bottom: 1px solid white; margin-bottom: 30px; padding-bottom: 10px;">
+                    <h3>Week {{ week.week }} </h3>
                 </div>
-
-                <div class="macroform-day">
-                  <div class="macroform-day-header">
-                    Rest Day
-                  </div>
-                  <div class="macroform-macros">
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Calories
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_rest_cals" class="macro-input">
-                      </div>
-                    </div>
-                    </div>
-
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Protein
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_rest_protein" class="macro-input">
-                      </div>
-                    </div>
-                  </div>
-
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Fat
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_rest_fat" class="macro-input">
-                      </div>
-                    </div>
-                  </div>
-
-                    <div class="macroform">
-                      <div class="macroform-header">
-                        Carbs
-                      </div>
-                      <div class="macroform-numbers">
-                        <div class="macroform-macro with-input">
-                          <input type="text" id="c_rest_carbs" class="macro-input">
+            </div>
+            <div class="row">
+                <div class="row-same-height">
+                    {% for day in week.days %}
+                    {% if week.days.count = 6 %}
+                        <div class="col-md-2" style="margin-left: 0px;">
+                    {% endif %}
+                    {% if week.days.count = 5 %}
+                        <div class="col-md-2" style="margin-left: 0px;">
+                    {% endif %}
+                    {% if week.days.count = 4 %}
+                        <div class="col-md-3" style="margin-left: 0px;">
+                    {% endif %}
+                    {% if week.days.count = 3 %}
+                        <div class="col-md-4" style="margin-left: 0px;">
+                    {% endif %}
+                    {% if week.days.count = 2 %}
+                        <div class="col-md-6" style="margin-left: 0px;">
+                    {% endif %}
+                    {% if week.days.count = 1 %}
+                        <div class="col-md-12" style="margin-left: 0px;">
+                    {% endif %}
+                        <div class="workout-day-block spotterwrap" >
+                            <div class="title"><u>{{ day.day_of_week|day_name }}</u></div>
+                            <div class="content">
+                                <ul>
+                                    {% for exercise in day.workout.get_exercises %}
+                                            <li style="margin-left: 0px;">
+                                            {% if exercise.prefix %} {{ exercise.prefix }} {% endif %}
+                                            {{ exercise.lift }}: {{ exercise.sets_display }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
-                  
-                </div>
+                {% endfor %}
+            </div>
+        </div>
+
                 
                  <button class="obtn full-width" id="client-macros-button" onclick="{ save_macros(); window.location='/home'; return false; }" class="close" data-dismiss="modal" style="">Set Macros</button>
               </form>
