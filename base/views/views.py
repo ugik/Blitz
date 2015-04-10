@@ -624,6 +624,8 @@ def client_home(request, **kwargs):
     if client.needs_to_update_cc():
         return redirect('/%s/%s/signup' % (client.get_blitz().trainer.short_name, client.get_blitz().url_slug))
 
+    programs = Blitz.objects.filter(sample=True, provisional=True)
+
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
         next_workout_date, next_workout = client.get_next_workout() 
@@ -670,6 +672,8 @@ def client_home(request, **kwargs):
         'days_since_blitz' : days_since_blitz,
         'missed_workouts': client.get_missed_workouts(limit=3),
         'macro_details': macro_goals,
+        'programs': programs,
+        'SITE_URL' : domain(request),
         }, context_instance=RequestContext(request))
 
 # client profile
