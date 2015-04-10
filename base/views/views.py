@@ -660,6 +660,28 @@ def client_home(request, **kwargs):
         days_since_blitz = client.get_blitz().days_since_begin()
 
     macro_goals = json.loads(client.macro_target_json) if client.macro_target_json else None
+
+    if request.method == 'POST':
+
+        url_slug=request.GET.get('slug', None)
+        if url_slug:
+            blitz = Blitz.objects.get_or_none(url_slug=url_slug)
+            print blitz
+
+            if blitz and False:
+
+                # add new client to Blitz
+                utils.add_client_to_blitz(blitz, request.user.client, workoutplan=blitz.workout_plan)
+                # set blitz for specific client            
+                blitz_macros_set(blitz=None, formula=blitz.macro_strategy, client=request.user.client)   
+
+                # alert trainer of new client signup
+                alert = TrainerAlert.objects.create(
+                    trainer=blitz.trainer, text="has now registered for %s" % blitz.url_slug,
+                    client_id=request.user.client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+                return redirect('home')
+
    
     return render(request, 'client_home.html', {
         'client': client,
