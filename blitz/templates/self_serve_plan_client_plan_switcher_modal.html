@@ -16,7 +16,7 @@
                      <div class="formpage-block">
                          <form method="post" name="client_plan"> {% csrf_token %}
 
-                         <select name="plan-select" id="plan-select" class="selectpicker">
+                         <select name="plan-select" id="plan-select" class="selectpicker full-width">
                          {% for program in programs %} {{ program.title }}
                             <option value={{ program.url_slug }}>{{ program.title }}</option>
                          {% endfor %}
@@ -33,14 +33,19 @@
                                 $("#program_url").replaceWith('<a id="program_url" href="{{ SITE_URL }}/'+$(this).val()+'"> {{ SITE_URL }}/'+$(this).val()+' </a>');
                             });
                          </script>
+                     
+                        <p>
+                            Not familiar? &nbsp; <a id="program_url" href="{{ SITE_URL }}/{{ client.get_blitz.url_slug }}"> Preview {{ program.title }} details </a>
+                        </p>
+                     
+                     <br />
+                     <div class="" style="text-align: center;">
+                         <button style="  margin: 0 auto;" class="obtn btn-default" id="switch-button" onclick="{ window.location='/switch_program?slug='+$('#plan-select').val(); return false; }" class="close" data-dismiss="modal" style="">Switch Programs</button>
+                            <br />
+                         <a style="margin-top: 20px;" onclick="{ window.location='/home'; return false; }" data-dismiss="modal" style="">Cancel</a>
                      </div>
-                     Not familiar? &nbsp; <a id="program_url" href="{{ SITE_URL }}/{{ client.get_blitz.url_slug }}"> {{ SITE_URL }}/{{ client.get_blitz.url_slug }} </a>
 
-                     <br><br>
-                     <button class="obtn btn-default" id="switch-button" onclick="{ window.location='/switch_program?slug='+$('#plan-select').val(); return false; }" class="close" data-dismiss="modal" style="">Switch Program →</button>
-
-                     <a onclick="{ window.location='/home'; return false; }" data-dismiss="modal" style="">Cancel</a>
-
+                 </div>
                  </div>
 
 <br><br><br><br>
