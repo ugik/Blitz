@@ -76,6 +76,7 @@ urlpatterns += patterns(
 
     url(r'^program$', 'base.views.my_programs', name='my_blitz_program'),
     url(r'^view_program/(?P<pk>\d+)$', 'base.views.view_program', name='view_program'),
+    url(r'^switch_program$', 'base.views.switch_program', name='switch_program'),
 
     url(r'^program/members$', 'base.views.my_blitz_members', name='my_blitz_members'),
 

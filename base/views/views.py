@@ -612,6 +612,30 @@ def upload_page(request):
                               {'docs' : numdocs, 'form': form, 'trainer' : trainer}, 
                               RequestContext(request))
 
+# /switch-program
+@login_required
+def switch_program(request):
+    # check for incongruency
+    if request.user.is_trainer:
+        return redirect('home')
+
+    url_slug=request.GET.get('slug', None)
+    if url_slug:
+        blitz = Blitz.objects.get_or_none(url_slug=url_slug)
+
+        if blitz and (blitz.sample or blitz.free):
+            # add new client to Blitz
+            utils.add_client_to_blitz(blitz, request.user.client, workoutplan=blitz.workout_plan)
+            # set blitz for specific client            
+            blitz_macros_set(blitz=None, formula=blitz.macro_strategy, client=request.user.client)   
+
+            # alert trainer of new client signup
+            alert = TrainerAlert.objects.create(
+                trainer=blitz.trainer, text="has now registered for %s" % blitz.url_slug,
+                client_id=request.user.client.id, alert_type = 'X', date_created=time.strftime("%Y-%m-%d"))
+
+    return redirect('home')
+
 
 # called by home(request)
 @login_required
@@ -623,6 +647,8 @@ def client_home(request, **kwargs):
     client = request.user.client
     if client.needs_to_update_cc():
         return redirect('/%s/%s/signup' % (client.get_blitz().trainer.short_name, client.get_blitz().url_slug))
+
+    programs = Blitz.objects.filter(sample=True, provisional=True)
 
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
@@ -670,6 +696,8 @@ def client_home(request, **kwargs):
         'days_since_blitz' : days_since_blitz,
         'missed_workouts': client.get_missed_workouts(limit=3),
         'macro_details': macro_goals,
+        'programs': programs,
+        'SITE_URL' : domain(request),
         }, context_instance=RequestContext(request))
 
 # client profile

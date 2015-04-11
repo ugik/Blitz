@@ -31,7 +31,7 @@
         {% if next_workout %}
         <div class="sidebar-box todays-workout">
           <div class="header">
-            {% blitz.workout_plan %}
+            {{ client.get_blitz.workout_plan.name }}
             <a onclick="{ jQuery.noConflict();$('#modalPlanSwitcher').modal('show'); }" >
               <i class="glyphicon glyphicon-refresh"></i> switch
             </a>
@@ -167,6 +167,8 @@
 </div>
 
 {% include "self_serve_plan_client_macros_modal.html" with trainer=client.get_blitz.trainer client=client url_return='#' %}
+
+{% include "self_serve_plan_client_plan_switcher_modal.html" with client=client SITE_URL=SITE_URL programs=programs url_return='#' %}
 
 <script type="text/javascript">
 // set attributes in modal indirectly (modal is loaded from dashboard which lacks detail context)
