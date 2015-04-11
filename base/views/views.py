@@ -1115,12 +1115,16 @@ def save_sets(request):
         set_errors = { pk: "" for pk in set_pks } # map of pk -> error
         for pk in set_pks:
             workout_set = WorkoutSet.objects.get(pk=pk)
-            is_error, item = validate_set_from_post(request.POST, workout_set)
-            if is_error:
-                set_errors[pk] = item
-                has_error = True
-            else:
-                save_set_to_session(gym_session, workout_set, item)
+            try:    # catch any upstream issues
+                is_error, item = validate_set_from_post(request.POST, workout_set)
+                if is_error:
+                    set_errors[pk] = item
+                    has_error = True
+                else:
+                    save_set_to_session(gym_session, workout_set, item)
+            except:
+                pass
+
 
     # save notes when we save sets
     gym_session.notes = request.POST.get('notes', '')

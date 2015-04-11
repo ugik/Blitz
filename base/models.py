@@ -752,6 +752,13 @@ class Blitz(models.Model):
             return map( lambda x: x, set(self.iterate_workouts()) )[-1][0]
         return self.begin_date  # last resort 
 
+    def finished(self):
+        today = current_tz().normalize(timezone_now()).date()
+        if today > self.end_date():
+            return True
+        else:
+            return False
+
 # loop begin/end dates connote the dates of recurring Blitz (for 1:1 Clients) per today's date
     def loop_begin_date(self, timezone=None):
         if not self.recurring:   # ignore for non-recurring Blitz
