@@ -923,10 +923,13 @@ def validate_set_from_post(postdata, workout_set):
             not workout_set.lift.weight_or_body or
             workout_set.lift.weight_or_body and workout_set.lift.allow_weight_or_body and item['set_type'] != 'B'
     ):
-        weight_str = postdata['set-%d-weight' % workout_set.pk]
+        if 'set-%d-weight' % workout_set.pk in postdata:
+            weight_str = postdata['set-%d-weight' % workout_set.pk]
+        else:
+            return True
+
         if not weight_str:
             weight_str = '0'
-#            return True, "Weight is required"
         try:
             float(weight_str)
         except ValueError:
