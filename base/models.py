@@ -670,7 +670,10 @@ class Blitz(models.Model):
         return 1 + (timezone.normalize(timezone_now()).date() - self.loop_begin_date()).days / 7
 
     def current_relative_week(self, timezone=None):
-        return self.current_week() % self.num_weeks()
+        if self.current_week() > self.workout_plan.num_weeks():
+            return self.current_week() % self.workout_plan.num_weeks()
+        else:
+            return self.current_week()
 
     def current_day_index(self, timezone=None):
         if timezone is None:
@@ -759,9 +762,9 @@ class Blitz(models.Model):
             timezone.normalize(timezone_now()).date()
 
         period_begin = self.begin_date
-        # loop through Blitz period to arrive at today's week
-        while period_begin + datetime.timedelta(days=7) <= timezone.normalize(timezone_now()).date():
-            period_begin += datetime.timedelta(days=7)
+        # loop through plan period to encompass today's date
+        while period_begin + datetime.timedelta(days=7*self.workout_plan.num_weeks()) <= timezone.normalize(timezone_now()).date():
+            period_begin += datetime.timedelta(days=7*self.workout_plan.num_weeks())
 
         return next_weekday(period_begin,0)
 
