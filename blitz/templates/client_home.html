@@ -30,12 +30,18 @@
 
         {% if next_workout %}
         <div class="sidebar-box todays-workout">
-          <div class="header">
-            {{ client.get_blitz.workout_plan.name }}
-            <a onclick="{ jQuery.noConflict();$('#modalPlanSwitcher').modal('show'); }" >
-              <i class="glyphicon glyphicon-refresh"></i> switch
-            </a>
-          </div>
+          {% if client.get_blitz.free or client.get_blitz.sample %}
+             <div class="header">
+                {% if client.get_blitz.group %}
+                    {{ client.get_blitz.title }}
+                {% else %}
+                    {{ client.get_blitz.description }}
+                {% endif %}
+                <a onclick="{ jQuery.noConflict();$('#modalPlanSwitcher').modal('show'); }" >
+                  <i class="glyphicon glyphicon-refresh"></i> switch
+                </a>
+             </div>
+          {% endif %}
             <div class="sidebar-box-content todays-workout-items">
               {% if next_workout_today %}
                   <span class="workouttitle">

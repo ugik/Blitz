@@ -759,9 +759,9 @@ class Blitz(models.Model):
             timezone.normalize(timezone_now()).date()
 
         period_begin = self.begin_date
-        # loop through Blitz period to encompass today's date
-        while period_begin + datetime.timedelta(days=7*self.num_weeks()) <= timezone.normalize(timezone_now()).date():
-            period_begin += datetime.timedelta(days=7*self.num_weeks())
+        # loop through Blitz period to arrive at today's week
+        while period_begin + datetime.timedelta(days=7) <= timezone.normalize(timezone_now()).date():
+            period_begin += datetime.timedelta(days=7)
 
         return next_weekday(period_begin,0)
 

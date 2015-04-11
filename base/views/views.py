@@ -648,7 +648,7 @@ def client_home(request, **kwargs):
     if client.needs_to_update_cc():
         return redirect('/%s/%s/signup' % (client.get_blitz().trainer.short_name, client.get_blitz().url_slug))
 
-    programs = Blitz.objects.filter(sample=True, provisional=True)
+    programs = Blitz.objects.filter(Q(sample=True) & (Q(provisional=True) | Q(group=True)))
 
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
