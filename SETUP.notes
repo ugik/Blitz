@@ -1,10 +1,6 @@
 #local setup notes:
 
 #EC2 update
-# test server: bash EC2update.sh ec2-54-68-16-255.us-west-2.compute.amazonaws.com preview migrate
-#              ssh -i ../ec2.pem ubuntu@ec2-54-68-16-255.us-west-2.compute.amazonaws.com
-#              54.68.16.255
-
 # backup:      bash EC2updateBackup.sh ec2-54-201-238-160.us-west-2.compute.amazonaws.com migrate
 #              ssh -i ../backup.pem ubuntu@ec2-54-201-238-160.us-west-2.compute.amazonaws.com
 #              54.201.238.160
