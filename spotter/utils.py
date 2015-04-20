@@ -118,13 +118,23 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
                         "email": client.user.email}
 
                 try:
-                    card = balanced.Card.fetch(client.balanced_account_uri)
                     debit_amount_str = "%d" % ((float(total_cost)-float(total_paid))*100)
-                    debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
-                                       amount = debit_amount_str, description='Blitz.us payment', meta=meta)
+
+#                    card = balanced.Card.fetch(client.balanced_account_uri)
+#                    debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
+#                                       amount = debit_amount_str, description='Blitz.us payment', meta=meta)
+
+                    debit = stripe.Charge.create(
+                       amount = debit_amount_str
+                       currency = "usd",
+                       source = client.balanced_account_uri,
+                       description = 'Blitz.us recurring payment',
+                       metadata = meta
+                    )
+
 
                     if debit.status != 'succeeded':
-                        note = debit.failure_reason
+                        note = debit.status
                         error = True
                     else:
                         note = "%s payment of $%d" % (debit.status, (float(total_cost)-float(total_paid)) )
