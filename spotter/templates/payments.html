@@ -80,7 +80,7 @@
    <small>
      {% for payment in client.payments|dictsort:"created_at" %}
          <li> ({{ payment.status }}) ${{ payment.amount }}</li>
-         <li> {{ payment.created_at }} Transaction #:{{ payment.xtion }} </li>
+         <li> {{ payment.created_at }} <br> Transaction #:{{ payment.xtion }} </li>
    <br> {% endfor %}
    </small>
      </ul>

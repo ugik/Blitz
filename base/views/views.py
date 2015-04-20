@@ -2025,7 +2025,7 @@ def blitz_signup(request, short_name, url_slug):
     else:
         return render(request, 'blitz_signup.html', {
             'blitz': blitz, 'trainer': trainer, 'invitation': invitation,
-            'marketplace_uri': settings.BALANCED_MARKETPLACE_URI,
+            'StripePublishableKey': settings.STRIPE_PUBLISHABLE_KEY,
             'next_url': next_url, 'existing_user': existing_user
         })
 
@@ -2068,7 +2068,7 @@ def create_account_hook(request, pk):
 # note: existing client updating info assumes blitz.price rather than client.blitzmember.price
 @csrf_exempt
 def payment_hook(request, pk):
-    stripe.api_key = "sk_test_1E3ZsZbKro2jHUG4Gauqb56T"
+    stripe.api_key = settings.STRIPE_SECRET_KEY
 
     blitz = get_object_or_404(Blitz, pk=pk)
     form = SubmitPaymentForm(request.POST)

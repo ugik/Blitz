@@ -17,7 +17,7 @@ from workouts.models import WorkoutSet, Lift, Workout, WorkoutPlan, WorkoutPlanW
 from django.utils.timezone import now as timezone_now, get_current_timezone as current_tz
 from pytz import timezone
 from django.db.models import Q
-import balanced
+import stripe
 
 import os
 import xlrd
@@ -31,14 +31,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        # sample charge card
-        card = balanced.Card(
-            cvv='123',
-            expiration_month='12',
-            number='5105105105105100',
-            expiration_year='2020'
-            ).save()
-        cc = balanced.Card.fetch(card.href)
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+
+        # create stripe charge card
+        charge = { "object":"card", "number":"5555555555554444", "exp_month":"12", "exp_year":"2020"}
 
         clients = ['Dwayne Wade', 'Richard Hamilton', 'Leon Powe', 'Manute Bol', 'Spud Webb', 
                    'Dennis Rodman', 'Nate Robinson', 'Manu Ginobili', 'David Robinson', 'Ray Allen']
@@ -55,17 +51,24 @@ class Command(BaseCommand):
             blitz = Blitz.objects.get(url_slug='3weeks')
             m = (len(list(rrule.rrule(rrule.MONTHLY, dtstart=d['start'], until=date.today()))))
 
-            c = create_client(d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), "asdf", randint(22,35), randint(180,230), 6, randint(0,11), 'M')
-            c.balanced_account_uri = card.href
-            c.save()
+            c = Client.objects.get_or_none(name=d['name'])
+            if not c:
+                c = create_client(d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), "asdf", randint(22,35), randint(180,230), 6, randint(0,11), 'M')
+                c.save()
 
-            add_client_to_blitz(blitz, c, None, blitz.price, d['start'])
+                add_client_to_blitz(blitz, c, None, blitz.price, d['start'])
 
             # charge a partial amount for each client
             meta = {"client_id": c.pk, "blitz_id": blitz.pk, 'email': c.user.email}
             payment = randint(1,3)*blitz.price*100
-            debit = cc.debit(appears_on_statement_as = 'Blitz.us test', amount = payment, 
-                             description='Blitz.us test', meta = meta)
+
+            stripe.Charge.create(
+                amount = payment,
+                currency = "usd",
+                source = charge,
+                description = 'Blitz.us test',
+                metadata = meta
+            )
 
             print d['name'], "%s@example.com" % d['name'].split(' ', 1)[0].lower(), " Start:"+str(d['start']), " # months"+str(m), "Charge: (cents)"+str(payment)
 

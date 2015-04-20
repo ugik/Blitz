@@ -11,10 +11,8 @@ DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
-import balanced
-# Test settings for Balanced Marketplace
-balanced.configure('ak-test-2HbxysbHinoGa4nnmnLz63SluBiYiUQCV')
-BALANCED_MARKETPLACE_URI = '/v1/marketplaces/TEST-MP1tHThD8oovCyo9YnXXWImY'
+STRIPE_PUBLISHABLE_KEY = "pk_test_GNaBSGoHDthi86RxOdzFPuGN "
+STRIPE_SECRET_KEY = "sk_test_1E3ZsZbKro2jHUG4Gauqb56T"
 
 DATABASES = {
     'default': {

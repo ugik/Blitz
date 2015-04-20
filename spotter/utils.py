@@ -19,7 +19,9 @@ import json
 import itertools
 import random
 import string
-import balanced
+import time
+from datetime import datetime
+import stripe
 
 MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
@@ -38,6 +40,9 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
     total_cost = float(0.0)         # total cost incurred per cleint
     total_paid = float(0.0)         # total payments processed per client
     total_value = float(0.0)        # total value of signup per client
+
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    charges = stripe.Charge.all()
 
     for client in Client.objects.all():
 
@@ -78,26 +83,29 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
 
         grand_total_value += float(total_value)
 
-        debits = balanced.Debit.query.filter(balanced.Debit.f.meta.client_id == client.pk)
-        if debits:
-            for debit in debits:
-                if not month or int(month) == int(debit.created_at[5:7]):
-                    if 'client_id' in debit.meta:
-                        payments.append({'amount': float(debit.amount)/100, 'status': debit.status, 
-                             'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                        total_paid = float(total_paid) + float(debit.amount)/100
-                        grand_total_paid += float(debit.amount)/100
+        client_charges = list(filter(lambda d: d['metadata']['client_id'] in str(client.id), charges.data))
 
-        refunds = balanced.Refund.query.filter(balanced.Refund.f.meta.client_id == client.pk)
-        if refunds:
-            for refund in refunds:
-                if not month or int(month) == int(refund.created_at[5:7]):
+        if client_charges:
+            for charge in client_charges:
+                if not month or int(month) == datetime.fromtimestamp(charge.created).month:
+                    if 'client_id' in charge.metadata:
+                        payments.append({'amount': float(charge.amount)/100, 'status': charge.status, 
+                             'created_at': time.ctime(int(charge.created)), 'xtion': charge.balance_transaction })
+                        total_paid = float(total_paid) + float(charge.amount)/100
+                        grand_total_paid += float(charge.amount)/100
 
-                    if 'client_id' in debit.meta:
-                        payments.append({'amount': float(debit.amount)/-100, 'status': debit.status, 
-                             'created_at': debit.created_at[0:10], 'xtion': debit.transaction_number })
-                        total_paid = float(total_paid) - float(debit.amount)/100
-                        grand_total_paid -= float(debit.amount)/100
+
+        if client_charges:
+            for charge in client_charges:
+                refunds = stripe.Charge.retrieve(charge.id).refunds.all().data
+                for refund in refunds:
+                    if not month or int(month) == int(datetime.fromtimestamp(refund.created).month):
+
+                        payments.append({'amount': float(refund.amount)/-100, 'status': 'refund',
+                            'created_at': time.ctime(int(refund.created)), 'xtion': refund.balance_transaction })
+                        total_paid = float(total_paid) - float(refund.amount)/100
+                        grand_total_paid -= float(refund.amount)/100
+
 
         payment = 0
         note = error = None

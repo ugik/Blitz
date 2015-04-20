@@ -189,10 +189,8 @@ CELERY_TIMEZONE = 'US/Pacific'
 ALERTS_HOUR = 23
 MORNING_NOTIFICATIONS_HOUR = 5
 
-import balanced
-# Production settings for Balanced Marketplace
-balanced.configure('ak-prod-2mO1e7PyFqztkxgk7mjCBPjn2cgtvJpIo')
-BALANCED_MARKETPLACE_URI = '/v1/marketplaces/MP1BPVYfxCfkjQCTsqua7aOr'
+STRIPE_PUBLISHABLE_KEY = "pk_live_Oo288Ap5BSkZxXzuI1rSkvqV"
+STRIPE_SECRET_KEY = "sk_live_xKtSed3wzk7a8Hiv30QW70ud"
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",

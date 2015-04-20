@@ -373,6 +373,8 @@ class Client(models.Model):
     # payment
     balanced_account_uri = models.CharField(max_length=200, default="", blank=True)
 
+    objects = GetOrNoneManager()
+
     def __unicode__(self):
         return self.name
 

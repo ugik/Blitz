@@ -153,8 +153,6 @@
                         {% endif %}
                  </div>
             </div>
-
-
         </div> 
     </div>
 </div>
@@ -162,7 +160,7 @@
 <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
 <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
 <script type="text/javascript">
-Stripe.setPublishableKey('pk_test_GNaBSGoHDthi86RxOdzFPuGN');
+Stripe.setPublishableKey('{{StripePublishableKey}}');
 
 $(document).ready(function() {
 
