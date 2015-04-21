@@ -27,7 +27,7 @@ MEDIA_URL = getattr(settings, 'MEDIA_URL')
 STATIC_URL = getattr(settings, 'STATIC_URL')
 
 # utility function for payments
-def balance(trainer=None, month=None, test=None, charge=None, apply=None):
+def balance(trainer=None, month=None, test=None, recurring_charge=None, apply=None):
 
     if trainer:
         trainer = Trainer.objects.get(pk=trainer)
@@ -42,10 +42,9 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
     total_value = float(0.0)        # total value of signup per client
 
     stripe.api_key = settings.STRIPE_SECRET_KEY
-    charges = stripe.Charge.all()
+    stripe_charges = stripe.Charge.all(limit=9999)
 
     for client in Client.objects.all():
-
         blitz = client.get_blitz()
         if not blitz:  # ignore clients not enrolled
             continue
@@ -83,7 +82,8 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
 
         grand_total_value += float(total_value)
 
-        client_charges = list(filter(lambda d: d['metadata']['client_id'] in str(client.id), charges.data))
+        # get charges with this client
+        client_charges = list(filter(lambda d: 'client_id' in d['metadata'] and d['metadata']['client_id']==str(client.id), stripe_charges.data))
 
         if client_charges:
             for charge in client_charges:
@@ -106,32 +106,27 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
                         total_paid = float(total_paid) - float(refund.amount)/100
                         grand_total_paid -= float(refund.amount)/100
 
-
         payment = 0
         note = error = None
  
-        if not charge or float(total_cost)-float(total_paid)>0:
+        if not recurring_charge or float(total_cost)-float(total_paid)>0:
 
-            # apply outstanding balance to cc
-            if charge and apply and client.balanced_account_uri and "Novak" in client.name:    # must use both &charge and &apply params
+            # apply outstanding balance to credit card
+            # must use both &charge and &apply params
+            if recurring_charge and apply and client.balanced_account_uri:    
                 meta = {"client_id": client.pk, "blitz_id": blitz.pk, 
                         "email": client.user.email}
 
                 try:
                     debit_amount_str = "%d" % ((float(total_cost)-float(total_paid))*100)
 
-#                    card = balanced.Card.fetch(client.balanced_account_uri)
-#                    debit = card.debit(appears_on_statement_as = 'Blitz.us payment',
-#                                       amount = debit_amount_str, description='Blitz.us payment', meta=meta)
-
                     debit = stripe.Charge.create(
-                       amount = debit_amount_str
+                       amount = debit_amount_str,
                        currency = "usd",
-                       source = client.balanced_account_uri,
+                       customer = client.balanced_account_uri,
                        description = 'Blitz.us recurring payment',
                        metadata = meta
                     )
-
 
                     if debit.status != 'succeeded':
                         note = debit.status
@@ -140,7 +135,7 @@ def balance(trainer=None, month=None, test=None, charge=None, apply=None):
                         note = "%s payment of $%d" % (debit.status, (float(total_cost)-float(total_paid)) )
 
                 except Exception as e:
-                    note = "Error: %s" % e.status
+                    note = "Error: %s" % e
                     error = True
 
                 payment = (float(total_cost)-float(total_paid)) if not error else 0

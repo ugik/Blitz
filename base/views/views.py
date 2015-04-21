@@ -2110,19 +2110,22 @@ def payment_hook(request, pk):
                 request.session['password']
                 )
 
-        client.balanced_account_uri = token
-        client.save()
         meta = {"client_id": client.pk, "client_name": client.name, "blitz_id": blitz.pk, 
                 "email": client.user.email, "invitation_id": invitation.pk}
 
         try:
+            customer = stripe.Customer.create(email=client.user.email, metadata=meta, source=token)
+            client.balanced_account_uri = customer.id
+            client.save()
+
             charge = stripe.Charge.create(
-                amount=debit_amount,   # amount in cents
-                currency="usd",
-                source=token,
-                description="Blitz.us payment %d" % (debit_amount/100),
-                metadata=meta
+                amount = int(debit_amount),   # amount in cents
+                currency = "usd",
+                customer = customer.id,
+                description = "Blitz.us payment %d" % (debit_amount/100),
+                metadata = meta
             )
+
         except stripe.CardError, e:
             # The card has been declined
             has_error = True

@@ -63,7 +63,7 @@ def spotter_payments(request):
     charge = True if 'charge' in request.GET else None
     apply = True if 'apply' in request.GET and charge else None
 
-    context = balance(trainer=trainer, month=month, test=test, charge=charge, apply=apply)
+    context = balance(trainer=trainer, month=month, test=test, recurring_charge=charge, apply=apply)
     
     return render(request, 'payments.html', context)
 
