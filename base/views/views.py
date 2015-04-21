@@ -2125,6 +2125,10 @@ def payment_hook(request, pk):
                 description = "Blitz.us payment %d" % (debit_amount/100),
                 metadata = meta
             )
+            if charge.status != 'succeeded':
+                # The card charge wasn't successful
+                has_error = True
+                error = charge.failure_message
 
         except stripe.CardError, e:
             # The card has been declined
