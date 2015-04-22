@@ -2126,16 +2126,14 @@ def payment_hook(request, pk):
                 metadata = meta
             )
             if charge.status != 'succeeded':
-                # The card charge wasn't successful
                 has_error = True
-                error = charge.failure_message
+                error = "%s %s" % (charge.status, charge.failure_message)
 
         except stripe.CardError, e:
-            # The card has been declined
             has_error = True
             error = e.code
 
-        if error:
+        if has_error:
             has_error = True
             if new_client:    # delete user+ new client if they were created with failed card
                 client.user.delete()

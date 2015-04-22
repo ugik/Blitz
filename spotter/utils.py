@@ -94,17 +94,13 @@ def balance(trainer=None, month=None, test=None, recurring_charge=None, apply=No
                         total_paid = float(total_paid) + float(charge.amount)/100
                         grand_total_paid += float(charge.amount)/100
 
-
-        if client_charges:
-            for charge in client_charges:
-                refunds = stripe.Charge.retrieve(charge.id).refunds.all().data
-                for refund in refunds:
-                    if not month or int(month) == int(datetime.fromtimestamp(refund.created).month):
-
-                        payments.append({'amount': float(refund.amount)/-100, 'status': 'refund',
-                            'created_at': time.ctime(int(refund.created)), 'xtion': refund.balance_transaction })
-                        total_paid = float(total_paid) - float(refund.amount)/100
-                        grand_total_paid -= float(refund.amount)/100
+                if charge.refunds.data:
+                    for refund in charge.refunds.data:
+                        if not month or int(month) == int(datetime.fromtimestamp(refund.created).month):
+                            payments.append({'amount': float(refund.amount)/-100, 'status': 'refund',
+                              'created_at': time.ctime(int(refund.created)), 'xtion': refund.balance_transaction })
+                            total_paid = float(total_paid) - float(refund.amount)/100
+                            grand_total_paid -= float(refund.amount)/100
 
         payment = 0
         note = error = None
