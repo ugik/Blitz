@@ -1,9 +1,6 @@
 #local setup notes:
 
 #EC2 update
-# test server: bash EC2update.sh ec2-54-68-16-255.us-west-2.compute.amazonaws.com preview migrate
-#              ssh -i ../ec2.pem ubuntu@ec2-54-68-16-255.us-west-2.compute.amazonaws.com
-
 # production:  bash EC2update.sh ec2-54-191-254-12.us-west-2.compute.amazonaws.com preview migrate
 #              ssh -i ../ec2.pem ubuntu@ec2-54-191-254-12.us-west-2.compute.amazonaws.com
 
@@ -84,7 +81,7 @@ mysql -uroot -pmysql  -e "show databases" | grep -v Database | grep -v mysql| gr
 
 #tests
 runtests.sh TestBasic
-xvfb-run --server-num=10 bash runtests.sh TestBasic
+xvfb-run --server-num=10 bash runTests.sh TestBasic
 
 #cron
 crontab -l
