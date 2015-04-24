@@ -109,6 +109,7 @@ def add_client_to_blitz(blitz, client, workoutplan=None, price=0, start_date=Non
         blitz.pk = None
         blitz.provisional = False
         blitz.recurring = True
+        blitz.description = blitz.title
         blitz.title = "individual:%s blitz:%s" % (client.name, blitz.url_slug)
         blitz.url_slug = ''
         if price:

@@ -648,7 +648,7 @@ def client_home(request, **kwargs):
     if client.needs_to_update_cc():
         return redirect('/%s/%s/signup' % (client.get_blitz().trainer.short_name, client.get_blitz().url_slug))
 
-    programs = Blitz.objects.filter(sample=True, provisional=True)
+    programs = Blitz.objects.filter(Q(sample=True) & (Q(provisional=True) | Q(group=True)))
 
     next_workout_date = next_workout = next_workout_today = None
     if client.get_blitz().workout_plan:   # handle client on a blitz w/no workout_plan
@@ -923,10 +923,13 @@ def validate_set_from_post(postdata, workout_set):
             not workout_set.lift.weight_or_body or
             workout_set.lift.weight_or_body and workout_set.lift.allow_weight_or_body and item['set_type'] != 'B'
     ):
-        weight_str = postdata['set-%d-weight' % workout_set.pk]
+        if 'set-%d-weight' % workout_set.pk in postdata:
+            weight_str = postdata['set-%d-weight' % workout_set.pk]
+        else:
+            return True
+
         if not weight_str:
             weight_str = '0'
-#            return True, "Weight is required"
         try:
             float(weight_str)
         except ValueError:
@@ -1112,12 +1115,16 @@ def save_sets(request):
         set_errors = { pk: "" for pk in set_pks } # map of pk -> error
         for pk in set_pks:
             workout_set = WorkoutSet.objects.get(pk=pk)
-            is_error, item = validate_set_from_post(request.POST, workout_set)
-            if is_error:
-                set_errors[pk] = item
-                has_error = True
-            else:
-                save_set_to_session(gym_session, workout_set, item)
+            try:    # catch any upstream issues
+                is_error, item = validate_set_from_post(request.POST, workout_set)
+                if is_error:
+                    set_errors[pk] = item
+                    has_error = True
+                else:
+                    save_set_to_session(gym_session, workout_set, item)
+            except:
+                pass
+
 
     # save notes when we save sets
     gym_session.notes = request.POST.get('notes', '')
