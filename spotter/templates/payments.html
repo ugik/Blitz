@@ -59,7 +59,9 @@
      {% else %}
          <small>{{  client.client.balanced_account_uri }} <br>
          Client signup date: {{ client.client.date_created }}</li> <br>
-         <li> <small>Blitz:{{ client.blitz.title }} <br> Program start date: {{ client.blitz.begin_date }} <br>
+         <li> <small>Blitz:{{ client.blitz.title }} 
+         <br> Program start date: {{ client.blitz.begin_date }} 
+         <br> Program end date: {{ client.blitz.end_date }}
          {% if client.blitz.recurring %} (recurring) {% else %} (one-time) {% endif %}
          {% if client.membership.price %}Invited Price: ${{ client.membership.price|stringformat:"0.2f" }}
          {% else %} ${{ client.blitz.price|stringformat:"0.2f" }}{% endif %}</small></li> <br>

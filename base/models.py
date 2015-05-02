@@ -424,8 +424,15 @@ class Client(models.Model):
             timezone = current_tz()
         today = timezone.normalize(timezone_now()).date()
         for workout_date, workout_plan_day in self.get_blitz().iterate_workouts():
+            # show next workout for next workout (this week)
             if workout_date >= today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists():
                 return workout_date, workout_plan_day
+
+        for workout_date, workout_plan_day in self.get_blitz().iterate_workouts(week_offset=1):
+            # show next workout for next workout (next week)
+            if workout_date >= today and not GymSession.objects.filter(client=self, workout_plan_day=workout_plan_day, is_logged=True).exists():
+                return workout_date, workout_plan_day
+
         return None, None
 
     def get_missed_workouts(self, timezone=None, limit=None):
@@ -665,7 +672,10 @@ class Blitz(models.Model):
         return 1 + (timezone.normalize(timezone_now()).date() - self.loop_begin_date()).days / 7
 
     def current_relative_week(self, timezone=None):
-        return self.current_week() % self.num_weeks()
+        if self.current_week() > self.workout_plan.num_weeks():
+            return self.current_week() % self.workout_plan.num_weeks()
+        else:
+            return self.current_week()
 
     def current_day_index(self, timezone=None):
         if timezone is None:
@@ -697,10 +707,10 @@ class Blitz(models.Model):
         except ObjectDoesNotExist:
             return None
 
-    def get_workout_date(self, week, day):
+    def get_workout_date(self, week, day, week_offset=0):
         days_offset = (week-1)*7
         days_offset += next(i for i, d in enumerate(DAYS_OF_WEEK) if d[0] == day)
-        return self.loop_begin_date() + datetime.timedelta(days=days_offset)
+        return self.loop_begin_date() + datetime.timedelta(days=days_offset + week_offset*7)
 
     def get_date_for_day_index(self, week, day_index):
         days_offset = (week-1)*7
@@ -712,12 +722,12 @@ class Blitz(models.Model):
         day_index = (date - self.loop_begin_date()).days % 7
         return week, DAYS_OF_WEEK[day_index][0]
 
-    def iterate_workouts(self):
+    def iterate_workouts(self, week_offset=0):
         """
         iter of (date, workoutplanday) tuples
         """
         for workout_plan_day in self.workout_plan.iterate_days():
-            yield ( self.get_workout_date(workout_plan_day.workout_plan_week.week, workout_plan_day.day_of_week), workout_plan_day )
+            yield ( self.get_workout_date(workout_plan_day.workout_plan_week.week, workout_plan_day.day_of_week, week_offset), workout_plan_day )
 
     def members(self):
         return [f.client for f in self.blitzmember_set.all()]
@@ -744,6 +754,13 @@ class Blitz(models.Model):
             return map( lambda x: x, set(self.iterate_workouts()) )[-1][0]
         return self.begin_date  # last resort 
 
+    def finished(self):
+        today = current_tz().normalize(timezone_now()).date()
+        if today > self.end_date():
+            return True
+        else:
+            return False
+
 # loop begin/end dates connote the dates of recurring Blitz (for 1:1 Clients) per today's date
     def loop_begin_date(self, timezone=None):
         if not self.recurring:   # ignore for non-recurring Blitz
@@ -754,9 +771,9 @@ class Blitz(models.Model):
             timezone.normalize(timezone_now()).date()
 
         period_begin = self.begin_date
-        # loop through Blitz period to encompass today's date
-        while period_begin + datetime.timedelta(days=7*self.num_weeks()) <= timezone.normalize(timezone_now()).date():
-            period_begin += datetime.timedelta(days=7*self.num_weeks())
+        # loop through plan period to encompass today's date
+        while period_begin + datetime.timedelta(days=7*self.workout_plan.num_weeks()) <= timezone.normalize(timezone_now()).date():
+            period_begin += datetime.timedelta(days=7*self.workout_plan.num_weeks())
 
         return next_weekday(period_begin,0)
 

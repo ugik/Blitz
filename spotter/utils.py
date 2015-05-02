@@ -62,9 +62,9 @@ def balance(trainer=None, month=None, test=None, recurring_charge=None, apply=No
         if date.today < blitz.end_date or blitz.recurring:   # use today if blitz hasn't ended yet
             until_date = date.today()
         else:
-            until_date = blitz.end_date    # until end of blitz if it's not recurring or in the past
+            until_date = blitz.end_date()    # until end of blitz if it's not recurring or in the past
 
-        months = (len(list(rrule.rrule(rrule.MONTHLY, start_date, until=until_date))))   # months of usage
+        months = abs((until_date - start_date).days)/7/4    # months of usage (month = 4 workout weeks)
 
         membership = client.blitzmember_set.all()
         if not membership[0].price:   # if there was no special invitation price

@@ -34,6 +34,7 @@
                         <input type="text"
                                autocomplete="off"
                                placeholder="Name (first and last)"
+                               name="name"
                                class="user-name"
                                {% if existing_user %}value="{{ existing_user.name }}"{% else %}
                                value="{{ invitation.name }}"{% endif %}>
@@ -43,6 +44,7 @@
                     <div class="input-container"{% if existing_user %}style="display: none;" {% endif %}>
                         <input type="text"
                                placeholder="Email"
+                               name="email"
                                class="user-email"
                                {% if existing_user %}value="placeholder@example.com"{% else %}
                                value="{{ invitation.email }}"{% endif %}>

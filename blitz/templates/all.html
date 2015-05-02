@@ -155,7 +155,11 @@
           </div>
         </div>
         <div class="row" style="margin: 0; padding: 10px 20px;">
+          {% if blitz.sample %}
+          <button class="obtn full-width" onclick="window.location='{{ blitz.url_slug }}';">
+          {% else %}
           <button class="obtn full-width" onclick="window.location='{{ blitz.trainer.short_name }}/{{ blitz.url_slug }}';">
+          {% endif %}
             Learn More
           </button>
         </div>
