@@ -305,8 +305,10 @@ class Trainer(models.Model):
         # return [a for a in alerts if a.is_still_relevant()]
 
     def active_blitzes(self):
-       return self.blitz_set.all().exclude(provisional=True)
-#        return self.blitz_set.all()
+        blitzes = self.blitz_set.all().exclude(provisional=True)
+        b_ids = [o.id for o in blitzes if not o.finished()]    # filter out finished blitzes
+        blitzes = blitzes.filter(id__in=b_ids)
+        return blitzes
 
     def set_currently_viewing_blitz(self, blitz):
         self.currently_viewing_blitz = blitz
@@ -750,13 +752,11 @@ class Blitz(models.Model):
             return self.begin_date
         if self.num_weeks > 0:
             return self.begin_date + datetime.timedelta(days=self.num_weeks()*7)
-        if self.workout_plan and map( lambda x: x, set(self.iterate_workouts()) ):
-            return map( lambda x: x, set(self.iterate_workouts()) )[-1][0]
         return self.begin_date  # last resort 
 
     def finished(self):
         today = current_tz().normalize(timezone_now()).date()
-        if today > self.end_date():
+        if today > self.end_date() + datetime.timedelta(days=10):    # 10 days after end of workout plan
             return True
         else:
             return False
@@ -772,8 +772,9 @@ class Blitz(models.Model):
 
         period_begin = self.begin_date
         # loop through plan period to encompass today's date
-        while period_begin + datetime.timedelta(days=7*self.workout_plan.num_weeks()) <= timezone.normalize(timezone_now()).date():
-            period_begin += datetime.timedelta(days=7*self.workout_plan.num_weeks())
+        if self.workout_plan:
+            while period_begin + datetime.timedelta(days=7*self.workout_plan.num_weeks()) <= timezone.normalize(timezone_now()).date():
+                period_begin += datetime.timedelta(days=7*self.workout_plan.num_weeks())
 
         return next_weekday(period_begin,0)
 

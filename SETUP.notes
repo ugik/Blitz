@@ -34,7 +34,7 @@ ps aux | grep -i manage
 
 #apache log
 tail /var/log/apache2/error.log
-apachectl graceful
+sudo apachectl graceful
 
 #mysql
 mysql -uroot -pmysql
@@ -88,5 +88,5 @@ xvfb-run --server-num=10 bash runTests.sh TestBasic
 crontab -l
 
 #enom email
-http://mail-29.name-services.com/Login.aspx
+http://mail-33.name-services.com/Default.aspx
 

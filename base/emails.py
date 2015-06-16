@@ -231,7 +231,8 @@ def usage_digest(days=0):
     from_mail = settings.DEFAULT_FROM_EMAIL           
     subject = "Usage Digest"
 
-    send_email(from_mail, to_mail, subject, template_text, template_html, context)
+    if login_users:
+        send_email(from_mail, to_mail, subject, template_text, template_html, context)
 
 def payment_digest(test=None):
 

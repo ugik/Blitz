@@ -992,9 +992,14 @@ def log_workout(request, week_number, day_char):
             set_info = {}
             set_info['workout_set'] = workout_set
             set_info['completed_set'] = None
-            
+
             if CompletedSet.objects.filter(gym_session=gym_session, workout_set=workout_set).exists():
-                set_info['completed_set'] = CompletedSet.objects.get(gym_session=gym_session, workout_set=workout_set)
+                compSets = CompletedSet.objects.filter(gym_session=gym_session, workout_set=workout_set)
+                set_info['completed_set'] = compSets[0]    # handle condition of multiple filter records
+            
+#            if CompletedSet.objects.filter(gym_session=gym_session, workout_set=workout_set).exists():
+#                set_info['completed_set'] = CompletedSet.objects.get(gym_session=gym_session, #workout_set=workout_set)
+
             group['set_infos'].append(set_info)
 
         group['lift_summary'] = client.lift_summary(group['lift'])
@@ -2752,8 +2757,10 @@ def trainer_dashboard(request):
     user_id = request.user.pk
     trainer = request.user.trainer
 
+
     # context for client_setup_modal
     blitzes = Blitz.objects.filter(trainer=trainer, provisional=True)
+
     if not blitzes:  # shouldn't happen since every trainer has provisional blitz
         print "Cannot find any Provisional Blitz for trainer: %s!" % trainer
         return redirect('/')
@@ -2771,6 +2778,7 @@ def trainer_dashboard(request):
     # end of client_setup_modal context
 
     blitzes = request.user.trainer.active_blitzes()
+
     clients = request.user.trainer.all_clients()
 
 #    heading = Heading.objects.all().order_by('?')[:1].get()
